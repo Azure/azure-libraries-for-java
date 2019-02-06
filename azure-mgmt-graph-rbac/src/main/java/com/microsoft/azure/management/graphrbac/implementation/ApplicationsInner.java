@@ -12,9 +12,6 @@ import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.graphrbac.AddOwnerParameters;
-import com.microsoft.azure.management.graphrbac.ApplicationCreateParameters;
-import com.microsoft.azure.management.graphrbac.ApplicationUpdateParameters;
 import com.microsoft.azure.management.graphrbac.GraphErrorException;
 import com.microsoft.azure.management.graphrbac.KeyCredentialsUpdateParameters;
 import com.microsoft.azure.management.graphrbac.PasswordCredentialsUpdateParameters;
@@ -69,7 +66,7 @@ public class ApplicationsInner {
     interface ApplicationsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Applications create" })
         @POST("{tenantID}/applications")
-        Observable<Response<ResponseBody>> create(@Path("tenantID") String tenantID, @Body ApplicationCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("tenantID") String tenantID, @Body ApplicationCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Applications list" })
         @GET("{tenantID}/applications")
@@ -85,7 +82,7 @@ public class ApplicationsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Applications patch" })
         @PATCH("{tenantID}/applications/{applicationObjectId}")
-        Observable<Response<ResponseBody>> patch(@Path("applicationObjectId") String applicationObjectId, @Path("tenantID") String tenantID, @Body ApplicationUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> patch(@Path("applicationObjectId") String applicationObjectId, @Path("tenantID") String tenantID, @Body ApplicationUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Applications listOwners" })
         @GET("{tenantID}/applications/{applicationObjectId}/owners")
@@ -93,11 +90,7 @@ public class ApplicationsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Applications addOwner" })
         @POST("{tenantID}/applications/{applicationObjectId}/$links/owners")
-        Observable<Response<ResponseBody>> addOwner(@Path("applicationObjectId") String applicationObjectId, @Path("tenantID") String tenantID, @Body AddOwnerParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Applications removeOwner" })
-        @HTTP(path = "{tenantID}/applications/{applicationObjectId}/$links/owners/{ownerObjectId}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> removeOwner(@Path("applicationObjectId") String applicationObjectId, @Path("ownerObjectId") String ownerObjectId, @Path("tenantID") String tenantID, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> addOwner(@Path("applicationObjectId") String applicationObjectId, @Path("tenantID") String tenantID, @Body ApplicationAddOwnerParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Applications listKeyCredentials" })
         @GET("{tenantID}/applications/{applicationObjectId}/keyCredentials")
@@ -119,10 +112,6 @@ public class ApplicationsInner {
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Applications listOwnersNext" })
-        @GET
-        Observable<Response<ResponseBody>> listOwnersNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
     }
 
     /**
@@ -134,7 +123,7 @@ public class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ApplicationInner object if successful.
      */
-    public ApplicationInner create(ApplicationCreateParameters parameters) {
+    public ApplicationInner create(ApplicationCreateParametersInner parameters) {
         return createWithServiceResponseAsync(parameters).toBlocking().single().body();
     }
 
@@ -146,7 +135,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ApplicationInner> createAsync(ApplicationCreateParameters parameters, final ServiceCallback<ApplicationInner> serviceCallback) {
+    public ServiceFuture<ApplicationInner> createAsync(ApplicationCreateParametersInner parameters, final ServiceCallback<ApplicationInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(parameters), serviceCallback);
     }
 
@@ -157,7 +146,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationInner object
      */
-    public Observable<ApplicationInner> createAsync(ApplicationCreateParameters parameters) {
+    public Observable<ApplicationInner> createAsync(ApplicationCreateParametersInner parameters) {
         return createWithServiceResponseAsync(parameters).map(new Func1<ServiceResponse<ApplicationInner>, ApplicationInner>() {
             @Override
             public ApplicationInner call(ServiceResponse<ApplicationInner> response) {
@@ -173,7 +162,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationInner object
      */
-    public Observable<ServiceResponse<ApplicationInner>> createWithServiceResponseAsync(ApplicationCreateParameters parameters) {
+    public Observable<ServiceResponse<ApplicationInner>> createWithServiceResponseAsync(ApplicationCreateParametersInner parameters) {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
@@ -584,7 +573,7 @@ public class ApplicationsInner {
      * @throws GraphErrorException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void patch(String applicationObjectId, ApplicationUpdateParameters parameters) {
+    public void patch(String applicationObjectId, ApplicationUpdateParametersInner parameters) {
         patchWithServiceResponseAsync(applicationObjectId, parameters).toBlocking().single().body();
     }
 
@@ -597,7 +586,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> patchAsync(String applicationObjectId, ApplicationUpdateParameters parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> patchAsync(String applicationObjectId, ApplicationUpdateParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(patchWithServiceResponseAsync(applicationObjectId, parameters), serviceCallback);
     }
 
@@ -609,7 +598,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> patchAsync(String applicationObjectId, ApplicationUpdateParameters parameters) {
+    public Observable<Void> patchAsync(String applicationObjectId, ApplicationUpdateParametersInner parameters) {
         return patchWithServiceResponseAsync(applicationObjectId, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -626,7 +615,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> patchWithServiceResponseAsync(String applicationObjectId, ApplicationUpdateParameters parameters) {
+    public Observable<ServiceResponse<Void>> patchWithServiceResponseAsync(String applicationObjectId, ApplicationUpdateParametersInner parameters) {
         if (applicationObjectId == null) {
             throw new IllegalArgumentException("Parameter applicationObjectId is required and cannot be null.");
         }
@@ -669,16 +658,10 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws GraphErrorException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;DirectoryObjectInner&gt; object if successful.
+     * @return the List&lt;DirectoryObjectInner&gt; object if successful.
      */
-    public PagedList<DirectoryObjectInner> listOwners(final String applicationObjectId) {
-        ServiceResponse<Page<DirectoryObjectInner>> response = listOwnersSinglePageAsync(applicationObjectId).toBlocking().single();
-        return new PagedList<DirectoryObjectInner>(response.body()) {
-            @Override
-            public Page<DirectoryObjectInner> nextPage(String nextPageLink) {
-                return listOwnersNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
+    public List<DirectoryObjectInner> listOwners(String applicationObjectId) {
+        return listOwnersWithServiceResponseAsync(applicationObjectId).toBlocking().single().body();
     }
 
     /**
@@ -690,16 +673,8 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<DirectoryObjectInner>> listOwnersAsync(final String applicationObjectId, final ListOperationCallback<DirectoryObjectInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listOwnersSinglePageAsync(applicationObjectId),
-            new Func1<String, Observable<ServiceResponse<Page<DirectoryObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DirectoryObjectInner>>> call(String nextPageLink) {
-                    return listOwnersNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
+    public ServiceFuture<List<DirectoryObjectInner>> listOwnersAsync(String applicationObjectId, final ServiceCallback<List<DirectoryObjectInner>> serviceCallback) {
+        return ServiceFuture.fromResponse(listOwnersWithServiceResponseAsync(applicationObjectId), serviceCallback);
     }
 
     /**
@@ -708,16 +683,15 @@ public class ApplicationsInner {
      *
      * @param applicationObjectId The object ID of the application for which to get owners.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DirectoryObjectInner&gt; object
+     * @return the observable to the List&lt;DirectoryObjectInner&gt; object
      */
-    public Observable<Page<DirectoryObjectInner>> listOwnersAsync(final String applicationObjectId) {
-        return listOwnersWithServiceResponseAsync(applicationObjectId)
-            .map(new Func1<ServiceResponse<Page<DirectoryObjectInner>>, Page<DirectoryObjectInner>>() {
-                @Override
-                public Page<DirectoryObjectInner> call(ServiceResponse<Page<DirectoryObjectInner>> response) {
-                    return response.body();
-                }
-            });
+    public Observable<List<DirectoryObjectInner>> listOwnersAsync(String applicationObjectId) {
+        return listOwnersWithServiceResponseAsync(applicationObjectId).map(new Func1<ServiceResponse<List<DirectoryObjectInner>>, List<DirectoryObjectInner>>() {
+            @Override
+            public List<DirectoryObjectInner> call(ServiceResponse<List<DirectoryObjectInner>> response) {
+                return response.body();
+            }
+        });
     }
 
     /**
@@ -726,31 +700,9 @@ public class ApplicationsInner {
      *
      * @param applicationObjectId The object ID of the application for which to get owners.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DirectoryObjectInner&gt; object
+     * @return the observable to the List&lt;DirectoryObjectInner&gt; object
      */
-    public Observable<ServiceResponse<Page<DirectoryObjectInner>>> listOwnersWithServiceResponseAsync(final String applicationObjectId) {
-        return listOwnersSinglePageAsync(applicationObjectId)
-            .concatMap(new Func1<ServiceResponse<Page<DirectoryObjectInner>>, Observable<ServiceResponse<Page<DirectoryObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DirectoryObjectInner>>> call(ServiceResponse<Page<DirectoryObjectInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listOwnersNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Directory objects that are owners of the application.
-     * The owners are a set of non-admin users who are allowed to modify this object.
-     *
-    ServiceResponse<PageImpl<DirectoryObjectInner>> * @param applicationObjectId The object ID of the application for which to get owners.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DirectoryObjectInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<DirectoryObjectInner>>> listOwnersSinglePageAsync(final String applicationObjectId) {
+    public Observable<ServiceResponse<List<DirectoryObjectInner>>> listOwnersWithServiceResponseAsync(String applicationObjectId) {
         if (applicationObjectId == null) {
             throw new IllegalArgumentException("Parameter applicationObjectId is required and cannot be null.");
         }
@@ -761,12 +713,13 @@ public class ApplicationsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.listOwners(applicationObjectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DirectoryObjectInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<DirectoryObjectInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<DirectoryObjectInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<List<DirectoryObjectInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<DirectoryObjectInner>> result = listOwnersDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DirectoryObjectInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl1<DirectoryObjectInner>> result = listOwnersDelegate(response);
+                        ServiceResponse<List<DirectoryObjectInner>> clientResponse = new ServiceResponse<List<DirectoryObjectInner>>(result.body().items(), result.response());
+                        return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -774,9 +727,9 @@ public class ApplicationsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DirectoryObjectInner>> listOwnersDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DirectoryObjectInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DirectoryObjectInner>>() { }.getType())
+    private ServiceResponse<PageImpl1<DirectoryObjectInner>> listOwnersDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<DirectoryObjectInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<DirectoryObjectInner>>() { }.getType())
                 .registerError(GraphErrorException.class)
                 .build(response);
     }
@@ -790,7 +743,7 @@ public class ApplicationsInner {
      * @throws GraphErrorException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void addOwner(String applicationObjectId, AddOwnerParameters parameters) {
+    public void addOwner(String applicationObjectId, ApplicationAddOwnerParametersInner parameters) {
         addOwnerWithServiceResponseAsync(applicationObjectId, parameters).toBlocking().single().body();
     }
 
@@ -803,7 +756,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> addOwnerAsync(String applicationObjectId, AddOwnerParameters parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> addOwnerAsync(String applicationObjectId, ApplicationAddOwnerParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(addOwnerWithServiceResponseAsync(applicationObjectId, parameters), serviceCallback);
     }
 
@@ -815,7 +768,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> addOwnerAsync(String applicationObjectId, AddOwnerParameters parameters) {
+    public Observable<Void> addOwnerAsync(String applicationObjectId, ApplicationAddOwnerParametersInner parameters) {
         return addOwnerWithServiceResponseAsync(applicationObjectId, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -832,7 +785,7 @@ public class ApplicationsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> addOwnerWithServiceResponseAsync(String applicationObjectId, AddOwnerParameters parameters) {
+    public Observable<ServiceResponse<Void>> addOwnerWithServiceResponseAsync(String applicationObjectId, ApplicationAddOwnerParametersInner parameters) {
         if (applicationObjectId == null) {
             throw new IllegalArgumentException("Parameter applicationObjectId is required and cannot be null.");
         }
@@ -861,91 +814,6 @@ public class ApplicationsInner {
     }
 
     private ServiceResponse<Void> addOwnerDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
-    }
-
-    /**
-     * Remove a member from owners.
-     *
-     * @param applicationObjectId The object ID of the application from which to remove the owner.
-     * @param ownerObjectId Owner object id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void removeOwner(String applicationObjectId, String ownerObjectId) {
-        removeOwnerWithServiceResponseAsync(applicationObjectId, ownerObjectId).toBlocking().single().body();
-    }
-
-    /**
-     * Remove a member from owners.
-     *
-     * @param applicationObjectId The object ID of the application from which to remove the owner.
-     * @param ownerObjectId Owner object id
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> removeOwnerAsync(String applicationObjectId, String ownerObjectId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(removeOwnerWithServiceResponseAsync(applicationObjectId, ownerObjectId), serviceCallback);
-    }
-
-    /**
-     * Remove a member from owners.
-     *
-     * @param applicationObjectId The object ID of the application from which to remove the owner.
-     * @param ownerObjectId Owner object id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> removeOwnerAsync(String applicationObjectId, String ownerObjectId) {
-        return removeOwnerWithServiceResponseAsync(applicationObjectId, ownerObjectId).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Remove a member from owners.
-     *
-     * @param applicationObjectId The object ID of the application from which to remove the owner.
-     * @param ownerObjectId Owner object id
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> removeOwnerWithServiceResponseAsync(String applicationObjectId, String ownerObjectId) {
-        if (applicationObjectId == null) {
-            throw new IllegalArgumentException("Parameter applicationObjectId is required and cannot be null.");
-        }
-        if (ownerObjectId == null) {
-            throw new IllegalArgumentException("Parameter ownerObjectId is required and cannot be null.");
-        }
-        if (this.client.tenantID() == null) {
-            throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.removeOwner(applicationObjectId, ownerObjectId, this.client.tenantID(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = removeOwnerDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> removeOwnerDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, GraphErrorException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(GraphErrorException.class)
@@ -1016,11 +884,7 @@ public class ApplicationsInner {
                 public Observable<ServiceResponse<List<KeyCredentialInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<KeyCredentialInner>> result = listKeyCredentialsDelegate(response);
-                        List<KeyCredentialInner> items = null;
-                        if (result.body() != null) {
-                            items = result.body().items();
-                        }
-                        ServiceResponse<List<KeyCredentialInner>> clientResponse = new ServiceResponse<List<KeyCredentialInner>>(items, result.response());
+                        ServiceResponse<List<KeyCredentialInner>> clientResponse = new ServiceResponse<List<KeyCredentialInner>>(result.body().items(), result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1188,11 +1052,7 @@ public class ApplicationsInner {
                 public Observable<ServiceResponse<List<PasswordCredentialInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<PasswordCredentialInner>> result = listPasswordCredentialsDelegate(response);
-                        List<PasswordCredentialInner> items = null;
-                        if (result.body() != null) {
-                            items = result.body().items();
-                        }
-                        ServiceResponse<List<PasswordCredentialInner>> clientResponse = new ServiceResponse<List<PasswordCredentialInner>>(items, result.response());
+                        ServiceResponse<List<PasswordCredentialInner>> clientResponse = new ServiceResponse<List<PasswordCredentialInner>>(result.body().items(), result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1409,122 +1269,6 @@ public class ApplicationsInner {
     private ServiceResponse<PageImpl<ApplicationInner>> listNextDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ApplicationInner>>() { }.getType())
-                .registerError(GraphErrorException.class)
-                .build(response);
-    }
-
-    /**
-     * Directory objects that are owners of the application.
-     * The owners are a set of non-admin users who are allowed to modify this object.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws GraphErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;DirectoryObjectInner&gt; object if successful.
-     */
-    public PagedList<DirectoryObjectInner> listOwnersNext(final String nextPageLink) {
-        ServiceResponse<Page<DirectoryObjectInner>> response = listOwnersNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<DirectoryObjectInner>(response.body()) {
-            @Override
-            public Page<DirectoryObjectInner> nextPage(String nextPageLink) {
-                return listOwnersNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Directory objects that are owners of the application.
-     * The owners are a set of non-admin users who are allowed to modify this object.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<DirectoryObjectInner>> listOwnersNextAsync(final String nextPageLink, final ServiceFuture<List<DirectoryObjectInner>> serviceFuture, final ListOperationCallback<DirectoryObjectInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listOwnersNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<DirectoryObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DirectoryObjectInner>>> call(String nextPageLink) {
-                    return listOwnersNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Directory objects that are owners of the application.
-     * The owners are a set of non-admin users who are allowed to modify this object.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DirectoryObjectInner&gt; object
-     */
-    public Observable<Page<DirectoryObjectInner>> listOwnersNextAsync(final String nextPageLink) {
-        return listOwnersNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<DirectoryObjectInner>>, Page<DirectoryObjectInner>>() {
-                @Override
-                public Page<DirectoryObjectInner> call(ServiceResponse<Page<DirectoryObjectInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Directory objects that are owners of the application.
-     * The owners are a set of non-admin users who are allowed to modify this object.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DirectoryObjectInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DirectoryObjectInner>>> listOwnersNextWithServiceResponseAsync(final String nextPageLink) {
-        return listOwnersNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<DirectoryObjectInner>>, Observable<ServiceResponse<Page<DirectoryObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DirectoryObjectInner>>> call(ServiceResponse<Page<DirectoryObjectInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listOwnersNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Directory objects that are owners of the application.
-     * The owners are a set of non-admin users who are allowed to modify this object.
-     *
-    ServiceResponse<PageImpl<DirectoryObjectInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DirectoryObjectInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<DirectoryObjectInner>>> listOwnersNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listOwnersNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DirectoryObjectInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DirectoryObjectInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<DirectoryObjectInner>> result = listOwnersNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DirectoryObjectInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<DirectoryObjectInner>> listOwnersNextDelegate(Response<ResponseBody> response) throws GraphErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DirectoryObjectInner>, GraphErrorException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DirectoryObjectInner>>() { }.getType())
                 .registerError(GraphErrorException.class)
                 .build(response);
     }

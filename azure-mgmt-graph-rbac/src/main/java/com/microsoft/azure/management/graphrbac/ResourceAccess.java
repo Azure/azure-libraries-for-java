@@ -38,7 +38,7 @@ public class ResourceAccess {
     private String type;
 
     /**
-     * Get unmatched properties from the message are deserialized this collection.
+     * Get the additionalProperties value.
      *
      * @return the additionalProperties value
      */
@@ -47,7 +47,7 @@ public class ResourceAccess {
     }
 
     /**
-     * Set unmatched properties from the message are deserialized this collection.
+     * Set the additionalProperties value.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the ResourceAccess object itself.
@@ -58,7 +58,7 @@ public class ResourceAccess {
     }
 
     /**
-     * Get the unique identifier for one of the OAuth2Permission or AppRole instances that the resource application exposes.
+     * Get the id value.
      *
      * @return the id value
      */
@@ -67,7 +67,7 @@ public class ResourceAccess {
     }
 
     /**
-     * Set the unique identifier for one of the OAuth2Permission or AppRole instances that the resource application exposes.
+     * Set the id value.
      *
      * @param id the id value to set
      * @return the ResourceAccess object itself.
@@ -78,7 +78,7 @@ public class ResourceAccess {
     }
 
     /**
-     * Get specifies whether the id property references an OAuth2Permission or an AppRole. Possible values are "scope" or "role".
+     * Get the type value.
      *
      * @return the type value
      */
@@ -87,7 +87,7 @@ public class ResourceAccess {
     }
 
     /**
-     * Set specifies whether the id property references an OAuth2Permission or an AppRole. Possible values are "scope" or "role".
+     * Set the type value.
      *
      * @param type the type value to set
      * @return the ResourceAccess object itself.

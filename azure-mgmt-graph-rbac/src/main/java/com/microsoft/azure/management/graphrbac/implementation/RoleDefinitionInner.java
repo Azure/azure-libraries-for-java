@@ -66,7 +66,7 @@ public class RoleDefinitionInner {
     private List<String> assignableScopes;
 
     /**
-     * Get the role definition ID.
+     * Get the id value.
      *
      * @return the id value
      */
@@ -75,7 +75,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Get the role definition name.
+     * Get the name value.
      *
      * @return the name value
      */
@@ -84,7 +84,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Get the role definition type.
+     * Get the type value.
      *
      * @return the type value
      */
@@ -93,7 +93,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Get the role name.
+     * Get the roleName value.
      *
      * @return the roleName value
      */
@@ -102,7 +102,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Set the role name.
+     * Set the roleName value.
      *
      * @param roleName the roleName value to set
      * @return the RoleDefinitionInner object itself.
@@ -113,7 +113,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Get the role definition description.
+     * Get the description value.
      *
      * @return the description value
      */
@@ -122,7 +122,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Set the role definition description.
+     * Set the description value.
      *
      * @param description the description value to set
      * @return the RoleDefinitionInner object itself.
@@ -133,7 +133,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Get the role type.
+     * Get the roleType value.
      *
      * @return the roleType value
      */
@@ -142,7 +142,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Set the role type.
+     * Set the roleType value.
      *
      * @param roleType the roleType value to set
      * @return the RoleDefinitionInner object itself.
@@ -153,7 +153,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Get role definition permissions.
+     * Get the permissions value.
      *
      * @return the permissions value
      */
@@ -162,7 +162,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Set role definition permissions.
+     * Set the permissions value.
      *
      * @param permissions the permissions value to set
      * @return the RoleDefinitionInner object itself.
@@ -173,7 +173,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Get role definition assignable scopes.
+     * Get the assignableScopes value.
      *
      * @return the assignableScopes value
      */
@@ -182,7 +182,7 @@ public class RoleDefinitionInner {
     }
 
     /**
-     * Set role definition assignable scopes.
+     * Set the assignableScopes value.
      *
      * @param assignableScopes the assignableScopes value to set
      * @return the RoleDefinitionInner object itself.

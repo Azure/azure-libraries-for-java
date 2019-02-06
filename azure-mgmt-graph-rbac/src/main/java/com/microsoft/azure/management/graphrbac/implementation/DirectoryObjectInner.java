@@ -46,7 +46,7 @@ public class DirectoryObjectInner {
     private DateTime deletionTimestamp;
 
     /**
-     * Get unmatched properties from the message are deserialized this collection.
+     * Get the additionalProperties value.
      *
      * @return the additionalProperties value
      */
@@ -55,7 +55,7 @@ public class DirectoryObjectInner {
     }
 
     /**
-     * Set unmatched properties from the message are deserialized this collection.
+     * Set the additionalProperties value.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the DirectoryObjectInner object itself.
@@ -66,7 +66,7 @@ public class DirectoryObjectInner {
     }
 
     /**
-     * Get the object ID.
+     * Get the objectId value.
      *
      * @return the objectId value
      */
@@ -75,7 +75,7 @@ public class DirectoryObjectInner {
     }
 
     /**
-     * Get the time at which the directory object was deleted.
+     * Get the deletionTimestamp value.
      *
      * @return the deletionTimestamp value
      */

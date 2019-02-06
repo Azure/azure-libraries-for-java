@@ -40,7 +40,7 @@ public class PermissionInner {
     private List<String> notDataActions;
 
     /**
-     * Get allowed actions.
+     * Get the actions value.
      *
      * @return the actions value
      */
@@ -49,7 +49,7 @@ public class PermissionInner {
     }
 
     /**
-     * Set allowed actions.
+     * Set the actions value.
      *
      * @param actions the actions value to set
      * @return the PermissionInner object itself.
@@ -60,7 +60,7 @@ public class PermissionInner {
     }
 
     /**
-     * Get denied actions.
+     * Get the notActions value.
      *
      * @return the notActions value
      */
@@ -69,7 +69,7 @@ public class PermissionInner {
     }
 
     /**
-     * Set denied actions.
+     * Set the notActions value.
      *
      * @param notActions the notActions value to set
      * @return the PermissionInner object itself.
@@ -80,7 +80,7 @@ public class PermissionInner {
     }
 
     /**
-     * Get allowed Data actions.
+     * Get the dataActions value.
      *
      * @return the dataActions value
      */
@@ -89,7 +89,7 @@ public class PermissionInner {
     }
 
     /**
-     * Set allowed Data actions.
+     * Set the dataActions value.
      *
      * @param dataActions the dataActions value to set
      * @return the PermissionInner object itself.
@@ -100,7 +100,7 @@ public class PermissionInner {
     }
 
     /**
-     * Get denied Data actions.
+     * Get the notDataActions value.
      *
      * @return the notDataActions value
      */
@@ -109,7 +109,7 @@ public class PermissionInner {
     }
 
     /**
-     * Set denied Data actions.
+     * Set the notDataActions value.
      *
      * @param notDataActions the notDataActions value to set
      * @return the PermissionInner object itself.

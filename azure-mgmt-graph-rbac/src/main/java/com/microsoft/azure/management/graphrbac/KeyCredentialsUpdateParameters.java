@@ -23,7 +23,7 @@ public class KeyCredentialsUpdateParameters {
     private List<KeyCredentialInner> value;
 
     /**
-     * Get a collection of KeyCredentials.
+     * Get the value value.
      *
      * @return the value value
      */
@@ -32,7 +32,7 @@ public class KeyCredentialsUpdateParameters {
     }
 
     /**
-     * Set a collection of KeyCredentials.
+     * Set the value value.
      *
      * @param value the value value to set
      * @return the KeyCredentialsUpdateParameters object itself.

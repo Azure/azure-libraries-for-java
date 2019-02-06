@@ -13,9 +13,6 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.graphrbac.GraphErrorException;
-import com.microsoft.azure.management.graphrbac.UserCreateParameters;
-import com.microsoft.azure.management.graphrbac.UserGetMemberGroupsParameters;
-import com.microsoft.azure.management.graphrbac.UserUpdateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -67,7 +64,7 @@ public class UsersInner {
     interface UsersService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Users create" })
         @POST("{tenantID}/users")
-        Observable<Response<ResponseBody>> create(@Path("tenantID") String tenantID, @Body UserCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("tenantID") String tenantID, @Body UserCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Users list" })
         @GET("{tenantID}/users")
@@ -79,7 +76,7 @@ public class UsersInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Users update" })
         @PATCH("{tenantID}/users/{upnOrObjectId}")
-        Observable<Response<ResponseBody>> update(@Path("upnOrObjectId") String upnOrObjectId, @Path("tenantID") String tenantID, @Body UserUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("upnOrObjectId") String upnOrObjectId, @Path("tenantID") String tenantID, @Body UserUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Users delete" })
         @HTTP(path = "{tenantID}/users/{upnOrObjectId}", method = "DELETE", hasBody = true)
@@ -87,7 +84,7 @@ public class UsersInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Users getMemberGroups" })
         @POST("{tenantID}/users/{objectId}/getMemberGroups")
-        Observable<Response<ResponseBody>> getMemberGroups(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Body UserGetMemberGroupsParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getMemberGroups(@Path("objectId") String objectId, @Path("tenantID") String tenantID, @Body UserGetMemberGroupsParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.graphrbac.Users listNext" })
         @GET
@@ -104,7 +101,7 @@ public class UsersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the UserInner object if successful.
      */
-    public UserInner create(UserCreateParameters parameters) {
+    public UserInner create(UserCreateParametersInner parameters) {
         return createWithServiceResponseAsync(parameters).toBlocking().single().body();
     }
 
@@ -116,7 +113,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<UserInner> createAsync(UserCreateParameters parameters, final ServiceCallback<UserInner> serviceCallback) {
+    public ServiceFuture<UserInner> createAsync(UserCreateParametersInner parameters, final ServiceCallback<UserInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(parameters), serviceCallback);
     }
 
@@ -127,7 +124,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the UserInner object
      */
-    public Observable<UserInner> createAsync(UserCreateParameters parameters) {
+    public Observable<UserInner> createAsync(UserCreateParametersInner parameters) {
         return createWithServiceResponseAsync(parameters).map(new Func1<ServiceResponse<UserInner>, UserInner>() {
             @Override
             public UserInner call(ServiceResponse<UserInner> response) {
@@ -143,7 +140,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the UserInner object
      */
-    public Observable<ServiceResponse<UserInner>> createWithServiceResponseAsync(UserCreateParameters parameters) {
+    public Observable<ServiceResponse<UserInner>> createWithServiceResponseAsync(UserCreateParametersInner parameters) {
         if (this.client.tenantID() == null) {
             throw new IllegalArgumentException("Parameter this.client.tenantID() is required and cannot be null.");
         }
@@ -476,7 +473,7 @@ public class UsersInner {
      * @throws GraphErrorException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void update(String upnOrObjectId, UserUpdateParameters parameters) {
+    public void update(String upnOrObjectId, UserUpdateParametersInner parameters) {
         updateWithServiceResponseAsync(upnOrObjectId, parameters).toBlocking().single().body();
     }
 
@@ -489,7 +486,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> updateAsync(String upnOrObjectId, UserUpdateParameters parameters, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> updateAsync(String upnOrObjectId, UserUpdateParametersInner parameters, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(upnOrObjectId, parameters), serviceCallback);
     }
 
@@ -501,7 +498,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> updateAsync(String upnOrObjectId, UserUpdateParameters parameters) {
+    public Observable<Void> updateAsync(String upnOrObjectId, UserUpdateParametersInner parameters) {
         return updateWithServiceResponseAsync(upnOrObjectId, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -518,7 +515,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> updateWithServiceResponseAsync(String upnOrObjectId, UserUpdateParameters parameters) {
+    public Observable<ServiceResponse<Void>> updateWithServiceResponseAsync(String upnOrObjectId, UserUpdateParametersInner parameters) {
         if (upnOrObjectId == null) {
             throw new IllegalArgumentException("Parameter upnOrObjectId is required and cannot be null.");
         }
@@ -641,7 +638,7 @@ public class UsersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;String&gt; object if successful.
      */
-    public List<String> getMemberGroups(String objectId, UserGetMemberGroupsParameters parameters) {
+    public List<String> getMemberGroups(String objectId, UserGetMemberGroupsParametersInner parameters) {
         return getMemberGroupsWithServiceResponseAsync(objectId, parameters).toBlocking().single().body();
     }
 
@@ -654,7 +651,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<String>> getMemberGroupsAsync(String objectId, UserGetMemberGroupsParameters parameters, final ServiceCallback<List<String>> serviceCallback) {
+    public ServiceFuture<List<String>> getMemberGroupsAsync(String objectId, UserGetMemberGroupsParametersInner parameters, final ServiceCallback<List<String>> serviceCallback) {
         return ServiceFuture.fromResponse(getMemberGroupsWithServiceResponseAsync(objectId, parameters), serviceCallback);
     }
 
@@ -666,7 +663,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the List&lt;String&gt; object
      */
-    public Observable<List<String>> getMemberGroupsAsync(String objectId, UserGetMemberGroupsParameters parameters) {
+    public Observable<List<String>> getMemberGroupsAsync(String objectId, UserGetMemberGroupsParametersInner parameters) {
         return getMemberGroupsWithServiceResponseAsync(objectId, parameters).map(new Func1<ServiceResponse<List<String>>, List<String>>() {
             @Override
             public List<String> call(ServiceResponse<List<String>> response) {
@@ -683,7 +680,7 @@ public class UsersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the List&lt;String&gt; object
      */
-    public Observable<ServiceResponse<List<String>>> getMemberGroupsWithServiceResponseAsync(String objectId, UserGetMemberGroupsParameters parameters) {
+    public Observable<ServiceResponse<List<String>>> getMemberGroupsWithServiceResponseAsync(String objectId, UserGetMemberGroupsParametersInner parameters) {
         if (objectId == null) {
             throw new IllegalArgumentException("Parameter objectId is required and cannot be null.");
         }
@@ -703,11 +700,7 @@ public class UsersInner {
                 public Observable<ServiceResponse<List<String>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<String>> result = getMemberGroupsDelegate(response);
-                        List<String> items = null;
-                        if (result.body() != null) {
-                            items = result.body().items();
-                        }
-                        ServiceResponse<List<String>> clientResponse = new ServiceResponse<List<String>>(items, result.response());
+                        ServiceResponse<List<String>> clientResponse = new ServiceResponse<List<String>>(result.body().items(), result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

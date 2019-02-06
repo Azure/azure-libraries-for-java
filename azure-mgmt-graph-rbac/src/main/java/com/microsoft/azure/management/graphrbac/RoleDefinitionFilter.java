@@ -27,7 +27,7 @@ public class RoleDefinitionFilter {
     private String type;
 
     /**
-     * Get returns role definition with the specific name.
+     * Get the roleName value.
      *
      * @return the roleName value
      */
@@ -36,7 +36,7 @@ public class RoleDefinitionFilter {
     }
 
     /**
-     * Set returns role definition with the specific name.
+     * Set the roleName value.
      *
      * @param roleName the roleName value to set
      * @return the RoleDefinitionFilter object itself.
@@ -47,7 +47,7 @@ public class RoleDefinitionFilter {
     }
 
     /**
-     * Get returns role definition with the specific type.
+     * Get the type value.
      *
      * @return the type value
      */
@@ -56,7 +56,7 @@ public class RoleDefinitionFilter {
     }
 
     /**
-     * Set returns role definition with the specific type.
+     * Set the type value.
      *
      * @param type the type value to set
      * @return the RoleDefinitionFilter object itself.

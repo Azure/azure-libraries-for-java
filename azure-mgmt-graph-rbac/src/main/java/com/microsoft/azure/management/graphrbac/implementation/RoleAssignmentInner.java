@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
-import com.microsoft.azure.management.graphrbac.PrincipalType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -54,22 +53,13 @@ public class RoleAssignmentInner {
     private String principalId;
 
     /**
-     * The principal type of the assigned principal ID. Possible values
-     * include: 'User', 'Group', 'ServicePrincipal', 'Unknown',
-     * 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI',
-     * 'DirectoryObjectOrGroup', 'Everyone'.
-     */
-    @JsonProperty(value = "properties.principalType")
-    private PrincipalType principalType;
-
-    /**
      * The Delegation flag for the roleassignment.
      */
     @JsonProperty(value = "properties.canDelegate")
     private Boolean canDelegate;
 
     /**
-     * Get the role assignment ID.
+     * Get the id value.
      *
      * @return the id value
      */
@@ -78,7 +68,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Get the role assignment name.
+     * Get the name value.
      *
      * @return the name value
      */
@@ -87,7 +77,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Get the role assignment type.
+     * Get the type value.
      *
      * @return the type value
      */
@@ -96,7 +86,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Get the role assignment scope.
+     * Get the scope value.
      *
      * @return the scope value
      */
@@ -105,7 +95,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Set the role assignment scope.
+     * Set the scope value.
      *
      * @param scope the scope value to set
      * @return the RoleAssignmentInner object itself.
@@ -116,7 +106,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Get the role definition ID.
+     * Get the roleDefinitionId value.
      *
      * @return the roleDefinitionId value
      */
@@ -125,7 +115,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Set the role definition ID.
+     * Set the roleDefinitionId value.
      *
      * @param roleDefinitionId the roleDefinitionId value to set
      * @return the RoleAssignmentInner object itself.
@@ -136,7 +126,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Get the principal ID.
+     * Get the principalId value.
      *
      * @return the principalId value
      */
@@ -145,7 +135,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Set the principal ID.
+     * Set the principalId value.
      *
      * @param principalId the principalId value to set
      * @return the RoleAssignmentInner object itself.
@@ -156,27 +146,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Get the principal type of the assigned principal ID. Possible values include: 'User', 'Group', 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI', 'DirectoryObjectOrGroup', 'Everyone'.
-     *
-     * @return the principalType value
-     */
-    public PrincipalType principalType() {
-        return this.principalType;
-    }
-
-    /**
-     * Set the principal type of the assigned principal ID. Possible values include: 'User', 'Group', 'ServicePrincipal', 'Unknown', 'DirectoryRoleTemplate', 'ForeignGroup', 'Application', 'MSI', 'DirectoryObjectOrGroup', 'Everyone'.
-     *
-     * @param principalType the principalType value to set
-     * @return the RoleAssignmentInner object itself.
-     */
-    public RoleAssignmentInner withPrincipalType(PrincipalType principalType) {
-        this.principalType = principalType;
-        return this;
-    }
-
-    /**
-     * Get the Delegation flag for the roleassignment.
+     * Get the canDelegate value.
      *
      * @return the canDelegate value
      */
@@ -185,7 +155,7 @@ public class RoleAssignmentInner {
     }
 
     /**
-     * Set the Delegation flag for the roleassignment.
+     * Set the canDelegate value.
      *
      * @param canDelegate the canDelegate value to set
      * @return the RoleAssignmentInner object itself.

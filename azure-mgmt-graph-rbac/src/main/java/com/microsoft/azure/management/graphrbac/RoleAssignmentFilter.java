@@ -27,7 +27,7 @@ public class RoleAssignmentFilter {
     private Boolean canDelegate;
 
     /**
-     * Get returns role assignment of the specific principal.
+     * Get the principalId value.
      *
      * @return the principalId value
      */
@@ -36,7 +36,7 @@ public class RoleAssignmentFilter {
     }
 
     /**
-     * Set returns role assignment of the specific principal.
+     * Set the principalId value.
      *
      * @param principalId the principalId value to set
      * @return the RoleAssignmentFilter object itself.
@@ -47,7 +47,7 @@ public class RoleAssignmentFilter {
     }
 
     /**
-     * Get the Delegation flag for the roleassignment.
+     * Get the canDelegate value.
      *
      * @return the canDelegate value
      */
@@ -56,7 +56,7 @@ public class RoleAssignmentFilter {
     }
 
     /**
-     * Set the Delegation flag for the roleassignment.
+     * Set the canDelegate value.
      *
      * @param canDelegate the canDelegate value to set
      * @return the RoleAssignmentFilter object itself.

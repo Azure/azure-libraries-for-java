@@ -46,7 +46,7 @@ public class DomainInner {
     private String name;
 
     /**
-     * Get unmatched properties from the message are deserialized this collection.
+     * Get the additionalProperties value.
      *
      * @return the additionalProperties value
      */
@@ -55,7 +55,7 @@ public class DomainInner {
     }
 
     /**
-     * Set unmatched properties from the message are deserialized this collection.
+     * Set the additionalProperties value.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the DomainInner object itself.
@@ -66,7 +66,7 @@ public class DomainInner {
     }
 
     /**
-     * Get the type of the authentication into the domain.
+     * Get the authenticationType value.
      *
      * @return the authenticationType value
      */
@@ -75,7 +75,7 @@ public class DomainInner {
     }
 
     /**
-     * Get if this is the default domain in the tenant.
+     * Get the isDefault value.
      *
      * @return the isDefault value
      */
@@ -84,7 +84,7 @@ public class DomainInner {
     }
 
     /**
-     * Get if this domain's ownership is verified.
+     * Get the isVerified value.
      *
      * @return the isVerified value
      */
@@ -93,7 +93,7 @@ public class DomainInner {
     }
 
     /**
-     * Get the domain name.
+     * Get the name value.
      *
      * @return the name value
      */
@@ -102,7 +102,7 @@ public class DomainInner {
     }
 
     /**
-     * Set the domain name.
+     * Set the name value.
      *
      * @param name the name value to set
      * @return the DomainInner object itself.

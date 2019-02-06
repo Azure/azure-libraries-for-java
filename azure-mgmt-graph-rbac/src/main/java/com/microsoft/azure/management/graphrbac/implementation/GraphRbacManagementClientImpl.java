@@ -63,11 +63,11 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** The preferred language for the response. */
+    /** Gets or sets the preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets The preferred language for the response.
+     * Gets Gets or sets the preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -76,7 +76,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets The preferred language for the response.
+     * Sets Gets or sets the preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -86,11 +86,11 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -99,7 +99,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -109,11 +109,11 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -122,7 +122,7 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -133,16 +133,16 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The SignedInUsersInner object to access its operations.
+     * The ObjectsInner object to access its operations.
      */
-    private SignedInUsersInner signedInUsers;
+    private ObjectsInner objects;
 
     /**
-     * Gets the SignedInUsersInner object to access its operations.
-     * @return the SignedInUsersInner object.
+     * Gets the ObjectsInner object to access its operations.
+     * @return the ObjectsInner object.
      */
-    public SignedInUsersInner signedInUsers() {
-        return this.signedInUsers;
+    public ObjectsInner objects() {
+        return this.objects;
     }
 
     /**
@@ -156,19 +156,6 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
      */
     public ApplicationsInner applications() {
         return this.applications;
-    }
-
-    /**
-     * The DeletedApplicationsInner object to access its operations.
-     */
-    private DeletedApplicationsInner deletedApplications;
-
-    /**
-     * Gets the DeletedApplicationsInner object to access its operations.
-     * @return the DeletedApplicationsInner object.
-     */
-    public DeletedApplicationsInner deletedApplications() {
-        return this.deletedApplications;
     }
 
     /**
@@ -211,19 +198,6 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The ObjectsInner object to access its operations.
-     */
-    private ObjectsInner objects;
-
-    /**
-     * Gets the ObjectsInner object to access its operations.
-     * @return the ObjectsInner object.
-     */
-    public ObjectsInner objects() {
-        return this.objects;
-    }
-
-    /**
      * The DomainsInner object to access its operations.
      */
     private DomainsInner domains;
@@ -234,19 +208,6 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
      */
     public DomainsInner domains() {
         return this.domains;
-    }
-
-    /**
-     * The OAuth2sInner object to access its operations.
-     */
-    private OAuth2sInner oAuth2s;
-
-    /**
-     * Gets the OAuth2sInner object to access its operations.
-     * @return the OAuth2sInner object.
-     */
-    public OAuth2sInner oAuth2s() {
-        return this.oAuth2s;
     }
 
     /**
@@ -284,15 +245,12 @@ public class GraphRbacManagementClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.signedInUsers = new SignedInUsersInner(restClient().retrofit(), this);
+        this.objects = new ObjectsInner(restClient().retrofit(), this);
         this.applications = new ApplicationsInner(restClient().retrofit(), this);
-        this.deletedApplications = new DeletedApplicationsInner(restClient().retrofit(), this);
         this.groups = new GroupsInner(restClient().retrofit(), this);
         this.servicePrincipals = new ServicePrincipalsInner(restClient().retrofit(), this);
         this.users = new UsersInner(restClient().retrofit(), this);
-        this.objects = new ObjectsInner(restClient().retrofit(), this);
         this.domains = new DomainsInner(restClient().retrofit(), this);
-        this.oAuth2s = new OAuth2sInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

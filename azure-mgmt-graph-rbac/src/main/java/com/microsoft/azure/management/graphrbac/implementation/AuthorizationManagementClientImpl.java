@@ -51,11 +51,11 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** The preferred language for the response. */
+    /** Gets or sets the preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets The preferred language for the response.
+     * Gets Gets or sets the preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -64,7 +64,7 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets The preferred language for the response.
+     * Sets Gets or sets the preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -74,11 +74,11 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -87,7 +87,7 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -97,11 +97,11 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -110,7 +110,7 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -147,19 +147,6 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The RoleAssignmentsInner object to access its operations.
-     */
-    private RoleAssignmentsInner roleAssignments;
-
-    /**
-     * Gets the RoleAssignmentsInner object to access its operations.
-     * @return the RoleAssignmentsInner object.
-     */
-    public RoleAssignmentsInner roleAssignments() {
-        return this.roleAssignments;
-    }
-
-    /**
      * The PermissionsInner object to access its operations.
      */
     private PermissionsInner permissions;
@@ -173,6 +160,19 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The RoleAssignmentsInner object to access its operations.
+     */
+    private RoleAssignmentsInner roleAssignments;
+
+    /**
+     * Gets the RoleAssignmentsInner object to access its operations.
+     * @return the RoleAssignmentsInner object.
+     */
+    public RoleAssignmentsInner roleAssignments() {
+        return this.roleAssignments;
+    }
+
+    /**
      * The RoleDefinitionsInner object to access its operations.
      */
     private RoleDefinitionsInner roleDefinitions;
@@ -183,19 +183,6 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
      */
     public RoleDefinitionsInner roleDefinitions() {
         return this.roleDefinitions;
-    }
-
-    /**
-     * The DenyAssignmentsInner object to access its operations.
-     */
-    private DenyAssignmentsInner denyAssignments;
-
-    /**
-     * Gets the DenyAssignmentsInner object to access its operations.
-     * @return the DenyAssignmentsInner object.
-     */
-    public DenyAssignmentsInner denyAssignments() {
-        return this.denyAssignments;
     }
 
     /**
@@ -234,10 +221,9 @@ public class AuthorizationManagementClientImpl extends AzureServiceClient {
         this.generateClientRequestId = true;
         this.classicAdministrators = new ClassicAdministratorsInner(restClient().retrofit(), this);
         this.providerOperationsMetadatas = new ProviderOperationsMetadatasInner(restClient().retrofit(), this);
-        this.roleAssignments = new RoleAssignmentsInner(restClient().retrofit(), this);
         this.permissions = new PermissionsInner(restClient().retrofit(), this);
+        this.roleAssignments = new RoleAssignmentsInner(restClient().retrofit(), this);
         this.roleDefinitions = new RoleDefinitionsInner(restClient().retrofit(), this);
-        this.denyAssignments = new DenyAssignmentsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

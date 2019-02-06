@@ -37,7 +37,7 @@ public class SignInName {
     private String value;
 
     /**
-     * Get unmatched properties from the message are deserialized this collection.
+     * Get the additionalProperties value.
      *
      * @return the additionalProperties value
      */
@@ -46,7 +46,7 @@ public class SignInName {
     }
 
     /**
-     * Set unmatched properties from the message are deserialized this collection.
+     * Set the additionalProperties value.
      *
      * @param additionalProperties the additionalProperties value to set
      * @return the SignInName object itself.
@@ -57,7 +57,7 @@ public class SignInName {
     }
 
     /**
-     * Get a string value that can be used to classify user sign-in types in your directory, such as 'emailAddress' or 'userName'.
+     * Get the type value.
      *
      * @return the type value
      */
@@ -66,7 +66,7 @@ public class SignInName {
     }
 
     /**
-     * Set a string value that can be used to classify user sign-in types in your directory, such as 'emailAddress' or 'userName'.
+     * Set the type value.
      *
      * @param type the type value to set
      * @return the SignInName object itself.
@@ -77,7 +77,7 @@ public class SignInName {
     }
 
     /**
-     * Get the sign-in used by the local account. Must be unique across the company/tenant. For example, 'johnc@example.com'.
+     * Get the value value.
      *
      * @return the value value
      */
@@ -86,7 +86,7 @@ public class SignInName {
     }
 
     /**
-     * Set the sign-in used by the local account. Must be unique across the company/tenant. For example, 'johnc@example.com'.
+     * Set the value value.
      *
      * @param value the value value to set
      * @return the SignInName object itself.

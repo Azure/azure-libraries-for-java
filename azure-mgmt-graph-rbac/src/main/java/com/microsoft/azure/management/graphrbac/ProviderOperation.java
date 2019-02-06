@@ -51,7 +51,7 @@ public class ProviderOperation {
     private Boolean isDataAction;
 
     /**
-     * Get the operation name.
+     * Get the name value.
      *
      * @return the name value
      */
@@ -60,7 +60,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Set the operation name.
+     * Set the name value.
      *
      * @param name the name value to set
      * @return the ProviderOperation object itself.
@@ -71,7 +71,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Get the operation display name.
+     * Get the displayName value.
      *
      * @return the displayName value
      */
@@ -80,7 +80,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Set the operation display name.
+     * Set the displayName value.
      *
      * @param displayName the displayName value to set
      * @return the ProviderOperation object itself.
@@ -91,7 +91,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Get the operation description.
+     * Get the description value.
      *
      * @return the description value
      */
@@ -100,7 +100,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Set the operation description.
+     * Set the description value.
      *
      * @param description the description value to set
      * @return the ProviderOperation object itself.
@@ -111,7 +111,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Get the operation origin.
+     * Get the origin value.
      *
      * @return the origin value
      */
@@ -120,7 +120,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Set the operation origin.
+     * Set the origin value.
      *
      * @param origin the origin value to set
      * @return the ProviderOperation object itself.
@@ -131,7 +131,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Get the operation properties.
+     * Get the properties value.
      *
      * @return the properties value
      */
@@ -140,7 +140,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Set the operation properties.
+     * Set the properties value.
      *
      * @param properties the properties value to set
      * @return the ProviderOperation object itself.
@@ -151,7 +151,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Get the dataAction flag to specify the operation type.
+     * Get the isDataAction value.
      *
      * @return the isDataAction value
      */
@@ -160,7 +160,7 @@ public class ProviderOperation {
     }
 
     /**
-     * Set the dataAction flag to specify the operation type.
+     * Set the isDataAction value.
      *
      * @param isDataAction the isDataAction value to set
      * @return the ProviderOperation object itself.

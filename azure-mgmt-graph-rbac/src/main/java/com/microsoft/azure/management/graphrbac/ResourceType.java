@@ -34,7 +34,7 @@ public class ResourceType {
     private List<ProviderOperation> operations;
 
     /**
-     * Get the resource type name.
+     * Get the name value.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class ResourceType {
     }
 
     /**
-     * Set the resource type name.
+     * Set the name value.
      *
      * @param name the name value to set
      * @return the ResourceType object itself.
@@ -54,7 +54,7 @@ public class ResourceType {
     }
 
     /**
-     * Get the resource type display name.
+     * Get the displayName value.
      *
      * @return the displayName value
      */
@@ -63,7 +63,7 @@ public class ResourceType {
     }
 
     /**
-     * Set the resource type display name.
+     * Set the displayName value.
      *
      * @param displayName the displayName value to set
      * @return the ResourceType object itself.
@@ -74,7 +74,7 @@ public class ResourceType {
     }
 
     /**
-     * Get the resource type operations.
+     * Get the operations value.
      *
      * @return the operations value
      */
@@ -83,7 +83,7 @@ public class ResourceType {
     }
 
     /**
-     * Set the resource type operations.
+     * Set the operations value.
      *
      * @param operations the operations value to set
      * @return the ResourceType object itself.

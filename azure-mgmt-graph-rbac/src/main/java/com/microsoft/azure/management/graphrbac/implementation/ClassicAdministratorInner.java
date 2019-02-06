@@ -47,7 +47,7 @@ public class ClassicAdministratorInner {
     private String role;
 
     /**
-     * Get the ID of the administrator.
+     * Get the id value.
      *
      * @return the id value
      */
@@ -56,7 +56,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Set the ID of the administrator.
+     * Set the id value.
      *
      * @param id the id value to set
      * @return the ClassicAdministratorInner object itself.
@@ -67,7 +67,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Get the name of the administrator.
+     * Get the name value.
      *
      * @return the name value
      */
@@ -76,7 +76,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Set the name of the administrator.
+     * Set the name value.
      *
      * @param name the name value to set
      * @return the ClassicAdministratorInner object itself.
@@ -87,7 +87,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Get the type of the administrator.
+     * Get the type value.
      *
      * @return the type value
      */
@@ -96,7 +96,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Set the type of the administrator.
+     * Set the type value.
      *
      * @param type the type value to set
      * @return the ClassicAdministratorInner object itself.
@@ -107,7 +107,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Get the email address of the administrator.
+     * Get the emailAddress value.
      *
      * @return the emailAddress value
      */
@@ -116,7 +116,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Set the email address of the administrator.
+     * Set the emailAddress value.
      *
      * @param emailAddress the emailAddress value to set
      * @return the ClassicAdministratorInner object itself.
@@ -127,7 +127,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Get the role of the administrator.
+     * Get the role value.
      *
      * @return the role value
      */
@@ -136,7 +136,7 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Set the role of the administrator.
+     * Set the role value.
      *
      * @param role the role value to set
      * @return the ClassicAdministratorInner object itself.

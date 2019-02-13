@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.msi;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.msi.implementation.UserAssignedIdentitiesInner;

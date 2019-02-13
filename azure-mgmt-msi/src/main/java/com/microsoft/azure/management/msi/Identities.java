@@ -26,7 +26,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * Entry point to Azure Managed Service Identity (MSI) Identity resource management API.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_5_1)
 public interface Identities extends
         SupportsListing<Identity>,
         SupportsListingByResourceGroup<Identity>,

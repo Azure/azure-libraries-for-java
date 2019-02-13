@@ -23,7 +23,6 @@ import com.microsoft.rest.RestClient;
 /**
  * Entry point to Azure Managed Service Identity (MSI) resource management.
  */
-@Beta // TODO Add since v1.5 param
 public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentityClientImpl> {
     private final GraphRbacManager rbacManager;
 
@@ -98,7 +97,6 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     /**
      * @return entry point to Azure MSI Identity resource management API
      */
-    @Beta(Beta.SinceVersion.V1_5_1)
     public Identities identities() {
         if (identities == null) {
             this.identities = new IdentitesImpl(this.inner().userAssignedIdentities(), this);
@@ -109,7 +107,6 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     /**
      * @return the Graph RBAC manager.
      */
-    @Beta(Beta.SinceVersion.V1_5_1)
     public GraphRbacManager graphRbacManager() {
         return this.rbacManager;
     }

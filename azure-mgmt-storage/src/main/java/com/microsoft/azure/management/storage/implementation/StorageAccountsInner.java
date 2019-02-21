@@ -14,8 +14,13 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.storage.AccountSasParameters;
+import com.microsoft.azure.management.storage.ServiceSasParameters;
 import com.microsoft.azure.management.storage.StorageAccountCheckNameAvailabilityParameters;
+import com.microsoft.azure.management.storage.StorageAccountCreateParameters;
+import com.microsoft.azure.management.storage.StorageAccountExpand;
 import com.microsoft.azure.management.storage.StorageAccountRegenerateKeyParameters;
+import com.microsoft.azure.management.storage.StorageAccountUpdateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -38,6 +43,10 @@ import retrofit2.http.Query;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -71,11 +80,11 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body StorageAccountCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body StorageAccountCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts beginCreate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body StorageAccountCreateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body StorageAccountCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}", method = "DELETE", hasBody = true)
@@ -83,11 +92,11 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
-        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$expand") StorageAccountExpand expand, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body StorageAccountUpdateParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body StorageAccountUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Storage/storageAccounts")
@@ -107,11 +116,19 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts listAccountSAS" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListAccountSas")
-        Observable<Response<ResponseBody>> listAccountSAS(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body AccountSasParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listAccountSAS(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body AccountSasParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts listServiceSAS" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/ListServiceSas")
-        Observable<Response<ResponseBody>> listServiceSAS(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body ServiceSasParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listServiceSAS(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Body ServiceSasParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts failover" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover")
+        Observable<Response<ResponseBody>> failover(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.StorageAccounts beginFailover" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/failover")
+        Observable<Response<ResponseBody>> beginFailover(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -167,15 +184,13 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (name == null) {
             throw new IllegalArgumentException("Parameter name is required and cannot be null.");
         }
+        final String apiVersion = "2018-07-01";
         StorageAccountCheckNameAvailabilityParameters accountName = new StorageAccountCheckNameAvailabilityParameters();
         accountName.withName(name);
-        return service.checkNameAvailability(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), accountName, this.client.userAgent())
+        return service.checkNameAvailability(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), accountName, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CheckNameAvailabilityResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<CheckNameAvailabilityResultInner>> call(Response<ResponseBody> response) {
@@ -207,7 +222,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the StorageAccountInner object if successful.
      */
-    public StorageAccountInner create(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public StorageAccountInner create(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().last().body();
     }
 
@@ -221,7 +236,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<StorageAccountInner> createAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters, final ServiceCallback<StorageAccountInner> serviceCallback) {
+    public ServiceFuture<StorageAccountInner> createAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters, final ServiceCallback<StorageAccountInner> serviceCallback) {
         return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
     }
 
@@ -234,7 +249,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<StorageAccountInner> createAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public Observable<StorageAccountInner> createAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponse<StorageAccountInner>, StorageAccountInner>() {
             @Override
             public StorageAccountInner call(ServiceResponse<StorageAccountInner> response) {
@@ -252,7 +267,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<StorageAccountInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public Observable<ServiceResponse<StorageAccountInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -265,11 +280,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         Validator.validate(parameters);
-        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        final String apiVersion = "2018-07-01";
+        Observable<Response<ResponseBody>> observable = service.create(resourceGroupName, accountName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<StorageAccountInner>() { }.getType());
     }
 
@@ -284,7 +297,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the StorageAccountInner object if successful.
      */
-    public StorageAccountInner beginCreate(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public StorageAccountInner beginCreate(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().single().body();
     }
 
@@ -298,7 +311,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<StorageAccountInner> beginCreateAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters, final ServiceCallback<StorageAccountInner> serviceCallback) {
+    public ServiceFuture<StorageAccountInner> beginCreateAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters, final ServiceCallback<StorageAccountInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
     }
 
@@ -311,7 +324,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountInner object
      */
-    public Observable<StorageAccountInner> beginCreateAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public Observable<StorageAccountInner> beginCreateAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponse<StorageAccountInner>, StorageAccountInner>() {
             @Override
             public StorageAccountInner call(ServiceResponse<StorageAccountInner> response) {
@@ -329,7 +342,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountInner object
      */
-    public Observable<ServiceResponse<StorageAccountInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
+    public Observable<ServiceResponse<StorageAccountInner>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, StorageAccountCreateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -342,11 +355,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         Validator.validate(parameters);
-        return service.beginCreate(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-07-01";
+        return service.beginCreate(resourceGroupName, accountName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountInner>>>() {
                 @Override
                 public Observable<ServiceResponse<StorageAccountInner>> call(Response<ResponseBody> response) {
@@ -429,10 +440,8 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.delete(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-07-01";
+        return service.delete(resourceGroupName, accountName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -516,10 +525,90 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        final String apiVersion = "2018-07-01";
+        final StorageAccountExpand expand = null;
+        return service.getByResourceGroup(resourceGroupName, accountName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountInner>>>() {
+                @Override
+                public Observable<ServiceResponse<StorageAccountInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<StorageAccountInner> clientResponse = getByResourceGroupDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats. Possible values include: 'geoReplicationStats'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the StorageAccountInner object if successful.
+     */
+    public StorageAccountInner getByResourceGroup(String resourceGroupName, String accountName, StorageAccountExpand expand) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, accountName, expand).toBlocking().single().body();
+    }
+
+    /**
+     * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats. Possible values include: 'geoReplicationStats'
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<StorageAccountInner> getByResourceGroupAsync(String resourceGroupName, String accountName, StorageAccountExpand expand, final ServiceCallback<StorageAccountInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, accountName, expand), serviceCallback);
+    }
+
+    /**
+     * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats. Possible values include: 'geoReplicationStats'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the StorageAccountInner object
+     */
+    public Observable<StorageAccountInner> getByResourceGroupAsync(String resourceGroupName, String accountName, StorageAccountExpand expand) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, accountName, expand).map(new Func1<ServiceResponse<StorageAccountInner>, StorageAccountInner>() {
+            @Override
+            public StorageAccountInner call(ServiceResponse<StorageAccountInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param expand May be used to expand the properties within account's properties. By default, data is not included when fetching properties. Currently we only support geoReplicationStats. Possible values include: 'geoReplicationStats'
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the StorageAccountInner object
+     */
+    public Observable<ServiceResponse<StorageAccountInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String accountName, StorageAccountExpand expand) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        return service.getByResourceGroup(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-07-01";
+        return service.getByResourceGroup(resourceGroupName, accountName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountInner>>>() {
                 @Override
                 public Observable<ServiceResponse<StorageAccountInner>> call(Response<ResponseBody> response) {
@@ -551,7 +640,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the StorageAccountInner object if successful.
      */
-    public StorageAccountInner update(String resourceGroupName, String accountName, StorageAccountUpdateParametersInner parameters) {
+    public StorageAccountInner update(String resourceGroupName, String accountName, StorageAccountUpdateParameters parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().single().body();
     }
 
@@ -565,7 +654,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<StorageAccountInner> updateAsync(String resourceGroupName, String accountName, StorageAccountUpdateParametersInner parameters, final ServiceCallback<StorageAccountInner> serviceCallback) {
+    public ServiceFuture<StorageAccountInner> updateAsync(String resourceGroupName, String accountName, StorageAccountUpdateParameters parameters, final ServiceCallback<StorageAccountInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
     }
 
@@ -578,7 +667,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountInner object
      */
-    public Observable<StorageAccountInner> updateAsync(String resourceGroupName, String accountName, StorageAccountUpdateParametersInner parameters) {
+    public Observable<StorageAccountInner> updateAsync(String resourceGroupName, String accountName, StorageAccountUpdateParameters parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponse<StorageAccountInner>, StorageAccountInner>() {
             @Override
             public StorageAccountInner call(ServiceResponse<StorageAccountInner> response) {
@@ -596,7 +685,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountInner object
      */
-    public Observable<ServiceResponse<StorageAccountInner>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, StorageAccountUpdateParametersInner parameters) {
+    public Observable<ServiceResponse<StorageAccountInner>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, StorageAccountUpdateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -609,11 +698,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         Validator.validate(parameters);
-        return service.update(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-07-01";
+        return service.update(resourceGroupName, accountName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountInner>>>() {
                 @Override
                 public Observable<ServiceResponse<StorageAccountInner>> call(Response<ResponseBody> response) {
@@ -686,16 +773,18 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-07-01";
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<StorageAccountInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<StorageAccountInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<StorageAccountInner>> result = listDelegate(response);
-                        ServiceResponse<List<StorageAccountInner>> clientResponse = new ServiceResponse<List<StorageAccountInner>>(result.body().items(), result.response());
+                        List<StorageAccountInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<StorageAccountInner>> clientResponse = new ServiceResponse<List<StorageAccountInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -770,16 +859,18 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-07-01";
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<StorageAccountInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<StorageAccountInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<StorageAccountInner>> result = listByResourceGroupDelegate(response);
-                        ServiceResponse<List<StorageAccountInner>> clientResponse = new ServiceResponse<List<StorageAccountInner>>(result.body().items(), result.response());
+                        List<StorageAccountInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<StorageAccountInner>> clientResponse = new ServiceResponse<List<StorageAccountInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -857,10 +948,8 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listKeys(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-07-01";
+        return service.listKeys(resourceGroupName, accountName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountListKeysResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<StorageAccountListKeysResultInner>> call(Response<ResponseBody> response) {
@@ -886,7 +975,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1, key2.
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -901,7 +990,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1, key2.
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -915,7 +1004,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1, key2.
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountListKeysResultInner object
      */
@@ -933,7 +1022,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param keyName The name of storage keys that want to be regenerated, possible vaules are key1, key2.
+     * @param keyName The name of storage keys that want to be regenerated, possible values are key1, key2.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the StorageAccountListKeysResultInner object
      */
@@ -947,15 +1036,13 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (keyName == null) {
             throw new IllegalArgumentException("Parameter keyName is required and cannot be null.");
         }
+        final String apiVersion = "2018-07-01";
         StorageAccountRegenerateKeyParameters regenerateKey = new StorageAccountRegenerateKeyParameters();
         regenerateKey.withKeyName(keyName);
-        return service.regenerateKey(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), regenerateKey, this.client.userAgent())
+        return service.regenerateKey(resourceGroupName, accountName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), regenerateKey, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountListKeysResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<StorageAccountListKeysResultInner>> call(Response<ResponseBody> response) {
@@ -987,7 +1074,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ListAccountSasResponseInner object if successful.
      */
-    public ListAccountSasResponseInner listAccountSAS(String resourceGroupName, String accountName, AccountSasParametersInner parameters) {
+    public ListAccountSasResponseInner listAccountSAS(String resourceGroupName, String accountName, AccountSasParameters parameters) {
         return listAccountSASWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().single().body();
     }
 
@@ -1001,7 +1088,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ListAccountSasResponseInner> listAccountSASAsync(String resourceGroupName, String accountName, AccountSasParametersInner parameters, final ServiceCallback<ListAccountSasResponseInner> serviceCallback) {
+    public ServiceFuture<ListAccountSasResponseInner> listAccountSASAsync(String resourceGroupName, String accountName, AccountSasParameters parameters, final ServiceCallback<ListAccountSasResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(listAccountSASWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
     }
 
@@ -1014,7 +1101,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ListAccountSasResponseInner object
      */
-    public Observable<ListAccountSasResponseInner> listAccountSASAsync(String resourceGroupName, String accountName, AccountSasParametersInner parameters) {
+    public Observable<ListAccountSasResponseInner> listAccountSASAsync(String resourceGroupName, String accountName, AccountSasParameters parameters) {
         return listAccountSASWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponse<ListAccountSasResponseInner>, ListAccountSasResponseInner>() {
             @Override
             public ListAccountSasResponseInner call(ServiceResponse<ListAccountSasResponseInner> response) {
@@ -1032,7 +1119,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ListAccountSasResponseInner object
      */
-    public Observable<ServiceResponse<ListAccountSasResponseInner>> listAccountSASWithServiceResponseAsync(String resourceGroupName, String accountName, AccountSasParametersInner parameters) {
+    public Observable<ServiceResponse<ListAccountSasResponseInner>> listAccountSASWithServiceResponseAsync(String resourceGroupName, String accountName, AccountSasParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1045,11 +1132,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         Validator.validate(parameters);
-        return service.listAccountSAS(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-07-01";
+        return service.listAccountSAS(resourceGroupName, accountName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ListAccountSasResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ListAccountSasResponseInner>> call(Response<ResponseBody> response) {
@@ -1081,7 +1166,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ListServiceSasResponseInner object if successful.
      */
-    public ListServiceSasResponseInner listServiceSAS(String resourceGroupName, String accountName, ServiceSasParametersInner parameters) {
+    public ListServiceSasResponseInner listServiceSAS(String resourceGroupName, String accountName, ServiceSasParameters parameters) {
         return listServiceSASWithServiceResponseAsync(resourceGroupName, accountName, parameters).toBlocking().single().body();
     }
 
@@ -1095,7 +1180,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ListServiceSasResponseInner> listServiceSASAsync(String resourceGroupName, String accountName, ServiceSasParametersInner parameters, final ServiceCallback<ListServiceSasResponseInner> serviceCallback) {
+    public ServiceFuture<ListServiceSasResponseInner> listServiceSASAsync(String resourceGroupName, String accountName, ServiceSasParameters parameters, final ServiceCallback<ListServiceSasResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(listServiceSASWithServiceResponseAsync(resourceGroupName, accountName, parameters), serviceCallback);
     }
 
@@ -1108,7 +1193,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ListServiceSasResponseInner object
      */
-    public Observable<ListServiceSasResponseInner> listServiceSASAsync(String resourceGroupName, String accountName, ServiceSasParametersInner parameters) {
+    public Observable<ListServiceSasResponseInner> listServiceSASAsync(String resourceGroupName, String accountName, ServiceSasParameters parameters) {
         return listServiceSASWithServiceResponseAsync(resourceGroupName, accountName, parameters).map(new Func1<ServiceResponse<ListServiceSasResponseInner>, ListServiceSasResponseInner>() {
             @Override
             public ListServiceSasResponseInner call(ServiceResponse<ListServiceSasResponseInner> response) {
@@ -1126,7 +1211,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ListServiceSasResponseInner object
      */
-    public Observable<ServiceResponse<ListServiceSasResponseInner>> listServiceSASWithServiceResponseAsync(String resourceGroupName, String accountName, ServiceSasParametersInner parameters) {
+    public Observable<ServiceResponse<ListServiceSasResponseInner>> listServiceSASWithServiceResponseAsync(String resourceGroupName, String accountName, ServiceSasParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1139,11 +1224,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         Validator.validate(parameters);
-        return service.listServiceSAS(resourceGroupName, accountName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2018-07-01";
+        return service.listServiceSAS(resourceGroupName, accountName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ListServiceSasResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ListServiceSasResponseInner>> call(Response<ResponseBody> response) {
@@ -1160,6 +1243,156 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
     private ServiceResponse<ListServiceSasResponseInner> listServiceSASDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ListServiceSasResponseInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ListServiceSasResponseInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void failover(String resourceGroupName, String accountName) {
+        failoverWithServiceResponseAsync(resourceGroupName, accountName).toBlocking().last().body();
+    }
+
+    /**
+     * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> failoverAsync(String resourceGroupName, String accountName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(failoverWithServiceResponseAsync(resourceGroupName, accountName), serviceCallback);
+    }
+
+    /**
+     * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> failoverAsync(String resourceGroupName, String accountName) {
+        return failoverWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> failoverWithServiceResponseAsync(String resourceGroupName, String accountName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-07-01";
+        Observable<Response<ResponseBody>> observable = service.failover(resourceGroupName, accountName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginFailover(String resourceGroupName, String accountName) {
+        beginFailoverWithServiceResponseAsync(resourceGroupName, accountName).toBlocking().single().body();
+    }
+
+    /**
+     * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginFailoverAsync(String resourceGroupName, String accountName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginFailoverWithServiceResponseAsync(resourceGroupName, accountName), serviceCallback);
+    }
+
+    /**
+     * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginFailoverAsync(String resourceGroupName, String accountName) {
+        return beginFailoverWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Failover request can be triggered for a storage account in case of availability issues. The failover occurs from the storage account's primary cluster to secondary cluster for RA-GRS accounts. The secondary cluster will become primary after failover.
+     *
+     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
+     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginFailoverWithServiceResponseAsync(String resourceGroupName, String accountName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-07-01";
+        return service.beginFailover(resourceGroupName, accountName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginFailoverDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginFailoverDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

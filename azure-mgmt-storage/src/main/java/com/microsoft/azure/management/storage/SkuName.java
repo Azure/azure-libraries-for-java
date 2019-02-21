@@ -28,7 +28,10 @@ public enum SkuName {
     STANDARD_ZRS("Standard_ZRS"),
 
     /** Enum value Premium_LRS. */
-    PREMIUM_LRS("Premium_LRS");
+    PREMIUM_LRS("Premium_LRS"),
+
+    /** Enum value Premium_ZRS. */
+    PREMIUM_ZRS("Premium_ZRS");
 
     /** The actual serialized value for a SkuName instance. */
     private String value;

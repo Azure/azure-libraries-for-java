@@ -27,12 +27,16 @@ class UsagesImpl extends ReadableWrappersImpl<StorageUsage, UsageImpl, UsageInne
 
     @Override
     public PagedList<StorageUsage> list() {
-        return wrapList(inner().list());
+        //TODO: service is not supporting this listing anymore
+        return null;
+        //return wrapList(inner().list());
     }
 
     @Override
     public Observable<StorageUsage> listAsync() {
-        return wrapPageAsync(inner().listAsync());
+        //TODO: service is not supporting this async listing anymore
+        //return wrapPageAsync(inner().listAsync());
+        return null;
     }
 
     @Override

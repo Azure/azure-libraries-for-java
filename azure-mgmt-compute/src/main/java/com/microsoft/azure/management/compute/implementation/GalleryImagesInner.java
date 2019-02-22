@@ -92,11 +92,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Create or update a gallery image.
+     * Create or update a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be created.
+     * @param galleryImageName The name of the gallery Image Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
      * @param galleryImage Parameters supplied to the create or update gallery image operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -108,11 +108,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Create or update a gallery image.
+     * Create or update a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be created.
+     * @param galleryImageName The name of the gallery Image Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
      * @param galleryImage Parameters supplied to the create or update gallery image operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -123,11 +123,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Create or update a gallery image.
+     * Create or update a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be created.
+     * @param galleryImageName The name of the gallery Image Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
      * @param galleryImage Parameters supplied to the create or update gallery image operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
@@ -142,11 +142,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Create or update a gallery image.
+     * Create or update a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be created.
+     * @param galleryImageName The name of the gallery Image Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
      * @param galleryImage Parameters supplied to the create or update gallery image operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
@@ -174,11 +174,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Create or update a gallery image.
+     * Create or update a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be created.
+     * @param galleryImageName The name of the gallery Image Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
      * @param galleryImage Parameters supplied to the create or update gallery image operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -190,11 +190,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Create or update a gallery image.
+     * Create or update a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be created.
+     * @param galleryImageName The name of the gallery Image Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
      * @param galleryImage Parameters supplied to the create or update gallery image operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -205,11 +205,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Create or update a gallery image.
+     * Create or update a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be created.
+     * @param galleryImageName The name of the gallery Image Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
      * @param galleryImage Parameters supplied to the create or update gallery image operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageInner object
@@ -224,11 +224,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Create or update a gallery image.
+     * Create or update a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be created.
+     * @param galleryImageName The name of the gallery Image Definition to be created or updated. The allowed characters are alphabets and numbers with dots, dashes, and periods allowed in the middle. The maximum length is 80 characters.
      * @param galleryImage Parameters supplied to the create or update gallery image operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageInner object
@@ -275,11 +275,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Retrieves information about a gallery image.
+     * Retrieves information about a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery from which the Image Definitions are to be retrieved.
+     * @param galleryImageName The name of the gallery Image Definition to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -290,11 +290,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Retrieves information about a gallery image.
+     * Retrieves information about a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery from which the Image Definitions are to be retrieved.
+     * @param galleryImageName The name of the gallery Image Definition to be retrieved.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -304,11 +304,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Retrieves information about a gallery image.
+     * Retrieves information about a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery from which the Image Definitions are to be retrieved.
+     * @param galleryImageName The name of the gallery Image Definition to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageInner object
      */
@@ -322,11 +322,11 @@ public class GalleryImagesInner {
     }
 
     /**
-     * Retrieves information about a gallery image.
+     * Retrieves information about a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery from which the Image Definitions are to be retrieved.
+     * @param galleryImageName The name of the gallery Image Definition to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageInner object
      */
@@ -369,8 +369,8 @@ public class GalleryImagesInner {
      * Delete a gallery image.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+     * @param galleryImageName The name of the gallery Image Definition to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -383,8 +383,8 @@ public class GalleryImagesInner {
      * Delete a gallery image.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+     * @param galleryImageName The name of the gallery Image Definition to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -397,8 +397,8 @@ public class GalleryImagesInner {
      * Delete a gallery image.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+     * @param galleryImageName The name of the gallery Image Definition to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -415,8 +415,8 @@ public class GalleryImagesInner {
      * Delete a gallery image.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+     * @param galleryImageName The name of the gallery Image Definition to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -442,8 +442,8 @@ public class GalleryImagesInner {
      * Delete a gallery image.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+     * @param galleryImageName The name of the gallery Image Definition to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -456,8 +456,8 @@ public class GalleryImagesInner {
      * Delete a gallery image.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+     * @param galleryImageName The name of the gallery Image Definition to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -470,8 +470,8 @@ public class GalleryImagesInner {
      * Delete a gallery image.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+     * @param galleryImageName The name of the gallery Image Definition to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -488,8 +488,8 @@ public class GalleryImagesInner {
      * Delete a gallery image.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition is to be deleted.
+     * @param galleryImageName The name of the gallery Image Definition to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -531,10 +531,10 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be listed.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -551,10 +551,10 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be listed.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -572,10 +572,10 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be listed.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;GalleryImageInner&gt; object
      */
@@ -590,10 +590,10 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be listed.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;GalleryImageInner&gt; object
      */
@@ -612,10 +612,10 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
     ServiceResponse<PageImpl1<GalleryImageInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl1<GalleryImageInner>> * @param galleryName The name of the gallery.
+    ServiceResponse<PageImpl1<GalleryImageInner>> * @param galleryName The name of the Shared Image Gallery from which Image Definitions are to be listed.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;GalleryImageInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -652,7 +652,7 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -671,7 +671,7 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -692,7 +692,7 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -709,7 +709,7 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -730,7 +730,7 @@ public class GalleryImagesInner {
     }
 
     /**
-     * List gallery images under a gallery.
+     * List gallery Image Definitions in a gallery.
      *
     ServiceResponse<PageImpl1<GalleryImageInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

@@ -72,6 +72,13 @@ public class OSDisk {
     private Boolean writeAcceleratorEnabled;
 
     /**
+     * Specifies the ephemeral Disk Settings for the operating system disk used
+     * by the virtual machine.
+     */
+    @JsonProperty(value = "diffDiskSettings")
+    private DiffDiskSettings diffDiskSettings;
+
+    /**
      * Specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt;
      * Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is
      * used when you are using a specialized disk to create the virtual
@@ -87,7 +94,7 @@ public class OSDisk {
 
     /**
      * Specifies the size of an empty data disk in gigabytes. This element can
-     * be used to overwrite the name of the disk in a virtual machine image.
+     * be used to overwrite the size of the disk in a virtual machine image.
      * &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      */
     @JsonProperty(value = "diskSizeGB")
@@ -240,6 +247,26 @@ public class OSDisk {
     }
 
     /**
+     * Get specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
+     *
+     * @return the diffDiskSettings value
+     */
+    public DiffDiskSettings diffDiskSettings() {
+        return this.diffDiskSettings;
+    }
+
+    /**
+     * Set specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine.
+     *
+     * @param diffDiskSettings the diffDiskSettings value to set
+     * @return the OSDisk object itself.
+     */
+    public OSDisk withDiffDiskSettings(DiffDiskSettings diffDiskSettings) {
+        this.diffDiskSettings = diffDiskSettings;
+        return this;
+    }
+
+    /**
      * Get specifies how the virtual machine should be created.&lt;br&gt;&lt;br&gt; Possible values are:&lt;br&gt;&lt;br&gt; **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.&lt;br&gt;&lt;br&gt; **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described. Possible values include: 'FromImage', 'Empty', 'Attach'.
      *
      * @return the createOption value
@@ -260,7 +287,7 @@ public class OSDisk {
     }
 
     /**
-     * Get specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Get specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      *
      * @return the diskSizeGB value
      */
@@ -269,7 +296,7 @@ public class OSDisk {
     }
 
     /**
-     * Set specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Set specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      *
      * @param diskSizeGB the diskSizeGB value to set
      * @return the OSDisk object itself.

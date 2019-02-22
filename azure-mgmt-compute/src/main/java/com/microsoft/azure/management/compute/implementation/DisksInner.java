@@ -41,6 +41,10 @@ import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -200,7 +204,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter disk is required and cannot be null.");
         }
         Validator.validate(disk);
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, disk, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DiskInner>() { }.getType());
     }
@@ -275,7 +279,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter disk is required and cannot be null.");
         }
         Validator.validate(disk);
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, disk, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiskInner>>>() {
                 @Override
@@ -368,7 +372,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter disk is required and cannot be null.");
         }
         Validator.validate(disk);
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, disk, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DiskInner>() { }.getType());
     }
@@ -443,7 +447,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter disk is required and cannot be null.");
         }
         Validator.validate(disk);
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, disk, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiskInner>>>() {
                 @Override
@@ -528,7 +532,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
         if (diskName == null) {
             throw new IllegalArgumentException("Parameter diskName is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiskInner>>>() {
                 @Override
@@ -611,7 +615,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
         if (diskName == null) {
             throw new IllegalArgumentException("Parameter diskName is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -677,7 +681,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
         if (diskName == null) {
             throw new IllegalArgumentException("Parameter diskName is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -792,7 +796,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiskInner>>>>() {
                 @Override
@@ -897,7 +901,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiskInner>>>>() {
                 @Override
@@ -989,9 +993,9 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter grantAccessData is required and cannot be null.");
         }
         Validator.validate(grantAccessData);
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.grantAccess(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, grantAccessData, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<AccessUriInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<AccessUriInner>() { }.getType());
     }
 
     /**
@@ -1064,7 +1068,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
             throw new IllegalArgumentException("Parameter grantAccessData is required and cannot be null.");
         }
         Validator.validate(grantAccessData);
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.beginGrantAccess(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, grantAccessData, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AccessUriInner>>>() {
                 @Override
@@ -1148,9 +1152,9 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
         if (diskName == null) {
             throw new IllegalArgumentException("Parameter diskName is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         Observable<Response<ResponseBody>> observable = service.revokeAccess(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
     }
 
     /**
@@ -1214,7 +1218,7 @@ public class DisksInner implements InnerSupportsGet<DiskInner>, InnerSupportsDel
         if (diskName == null) {
             throw new IllegalArgumentException("Parameter diskName is required and cannot be null.");
         }
-        final String apiVersion = "2018-04-01";
+        final String apiVersion = "2018-06-01";
         return service.beginRevokeAccess(this.client.subscriptionId(), resourceGroupName, diskName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override

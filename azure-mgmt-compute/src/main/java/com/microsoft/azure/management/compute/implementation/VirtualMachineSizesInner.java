@@ -59,7 +59,7 @@ public class VirtualMachineSizesInner {
     }
 
     /**
-     * Lists all available virtual machine sizes for a subscription in a location.
+     * This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list).
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -72,7 +72,7 @@ public class VirtualMachineSizesInner {
     }
 
     /**
-     * Lists all available virtual machine sizes for a subscription in a location.
+     * This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list).
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -84,7 +84,7 @@ public class VirtualMachineSizesInner {
     }
 
     /**
-     * Lists all available virtual machine sizes for a subscription in a location.
+     * This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list).
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -100,7 +100,7 @@ public class VirtualMachineSizesInner {
     }
 
     /**
-     * Lists all available virtual machine sizes for a subscription in a location.
+     * This API is deprecated. Use [Resources Skus](https://docs.microsoft.com/en-us/rest/api/compute/resourceskus/list).
      *
      * @param location The location upon which virtual-machine-sizes is queried.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -113,7 +113,7 @@ public class VirtualMachineSizesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.list(location, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<VirtualMachineSizeInner>>>>() {
                 @Override

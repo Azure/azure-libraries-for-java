@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class RegionalReplicationStatus {
     /**
-     * The region where the gallery image version is published to.
+     * The region to which the gallery Image Version is being replicated to.
      */
     @JsonProperty(value = "region", access = JsonProperty.Access.WRITE_ONLY)
     private String region;
@@ -40,7 +40,7 @@ public class RegionalReplicationStatus {
     private Integer progress;
 
     /**
-     * Get the region where the gallery image version is published to.
+     * Get the region to which the gallery Image Version is being replicated to.
      *
      * @return the region value
      */

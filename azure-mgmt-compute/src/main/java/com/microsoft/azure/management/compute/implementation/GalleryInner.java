@@ -14,12 +14,14 @@ import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
 
 /**
- * Specifies information about the gallery that you want to create or update.
+ * Specifies information about the Shared Image Gallery that you want to create
+ * or update.
  */
 @JsonFlatten
 public class GalleryInner extends Resource {
     /**
-     * The description of this gallery resource.
+     * The description of this Shared Image Gallery resource. This property is
+     * updatable.
      */
     @JsonProperty(value = "properties.description")
     private String description;
@@ -40,7 +42,7 @@ public class GalleryInner extends Resource {
     private String provisioningState;
 
     /**
-     * Get the description of this gallery resource.
+     * Get the description of this Shared Image Gallery resource. This property is updatable.
      *
      * @return the description value
      */
@@ -49,7 +51,7 @@ public class GalleryInner extends Resource {
     }
 
     /**
-     * Set the description of this gallery resource.
+     * Set the description of this Shared Image Gallery resource. This property is updatable.
      *
      * @param description the description value to set
      * @return the GalleryInner object itself.

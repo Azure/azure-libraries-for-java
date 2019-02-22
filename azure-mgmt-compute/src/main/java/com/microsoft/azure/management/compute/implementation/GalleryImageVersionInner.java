@@ -16,7 +16,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
 
 /**
- * Specifies information about the gallery image version that you want to
+ * Specifies information about the gallery Image Version that you want to
  * create or update.
  */
 @JsonFlatten
@@ -24,11 +24,11 @@ public class GalleryImageVersionInner extends Resource {
     /**
      * The publishingProfile property.
      */
-    @JsonProperty(value = "properties.publishingProfile")
+    @JsonProperty(value = "properties.publishingProfile", required = true)
     private GalleryImageVersionPublishingProfile publishingProfile;
 
     /**
-     * The current state of the gallery image version.
+     * The current state of the gallery Image Version.
      * The provisioning state, which only appears in the response. Possible
      * values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
      * 'Deleting', 'Migrating'.

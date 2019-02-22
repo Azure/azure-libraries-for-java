@@ -41,6 +41,9 @@ public class UsageInner {
 
     /**
      * Creates an instance of UsageInner class.
+     * @param currentValue the current usage of the resource.
+     * @param limit the maximum permitted usage of the resource.
+     * @param name the name of the type of usage.
      */
     public UsageInner() {
         unit = "Count";

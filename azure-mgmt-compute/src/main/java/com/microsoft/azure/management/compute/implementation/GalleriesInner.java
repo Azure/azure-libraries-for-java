@@ -103,11 +103,11 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Create or update a gallery.
+     * Create or update a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param gallery Parameters supplied to the create or update gallery operation.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -118,11 +118,11 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Create or update a gallery.
+     * Create or update a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param gallery Parameters supplied to the create or update gallery operation.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -132,11 +132,11 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Create or update a gallery.
+     * Create or update a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param gallery Parameters supplied to the create or update gallery operation.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -150,11 +150,11 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Create or update a gallery.
+     * Create or update a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param gallery Parameters supplied to the create or update gallery operation.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -178,11 +178,11 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Create or update a gallery.
+     * Create or update a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param gallery Parameters supplied to the create or update gallery operation.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -193,11 +193,11 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Create or update a gallery.
+     * Create or update a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param gallery Parameters supplied to the create or update gallery operation.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -207,11 +207,11 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Create or update a gallery.
+     * Create or update a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param gallery Parameters supplied to the create or update gallery operation.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryInner object
      */
@@ -225,11 +225,11 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Create or update a gallery.
+     * Create or update a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param gallery Parameters supplied to the create or update gallery operation.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the create or update Shared Image Gallery operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryInner object
      */
@@ -272,10 +272,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Retrieves information about a gallery.
+     * Retrieves information about a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -286,10 +286,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Retrieves information about a gallery.
+     * Retrieves information about a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -299,10 +299,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Retrieves information about a gallery.
+     * Retrieves information about a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryInner object
      */
@@ -316,10 +316,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Retrieves information about a gallery.
+     * Retrieves information about a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryInner object
      */
@@ -356,10 +356,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Delete a gallery.
+     * Delete a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -369,10 +369,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Delete a gallery.
+     * Delete a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -382,10 +382,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Delete a gallery.
+     * Delete a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -399,10 +399,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Delete a gallery.
+     * Delete a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -422,10 +422,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Delete a gallery.
+     * Delete a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -435,10 +435,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Delete a gallery.
+     * Delete a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -448,10 +448,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Delete a gallery.
+     * Delete a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -465,10 +465,10 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
     }
 
     /**
-     * Delete a gallery.
+     * Delete a Shared Image Gallery.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
+     * @param galleryName The name of the Shared Image Gallery to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */

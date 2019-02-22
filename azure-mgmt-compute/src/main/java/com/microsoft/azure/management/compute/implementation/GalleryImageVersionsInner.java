@@ -93,13 +93,13 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Create or update a gallery image version.
+     * Create or update a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version is to be created.
+     * @param galleryImageVersionName The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersion Parameters supplied to the create or update gallery Image Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -110,13 +110,13 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Create or update a gallery image version.
+     * Create or update a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version is to be created.
+     * @param galleryImageVersionName The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersion Parameters supplied to the create or update gallery Image Version operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -126,13 +126,13 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Create or update a gallery image version.
+     * Create or update a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version is to be created.
+     * @param galleryImageVersionName The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersion Parameters supplied to the create or update gallery Image Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -146,13 +146,13 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Create or update a gallery image version.
+     * Create or update a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version is to be created.
+     * @param galleryImageVersionName The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersion Parameters supplied to the create or update gallery Image Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -182,13 +182,13 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Create or update a gallery image version.
+     * Create or update a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version is to be created.
+     * @param galleryImageVersionName The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersion Parameters supplied to the create or update gallery Image Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -199,13 +199,13 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Create or update a gallery image version.
+     * Create or update a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version is to be created.
+     * @param galleryImageVersionName The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersion Parameters supplied to the create or update gallery Image Version operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -215,13 +215,13 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Create or update a gallery image version.
+     * Create or update a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version is to be created.
+     * @param galleryImageVersionName The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersion Parameters supplied to the create or update gallery Image Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageVersionInner object
      */
@@ -235,13 +235,13 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Create or update a gallery image version.
+     * Create or update a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
-     * @param galleryImageVersion Parameters supplied to the create or update gallery image version operation.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version is to be created.
+     * @param galleryImageVersionName The name of the gallery Image Version to be created. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryImageVersion Parameters supplied to the create or update gallery Image Version operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageVersionInner object
      */
@@ -290,12 +290,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Retrieves information about a gallery image version.
+     * Retrieves information about a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -306,12 +306,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Retrieves information about a gallery image version.
+     * Retrieves information about a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be retrieved.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -321,12 +321,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Retrieves information about a gallery image version.
+     * Retrieves information about a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageVersionInner object
      */
@@ -340,12 +340,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Retrieves information about a gallery image version.
+     * Retrieves information about a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageVersionInner object
      */
@@ -382,12 +382,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Retrieves information about a gallery image version.
+     * Retrieves information about a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be retrieved.
      * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -399,12 +399,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Retrieves information about a gallery image version.
+     * Retrieves information about a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be retrieved.
      * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -415,12 +415,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Retrieves information about a gallery image version.
+     * Retrieves information about a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be retrieved.
      * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageVersionInner object
@@ -435,12 +435,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Retrieves information about a gallery image version.
+     * Retrieves information about a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be retrieved.
      * @param expand The expand expression to apply on the operation. Possible values include: 'ReplicationStatus'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the GalleryImageVersionInner object
@@ -484,12 +484,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Delete a gallery image version.
+     * Delete a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -499,12 +499,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Delete a gallery image version.
+     * Delete a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -514,12 +514,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Delete a gallery image version.
+     * Delete a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -533,12 +533,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Delete a gallery image version.
+     * Delete a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -564,12 +564,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Delete a gallery image version.
+     * Delete a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -579,12 +579,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Delete a gallery image version.
+     * Delete a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -594,12 +594,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Delete a gallery image version.
+     * Delete a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -613,12 +613,12 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * Delete a gallery image version.
+     * Delete a gallery Image Version.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
-     * @param galleryImageVersionName The name of the gallery image version.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the gallery Image Definition in which the Image Version resides.
+     * @param galleryImageVersionName The name of the gallery Image Version to be deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -663,11 +663,11 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image Versions are to be listed.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -684,11 +684,11 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image Versions are to be listed.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -706,11 +706,11 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image Versions are to be listed.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;GalleryImageVersionInner&gt; object
      */
@@ -725,11 +725,11 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
      * @param resourceGroupName The name of the resource group.
-     * @param galleryName The name of the gallery.
-     * @param galleryImageName The name of the gallery image.
+     * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+     * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image Versions are to be listed.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;GalleryImageVersionInner&gt; object
      */
@@ -748,11 +748,11 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
     ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param resourceGroupName The name of the resource group.
-    ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param galleryName The name of the gallery.
-    ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param galleryImageName The name of the gallery image.
+    ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param galleryName The name of the Shared Image Gallery in which the Image Definition resides.
+    ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param galleryImageName The name of the Shared Image Gallery Image Definition from which the Image Versions are to be listed.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;GalleryImageVersionInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -792,7 +792,7 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -811,7 +811,7 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -832,7 +832,7 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -849,7 +849,7 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -870,7 +870,7 @@ public class GalleryImageVersionsInner {
     }
 
     /**
-     * List gallery image versions under a gallery image.
+     * List gallery Image Versions in a gallery Image Definition.
      *
     ServiceResponse<PageImpl1<GalleryImageVersionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

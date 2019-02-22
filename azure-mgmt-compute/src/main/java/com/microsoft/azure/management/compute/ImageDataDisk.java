@@ -60,9 +60,10 @@ public class ImageDataDisk {
     private Integer diskSizeGB;
 
     /**
-     * Specifies the storage account type for the managed disk. Possible values
-     * are: Standard_LRS or Premium_LRS. Possible values include:
-     * 'Standard_LRS', 'Premium_LRS'.
+     * Specifies the storage account type for the managed disk. NOTE:
+     * UltraSSD_LRS can only be used with data disks, it cannot be used with OS
+     * Disk. Possible values include: 'Standard_LRS', 'Premium_LRS',
+     * 'StandardSSD_LRS', 'UltraSSD_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;
@@ -188,7 +189,7 @@ public class ImageDataDisk {
     }
 
     /**
-     * Get specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Get specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
      *
      * @return the storageAccountType value
      */
@@ -197,7 +198,7 @@ public class ImageDataDisk {
     }
 
     /**
-     * Set specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Set specifies the storage account type for the managed disk. NOTE: UltraSSD_LRS can only be used with data disks, it cannot be used with OS Disk. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
      *
      * @param storageAccountType the storageAccountType value to set
      * @return the ImageDataDisk object itself.

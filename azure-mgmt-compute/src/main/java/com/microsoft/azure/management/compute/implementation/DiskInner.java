@@ -83,6 +83,26 @@ public class DiskInner extends Resource {
     private String provisioningState;
 
     /**
+     * The number of IOPS allowed for this disk; only settable for UltraSSD
+     * disks. One operation can transfer between 4k and 256k bytes. For a
+     * description of the range of values you can set, see [Ultra SSD Managed
+     * Disk
+     * Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     */
+    @JsonProperty(value = "properties.diskIOPSReadWrite")
+    private Long diskIOPSReadWrite;
+
+    /**
+     * The bandwidth allowed for this disk; only settable for UltraSSD disks.
+     * MBps means millions of bytes per second - MB here uses the ISO notation,
+     * of powers of 10. For a description of the range of values you can set,
+     * see [Ultra SSD Managed Disk
+     * Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     */
+    @JsonProperty(value = "properties.diskMBpsReadWrite")
+    private Integer diskMBpsReadWrite;
+
+    /**
      * Get a relative URI containing the ID of the VM that has the disk attached.
      *
      * @return the managedBy value
@@ -227,6 +247,46 @@ public class DiskInner extends Resource {
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get the number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     *
+     * @return the diskIOPSReadWrite value
+     */
+    public Long diskIOPSReadWrite() {
+        return this.diskIOPSReadWrite;
+    }
+
+    /**
+     * Set the number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     *
+     * @param diskIOPSReadWrite the diskIOPSReadWrite value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withDiskIOPSReadWrite(Long diskIOPSReadWrite) {
+        this.diskIOPSReadWrite = diskIOPSReadWrite;
+        return this;
+    }
+
+    /**
+     * Get the bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     *
+     * @return the diskMBpsReadWrite value
+     */
+    public Integer diskMBpsReadWrite() {
+        return this.diskMBpsReadWrite;
+    }
+
+    /**
+     * Set the bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     *
+     * @param diskMBpsReadWrite the diskMBpsReadWrite value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withDiskMBpsReadWrite(Integer diskMBpsReadWrite) {
+        this.diskMBpsReadWrite = diskMBpsReadWrite;
+        return this;
     }
 
 }

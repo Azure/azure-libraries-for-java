@@ -11,7 +11,8 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes the recommended machine configuration.
+ * The properties describe the recommended machine configuration for this Image
+ * Definition. These properties are updatable.
  */
 public class RecommendedMachineConfiguration {
     /**

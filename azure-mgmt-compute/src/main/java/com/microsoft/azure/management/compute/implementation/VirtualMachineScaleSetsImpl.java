@@ -8,7 +8,6 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.RunCommandInputParameter;
-import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetIPConfiguration;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetNetworkConfiguration;
@@ -133,12 +132,12 @@ public class VirtualMachineScaleSetsImpl
     }
 
     @Override
-    public RunCommandResult runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public RunCommandResultInner runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.runPowerShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).toBlocking().last();
     }
 
     @Override
-    public Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Observable<RunCommandResultInner> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         RunCommandInput inputCommand = new RunCommandInput();
         inputCommand.withCommandId("RunPowerShellScript");
         inputCommand.withScript(scriptLines);
@@ -147,12 +146,12 @@ public class VirtualMachineScaleSetsImpl
     }
 
     @Override
-    public RunCommandResult runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public RunCommandResultInner runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.runShellScriptInVMInstanceAsync(groupName, scaleSetName, vmId, scriptLines, scriptParameters).toBlocking().last();
     }
 
     @Override
-    public Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Observable<RunCommandResultInner> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         RunCommandInput inputCommand = new RunCommandInput();
         inputCommand.withCommandId("RunShellScript");
         inputCommand.withScript(scriptLines);
@@ -161,12 +160,12 @@ public class VirtualMachineScaleSetsImpl
     }
 
     @Override
-    public RunCommandResult runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
+    public RunCommandResultInner runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
         return this.runCommandVMInstanceAsync(groupName, scaleSetName, vmId, inputCommand).toBlocking().last();
     }
 
     @Override
-    public Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
+    public Observable<RunCommandResultInner> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
         return this.manager().inner().virtualMachineScaleSetVMs().runCommandAsync(groupName, scaleSetName, vmId, inputCommand);
     }
 

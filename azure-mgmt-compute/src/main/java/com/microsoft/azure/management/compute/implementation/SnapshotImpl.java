@@ -13,6 +13,7 @@ import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.DiskCreateOption;
 import com.microsoft.azure.management.compute.CreationSource;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
+import com.microsoft.azure.management.compute.DiskStorageAccountTypes;
 import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
@@ -54,7 +55,7 @@ class SnapshotImpl
         if (this.inner().sku() == null || this.inner().sku().name() == null) {
             return null;
         } else {
-            return DiskSkuTypes.fromStorageAccountType(StorageAccountTypes.fromString(this.inner().sku().name().toString()));
+            return DiskSkuTypes.fromStorageAccountType(DiskStorageAccountTypes.fromString(this.inner().sku().name().toString()));
         }
     }
 

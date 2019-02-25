@@ -9,6 +9,7 @@ package com.microsoft.azure.management.compute;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
+import com.microsoft.azure.management.compute.implementation.VirtualMachineInstanceViewInner;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetVMInner;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
@@ -295,7 +296,7 @@ public interface VirtualMachineScaleSetVM extends
      *
      * @return the instance view
      */
-    VirtualMachineInstanceView instanceView();
+    VirtualMachineInstanceViewInner instanceView();
 
     /**
      * Refreshes the instance view.
@@ -303,7 +304,7 @@ public interface VirtualMachineScaleSetVM extends
      * @return the instance view
      */
     @Method
-    VirtualMachineInstanceView refreshInstanceView();
+    VirtualMachineInstanceViewInner refreshInstanceView();
 
     /**
      * Refreshes the instance view.
@@ -311,7 +312,7 @@ public interface VirtualMachineScaleSetVM extends
      * @return an observable that emits the instance view of the virtual machine instance.
      */
     @Method
-    Observable<VirtualMachineInstanceView> refreshInstanceViewAsync();
+    Observable<VirtualMachineInstanceViewInner> refreshInstanceViewAsync();
 
     /**
      * @return the power state of the virtual machine instance

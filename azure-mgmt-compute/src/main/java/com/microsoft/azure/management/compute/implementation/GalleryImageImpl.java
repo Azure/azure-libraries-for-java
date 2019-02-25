@@ -10,6 +10,7 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.Disallowed;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
+import com.microsoft.azure.management.compute.DiskStorageAccountTypes;
 import com.microsoft.azure.management.compute.Gallery;
 import com.microsoft.azure.management.compute.GalleryImage;
 import com.microsoft.azure.management.compute.GalleryImageIdentifier;
@@ -127,7 +128,7 @@ class GalleryImageImpl
         } else {
             List<DiskSkuTypes> diskTypes = new ArrayList<DiskSkuTypes>();
             for (String diskTypeStr : this.inner().disallowed().diskTypes()) {
-                diskTypes.add(DiskSkuTypes.fromStorageAccountType(StorageAccountTypes.fromString(diskTypeStr)));
+                diskTypes.add(DiskSkuTypes.fromStorageAccountType(DiskStorageAccountTypes.fromString(diskTypeStr)));
             }
             return Collections.unmodifiableList(diskTypes);
         }

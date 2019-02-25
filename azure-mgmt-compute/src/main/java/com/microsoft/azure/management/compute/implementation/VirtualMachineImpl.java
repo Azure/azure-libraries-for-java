@@ -38,7 +38,6 @@ import com.microsoft.azure.management.compute.PurchasePlan;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.RunCommandInputParameter;
-import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.SshConfiguration;
 import com.microsoft.azure.management.compute.SshPublicKey;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
@@ -50,7 +49,6 @@ import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineEncryption;
 import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineExtension;
-import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachineUpdate;
@@ -137,7 +135,7 @@ class VirtualMachineImpl
     private NetworkInterface existingPrimaryNetworkInterfaceToAssociate;
     // reference to a list of existing network interfaces that needs to be used as virtual machine's secondary network interface
     private List<NetworkInterface> existingSecondaryNetworkInterfacesToAssociate;
-    private VirtualMachineInstanceView virtualMachineInstanceView;
+    private VirtualMachineInstanceViewInner virtualMachineInstanceView;
     private boolean isMarketplaceLinuxImage;
     // Intermediate state of network interface definition to which private IP can be associated
     private NetworkInterface.DefinitionStages.WithPrimaryPrivateIP nicDefinitionWithPrivateIp;
@@ -375,18 +373,18 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineInstanceView refreshInstanceView() {
+    public VirtualMachineInstanceViewInner refreshInstanceView() {
         return refreshInstanceViewAsync().toBlocking().last();
     }
 
     @Override
-    public Observable<VirtualMachineInstanceView> refreshInstanceViewAsync() {
+    public Observable<VirtualMachineInstanceViewInner> refreshInstanceViewAsync() {
         return this.manager().inner().virtualMachines().getByResourceGroupAsync(this.resourceGroupName(),
                 this.name(),
                 InstanceViewTypes.INSTANCE_VIEW)
-                .map(new Func1<VirtualMachineInner, VirtualMachineInstanceView>() {
+                .map(new Func1<VirtualMachineInner, VirtualMachineInstanceViewInner>() {
                     @Override
-                    public VirtualMachineInstanceView call(VirtualMachineInner virtualMachineInner) {
+                    public VirtualMachineInstanceViewInner call(VirtualMachineInner virtualMachineInner) {
                         if (virtualMachineInner != null) {
                             virtualMachineInstanceView = virtualMachineInner.instanceView();
                         } else {
@@ -398,7 +396,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public RunCommandResultInner runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachines().runPowerShellScript(this.resourceGroupName(),
                 this.name(),
                 scriptLines,
@@ -406,7 +404,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Observable<RunCommandResultInner> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachines().runPowerShellScriptAsync(this.resourceGroupName(),
                 this.name(),
                 scriptLines,
@@ -414,7 +412,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public RunCommandResult runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public RunCommandResultInner runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachines().runShellScript(this.resourceGroupName(),
                 this.name(),
                 scriptLines,
@@ -422,7 +420,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Observable<RunCommandResultInner> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachines().runShellScriptAsync(this.resourceGroupName(),
                 this.name(),
                 scriptLines,
@@ -430,14 +428,14 @@ class VirtualMachineImpl
     }
 
     @Override
-    public RunCommandResult runCommand(RunCommandInput inputCommand) {
+    public RunCommandResultInner runCommand(RunCommandInput inputCommand) {
         return this.manager().virtualMachines().runCommand(this.resourceGroupName(),
                 this.name(),
                 inputCommand);
     }
 
     @Override
-    public Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand) {
+    public Observable<RunCommandResultInner> runCommandAsync(RunCommandInput inputCommand) {
         return this.manager().virtualMachines().runCommandAsync(this.resourceGroupName(),
                 this.name(),
                 inputCommand);
@@ -1214,9 +1212,9 @@ class VirtualMachineImpl
         }
         Creatable<AvailabilitySet> creatable;
         if (isManagedDiskEnabled()) {
-            creatable = definitionWithSku.withSku(AvailabilitySetSkuTypes.MANAGED);
+            creatable = definitionWithSku.withSku(AvailabilitySetSkuTypes.ALIGNED);
         } else {
-            creatable = definitionWithSku.withSku(AvailabilitySetSkuTypes.UNMANAGED);
+            creatable = definitionWithSku.withSku(AvailabilitySetSkuTypes.CLASSIC);
         }
         return withNewAvailabilitySet(creatable);
     }
@@ -1612,7 +1610,7 @@ class VirtualMachineImpl
     }
 
     @Override
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineInstanceViewInner instanceView() {
         if (this.virtualMachineInstanceView == null) {
             this.refreshInstanceView();
         }

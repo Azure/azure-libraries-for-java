@@ -20,7 +20,6 @@ import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineImage;
-import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVM;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMInstanceExtension;
@@ -51,7 +50,7 @@ class VirtualMachineScaleSetVMImpl
             VirtualMachineScaleSet>
         implements VirtualMachineScaleSetVM {
 
-    private VirtualMachineInstanceView virtualMachineInstanceView;
+    private VirtualMachineInstanceViewInner virtualMachineInstanceView;
     private final VirtualMachineScaleSetVMsInner client;
     private final ComputeManager computeManager;
 
@@ -62,7 +61,16 @@ class VirtualMachineScaleSetVMImpl
         super(inner, parent);
         this.client = client;
         this.computeManager = computeManager;
-        this.virtualMachineInstanceView = this.inner().instanceView();
+        VirtualMachineScaleSetVMInstanceViewInner instanceViewInner = this.inner().instanceView();
+        this.virtualMachineInstanceView = new VirtualMachineInstanceViewInner()
+                .withBootDiagnostics(instanceViewInner.bootDiagnostics())
+                .withDisks(instanceViewInner.disks())
+                .withExtensions(instanceViewInner.extensions())
+                .withPlatformFaultDomain(instanceViewInner.platformFaultDomain())
+                .withPlatformUpdateDomain(instanceViewInner.platformUpdateDomain())
+                .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
+                .withStatuses(instanceViewInner.statuses())
+                .withVmAgent(instanceViewInner.vmAgent());
     }
 
     @Override
@@ -372,7 +380,7 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineInstanceViewInner instanceView() {
         if (this.virtualMachineInstanceView == null) {
             refreshInstanceView();
         }
@@ -380,19 +388,19 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public VirtualMachineInstanceView refreshInstanceView() {
+    public VirtualMachineInstanceViewInner refreshInstanceView() {
         return refreshInstanceViewAsync().toBlocking().last();
     }
 
-    public Observable<VirtualMachineInstanceView> refreshInstanceViewAsync() {
+    public Observable<VirtualMachineInstanceViewInner> refreshInstanceViewAsync() {
         return this.client.getInstanceViewAsync(this.parent().resourceGroupName(),
             this.parent().name(),
             this.instanceId())
-            .map(new Func1<VirtualMachineScaleSetVMInstanceViewInner, VirtualMachineInstanceView>() {
+            .map(new Func1<VirtualMachineScaleSetVMInstanceViewInner, VirtualMachineInstanceViewInner>() {
                 @Override
-                public VirtualMachineInstanceView call(VirtualMachineScaleSetVMInstanceViewInner instanceViewInner) {
+                public VirtualMachineInstanceViewInner call(VirtualMachineScaleSetVMInstanceViewInner instanceViewInner) {
                     if (instanceViewInner != null) {
-                        virtualMachineInstanceView = new VirtualMachineInstanceView()
+                        virtualMachineInstanceView = new VirtualMachineInstanceViewInner()
                             .withBootDiagnostics(instanceViewInner.bootDiagnostics())
                             .withDisks(instanceViewInner.disks())
                             .withExtensions(instanceViewInner.extensions())

@@ -7,6 +7,7 @@ package com.microsoft.azure.management.compute;
 
 import java.util.Collection;
 
+import com.microsoft.azure.management.compute.implementation.VirtualMachineInstanceViewInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 /**
@@ -55,7 +56,7 @@ public final class PowerState extends ExpandableStringEnum<PowerState> {
      * @param virtualMachineInstanceView the virtual machine instance view
      * @return the PowerState
      */
-    public static PowerState fromInstanceView(VirtualMachineInstanceView virtualMachineInstanceView) {
+    public static PowerState fromInstanceView(VirtualMachineInstanceViewInner virtualMachineInstanceView) {
         if (virtualMachineInstanceView != null && virtualMachineInstanceView.statuses() != null) {
             for (InstanceViewStatus status : virtualMachineInstanceView.statuses()) {
                 if (status.code() != null && status.code().toLowerCase().startsWith("powerstate")) {

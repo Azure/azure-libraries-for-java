@@ -13,6 +13,7 @@ import com.microsoft.azure.management.compute.ComputeSku;
 import com.microsoft.azure.management.compute.ComputeSkuName;
 import com.microsoft.azure.management.compute.ComputeSkuTier;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
+import com.microsoft.azure.management.compute.DiskStorageAccountTypes;
 import com.microsoft.azure.management.compute.ResourceSkuCapabilities;
 import com.microsoft.azure.management.compute.ResourceSkuCapacity;
 import com.microsoft.azure.management.compute.ResourceSkuCosts;
@@ -85,7 +86,7 @@ final class ComputeSkuImpl implements ComputeSku {
         if (this.inner.resourceType() != null
                 && (this.inner.resourceType().equalsIgnoreCase("disks") || this.inner.resourceType().equalsIgnoreCase("snapshots"))
                 && this.inner.name() != null) {
-            return DiskSkuTypes.fromStorageAccountType(StorageAccountTypes.fromString(this.inner.name()));
+            return DiskSkuTypes.fromStorageAccountType(DiskStorageAccountTypes.fromString(this.inner.name()));
         } else {
             return null;
         }

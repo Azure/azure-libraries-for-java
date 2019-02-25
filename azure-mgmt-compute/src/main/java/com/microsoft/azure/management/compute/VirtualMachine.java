@@ -11,7 +11,9 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
+import com.microsoft.azure.management.compute.implementation.RunCommandResultInner;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineInner;
+import com.microsoft.azure.management.compute.implementation.VirtualMachineInstanceViewInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.Network;
@@ -237,7 +239,7 @@ public interface VirtualMachine extends
      * @return the refreshed instance view
      */
     @Method
-    VirtualMachineInstanceView refreshInstanceView();
+    VirtualMachineInstanceViewInner refreshInstanceView();
 
     /**
      * Refreshes the virtual machine instance view to sync with Azure.
@@ -245,7 +247,7 @@ public interface VirtualMachine extends
      * @return an observable that emits the instance view of the virtual machine.
      */
     @Method
-    Observable<VirtualMachineInstanceView> refreshInstanceViewAsync();
+    Observable<VirtualMachineInstanceViewInner> refreshInstanceViewAsync();
 
     /**
      * Run shell script in a virtual machine.
@@ -257,7 +259,7 @@ public interface VirtualMachine extends
      * @return result of PowerShell script execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    RunCommandResultInner runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run shell script in the virtual machine asynchronously.
@@ -267,7 +269,7 @@ public interface VirtualMachine extends
      * @return handle to the asynchronous execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    Observable<RunCommandResultInner> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run shell script in the virtual machine.
@@ -277,7 +279,7 @@ public interface VirtualMachine extends
      * @return result of shell script execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResult runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    RunCommandResultInner runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
     /**
@@ -288,7 +290,7 @@ public interface VirtualMachine extends
      * @return handle to the asynchronous execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    Observable<RunCommandResultInner> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run commands in the virtual machine.
@@ -297,7 +299,7 @@ public interface VirtualMachine extends
      * @return result of execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResult runCommand(RunCommandInput inputCommand);
+    RunCommandResultInner runCommand(RunCommandInput inputCommand);
 
     /**
      * Run commands in the virtual machine asynchronously.
@@ -306,7 +308,7 @@ public interface VirtualMachine extends
      * @return handle to the asynchronous execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand);
+    Observable<RunCommandResultInner> runCommandAsync(RunCommandInput inputCommand);
 
     // Getters
     //
@@ -444,7 +446,7 @@ public interface VirtualMachine extends
      *
      * @return the virtual machine's instance view
      */
-    VirtualMachineInstanceView instanceView();
+    VirtualMachineInstanceViewInner instanceView();
 
     /**
      * @return the availability zones assigned to the virtual machine

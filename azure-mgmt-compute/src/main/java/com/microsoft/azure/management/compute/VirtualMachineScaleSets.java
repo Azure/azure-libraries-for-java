@@ -10,6 +10,7 @@ import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
+import com.microsoft.azure.management.compute.implementation.RunCommandResultInner;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
@@ -209,7 +210,7 @@ public interface VirtualMachineScaleSets extends
      * @return result of PowerShell script execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResult runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    RunCommandResultInner runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run PowerShell in a virtual machine instance in a scale set asynchronously.
@@ -222,7 +223,7 @@ public interface VirtualMachineScaleSets extends
      * @return handle to the asynchronous execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    Observable<RunCommandResultInner> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run shell script in a virtual machine instance in a scale set.
@@ -235,7 +236,7 @@ public interface VirtualMachineScaleSets extends
      * @return result of shell script execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResult runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    RunCommandResultInner runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
     /**
@@ -249,7 +250,7 @@ public interface VirtualMachineScaleSets extends
      * @return handle to the asynchronous execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    Observable<RunCommandResultInner> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run commands in a virtual machine instance in a scale set.
@@ -261,7 +262,7 @@ public interface VirtualMachineScaleSets extends
      * @return result of execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResult runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
+    RunCommandResultInner runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
 
     /**
      * Run commands in a virtual machine instance in a scale set asynchronously.
@@ -273,5 +274,5 @@ public interface VirtualMachineScaleSets extends
      * @return handle to the asynchronous execution
      */
     @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
+    Observable<RunCommandResultInner> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
 }

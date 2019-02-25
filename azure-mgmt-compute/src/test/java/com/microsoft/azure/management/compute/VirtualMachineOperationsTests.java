@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.compute.implementation.RunCommandResultInner;
+import com.microsoft.azure.management.compute.implementation.VirtualMachineInstanceViewInner;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
@@ -144,7 +146,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         // Fetch instance view
         PowerState powerState = foundVM.powerState();
         Assert.assertEquals(powerState, PowerState.RUNNING);
-        VirtualMachineInstanceView instanceView = foundVM.instanceView();
+        VirtualMachineInstanceViewInner instanceView = foundVM.instanceView();
         Assert.assertNotNull(instanceView);
         Assert.assertNotNull(instanceView.statuses().size() > 0);
 
@@ -413,7 +415,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         installGit.add("sudo apt-get update");
         installGit.add("sudo apt-get install -y git");
 
-        RunCommandResult runResult = virtualMachine.runShellScript(installGit, new ArrayList<RunCommandInputParameter>());
+        RunCommandResultInner runResult = virtualMachine.runShellScript(installGit, new ArrayList<RunCommandInputParameter>());
         Assert.assertNotNull(runResult);
         Assert.assertNotNull(runResult.value());
         Assert.assertTrue(runResult.value().size() > 0);

@@ -44,7 +44,7 @@ public class OperationDisplay {
     private String description;
 
     /**
-     * Get the provider value.
+     * Get friendly name of the resource provider.
      *
      * @return the provider value
      */
@@ -53,7 +53,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Set the provider value.
+     * Set friendly name of the resource provider.
      *
      * @param provider the provider value to set
      * @return the OperationDisplay object itself.
@@ -64,7 +64,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the operation value.
+     * Get the type of operation. For example: read, write, delete.
      *
      * @return the operation value
      */
@@ -73,7 +73,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Set the operation value.
+     * Set the type of operation. For example: read, write, delete.
      *
      * @param operation the operation value to set
      * @return the OperationDisplay object itself.
@@ -84,7 +84,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the resource value.
+     * Get the resource type on which the operation is performed.
      *
      * @return the resource value
      */
@@ -93,7 +93,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Set the resource value.
+     * Set the resource type on which the operation is performed.
      *
      * @param resource the resource value to set
      * @return the OperationDisplay object itself.
@@ -104,7 +104,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the description value.
+     * Get a description of the operation.
      *
      * @return the description value
      */
@@ -113,7 +113,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Set the description value.
+     * Set a description of the operation.
      *
      * @param description the description value to set
      * @return the OperationDisplay object itself.

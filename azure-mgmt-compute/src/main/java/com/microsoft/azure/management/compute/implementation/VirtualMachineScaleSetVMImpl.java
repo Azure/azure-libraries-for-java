@@ -62,15 +62,19 @@ class VirtualMachineScaleSetVMImpl
         this.client = client;
         this.computeManager = computeManager;
         VirtualMachineScaleSetVMInstanceViewInner instanceViewInner = this.inner().instanceView();
-        this.virtualMachineInstanceView = new VirtualMachineInstanceViewInner()
-                .withBootDiagnostics(instanceViewInner.bootDiagnostics())
-                .withDisks(instanceViewInner.disks())
-                .withExtensions(instanceViewInner.extensions())
-                .withPlatformFaultDomain(instanceViewInner.platformFaultDomain())
-                .withPlatformUpdateDomain(instanceViewInner.platformUpdateDomain())
-                .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
-                .withStatuses(instanceViewInner.statuses())
-                .withVmAgent(instanceViewInner.vmAgent());
+        if (instanceViewInner != null) {
+            this.virtualMachineInstanceView = new VirtualMachineInstanceViewInner()
+                    .withBootDiagnostics(instanceViewInner.bootDiagnostics())
+                    .withDisks(instanceViewInner.disks())
+                    .withExtensions(instanceViewInner.extensions())
+                    .withPlatformFaultDomain(instanceViewInner.platformFaultDomain())
+                    .withPlatformUpdateDomain(instanceViewInner.platformUpdateDomain())
+                    .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
+                    .withStatuses(instanceViewInner.statuses())
+                    .withVmAgent(instanceViewInner.vmAgent());
+        } else {
+            this.virtualMachineInstanceView = null;
+        }
     }
 
     @Override

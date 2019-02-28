@@ -7,12 +7,12 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.management.compute.DataDisk;
-import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.CachingTypes;
+import com.microsoft.azure.management.compute.DataDisk;
 import com.microsoft.azure.management.compute.DiskCreateOptionTypes;
 import com.microsoft.azure.management.compute.VirtualHardDisk;
+import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;

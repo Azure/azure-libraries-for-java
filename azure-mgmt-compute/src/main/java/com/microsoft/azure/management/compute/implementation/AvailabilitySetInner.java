@@ -8,13 +8,14 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.Resource;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.Sku;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+
+import java.util.List;
 
 /**
  * Specifies information about the availability set that the virtual machine

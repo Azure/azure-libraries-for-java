@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import java.util.List;
-import com.microsoft.azure.management.compute.RunCommandParameterDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.RunCommandParameterDefinition;
+
+import java.util.List;
 
 /**
  * Describes the properties of a Run Command.

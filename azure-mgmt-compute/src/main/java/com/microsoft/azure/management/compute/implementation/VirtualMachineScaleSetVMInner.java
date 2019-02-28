@@ -8,19 +8,20 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.Sku;
-import com.microsoft.azure.management.compute.HardwareProfile;
-import com.microsoft.azure.management.compute.StorageProfile;
-import com.microsoft.azure.management.compute.AdditionalCapabilities;
-import com.microsoft.azure.management.compute.OSProfile;
-import com.microsoft.azure.management.compute.NetworkProfile;
-import com.microsoft.azure.management.compute.DiagnosticsProfile;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.compute.Plan;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
+import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.compute.AdditionalCapabilities;
+import com.microsoft.azure.management.compute.DiagnosticsProfile;
+import com.microsoft.azure.management.compute.HardwareProfile;
+import com.microsoft.azure.management.compute.NetworkProfile;
+import com.microsoft.azure.management.compute.OSProfile;
+import com.microsoft.azure.management.compute.Plan;
+import com.microsoft.azure.management.compute.Sku;
+import com.microsoft.azure.management.compute.StorageProfile;
+import com.microsoft.rest.serializer.JsonFlatten;
+
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set virtual machine.

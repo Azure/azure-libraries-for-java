@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.VirtualMachineAgentInstanceView;
-import com.microsoft.azure.management.compute.MaintenanceRedeployStatus;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.BootDiagnosticsInstanceView;
 import com.microsoft.azure.management.compute.DiskInstanceView;
+import com.microsoft.azure.management.compute.InstanceViewStatus;
+import com.microsoft.azure.management.compute.MaintenanceRedeployStatus;
+import com.microsoft.azure.management.compute.VirtualMachineAgentInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineHealthStatus;
-import com.microsoft.azure.management.compute.BootDiagnosticsInstanceView;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
-import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
  * The instance view of a virtual machine scale set VM.

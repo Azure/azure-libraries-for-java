@@ -22,6 +22,7 @@ import com.microsoft.azure.management.compute.RecommendedMachineConfiguration;
 import com.microsoft.azure.management.compute.ResourceRange;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import org.joda.time.DateTime;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.joda.time.DateTime;
 
 /**
  * The implementation for GalleryImage and its create and update interfaces.

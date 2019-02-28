@@ -13,7 +13,6 @@ import com.microsoft.azure.management.compute.VirtualMachineExtensionInstanceVie
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
-
 import rx.Observable;
 import rx.functions.Func1;
 

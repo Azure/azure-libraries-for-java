@@ -10,8 +10,8 @@ import com.microsoft.azure.management.compute.VirtualMachineExtensionImage;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionImageType;
 import com.microsoft.azure.management.compute.VirtualMachineExtensionImageVersion;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
 
 /**
  * The implementation for VirtualMachineExtensionImageVersion.

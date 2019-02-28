@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
  * The List Extension operation response.

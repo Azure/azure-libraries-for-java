@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import java.util.List;
-import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.InstanceViewStatus;
+
+import java.util.List;
 
 /**
  * The RunCommandResultInner model.

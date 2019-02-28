@@ -8,16 +8,16 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.management.compute.OperatingSystemStateTypes;
-import org.joda.time.DateTime;
-import com.microsoft.azure.management.compute.GalleryImageIdentifier;
-import com.microsoft.azure.management.compute.RecommendedMachineConfiguration;
-import com.microsoft.azure.management.compute.Disallowed;
-import com.microsoft.azure.management.compute.ImagePurchasePlan;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.compute.Disallowed;
+import com.microsoft.azure.management.compute.GalleryImageIdentifier;
+import com.microsoft.azure.management.compute.ImagePurchasePlan;
+import com.microsoft.azure.management.compute.OperatingSystemStateTypes;
+import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.RecommendedMachineConfiguration;
+import com.microsoft.rest.serializer.JsonFlatten;
+import org.joda.time.DateTime;
 
 /**
  * Specifies information about the gallery Image Definition that you want to

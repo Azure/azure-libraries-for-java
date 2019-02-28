@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.SnapshotSku;
-import org.joda.time.DateTime;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.compute.CreationData;
 import com.microsoft.azure.management.compute.EncryptionSettings;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.SnapshotSku;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import org.joda.time.DateTime;
 
 /**
  * Snapshot resource.

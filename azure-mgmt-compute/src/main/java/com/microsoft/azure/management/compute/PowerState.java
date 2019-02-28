@@ -5,10 +5,10 @@
  */
 package com.microsoft.azure.management.compute;
 
-import java.util.Collection;
-
 import com.microsoft.azure.management.compute.implementation.VirtualMachineInstanceViewInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+
+import java.util.Collection;
 
 /**
  * Possible power states of a virtual machine.

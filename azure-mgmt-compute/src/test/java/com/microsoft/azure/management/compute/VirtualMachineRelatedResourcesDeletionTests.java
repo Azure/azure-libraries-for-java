@@ -21,7 +21,6 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
-
 import rx.Completable;
 import rx.functions.Func1;
 

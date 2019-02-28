@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Map;
 
 /**
  * Identity for the virtual machine.

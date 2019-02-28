@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.util.Map;
 
 public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementTest {

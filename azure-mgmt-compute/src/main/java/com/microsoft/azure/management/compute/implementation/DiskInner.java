@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.DiskSku;
-import java.util.List;
-import org.joda.time.DateTime;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.azure.management.compute.CreationData;
-import com.microsoft.azure.management.compute.EncryptionSettings;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.compute.CreationData;
+import com.microsoft.azure.management.compute.DiskSku;
+import com.microsoft.azure.management.compute.EncryptionSettings;
+import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.rest.serializer.JsonFlatten;
+import org.joda.time.DateTime;
+
+import java.util.List;
 
 /**
  * Disk resource.

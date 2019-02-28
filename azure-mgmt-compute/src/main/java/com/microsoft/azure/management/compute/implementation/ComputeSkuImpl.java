@@ -19,7 +19,6 @@ import com.microsoft.azure.management.compute.ResourceSkuCapacity;
 import com.microsoft.azure.management.compute.ResourceSkuCosts;
 import com.microsoft.azure.management.compute.ResourceSkuLocationInfo;
 import com.microsoft.azure.management.compute.ResourceSkuRestrictions;
-import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;

@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.joda.time.DateTime;
 
 /**
  * Api input base class for LogAnalytics Api.

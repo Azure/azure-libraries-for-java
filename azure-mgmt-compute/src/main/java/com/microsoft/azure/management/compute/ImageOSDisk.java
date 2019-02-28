@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.SubResource;
 
 /**
  * Describes an Operating System disk.

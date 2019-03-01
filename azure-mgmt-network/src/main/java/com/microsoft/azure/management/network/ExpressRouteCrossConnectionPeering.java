@@ -210,10 +210,23 @@ public interface ExpressRouteCrossConnectionPeering extends
             WithCreate withoutIpv6Config();
         }
 
+        /**
+         * The stage of Express Route Cross Connection Peering definition allowing to specify the peering state.
+         */
+        interface WithState {
+            /**
+             * Specifies the peering state.
+             * @param state the peering state
+             * @return the next stage of the definition
+             */
+            WithCreate withState(ExpressRoutePeeringState state);
+        }
+
         interface WithCreate extends
                 Creatable<ExpressRouteCrossConnectionPeering>,
                 DefinitionStages.WithSharedKey,
-                DefinitionStages.WithIpv6PeeringConfig {
+                DefinitionStages.WithIpv6PeeringConfig,
+                DefinitionStages.WithState {
         }
     }
 
@@ -228,7 +241,8 @@ public interface ExpressRouteCrossConnectionPeering extends
             UpdateStages.WithSecondaryPeerAddressPrefix,
             UpdateStages.WithVlanId,
             UpdateStages.WithPeerAsn,
-            UpdateStages.WithIpv6PeeringConfig {
+            UpdateStages.WithIpv6PeeringConfig,
+            UpdateStages.WithState {
     }
 
     /**
@@ -326,6 +340,18 @@ public interface ExpressRouteCrossConnectionPeering extends
              */
             @Method
             Update withoutIpv6Config();
+        }
+
+        /**
+         * The stage of Express Route Cross Connection Peering update allowing to specify the peering state.
+         */
+        interface WithState {
+            /**
+             * Specifies the peering state.
+             * @param state the peering state
+             * @return the next stage of the update
+             */
+            Update withState(ExpressRoutePeeringState state);
         }
     }
 }

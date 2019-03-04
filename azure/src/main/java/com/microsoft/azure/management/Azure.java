@@ -113,10 +113,13 @@ import com.microsoft.azure.management.servicebus.ServiceBusNamespaces;
 import com.microsoft.azure.management.servicebus.implementation.ServiceBusManager;
 import com.microsoft.azure.management.sql.SqlServers;
 import com.microsoft.azure.management.sql.implementation.SqlServerManager;
+import com.microsoft.azure.management.storage.BlobContainers;
+import com.microsoft.azure.management.storage.BlobServices;
+import com.microsoft.azure.management.storage.ManagementPolicies;
+import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
-import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerProfiles;
 import com.microsoft.azure.management.trafficmanager.implementation.TrafficManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
@@ -986,5 +989,26 @@ public final class Azure {
     @Beta(Beta.SinceVersion.V1_15_0)
     public GalleryImageVersions galleryImageVersions() {
         return this.computeManager.galleryImageVersions();
+    }
+
+    /**
+     * @return the blob container management API entry point
+     */
+    public BlobContainers storageBlobContainers() {
+        return this.storageManager.blobContainers();
+    }
+
+    /**
+     * @return the blob service management API entry point
+     */
+    public BlobServices storageBlobServices() {
+        return this.storageManager.blobServices();
+    }
+
+    /**
+     * @return the management policy management API entry point
+     */
+    public ManagementPolicies storageManagementPolicies() {
+        return this.storageManager.managementPolicies();
     }
 }

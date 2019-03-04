@@ -7,8 +7,6 @@
 package com.microsoft.azure.management.graphrbac;
 
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentsInner;
@@ -26,7 +24,6 @@ import rx.Observable;
  * Entry point to role assignment management API.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
-@Beta(SinceVersion.V1_1_0)
 public interface RoleAssignments extends
         SupportsGettingById<RoleAssignment>,
         SupportsCreating<RoleAssignment.DefinitionStages.Blank>,

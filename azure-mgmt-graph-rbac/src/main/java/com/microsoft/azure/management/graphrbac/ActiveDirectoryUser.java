@@ -6,8 +6,6 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.graphrbac.implementation.UserInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
@@ -20,7 +18,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
  * An immutable client-side representation of an Azure AD user.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
-@Beta
 public interface ActiveDirectoryUser extends
         ActiveDirectoryObject,
         HasInner<UserInner>,
@@ -48,7 +45,6 @@ public interface ActiveDirectoryUser extends
     /**
      * @return the usage location of the user
      */
-    @Beta(SinceVersion.V1_2_0)
     CountryIsoCode usageLocation();
 
     /**************************************************************
@@ -85,7 +81,6 @@ public interface ActiveDirectoryUser extends
              * @param userPrincipalName the user principal name
              * @return the next stage of user definition
              */
-            @Beta(SinceVersion.V1_2_0)
             WithPassword withUserPrincipalName(String userPrincipalName);
 
             /**
@@ -93,7 +88,6 @@ public interface ActiveDirectoryUser extends
              * @param emailAlias the email alias of the new user
              * @return the next stage of user definition
              */
-            @Beta(SinceVersion.V1_2_0)
             WithPassword withEmailAlias(String emailAlias);
         }
 
@@ -106,7 +100,6 @@ public interface ActiveDirectoryUser extends
              * @param password the password of the user
              * @return the next stage of user definition
              */
-            @Beta(SinceVersion.V1_2_0)
             WithCreate withPassword(String password);
         }
 
@@ -119,7 +112,6 @@ public interface ActiveDirectoryUser extends
              * @param promptToChangePasswordOnLogin true if the user should change password on next login.
              * @return the next stage of user definition
              */
-            @Beta(SinceVersion.V1_2_0)
             WithCreate withPromptToChangePasswordOnLogin(boolean promptToChangePasswordOnLogin);
         }
 
@@ -132,7 +124,6 @@ public interface ActiveDirectoryUser extends
              * @param accountEnabled true if account is enabled, false otherwise
              * @return the next stage of user definition
              */
-            @Beta(SinceVersion.V1_2_0)
             WithCreate withAccountEnabled(boolean accountEnabled);
         }
 
@@ -147,7 +138,6 @@ public interface ActiveDirectoryUser extends
              * @param usageLocation A two letter country code (ISO standard 3166).
              * @return The next stage of user definition
              */
-            @Beta(SinceVersion.V1_2_0)
             WithCreate withUsageLocation(CountryIsoCode usageLocation);
         }
 
@@ -156,7 +146,6 @@ public interface ActiveDirectoryUser extends
          * user in the cloud, but exposing additional optional inputs to
          * specify.
          */
-        @Beta(SinceVersion.V1_2_0)
         interface WithCreate extends
                 Creatable<ActiveDirectoryUser>,
                 DefinitionStages.WithAccontEnabled,
@@ -178,7 +167,6 @@ public interface ActiveDirectoryUser extends
              * @param password the password of the user
              * @return the next stage of user update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withPassword(String password);
         }
 
@@ -191,7 +179,6 @@ public interface ActiveDirectoryUser extends
              * @param promptToChangePasswordOnLogin true if the user should change password on next login.
              * @return the next stage of user update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withPromptToChangePasswordOnLogin(boolean promptToChangePasswordOnLogin);
         }
 
@@ -204,7 +191,6 @@ public interface ActiveDirectoryUser extends
              * @param accountEnabled true if account is enabled, false otherwise
              * @return the next stage of user update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withAccountEnabled(boolean accountEnabled);
         }
 
@@ -219,7 +205,6 @@ public interface ActiveDirectoryUser extends
              * @param usageLocation A two letter country code (ISO standard 3166).
              * @return The next stage of user update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withUsageLocation(CountryIsoCode usageLocation);
         }
     }
@@ -227,7 +212,6 @@ public interface ActiveDirectoryUser extends
     /**
      * The template for a user update operation, containing all the settings that can be modified.
      */
-    @Beta(SinceVersion.V1_2_0)
     interface Update extends
             Appliable<ActiveDirectoryUser>,
             UpdateStages.WithAccontEnabled,

@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.UsersInner;
@@ -22,7 +21,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * Entry point to AD user management API.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
-@Beta
 public interface ActiveDirectoryUsers extends
         SupportsGettingById<ActiveDirectoryUser>,
         SupportsGettingByNameAsync<ActiveDirectoryUser>,

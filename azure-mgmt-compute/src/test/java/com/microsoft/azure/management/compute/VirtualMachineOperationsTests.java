@@ -418,7 +418,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         installGit.add("sudo apt-get update");
         installGit.add("sudo apt-get install -y git");
 
-        RunCommandResultInner runResult = virtualMachine.runShellScript(installGit, new ArrayList<RunCommandInputParameter>());
+        RunCommandResult runResult = virtualMachine.runShellScript(installGit, new ArrayList<RunCommandInputParameter>());
         Assert.assertNotNull(runResult);
         Assert.assertNotNull(runResult.value());
         Assert.assertTrue(runResult.value().size() > 0);

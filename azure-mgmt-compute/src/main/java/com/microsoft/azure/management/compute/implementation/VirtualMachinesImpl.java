@@ -16,6 +16,7 @@ import com.microsoft.azure.management.compute.OSDisk;
 import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.RunCommandInputParameter;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineCaptureParameters;
@@ -213,12 +214,12 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public RunCommandResultInner runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.runPowerShellScriptAsync(groupName, name, scriptLines, scriptParameters).toBlocking().last();
     }
 
     @Override
-    public Observable<RunCommandResultInner> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Observable<RunCommandResult> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         RunCommandInput inputCommand = new RunCommandInput();
         inputCommand.withCommandId("RunPowerShellScript");
         inputCommand.withScript(scriptLines);
@@ -227,12 +228,12 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public RunCommandResultInner runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public RunCommandResult runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.runShellScriptAsync(groupName, name, scriptLines, scriptParameters).toBlocking().last();
     }
 
     @Override
-    public Observable<RunCommandResultInner> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Observable<RunCommandResult> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         RunCommandInput inputCommand = new RunCommandInput();
         inputCommand.withCommandId("RunShellScript");
         inputCommand.withScript(scriptLines);
@@ -241,13 +242,21 @@ class VirtualMachinesImpl
     }
 
     @Override
-    public RunCommandResultInner runCommand(String groupName, String name, RunCommandInput inputCommand) {
+    public RunCommandResult runCommand(String groupName, String name, RunCommandInput inputCommand) {
         return this.runCommandAsync(groupName, name, inputCommand).toBlocking().last();
     }
 
     @Override
-    public Observable<RunCommandResultInner> runCommandAsync(String groupName, String name, RunCommandInput inputCommand) {
-        return this.inner().runCommandAsync(groupName, name, inputCommand);
+    public Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand) {
+        return this.inner().runCommandAsync(groupName, name, inputCommand).map(
+                new Func1<RunCommandResultInner, RunCommandResult>() {
+
+                    @Override
+                    public RunCommandResult call(RunCommandResultInner runCommandResultInner) {
+                        return new RunCommandResultImpl(runCommandResultInner);
+                    }
+                }
+        );
     }
 
     // Getters

@@ -6,10 +6,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
-import com.microsoft.azure.management.compute.implementation.RunCommandResultInner;
 import com.microsoft.azure.management.compute.implementation.VirtualMachinesInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
@@ -288,8 +286,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResultInner runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run shell script in a virtual machine asynchronously.
@@ -300,8 +297,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResultInner> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    Observable<RunCommandResult> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run shell script in a virtual machine.
@@ -312,8 +308,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResultInner runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    RunCommandResult runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
     /**
@@ -325,8 +320,7 @@ public interface VirtualMachines extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResultInner> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+    Observable<RunCommandResult> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
      * Run commands in a virtual machine.
@@ -336,8 +330,7 @@ public interface VirtualMachines extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
-    RunCommandResultInner runCommand(String groupName, String name, RunCommandInput inputCommand);
+    RunCommandResult runCommand(String groupName, String name, RunCommandInput inputCommand);
 
     /**
      * Run commands in a virtual machine asynchronously.
@@ -347,6 +340,5 @@ public interface VirtualMachines extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
-    Observable<RunCommandResultInner> runCommandAsync(String groupName, String name, RunCommandInput inputCommand);
+    Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand);
 }

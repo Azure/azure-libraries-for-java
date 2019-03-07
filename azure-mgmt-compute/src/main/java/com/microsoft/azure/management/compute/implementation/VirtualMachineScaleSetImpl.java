@@ -22,6 +22,7 @@ import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.RunCommandInputParameter;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.SshConfiguration;
 import com.microsoft.azure.management.compute.SshPublicKey;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
@@ -275,32 +276,32 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public RunCommandResultInner runPowerShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public RunCommandResult runPowerShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachineScaleSets().runPowerShellScriptInVMInstance(this.resourceGroupName(), this.name(), vmId, scriptLines, scriptParameters);
     }
 
     @Override
-    public Observable<RunCommandResultInner> runPowerShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachineScaleSets().runPowerShellScriptInVMInstanceAsync(this.resourceGroupName(), this.name(), vmId, scriptLines, scriptParameters);
     }
 
     @Override
-    public RunCommandResultInner runShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public RunCommandResult runShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachineScaleSets().runShellScriptInVMInstance(this.resourceGroupName(), this.name(), vmId, scriptLines, scriptParameters);
     }
 
     @Override
-    public Observable<RunCommandResultInner> runShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
+    public Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters) {
         return this.manager().virtualMachineScaleSets().runShellScriptInVMInstanceAsync(this.resourceGroupName(), this.name(), vmId, scriptLines, scriptParameters);
     }
 
     @Override
-    public RunCommandResultInner runCommandInVMInstance(String vmId, RunCommandInput inputCommand) {
+    public RunCommandResult runCommandInVMInstance(String vmId, RunCommandInput inputCommand) {
         return this.manager().virtualMachineScaleSets().runCommandInVMInstance(this.resourceGroupName(), this.name(), vmId, inputCommand);
     }
 
     @Override
-    public Observable<RunCommandResultInner> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand) {
+    public Observable<RunCommandResult> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand) {
         return this.manager().virtualMachineScaleSets().runCommandVMInstanceAsync(this.resourceGroupName(), this.name(), vmId, inputCommand);
     }
 

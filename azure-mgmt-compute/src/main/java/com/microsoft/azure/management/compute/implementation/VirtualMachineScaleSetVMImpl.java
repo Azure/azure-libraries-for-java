@@ -20,6 +20,7 @@ import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineImage;
+import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVM;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMInstanceExtension;
@@ -50,7 +51,7 @@ class VirtualMachineScaleSetVMImpl
             VirtualMachineScaleSet>
         implements VirtualMachineScaleSetVM {
 
-    private VirtualMachineInstanceViewInner virtualMachineInstanceView;
+    private VirtualMachineInstanceView virtualMachineInstanceView;
     private final VirtualMachineScaleSetVMsInner client;
     private final ComputeManager computeManager;
 
@@ -63,7 +64,7 @@ class VirtualMachineScaleSetVMImpl
         this.computeManager = computeManager;
         VirtualMachineScaleSetVMInstanceViewInner instanceViewInner = this.inner().instanceView();
         if (instanceViewInner != null) {
-            this.virtualMachineInstanceView = new VirtualMachineInstanceViewInner()
+            this.virtualMachineInstanceView = new VirtualMachineInstanceViewImpl(new VirtualMachineInstanceViewInner()
                     .withBootDiagnostics(instanceViewInner.bootDiagnostics())
                     .withDisks(instanceViewInner.disks())
                     .withExtensions(instanceViewInner.extensions())
@@ -71,7 +72,7 @@ class VirtualMachineScaleSetVMImpl
                     .withPlatformUpdateDomain(instanceViewInner.platformUpdateDomain())
                     .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
                     .withStatuses(instanceViewInner.statuses())
-                    .withVmAgent(instanceViewInner.vmAgent());
+                    .withVmAgent(instanceViewInner.vmAgent()));
         } else {
             this.virtualMachineInstanceView = null;
         }
@@ -384,7 +385,7 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public VirtualMachineInstanceViewInner instanceView() {
+    public VirtualMachineInstanceView instanceView() {
         if (this.virtualMachineInstanceView == null) {
             refreshInstanceView();
         }
@@ -392,19 +393,19 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public VirtualMachineInstanceViewInner refreshInstanceView() {
+    public VirtualMachineInstanceView refreshInstanceView() {
         return refreshInstanceViewAsync().toBlocking().last();
     }
 
-    public Observable<VirtualMachineInstanceViewInner> refreshInstanceViewAsync() {
+    public Observable<VirtualMachineInstanceView> refreshInstanceViewAsync() {
         return this.client.getInstanceViewAsync(this.parent().resourceGroupName(),
             this.parent().name(),
             this.instanceId())
-            .map(new Func1<VirtualMachineScaleSetVMInstanceViewInner, VirtualMachineInstanceViewInner>() {
+            .map(new Func1<VirtualMachineScaleSetVMInstanceViewInner, VirtualMachineInstanceView>() {
                 @Override
-                public VirtualMachineInstanceViewInner call(VirtualMachineScaleSetVMInstanceViewInner instanceViewInner) {
+                public VirtualMachineInstanceView call(VirtualMachineScaleSetVMInstanceViewInner instanceViewInner) {
                     if (instanceViewInner != null) {
-                        virtualMachineInstanceView = new VirtualMachineInstanceViewInner()
+                        virtualMachineInstanceView = new VirtualMachineInstanceViewImpl(new VirtualMachineInstanceViewInner()
                             .withBootDiagnostics(instanceViewInner.bootDiagnostics())
                             .withDisks(instanceViewInner.disks())
                             .withExtensions(instanceViewInner.extensions())
@@ -412,7 +413,7 @@ class VirtualMachineScaleSetVMImpl
                             .withPlatformUpdateDomain(instanceViewInner.platformUpdateDomain())
                             .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
                             .withStatuses(instanceViewInner.statuses())
-                            .withVmAgent(instanceViewInner.vmAgent());
+                            .withVmAgent(instanceViewInner.vmAgent()));
                     }
                     return virtualMachineInstanceView;
                 }

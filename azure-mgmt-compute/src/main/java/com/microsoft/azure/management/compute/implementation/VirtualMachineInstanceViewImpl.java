@@ -42,7 +42,7 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      * @return the computerName value
      */
     @Override
-    public String computerName(){
+    public String computerName() {
         return inner().computerName();
     }
 
@@ -73,7 +73,7 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      * @return the rdpThumbPrint value
      */
     @Override
-    public String rdpThumbPrint(){
+    public String rdpThumbPrint() {
         return inner().rdpThumbPrint();
     }
 
@@ -95,7 +95,7 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      * @return the maintenanceRedeployStatus value
      */
     @Override
-    public MaintenanceRedeployStatus maintenanceRedeployStatus(){
+    public MaintenanceRedeployStatus maintenanceRedeployStatus() {
         return inner().maintenanceRedeployStatus();
     }
 
@@ -106,7 +106,7 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      * @return the disks value
      */
     @Override
-    public List<DiskInstanceView> disks(){
+    public List<DiskInstanceView> disks() {
         return inner().disks();
     }
 
@@ -128,7 +128,7 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      * @return the bootDiagnostics value
      */
     @Override
-    public BootDiagnosticsInstanceView bootDiagnostics(){
+    public BootDiagnosticsInstanceView bootDiagnostics() {
         return inner().bootDiagnostics();
     }
 
@@ -139,7 +139,7 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      * @return the statuses value
      */
     @Override
-    public List<InstanceViewStatus> statuses(){
+    public List<InstanceViewStatus> statuses() {
         return inner().statuses();
     }
 }

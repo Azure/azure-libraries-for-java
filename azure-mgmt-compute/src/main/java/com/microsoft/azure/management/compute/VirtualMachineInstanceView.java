@@ -21,7 +21,7 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the platformUpdateDomain value
      */
-    public Integer platformUpdateDomain();
+    Integer platformUpdateDomain();
 
 
     /**
@@ -29,21 +29,21 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the computerName value
      */
-    public String computerName();
+    String computerName();
 
     /**
      * Get the Operating System running on the virtual machine.
      *
      * @return the osName value
      */
-    public String osName();
+    String osName();
 
     /**
      * Get the version of Operating System running on the virtual machine.
      *
      * @return the osVersion value
      */
-    public String osVersion();
+    String osVersion();
 
 
     /**
@@ -51,7 +51,7 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the rdpThumbPrint value
      */
-    public String rdpThumbPrint();
+    String rdpThumbPrint();
 
 
     /**
@@ -59,7 +59,7 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the vmAgent value
      */
-    public VirtualMachineAgentInstanceView vmAgent();
+    VirtualMachineAgentInstanceView vmAgent();
 
 
     /**
@@ -67,7 +67,7 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the maintenanceRedeployStatus value
      */
-    public MaintenanceRedeployStatus maintenanceRedeployStatus();
+    MaintenanceRedeployStatus maintenanceRedeployStatus();
 
 
     /**
@@ -75,7 +75,7 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the disks value
      */
-    public List<DiskInstanceView> disks();
+    List<DiskInstanceView> disks();
 
 
     /**
@@ -83,7 +83,7 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the extensions value
      */
-    public List<VirtualMachineExtensionInstanceView> extensions();
+    List<VirtualMachineExtensionInstanceView> extensions();
 
 
     /**
@@ -91,7 +91,7 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the bootDiagnostics value
      */
-    public BootDiagnosticsInstanceView bootDiagnostics();
+    BootDiagnosticsInstanceView bootDiagnostics();
 
 
     /**
@@ -99,5 +99,5 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the statuses value
      */
-    public List<InstanceViewStatus> statuses();
+    List<InstanceViewStatus> statuses();
 }

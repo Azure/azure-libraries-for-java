@@ -21,7 +21,14 @@ public interface VirtualMachineInstanceView extends HasInner<VirtualMachineInsta
      *
      * @return the platformUpdateDomain value
      */
-    Integer platformUpdateDomain();
+    int platformUpdateDomain();
+
+    /**
+     * Get specifies the fault domain of the virtual machine.
+     *
+     * @return the platformFaultDomain value
+     */
+    int platformFaultDomain();
 
 
     /**

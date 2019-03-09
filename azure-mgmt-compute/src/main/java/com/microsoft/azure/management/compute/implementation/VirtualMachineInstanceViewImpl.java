@@ -32,8 +32,18 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      * @return the platformUpdateDomain value
      */
     @Override
-    public Integer platformUpdateDomain() {
-        return inner().platformUpdateDomain();
+    public int platformUpdateDomain() {
+        return inner().platformUpdateDomain() == null? 0: inner().platformUpdateDomain();
+    }
+
+    /**
+     * Get specifies the fault domain of the virtual machine.
+     *
+     * @return the platformFaultDomain value
+     */
+    @Override
+    public int platformFaultDomain() {
+        return inner().platformFaultDomain() == null? 0: inner().platformFaultDomain();
     }
 
     /**

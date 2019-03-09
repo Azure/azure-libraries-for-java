@@ -33,7 +33,7 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      */
     @Override
     public int platformUpdateDomain() {
-        return inner().platformUpdateDomain() == null? 0: inner().platformUpdateDomain();
+        return inner().platformUpdateDomain() == null ? 0 : inner().platformUpdateDomain();
     }
 
     /**
@@ -43,7 +43,7 @@ class VirtualMachineInstanceViewImpl extends WrapperImpl<VirtualMachineInstanceV
      */
     @Override
     public int platformFaultDomain() {
-        return inner().platformFaultDomain() == null? 0: inner().platformFaultDomain();
+        return inner().platformFaultDomain() == null ? 0 : inner().platformFaultDomain();
     }
 
     /**

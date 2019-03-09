@@ -8,12 +8,14 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.PurchasePlan;
-import com.microsoft.azure.management.compute.OSDiskImage;
-import java.util.List;
-import com.microsoft.azure.management.compute.DataDiskImage;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.AutomaticOSUpgradeProperties;
+import com.microsoft.azure.management.compute.DataDiskImage;
+import com.microsoft.azure.management.compute.OSDiskImage;
+import com.microsoft.azure.management.compute.PurchasePlan;
 import com.microsoft.rest.serializer.JsonFlatten;
+
+import java.util.List;
 
 /**
  * Describes a Virtual Machine Image.
@@ -37,6 +39,12 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
      */
     @JsonProperty(value = "properties.dataDiskImages")
     private List<DataDiskImage> dataDiskImages;
+
+    /**
+     * The automaticOSUpgradeProperties property.
+     */
+    @JsonProperty(value = "properties.automaticOSUpgradeProperties")
+    private AutomaticOSUpgradeProperties automaticOSUpgradeProperties;
 
     /**
      * Get the plan value.
@@ -95,6 +103,26 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
      */
     public VirtualMachineImageInner withDataDiskImages(List<DataDiskImage> dataDiskImages) {
         this.dataDiskImages = dataDiskImages;
+        return this;
+    }
+
+    /**
+     * Get the automaticOSUpgradeProperties value.
+     *
+     * @return the automaticOSUpgradeProperties value
+     */
+    public AutomaticOSUpgradeProperties automaticOSUpgradeProperties() {
+        return this.automaticOSUpgradeProperties;
+    }
+
+    /**
+     * Set the automaticOSUpgradeProperties value.
+     *
+     * @param automaticOSUpgradeProperties the automaticOSUpgradeProperties value to set
+     * @return the VirtualMachineImageInner object itself.
+     */
+    public VirtualMachineImageInner withAutomaticOSUpgradeProperties(AutomaticOSUpgradeProperties automaticOSUpgradeProperties) {
+        this.automaticOSUpgradeProperties = automaticOSUpgradeProperties;
         return this;
     }
 

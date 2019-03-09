@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-
 import rx.Observable;
 
 /**

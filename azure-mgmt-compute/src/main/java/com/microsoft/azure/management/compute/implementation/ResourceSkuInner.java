@@ -8,13 +8,14 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.ResourceSkuCapacity;
-import java.util.List;
-import com.microsoft.azure.management.compute.ResourceSkuLocationInfo;
-import com.microsoft.azure.management.compute.ResourceSkuCosts;
-import com.microsoft.azure.management.compute.ResourceSkuCapabilities;
-import com.microsoft.azure.management.compute.ResourceSkuRestrictions;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.ResourceSkuCapabilities;
+import com.microsoft.azure.management.compute.ResourceSkuCapacity;
+import com.microsoft.azure.management.compute.ResourceSkuCosts;
+import com.microsoft.azure.management.compute.ResourceSkuLocationInfo;
+import com.microsoft.azure.management.compute.ResourceSkuRestrictions;
+
+import java.util.List;
 
 /**
  * Describes an available Compute SKU.

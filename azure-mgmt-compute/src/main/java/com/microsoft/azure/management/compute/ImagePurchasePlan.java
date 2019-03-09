@@ -11,8 +11,8 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes the gallery image purchase plan. This is used by marketplace
- * images.
+ * Describes the gallery Image Definition purchase plan. This is used by
+ * marketplace images.
  */
 public class ImagePurchasePlan {
     /**

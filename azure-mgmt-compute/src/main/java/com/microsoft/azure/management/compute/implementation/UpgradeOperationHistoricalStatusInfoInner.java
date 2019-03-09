@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.UpgradeOperationHistoricalStatusInfoProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.UpgradeOperationHistoricalStatusInfoProperties;
 
 /**
  * Virtual Machine Scale Set OS Upgrade History operation response.

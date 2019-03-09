@@ -48,11 +48,11 @@ import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineCaptureParameters;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineEncryption;
-import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineExtension;
 import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineUpdate;
 import com.microsoft.azure.management.compute.WinRMConfiguration;
 import com.microsoft.azure.management.compute.WinRMListener;
@@ -83,6 +83,7 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func0;
 import rx.functions.Func1;
+
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -388,7 +389,7 @@ class VirtualMachineImpl
                     @Override
                     public VirtualMachineInstanceView call(VirtualMachineInner virtualMachineInner) {
                         if (virtualMachineInner != null) {
-                            virtualMachineInstanceView = virtualMachineInner.instanceView();
+                            virtualMachineInstanceView = new VirtualMachineInstanceViewImpl(virtualMachineInner.instanceView());
                         } else {
                             virtualMachineInstanceView = null;
                         }
@@ -1214,9 +1215,9 @@ class VirtualMachineImpl
         }
         Creatable<AvailabilitySet> creatable;
         if (isManagedDiskEnabled()) {
-            creatable = definitionWithSku.withSku(AvailabilitySetSkuTypes.MANAGED);
+            creatable = definitionWithSku.withSku(AvailabilitySetSkuTypes.ALIGNED);
         } else {
-            creatable = definitionWithSku.withSku(AvailabilitySetSkuTypes.UNMANAGED);
+            creatable = definitionWithSku.withSku(AvailabilitySetSkuTypes.CLASSIC);
         }
         return withNewAvailabilitySet(creatable);
     }

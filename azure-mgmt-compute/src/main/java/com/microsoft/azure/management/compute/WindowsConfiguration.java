@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
  * Specifies Windows operating system settings on the virtual machine.

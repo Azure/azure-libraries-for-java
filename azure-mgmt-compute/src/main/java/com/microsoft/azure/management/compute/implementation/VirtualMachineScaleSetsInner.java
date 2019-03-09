@@ -8,40 +8,42 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
-import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetReimageParameters;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetUpdate;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMInstanceIDs;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMInstanceRequiredIDs;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
-import java.io.IOException;
-import java.util.List;
 import okhttp3.ResponseBody;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.HTTP;
 import retrofit2.http.PATCH;
-import retrofit2.http.Path;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
-import retrofit2.Response;
-import rx.functions.Func1;
 import rx.Observable;
+import rx.functions.Func1;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -183,11 +185,11 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets reimage" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage")
-        Observable<Response<ResponseBody>> reimage(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> reimage(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets beginReimage" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimage")
-        Observable<Response<ResponseBody>> beginReimage(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginReimage(@Path("resourceGroupName") String resourceGroupName, @Path("vmScaleSetName") String vmScaleSetName, @Path("subscriptionId") String subscriptionId, @Body VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.VirtualMachineScaleSets reimageAll" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/reimageall")
@@ -289,7 +291,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetInner>() { }.getType());
     }
@@ -364,7 +366,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.beginCreateOrUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
                 @Override
@@ -457,7 +459,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualMachineScaleSetInner>() { }.getType());
     }
@@ -532,7 +534,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.beginUpdate(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
                 @Override
@@ -615,7 +617,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -681,7 +683,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.beginDelete(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -767,7 +769,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.getByResourceGroup(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInner>>>() {
                 @Override
@@ -850,7 +852,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -923,7 +925,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -994,7 +996,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -1078,7 +1080,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -1175,7 +1177,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter instanceIds is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
         Observable<Response<ResponseBody>> observable = service.deleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
@@ -1251,7 +1253,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter instanceIds is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
         return service.beginDeleteInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
@@ -1338,7 +1340,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.getInstanceView(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualMachineScaleSetInstanceViewInner>>>() {
                 @Override
@@ -1451,7 +1453,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
                 @Override
@@ -1556,7 +1558,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetInner>>>>() {
                 @Override
@@ -1677,7 +1679,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.listSkus(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualMachineScaleSetSkuInner>>>>() {
                 @Override
@@ -1798,7 +1800,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.getOSUpgradeHistory(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<UpgradeOperationHistoricalStatusInfoInner>>>>() {
                 @Override
@@ -1881,7 +1883,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -1954,7 +1956,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2025,7 +2027,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2109,7 +2111,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2198,7 +2200,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2271,7 +2273,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2342,7 +2344,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2426,7 +2428,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2515,7 +2517,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2588,7 +2590,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2659,7 +2661,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2743,7 +2745,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2832,7 +2834,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -2905,7 +2907,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -2976,7 +2978,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -3060,7 +3062,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -3089,7 +3091,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3102,7 +3104,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3115,7 +3117,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3132,7 +3134,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3149,7 +3151,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -3157,7 +3159,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3171,7 +3173,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3185,7 +3187,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3203,7 +3205,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3222,7 +3224,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -3233,7 +3235,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3246,7 +3248,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3259,7 +3261,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3276,7 +3278,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3293,7 +3295,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -3312,7 +3314,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3326,7 +3328,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3340,7 +3342,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3358,7 +3360,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Perform maintenance on one or more virtual machines in a VM scale set.
+     * Perform maintenance on one or more virtual machines in a VM scale set. Operation on instances which are not eligible for perform maintenance will be failed. Please refer to best practices for more details: https://docs.microsoft.com/en-us/azure/virtual-machine-scale-sets/virtual-machine-scale-sets-maintenance-notifications.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3377,7 +3379,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -3474,7 +3476,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter instanceIds is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
         Observable<Response<ResponseBody>> observable = service.updateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
@@ -3550,7 +3552,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter instanceIds is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceRequiredIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceRequiredIDs();
         vmInstanceIDs.withInstanceIds(instanceIds);
         return service.beginUpdateInstances(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
@@ -3576,7 +3578,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3589,7 +3591,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3602,7 +3604,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3619,7 +3621,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3636,52 +3638,50 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
-        final String instanceIdsConverted = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        final String apiVersion = "2018-10-01";
+        final VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput = null;
+        Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), vmScaleSetReimageInput, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param vmScaleSetReimageInput Parameters for Reimaging VM ScaleSet.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void reimage(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().last().body();
+    public void reimage(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput) {
+        reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmScaleSetReimageInput).toBlocking().last().body();
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param vmScaleSetReimageInput Parameters for Reimaging VM ScaleSet.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> reimageAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> reimageAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmScaleSetReimageInput), serviceCallback);
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param vmScaleSetReimageInput Parameters for Reimaging VM ScaleSet.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<Void> reimageAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> reimageAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput) {
+        return reimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmScaleSetReimageInput).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -3690,15 +3690,15 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param vmScaleSetReimageInput Parameters for Reimaging VM ScaleSet.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<Void>> reimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<ServiceResponse<Void>> reimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3708,19 +3708,14 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent());
+        Validator.validate(vmScaleSetReimageInput);
+        final String apiVersion = "2018-10-01";
+        Observable<Response<ResponseBody>> observable = service.reimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), vmScaleSetReimageInput, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3733,7 +3728,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3746,7 +3741,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3763,7 +3758,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
@@ -3780,11 +3775,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
-        final List<String> instanceIds = null;
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-        vmInstanceIDs.withInstanceIds(null);
-        return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
+        final String apiVersion = "2018-10-01";
+        final VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput = null;
+        return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), vmScaleSetReimageInput, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -3799,44 +3792,44 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param vmScaleSetReimageInput Parameters for Reimaging VM ScaleSet.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void beginReimage(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).toBlocking().single().body();
+    public void beginReimage(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput) {
+        beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmScaleSetReimageInput).toBlocking().single().body();
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param vmScaleSetReimageInput Parameters for Reimaging VM ScaleSet.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> beginReimageAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds), serviceCallback);
+    public ServiceFuture<Void> beginReimageAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmScaleSetReimageInput), serviceCallback);
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param vmScaleSetReimageInput Parameters for Reimaging VM ScaleSet.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> beginReimageAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
-        return beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, instanceIds).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> beginReimageAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput) {
+        return beginReimageWithServiceResponseAsync(resourceGroupName, vmScaleSetName, vmScaleSetReimageInput).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -3845,15 +3838,15 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
     }
 
     /**
-     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set.
+     * Reimages (upgrade the operating system) one or more virtual machines in a VM scale set which don't have a ephemeral OS disk, for virtual machines who have a ephemeral OS disk the virtual machine is reset to initial state.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmScaleSetName The name of the VM scale set.
-     * @param instanceIds The virtual machine scale set instance ids. Omitting the virtual machine scale set instance ids will result in the operation being performed on all virtual machines in the virtual machine scale set.
+     * @param vmScaleSetReimageInput Parameters for Reimaging VM ScaleSet.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> beginReimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, List<String> instanceIds) {
+    public Observable<ServiceResponse<Void>> beginReimageWithServiceResponseAsync(String resourceGroupName, String vmScaleSetName, VirtualMachineScaleSetReimageParameters vmScaleSetReimageInput) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3863,14 +3856,9 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
-        VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
-        if (instanceIds != null) {
-            vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
-            vmInstanceIDs.withInstanceIds(instanceIds);
-        }
-        return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), vmInstanceIDs, this.client.userAgent())
+        Validator.validate(vmScaleSetReimageInput);
+        final String apiVersion = "2018-10-01";
+        return service.beginReimage(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), vmScaleSetReimageInput, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -3953,7 +3941,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final String instanceIdsConverted = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -4026,7 +4014,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -4097,7 +4085,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         final List<String> instanceIds = null;
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
         vmInstanceIDs.withInstanceIds(null);
@@ -4181,7 +4169,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(instanceIds);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         VirtualMachineScaleSetVMInstanceIDs vmInstanceIDs = null;
         if (instanceIds != null) {
             vmInstanceIDs = new VirtualMachineScaleSetVMInstanceIDs();
@@ -4275,7 +4263,7 @@ public class VirtualMachineScaleSetsInner implements InnerSupportsGet<VirtualMac
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2018-10-01";
         return service.forceRecoveryServiceFabricPlatformUpdateDomainWalk(resourceGroupName, vmScaleSetName, this.client.subscriptionId(), apiVersion, platformUpdateDomain, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RecoveryWalkResponseInner>>>() {
                 @Override

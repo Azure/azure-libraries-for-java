@@ -19,6 +19,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.DateTime;
 import rx.Observable;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;

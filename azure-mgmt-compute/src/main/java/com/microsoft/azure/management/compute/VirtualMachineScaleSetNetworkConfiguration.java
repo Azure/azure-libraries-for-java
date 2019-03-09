@@ -8,10 +8,11 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.SubResource;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.SubResource;
 import com.microsoft.rest.serializer.JsonFlatten;
+
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set network profile's network

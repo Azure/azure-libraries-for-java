@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.microsoft.rest.ExpandableStringEnum;
+
+import java.util.Collection;
 
 /**
  * Defines values for StorageAccountTypes.
@@ -24,6 +25,9 @@ public final class StorageAccountTypes extends ExpandableStringEnum<StorageAccou
 
     /** Static value StandardSSD_LRS for StorageAccountTypes. */
     public static final StorageAccountTypes STANDARD_SSD_LRS = fromString("StandardSSD_LRS");
+
+    /** Static value UltraSSD_LRS for StorageAccountTypes. */
+    public static final StorageAccountTypes ULTRA_SSD_LRS = fromString("UltraSSD_LRS");
 
     /**
      * Creates or finds a StorageAccountTypes from its string representation.

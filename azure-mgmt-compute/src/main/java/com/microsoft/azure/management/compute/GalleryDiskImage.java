@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GalleryDiskImage {
     /**
-     * It indicates the size of the VHD to create.
+     * This property indicates the size of the VHD to be created.
      */
     @JsonProperty(value = "sizeInGB", access = JsonProperty.Access.WRITE_ONLY)
     private Integer sizeInGB;
@@ -28,7 +28,7 @@ public class GalleryDiskImage {
     private HostCaching hostCaching;
 
     /**
-     * Get it indicates the size of the VHD to create.
+     * Get this property indicates the size of the VHD to be created.
      *
      * @return the sizeInGB value
      */

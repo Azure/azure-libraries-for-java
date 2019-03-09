@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.SubResource;
 
 /**
  * Describes an Operating System disk.
@@ -68,9 +68,9 @@ public class ImageOSDisk {
     private Integer diskSizeGB;
 
     /**
-     * Specifies the storage account type for the managed disk. Possible values
-     * are: Standard_LRS or Premium_LRS. Possible values include:
-     * 'Standard_LRS', 'Premium_LRS'.
+     * Specifies the storage account type for the managed disk. UltraSSD_LRS
+     * cannot be used with OS Disk. Possible values include: 'Standard_LRS',
+     * 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
      */
     @JsonProperty(value = "storageAccountType")
     private StorageAccountTypes storageAccountType;
@@ -216,7 +216,7 @@ public class ImageOSDisk {
     }
 
     /**
-     * Get specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Get specifies the storage account type for the managed disk. UltraSSD_LRS cannot be used with OS Disk. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
      *
      * @return the storageAccountType value
      */
@@ -225,7 +225,7 @@ public class ImageOSDisk {
     }
 
     /**
-     * Set specifies the storage account type for the managed disk. Possible values are: Standard_LRS or Premium_LRS. Possible values include: 'Standard_LRS', 'Premium_LRS'.
+     * Set specifies the storage account type for the managed disk. UltraSSD_LRS cannot be used with OS Disk. Possible values include: 'Standard_LRS', 'Premium_LRS', 'StandardSSD_LRS', 'UltraSSD_LRS'.
      *
      * @param storageAccountType the storageAccountType value to set
      * @return the ImageOSDisk object itself.

@@ -11,13 +11,13 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The source of the gallery artifact.
+ * The source image from which the Image Version is going to be created.
  */
 public class GalleryArtifactSource {
     /**
      * The managedImage property.
      */
-    @JsonProperty(value = "managedImage")
+    @JsonProperty(value = "managedImage", required = true)
     private ManagedArtifact managedImage;
 
     /**

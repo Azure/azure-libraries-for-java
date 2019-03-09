@@ -75,7 +75,7 @@ class AvailabilitySetsImpl
 
     @Override
     public AvailabilitySetImpl define(String name) {
-        return wrapModel(name).withSku(AvailabilitySetSkuTypes.MANAGED);
+        return wrapModel(name).withSku(AvailabilitySetSkuTypes.ALIGNED);
     }
 
     @Override

@@ -149,7 +149,7 @@ public interface EventHubNamespace extends
         @Beta(Beta.SinceVersion.V1_7_0)
         interface WithKafka {
             /**
-             * Enables kafka
+             * Enables kafka.
              *
              * @return next stage of the event hub namespace definition
              */

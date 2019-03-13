@@ -26,6 +26,12 @@ public class EHNamespaceInner extends Resource {
     private Sku sku;
 
     /**
+     * Properties of kafka resource.
+     */
+    @JsonProperty(value = "kafkaEnabled")
+    private boolean kafkaEnabled;
+
+    /**
      * Provisioning state of the Namespace.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
@@ -175,4 +181,23 @@ public class EHNamespaceInner extends Resource {
         return this;
     }
 
+    /**
+     * Get the kafkaEnabled value.
+     *
+     * @return the kafkaEnabled value
+     */
+    public boolean kafkaEnabled() {
+        return this.kafkaEnabled;
+    }
+
+    /**
+     * Set the kafkaEnabled value.
+     *
+     * @param kafkaEnabled the kafkaEnabled value to set
+     * @return the EHNamespaceInner object itself.
+     */
+    public EHNamespaceInner withKafkaEnabled(boolean kafkaEnabled) {
+        this.kafkaEnabled = kafkaEnabled;
+        return this;
+    }
 }

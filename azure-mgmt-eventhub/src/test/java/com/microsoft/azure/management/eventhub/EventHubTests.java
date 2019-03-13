@@ -166,7 +166,7 @@ public class EventHubTests extends TestBase {
     }
 
     @Test
-    public void canManageEventHubNamespaceAuthorizationRules() throws Exception {
+    public void canManageEventHubNamespaceWithKafka() throws Exception {
         RG_NAME = generateRandomResourceName("javacsmrg", 15);
         final String namespaceName = SdkContext.randomResourceName("ns", 14);
 
@@ -174,9 +174,36 @@ public class EventHubTests extends TestBase {
                 .define(namespaceName)
                     .withRegion(REGION)
                     .withNewResourceGroup(RG_NAME)
-                    .withNewManageRule("mngRule1")
-                    .withNewSendRule("sndRule1")
+                    .withKafka()
                     .create();
+
+        Assert.assertNotNull(namespace);
+        Assert.assertNotNull(namespace.inner());
+        Assert.assertTrue(namespace.isKafkaEnabled());
+
+        EventHubNamespace namespace2 = eventHubManager.namespaces()
+                .define(namespaceName)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .create();
+
+        Assert.assertNotNull(namespace);
+        Assert.assertNotNull(namespace.inner());
+        Assert.assertFalse(namespace.isKafkaEnabled());
+    }
+
+    @Test
+    public void canManageEventHubNamespaceAuthorizationRules() throws Exception {
+        RG_NAME = generateRandomResourceName("javacsmrg", 15);
+        final String namespaceName = SdkContext.randomResourceName("ns", 14);
+
+        EventHubNamespace namespace = eventHubManager.namespaces()
+                .define(namespaceName)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .withNewManageRule("mngRule1")
+                .withNewSendRule("sndRule1")
+                .create();
 
         Assert.assertNotNull(namespace);
         Assert.assertNotNull(namespace.inner());
@@ -202,10 +229,10 @@ public class EventHubTests extends TestBase {
 
         eventHubManager.namespaces()
                 .authorizationRules()
-                    .define("sndRule2")
-                    .withExistingNamespaceId(namespace.id())
-                    .withSendAccess()
-                    .create();
+                .define("sndRule2")
+                .withExistingNamespaceId(namespace.id())
+                .withSendAccess()
+                .create();
 
         rules = namespace.listAuthorizationRules();
         set.clear();

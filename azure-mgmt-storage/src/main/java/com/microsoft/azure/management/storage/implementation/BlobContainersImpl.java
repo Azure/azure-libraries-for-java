@@ -6,9 +6,6 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
-package com.microsoft.azure.management.storage.implementation;
-
-
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.storage.*;
 import rx.Completable;

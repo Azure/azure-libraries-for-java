@@ -9,10 +9,9 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
-
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.storage.ManagementPolicies;
-import com.microsoft.azure.management.storage.StorageAccountManagementPolicies;
+import com.microsoft.azure.management.storage.ManagementPolicy;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -30,25 +29,25 @@ class ManagementPoliciesImpl extends WrapperImpl<ManagementPoliciesInner> implem
     }
 
     @Override
-    public StorageAccountManagementPoliciesImpl define(String name) {
+    public ManagementPolicyImpl define(String name) {
         return wrapModel(name);
     }
 
-    private StorageAccountManagementPoliciesImpl wrapModel(StorageAccountManagementPoliciesInner inner) {
-        return  new StorageAccountManagementPoliciesImpl(inner, manager());
+    private ManagementPolicyImpl wrapModel(ManagementPolicyInner inner) {
+        return  new ManagementPolicyImpl(inner, manager());
     }
 
-    private StorageAccountManagementPoliciesImpl wrapModel(String name) {
-        return new StorageAccountManagementPoliciesImpl(name, this.manager());
+    private ManagementPolicyImpl wrapModel(String name) {
+        return new ManagementPolicyImpl(name, this.manager());
     }
 
     @Override
-    public Observable<StorageAccountManagementPolicies> getAsync(String resourceGroupName, String accountName) {
+    public Observable<ManagementPolicy> getAsync(String resourceGroupName, String accountName) {
         ManagementPoliciesInner client = this.inner();
         return client.getAsync(resourceGroupName, accountName)
-                .map(new Func1<StorageAccountManagementPoliciesInner, StorageAccountManagementPolicies>() {
+                .map(new Func1<ManagementPolicyInner, ManagementPolicy>() {
                     @Override
-                    public StorageAccountManagementPolicies call(StorageAccountManagementPoliciesInner inner) {
+                    public ManagementPolicy call(ManagementPolicyInner inner) {
                         return wrapModel(inner);
                     }
                 });

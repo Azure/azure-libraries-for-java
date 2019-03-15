@@ -1006,7 +1006,7 @@ public final class Azure {
     }
 
     /**
-     * @return the management policy management API entry point
+     * @return the blob service management API entry point
      */
     public ManagementPolicies storageManagementPolicies() {
         return this.storageManager.managementPolicies();

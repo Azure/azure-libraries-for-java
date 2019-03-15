@@ -11,6 +11,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 
 import java.util.Map;
 
+import static com.sun.tools.doclint.Entity.Beta;
+
 /**
  * An immutable client-side representation of an Azure registry Encoded task run request.
  */

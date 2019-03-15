@@ -12,10 +12,11 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
-import com.microsoft.azure.management.storage.ManagementPoliciesRulesSetParameter;
+import com.microsoft.azure.management.storage.ManagementPolicySchema;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
+import com.microsoft.rest.Validator;
 import java.io.IOException;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
@@ -62,7 +63,7 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.ManagementPolicies createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Path("managementPolicyName") String managementPolicyName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ManagementPoliciesRulesSetParameter properties, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("subscriptionId") String subscriptionId, @Path("managementPolicyName") String managementPolicyName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ManagementPolicyInner properties, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.storage.ManagementPolicies delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/{managementPolicyName}", method = "DELETE", hasBody = true)
@@ -71,21 +72,21 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
     }
 
     /**
-     * Gets the data policy rules associated with the specified storage account.
+     * Gets the managementpolicy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the StorageAccountManagementPoliciesInner object if successful.
+     * @return the ManagementPolicyInner object if successful.
      */
-    public StorageAccountManagementPoliciesInner get(String resourceGroupName, String accountName) {
+    public ManagementPolicyInner get(String resourceGroupName, String accountName) {
         return getWithServiceResponseAsync(resourceGroupName, accountName).toBlocking().single().body();
     }
 
     /**
-     * Gets the data policy rules associated with the specified storage account.
+     * Gets the managementpolicy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
@@ -93,36 +94,36 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<StorageAccountManagementPoliciesInner> getAsync(String resourceGroupName, String accountName, final ServiceCallback<StorageAccountManagementPoliciesInner> serviceCallback) {
+    public ServiceFuture<ManagementPolicyInner> getAsync(String resourceGroupName, String accountName, final ServiceCallback<ManagementPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName), serviceCallback);
     }
 
     /**
-     * Gets the data policy rules associated with the specified storage account.
+     * Gets the managementpolicy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the StorageAccountManagementPoliciesInner object
+     * @return the observable to the ManagementPolicyInner object
      */
-    public Observable<StorageAccountManagementPoliciesInner> getAsync(String resourceGroupName, String accountName) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<StorageAccountManagementPoliciesInner>, StorageAccountManagementPoliciesInner>() {
+    public Observable<ManagementPolicyInner> getAsync(String resourceGroupName, String accountName) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<ManagementPolicyInner>, ManagementPolicyInner>() {
             @Override
-            public StorageAccountManagementPoliciesInner call(ServiceResponse<StorageAccountManagementPoliciesInner> response) {
+            public ManagementPolicyInner call(ServiceResponse<ManagementPolicyInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Gets the data policy rules associated with the specified storage account.
+     * Gets the managementpolicy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the StorageAccountManagementPoliciesInner object
+     * @return the observable to the ManagementPolicyInner object
      */
-    public Observable<ServiceResponse<StorageAccountManagementPoliciesInner>> getWithServiceResponseAsync(String resourceGroupName, String accountName) {
+    public Observable<ServiceResponse<ManagementPolicyInner>> getWithServiceResponseAsync(String resourceGroupName, String accountName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -132,14 +133,16 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String managementPolicyName = "default";
-        final String apiVersion = "2018-03-01-preview";
-        return service.get(resourceGroupName, accountName, this.client.subscriptionId(), managementPolicyName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountManagementPoliciesInner>>>() {
+        return service.get(resourceGroupName, accountName, this.client.subscriptionId(), managementPolicyName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagementPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<StorageAccountManagementPoliciesInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ManagementPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<StorageAccountManagementPoliciesInner> clientResponse = getDelegate(response);
+                        ServiceResponse<ManagementPolicyInner> clientResponse = getDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -148,151 +151,70 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
             });
     }
 
-    private ServiceResponse<StorageAccountManagementPoliciesInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<StorageAccountManagementPoliciesInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<StorageAccountManagementPoliciesInner>() { }.getType())
+    private ServiceResponse<ManagementPolicyInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ManagementPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ManagementPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
 
     /**
-     * Sets the data policy rules associated with the specified storage account.
+     * Sets the managementpolicy to the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+     * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the StorageAccountManagementPoliciesInner object if successful.
+     * @return the ManagementPolicyInner object if successful.
      */
-    public StorageAccountManagementPoliciesInner createOrUpdate(String resourceGroupName, String accountName) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName).toBlocking().single().body();
-    }
-
-    /**
-     * Sets the data policy rules associated with the specified storage account.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
-     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<StorageAccountManagementPoliciesInner> createOrUpdateAsync(String resourceGroupName, String accountName, final ServiceCallback<StorageAccountManagementPoliciesInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName), serviceCallback);
-    }
-
-    /**
-     * Sets the data policy rules associated with the specified storage account.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
-     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the StorageAccountManagementPoliciesInner object
-     */
-    public Observable<StorageAccountManagementPoliciesInner> createOrUpdateAsync(String resourceGroupName, String accountName) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<StorageAccountManagementPoliciesInner>, StorageAccountManagementPoliciesInner>() {
-            @Override
-            public StorageAccountManagementPoliciesInner call(ServiceResponse<StorageAccountManagementPoliciesInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Sets the data policy rules associated with the specified storage account.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
-     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the StorageAccountManagementPoliciesInner object
-     */
-    public Observable<ServiceResponse<StorageAccountManagementPoliciesInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String managementPolicyName = "default";
-        final String apiVersion = "2018-03-01-preview";
-        final Object policy = null;
-        ManagementPoliciesRulesSetParameter properties = new ManagementPoliciesRulesSetParameter();
-        properties.withPolicy(null);
-        return service.createOrUpdate(resourceGroupName, accountName, this.client.subscriptionId(), managementPolicyName, apiVersion, this.client.acceptLanguage(), properties, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountManagementPoliciesInner>>>() {
-                @Override
-                public Observable<ServiceResponse<StorageAccountManagementPoliciesInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<StorageAccountManagementPoliciesInner> clientResponse = createOrUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Sets the data policy rules associated with the specified storage account.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
-     * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param policy The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the StorageAccountManagementPoliciesInner object if successful.
-     */
-    public StorageAccountManagementPoliciesInner createOrUpdate(String resourceGroupName, String accountName, Object policy) {
+    public ManagementPolicyInner createOrUpdate(String resourceGroupName, String accountName, ManagementPolicySchema policy) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, policy).toBlocking().single().body();
     }
 
     /**
-     * Sets the data policy rules associated with the specified storage account.
+     * Sets the managementpolicy to the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param policy The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+     * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<StorageAccountManagementPoliciesInner> createOrUpdateAsync(String resourceGroupName, String accountName, Object policy, final ServiceCallback<StorageAccountManagementPoliciesInner> serviceCallback) {
+    public ServiceFuture<ManagementPolicyInner> createOrUpdateAsync(String resourceGroupName, String accountName, ManagementPolicySchema policy, final ServiceCallback<ManagementPolicyInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, policy), serviceCallback);
     }
 
     /**
-     * Sets the data policy rules associated with the specified storage account.
+     * Sets the managementpolicy to the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param policy The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+     * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the StorageAccountManagementPoliciesInner object
+     * @return the observable to the ManagementPolicyInner object
      */
-    public Observable<StorageAccountManagementPoliciesInner> createOrUpdateAsync(String resourceGroupName, String accountName, Object policy) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, policy).map(new Func1<ServiceResponse<StorageAccountManagementPoliciesInner>, StorageAccountManagementPoliciesInner>() {
+    public Observable<ManagementPolicyInner> createOrUpdateAsync(String resourceGroupName, String accountName, ManagementPolicySchema policy) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, policy).map(new Func1<ServiceResponse<ManagementPolicyInner>, ManagementPolicyInner>() {
             @Override
-            public StorageAccountManagementPoliciesInner call(ServiceResponse<StorageAccountManagementPoliciesInner> response) {
+            public ManagementPolicyInner call(ServiceResponse<ManagementPolicyInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Sets the data policy rules associated with the specified storage account.
+     * Sets the managementpolicy to the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
-     * @param policy The Storage Account ManagementPolicies Rules, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
+     * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the StorageAccountManagementPoliciesInner object
+     * @return the observable to the ManagementPolicyInner object
      */
-    public Observable<ServiceResponse<StorageAccountManagementPoliciesInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, Object policy) {
+    public Observable<ServiceResponse<ManagementPolicyInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, ManagementPolicySchema policy) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -302,16 +224,22 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (policy == null) {
+            throw new IllegalArgumentException("Parameter policy is required and cannot be null.");
+        }
+        Validator.validate(policy);
         final String managementPolicyName = "default";
-        final String apiVersion = "2018-03-01-preview";
-        ManagementPoliciesRulesSetParameter properties = new ManagementPoliciesRulesSetParameter();
+        ManagementPolicyInner properties = new ManagementPolicyInner();
         properties.withPolicy(policy);
-        return service.createOrUpdate(resourceGroupName, accountName, this.client.subscriptionId(), managementPolicyName, apiVersion, this.client.acceptLanguage(), properties, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<StorageAccountManagementPoliciesInner>>>() {
+        return service.createOrUpdate(resourceGroupName, accountName, this.client.subscriptionId(), managementPolicyName, this.client.apiVersion(), this.client.acceptLanguage(), properties, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagementPolicyInner>>>() {
                 @Override
-                public Observable<ServiceResponse<StorageAccountManagementPoliciesInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ManagementPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<StorageAccountManagementPoliciesInner> clientResponse = createOrUpdateDelegate(response);
+                        ServiceResponse<ManagementPolicyInner> clientResponse = createOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -320,15 +248,15 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
             });
     }
 
-    private ServiceResponse<StorageAccountManagementPoliciesInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<StorageAccountManagementPoliciesInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<StorageAccountManagementPoliciesInner>() { }.getType())
+    private ServiceResponse<ManagementPolicyInner> createOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ManagementPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ManagementPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
 
     /**
-     * Deletes the data policy rules associated with the specified storage account.
+     * Deletes the managementpolicy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
@@ -341,7 +269,7 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
     }
 
     /**
-     * Deletes the data policy rules associated with the specified storage account.
+     * Deletes the managementpolicy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
@@ -354,7 +282,7 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
     }
 
     /**
-     * Deletes the data policy rules associated with the specified storage account.
+     * Deletes the managementpolicy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
@@ -371,7 +299,7 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
     }
 
     /**
-     * Deletes the data policy rules associated with the specified storage account.
+     * Deletes the managementpolicy associated with the specified storage account.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive.
      * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
@@ -388,9 +316,11 @@ public class ManagementPoliciesInner implements InnerSupportsDelete<Void> {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String managementPolicyName = "default";
-        final String apiVersion = "2018-03-01-preview";
-        return service.delete(resourceGroupName, accountName, this.client.subscriptionId(), managementPolicyName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.delete(resourceGroupName, accountName, this.client.subscriptionId(), managementPolicyName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {

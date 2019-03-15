@@ -46,12 +46,12 @@ class ManagementPoliciesImpl extends WrapperImpl<ManagementPoliciesInner> implem
     public Observable<StorageAccountManagementPolicies> getAsync(String resourceGroupName, String accountName) {
         ManagementPoliciesInner client = this.inner();
         return client.getAsync(resourceGroupName, accountName)
-        .map(new Func1<StorageAccountManagementPoliciesInner, StorageAccountManagementPolicies>() {
-            @Override
-            public StorageAccountManagementPolicies call(StorageAccountManagementPoliciesInner inner) {
-                return wrapModel(inner);
-            }
-       });
+                .map(new Func1<StorageAccountManagementPoliciesInner, StorageAccountManagementPolicies>() {
+                    @Override
+                    public StorageAccountManagementPolicies call(StorageAccountManagementPoliciesInner inner) {
+                        return wrapModel(inner);
+                    }
+                });
     }
 
     @Override

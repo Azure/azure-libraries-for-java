@@ -130,13 +130,15 @@ public class BlobServicesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         if (parameters == null) {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
         final String blobServicesName = "default";
-        final String apiVersion = "2018-07-01";
-        return service.setServiceProperties(resourceGroupName, accountName, this.client.subscriptionId(), blobServicesName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
+        return service.setServiceProperties(resourceGroupName, accountName, this.client.subscriptionId(), blobServicesName, this.client.apiVersion(), parameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BlobServicePropertiesInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BlobServicePropertiesInner>> call(Response<ResponseBody> response) {
@@ -219,9 +221,11 @@ public class BlobServicesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String blobServicesName = "default";
-        final String apiVersion = "2018-07-01";
-        return service.getServiceProperties(resourceGroupName, accountName, this.client.subscriptionId(), blobServicesName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.getServiceProperties(resourceGroupName, accountName, this.client.subscriptionId(), blobServicesName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BlobServicePropertiesInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BlobServicePropertiesInner>> call(Response<ResponseBody> response) {

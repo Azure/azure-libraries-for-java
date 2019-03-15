@@ -52,14 +52,14 @@ class ImmutabilityPolicyImpl extends CreatableUpdatableImpl<ImmutabilityPolicy, 
     public Observable<ImmutabilityPolicy> createResourceAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
         return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.cimmutabilityPeriodSinceCreationInDays, this.cifMatch)
-            .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this));
     }
 
     @Override
     public Observable<ImmutabilityPolicy> updateResourceAsync() {
         BlobContainersInner client = this.manager().inner().blobContainers();
         return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uimmutabilityPeriodSinceCreationInDays, this.uifMatch)
-            .map(innerToFluentMap(this));
+                .map(innerToFluentMap(this));
     }
 
     @Override

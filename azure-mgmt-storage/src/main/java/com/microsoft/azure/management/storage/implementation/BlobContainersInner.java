@@ -178,8 +178,10 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-07-01";
-        return service.list(resourceGroupName, accountName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(resourceGroupName, accountName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ListContainerItemsInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ListContainerItemsInner>> call(Response<ResponseBody> response) {
@@ -269,13 +271,15 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-07-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final PublicAccess publicAccess = null;
         final Map<String, String> metadata = null;
         BlobContainerInner blobContainer = new BlobContainerInner();
         blobContainer.withPublicAccess(null);
         blobContainer.withMetadata(null);
-        return service.create(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), blobContainer, this.client.userAgent())
+        return service.create(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), blobContainer, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BlobContainerInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BlobContainerInner>> call(Response<ResponseBody> response) {
@@ -366,12 +370,14 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(metadata);
-        final String apiVersion = "2018-07-01";
         BlobContainerInner blobContainer = new BlobContainerInner();
         blobContainer.withPublicAccess(publicAccess);
         blobContainer.withMetadata(metadata);
-        return service.create(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), blobContainer, this.client.userAgent())
+        return service.create(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), blobContainer, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BlobContainerInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BlobContainerInner>> call(Response<ResponseBody> response) {
@@ -461,13 +467,15 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-07-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final PublicAccess publicAccess = null;
         final Map<String, String> metadata = null;
         BlobContainerInner blobContainer = new BlobContainerInner();
         blobContainer.withPublicAccess(null);
         blobContainer.withMetadata(null);
-        return service.update(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), blobContainer, this.client.userAgent())
+        return service.update(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), blobContainer, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BlobContainerInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BlobContainerInner>> call(Response<ResponseBody> response) {
@@ -558,12 +566,14 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         Validator.validate(metadata);
-        final String apiVersion = "2018-07-01";
         BlobContainerInner blobContainer = new BlobContainerInner();
         blobContainer.withPublicAccess(publicAccess);
         blobContainer.withMetadata(metadata);
-        return service.update(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), blobContainer, this.client.userAgent())
+        return service.update(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), blobContainer, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BlobContainerInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BlobContainerInner>> call(Response<ResponseBody> response) {
@@ -653,8 +663,10 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-07-01";
-        return service.get(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.get(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<BlobContainerInner>>>() {
                 @Override
                 public Observable<ServiceResponse<BlobContainerInner>> call(Response<ResponseBody> response) {
@@ -743,8 +755,10 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-07-01";
-        return service.delete(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.delete(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -839,14 +853,16 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         if (tags == null) {
             throw new IllegalArgumentException("Parameter tags is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-07-01";
         LegalHoldInner legalHold = new LegalHoldInner();
         legalHold.withTags(tags);
-        return service.setLegalHold(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), legalHold, this.client.userAgent())
+        return service.setLegalHold(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), legalHold, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LegalHoldInner>>>() {
                 @Override
                 public Observable<ServiceResponse<LegalHoldInner>> call(Response<ResponseBody> response) {
@@ -940,14 +956,16 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         if (tags == null) {
             throw new IllegalArgumentException("Parameter tags is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-07-01";
         LegalHoldInner legalHold = new LegalHoldInner();
         legalHold.withTags(tags);
-        return service.clearLegalHold(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), legalHold, this.client.userAgent())
+        return service.clearLegalHold(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), legalHold, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LegalHoldInner>>>() {
                 @Override
                 public Observable<ServiceResponse<LegalHoldInner>> call(Response<ResponseBody> response) {
@@ -1041,12 +1059,14 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String immutabilityPolicyName = "default";
-        final String apiVersion = "2018-07-01";
         final String ifMatch = null;
         ImmutabilityPolicyInner parameters = new ImmutabilityPolicyInner();
         parameters.withImmutabilityPeriodSinceCreationInDays(immutabilityPeriodSinceCreationInDays);
-        return service.createOrUpdateImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), apiVersion, ifMatch, this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.createOrUpdateImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), this.client.apiVersion(), ifMatch, this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersCreateOrUpdateImmutabilityPolicyHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersCreateOrUpdateImmutabilityPolicyHeaders>> call(Response<ResponseBody> response) {
@@ -1137,11 +1157,13 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String immutabilityPolicyName = "default";
-        final String apiVersion = "2018-07-01";
         ImmutabilityPolicyInner parameters = new ImmutabilityPolicyInner();
         parameters.withImmutabilityPeriodSinceCreationInDays(immutabilityPeriodSinceCreationInDays);
-        return service.createOrUpdateImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), apiVersion, ifMatch, this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.createOrUpdateImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), this.client.apiVersion(), ifMatch, this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersCreateOrUpdateImmutabilityPolicyHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersCreateOrUpdateImmutabilityPolicyHeaders>> call(Response<ResponseBody> response) {
@@ -1231,10 +1253,12 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String immutabilityPolicyName = "default";
-        final String apiVersion = "2018-07-01";
         final String ifMatch = null;
-        return service.getImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), apiVersion, ifMatch, this.client.acceptLanguage(), this.client.userAgent())
+        return service.getImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), this.client.apiVersion(), ifMatch, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersGetImmutabilityPolicyHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersGetImmutabilityPolicyHeaders>> call(Response<ResponseBody> response) {
@@ -1321,9 +1345,11 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final String immutabilityPolicyName = "default";
-        final String apiVersion = "2018-07-01";
-        return service.getImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), apiVersion, ifMatch, this.client.acceptLanguage(), this.client.userAgent())
+        return service.getImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), this.client.apiVersion(), ifMatch, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersGetImmutabilityPolicyHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersGetImmutabilityPolicyHeaders>> call(Response<ResponseBody> response) {
@@ -1417,12 +1443,14 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         if (ifMatch == null) {
             throw new IllegalArgumentException("Parameter ifMatch is required and cannot be null.");
         }
         final String immutabilityPolicyName = "default";
-        final String apiVersion = "2018-07-01";
-        return service.deleteImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), apiVersion, ifMatch, this.client.acceptLanguage(), this.client.userAgent())
+        return service.deleteImmutabilityPolicy(resourceGroupName, accountName, containerName, immutabilityPolicyName, this.client.subscriptionId(), this.client.apiVersion(), ifMatch, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersDeleteImmutabilityPolicyHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersDeleteImmutabilityPolicyHeaders>> call(Response<ResponseBody> response) {
@@ -1516,11 +1544,13 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         if (ifMatch == null) {
             throw new IllegalArgumentException("Parameter ifMatch is required and cannot be null.");
         }
-        final String apiVersion = "2018-07-01";
-        return service.lockImmutabilityPolicy(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, ifMatch, this.client.acceptLanguage(), this.client.userAgent())
+        return service.lockImmutabilityPolicy(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), ifMatch, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersLockImmutabilityPolicyHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersLockImmutabilityPolicyHeaders>> call(Response<ResponseBody> response) {
@@ -1618,13 +1648,15 @@ public class BlobContainersInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         if (ifMatch == null) {
             throw new IllegalArgumentException("Parameter ifMatch is required and cannot be null.");
         }
-        final String apiVersion = "2018-07-01";
         ImmutabilityPolicyInner parameters = new ImmutabilityPolicyInner();
         parameters.withImmutabilityPeriodSinceCreationInDays(immutabilityPeriodSinceCreationInDays);
-        return service.extendImmutabilityPolicy(resourceGroupName, accountName, containerName, this.client.subscriptionId(), apiVersion, ifMatch, this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.extendImmutabilityPolicy(resourceGroupName, accountName, containerName, this.client.subscriptionId(), this.client.apiVersion(), ifMatch, this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersExtendImmutabilityPolicyHeaders>>>() {
                 @Override
                 public Observable<ServiceResponseWithHeaders<ImmutabilityPolicyInner, BlobContainersExtendImmutabilityPolicyHeaders>> call(Response<ResponseBody> response) {

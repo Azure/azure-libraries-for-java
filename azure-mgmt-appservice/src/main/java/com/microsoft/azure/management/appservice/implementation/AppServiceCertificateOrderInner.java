@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import java.util.Map;
+import com.microsoft.azure.management.appservice.AppServiceCertificate;
 import com.microsoft.azure.management.appservice.CertificateProductType;
 import com.microsoft.azure.management.appservice.ProvisioningState;
 import com.microsoft.azure.management.appservice.CertificateOrderStatus;
@@ -28,7 +29,7 @@ public class AppServiceCertificateOrderInner extends Resource {
      * State of the Key Vault secret.
      */
     @JsonProperty(value = "properties.certificates")
-    private Map<String, AppServiceCertificateInner> certificates;
+    private Map<String, AppServiceCertificate> certificates;
 
     /**
      * Certificate distinguished name.
@@ -156,7 +157,7 @@ public class AppServiceCertificateOrderInner extends Resource {
      *
      * @return the certificates value
      */
-    public Map<String, AppServiceCertificateInner> certificates() {
+    public Map<String, AppServiceCertificate> certificates() {
         return this.certificates;
     }
 
@@ -166,7 +167,7 @@ public class AppServiceCertificateOrderInner extends Resource {
      * @param certificates the certificates value to set
      * @return the AppServiceCertificateOrderInner object itself.
      */
-    public AppServiceCertificateOrderInner withCertificates(Map<String, AppServiceCertificateInner> certificates) {
+    public AppServiceCertificateOrderInner withCertificates(Map<String, AppServiceCertificate> certificates) {
         this.certificates = certificates;
         return this;
     }

@@ -14,7 +14,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
- * User crendentials used for publishing activity.
+ * User credentials used for publishing activity.
  */
 @JsonFlatten
 public class DeploymentInner extends ProxyOnlyResource {

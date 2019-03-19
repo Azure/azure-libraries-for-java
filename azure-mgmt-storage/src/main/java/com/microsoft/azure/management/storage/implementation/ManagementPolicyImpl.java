@@ -9,9 +9,18 @@
 package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.storage.BaseBlobActions;
 import com.microsoft.azure.management.storage.ManagementPolicy;
+import com.microsoft.azure.management.storage.ManagementPolicyBaseBlob;
+import com.microsoft.azure.management.storage.ManagementPolicyRule;
 import com.microsoft.azure.management.storage.ManagementPolicySchema;
+import com.microsoft.azure.management.storage.ManagementPolicySnapShot;
+import com.microsoft.azure.management.storage.PolicyRule;
+import com.microsoft.azure.management.storage.StoragePolicyRule;
 import rx.Observable;
+
+import java.security.Policy;
+import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.DateTime;
 import rx.functions.Func1;
@@ -135,6 +144,20 @@ class ManagementPolicyImpl extends CreatableUpdatableImpl<ManagementPolicy, Mana
             this.upolicy = policy;
         }
         return this;
+    }
+
+    @Override
+    public PolicyRule.DefinitionStages.Blank defineRule() {
+        return new PolicyRuleImpl(this);
+    }
+
+    void defineRule(PolicyRuleImpl policyRuleImpl) {
+        if (this.cpolicy.rules() == null) {
+            this.cpolicy.withRules(new ArrayList<ManagementPolicyRule>());
+        }
+        List<ManagementPolicyRule> rules = this.cpolicy.rules();
+        rules.add(policyRuleImpl.inner());
+        this.cpolicy.withRules(rules);
     }
 
 }

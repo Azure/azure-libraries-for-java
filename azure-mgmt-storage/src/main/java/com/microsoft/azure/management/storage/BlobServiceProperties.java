@@ -109,6 +109,10 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
              * @return the next definition stage
              */
             WithCreate withDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy);
+
+            WithCreate withDeleteRetentionPolicyEnabled(int numDaysEnabled);
+
+            WithCreate withDeleteRetentionPolicyDisabled();
         }
 
         /**
@@ -163,6 +167,10 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
              * @return the next update stage
              */
             Update withDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy);
+
+            Update withDeleteRetentionPolicyEnabled(int numDaysEnabled);
+
+            Update withDeleteRetentionPolicyDisabled();
         }
 
     }

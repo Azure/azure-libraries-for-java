@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 import com.microsoft.azure.management.storage.BlobServiceProperties;
 import com.microsoft.azure.management.storage.CorsRules;
 import com.microsoft.azure.management.storage.DeleteRetentionPolicy;
+import retrofit2.http.DELETE;
 import rx.Observable;
 
 class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProperties, BlobServicePropertiesInner, BlobServicePropertiesImpl> implements BlobServiceProperties, BlobServiceProperties.Definition, BlobServiceProperties.Update {
@@ -119,6 +120,18 @@ class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProper
     @Override
     public BlobServicePropertiesImpl withDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy) {
         this.inner().withDeleteRetentionPolicy(deleteRetentionPolicy);
+        return this;
+    }
+
+    @Override
+    public BlobServicePropertiesImpl withDeleteRetentionPolicyEnabled(int numDaysEnabled) {
+        this.inner().withDeleteRetentionPolicy(new DeleteRetentionPolicy().withEnabled(true).withDays(numDaysEnabled));
+        return this;
+    }
+
+    @Override
+    public BlobServicePropertiesImpl withDeleteRetentionPolicyDisabled() {
+        this.inner().withDeleteRetentionPolicy(new DeleteRetentionPolicy().withEnabled(false));
         return this;
     }
 

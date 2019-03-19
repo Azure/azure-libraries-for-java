@@ -92,7 +92,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
     /**
      * The entirety of the BlobContainer definition.
      */
-    interface Definition extends DefinitionStages.Blank, DefinitionStages.WithBlobService, DefinitionStages.WithPublicAccess, DefinitionStages.WithMetadata, DefinitionStages.WithCreate {
+    interface Definition extends DefinitionStages.Blank, DefinitionStages.WithBlobService, DefinitionStages.WithPublicAccess, DefinitionStages.WithMetadata, DefinitionStages.WithMetadataString, DefinitionStages.WithCreate {
     }
 
     /**
@@ -140,6 +140,11 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
              * @return the next definition stage
              */
             WithCreate withMetadata(Map<String, String> metadata);
+            WithMetadataString withMetadata(String name, String value);
+        }
+
+        interface WithMetadataString {
+            WithCreate withMetadata(String name, String value);
         }
 
         /**
@@ -147,7 +152,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
-        interface WithCreate extends Creatable<BlobContainer> {
+        interface WithCreate extends WithMetadataString, Creatable<BlobContainer> {
         }
     }
     /**
@@ -182,6 +187,8 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
              * @return the next update stage
              */
             Update withMetadata(Map<String, String> metadata);
+
+            Update withMetadata(String name, String value);
         }
 
     }

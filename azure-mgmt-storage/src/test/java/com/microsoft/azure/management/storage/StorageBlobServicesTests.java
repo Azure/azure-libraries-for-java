@@ -28,117 +28,167 @@ public class StorageBlobServicesTests extends StorageManagementTest {
     }
 
 
-//    @Test
-//    public void canCreateBlobServices() {
-//        String SA_NAME = generateRandomResourceName("javacsmsa", 15);
-//
-//        StorageAccount storageAccount = storageManager.storageAccounts()
-//                .define(SA_NAME)
-//                .withRegion(Region.US_EAST)
-//                .withNewResourceGroup(RG_NAME)
-//                .create();
-//
-//        BlobServices blobServices = this.storageManager.blobServices();
-//        BlobServiceProperties blobService = blobServices.define("blobServicesTest")
-//                .withExistingStorageAccount(storageAccount.resourceGroupName(), storageAccount.name())
-//                .withDeleteRetentionPolicyEnabled(5)
-//                .create();
-//
-//        Assert.assertTrue(blobService.deleteRetentionPolicy().enabled());
-//        Assert.assertEquals(blobService.deleteRetentionPolicy().days().intValue(), 5);
-//
-//    }
-//
-//    @Test
-//    public void canUpdateBlobServices() {
-//        String SA_NAME = generateRandomResourceName("javacsmsa", 15);
-//
-//        StorageAccount storageAccount = storageManager.storageAccounts()
-//                .define(SA_NAME)
-//                .withRegion(Region.US_EAST)
-//                .withNewResourceGroup(RG_NAME)
-//                .create();
-//
-//        BlobServices blobServices = this.storageManager.blobServices();
-//        BlobServiceProperties blobService = blobServices.define("blobServicesTest")
-//                .withExistingStorageAccount(storageAccount.resourceGroupName(), storageAccount.name())
-//                .withDeleteRetentionPolicyEnabled(5)
-//                .create();
-//
-//        blobService.update()
-//                .withDeleteRetentionPolicyDisabled()
-//                .apply();
-//
-//        Assert.assertTrue(blobService.deleteRetentionPolicy().enabled());
-//        Assert.assertEquals(blobService.deleteRetentionPolicy().days().intValue(), 5);
-//        Assert.assertFalse(blobService.deleteRetentionPolicy().enabled());
-//
-//    }
-//
-//    @Test
-//    public void canCreateBlobContainer() {
-//        String SA_NAME = generateRandomResourceName("javacmsa", 15);
-//        Map<String, String> metadataTest = new HashMap<String, String>();
-//        metadataTest.put("a", "b");
-//        metadataTest.put("c", "d");
-//
-//
-//        StorageAccount storageAccount = storageManager.storageAccounts()
-//                .define(SA_NAME)
-//                .withRegion(Region.US_EAST)
-//                .withNewResourceGroup(RG_NAME)
-//                .create();
-//
-//        BlobContainers blobContainers = this.storageManager.blobContainers();
-//        BlobContainer blobContainer = blobContainers.defineContainer("blob-test")
-//                .withExistingBlobService(RG_NAME, SA_NAME)
-//                .withPublicAccess(PublicAccess.CONTAINER)
-//                .withMetadata("a", "b")
-//                .withMetadata("c", "d")
-//                .create();
-//
-//
-//        Assert.assertEquals(blobContainer.name(), "blob-test");
-//        Assert.assertEquals(blobContainer.publicAccess(), PublicAccess.CONTAINER);
-//        Assert.assertEquals(blobContainer.metadata(), metadataTest);
-//    }
-//
-//    @Test
-//    public void canUpdateBlobContainer() {
-//        String SA_NAME = generateRandomResourceName("javacmsa", 15);
-//
-//        Map<String, String> metadataInitial = new HashMap<String, String>();
-//        metadataInitial.put("a", "b");
-//
-//        Map<String, String> metadataTest = new HashMap<String, String>();
-//        metadataTest.put("c", "d");
-//        metadataTest.put("e", "f");
-//
-//
-//        StorageAccount storageAccount = storageManager.storageAccounts()
-//                .define(SA_NAME)
-//                .withRegion(Region.US_EAST)
-//                .withNewResourceGroup(RG_NAME)
-//                .create();
-//
-//        BlobContainers blobContainers = this.storageManager.blobContainers();
-//        BlobContainer blobContainer = blobContainers.defineContainer("blob-test")
-//                .withExistingBlobService(RG_NAME, SA_NAME)
-//                .withPublicAccess(PublicAccess.CONTAINER)
-//                .withMetadata(metadataInitial)
-//                .create();
-//
-//        blobContainer.update()
-//                .withPublicAccess(PublicAccess.BLOB)
-//                .withMetadata("c", "d")
-//                .withMetadata("e", "f")
-//                .apply();
-//
-//        Assert.assertEquals(blobContainer.name(), "blob-test");
-//        Assert.assertEquals(blobContainer.publicAccess(), PublicAccess.BLOB);
-//        Assert.assertEquals(blobContainer.metadata(), metadataTest);
-//    }
-//
+    @Test
+    public void canCreateBlobServices() {
+        String SA_NAME = generateRandomResourceName("javacsmsa", 15);
+
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(RG_NAME)
+                .create();
+
+        BlobServices blobServices = this.storageManager.blobServices();
+        BlobServiceProperties blobService = blobServices.define("blobServicesTest")
+                .withExistingStorageAccount(storageAccount.resourceGroupName(), storageAccount.name())
+                .withDeleteRetentionPolicyEnabled(5)
+                .create();
+
+        Assert.assertTrue(blobService.deleteRetentionPolicy().enabled());
+        Assert.assertEquals(5, blobService.deleteRetentionPolicy().days().intValue());
+
+    }
+
+    @Test
+    public void canUpdateBlobServices() {
+        String SA_NAME = generateRandomResourceName("javacsmsa", 15);
+
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(RG_NAME)
+                .create();
+
+        BlobServices blobServices = this.storageManager.blobServices();
+        BlobServiceProperties blobService = blobServices.define("blobServicesTest")
+                .withExistingStorageAccount(storageAccount.resourceGroupName(), storageAccount.name())
+                .withDeleteRetentionPolicyEnabled(5)
+                .create();
+
+        blobService.update()
+                .withDeleteRetentionPolicyDisabled()
+                .apply();
+
+        Assert.assertFalse(blobService.deleteRetentionPolicy().enabled());
+
+    }
+
+    @Test
+    public void canCreateBlobContainer() {
+        String SA_NAME = generateRandomResourceName("javacmsa", 15);
+        Map<String, String> metadataTest = new HashMap<String, String>();
+        metadataTest.put("a", "b");
+        metadataTest.put("c", "d");
+
+
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(RG_NAME)
+                .create();
+
+        BlobContainers blobContainers = this.storageManager.blobContainers();
+        BlobContainer blobContainer = blobContainers.defineContainer("blob-test")
+                .withExistingBlobService(RG_NAME, SA_NAME)
+                .withPublicAccess(PublicAccess.CONTAINER)
+                .withMetadata(new HashMap<String, String>())
+                .withMetadata("a", "b")
+                .withMetadata("c", "d")
+                .create();
+
+
+        Assert.assertEquals("blob-test", blobContainer.name());
+        Assert.assertEquals(PublicAccess.CONTAINER, blobContainer.publicAccess());
+        Assert.assertEquals(metadataTest, blobContainer.metadata());
+    }
+
+    @Test
+    public void canUpdateBlobContainer() {
+        String SA_NAME = generateRandomResourceName("javacmsa", 15);
+
+        Map<String, String> metadataInitial = new HashMap<String, String>();
+        metadataInitial.put("a", "b");
+
+        Map<String, String> metadataTest = new HashMap<String, String>();
+        metadataTest.put("c", "d");
+        metadataTest.put("e", "f");
+
+
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_EAST)
+                .withNewResourceGroup(RG_NAME)
+                .create();
+
+        BlobContainers blobContainers = this.storageManager.blobContainers();
+        BlobContainer blobContainer = blobContainers.defineContainer("blob-test")
+                .withExistingBlobService(RG_NAME, SA_NAME)
+                .withPublicAccess(PublicAccess.CONTAINER)
+                .withMetadata(metadataInitial)
+                .create();
+
+        blobContainer.update()
+                .withPublicAccess(PublicAccess.BLOB)
+                .withMetadata("c", "d")
+                .withMetadata("e", "f")
+                .apply();
+
+        Assert.assertEquals("blob-test", blobContainer.name());
+        Assert.assertEquals(PublicAccess.BLOB, blobContainer.publicAccess());
+        Assert.assertEquals(metadataTest, blobContainer.metadata());
+    }
+
+    @Test
+    public void canCreateManagementPolicies() {
+        String SA_NAME = generateRandomResourceName("javacmsa", 15);
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(RG_NAME)
+                .withBlobStorageAccountKind()
+                .withAccessTier(AccessTier.COOL)
+                .create();
+
+
+        ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
+        ManagementPolicy managementPolicy = managementPolicies.define("management-test")
+                .withExistingStorageAccount(RG_NAME, SA_NAME)
+                .defineRule()
+                    .withName("rule1")
+                    .withType("Lifecycle")
+                    .withBlobTypeToFilterFor("blockBlob")
+                    .withPrefixToFilterFor("container1/foo")
+                    .defineActionsOnBaseBlob()
+                        .withTierToCoolAction(30)
+                        .withTierToArchiveAction(90)
+                        .withDeleteAction(2555)
+                        .attach()
+                    .defineActionsOnSnapshot()
+                        .withDeleteAction(90)
+                        .attach()
+                    .attach()
+                .create();
+
+        List<String> blobTypesToFilterFor = new ArrayList<>();
+        blobTypesToFilterFor.add("blockBlob");
+
+        List<String> prefixesToFilterFor = new ArrayList<>();
+        prefixesToFilterFor.add("container1/foo");
+
+        //Assert.assertEquals("management-test", managementPolicy.policy().);
+        Assert.assertEquals("rule1", managementPolicy.policy().rules().get(0).name());
+        Assert.assertEquals(blobTypesToFilterFor, managementPolicy.policy().rules().get(0).definition().filters().blobTypes());
+        Assert.assertEquals(prefixesToFilterFor, managementPolicy.policy().rules().get(0).definition().filters().prefixMatch());
+        Assert.assertEquals(30, managementPolicy.policy().rules().get(0).definition().actions().baseBlob().tierToCool().daysAfterModificationGreaterThan());
+        Assert.assertEquals(90, managementPolicy.policy().rules().get(0).definition().actions().baseBlob().tierToArchive().daysAfterModificationGreaterThan());
+        Assert.assertEquals(2555, managementPolicy.policy().rules().get(0).definition().actions().baseBlob().delete().daysAfterModificationGreaterThan());
+        Assert.assertEquals(90, managementPolicy.policy().rules().get(0).definition().actions().snapshot().delete().daysAfterCreationGreaterThan());
+    }
+
+
+}
+
+
 //    @Test
 //    public void canCreateManagementPolicies() throws IOException {
 //        AzureJacksonAdapter azureJacksonAdapter = new AzureJacksonAdapter();

@@ -17,6 +17,8 @@ import com.microsoft.azure.management.storage.implementation.ManagementPolicyInn
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import org.joda.time.DateTime;
 
+import java.util.List;
+
 /**
  * Type representing ManagementPolicy.
  */
@@ -46,10 +48,11 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
      */
     String type();
 
+
     /**
      * The entirety of the ManagementPolicy definition.
      */
-    interface Definition extends DefinitionStages.Blank, DefinitionStages.WithStorageAccount, DefinitionStages.WithPolicy, DefinitionStages.WithCreate {
+    interface Definition extends DefinitionStages.Blank, DefinitionStages.WithStorageAccount, DefinitionStages.WithRule, DefinitionStages.WithCreate {
     }
 
     /**
@@ -72,19 +75,20 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
              * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only
              * @return the next definition stage
              */
-            WithPolicy withExistingStorageAccount(String resourceGroupName, String accountName);
+            WithRule withExistingStorageAccount(String resourceGroupName, String accountName);
         }
 
         /**
          * The stage of the managementpolicy definition allowing to specify Policy.
          */
-        interface WithPolicy {
+        interface WithRule {
             /**
              * Specifies policy.
              * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts
              * @return the next definition stage
              */
-            WithCreate withPolicy(ManagementPolicySchema policy);
+            //WithCreate withPolicy(ManagementPolicySchema policy);
+            PolicyRule.DefinitionStages.Blank defineRule();
         }
 
         /**
@@ -92,7 +96,7 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
-        interface WithCreate extends Creatable<ManagementPolicy> {
+        interface WithCreate extends Creatable<ManagementPolicy>, ManagementPolicy.DefinitionStages.WithRule {
         }
     }
     /**

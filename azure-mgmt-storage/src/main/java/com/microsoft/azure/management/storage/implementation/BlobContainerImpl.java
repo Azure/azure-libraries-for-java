@@ -11,6 +11,7 @@ import com.microsoft.azure.management.storage.*;
 import org.joda.time.DateTime;
 import rx.Observable;
 
+import java.util.HashMap;
 import java.util.Map;
 
 class BlobContainerImpl extends CreatableUpdatableImpl<BlobContainer, BlobContainerInner, BlobContainerImpl> implements BlobContainer, BlobContainer.Definition, BlobContainer.Update {
@@ -171,4 +172,19 @@ class BlobContainerImpl extends CreatableUpdatableImpl<BlobContainer, BlobContai
         return this;
     }
 
+    @Override
+    public BlobContainerImpl withMetadata(String name, String value) {
+        if (isInCreateMode()) {
+            if (this.cmetadata == null) {
+                this.cmetadata = new HashMap<>();
+            }
+            this.cmetadata.put(name, value);
+        } else {
+            if (this.umetadata == null) {
+                this.umetadata = new HashMap<>();
+            }
+            this.umetadata.put(name, value);
+        }
+        return this;
+    }
 }

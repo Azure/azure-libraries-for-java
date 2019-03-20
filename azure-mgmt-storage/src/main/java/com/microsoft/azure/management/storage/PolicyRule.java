@@ -6,6 +6,13 @@ import java.util.List;
 
 public interface PolicyRule {
 
+    String name();
+    String type();
+    List<String> blobTypesToFilterFor();
+    List<String> prefixesToFilterFor();
+    BaseBlobActions actionsOnBaseBlob();
+    SnapshotActions actionsOnSnapshot();
+
     interface Definition extends
             DefinitionStages.Blank,
             DefinitionStages.PolicyRuleName,

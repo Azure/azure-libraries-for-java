@@ -130,6 +130,51 @@ class ManagementPolicyImpl extends CreatableUpdatableImpl<ManagementPolicy, Mana
     }
 
     @Override
+    public List<PolicyRule> rules() {
+        List<ManagementPolicyRule> originalRules = this.policy().rules();
+        List<PolicyRule> returnRules = new ArrayList<>();
+        for (ManagementPolicyRule originalRule : originalRules) {
+            PolicyRule returnRule = new PolicyRuleImpl()
+                    .withName(originalRule.name())
+                    .withType(originalRule.type())
+                    .withBlobTypesToFilterFor(originalRule.definition().filters().blobTypes());
+
+            // building up prefixes to filter on
+            if (originalRule.definition().filters().prefixMatch() != null) {
+                ((PolicyRuleImpl) returnRule).withPrefixesToFilterFor(originalRule.definition().filters().prefixMatch());
+            }
+
+            // building up actions on base blob
+            ManagementPolicyBaseBlob originalBaseBlobActions = originalRule.definition().actions().baseBlob();
+            if (originalBaseBlobActions != null) {
+                BaseBlobActionsImpl returnBaseBlobActions = new BaseBlobActionsImpl();
+                if (originalBaseBlobActions.tierToCool() != null) {
+                    ((BaseBlobActionsImpl) returnBaseBlobActions).withTierToCoolAction(originalBaseBlobActions.tierToCool().daysAfterModificationGreaterThan());
+                }
+                if (originalBaseBlobActions.tierToArchive() != null) {
+                    ((BaseBlobActionsImpl) returnBaseBlobActions).withTierToArchiveAction(originalBaseBlobActions.tierToArchive().daysAfterModificationGreaterThan());
+                }
+                if (originalBaseBlobActions.delete() != null) {
+                    ((BaseBlobActionsImpl) returnBaseBlobActions).withDeleteAction(originalBaseBlobActions.delete().daysAfterModificationGreaterThan());
+                }
+                ((PolicyRuleImpl) returnRule).defineActionsOnBaseBlob(returnBaseBlobActions);
+            }
+
+            // build up actions on snapshot
+            ManagementPolicySnapShot originalSnapshotActions = originalRule.definition().actions().snapshot();
+            if (originalSnapshotActions != null) {
+                SnapshotActionsImpl returnSnapshotActions = new SnapshotActionsImpl();
+                if (originalSnapshotActions.delete() != null) {
+                    returnSnapshotActions.withDeleteAction(originalSnapshotActions.delete().daysAfterCreationGreaterThan());
+                }
+                ((PolicyRuleImpl) returnRule).defineActionsOnSnapshot(returnSnapshotActions);
+            }
+            returnRules.add(returnRule);
+        }
+        return returnRules;
+    }
+
+    @Override
     public ManagementPolicyImpl withExistingStorageAccount(String resourceGroupName, String accountName) {
         this.resourceGroupName = resourceGroupName;
         this.accountName = accountName;

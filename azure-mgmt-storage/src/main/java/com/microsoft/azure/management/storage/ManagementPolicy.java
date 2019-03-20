@@ -48,6 +48,10 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
      */
     String type();
 
+    /**
+     * @return the list of rules for this policy
+     */
+    List<PolicyRule> rules();
 
     /**
      * The entirety of the ManagementPolicy definition.

@@ -185,6 +185,56 @@ public class StorageBlobServicesTests extends StorageManagementTest {
         Assert.assertEquals(90, managementPolicy.policy().rules().get(0).definition().actions().snapshot().delete().daysAfterCreationGreaterThan());
     }
 
+    @Test
+    public void managementPolicyGetters() {
+        String SA_NAME = generateRandomResourceName("javacmsa", 15);
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(RG_NAME)
+                .withBlobStorageAccountKind()
+                .withAccessTier(AccessTier.COOL)
+                .create();
+
+
+        ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
+        ManagementPolicy managementPolicy = managementPolicies.define("management-test")
+                .withExistingStorageAccount(RG_NAME, SA_NAME)
+                .defineRule()
+                    .withName("rule1")
+                    .withType("Lifecycle")
+                    .withBlobTypeToFilterFor("blockBlob")
+                    .withPrefixToFilterFor("container1/foo")
+                    .defineActionsOnBaseBlob()
+                        .withTierToCoolAction(30)
+                        .withTierToArchiveAction(90)
+                        .withDeleteAction(2555)
+                        .attach()
+                    .defineActionsOnSnapshot()
+                        .withDeleteAction(90)
+                        .attach()
+                    .attach()
+                .create();
+
+        List<String> blobTypesToFilterFor = new ArrayList<>();
+        blobTypesToFilterFor.add("blockBlob");
+
+        List<String> prefixesToFilterFor = new ArrayList<>();
+        prefixesToFilterFor.add("container1/foo");
+
+        List<PolicyRule> rules = managementPolicy.rules();
+        Assert.assertEquals("rule1", rules.get(0).name());
+        Assert.assertEquals(blobTypesToFilterFor, rules.get(0).blobTypesToFilterFor());
+        Assert.assertEquals(prefixesToFilterFor, rules.get(0).prefixesToFilterFor());
+        Assert.assertEquals(30, rules.get(0).actionsOnBaseBlob().daysAfterModificationUntilCooling().intValue());
+        Assert.assertTrue(rules.get(0).actionsOnBaseBlob().tierToCoolActionEnabled());
+        Assert.assertEquals(90, rules.get(0).actionsOnBaseBlob().daysAfterModificationUntilArchiving().intValue());
+        Assert.assertTrue(rules.get(0).actionsOnBaseBlob().tierToArchiveActionEnabled());
+        Assert.assertEquals(2555, rules.get(0).actionsOnBaseBlob().daysAfterModificationUntilDelete().intValue());
+        Assert.assertTrue(rules.get(0).actionsOnBaseBlob().deleteActionEnabled());
+        Assert.assertEquals(90,rules.get(0).actionsOnSnapshot().daysAfterCreationUntilDelete().intValue());
+        Assert.assertTrue(rules.get(0).actionsOnSnapshot().deleteActionEnabled());
+    }
 
 }
 
@@ -248,4 +298,3 @@ public class StorageBlobServicesTests extends StorageManagementTest {
 ////                .withPolicy(policyObject)
 ////                .create();
 //    }
-}

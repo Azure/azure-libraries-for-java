@@ -28,6 +28,45 @@ class BaseBlobActionsImpl implements
     }
 
     @Override
+    public boolean tierToCoolActionEnabled() {
+        return this.inner.tierToCool() != null;
+    }
+
+    @Override
+    public boolean tierToArchiveActionEnabled() {
+        return this.inner.tierToArchive() != null;
+    }
+
+    @Override
+    public boolean deleteActionEnabled() {
+        return this.inner.delete() != null;
+    }
+
+    @Override
+    public Integer daysAfterModificationUntilCooling() {
+        if (this.inner.tierToCool() == null) {
+            return null;
+        }
+        return this.inner.tierToCool().daysAfterModificationGreaterThan();
+    }
+
+    @Override
+    public Integer daysAfterModificationUntilArchiving() {
+        if (this.inner.tierToArchive() == null) {
+            return null;
+        }
+        return this.inner.tierToArchive().daysAfterModificationGreaterThan();
+    }
+
+    @Override
+    public Integer daysAfterModificationUntilDelete() {
+        if (this.inner.delete() == null) {
+            return null;
+        }
+        return this.inner.delete().daysAfterModificationGreaterThan();
+    }
+
+    @Override
     public ManagementPolicyBaseBlob inner() {
         return this.inner;
     }

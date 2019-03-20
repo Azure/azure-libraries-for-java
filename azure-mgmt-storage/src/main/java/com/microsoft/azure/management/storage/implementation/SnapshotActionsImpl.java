@@ -29,6 +29,19 @@ class SnapshotActionsImpl implements
     }
 
     @Override
+    public boolean deleteActionEnabled() {
+        return this.inner.delete() != null;
+    }
+
+    @Override
+    public Integer daysAfterCreationUntilDelete() {
+        if (this.inner.delete() == null) {
+            return null;
+        }
+        return this.inner.delete().daysAfterCreationGreaterThan();
+    }
+
+    @Override
     public ManagementPolicySnapShot inner() {
         return this.inner;
     }

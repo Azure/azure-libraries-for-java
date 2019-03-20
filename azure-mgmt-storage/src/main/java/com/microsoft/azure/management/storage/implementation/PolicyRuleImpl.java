@@ -8,9 +8,11 @@ package com.microsoft.azure.management.storage.implementation;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.storage.BaseBlobActions;
 import com.microsoft.azure.management.storage.ManagementPolicyAction;
+import com.microsoft.azure.management.storage.ManagementPolicyBaseBlob;
 import com.microsoft.azure.management.storage.ManagementPolicyDefinition;
 import com.microsoft.azure.management.storage.ManagementPolicyFilter;
 import com.microsoft.azure.management.storage.ManagementPolicyRule;
+import com.microsoft.azure.management.storage.ManagementPolicySnapShot;
 import com.microsoft.azure.management.storage.PolicyRule;
 import com.microsoft.azure.management.storage.SnapshotActions;
 
@@ -41,6 +43,52 @@ class PolicyRuleImpl implements
     }
 
     @Override
+    public String name() {
+        return this.inner.name();
+    }
+
+    @Override
+    public String type() {
+        return this.inner.type();
+    }
+
+    @Override
+    public List<String> blobTypesToFilterFor() {
+        return this.inner.definition().filters().blobTypes();
+    }
+
+    @Override
+    public List<String> prefixesToFilterFor() {
+        return this.inner.definition().filters().prefixMatch();
+    }
+
+    @Override
+    public BaseBlobActions actionsOnBaseBlob() {
+        ManagementPolicyBaseBlob originalBaseBlobActions = this.inner.definition().actions().baseBlob();
+        BaseBlobActions returnBaseBlobActions = new BaseBlobActionsImpl();
+        if (originalBaseBlobActions.delete() != null) {
+            ((BaseBlobActionsImpl) returnBaseBlobActions).withDeleteAction(originalBaseBlobActions.delete().daysAfterModificationGreaterThan());
+        }
+        if (originalBaseBlobActions.tierToArchive() != null) {
+            ((BaseBlobActionsImpl) returnBaseBlobActions).withTierToArchiveAction(originalBaseBlobActions.tierToArchive().daysAfterModificationGreaterThan());
+        }
+        if (originalBaseBlobActions.tierToCool() != null) {
+            ((BaseBlobActionsImpl) returnBaseBlobActions).withTierToCoolAction(originalBaseBlobActions.tierToCool().daysAfterModificationGreaterThan());
+        }
+        return returnBaseBlobActions;
+    }
+
+    @Override
+    public SnapshotActions actionsOnSnapshot() {
+        ManagementPolicySnapShot originalSnapshotActions = this.inner.definition().actions().snapshot();
+        SnapshotActions returnSnapshotActions = new SnapshotActionsImpl();
+        if (originalSnapshotActions.delete() != null) {
+            ((SnapshotActionsImpl) returnSnapshotActions).withDeleteAction(originalSnapshotActions.delete().daysAfterCreationGreaterThan());
+        }
+        return returnSnapshotActions;
+    }
+
+    @Override
     public ManagementPolicyRule inner() {
         return this.inner;
     }
@@ -59,7 +107,7 @@ class PolicyRuleImpl implements
 
     @Override
     public PolicyRuleImpl withPrefixesToFilterFor(List<String> prefixes) {
-        this.inner.definition().withFilters(new ManagementPolicyFilter().withPrefixMatch(prefixes));
+        this.inner.definition().filters().withPrefixMatch(prefixes);
         return this;
     }
 
@@ -84,7 +132,7 @@ class PolicyRuleImpl implements
 
     @Override
     public PolicyRuleImpl withBlobTypesToFilterFor(List<String> blobTypes) {
-        this.inner.definition().withFilters(new ManagementPolicyFilter().withBlobTypes(blobTypes));
+        this.inner.definition().filters().withBlobTypes(blobTypes);
         return this;
     }
 

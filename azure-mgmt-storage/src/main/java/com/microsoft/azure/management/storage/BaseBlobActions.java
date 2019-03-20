@@ -9,6 +9,14 @@ package com.microsoft.azure.management.storage;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 
 public interface BaseBlobActions {
+
+    boolean tierToCoolActionEnabled();
+    boolean tierToArchiveActionEnabled();
+    boolean deleteActionEnabled();
+    Integer daysAfterModificationUntilCooling();
+    Integer daysAfterModificationUntilArchiving();
+    Integer daysAfterModificationUntilDelete();
+
     interface Definition extends
             DefinitionStages.Blank,
             DefinitionStages.BaseBlobActionsAttachable {

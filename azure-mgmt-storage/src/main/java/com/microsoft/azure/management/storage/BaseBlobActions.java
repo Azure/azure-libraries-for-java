@@ -21,6 +21,11 @@ public interface BaseBlobActions {
             DefinitionStages.Blank,
             DefinitionStages.BaseBlobActionsAttachable {
     }
+
+    interface Update extends
+            UpdateStages.Actions {
+
+    }
     interface DefinitionStages {
         interface Blank extends BaseBlobActionsAttachable{
         }
@@ -29,6 +34,14 @@ public interface BaseBlobActions {
             BaseBlobActionsAttachable withTierToCoolAction(int daysAfterModificationUntilCooling);
             BaseBlobActionsAttachable withTierToArchiveAction(int daysAfterModificationUntilArchiving);
             BaseBlobActionsAttachable withDeleteAction(int daysAfterModificationUntilDelete);
+        }
+    }
+
+    interface UpdateStages {
+        interface Actions {
+            Update withTierToCoolAction(int daysAfterModificationUntilCooling);
+            Update withTierToArchiveAction(int daysAfterModificationUntilArchiving);
+            Update withDeleteAction(int daysAfterModificationUntilDelete);
         }
     }
 

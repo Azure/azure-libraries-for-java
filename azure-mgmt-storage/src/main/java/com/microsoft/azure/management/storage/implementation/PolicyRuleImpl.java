@@ -7,6 +7,7 @@ package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.storage.BaseBlobActions;
+import com.microsoft.azure.management.storage.DateAfterModification;
 import com.microsoft.azure.management.storage.ManagementPolicyAction;
 import com.microsoft.azure.management.storage.ManagementPolicyBaseBlob;
 import com.microsoft.azure.management.storage.ManagementPolicyDefinition;
@@ -22,6 +23,7 @@ import java.util.List;
 class PolicyRuleImpl implements
         PolicyRule,
         PolicyRule.Definition,
+        PolicyRule.Update,
         HasInner<ManagementPolicyRule> {
 
     private ManagementPolicyRule inner;
@@ -123,6 +125,12 @@ class PolicyRuleImpl implements
     }
 
     @Override
+    public Update withoutPrefixesToFilterFor() {
+        this.inner.definition().filters().withPrefixMatch(null);
+        return this;
+    }
+
+    @Override
     public ManagementPolicyImpl attach() {
         this.managementPolicyImpl.defineRule(this);
         return this.managementPolicyImpl;
@@ -133,17 +141,24 @@ class PolicyRuleImpl implements
     @Override
     public PolicyRuleImpl withBlobTypesToFilterFor(List<String> blobTypes) {
         this.inner.definition().filters().withBlobTypes(blobTypes);
+        isInCreateMode();
         return this;
     }
 
     @Override
-    public DefinitionStages.PolicyRuleAttachable withBlobTypeToFilterFor(String blobType) {
+    public PolicyRuleImpl withBlobTypeToFilterFor(String blobType) {
         List<String> blobTypesToFilterFor = this.inner.definition().filters().blobTypes();
         if (blobTypesToFilterFor == null) {
             blobTypesToFilterFor = new ArrayList<>();
         }
         blobTypesToFilterFor.add(blobType);
         this.inner.definition().filters().withBlobTypes(blobTypesToFilterFor);
+        return this;
+    }
+
+    @Override
+    public Update withoutBlobTypesToFilterFor() {
+        this.inner.definition().filters().withBlobTypes(new ArrayList<String>());
         return this;
     }
 
@@ -163,5 +178,45 @@ class PolicyRuleImpl implements
 
     public void defineActionsOnSnapshot(SnapshotActionsImpl snapshotActionsImpl) {
         this.inner.definition().actions().withSnapshot(snapshotActionsImpl.inner());
+    }
+
+    @Override
+    public BaseBlobActions.Update updateActionsOnBaseBlob() {
+        return null;
+    }
+
+    @Override
+    public Update updateActionsOnBaseBlob(BaseBlobActions baseBlobActions) {
+        ManagementPolicyBaseBlob updateBaseBlob = new ManagementPolicyBaseBlob();
+        if (baseBlobActions.deleteActionEnabled()) {
+            updateBaseBlob.withDelete(new DateAfterModification().withDaysAfterModificationGreaterThan(baseBlobActions.daysAfterModificationUntilDelete()));
+        }
+        if (baseBlobActions.tierToArchiveActionEnabled()) {
+            updateBaseBlob.withTierToArchive(new DateAfterModification().withDaysAfterModificationGreaterThan(baseBlobActions.daysAfterModificationUntilArchiving()));
+        }
+        if (baseBlobActions.tierToCoolActionEnabled()) {
+            updateBaseBlob.withTierToCool(new DateAfterModification().withDaysAfterModificationGreaterThan(baseBlobActions.daysAfterModificationUntilCooling()))
+        }
+        this.inner.definition().actions().withBaseBlob(updateBaseBlob);
+        return this;
+    }
+
+    @Override
+    public SnapshotActions.Update updateActionsOnSnapshot() {
+        return null;
+    }
+
+    @Override
+    public Update updateActionsOnSnapshot(SnapshotActions snapshotActions) {
+        return null;
+    }
+
+    @Override
+    public Update update() {
+        return this;
+    }
+
+    private boolean isInCreateMode() {
+        return this.inner().name() == "";
     }
 }

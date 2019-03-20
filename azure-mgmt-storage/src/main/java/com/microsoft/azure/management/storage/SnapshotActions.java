@@ -17,12 +17,23 @@ public interface SnapshotActions {
             DefinitionStages.Blank,
             DefinitionStages.SnapshotActionsAttachable {
     }
+
+    interface Update extends
+            UpdateStages.Actions {
+    }
+
     interface DefinitionStages {
         interface Blank extends SnapshotActionsAttachable {
         }
 
         interface SnapshotActionsAttachable extends Attachable<PolicyRule.DefinitionStages.PolicyRuleAttachable> {
             SnapshotActionsAttachable withDeleteAction(int daysAfterCreationUntilDelete);
+        }
+    }
+
+    interface UpdateStages {
+        interface Actions {
+            Update withDeleteAction(int daysAfterCreationUntilDelete);
         }
     }
 }

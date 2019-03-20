@@ -13,6 +13,7 @@ import com.microsoft.azure.management.storage.ManagementPolicyBaseBlob;
 class BaseBlobActionsImpl implements
         BaseBlobActions,
         BaseBlobActions.Definition,
+        BaseBlobActions.Update,
         HasInner<ManagementPolicyBaseBlob> {
 
     private ManagementPolicyBaseBlob inner;

@@ -113,6 +113,7 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
      * Grouping of ManagementPolicy update stages.
      */
     interface UpdateStages {
+
         /**
          * The stage of the managementpolicy update allowing to specify Policy.
          */

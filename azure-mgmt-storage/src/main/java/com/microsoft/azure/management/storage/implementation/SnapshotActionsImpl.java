@@ -14,6 +14,7 @@ import com.microsoft.azure.management.storage.SnapshotActions;
 class SnapshotActionsImpl implements
         SnapshotActions,
         SnapshotActions.Definition,
+        SnapshotActions.Update,
         HasInner<ManagementPolicySnapShot> {
 
     private ManagementPolicySnapShot inner;

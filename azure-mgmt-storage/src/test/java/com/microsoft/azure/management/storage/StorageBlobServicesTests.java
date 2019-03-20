@@ -158,14 +158,10 @@ public class StorageBlobServicesTests extends StorageManagementTest {
                     .withType("Lifecycle")
                     .withBlobTypeToFilterFor("blockBlob")
                     .withPrefixToFilterFor("container1/foo")
-                    .defineActionsOnBaseBlob()
-                        .withTierToCoolAction(30)
-                        .withTierToArchiveAction(90)
-                        .withDeleteAction(2555)
-                        .attach()
-                    .defineActionsOnSnapshot()
-                        .withDeleteAction(90)
-                        .attach()
+                    .withTierToCoolActionOnBaseBlob(30)
+                    .withTierToArchiveActionOnBaseBlob(90)
+                    .withDeleteActionOnBaseBlob(2555)
+                    .withDeleteActionOnSnapShot(90)
                     .attach()
                 .create();
 
@@ -205,14 +201,10 @@ public class StorageBlobServicesTests extends StorageManagementTest {
                     .withType("Lifecycle")
                     .withBlobTypeToFilterFor("blockBlob")
                     .withPrefixToFilterFor("container1/foo")
-                    .defineActionsOnBaseBlob()
-                        .withTierToCoolAction(30)
-                        .withTierToArchiveAction(90)
-                        .withDeleteAction(2555)
-                        .attach()
-                    .defineActionsOnSnapshot()
-                        .withDeleteAction(90)
-                        .attach()
+                    .withTierToCoolActionOnBaseBlob(30)
+                    .withTierToArchiveActionOnBaseBlob(90)
+                    .withDeleteActionOnBaseBlob(2555)
+                    .withDeleteActionOnSnapShot(90)
                     .attach()
                 .create();
 
@@ -226,14 +218,14 @@ public class StorageBlobServicesTests extends StorageManagementTest {
         Assert.assertEquals("rule1", rules.get(0).name());
         Assert.assertEquals(blobTypesToFilterFor, rules.get(0).blobTypesToFilterFor());
         Assert.assertEquals(prefixesToFilterFor, rules.get(0).prefixesToFilterFor());
-        Assert.assertEquals(30, rules.get(0).actionsOnBaseBlob().daysAfterModificationUntilCooling().intValue());
-        Assert.assertTrue(rules.get(0).actionsOnBaseBlob().tierToCoolActionEnabled());
-        Assert.assertEquals(90, rules.get(0).actionsOnBaseBlob().daysAfterModificationUntilArchiving().intValue());
-        Assert.assertTrue(rules.get(0).actionsOnBaseBlob().tierToArchiveActionEnabled());
-        Assert.assertEquals(2555, rules.get(0).actionsOnBaseBlob().daysAfterModificationUntilDelete().intValue());
-        Assert.assertTrue(rules.get(0).actionsOnBaseBlob().deleteActionEnabled());
-        Assert.assertEquals(90,rules.get(0).actionsOnSnapshot().daysAfterCreationUntilDelete().intValue());
-        Assert.assertTrue(rules.get(0).actionsOnSnapshot().deleteActionEnabled());
+        Assert.assertEquals(30, rules.get(0).daysAfterBaseBlobModificationUntilCooling().intValue());
+        Assert.assertTrue(rules.get(0).tierToCoolActionOnBaseBlobEnabled());
+        Assert.assertEquals(90, rules.get(0).daysAfterBaseBlobModificationUntilArchiving().intValue());
+        Assert.assertTrue(rules.get(0).tierToArchiveActionOnBaseBlobEnabled());
+        Assert.assertEquals(2555, rules.get(0).daysAfterBaseBlobModificationUntilDeleting().intValue());
+        Assert.assertTrue(rules.get(0).deleteActionOnBaseBlobEnabled());
+        Assert.assertEquals(90,rules.get(0).daysAfterSnapShotCreationUntilDeleting().intValue());
+        Assert.assertTrue(rules.get(0).deleteActionOnSnapShotEnabled());
     }
 
 }

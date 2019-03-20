@@ -14,8 +14,16 @@ public interface PolicyRule extends
     String type();
     List<String> blobTypesToFilterFor();
     List<String> prefixesToFilterFor();
-    BaseBlobActions actionsOnBaseBlob();
-    SnapshotActions actionsOnSnapshot();
+    ManagementPolicyBaseBlob actionsOnBaseBlob();
+    ManagementPolicySnapShot actionsOnSnapShot();
+    boolean tierToCoolActionOnBaseBlobEnabled();
+    boolean tierToArchiveActionOnBaseBlobEnabled();
+    boolean deleteActionOnBaseBlobEnabled();
+    boolean deleteActionOnSnapShotEnabled();
+    Integer daysAfterBaseBlobModificationUntilCooling();
+    Integer daysAfterBaseBlobModificationUntilArchiving();
+    Integer daysAfterBaseBlobModificationUntilDeleting();
+    Integer daysAfterSnapShotCreationUntilDeleting();
 
     interface Definition extends
             DefinitionStages.Blank,
@@ -58,8 +66,10 @@ public interface PolicyRule extends
         }
 
         interface RuleActions {
-            BaseBlobActions.DefinitionStages.Blank defineActionsOnBaseBlob();
-            SnapshotActions.DefinitionStages.Blank defineActionsOnSnapshot();
+            PolicyRuleAttachable withTierToCoolActionOnBaseBlob(int daysAfterBaseBlobModificationUntilCooling);
+            PolicyRuleAttachable withTierToArchiveActionOnBaseBlob(int daysAfterBaseBlobModificationUntilArchiving);
+            PolicyRuleAttachable withDeleteActionOnBaseBlob(int daysAfterBaseBlobModificationUntilDeleting);
+            PolicyRuleAttachable withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting);
         }
 
         interface PolicyRuleAttachable extends PolicyRule.DefinitionStages.RuleActions,
@@ -87,10 +97,12 @@ public interface PolicyRule extends
             Update withoutPrefixesToFilterFor();
         }
         interface Actions {
-            BaseBlobActions.Update updateActionsOnBaseBlob();
-            Update updateActionsOnBaseBlob(BaseBlobActions baseBlobActions);
-            SnapshotActions.Update updateActionsOnSnapshot();
-            Update updateActionsOnSnapshot(SnapshotActions snapshotActions);
+            Update withTierToCoolActionOnBaseBlob(int daysAfterBaseBlobModificationUntilCooling);
+            Update withTierToArchiveActionOnBaseBlob(int daysAfterBaseBlobModificationUntilArchiving);
+            Update withDeleteActionOnBaseBlob(int daysAfterBaseBlobModificationUntilDeleting);
+            Update withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting);
+            Update updateActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions);
+            Update updateActionsOnSnapShot(ManagementPolicySnapShot snapShotActions);
         }
     }
 }

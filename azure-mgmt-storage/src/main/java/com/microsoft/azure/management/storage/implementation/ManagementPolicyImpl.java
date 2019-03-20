@@ -9,14 +9,12 @@
 package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.storage.BaseBlobActions;
 import com.microsoft.azure.management.storage.ManagementPolicy;
 import com.microsoft.azure.management.storage.ManagementPolicyBaseBlob;
 import com.microsoft.azure.management.storage.ManagementPolicyRule;
 import com.microsoft.azure.management.storage.ManagementPolicySchema;
 import com.microsoft.azure.management.storage.ManagementPolicySnapShot;
 import com.microsoft.azure.management.storage.PolicyRule;
-import com.microsoft.azure.management.storage.StoragePolicyRule;
 import rx.Observable;
 
 import java.security.Policy;
@@ -147,27 +145,23 @@ class ManagementPolicyImpl extends CreatableUpdatableImpl<ManagementPolicy, Mana
             // building up actions on base blob
             ManagementPolicyBaseBlob originalBaseBlobActions = originalRule.definition().actions().baseBlob();
             if (originalBaseBlobActions != null) {
-                BaseBlobActionsImpl returnBaseBlobActions = new BaseBlobActionsImpl();
                 if (originalBaseBlobActions.tierToCool() != null) {
-                    ((BaseBlobActionsImpl) returnBaseBlobActions).withTierToCoolAction(originalBaseBlobActions.tierToCool().daysAfterModificationGreaterThan());
+                    ((PolicyRuleImpl) returnRule).withTierToCoolActionOnBaseBlob(originalBaseBlobActions.tierToCool().daysAfterModificationGreaterThan());
                 }
                 if (originalBaseBlobActions.tierToArchive() != null) {
-                    ((BaseBlobActionsImpl) returnBaseBlobActions).withTierToArchiveAction(originalBaseBlobActions.tierToArchive().daysAfterModificationGreaterThan());
+                    ((PolicyRuleImpl) returnRule).withTierToArchiveActionOnBaseBlob(originalBaseBlobActions.tierToArchive().daysAfterModificationGreaterThan());
                 }
                 if (originalBaseBlobActions.delete() != null) {
-                    ((BaseBlobActionsImpl) returnBaseBlobActions).withDeleteAction(originalBaseBlobActions.delete().daysAfterModificationGreaterThan());
+                    ((PolicyRuleImpl) returnRule).withDeleteActionOnBaseBlob(originalBaseBlobActions.delete().daysAfterModificationGreaterThan());
                 }
-                ((PolicyRuleImpl) returnRule).defineActionsOnBaseBlob(returnBaseBlobActions);
             }
 
             // build up actions on snapshot
             ManagementPolicySnapShot originalSnapshotActions = originalRule.definition().actions().snapshot();
             if (originalSnapshotActions != null) {
-                SnapshotActionsImpl returnSnapshotActions = new SnapshotActionsImpl();
                 if (originalSnapshotActions.delete() != null) {
-                    returnSnapshotActions.withDeleteAction(originalSnapshotActions.delete().daysAfterCreationGreaterThan());
+                    ((PolicyRuleImpl) returnRule).withDeleteActionOnSnapShot(originalSnapshotActions.delete().daysAfterCreationGreaterThan());
                 }
-                ((PolicyRuleImpl) returnRule).defineActionsOnSnapshot(returnSnapshotActions);
             }
             returnRules.add(returnRule);
         }

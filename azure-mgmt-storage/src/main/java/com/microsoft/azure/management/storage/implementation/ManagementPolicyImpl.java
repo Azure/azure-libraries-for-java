@@ -18,6 +18,7 @@ import com.microsoft.azure.management.storage.PolicyRule;
 import rx.Observable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.joda.time.DateTime;
 import rx.functions.Func1;
@@ -170,7 +171,7 @@ class ManagementPolicyImpl extends
             }
             returnRules.add(returnRule);
         }
-        return returnRules;
+        return Collections.unmodifiableList(returnRules);
     }
 
     @Override
@@ -225,6 +226,23 @@ class ManagementPolicyImpl extends
             throw new UnsupportedOperationException("There is no rule that exists with the name " + name + ". Please define a rule with this name before updating.");
         }
         return new PolicyRuleImpl(ruleToUpdate, this);
+    }
+
+    @Override
+    public Update withoutRule(String name) {
+        ManagementPolicyRule ruleToDelete = null;
+        for (ManagementPolicyRule rule : this.policy().rules()) {
+            if (rule.name().equals(name)) {
+                ruleToDelete = rule;
+            }
+        }
+        if (ruleToDelete == null) {
+            throw new UnsupportedOperationException("There is no rule that exists with the name " + name + " so this rule can not be deleted.");
+        }
+        List<ManagementPolicyRule> currentRules = this.upolicy.rules();
+        currentRules.remove(ruleToDelete);
+        this.upolicy.withRules(currentRules);
+        return this;
     }
 }
 

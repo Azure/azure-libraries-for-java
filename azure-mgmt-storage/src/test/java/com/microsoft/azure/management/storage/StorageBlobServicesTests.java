@@ -229,6 +229,12 @@ public class StorageBlobServicesTests extends StorageManagementTest {
     @Test
     public void canUpdateManagementPolicy() {
         String SA_NAME = generateRandomResourceName("javacmsa", 15);
+        List<String> blobTypesToFilterFor = new ArrayList<>();
+        blobTypesToFilterFor.add("blockBlob");
+
+        List<String> prefixesToFilterFor = new ArrayList<>();
+        prefixesToFilterFor.add("container1/foo");
+
         StorageAccount storageAccount = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.US_WEST_CENTRAL)
@@ -247,27 +253,28 @@ public class StorageBlobServicesTests extends StorageManagementTest {
                     .withPrefixToFilterFor("asdf")
                     .withDeleteActionOnSnapShot(100)
                     .attach()
-                .create();
-
-        managementPolicy.update().updateRule("rule1")
+                .defineRule("rule2")
                     .withType("Lifecycle")
                     .withBlobTypeToFilterFor("blockBlob")
-                    .withPrefixToFilterFor("container1/foo")
+                    .withDeleteActionOnBaseBlob(30)
+                    .attach()
+                .create();
+
+        managementPolicy.update().
+                updateRule("rule1")
+                    .withType("Lifecycle")
+                    .withBlobTypeToFilterFor("blockBlob")
+                    .withPrefixesToFilterFor(prefixesToFilterFor)
                     .withTierToCoolActionOnBaseBlob(30)
                     .withTierToArchiveActionOnBaseBlob(90)
                     .withDeleteActionOnBaseBlob(2555)
                     .withDeleteActionOnSnapShot(90)
                     .parent()
+                .withoutRule("rule2")
                 .apply();
 
-
-        List<String> blobTypesToFilterFor = new ArrayList<>();
-        blobTypesToFilterFor.add("blockBlob");
-
-        List<String> prefixesToFilterFor = new ArrayList<>();
-        prefixesToFilterFor.add("container1/foo");
-
         List<PolicyRule> rules = managementPolicy.rules();
+        Assert.assertEquals(1, rules.size());
         Assert.assertEquals("rule1", rules.get(0).name());
         Assert.assertEquals(blobTypesToFilterFor, rules.get(0).blobTypesToFilterFor());
         Assert.assertEquals(prefixesToFilterFor, rules.get(0).prefixesToFilterFor());

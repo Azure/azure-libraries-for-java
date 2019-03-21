@@ -75,6 +75,7 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
         interface WithStorageAccount {
             /**
              * Specifies resourceGroupName, accountName.
+             *
              * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive
              * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only
              * @return the next definition stage
@@ -83,15 +84,14 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
         }
 
         /**
-         * The stage of the managementpolicy definition allowing to specify Policy.
+         * The stage of the management policy definition allowing to specify a rule to add to the management policy.
          */
         interface WithRule {
             /**
-             * Specifies policy.
-             * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts
-             * @return the next definition stage
+             * The function that
+             * @param name
+             * @return
              */
-            //WithCreate withPolicy(ManagementPolicySchema policy);
             PolicyRule.DefinitionStages.Blank defineRule(String name);
         }
 
@@ -113,9 +113,8 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
      * Grouping of ManagementPolicy update stages.
      */
     interface UpdateStages {
-
         /**
-         * The stage of the managementpolicy update allowing to specify Policy.
+         * The stage of the management policy update allowing to specify Policy.
          */
         interface WithPolicy {
             /**
@@ -126,8 +125,25 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
             Update withPolicy(ManagementPolicySchema policy);
         }
 
+        /**
+         * The stage of the management policy update allowing to update a rule.
+         */
         interface Rule {
+            /**
+             * The function that updates a rule whose name is the inputted parameter name.
+             *
+             * @param name the name of the rule to be updated.
+             * @return the next stage of the management policy rule update.
+             */
             PolicyRule.Update updateRule(String name);
+
+            /**
+             * The function that removes a rule whose name is the inputted parameter name.
+             *
+             * @param name the name of the rule to be removed.
+             * @return the next stage of the management policy update.
+             */
+            Update withoutRule(String name);
         }
 
     }

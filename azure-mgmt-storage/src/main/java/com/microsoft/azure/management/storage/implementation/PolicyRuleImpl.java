@@ -3,6 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
+
 package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
@@ -18,6 +19,7 @@ import com.microsoft.azure.management.storage.ManagementPolicySnapShot;
 import com.microsoft.azure.management.storage.PolicyRule;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 class PolicyRuleImpl implements
@@ -63,12 +65,12 @@ class PolicyRuleImpl implements
 
     @Override
     public List<String> blobTypesToFilterFor() {
-        return this.inner.definition().filters().blobTypes();
+        return Collections.unmodifiableList(this.inner.definition().filters().blobTypes());
     }
 
     @Override
     public List<String> prefixesToFilterFor() {
-        return this.inner.definition().filters().prefixMatch();
+        return Collections.unmodifiableList(this.inner.definition().filters().prefixMatch());
     }
 
     @Override
@@ -151,12 +153,6 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Update withName(String ruleName) {
-        this.inner.withName(ruleName);
-        return this;
-    }
-
-    @Override
     public PolicyRuleImpl withType(String type) {
         this.inner.withType(type);
         return this;
@@ -183,8 +179,10 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Update withoutBlobTypesToFilterFor() {
-        this.inner.definition().filters().withBlobTypes(new ArrayList<String>());
+    public Update withBlobTypeToFilterForRemoved(String blobType) {
+        List<String> blobTypesToFilterFor = this.inner.definition().filters().blobTypes();
+        blobTypesToFilterFor.remove(blobType);
+        this.inner.definition().filters().withBlobTypes(blobTypesToFilterFor);
         return this;
     }
 
@@ -259,13 +257,13 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public DefinitionStages.PolicyRuleAttachable withActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions) {
+    public DefinitionStages.WithPolicyRuleAttachable withActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions) {
         this.inner.definition().actions().withBaseBlob(baseBlobActions);
         return this;
     }
 
     @Override
-    public DefinitionStages.PolicyRuleAttachable withActionsOnSnapShot(ManagementPolicySnapShot snapShotActions) {
+    public DefinitionStages.WithPolicyRuleAttachable withActionsOnSnapShot(ManagementPolicySnapShot snapShotActions) {
         this.inner.definition().actions().withSnapshot(snapShotActions);
         return this;
     }

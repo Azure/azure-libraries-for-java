@@ -153,8 +153,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
         ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
         ManagementPolicy managementPolicy = managementPolicies.define("management-test")
                 .withExistingStorageAccount(RG_NAME, SA_NAME)
-                .defineRule()
-                    .withName("rule1")
+                .defineRule("rule1")
                     .withType("Lifecycle")
                     .withBlobTypeToFilterFor("blockBlob")
                     .withPrefixToFilterFor("container1/foo")
@@ -196,8 +195,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
         ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
         ManagementPolicy managementPolicy = managementPolicies.define("management-test")
                 .withExistingStorageAccount(RG_NAME, SA_NAME)
-                .defineRule()
-                    .withName("rule1")
+                .defineRule("rule1")
                     .withType("Lifecycle")
                     .withBlobTypeToFilterFor("blockBlob")
                     .withPrefixToFilterFor("container1/foo")
@@ -228,65 +226,57 @@ public class StorageBlobServicesTests extends StorageManagementTest {
         Assert.assertTrue(rules.get(0).deleteActionOnSnapShotEnabled());
     }
 
+    @Test
+    public void canUpdateManagementPolicy() {
+        String SA_NAME = generateRandomResourceName("javacmsa", 15);
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_WEST_CENTRAL)
+                .withNewResourceGroup(RG_NAME)
+                .withBlobStorageAccountKind()
+                .withAccessTier(AccessTier.COOL)
+                .create();
+
+
+        ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
+        ManagementPolicy managementPolicy = managementPolicies.define("management-test")
+                .withExistingStorageAccount(RG_NAME, SA_NAME)
+                .defineRule("rule1")
+                    .withType("Lifecycle")
+                    .withBlobTypeToFilterFor("blockBlob")
+                    .withDeleteActionOnSnapShot(100)
+                    .attach()
+                .create();
+
+        managementPolicy.update().updateRule("rule1")
+                    .withType("Lifecycle")
+                    .withBlobTypeToFilterFor("blockBlob")
+                    .withPrefixToFilterFor("container1/foo")
+                    .withTierToCoolActionOnBaseBlob(30)
+                    .withTierToArchiveActionOnBaseBlob(90)
+                    .withDeleteActionOnBaseBlob(2555)
+                    .withDeleteActionOnSnapShot(90)
+                    .parent()
+                .apply();
+
+
+        List<String> blobTypesToFilterFor = new ArrayList<>();
+        blobTypesToFilterFor.add("blockBlob");
+
+        List<String> prefixesToFilterFor = new ArrayList<>();
+        prefixesToFilterFor.add("container1/foo");
+
+        List<PolicyRule> rules = managementPolicy.rules();
+        Assert.assertEquals("rule1", rules.get(0).name());
+        Assert.assertEquals(blobTypesToFilterFor, rules.get(0).blobTypesToFilterFor());
+        Assert.assertEquals(prefixesToFilterFor, rules.get(0).prefixesToFilterFor());
+        Assert.assertEquals(30, rules.get(0).daysAfterBaseBlobModificationUntilCooling().intValue());
+        Assert.assertTrue(rules.get(0).tierToCoolActionOnBaseBlobEnabled());
+        Assert.assertEquals(90, rules.get(0).daysAfterBaseBlobModificationUntilArchiving().intValue());
+        Assert.assertTrue(rules.get(0).tierToArchiveActionOnBaseBlobEnabled());
+        Assert.assertEquals(2555, rules.get(0).daysAfterBaseBlobModificationUntilDeleting().intValue());
+        Assert.assertTrue(rules.get(0).deleteActionOnBaseBlobEnabled());
+        Assert.assertEquals(90,rules.get(0).daysAfterSnapShotCreationUntilDeleting().intValue());
+        Assert.assertTrue(rules.get(0).deleteActionOnSnapShotEnabled());
+    }
 }
-
-
-//    @Test
-//    public void canCreateManagementPolicies() throws IOException {
-//        AzureJacksonAdapter azureJacksonAdapter = new AzureJacksonAdapter();
-//        PolicyObject policyObject = new PolicyObject();
-//        policyObject.version = "0.5";
-//        policyObject.rules = new ArrayList<PolicyObject.PolicyRule>();
-//        PolicyObject.PolicyRule policyRule = new PolicyObject.PolicyRule();
-//        policyRule.name = "agingRule";
-//        policyRule.type = "Lifecycle";
-//        PolicyObject.PolicyRule.RuleDefinition definition = new PolicyObject.PolicyRule.RuleDefinition();
-//        PolicyObject.PolicyRule.RuleDefinition.RuleFilters ruleFilters = new PolicyObject.PolicyRule.RuleDefinition.RuleFilters();
-//
-//        List<PolicyObject.PolicyRule.RuleDefinition.RuleFilters.BlobTypes> blobTypes = new ArrayList<>();
-//        blobTypes.add(PolicyObject.PolicyRule.RuleDefinition.RuleFilters.BlobTypes.BLOCKBLOB);
-//
-//        List<String> prefixMatches = new ArrayList<>();
-//        prefixMatches.add("container1/foo");
-//        prefixMatches.add("container2/bar");
-//
-//        ruleFilters.blobTypes = blobTypes;
-//        ruleFilters.prefixMatches = prefixMatches;
-//
-//
-//        definition.filters = ruleFilters;
-//
-//        PolicyObject.PolicyRule.RuleDefinition.RuleActions actions = new PolicyObject.PolicyRule.RuleDefinition.RuleActions();
-//        Map<PolicyObject.PolicyRule.RuleDefinition.RuleActions.RuleAction, PolicyObject.PolicyRule.RuleDefinition.RuleActions.RuleActionCondition> baseBlobConditions = new HashMap<>();
-//        PolicyObject.PolicyRule.RuleDefinition.RuleActions.RuleActionCondition tierToCoolCondition = new PolicyObject.PolicyRule.RuleDefinition.RuleActions.RuleActionCondition();
-//        tierToCoolCondition.daysAfterModificationGreaterThan = 30;
-//        baseBlobConditions.put(PolicyObject.PolicyRule.RuleDefinition.RuleActions.RuleAction.TIERTOCOOL, tierToCoolCondition);
-//
-//        PolicyObject.PolicyRule.RuleDefinition.RuleActions.RuleActionCondition tierToArchiveCondition = new PolicyObject.PolicyRule.RuleDefinition.RuleActions.RuleActionCondition();
-//        tierToArchiveCondition.daysAfterModificationGreaterThan = 90;
-//        baseBlobConditions.put(PolicyObject.PolicyRule.RuleDefinition.RuleActions.RuleAction.TIERTOARCHIVE, tierToArchiveCondition);
-//
-//        actions.baseBlobConditions = baseBlobConditions;
-//        definition.actions = actions;
-//
-//        policyRule.definition = definition;
-//        policyObject.rules.add(policyRule);
-//
-//
-//        System.out.println(azureJacksonAdapter.serialize(policyObject));
-//
-//
-////        String SA_NAME = generateRandomResourceName("javacmsa", 15);
-////
-////        StorageAccount storageAccount = storageManager.storageAccounts()
-////                .define(SA_NAME)
-////                .withRegion(Region.US_EAST)
-////                .withNewResourceGroup(RG_NAME)
-////                .create();
-////
-////        ManagementPolicies managementPolicies = this.storageManager.managementPolicies();
-////        StorageAccountManagementPolicies managementPolicy = managementPolicies.define("management-test")
-////                .withExistingStorageAccount(RG_NAME, SA_NAME)
-////                .withPolicy(policyObject)
-////                .create();
-//    }

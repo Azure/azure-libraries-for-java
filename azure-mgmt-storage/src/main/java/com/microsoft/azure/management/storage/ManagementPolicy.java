@@ -92,7 +92,7 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
              * @return the next definition stage
              */
             //WithCreate withPolicy(ManagementPolicySchema policy);
-            PolicyRule.DefinitionStages.Blank defineRule();
+            PolicyRule.DefinitionStages.Blank defineRule(String name);
         }
 
         /**
@@ -106,7 +106,7 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
     /**
      * The template for a ManagementPolicy update operation, containing all the settings that can be modified.
      */
-    interface Update extends Appliable<ManagementPolicy>, UpdateStages.WithPolicy {
+    interface Update extends Appliable<ManagementPolicy>, UpdateStages.WithPolicy, UpdateStages.Rule {
     }
 
     /**
@@ -124,6 +124,10 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
              * @return the next update stage
              */
             Update withPolicy(ManagementPolicySchema policy);
+        }
+
+        interface Rule {
+            PolicyRule.Update updateRule(String name);
         }
 
     }

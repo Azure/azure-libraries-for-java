@@ -8,6 +8,7 @@ package com.microsoft.azure.management.storage.implementation;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.storage.DateAfterCreation;
 import com.microsoft.azure.management.storage.DateAfterModification;
+import com.microsoft.azure.management.storage.ManagementPolicy;
 import com.microsoft.azure.management.storage.ManagementPolicyAction;
 import com.microsoft.azure.management.storage.ManagementPolicyBaseBlob;
 import com.microsoft.azure.management.storage.ManagementPolicyDefinition;
@@ -28,19 +29,26 @@ class PolicyRuleImpl implements
     private ManagementPolicyRule inner;
     private ManagementPolicyImpl managementPolicyImpl;
 
-    PolicyRuleImpl(ManagementPolicyImpl managementPolicyImpl) {
+    PolicyRuleImpl(ManagementPolicyImpl managementPolicyImpl, String name) {
         this.inner = new ManagementPolicyRule();
         this.inner.withDefinition(new ManagementPolicyDefinition());
         this.inner.definition().withFilters(new ManagementPolicyFilter());
         this.inner.definition().withActions(new ManagementPolicyAction());
         this.managementPolicyImpl = managementPolicyImpl;
+        this.inner.withName(name);
     }
 
-    PolicyRuleImpl() {
+    PolicyRuleImpl(String name) {
         this.inner = new ManagementPolicyRule();
         this.inner.withDefinition(new ManagementPolicyDefinition());
         this.inner.definition().withFilters(new ManagementPolicyFilter());
         this.inner.definition().withActions(new ManagementPolicyAction());
+        this.inner.withName(name);
+    }
+
+    PolicyRuleImpl(ManagementPolicyRule managementPolicyRule, ManagementPolicyImpl managementPolicyImpl) {
+        this.inner = managementPolicyRule;
+        this.managementPolicyImpl = managementPolicyImpl;
     }
 
     @Override
@@ -143,7 +151,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withName(String ruleName) {
+    public Update withName(String ruleName) {
         this.inner.withName(ruleName);
         return this;
     }
@@ -165,6 +173,9 @@ class PolicyRuleImpl implements
         List<String> blobTypesToFilterFor = this.inner.definition().filters().blobTypes();
         if (blobTypesToFilterFor == null) {
             blobTypesToFilterFor = new ArrayList<>();
+        }
+        if (blobTypesToFilterFor.contains(blobType)) {
+            return this;
         }
         blobTypesToFilterFor.add(blobType);
         this.inner.definition().filters().withBlobTypes(blobTypesToFilterFor);
@@ -188,6 +199,9 @@ class PolicyRuleImpl implements
         List<String> prefixesToFilterFor = this.inner.definition().filters().prefixMatch();
         if (prefixesToFilterFor == null) {
             prefixesToFilterFor = new ArrayList<>();
+        }
+        if (prefixesToFilterFor.contains(prefix)) {
+            return this;
         }
         prefixesToFilterFor.add(prefix);
         this.inner.definition().filters().withPrefixMatch(prefixesToFilterFor);
@@ -234,12 +248,6 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Update updateActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions) {
-        this.inner.definition().actions().withBaseBlob(baseBlobActions);
-        return this;
-    }
-
-    @Override
     public PolicyRuleImpl withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting) {
         ManagementPolicySnapShot currentSnapShot = new ManagementPolicySnapShot();
         if (currentSnapShot == null) {
@@ -247,6 +255,24 @@ class PolicyRuleImpl implements
         }
         currentSnapShot.withDelete(new DateAfterCreation().withDaysAfterCreationGreaterThan(daysAfterSnapShotCreationUntilDeleting));
         this.inner.definition().actions().withSnapshot(currentSnapShot);
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.PolicyRuleAttachable withActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions) {
+        this.inner.definition().actions().withBaseBlob(baseBlobActions);
+        return this;
+    }
+
+    @Override
+    public DefinitionStages.PolicyRuleAttachable withActionsOnSnapShot(ManagementPolicySnapShot snapShotActions) {
+        this.inner.definition().actions().withSnapshot(snapShotActions);
+        return this;
+    }
+
+    @Override
+    public Update updateActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions) {
+        this.inner.definition().actions().withBaseBlob(baseBlobActions);
         return this;
     }
 
@@ -263,13 +289,8 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Update update() {
-        return this;
+    public ManagementPolicy.Update parent() {
+        this.managementPolicyImpl.defineRule(this);
+        return this.managementPolicyImpl;
     }
-
-    private boolean isInCreateMode() {
-        return this.inner().name() == "";
-    }
-
-
 }

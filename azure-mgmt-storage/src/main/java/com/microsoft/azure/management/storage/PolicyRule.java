@@ -2,13 +2,12 @@ package com.microsoft.azure.management.storage;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
 
 public interface PolicyRule extends
-        HasInner<ManagementPolicyRule>,
-        Updatable<PolicyRule.Update> {
+        HasInner<ManagementPolicyRule> {
 
     String name();
     String type();
@@ -27,7 +26,6 @@ public interface PolicyRule extends
 
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.PolicyRuleName,
             DefinitionStages.PolicyRuleType,
             DefinitionStages.BlobTypesToFilterFor,
             DefinitionStages.PrefixesToFilterFor,
@@ -40,15 +38,12 @@ public interface PolicyRule extends
             UpdateStages.Type,
             UpdateStages.BlobTypesToFilterFor,
             UpdateStages.PrefixesToFilterFor,
-            UpdateStages.Actions {
+            UpdateStages.Actions,
+            Settable<ManagementPolicy.Update> {
     }
 
     interface DefinitionStages {
-        interface Blank extends PolicyRuleName{
-        }
-
-        interface PolicyRuleName {
-            PolicyRuleType withName(String ruleName);
+        interface Blank extends PolicyRuleType{
         }
 
         interface PolicyRuleType {
@@ -70,6 +65,8 @@ public interface PolicyRule extends
             PolicyRuleAttachable withTierToArchiveActionOnBaseBlob(int daysAfterBaseBlobModificationUntilArchiving);
             PolicyRuleAttachable withDeleteActionOnBaseBlob(int daysAfterBaseBlobModificationUntilDeleting);
             PolicyRuleAttachable withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting);
+            PolicyRuleAttachable withActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions);
+            PolicyRuleAttachable withActionsOnSnapShot(ManagementPolicySnapShot snapShotActions);
         }
 
         interface PolicyRuleAttachable extends PolicyRule.DefinitionStages.RuleActions,

@@ -17,13 +17,19 @@ import com.microsoft.azure.management.storage.ManagementPolicySnapShot;
 import com.microsoft.azure.management.storage.PolicyRule;
 import rx.Observable;
 
-import java.security.Policy;
 import java.util.ArrayList;
 import java.util.List;
 import org.joda.time.DateTime;
 import rx.functions.Func1;
 
-class ManagementPolicyImpl extends CreatableUpdatableImpl<ManagementPolicy, ManagementPolicyInner, ManagementPolicyImpl> implements ManagementPolicy, ManagementPolicy.Definition, ManagementPolicy.Update {
+class ManagementPolicyImpl extends
+        CreatableUpdatableImpl<ManagementPolicy,
+        ManagementPolicyInner,
+        ManagementPolicyImpl>
+                            implements
+        ManagementPolicy,
+        ManagementPolicy.Definition,
+        ManagementPolicy.Update {
     private final StorageManager manager;
     private String resourceGroupName;
     private String accountName;
@@ -132,8 +138,7 @@ class ManagementPolicyImpl extends CreatableUpdatableImpl<ManagementPolicy, Mana
         List<ManagementPolicyRule> originalRules = this.policy().rules();
         List<PolicyRule> returnRules = new ArrayList<>();
         for (ManagementPolicyRule originalRule : originalRules) {
-            PolicyRule returnRule = new PolicyRuleImpl()
-                    .withName(originalRule.name())
+            PolicyRule returnRule = new PolicyRuleImpl(originalRule.name())
                     .withType(originalRule.type())
                     .withBlobTypesToFilterFor(originalRule.definition().filters().blobTypes());
 
@@ -186,18 +191,40 @@ class ManagementPolicyImpl extends CreatableUpdatableImpl<ManagementPolicy, Mana
     }
 
     @Override
-    public PolicyRule.DefinitionStages.Blank defineRule() {
-        return new PolicyRuleImpl(this);
+    public PolicyRule.DefinitionStages.Blank defineRule(String name) {
+        return new PolicyRuleImpl(this, name);
     }
 
     void defineRule(PolicyRuleImpl policyRuleImpl) {
-        if (this.cpolicy.rules() == null) {
-            this.cpolicy.withRules(new ArrayList<ManagementPolicyRule>());
+        if (isInCreateMode()) {
+            if (this.cpolicy.rules() == null) {
+                this.cpolicy.withRules(new ArrayList<ManagementPolicyRule>());
+            }
+            List<ManagementPolicyRule> rules = this.cpolicy.rules();
+            rules.add(policyRuleImpl.inner());
+            this.cpolicy.withRules(rules);
+        } else {
+            if (this.upolicy.rules() == null) {
+                this.upolicy.withRules(new ArrayList<ManagementPolicyRule>());
+            }
+            List<ManagementPolicyRule> rules = this.upolicy.rules();
+            rules.add(policyRuleImpl.inner());
+            this.upolicy.withRules(rules);
         }
-        List<ManagementPolicyRule> rules = this.cpolicy.rules();
-        rules.add(policyRuleImpl.inner());
-        this.cpolicy.withRules(rules);
     }
 
+    @Override
+    public PolicyRule.Update updateRule(String name) {
+        ManagementPolicyRule ruleToUpdate = null;
+        for (ManagementPolicyRule rule : this.policy().rules()) {
+            if (rule.name().equals(name)) {
+                ruleToUpdate = rule;
+            }
+        }
+        if (ruleToUpdate == null) {
+            throw new UnsupportedOperationException("There is no rule that exists with the name " + name + ". Please define a rule with this name before updating.");
+        }
+        return new PolicyRuleImpl(ruleToUpdate, this);
+    }
 }
 

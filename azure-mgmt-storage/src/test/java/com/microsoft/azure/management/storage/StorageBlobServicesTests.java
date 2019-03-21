@@ -244,6 +244,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
                 .defineRule("rule1")
                     .withType("Lifecycle")
                     .withBlobTypeToFilterFor("blockBlob")
+                    .withPrefixToFilterFor("asdf")
                     .withDeleteActionOnSnapShot(100)
                     .attach()
                 .create();

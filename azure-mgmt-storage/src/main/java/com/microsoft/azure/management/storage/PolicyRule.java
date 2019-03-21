@@ -51,13 +51,16 @@ public interface PolicyRule extends
         }
 
         interface BlobTypesToFilterFor {
-            PolicyRuleAttachable withBlobTypesToFilterFor(List<String> blobTypes);
-            PolicyRuleAttachable withBlobTypeToFilterFor(String blobType);
+            PrefixActionFork withBlobTypesToFilterFor(List<String> blobTypes);
+            PrefixActionFork withBlobTypeToFilterFor(String blobType);
+        }
+
+        interface PrefixActionFork extends PrefixesToFilterFor, RuleActions {
         }
 
         interface PrefixesToFilterFor {
-            PolicyRuleAttachable withPrefixesToFilterFor(List<String> prefixes);
-            PolicyRuleAttachable withPrefixToFilterFor(String prefix);
+            RuleActions withPrefixesToFilterFor(List<String> prefixes);
+            RuleActions withPrefixToFilterFor(String prefix);
         }
 
         interface RuleActions {

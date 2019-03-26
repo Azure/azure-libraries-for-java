@@ -33,6 +33,11 @@ class WebAppsImpl
 
     private final PagedListConverter<SiteInner, WebApp> converter;
 
+    // The default implementation is requesting extra properties that need specific permissions.
+    // This converter is only used when listing webApps but ignoring the extra calls to the
+    // API for getting those properties
+    private final PagedListConverter<SiteInner, WebApp> converterWithoutProperties;
+
     WebAppsImpl(final AppServiceManager manager) {
         super(manager.inner().webApps(), manager);
         converter = new PagedListConverter<SiteInner, WebApp>() {
@@ -52,6 +57,18 @@ class WebAppsImpl
                                 return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
                             }
                         });
+            }
+        };
+
+        converterWithoutProperties = new PagedListConverter<SiteInner, WebApp>() {
+            @Override
+            public Observable<WebApp> typeConvertAsync(final SiteInner siteInner) {
+                return Observable.just((WebApp) wrapModel(siteInner));
+            }
+
+            @Override
+            protected boolean filter(SiteInner inner) {
+                return !("functionapp".equalsIgnoreCase(inner.kind()));
             }
         };
     }
@@ -100,9 +117,13 @@ class WebAppsImpl
         return converter.convert(pagedList);
     }
 
-
     @Override
     public WebAppImpl define(String name) {
         return wrapModel(name);
+    }
+
+    @Override
+    public PagedList<WebApp> listWithoutProperties() {
+        return converterWithoutProperties.convert(inner().list());
     }
 }

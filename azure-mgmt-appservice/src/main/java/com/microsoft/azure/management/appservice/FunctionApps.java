@@ -31,6 +31,7 @@ public interface FunctionApps extends
         SupportsListing<FunctionApp>,
         SupportsListingByResourceGroup<FunctionApp>,
         SupportsGettingByResourceGroup<FunctionApp>,
+        SupportListingWithoutProperties<FunctionApp>,
         SupportsGettingById<FunctionApp>,
         SupportsDeletingByResourceGroup,
         HasManager<AppServiceManager>,

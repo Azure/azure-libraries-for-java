@@ -31,6 +31,7 @@ public interface WebApps extends
         SupportsListing<WebApp>,
         SupportsListingByResourceGroup<WebApp>,
         SupportsGettingByResourceGroup<WebApp>,
+        SupportListingWithoutProperties<WebApp>,
         SupportsGettingById<WebApp>,
         SupportsDeletingByResourceGroup,
         HasManager<AppServiceManager>,

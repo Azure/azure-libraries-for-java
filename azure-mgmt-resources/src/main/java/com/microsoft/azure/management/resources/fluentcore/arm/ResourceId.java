@@ -9,6 +9,7 @@ package com.microsoft.azure.management.resources.fluentcore.arm;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import java.security.InvalidParameterException;
 import org.apache.commons.lang3.StringUtils;
+import java.util.Arrays;
 
 /**
  * Instantiate itself from a resource id, and give easy access to resource information like subscription, resourceGroup,
@@ -36,9 +37,6 @@ public final class ResourceId {
         } else {
             // Skip the first '/' if any, and then split using '/'
             String[] splits = (id.startsWith("/")) ? id.substring(1).split("/") : id.split("/");
-            if (splits.length % 2 == 1) {
-                throw new InvalidParameterException(badIdErrorText(id));
-            }
 
             // Save the ID itself
             this.id = id;
@@ -50,18 +48,6 @@ public final class ResourceId {
             // Extract resource type and name
             if (splits.length < 2) {
                 throw new InvalidParameterException(badIdErrorText(id));
-            } else {
-                this.name = splits[splits.length - 1];
-                this.resourceType = splits[splits.length - 2];
-            }
-
-            // Extract parent ID
-            if (splits.length < 10) {
-                this.parentId = null;
-            } else {
-                String[] parentSplits = new String[splits.length - 2];
-                System.arraycopy(splits, 0, parentSplits, 0, splits.length - 2);
-                this.parentId = "/" + StringUtils.join(parentSplits, "/");
             }
 
             for (int i = 0; i < splits.length && i < 6; i++) {
@@ -100,7 +86,70 @@ public final class ResourceId {
                     break;
                 }
             }
+
+            parseProviderSpecificResourceId(providerNamespace, splits);
         }
+    }
+
+    /**
+     * This is a workaround to allow resource names embedded in the resourceId to contain forward slashes.
+     * Forward slashes should be updateResourceFields not permitted in ResourceId 'names' but it seems someone managed to do it
+     * in ServiceBus Queues and it breaks the ResourceId parsing code.
+     * The code looks for the "queues" keyword (resourceType) and assumes everything before that is the
+     * parentId and everything after is the resource "name".
+     * It only works for Microsoft.ServiceBus and for Queues since there is only one level of hierarchy
+     * and we haven't run into problems with Topics.
+     * Example:
+     *   ResourceId: /subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/updateResourceFields/queues/some/queue/name
+     *   -> parentId : /subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/updateResourceFields
+     *   -> resource name : some/queue/name
+     * Example:
+     *   ResourceId: /subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/updateResourceFields/topics/some/topic
+     *   -> parentId : /subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/updateResourceFields
+     *   -> resource name : some/topic
+     * Example:
+     *   ResourceId: /subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/updateResourceFields/topics/someTopic/subscriptions/some/subscription
+     *   -> parentId : /subscriptions/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/resourceGroups/Default-ServiceBus-EastUS/providers/Microsoft.ServiceBus/namespaces/updateResourceFields/topics/someTopic
+     *   -> resource name : some/subscription
+     */
+    private void parseProviderSpecificResourceId(String providerNamespace, String[] splits) {
+        if (providerNamespace.equalsIgnoreCase("microsoft.servicebus")) {
+            // find at which index we find queues -> after, it's all name, before is parent
+            int queuesIndex = Arrays.asList(splits).lastIndexOf("queues");
+            if (queuesIndex > 0) {
+                updateResourceFields(splits, queuesIndex);
+                return;
+            }
+            // find at which index we find topics -> then check if there are subscriptions
+            int topicsIndex = Arrays.asList(splits).lastIndexOf("topics");
+            if (topicsIndex > 0) {
+                int subscriptionsIndex = Arrays.asList(splits).lastIndexOf("subscriptions");
+                //we didn't find subscriptions, or this is the root, assume everything after topics is the name
+                if (subscriptionsIndex <= 0) {
+                    updateResourceFields(splits, topicsIndex);
+                } else {
+                    updateResourceFields(splits, subscriptionsIndex);
+                }
+            }
+        }
+
+        this.name = splits[splits.length - 1];
+        this.resourceType = splits[splits.length - 2];
+
+        // Extract parent ID
+        if (splits.length < 10) {
+            this.parentId = null;
+        } else {
+            String[] parentSplits = new String[splits.length - 2];
+            System.arraycopy(splits, 0, parentSplits, 0, splits.length - 2);
+            this.parentId = "/" + StringUtils.join(parentSplits, "/");
+        }
+    }
+
+    private void updateResourceFields(String[] splits, int queuesIndex) {
+        this.name = StringUtils.join(Arrays.copyOfRange(splits, queuesIndex + 1, splits.length), "/");
+        this.parentId = "/" + StringUtils.join(Arrays.copyOfRange(splits, 0, queuesIndex), "/");
+        this.resourceType = splits[queuesIndex];
     }
 
     /**

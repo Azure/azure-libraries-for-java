@@ -45,25 +45,12 @@ class CosmosDBAccountsImpl
 
     @Override
     public PagedList<CosmosDBAccount> list() {
-        final CosmosDBAccountsImpl self = this;
-        return new GroupPagedList<CosmosDBAccount>(this.manager().resourceManager().resourceGroups().list()) {
-            @Override
-            public List<CosmosDBAccount> listNextGroup(String resourceGroupName) {
-                return wrapList(self.inner().listByResourceGroup(resourceGroupName));
-
-            }
-        };
+        return wrapList(this.inner().list());
     }
 
     @Override
     public Observable<CosmosDBAccount> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
-                .flatMap(new Func1<ResourceGroup, Observable<CosmosDBAccount>>() {
-                    @Override
-                    public Observable<CosmosDBAccount> call(ResourceGroup resourceGroup) {
-                        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroup.name()));
-                    }
-                });
+        return wrapPageAsync(this.inner().listAsync());
     }
 
     @Override

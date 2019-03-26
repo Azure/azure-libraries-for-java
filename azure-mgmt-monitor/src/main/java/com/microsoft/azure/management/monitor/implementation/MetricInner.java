@@ -8,10 +8,13 @@
 
 package com.microsoft.azure.management.monitor.implementation;
 
-import com.microsoft.azure.management.monitor.Unit;
-import java.util.List;
-import com.microsoft.azure.management.monitor.TimeSeriesElement;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.microsoft.azure.management.monitor.MetricValue;
+import com.microsoft.azure.management.monitor.TimeSeriesElement;
+import com.microsoft.azure.management.monitor.Unit;
+
+import java.util.List;
 
 /**
  * The result data of a query.
@@ -148,6 +151,32 @@ public class MetricInner {
     public MetricInner withTimeseries(List<TimeSeriesElement> timeseries) {
         this.timeseries = timeseries;
         return this;
+    }
+
+    /**
+     * Array of data points representing the metric values.
+     */
+    @JsonProperty(value = "data", required = true)
+    private List<MetricValue> data;
+
+    public List<MetricValue> data() {
+        return this.data;
+    }
+
+    /**
+     * Set the data value.
+     *
+     * @param data the data value to set
+     * @return the MetricInner object itself.
+     */
+    public MetricInner withData(List<MetricValue> data) {
+        this.data = data;
+        return this;
+    }
+
+    @JsonSetter("metricValues")
+    private void setMetricValues(List<MetricValue> values) {
+        this.data = values;
     }
 
 }

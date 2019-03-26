@@ -418,4 +418,20 @@ public class MonitorManagementClientImpl extends AzureServiceClient {
     public String userAgent() {
         return String.format("%s (%s)", super.userAgent(), "MonitorManagementClient");
     }
+
+    /**
+     * Gets the MetricDefinitionsInner object to access its operations.
+     * @return the MetricDefinitionsInner object.
+     */
+    public MetricDefinitionsInnerLegacy metricDefinitionsLegacy() {
+        return new MetricDefinitionsInnerLegacy(restClient().retrofit(), this);
+    }
+
+    /**
+     * Gets the MetricsInner object to access its operations.
+     * @return the MetricsInner object.
+     */
+    public MetricsInnerLegacy metricsLegacy() {
+        return new MetricsInnerLegacy(restClient().retrofit(), this);
+    }
 }

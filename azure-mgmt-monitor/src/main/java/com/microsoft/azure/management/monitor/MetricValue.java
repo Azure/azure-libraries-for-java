@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.monitor;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,6 +21,15 @@ public class MetricValue {
      */
     @JsonProperty(value = "timeStamp", required = true)
     private DateTime timeStamp;
+
+    /**
+     * Alternative setter for timestamp to maintain compatibility with the legacy api
+     * @param value the value to set
+     */
+    @JsonSetter("timestamp")
+    private void setTimeStamp(DateTime value) {
+        this.timeStamp = value;
+    }
 
     /**
      * the average value in the time range.

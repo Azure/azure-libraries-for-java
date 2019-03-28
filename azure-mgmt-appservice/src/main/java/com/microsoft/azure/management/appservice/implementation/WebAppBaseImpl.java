@@ -45,9 +45,12 @@ import com.microsoft.azure.management.appservice.WebAppAuthentication;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebContainer;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -131,6 +134,7 @@ abstract class WebAppBaseImpl<
     private boolean diagnosticLogsToUpdate;
     private FunctionalTaskItem msiHandler;
     private boolean isInCreateMode;
+    private WebAppMsiHandler webAppMsiHandler;
 
     WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, manager);
@@ -141,6 +145,8 @@ abstract class WebAppBaseImpl<
         if (logConfig != null) {
             this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(logConfig, this);
         }
+
+        webAppMsiHandler = new WebAppMsiHandler(manager.rbacManager(), this);
         normalizeProperties();
         isInCreateMode = inner() == null || inner().id() == null;
         if (!isInCreateMode) {
@@ -164,6 +170,28 @@ abstract class WebAppBaseImpl<
             innerObject.withKind(innerObject.kind().replace(";", ","));
         }
         super.setInner(innerObject);
+    }
+
+    RoleAssignmentHelper.IdProvider idProvider() {
+        return new RoleAssignmentHelper.IdProvider() {
+            @Override
+            public String principalId() {
+                if (inner() != null && inner().identity() != null) {
+                    return inner().identity().principalId();
+                } else {
+                    return null;
+                }
+            }
+
+            @Override
+            public String resourceId() {
+                if (inner() != null) {
+                    return inner().id();
+                } else {
+                    return null;
+                }
+            }
+        };
     }
 
     @SuppressWarnings("unchecked")
@@ -204,6 +232,7 @@ abstract class WebAppBaseImpl<
                 hostNameSslStateMap.put(hostNameSslState.name(), hostNameSslState);
             }
         }
+        this.webAppMsiHandler.clear();
         return (FluentT) this;
     }
 
@@ -796,6 +825,8 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public Observable<FluentT> createResourceAsync() {
+        this.webAppMsiHandler.processCreatedExternalIdentities();
+        this.webAppMsiHandler.handleExternalIdentities();
         return submitSite(inner()).map(new Func1<SiteInner, FluentT>() {
             @Override
             public FluentT call(SiteInner siteInner) {
@@ -1569,92 +1600,48 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedManagedServiceIdentity() {
-        inner().withIdentity(new ManagedServiceIdentity().withType(ManagedServiceIdentityType.SYSTEM_ASSIGNED));
+        this.webAppMsiHandler.withLocalManagedServiceIdentity();
         return (FluentImplT) this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessTo(final String resourceId, final BuiltInRole role) {
-        if (inner().identity() == null || inner().identity().type() == null) {
-            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
-        }
-        msiHandler = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(Context context) {
-                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
-                        .forObjectId(systemAssignedManagedServiceIdentityPrincipalId())
-                        .withBuiltInRole(role)
-                        .withScope(resourceId)
-                        .createAsync();
-            }
-        };
+        this.webAppMsiHandler.withAccessTo(resourceId, role);
         return (FluentImplT) this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(final BuiltInRole role) {
-        if (inner().identity() == null || inner().identity().type() == null) {
-            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
-        }
-        msiHandler = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(Context context) {
-                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
-                        .forObjectId(systemAssignedManagedServiceIdentityPrincipalId())
-                        .withBuiltInRole(role)
-                        .withScope(resourceGroupId(id()))
-                        .createAsync();
-            }
-        };
+        this.webAppMsiHandler.withAccessToCurrentResourceGroup(role);
         return (FluentImplT) this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessTo(final String resourceId, final String roleDefinitionId) {
-        if (inner().identity() == null || inner().identity().type() == null) {
-            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
-        }
-        msiHandler = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(Context context) {
-                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
-                        .forServicePrincipal(systemAssignedManagedServiceIdentityPrincipalId())
-                        .withRoleDefinition(roleDefinitionId)
-                        .withScope(resourceId)
-                        .createAsync();
-            }
-        };
+        this.webAppMsiHandler.withAccessTo(resourceId, roleDefinitionId);
         return (FluentImplT) this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(final String roleDefinitionId) {
-        if (inner().identity() == null || inner().identity().type() == null) {
-            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
-        }
-        msiHandler = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(Context context) {
-                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
-                        .forServicePrincipal(systemAssignedManagedServiceIdentityPrincipalId())
-                        .withRoleDefinition(roleDefinitionId)
-                        .withScope(resourceGroupId(id()))
-                        .createAsync();
-            }
-        };
+        this.webAppMsiHandler.withAccessToCurrentResourceGroup(roleDefinitionId);
         return (FluentImplT) this;
     }
 
-    private static String resourceGroupId(String id) {
-        final ResourceId resourceId = ResourceId.fromString(id);
-        return String.format("/subscriptions/%s/resourceGroups/%s",
-                resourceId.subscriptionId(),
-                resourceId.resourceGroupName());
+    @Override
+    public FluentImplT withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
+        this.webAppMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
+        return (FluentImplT) this;
+    }
 
+    @Override
+    public FluentImplT withExistingUserAssignedManagedServiceIdentity(Identity identity) {
+        this.webAppMsiHandler.withExistingExternalManagedServiceIdentity(identity);
+        return (FluentImplT) this;
     }
 
     @Override

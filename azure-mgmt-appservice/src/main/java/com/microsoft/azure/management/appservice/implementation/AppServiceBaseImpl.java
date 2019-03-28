@@ -176,7 +176,7 @@ abstract class AppServiceBaseImpl<
     }
 
     public Observable<PublishingProfile> getPublishingProfileAsync() {
-        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name())
+        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name(), null)
                 .map(new Func1<InputStream, PublishingProfile>() {
                     @Override
                     public PublishingProfile call(InputStream stream) {

@@ -1,3 +1,9 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
@@ -12,12 +18,15 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
+/**
+ * Utility class to set Managed Service Identity (MSI) property on a web app,
+ * install or update MSI extension and create role assignments for the service principal
+ * associated with the web app.
+ */
 public class WebAppMsiHandler  extends RoleAssignmentHelper {
     private WebAppBaseImpl webAppBase;
 

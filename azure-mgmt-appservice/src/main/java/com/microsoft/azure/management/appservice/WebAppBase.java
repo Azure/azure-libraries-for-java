@@ -604,7 +604,7 @@ public interface WebAppBase extends
             DefinitionStages.WithWebContainer<FluentT>,
             DefinitionStages.WithCreate<FluentT>,
             DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate<FluentT>,
-            DefinitionStages.WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT>{
+            DefinitionStages.WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> {
     }
 
     /**

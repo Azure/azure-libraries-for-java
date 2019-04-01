@@ -11,11 +11,10 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-
 import java.util.List;
 
 /**
- * An immutable client-side representation of a rule in an Azure Management Policy
+ * An immutable client-side representation of a rule in an Azure Management Policy.
  */
 @Fluent()
 //TODO: mark beta with since version V1_20_1
@@ -35,7 +34,7 @@ public interface PolicyRule extends
     /**
      * @return an unmodifiable list of the blob types this rule will apply for
      */
-    List<String> blobTypesToFilterFor();
+    List<BlobTypes> blobTypesToFilterFor();
 
     /**
      * @return an unmodifiable list of the prefixes of the blob types this rule will apply for
@@ -109,7 +108,6 @@ public interface PolicyRule extends
      * Container interface for all of the updates related to a rule in a management policy.
      */
     interface Update extends
-            UpdateStages.WithType,
             UpdateStages.WithBlobTypesToFilterFor,
             UpdateStages.WithPrefixesToFilterFor,
             UpdateStages.WithActions,
@@ -123,7 +121,7 @@ public interface PolicyRule extends
         /**
          * The first stage of a management policy rule definition.
          */
-        interface Blank extends WithPolicyRuleType{
+        interface Blank extends WithPolicyRuleType {
         }
 
         /**
@@ -131,12 +129,11 @@ public interface PolicyRule extends
          */
         interface WithPolicyRuleType {
             /**
-             * The function that specifies the type of the management policy rule.
+             * The function that specifies Lifecycle as the type of the management policy rule.
              *
-             * @param type the type of the management policy rule. Currently only valid input is "Lifecycle".
              * @return the next stage of the management policy rule definition.
              */
-            WithBlobTypesToFilterFor withType(String type);
+            WithBlobTypesToFilterFor withLifecycleRuleType();
         }
 
         /**
@@ -149,7 +146,7 @@ public interface PolicyRule extends
              * @param blobTypes a list of the types of blob the rule will apply to.
              * @return the next stage of the management policy rule definition.
              */
-            PrefixActionFork withBlobTypesToFilterFor(List<String> blobTypes);
+            PrefixActionFork withBlobTypesToFilterFor(List<BlobTypes> blobTypes);
 
             /**
              * The function that specifies a blob type that the rule will apply to.
@@ -157,7 +154,7 @@ public interface PolicyRule extends
              * @param blobType a blob type that the rule will apply to.
              * @return the next stage of the management policy rule definition.
              */
-            PrefixActionFork withBlobTypeToFilterFor(String blobType);
+            PrefixActionFork withBlobTypeToFilterFor(BlobTypes blobType);
         }
 
         /**
@@ -225,7 +222,7 @@ public interface PolicyRule extends
             WithPolicyRuleAttachable withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting);
 
             /**
-             * The function that specifies all of the actions to apply to selected base blobs
+             * The function that specifies all of the actions to apply to selected base blobs.
              *
              * @param baseBlobActions an object including all of the actions to apply to selected base blobs.
              * @return the next stage of the management policy rule definition.
@@ -257,19 +254,6 @@ public interface PolicyRule extends
      */
     interface UpdateStages {
         /**
-         * The stage of the management policy rule update allowing to specify the rule type.
-         */
-        interface WithType {
-            /**
-             * The function that specifies the type of the rule.
-             *
-             * @param type the type of the rule. Currently the only permitted input is "Lifecycle".
-             * @return the next stage of the management policy rule update.
-             */
-            Update withType(String type);
-        }
-
-        /**
          * The stage of the management policy rule update allowing to specify the blob types that the rule will apply to.
          */
         interface WithBlobTypesToFilterFor {
@@ -279,7 +263,7 @@ public interface PolicyRule extends
              * @param blobTypes a list of the types of blob the rule will apply to.
              * @return the next stage of the management policy rule update.
              */
-            Update withBlobTypesToFilterFor(List<String> blobTypes);
+            Update withBlobTypesToFilterFor(List<BlobTypes> blobTypes);
 
             /**
              * The function that specifies a blob type that the rule will apply to.
@@ -287,7 +271,7 @@ public interface PolicyRule extends
              * @param blobType a blob type that the rule will apply to.
              * @return the next stage of the management policy rule update.
              */
-            Update withBlobTypeToFilterFor(String blobType);
+            Update withBlobTypeToFilterFor(BlobTypes blobType);
 
             /**
              * The function that specifies to remove a blob type that the rule will apply to.
@@ -295,7 +279,7 @@ public interface PolicyRule extends
              * @param blobType the blob type that you wish the rule to no longer apply to.
              * @return the next stage of the management policy rule update.
              */
-            Update withBlobTypeToFilterForRemoved(String blobType);
+            Update withBlobTypeToFilterForRemoved(BlobTypes blobType);
         }
 
         /**
@@ -363,7 +347,7 @@ public interface PolicyRule extends
             Update withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting);
 
             /**
-             * The function that specifies all of the actions to apply to selected base blobs
+             * The function that specifies all of the actions to apply to selected base blobs.
              *
              * @param baseBlobActions an object including all of the actions to apply to selected base blobs.
              * @return the next stage of the management policy rule update.

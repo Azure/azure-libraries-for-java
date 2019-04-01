@@ -8,9 +8,16 @@ package com.microsoft.azure.management.storage;
 
 
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.*;
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.storage.implementation.BlobServicePropertiesInner;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
+
+import java.util.List;
 
 /**
  * Type representing BlobServiceProperties.
@@ -68,6 +75,7 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
         interface WithStorageAccount {
             /**
              * Specifies resourceGroupName, accountName.
+             *
              * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive
              * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only
              * @return the next definition stage
@@ -80,11 +88,20 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
          */
         interface WithCors {
             /**
-             * Specifies cors.
-             * @param cors Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service
+             * Specifies all of the CORS rules.
+             *
+             * @param corsRules Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service
              * @return the next definition stage
              */
-            WithCreate withCors(CorsRules cors);
+            WithCreate withCORSRules(List<CorsRule> corsRules);
+
+            /**
+             * Specifies a single CORS rule.
+             *
+             * @param corsRule a single CORS rule
+             * @return the next definition stage
+             */
+            WithCreate withCORSRule(CorsRule corsRule);
         }
 
         /**
@@ -93,6 +110,7 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
         interface WithDefaultServiceVersion {
             /**
              * Specifies defaultServiceVersion.
+             *
              * @param defaultServiceVersion DefaultServiceVersion indicates the default version to use for requests to the Blob service if an incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions
              * @return the next definition stage
              */
@@ -105,13 +123,25 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
         interface WithDeleteRetentionPolicy {
             /**
              * Specifies deleteRetentionPolicy.
+             *
              * @param deleteRetentionPolicy The blob service properties for soft delete
              * @return the next definition stage
              */
             WithCreate withDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy);
 
+            /**
+             * Specifies that the delete retention policy is enabled for soft delete.
+             *
+             * @param numDaysEnabled number of days after soft delete that the blob service properties will actually be deleted
+             * @return the next definition stage
+             */
             WithCreate withDeleteRetentionPolicyEnabled(int numDaysEnabled);
 
+            /**
+             * Specifies that the delete retention policy is disabled.
+             *
+             * @return the next definition stage
+             */
             WithCreate withDeleteRetentionPolicyDisabled();
         }
 
@@ -138,11 +168,20 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
          */
         interface WithCors {
             /**
-             * Specifies cors.
-             * @param cors Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service
+             * Specifies all of the CORS rules.
+             *
+             * @param corsRules Specifies CORS rules for the Blob service. You can include up to five CorsRule elements in the request. If no CorsRule elements are included in the request body, all CORS rules will be deleted, and CORS will be disabled for the Blob service
              * @return the next update stage
              */
-            Update withCors(CorsRules cors);
+            Update withCORSRules(List<CorsRule> corsRules);
+
+            /**
+             * Specifies a single CORS rule.
+             *
+             * @param corsRule a single CORS rule
+             * @return the next update stage
+             */
+            Update withCORSRule(CorsRule corsRule);
         }
 
         /**
@@ -151,6 +190,7 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
         interface WithDefaultServiceVersion {
             /**
              * Specifies defaultServiceVersion.
+             *
              * @param defaultServiceVersion DefaultServiceVersion indicates the default version to use for requests to the Blob service if an incoming request’s version is not specified. Possible values include version 2008-10-27 and all more recent versions
              * @return the next update stage
              */
@@ -163,13 +203,25 @@ public interface BlobServiceProperties extends HasInner<BlobServicePropertiesInn
         interface WithDeleteRetentionPolicy {
             /**
              * Specifies deleteRetentionPolicy.
+             *
              * @param deleteRetentionPolicy The blob service properties for soft delete
              * @return the next update stage
              */
             Update withDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy);
 
+            /**
+             * Specifies that the delete retention policy is enabled for soft delete.
+             *
+             * @param numDaysEnabled number of days after soft delete that the blob service properties will actually be deleted
+             * @return the next update stage
+             */
             Update withDeleteRetentionPolicyEnabled(int numDaysEnabled);
 
+            /**
+             * Specifies that the delete retention policy is disabled.
+             *
+             * @return the next update stage
+             */
             Update withDeleteRetentionPolicyDisabled();
         }
 

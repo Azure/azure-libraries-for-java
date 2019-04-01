@@ -7,7 +7,13 @@
 package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.storage.*;
+import com.microsoft.azure.management.storage.BlobContainer;
+import com.microsoft.azure.management.storage.ImmutabilityPolicyProperties;
+import com.microsoft.azure.management.storage.LeaseDuration;
+import com.microsoft.azure.management.storage.LeaseState;
+import com.microsoft.azure.management.storage.LeaseStatus;
+import com.microsoft.azure.management.storage.LegalHoldProperties;
+import com.microsoft.azure.management.storage.PublicAccess;
 import org.joda.time.DateTime;
 import rx.Observable;
 

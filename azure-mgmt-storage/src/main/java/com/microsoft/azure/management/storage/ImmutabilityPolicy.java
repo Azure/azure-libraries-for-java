@@ -7,7 +7,12 @@
 package com.microsoft.azure.management.storage;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.*;
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.storage.implementation.ImmutabilityPolicyInner;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 

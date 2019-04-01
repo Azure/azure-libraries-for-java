@@ -88,9 +88,10 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
          */
         interface WithRule {
             /**
-             * The function that
-             * @param name
-             * @return
+             * The function that defines a rule to attach to this policy.
+             *
+             * @param name the name of the rule we are going to define
+             * @return the next definition stage
              */
             PolicyRule.DefinitionStages.Blank defineRule(String name);
         }
@@ -119,6 +120,7 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
         interface WithPolicy {
             /**
              * Specifies policy.
+             *
              * @param policy The Storage Account ManagementPolicy, in JSON format. See more details in: https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts
              * @return the next update stage
              */

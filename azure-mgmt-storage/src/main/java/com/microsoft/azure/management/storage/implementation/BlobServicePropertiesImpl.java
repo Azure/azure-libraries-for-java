@@ -8,10 +8,13 @@ package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.storage.BlobServiceProperties;
+import com.microsoft.azure.management.storage.CorsRule;
 import com.microsoft.azure.management.storage.CorsRules;
 import com.microsoft.azure.management.storage.DeleteRetentionPolicy;
-import retrofit2.http.DELETE;
 import rx.Observable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProperties, BlobServicePropertiesInner, BlobServicePropertiesImpl> implements BlobServiceProperties, BlobServiceProperties.Definition, BlobServiceProperties.Update {
     private final StorageManager manager;
@@ -106,8 +109,23 @@ class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProper
     }
 
     @Override
-    public BlobServicePropertiesImpl withCors(CorsRules cors) {
-        this.inner().withCors(cors);
+    public BlobServicePropertiesImpl withCORSRules(List<CorsRule> corsRules) {
+        this.inner().withCors(new CorsRules().withCorsRules(corsRules));
+        return this;
+    }
+
+    @Override
+    public BlobServicePropertiesImpl withCORSRule(CorsRule corsRule) {
+        CorsRules corsRules = this.inner().cors();
+        if (corsRules == null) {
+            List<CorsRule> firstCorsRule = new ArrayList<>();
+            firstCorsRule.add(corsRule);
+            this.inner().withCors(new CorsRules().withCorsRules(firstCorsRule));
+        } else {
+            List<CorsRule> currentCorsRules = corsRules.corsRules();
+            currentCorsRules.add(corsRule);
+            this.inner().withCors(corsRules.withCorsRules(currentCorsRules));
+        }
         return this;
     }
 
@@ -134,5 +152,4 @@ class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProper
         this.inner().withDeleteRetentionPolicy(new DeleteRetentionPolicy().withEnabled(false));
         return this;
     }
-
 }

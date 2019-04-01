@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.microsoft.azure.management.storage.BlobTypes;
 import com.microsoft.azure.management.storage.ManagementPolicy;
 import com.microsoft.azure.management.storage.ManagementPolicyBaseBlob;
 import com.microsoft.azure.management.storage.ManagementPolicyRule;
@@ -139,9 +140,14 @@ class ManagementPolicyImpl extends
         List<ManagementPolicyRule> originalRules = this.policy().rules();
         List<PolicyRule> returnRules = new ArrayList<>();
         for (ManagementPolicyRule originalRule : originalRules) {
+            List<String> originalBlobTypes = originalRule.definition().filters().blobTypes();
+            List<BlobTypes> returnBlobTypes = new ArrayList<>();
+            for (String originalBlobType : originalBlobTypes) {
+                returnBlobTypes.add(BlobTypes.fromString(originalBlobType));
+            }
             PolicyRule returnRule = new PolicyRuleImpl(originalRule.name())
-                    .withType(originalRule.type())
-                    .withBlobTypesToFilterFor(originalRule.definition().filters().blobTypes());
+                    .withLifecycleRuleType()
+                    .withBlobTypesToFilterFor(returnBlobTypes);
 
             // building up prefixes to filter on
             if (originalRule.definition().filters().prefixMatch() != null) {

@@ -14,7 +14,12 @@ import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Az
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.management.storage.*;
+import com.microsoft.azure.management.storage.BlobContainers;
+import com.microsoft.azure.management.storage.BlobServices;
+import com.microsoft.azure.management.storage.ManagementPolicies;
+import com.microsoft.azure.management.storage.StorageAccounts;
+import com.microsoft.azure.management.storage.StorageSkus;
+import com.microsoft.azure.management.storage.Usages;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
 

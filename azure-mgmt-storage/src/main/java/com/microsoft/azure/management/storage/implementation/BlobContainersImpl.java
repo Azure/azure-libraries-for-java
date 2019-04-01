@@ -7,7 +7,11 @@
 package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.storage.*;
+import com.microsoft.azure.management.storage.BlobContainer;
+import com.microsoft.azure.management.storage.BlobContainers;
+import com.microsoft.azure.management.storage.ImmutabilityPolicy;
+import com.microsoft.azure.management.storage.LegalHold;
+import com.microsoft.azure.management.storage.ListContainerItems;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;

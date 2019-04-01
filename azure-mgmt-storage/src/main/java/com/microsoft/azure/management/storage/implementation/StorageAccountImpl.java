@@ -8,6 +8,7 @@ package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.storage.AccessTier;
 import com.microsoft.azure.management.storage.CustomDomain;
 import com.microsoft.azure.management.storage.Encryption;
@@ -193,6 +194,16 @@ class StorageAccountImpl
     @Override
     public boolean canAccessFromAzureServices() {
         return StorageNetworkRulesHelper.canAccessFromAzureServices(this.inner());
+    }
+
+    @Override
+    public boolean isAzureFilesAadIntegrationEnabled() {
+        return Utils.toPrimitiveBoolean(this.inner().enableAzureFilesAadIntegration());
+    }
+
+    @Override
+    public boolean isHnsEnabled() {
+        return Utils.toPrimitiveBoolean(this.inner().isHnsEnabled());
     }
 
     @Override
@@ -533,5 +544,21 @@ class StorageAccountImpl
                         clearWrapperProperties();
                     }
                 });
+    }
+
+    @Override
+    public StorageAccountImpl withAzureFilesAadIntegrationEnabled(boolean enabled) {
+        if (isInCreateMode()) {
+            this.createParameters.withEnableAzureFilesAadIntegration(enabled);
+        } else {
+            this.updateParameters.withEnableAzureFilesAadIntegration(enabled);
+        }
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withHnsEnabled(boolean enabled) {
+        this.createParameters.withIsHnsEnabled(enabled);
+        return this;
     }
 }

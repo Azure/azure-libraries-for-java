@@ -9,11 +9,13 @@ package com.microsoft.azure.management.storage.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.storage.CheckNameAvailabilityResult;
+import com.microsoft.azure.management.storage.ServiceSasParameters;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
@@ -72,5 +74,30 @@ class StorageAccountsImpl
             return null;
         }
         return new StorageAccountImpl(storageAccountInner.name(), storageAccountInner, this.manager());
+    }
+
+    @Override
+    public String createSasToken(String resourceGroupName, String accountName, ServiceSasParameters parameters) {
+        return createSasTokenAsync(resourceGroupName, accountName, parameters).toBlocking().last();
+    }
+
+    @Override
+    public Observable<String> createSasTokenAsync(String resourceGroupName, String accountName, ServiceSasParameters parameters) {
+        return this.inner().listServiceSASAsync(resourceGroupName, accountName, parameters).map(new Func1<ListServiceSasResponseInner, String>() {
+            @Override
+            public String call(ListServiceSasResponseInner listServiceSasResponseInner) {
+                return listServiceSasResponseInner.serviceSasToken();
+            }
+        });
+    }
+
+    @Override
+    public void failover(String resourceGroupName, String accountName) {
+        failoverAsync(resourceGroupName, accountName).await();
+    }
+
+    @Override
+    public Completable failoverAsync(String resourceGroupName, String accountName) {
+        return this.inner().failoverAsync(resourceGroupName, accountName).toCompletable();
     }
 }

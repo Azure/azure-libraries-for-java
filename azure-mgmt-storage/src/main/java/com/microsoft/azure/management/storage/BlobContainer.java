@@ -8,7 +8,11 @@ package com.microsoft.azure.management.storage;
 
 
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.*;
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
+import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.storage.implementation.BlobContainerInner;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import org.joda.time.DateTime;
@@ -92,7 +96,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
     /**
      * The entirety of the BlobContainer definition.
      */
-    interface Definition extends DefinitionStages.Blank, DefinitionStages.WithBlobService, DefinitionStages.WithPublicAccess, DefinitionStages.WithMetadata, DefinitionStages.WithMetadataString, DefinitionStages.WithCreate {
+    interface Definition extends DefinitionStages.Blank, DefinitionStages.WithBlobService, DefinitionStages.WithPublicAccess, DefinitionStages.WithMetadata, DefinitionStages.WithCreate {
     }
 
     /**
@@ -111,6 +115,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
         interface WithBlobService {
             /**
              * Specifies resourceGroupName, accountName.
+             *
              * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive
              * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only
              * @return the next definition stage
@@ -124,10 +129,11 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
         interface WithPublicAccess {
             /**
              * Specifies publicAccess.
+             *
              * @param publicAccess Specifies whether data in the container may be accessed publicly and the level of access. Possible values include: 'Container', 'Blob', 'None'
              * @return the next definition stage
              */
-            WithMetadata withPublicAccess(PublicAccess publicAccess);
+            WithCreate withPublicAccess(PublicAccess publicAccess);
         }
 
         /**
@@ -136,14 +142,19 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
         interface WithMetadata {
             /**
              * Specifies metadata.
+             *
              * @param metadata A name-value pair to associate with the container as metadata
              * @return the next definition stage
              */
             WithCreate withMetadata(Map<String, String> metadata);
-            WithMetadataString withMetadata(String name, String value);
-        }
 
-        interface WithMetadataString {
+            /**
+             * Specifies a singluar instance of metadata.
+             *
+             * @param name A name to associate with the container as metadata
+             * @param value A value to associate with the container as metadata
+             * @return the next definition stage
+             */
             WithCreate withMetadata(String name, String value);
         }
 
@@ -152,7 +163,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
          * the resource to be created (via {@link WithCreate#create()}), but also allows
          * for any other optional settings to be specified.
          */
-        interface WithCreate extends WithMetadataString, Creatable<BlobContainer> {
+        interface WithCreate extends WithMetadata, Creatable<BlobContainer> {
         }
     }
     /**
@@ -171,6 +182,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
         interface WithPublicAccess {
             /**
              * Specifies publicAccess.
+             *
              * @param publicAccess Specifies whether data in the container may be accessed publicly and the level of access. Possible values include: 'Container', 'Blob', 'None'
              * @return the next update stage
              */
@@ -183,11 +195,19 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
         interface WithMetadata {
             /**
              * Specifies metadata.
+             *
              * @param metadata A name-value pair to associate with the container as metadata
              * @return the next update stage
              */
             Update withMetadata(Map<String, String> metadata);
 
+            /**
+             * Specifies a singluar instance of metadata.
+             *
+             * @param name A name to associate with the container as metadata
+             * @param value A value to associate with the container as metadata
+             * @return the next definition stage
+             */
             Update withMetadata(String name, String value);
         }
 

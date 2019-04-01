@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.storage.BlobTypes;
 import com.microsoft.azure.management.storage.DateAfterCreation;
 import com.microsoft.azure.management.storage.DateAfterModification;
 import com.microsoft.azure.management.storage.ManagementPolicy;
@@ -64,8 +65,12 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public List<String> blobTypesToFilterFor() {
-        return Collections.unmodifiableList(this.inner.definition().filters().blobTypes());
+    public List<BlobTypes> blobTypesToFilterFor() {
+        List<BlobTypes> blobTypes = new ArrayList<>();
+        for (String blobTypeString : this.inner.definition().filters().blobTypes()) {
+            blobTypes.add(BlobTypes.fromString(blobTypeString));
+        }
+        return Collections.unmodifiableList(blobTypes);
     }
 
     @Override
@@ -153,19 +158,24 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withType(String type) {
-        this.inner.withType(type);
+    public PolicyRuleImpl withLifecycleRuleType() {
+        this.inner.withType("Lifecycle");
+        return this;
+    }
+
+
+    @Override
+    public PolicyRuleImpl withBlobTypesToFilterFor(List<BlobTypes> blobTypes) {
+        List<String> blobTypesString = new ArrayList<>();
+        for (BlobTypes blobType : blobTypes) {
+            blobTypesString.add(blobType.toString());
+        }
+        this.inner.definition().filters().withBlobTypes(blobTypesString);
         return this;
     }
 
     @Override
-    public PolicyRuleImpl withBlobTypesToFilterFor(List<String> blobTypes) {
-        this.inner.definition().filters().withBlobTypes(blobTypes);
-        return this;
-    }
-
-    @Override
-    public PolicyRuleImpl withBlobTypeToFilterFor(String blobType) {
+    public PolicyRuleImpl withBlobTypeToFilterFor(BlobTypes blobType) {
         List<String> blobTypesToFilterFor = this.inner.definition().filters().blobTypes();
         if (blobTypesToFilterFor == null) {
             blobTypesToFilterFor = new ArrayList<>();
@@ -173,15 +183,15 @@ class PolicyRuleImpl implements
         if (blobTypesToFilterFor.contains(blobType)) {
             return this;
         }
-        blobTypesToFilterFor.add(blobType);
+        blobTypesToFilterFor.add(blobType.toString());
         this.inner.definition().filters().withBlobTypes(blobTypesToFilterFor);
         return this;
     }
 
     @Override
-    public Update withBlobTypeToFilterForRemoved(String blobType) {
+    public Update withBlobTypeToFilterForRemoved(BlobTypes blobType) {
         List<String> blobTypesToFilterFor = this.inner.definition().filters().blobTypes();
-        blobTypesToFilterFor.remove(blobType);
+        blobTypesToFilterFor.remove(blobType.toString());
         this.inner.definition().filters().withBlobTypes(blobTypesToFilterFor);
         return this;
     }

@@ -14,6 +14,7 @@ import com.microsoft.azure.management.appservice.AppServiceCertificateOrders;
 import com.microsoft.azure.management.appservice.AppServiceCertificates;
 import com.microsoft.azure.management.appservice.AppServiceDomains;
 import com.microsoft.azure.management.appservice.AppServicePlans;
+import com.microsoft.azure.management.appservice.AppServiceStacks;
 import com.microsoft.azure.management.appservice.FunctionApps;
 import com.microsoft.azure.management.appservice.WebApps;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
@@ -44,6 +45,7 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
     private AppServiceDomains appServiceDomains;
     private FunctionApps functionApps;
     private RestClient restClient;
+    private AppServiceStacks appServiceStacks;
 
     /**
      * Get a Configurable instance that can be used to create StorageManager with optional configuration.
@@ -202,4 +204,16 @@ public final class AppServiceManager extends Manager<AppServiceManager, WebSiteM
         }
         return functionApps;
     }
+
+    /**
+     * @return the app service stavks API entry point.
+     */
+    public AppServiceStacks appServiceStacks() {
+        if (appServiceStacks == null) {
+            appServiceStacks = new AppServiceStacksImpl(this);
+        }
+
+        return appServiceStacks;
+    }
+
 }

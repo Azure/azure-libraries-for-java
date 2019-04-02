@@ -6,42 +6,38 @@
 
 package com.microsoft.azure.management.appservice;
 
+import org.apache.commons.lang3.NotImplementedException;
+
 import java.util.Collection;
 
 /**
  * Defines values for .NET framework version.
  */
-public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersion> {
+public final class LinuxStackVersion extends RuntimeVersion<LinuxStackVersion> {
     /**
      * Name of the component.
      */
-    public static final String COMPONENT_NAME = "aspnet";
+    public static final String COMPONENT_NAME = "linux";
 
     /**
      * Netframework Off setting.
      */
-    public static final NetFrameworkVersion OFF = NetFrameworkVersion.fromString("null");
-
-    /** Static value v3.5 for NetFrameworkVersion. */
-    public static final NetFrameworkVersion V3_0 = NetFrameworkVersion.fromString("v3.0");
-
-    /** Static value v4.6 for NetFrameworkVersion. */
-    public static final NetFrameworkVersion V4_6 = NetFrameworkVersion.fromString("v4.6");
+    public static final LinuxStackVersion OFF = LinuxStackVersion.fromString("null");
 
     /**
      * Finds or creates a .NET Framework version based on the name.
      * @param name a name
      * @return an instance of NetFrameworkVersion
      */
-    public static NetFrameworkVersion fromString(String name) {
-        return fromString(name, NetFrameworkVersion.class);
+    public static LinuxStackVersion fromString(String name) {
+        return fromString(name, LinuxStackVersion.class);
     }
 
     /**
      * @return known .NET framework versions
      */
-    public static Collection<NetFrameworkVersion> values() {
-        return values(NetFrameworkVersion.class);
+    public static Collection<LinuxStackVersion> values() {
+        return values(LinuxStackVersion.class);
     }
 
     /**
@@ -58,7 +54,7 @@ public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersio
      */
     @Override
     public boolean containsVersion(String version) {
-        for (NetFrameworkVersion ver : values()) {
+        for (LinuxStackVersion ver : values()) {
             if (ver.toString().equalsIgnoreCase(version)) {
                 return true;
             }
@@ -68,7 +64,7 @@ public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersio
     }
 
     /**
-     * Create the enum fomr the passed in values if it does not already exist.
+     * This entry point should never be used.
      *
      * @param name name of the framweork
      * @param displayVersion display version of the runtime
@@ -76,8 +72,6 @@ public final class NetFrameworkVersion extends RuntimeVersion<NetFrameworkVersio
      */
     @Override
     protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
-        if (COMPONENT_NAME.equalsIgnoreCase(name)) {
-            fromString(displayVersion);
-        }
+        throw new NotImplementedException("Do not use this function to add new enums of type LinuxStackVersion, use RuntimeStack.fromStackNameAndVersionString");
     }
 }

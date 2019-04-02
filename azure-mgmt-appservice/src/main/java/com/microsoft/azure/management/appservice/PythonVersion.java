@@ -8,12 +8,14 @@ package com.microsoft.azure.management.appservice;
 
 import java.util.Collection;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
-
 /**
  * Defines values for Python version.
  */
-public final class PythonVersion extends ExpandableStringEnum<PythonVersion> {
+public final class PythonVersion extends RuntimeVersion<PythonVersion> {
+    /**
+     * Name of the component.
+     */
+    public static final String COMPONENT_NAME = "python";
     /** Static value 'Off' for PythonVersion. */
     public static final PythonVersion OFF = PythonVersion.fromString("null");
 
@@ -37,5 +39,41 @@ public final class PythonVersion extends ExpandableStringEnum<PythonVersion> {
      */
     public static Collection<PythonVersion> values() {
         return values(PythonVersion.class);
+    }
+
+    /**
+     * @return the runtime name.
+     */
+    @Override
+    public String getRuntimeName() {
+        return COMPONENT_NAME;
+    }
+
+    /**
+     * @param version the version to check.
+     * @return true if the enum contains the version, false otherwise.
+     */
+    @Override
+    public boolean containsVersion(String version) {
+        for (PythonVersion ver : values()) {
+            if (ver.toString().equalsIgnoreCase(version)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Create a version enum form the values passed in if one does not exist already.
+     * @param name name of the framweork
+     * @param displayVersion display version of the runtime
+     * @param runtimeVersion runtime versin of the runtime
+     */
+    @Override
+    protected void createEnumFromVersionInformation(String name, String displayVersion, String runtimeVersion) {
+        if (COMPONENT_NAME.equalsIgnoreCase(name)) {
+            fromString(runtimeVersion);
+        }
     }
 }

@@ -1012,6 +1012,15 @@ public interface WebAppBase extends
              */
             @Method
             WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withUserAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be disabled.
+             *
+             * @return the next stage of the update
+             */
+            @Method
+            Update<FluentT> withoutSystemAssignedManagedServiceIdentity();
+
         }
 
         /**
@@ -1082,6 +1091,14 @@ public interface WebAppBase extends
              * @return the next stage of the definition.
              */
             WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withExistingUserAssignedManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an user assigned identity associated with the web app should be removed.
+             *
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the virtual machine update
+             */
+            Update<FluentT> withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 
         /**

@@ -1663,6 +1663,12 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    public FluentImplT withoutSystemAssignedManagedServiceIdentity() {
+        this.webAppMsiHandler.withoutLocalManagedServiceIdentity();
+        return (FluentImplT) this;
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withUserAssignedManagedServiceIdentity() {
         return (FluentImplT) this;
@@ -1705,6 +1711,12 @@ abstract class WebAppBaseImpl<
     @Override
     public FluentImplT withExistingUserAssignedManagedServiceIdentity(Identity identity) {
         this.webAppMsiHandler.withExistingExternalManagedServiceIdentity(identity);
+        return (FluentImplT) this;
+    }
+
+    @Override
+    public FluentImplT withoutUserAssignedManagedServiceIdentity(String identityId) {
+        this.webAppMsiHandler.withoutExternalManagedServiceIdentity(identityId);
         return (FluentImplT) this;
     }
 

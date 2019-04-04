@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.appservice;
 
 import java.util.List;
+
 import org.joda.time.DateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -269,6 +270,12 @@ public class SitePatchResource extends ProxyOnlyResource {
      */
     @JsonProperty(value = "properties.geoDistributions")
     private List<GeoDistribution> geoDistributions;
+
+    /**
+     * The identity property.
+     */
+    @JsonProperty(value = "identity")
+    private ManagedServiceIdentity identity;
 
     /**
      * Get current state of the app.
@@ -818,4 +825,23 @@ public class SitePatchResource extends ProxyOnlyResource {
         return this;
     }
 
+    /**
+     * Get the identity value.
+     *
+     * @return the identity value
+     */
+    public ManagedServiceIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity value.
+     *
+     * @param identity the identity value to set
+     * @return the SiteInner object itself.
+     */
+    public SitePatchResource withIdentity(ManagedServiceIdentity identity) {
+        this.identity = identity;
+        return this;
+    }
 }

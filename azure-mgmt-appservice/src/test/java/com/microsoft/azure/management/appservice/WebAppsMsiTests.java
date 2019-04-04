@@ -18,6 +18,8 @@ import okhttp3.Response;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Set;
+
 public class WebAppsMsiTests extends AppServiceTest {
     private MSIManager msiManager;
     private static String RG_NAME_1 = "";
@@ -117,8 +119,8 @@ public class WebAppsMsiTests extends AppServiceTest {
                 .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
                 .withWebContainer(WebContainer.TOMCAT_8_0_NEWEST)
                 .withUserAssignedManagedServiceIdentity()
-                .withExistingUserAssignedManagedServiceIdentity(createdIdentity)
                 .withNewUserAssignedManagedServiceIdentity(creatableIdentity)
+                .withExistingUserAssignedManagedServiceIdentity(createdIdentity)
                 .create();
         Assert.assertNotNull(webApp);
         Assert.assertEquals(Region.US_WEST, webApp.region());
@@ -128,6 +130,11 @@ public class WebAppsMsiTests extends AppServiceTest {
         Assert.assertEquals(PricingTier.BASIC_B1, plan.pricingTier());
         Assert.assertNotNull(webApp.systemAssignedManagedServiceIdentityPrincipalId());
         Assert.assertNotNull(webApp.systemAssignedManagedServiceIdentityTenantId());
+        Set<String> identityIds = webApp.userAssignedManagedServiceIdentityIds();
+        Assert.assertNotNull(identityIds);
+        Assert.assertEquals(identityIds.size(), 2);
+        Assert.assertTrue(setContainsValue(identityIds, identityName1));
+        Assert.assertTrue(setContainsValue(identityIds, identityName2));
 
         if (!isPlaybackMode()) {
             // Check availability of environment variables
@@ -142,5 +149,17 @@ public class WebAppsMsiTests extends AppServiceTest {
             Assert.assertTrue(body.contains(webApp.resourceGroupName()));
             Assert.assertTrue(body.contains(webApp.id()));
         }
+    }
+
+    boolean setContainsValue(Set<String> stringSet, String value) {
+        boolean found = false;
+        for (String setContent : stringSet) {
+            if (setContent.contains(value)) {
+                found = true;
+                break;
+            }
+        }
+
+        return found;
     }
 }

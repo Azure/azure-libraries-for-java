@@ -36,6 +36,7 @@ import com.microsoft.azure.management.appservice.RemoteVisualStudioVersion;
 import com.microsoft.azure.management.appservice.ScmType;
 import com.microsoft.azure.management.appservice.SiteAvailabilityState;
 import com.microsoft.azure.management.appservice.SiteConfig;
+import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.SslState;
 import com.microsoft.azure.management.appservice.UsageState;
 import com.microsoft.azure.management.appservice.VirtualApplication;
@@ -559,6 +560,14 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    public Set<String> userAssignedManagedServiceIdentityIds() {
+        if (inner().identity() == null) {
+            return null;
+        }
+        return inner().identity().userAssignedIdentities().keySet();
+    }
+
+    @Override
     public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogsConfig() {
         return diagnosticLogs;
     }
@@ -715,6 +724,8 @@ abstract class WebAppBaseImpl<
 
     abstract Observable<SiteInner> createOrUpdateInner(SiteInner site);
 
+    abstract Observable<SiteInner> updateInner(SitePatchResource siteUpdate);
+
     abstract Observable<SiteInner> getInner();
 
     abstract Observable<SiteConfigResourceInner> getConfigInner();
@@ -834,6 +845,43 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    public Observable<FluentT> updateResourceAsync() {
+        SiteInner siteInner = (SiteInner) this.inner();
+        SitePatchResource siteUpdate = new SitePatchResource();
+        siteUpdate.withHostNameSslStates(siteInner.hostNameSslStates());
+        siteUpdate.withKind(siteInner.kind());
+        siteUpdate.withEnabled(siteInner.enabled());
+        siteUpdate.withServerFarmId(siteInner.serverFarmId());
+        siteUpdate.withReserved(siteInner.reserved());
+        siteUpdate.withIsXenon(siteInner.isXenon());
+        siteUpdate.withHyperV(siteInner.hyperV());
+        //TODO: check this with jianghao
+        //siteUpdate.withSiteConfig(siteInner.siteConfig());
+        siteUpdate.withScmSiteAlsoStopped(siteInner.scmSiteAlsoStopped());
+        siteUpdate.withHostingEnvironmentProfile(siteInner.hostingEnvironmentProfile());
+        siteUpdate.withClientAffinityEnabled(siteInner.clientAffinityEnabled());
+        siteUpdate.withClientCertEnabled(siteInner.clientCertEnabled());
+        siteUpdate.withClientCertExclusionPaths(siteInner.clientCertExclusionPaths());
+        siteUpdate.withHostNamesDisabled(siteInner.hostNamesDisabled());
+        siteUpdate.withContainerSize(siteInner.containerSize());
+        siteUpdate.withDailyMemoryTimeQuota(siteInner.dailyMemoryTimeQuota());
+        siteUpdate.withCloningInfo(siteInner.cloningInfo());
+        siteUpdate.withHttpsOnly(siteInner.httpsOnly());
+        siteUpdate.withRedundancyMode(siteInner.redundancyMode());
+        siteUpdate.withGeoDistributions(siteInner.geoDistributions());
+
+        this.webAppMsiHandler.handleExternalIdentities(siteUpdate);
+        return submitSite(siteUpdate).map(new Func1<SiteInner, FluentT>() {
+            @Override
+            public FluentT call(SiteInner siteInner) {
+                setInner(siteInner);
+                webAppMsiHandler.clear();
+                return (FluentT) WebAppBaseImpl.this;
+            }
+        });
+    }
+
+    @Override
     public Completable afterPostRunAsync(final boolean isGroupFaulted) {
         if (!isGroupFaulted) {
             isInCreateMode = false;
@@ -855,6 +903,19 @@ abstract class WebAppBaseImpl<
                     @Override
                     public SiteInner call(SiteInner siteInner) {
                         site.withSiteConfig(null);
+                        return siteInner;
+                    }
+                });
+    }
+
+    Observable<SiteInner> submitSite(final SitePatchResource siteUpdate) {
+        // Construct web app observable
+        return updateInner(siteUpdate)
+                .map(new Func1<SiteInner, SiteInner>() {
+                    @Override
+                    public SiteInner call(SiteInner siteInner) {
+                        //TODO : Validate this with jianghao
+                        siteInner.withSiteConfig(null);
                         return siteInner;
                     }
                 });
@@ -1598,6 +1659,12 @@ abstract class WebAppBaseImpl<
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedManagedServiceIdentity() {
         this.webAppMsiHandler.withLocalManagedServiceIdentity();
+        return (FluentImplT) this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withUserAssignedManagedServiceIdentity() {
         return (FluentImplT) this;
     }
 

@@ -258,15 +258,18 @@ public interface WebAppBase extends
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
      * to the web app.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
      * assigned to the web app.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return The ids of the user assigned identities
+     */
+    Set<String> userAssignedManagedServiceIdentityIds();
 
     /**
      * @return the app settings defined on the web app
@@ -1562,6 +1565,13 @@ public interface WebAppBase extends
              */
             @Method
             Update<FluentT> withSystemAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that User Assigned Managed Service Identity needs to be enabled in the web app.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            Update<FluentT> withUserAssignedManagedServiceIdentity();
         }
 
         /**
@@ -1613,6 +1623,26 @@ public interface WebAppBase extends
              */
             Update<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
+
+        /**
+         * The stage of the web app update allowing to add User Assigned (External) Managed Service Identities.
+         */
+        interface WithUserAssignedManagedServiceIdentityBasedAccess<FluentT>{
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the web app.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the definition.
+             */
+            Update<FluentT> withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the web app.
+             * @param identity the identity
+             * @return the next stage of the definition.
+             */
+            Update<FluentT> withExistingUserAssignedManagedServiceIdentity(Identity identity);
+        }
     }
 
     /**
@@ -1634,6 +1664,7 @@ public interface WebAppBase extends
         UpdateStages.WithAuthentication<FluentT>,
         UpdateStages.WithDiagnosticLogging<FluentT>,
         UpdateStages.WithManagedServiceIdentity<FluentT>,
-        UpdateStages.WithSystemAssignedIdentityBasedAccess<FluentT> {
+        UpdateStages.WithSystemAssignedIdentityBasedAccess<FluentT>,
+        UpdateStages.WithUserAssignedManagedServiceIdentityBasedAccess<FluentT> {
     }
 }

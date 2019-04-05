@@ -1644,7 +1644,7 @@ public interface WebAppBase extends
         /**
          * The stage of the web app update allowing to add User Assigned (External) Managed Service Identities.
          */
-        interface WithUserAssignedManagedServiceIdentityBasedAccess<FluentT>{
+        interface WithUserAssignedManagedServiceIdentityBasedAccess<FluentT> {
             /**
              * Specifies the definition of a not-yet-created user assigned identity to be associated with the web app.
              *

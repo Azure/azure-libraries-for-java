@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
 import com.microsoft.azure.management.appservice.ManagedServiceIdentityType;
 import com.microsoft.azure.management.appservice.ManagedServiceIdentityUserAssignedIdentitiesValue;
@@ -13,7 +14,6 @@ import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.resources.ResourceIdentityType;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 
@@ -30,6 +30,7 @@ import java.util.Set;
  * install or update MSI extension and create role assignments for the service principal
  * associated with the web app.
  */
+@LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 public class WebAppMsiHandler  extends RoleAssignmentHelper {
     private WebAppBaseImpl webAppBase;
 

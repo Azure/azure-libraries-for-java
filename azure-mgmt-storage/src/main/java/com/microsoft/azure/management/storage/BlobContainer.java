@@ -7,6 +7,8 @@
 package com.microsoft.azure.management.storage;
 
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -22,6 +24,8 @@ import java.util.Map;
 /**
  * Type representing BlobContainer.
  */
+@Fluent
+@Beta
 public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, Updatable<BlobContainer.Update>, HasManager<StorageManager> {
     /**
      * @return the etag value.

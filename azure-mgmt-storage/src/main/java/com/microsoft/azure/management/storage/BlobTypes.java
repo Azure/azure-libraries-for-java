@@ -8,11 +8,13 @@ package com.microsoft.azure.management.storage;
 
 import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for GeoReplicationStatus.
  */
+@LangDefinition
 public final class BlobTypes extends ExpandableStringEnum<BlobTypes> {
     /** Static value blockBlob for BlobTypes. */
     public static final BlobTypes BLOCK_BLOB = fromString("blockBlob");

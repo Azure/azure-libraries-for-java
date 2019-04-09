@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.storage.BlobServiceProperties;
 import com.microsoft.azure.management.storage.CorsRule;
@@ -16,6 +17,7 @@ import rx.Observable;
 import java.util.ArrayList;
 import java.util.List;
 
+@LangDefinition
 class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProperties, BlobServicePropertiesInner, BlobServicePropertiesImpl> implements BlobServiceProperties, BlobServiceProperties.Definition, BlobServiceProperties.Update {
     private final StorageManager manager;
     private String resourceGroupName;

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.storage.BlobTypes;
 import com.microsoft.azure.management.storage.DateAfterCreation;
@@ -23,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@LangDefinition
 class PolicyRuleImpl implements
         PolicyRule,
         PolicyRule.Definition,

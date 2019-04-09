@@ -7,6 +7,8 @@
 package com.microsoft.azure.management.storage;
 
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.storage.implementation.BlobServicesInner;
@@ -15,6 +17,8 @@ import rx.Observable;
 /**
  * Type representing BlobServices.
  */
+@Fluent
+@Beta
 public interface BlobServices extends SupportsCreating<BlobServiceProperties.DefinitionStages.Blank>, HasInner<BlobServicesInner> {
     /**
      * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.

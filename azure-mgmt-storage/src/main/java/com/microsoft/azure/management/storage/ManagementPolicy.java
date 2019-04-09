@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -22,6 +24,8 @@ import java.util.List;
 /**
  * Type representing ManagementPolicy.
  */
+@Fluent
+@Beta
 public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Indexable, Refreshable<ManagementPolicy>, Updatable<ManagementPolicy.Update>, HasManager<StorageManager> {
     /**
      * @return the id value.

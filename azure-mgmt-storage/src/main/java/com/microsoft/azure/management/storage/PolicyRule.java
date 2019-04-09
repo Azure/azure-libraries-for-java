@@ -16,8 +16,7 @@ import java.util.List;
 /**
  * An immutable client-side representation of a rule in an Azure Management Policy.
  */
-@Fluent()
-//TODO: mark beta with since version V1_20_1
+@Fluent
 @Beta()
 public interface PolicyRule extends
         HasInner<ManagementPolicyRule> {

@@ -9,6 +9,7 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.storage.ManagementPolicies;
 import com.microsoft.azure.management.storage.ManagementPolicy;
@@ -16,6 +17,7 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
+@LangDefinition
 class ManagementPoliciesImpl extends WrapperImpl<ManagementPoliciesInner> implements ManagementPolicies {
     private final StorageManager manager;
 

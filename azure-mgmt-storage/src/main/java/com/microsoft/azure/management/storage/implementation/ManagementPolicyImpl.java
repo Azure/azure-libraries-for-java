@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.storage.BlobTypes;
 import com.microsoft.azure.management.storage.ManagementPolicy;
@@ -24,6 +25,7 @@ import java.util.List;
 import org.joda.time.DateTime;
 import rx.functions.Func1;
 
+@LangDefinition
 class ManagementPolicyImpl extends
         CreatableUpdatableImpl<ManagementPolicy,
         ManagementPolicyInner,

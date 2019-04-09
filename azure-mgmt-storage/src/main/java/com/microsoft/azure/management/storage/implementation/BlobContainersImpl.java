@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.storage.BlobContainer;
 import com.microsoft.azure.management.storage.BlobContainers;
@@ -18,6 +19,7 @@ import rx.functions.Func1;
 
 import java.util.List;
 
+@LangDefinition
 class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements BlobContainers {
     private final StorageManager manager;
 

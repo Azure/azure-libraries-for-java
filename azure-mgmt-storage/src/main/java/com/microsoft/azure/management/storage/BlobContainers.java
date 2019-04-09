@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import rx.Completable;
 import rx.Observable;
 
@@ -14,6 +16,8 @@ import java.util.List;
 /**
  * Type representing BlobContainers.
  */
+@Fluent
+@Beta
 public interface BlobContainers {
     /**
      * Begins definition for a new Container resource.

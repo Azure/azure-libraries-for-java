@@ -7,6 +7,8 @@
 package com.microsoft.azure.management.storage;
 
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.storage.implementation.ManagementPoliciesInner;
@@ -16,6 +18,8 @@ import rx.Observable;
 /**
  * Type representing ManagementPolicies.
  */
+@Fluent
+@Beta
 public interface ManagementPolicies extends SupportsCreating<ManagementPolicy.DefinitionStages.Blank>, HasInner<ManagementPoliciesInner> {
     /**
      * Gets the managementpolicy associated with the specified storage account.

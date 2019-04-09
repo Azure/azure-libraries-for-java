@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -19,6 +21,8 @@ import com.microsoft.azure.management.storage.implementation.StorageManager;
 /**
  * Type representing ImmutabilityPolicy.
  */
+@Fluent
+@Beta
 public interface ImmutabilityPolicy extends HasInner<ImmutabilityPolicyInner>, Indexable, Refreshable<ImmutabilityPolicy>, Updatable<ImmutabilityPolicy.Update>, HasManager<StorageManager> {
     /**
      * @return the etag value.

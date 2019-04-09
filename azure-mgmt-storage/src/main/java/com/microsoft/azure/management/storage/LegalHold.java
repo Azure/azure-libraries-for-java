@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.storage;
 
+import com.microsoft.azure.management.apigeneration.Beta;
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.storage.implementation.LegalHoldInner;
@@ -16,6 +18,8 @@ import java.util.List;
 /**
  * Type representing LegalHold.
  */
+@Fluent
+@Beta
 public interface LegalHold extends HasInner<LegalHoldInner>, HasManager<StorageManager> {
     /**
      * @return the hasLegalHold value.

@@ -6,11 +6,13 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.storage.ImmutabilityPolicy;
 import com.microsoft.azure.management.storage.ImmutabilityPolicyState;
 import rx.Observable;
 
+@LangDefinition
 class ImmutabilityPolicyImpl extends CreatableUpdatableImpl<ImmutabilityPolicy, ImmutabilityPolicyInner, ImmutabilityPolicyImpl> implements ImmutabilityPolicy, ImmutabilityPolicy.Definition, ImmutabilityPolicy.Update {
     private final StorageManager manager;
     private String resourceGroupName;

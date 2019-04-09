@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.storage.BlobContainer;
 import com.microsoft.azure.management.storage.ImmutabilityPolicyProperties;
@@ -20,6 +21,7 @@ import rx.Observable;
 import java.util.HashMap;
 import java.util.Map;
 
+@LangDefinition
 class BlobContainerImpl extends CreatableUpdatableImpl<BlobContainer, BlobContainerInner, BlobContainerImpl> implements BlobContainer, BlobContainer.Definition, BlobContainer.Update {
     private final StorageManager manager;
     private String resourceGroupName;

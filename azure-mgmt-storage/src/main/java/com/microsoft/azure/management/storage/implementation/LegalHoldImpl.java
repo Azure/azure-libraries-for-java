@@ -9,11 +9,13 @@
 package com.microsoft.azure.management.storage.implementation;
 
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.storage.LegalHold;
 
 import java.util.List;
 
+@LangDefinition
 class LegalHoldImpl extends WrapperImpl<LegalHoldInner> implements LegalHold {
     private final StorageManager manager;
     LegalHoldImpl(LegalHoldInner inner, StorageManager manager) {

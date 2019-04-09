@@ -94,7 +94,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
         }
 
         // Update
-        webApp1.update()
+        webApp = webApp1.update()
                 .withNewAppServicePlan(PricingTier.STANDARD_S2)
                 .apply();
         AppServicePlan plan2 = appServiceManager.appServicePlans().getById(webApp1.appServicePlanId());
@@ -103,7 +103,7 @@ public class LinuxWebAppsTests extends AppServiceTest {
         Assert.assertEquals(PricingTier.STANDARD_S2, plan2.pricingTier());
         Assert.assertEquals(OperatingSystem.LINUX, plan2.operatingSystem());
 
-        webApp1.update()
+        webApp = webApp1.update()
                 .withBuiltInImage(RuntimeStack.NODEJS_6_6)
                 .defineSourceControl()
                     .withPublicGitRepository("https://github.com/jianghaolu/azure-site-test.git")
@@ -115,6 +115,66 @@ public class LinuxWebAppsTests extends AppServiceTest {
             // maybe 2 minutes is enough?
             SdkContext.sleep(120000);
             Response response = curl("http://" + webApp1.defaultHostName());
+            Assert.assertEquals(200, response.code());
+            String body = response.body().string();
+            Assert.assertNotNull(body);
+            Assert.assertTrue(body.contains("Hello world from linux 4"));
+
+         //update to a java 11 image
+         webApp = webApp1.update()
+                    .withBuiltInImage(RuntimeStack.TOMCAT_9_0_JAVA11)
+                    .apply();
+         Assert.assertNotNull(webApp);
+
+        }
+    }
+
+    @Test
+//    @Ignore("Pending ICM 39157077 & https://github.com/Azure-App-Service/kudu/issues/30")
+    public void canCRUDLinuxJava11WebApp() throws Exception {
+        // Create with new app service plan
+        WebApp webApp1 = appServiceManager.webApps().define(WEBAPP_NAME_1)
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup(RG_NAME_1)
+                .withNewLinuxPlan(PricingTier.BASIC_B1)
+                .withBuiltInImage(RuntimeStack.TOMCAT_9_0_JAVA11)
+                .create();
+        Assert.assertNotNull(webApp1);
+        Assert.assertEquals(Region.US_WEST, webApp1.region());
+        AppServicePlan plan1 = appServiceManager.appServicePlans().getById(webApp1.appServicePlanId());
+        Assert.assertNotNull(plan1);
+        Assert.assertEquals(Region.US_WEST, plan1.region());
+        Assert.assertEquals(PricingTier.BASIC_B1, plan1.pricingTier());
+        Assert.assertEquals(OperatingSystem.LINUX, plan1.operatingSystem());
+        Assert.assertEquals(OperatingSystem.LINUX, webApp1.operatingSystem());
+
+        WebApp webApp2 = appServiceManager.webApps().define(WEBAPP_NAME_2)
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup(RG_NAME_2)
+                .withNewLinuxPlan(PricingTier.BASIC_B2)
+                .withBuiltInImage(RuntimeStack.TOMCAT_8_5_JAVA11)
+                .create();
+        Assert.assertNotNull(webApp1);
+        Assert.assertEquals(Region.US_WEST, webApp2.region());
+        plan1 = appServiceManager.appServicePlans().getById(webApp2.appServicePlanId());
+        Assert.assertNotNull(plan1);
+        Assert.assertEquals(Region.US_WEST, plan1.region());
+        Assert.assertEquals(PricingTier.BASIC_B2, plan1.pricingTier());
+        Assert.assertEquals(OperatingSystem.LINUX, plan1.operatingSystem());
+        Assert.assertEquals(OperatingSystem.LINUX, webApp2.operatingSystem());
+
+        WebApp webApp = webApp1.update()
+                .withBuiltInImage(RuntimeStack.NODEJS_6_6)
+                .defineSourceControl()
+                .withPublicGitRepository("https://github.com/jianghaolu/azure-site-test.git")
+                .withBranch("master")
+                .attach()
+                .apply();
+        Assert.assertNotNull(webApp);
+        if (!isPlaybackMode()) {
+            // maybe 2 minutes is enough?
+            SdkContext.sleep(120000);
+            Response response = curl("https://" + webApp1.defaultHostName());
             Assert.assertEquals(200, response.code());
             String body = response.body().string();
             Assert.assertNotNull(body);

@@ -855,8 +855,6 @@ abstract class WebAppBaseImpl<
         siteUpdate.withReserved(siteInner.reserved());
         siteUpdate.withIsXenon(siteInner.isXenon());
         siteUpdate.withHyperV(siteInner.hyperV());
-        //TODO: check this with jianghao
-        //siteUpdate.withSiteConfig(siteInner.siteConfig());
         siteUpdate.withScmSiteAlsoStopped(siteInner.scmSiteAlsoStopped());
         siteUpdate.withHostingEnvironmentProfile(siteInner.hostingEnvironmentProfile());
         siteUpdate.withClientAffinityEnabled(siteInner.clientAffinityEnabled());
@@ -914,7 +912,6 @@ abstract class WebAppBaseImpl<
                 .map(new Func1<SiteInner, SiteInner>() {
                     @Override
                     public SiteInner call(SiteInner siteInner) {
-                        //TODO : Validate this with jianghao
                         siteInner.withSiteConfig(null);
                         return siteInner;
                     }

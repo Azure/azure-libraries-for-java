@@ -38,11 +38,29 @@ public final class WebContainer extends ExpandableStringEnum<WebContainer> {
     /** Static value tomcat 8.5.20 for WebContainer. */
     public static final WebContainer TOMCAT_8_5_20 = WebContainer.fromString("tomcat 8.5.20");
 
+    /** Static value tomcat 8.5.31 for WebContainer. */
+    public static final WebContainer TOMCAT_8_5_31 = WebContainer.fromString("tomcat 8.5.31");
+
+    /** Static value tomcat 8.5.34 for WebContainer. */
+    public static final WebContainer TOMCAT_8_5_34 = WebContainer.fromString("tomcat 8.5.34");
+
+    /** Static value tomcat 8.5.37 for WebContainer. */
+    public static final WebContainer TOMCAT_8_5_37 = WebContainer.fromString("tomcat 8.5.37");
+
     /** Static value tomcat 9.0 newest for WebContainer. */
     public static final WebContainer TOMCAT_9_0_NEWEST = WebContainer.fromString("tomcat 9.0");
 
     /** Static value tomcat 9_0_0 for WebContainer. */
     public static final WebContainer TOMCAT_9_0_0 = WebContainer.fromString("tomcat 9.0.0");
+
+    /** Static value tomcat 9_0_8 for WebContainer. */
+    public static final WebContainer TOMCAT_9_0_8 = WebContainer.fromString("tomcat 9.0.8");
+
+    /** Static value tomcat 9_0_12 for WebContainer. */
+    public static final WebContainer TOMCAT_9_0_12 = WebContainer.fromString("tomcat 9.0.12");
+
+    /** Static value tomcat 9_0_14 for WebContainer. */
+    public static final WebContainer TOMCAT_9_0_14 = WebContainer.fromString("tomcat 9.0.14");
 
     /** Static value jetty 9.1 for WebContainer. */
     public static final WebContainer JETTY_9_1_NEWEST = WebContainer.fromString("jetty 9.1");

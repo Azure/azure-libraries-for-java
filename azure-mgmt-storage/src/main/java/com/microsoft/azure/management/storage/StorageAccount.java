@@ -538,11 +538,37 @@ public interface StorageAccount extends
             WithCreate withAccessFromAzureServices();
         }
 
+        /**
+         * The stage of storage account definition allowing to specify whether azure files aad integration will be enabled.
+         *
+         * @return the next stage of the storage account definition.
+         */
         interface WithAzureFilesAadIntegration {
+            /**
+             * Specifies whether Azure files aad integration will be enabled or not.
+             *
+             * @param enabled whether Azure files aad integration will be enabled or not
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withAzureFilesAadIntegrationEnabled(boolean enabled);
         }
 
+        /**
+         * The stage of the storage account definition allowing to specifiy whether Hns is enabled.
+         *
+         * @return the next stage of the storage account definition.
+         */
         interface WithHns {
+            /**
+             * Specifies whether Hns will be enabled or not.
+             *
+             * @param enabled whether Hns will be enabled or not
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
             WithCreate withHnsEnabled(boolean enabled);
         }
 

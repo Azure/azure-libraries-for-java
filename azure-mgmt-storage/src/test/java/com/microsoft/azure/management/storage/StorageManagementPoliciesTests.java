@@ -6,6 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,16 +94,16 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
                     .attach()
                 .create();
 
-        List<String> blobTypesToFilterFor = new ArrayList<>();
-        blobTypesToFilterFor.add("blockBlob");
+        List<BlobTypes> blobTypesToFilterFor = new ArrayList<>();
+        blobTypesToFilterFor.add(BlobTypes.BLOCK_BLOB);
 
         List<String> prefixesToFilterFor = new ArrayList<>();
         prefixesToFilterFor.add("container1/foo");
 
         List<PolicyRule> rules = managementPolicy.rules();
         Assert.assertEquals("rule1", rules.get(0).name());
-        Assert.assertEquals(blobTypesToFilterFor, rules.get(0).blobTypesToFilterFor());
-        Assert.assertEquals(prefixesToFilterFor, rules.get(0).prefixesToFilterFor());
+        Assert.assertArrayEquals(Collections.unmodifiableList(blobTypesToFilterFor).toArray(), rules.get(0).blobTypesToFilterFor().toArray());
+        Assert.assertArrayEquals(Collections.unmodifiableList(prefixesToFilterFor).toArray(), rules.get(0).prefixesToFilterFor().toArray());
         Assert.assertEquals(30, rules.get(0).daysAfterBaseBlobModificationUntilCooling().intValue());
         Assert.assertTrue(rules.get(0).tierToCoolActionOnBaseBlobEnabled());
         Assert.assertEquals(90, rules.get(0).daysAfterBaseBlobModificationUntilArchiving().intValue());
@@ -116,8 +117,8 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
     @Test
     public void canUpdateManagementPolicy() {
         String SA_NAME = generateRandomResourceName("javacmsa", 15);
-        List<String> blobTypesToFilterFor = new ArrayList<>();
-        blobTypesToFilterFor.add("blockBlob");
+        List<BlobTypes> blobTypesToFilterFor = new ArrayList<>();
+        blobTypesToFilterFor.add(BlobTypes.BLOCK_BLOB);
 
         List<String> prefixesToFilterFor = new ArrayList<>();
         prefixesToFilterFor.add("container1/foo");
@@ -149,7 +150,6 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
 
         managementPolicy.update().
                 updateRule("rule1")
-                    .withBlobTypeToFilterFor(BlobTypes.BLOCK_BLOB)
                     .withPrefixesToFilterFor(prefixesToFilterFor)
                     .withTierToCoolActionOnBaseBlob(30)
                     .withTierToArchiveActionOnBaseBlob(90)
@@ -162,8 +162,8 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
         List<PolicyRule> rules = managementPolicy.rules();
         Assert.assertEquals(1, rules.size());
         Assert.assertEquals("rule1", rules.get(0).name());
-        Assert.assertEquals(blobTypesToFilterFor, rules.get(0).blobTypesToFilterFor());
-        Assert.assertEquals(prefixesToFilterFor, rules.get(0).prefixesToFilterFor());
+        Assert.assertArrayEquals(Collections.unmodifiableList(blobTypesToFilterFor).toArray(), rules.get(0).blobTypesToFilterFor().toArray());
+        Assert.assertArrayEquals(Collections.unmodifiableList(prefixesToFilterFor).toArray(), rules.get(0).prefixesToFilterFor().toArray());
         Assert.assertEquals(30, rules.get(0).daysAfterBaseBlobModificationUntilCooling().intValue());
         Assert.assertTrue(rules.get(0).tierToCoolActionOnBaseBlobEnabled());
         Assert.assertEquals(90, rules.get(0).daysAfterBaseBlobModificationUntilArchiving().intValue());

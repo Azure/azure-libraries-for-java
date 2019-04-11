@@ -43,7 +43,6 @@ public class StorageBlobContainersTests extends StorageManagementTest {
         BlobContainer blobContainer = blobContainers.defineContainer("blob-test")
                 .withExistingBlobService(RG_NAME, SA_NAME)
                 .withPublicAccess(PublicAccess.CONTAINER)
-                .withMetadata(new HashMap<String, String>())
                 .withMetadata("a", "b")
                 .withMetadata("c", "d")
                 .create();

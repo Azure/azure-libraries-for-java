@@ -103,6 +103,8 @@ public interface CosmosDBAccount extends
      */
     Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
 
+    boolean multipleWriteLocationsEnabled();
+
     /**
      * @return a list that contains the Cosmos DB capabilities
      */
@@ -355,6 +357,10 @@ public interface CosmosDBAccount extends
             WithCreate withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
         }
 
+        interface WithMultipleLocations {
+            WithCreate withMultipleWriteLocationsEnabled(boolean enabled);
+        }
+
         /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
@@ -366,6 +372,7 @@ public interface CosmosDBAccount extends
                 WithReadReplication,
                 WithIpRangeFilter,
                 WithVirtualNetworkRule,
+                WithMultipleLocations,
                 DefinitionWithTags<WithCreate> {
         }
     }
@@ -390,6 +397,7 @@ public interface CosmosDBAccount extends
             Appliable<CosmosDBAccount>,
             UpdateStages.WithConsistencyPolicy,
             UpdateStages.WithVirtualNetworkRule,
+            UpdateStages.WithMultipleLocations,
             UpdateStages.WithIpRangeFilter {
         }
 
@@ -490,10 +498,14 @@ public interface CosmosDBAccount extends
              *
              * @param virtualNetworkRules the list of Virtual Network ACL Rules (an empty list value
              *                            will remove all the rules)
-             * @return the next stage of the update definition
+             * @return the next stage of the update definition-
              */
             @Beta(SinceVersion.V1_11_0)
             WithOptionals withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
+        }
+
+        interface WithMultipleLocations {
+            WithOptionals withMultipleWriteLocationsEnabled(boolean enabled);
         }
 
     }

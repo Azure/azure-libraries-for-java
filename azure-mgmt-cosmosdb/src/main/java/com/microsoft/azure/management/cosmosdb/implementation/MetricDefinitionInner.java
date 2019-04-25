@@ -53,7 +53,7 @@ public class MetricDefinitionInner {
     private MetricName name;
 
     /**
-     * Get the metricAvailabilities value.
+     * Get the list of metric availabilities for the account.
      *
      * @return the metricAvailabilities value
      */
@@ -62,7 +62,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the primaryAggregationType value.
+     * Get the primary aggregation type of the metric. Possible values include: 'None', 'Average', 'Total', 'Minimimum', 'Maximum', 'Last'.
      *
      * @return the primaryAggregationType value
      */
@@ -71,7 +71,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the unit value.
+     * Get the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'.
      *
      * @return the unit value
      */
@@ -80,7 +80,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Set the unit value.
+     * Set the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'.
      *
      * @param unit the unit value to set
      * @return the MetricDefinitionInner object itself.
@@ -91,7 +91,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the resourceUri value.
+     * Get the resource uri of the database.
      *
      * @return the resourceUri value
      */
@@ -100,7 +100,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the name value.
+     * Get the name information for the metric.
      *
      * @return the name value
      */

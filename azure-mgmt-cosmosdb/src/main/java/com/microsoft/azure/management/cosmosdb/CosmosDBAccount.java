@@ -103,6 +103,9 @@ public interface CosmosDBAccount extends
      */
     Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
 
+    /**
+     * @return whether write is enabled for multiple locations or not
+     */
     boolean multipleWriteLocationsEnabled();
 
     /**
@@ -357,7 +360,17 @@ public interface CosmosDBAccount extends
             WithCreate withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
         }
 
+        /**
+         * The stage of the cosmos db definition allowing to specify whether multiple write locations will be enabled.
+         */
         interface WithMultipleLocations {
+
+            /**
+             * Specifies whether multiple write locations are enabled for this cosmos db account.
+             *
+             * @param enabled whether multiple write locations are enabled or not.
+             * @return the next stage
+             */
             WithCreate withMultipleWriteLocationsEnabled(boolean enabled);
         }
 
@@ -504,9 +517,18 @@ public interface CosmosDBAccount extends
             WithOptionals withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
         }
 
+        /**
+         * The stage of the Cosmos DB update definition allowing to specify whether multiple write locations are enabled or not.
+         */
         interface WithMultipleLocations {
+
+            /**
+             * Specifies whether multiple write locations are enabled or not for this cosmos db account.
+             *
+             * @param enabled whether multiple write locatiosn are enabled or not.
+             * @return the next stage of the update definition
+             */
             WithOptionals withMultipleWriteLocationsEnabled(boolean enabled);
         }
-
     }
 }

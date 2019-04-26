@@ -13,6 +13,7 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.appservice.implementation.SiteInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -257,15 +258,18 @@ public interface WebAppBase extends
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
      * to the web app.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
      * assigned to the web app.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return The ids of the user assigned identities
+     */
+    Set<String> userAssignedManagedServiceIdentityIds();
 
     /**
      * @return the app settings defined on the web app
@@ -602,7 +606,8 @@ public interface WebAppBase extends
     interface Definition<FluentT> extends
             DefinitionStages.WithWebContainer<FluentT>,
             DefinitionStages.WithCreate<FluentT>,
-            DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> {
+            DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate<FluentT>,
+            DefinitionStages.WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> {
     }
 
     /**
@@ -993,7 +998,6 @@ public interface WebAppBase extends
          * A web app definition stage allowing System Assigned Managed Service Identity to be set.
          * @param <FluentT> the type of the resource
          */
-        @Beta(SinceVersion.V1_6_0)
         interface WithManagedServiceIdentity<FluentT> {
             /**
              * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app.
@@ -1001,6 +1005,22 @@ public interface WebAppBase extends
              */
             @Method
             WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that User Assigned Managed Service Identity needs to be enabled in the web app.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withUserAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be disabled.
+             *
+             * @return the next stage of the update
+             */
+            @Method
+            Update<FluentT> withoutSystemAssignedManagedServiceIdentity();
+
         }
 
         /**
@@ -1008,7 +1028,6 @@ public interface WebAppBase extends
          * set access role for the identity.
          * @param <FluentT> the type of the resource
          */
-        @Beta(Beta.SinceVersion.V1_6_0)
         interface WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> extends WithCreate<FluentT> {
             /**
              * Specifies that web app's system assigned (local) identity should have the given access
@@ -1052,6 +1071,34 @@ public interface WebAppBase extends
              * @return the next stage of the definition
              */
             WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
+
+        /**
+         * The stage of the web app update allowing to add User Assigned (External) Managed Service Identities.
+         */
+        interface WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> extends WithCreate<FluentT> {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the web app.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the definition.
+             */
+            WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the web app.
+             * @param identity the identity
+             * @return the next stage of the definition.
+             */
+            WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withExistingUserAssignedManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an user assigned identity associated with the web app should be removed.
+             *
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the virtual machine update
+             */
+            Update<FluentT> withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 
         /**
@@ -1528,7 +1575,6 @@ public interface WebAppBase extends
          * A web app definition stage allowing System Assigned Managed Service Identity to be set.
          * @param <FluentT> the type of the resource
          */
-        @Beta(SinceVersion.V1_6_0)
         interface WithManagedServiceIdentity<FluentT> {
             /**
              * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app.
@@ -1536,6 +1582,13 @@ public interface WebAppBase extends
              */
             @Method
             Update<FluentT> withSystemAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that User Assigned Managed Service Identity needs to be enabled in the web app.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            Update<FluentT> withUserAssignedManagedServiceIdentity();
         }
 
         /**
@@ -1543,7 +1596,6 @@ public interface WebAppBase extends
          * set access role for the identity.
          * @param <FluentT> the type of the resource
          */
-        @Beta(Beta.SinceVersion.V1_6_0)
         interface WithSystemAssignedIdentityBasedAccess<FluentT> {
             /**
              * Specifies that web app's system assigned (local) identity should have the given access
@@ -1588,6 +1640,26 @@ public interface WebAppBase extends
              */
             Update<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
+
+        /**
+         * The stage of the web app update allowing to add User Assigned (External) Managed Service Identities.
+         */
+        interface WithUserAssignedManagedServiceIdentityBasedAccess<FluentT> {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the web app.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the definition.
+             */
+            Update<FluentT> withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the web app.
+             * @param identity the identity
+             * @return the next stage of the definition.
+             */
+            Update<FluentT> withExistingUserAssignedManagedServiceIdentity(Identity identity);
+        }
     }
 
     /**
@@ -1609,6 +1681,7 @@ public interface WebAppBase extends
         UpdateStages.WithAuthentication<FluentT>,
         UpdateStages.WithDiagnosticLogging<FluentT>,
         UpdateStages.WithManagedServiceIdentity<FluentT>,
-        UpdateStages.WithSystemAssignedIdentityBasedAccess<FluentT> {
+        UpdateStages.WithSystemAssignedIdentityBasedAccess<FluentT>,
+        UpdateStages.WithUserAssignedManagedServiceIdentityBasedAccess<FluentT> {
     }
 }

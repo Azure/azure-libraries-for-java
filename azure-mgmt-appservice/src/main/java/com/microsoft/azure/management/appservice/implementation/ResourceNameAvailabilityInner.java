@@ -12,7 +12,7 @@ import com.microsoft.azure.management.appservice.InAvailabilityReasonType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Information regarding availbility of a resource name.
+ * Information regarding availability of a resource name.
  */
 public class ResourceNameAvailabilityInner {
     /**

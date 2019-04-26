@@ -18,6 +18,7 @@ import com.microsoft.azure.management.appservice.CsmSlotEntity;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.PublishingProfile;
+import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebAppSourceControl;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
@@ -101,7 +102,7 @@ abstract class DeploymentSlotBaseImpl<
     }
 
     public Observable<PublishingProfile> getPublishingProfileAsync() {
-        return manager().inner().webApps().listPublishingProfileXmlWithSecretsSlotAsync(resourceGroupName(), this.parent().name(), name())
+        return manager().inner().webApps().listPublishingProfileXmlWithSecretsSlotAsync(resourceGroupName(), this.parent().name(), name(), null)
                 .map(new Func1<InputStream, PublishingProfile>() {
                     @Override
                     public PublishingProfile call(InputStream stream) {
@@ -232,6 +233,11 @@ abstract class DeploymentSlotBaseImpl<
     @Override
     Observable<SiteInner> createOrUpdateInner(SiteInner site) {
         return manager().inner().webApps().createOrUpdateSlotAsync(resourceGroupName(), this.parent().name(), name(), site);
+    }
+
+    @Override
+    Observable<SiteInner> updateInner(SitePatchResource siteUpdate) {
+        return manager().inner().webApps().updateSlotAsync(resourceGroupName(), this.parent().name(), name(), siteUpdate);
     }
 
     @Override

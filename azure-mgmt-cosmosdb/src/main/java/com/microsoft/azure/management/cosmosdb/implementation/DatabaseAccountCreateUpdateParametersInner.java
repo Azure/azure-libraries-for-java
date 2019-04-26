@@ -96,7 +96,6 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
 
     /**
      * Creates an instance of DatabaseAccountCreateUpdateParametersInner class.
-     * @param locations an array that contains the georeplication locations enabled for the Cosmos DB account.
      */
     public DatabaseAccountCreateUpdateParametersInner() {
         databaseAccountOfferType = "Standard";

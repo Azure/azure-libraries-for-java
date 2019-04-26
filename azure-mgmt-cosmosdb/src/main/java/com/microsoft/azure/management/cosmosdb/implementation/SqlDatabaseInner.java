@@ -28,36 +28,36 @@ public class SqlDatabaseInner extends Resource {
     /**
      * A system generated property. A unique identifier.
      */
-    @JsonProperty(value = "properties._rid")
-    private String _rid;
+    @JsonProperty(value = "properties.rid")
+    private String rid;
 
     /**
      * A system generated property that denotes the last updated timestamp of
      * the resource.
      */
-    @JsonProperty(value = "properties._ts")
-    private Object _ts;
+    @JsonProperty(value = "properties.ts")
+    private Object ts;
 
     /**
      * A system generated property representing the resource etag required for
      * optimistic concurrency control.
      */
-    @JsonProperty(value = "properties._etag")
-    private String _etag;
+    @JsonProperty(value = "properties.etag")
+    private String etag;
 
     /**
      * A system generated property that specified the addressable path of the
      * collections resource.
      */
     @JsonProperty(value = "properties._colls")
-    private String _colls;
+    private String colls;
 
     /**
      * A system generated property that specifies the addressable path of the
      * users resource.
      */
-    @JsonProperty(value = "properties._users")
-    private String _users;
+    @JsonProperty(value = "properties.users")
+    private String users;
 
     /**
      * Get name of the Cosmos DB SQL database.
@@ -82,100 +82,100 @@ public class SqlDatabaseInner extends Resource {
     /**
      * Get a system generated property. A unique identifier.
      *
-     * @return the _rid value
+     * @return the rid value
      */
-    public String _rid() {
-        return this._rid;
+    public String rid() {
+        return this.rid;
     }
 
     /**
      * Set a system generated property. A unique identifier.
      *
-     * @param _rid the _rid value to set
+     * @param rid the rid value to set
      * @return the SqlDatabaseInner object itself.
      */
-    public SqlDatabaseInner with_rid(String _rid) {
-        this._rid = _rid;
+    public SqlDatabaseInner withRid(String rid) {
+        this.rid = rid;
         return this;
     }
 
     /**
      * Get a system generated property that denotes the last updated timestamp of the resource.
      *
-     * @return the _ts value
+     * @return the ts value
      */
-    public Object _ts() {
-        return this._ts;
+    public Object ts() {
+        return this.ts;
     }
 
     /**
      * Set a system generated property that denotes the last updated timestamp of the resource.
      *
-     * @param _ts the _ts value to set
+     * @param ts the ts value to set
      * @return the SqlDatabaseInner object itself.
      */
-    public SqlDatabaseInner with_ts(Object _ts) {
-        this._ts = _ts;
+    public SqlDatabaseInner withTs(Object ts) {
+        this.ts = ts;
         return this;
     }
 
     /**
      * Get a system generated property representing the resource etag required for optimistic concurrency control.
      *
-     * @return the _etag value
+     * @return the etag value
      */
-    public String _etag() {
-        return this._etag;
+    public String etag() {
+        return this.etag;
     }
 
     /**
      * Set a system generated property representing the resource etag required for optimistic concurrency control.
      *
-     * @param _etag the _etag value to set
+     * @param etag the etag value to set
      * @return the SqlDatabaseInner object itself.
      */
-    public SqlDatabaseInner with_etag(String _etag) {
-        this._etag = _etag;
+    public SqlDatabaseInner withEtag(String etag) {
+        this.etag = etag;
         return this;
     }
 
     /**
      * Get a system generated property that specified the addressable path of the collections resource.
      *
-     * @return the _colls value
+     * @return the colls value
      */
-    public String _colls() {
-        return this._colls;
+    public String colls() {
+        return this.colls;
     }
 
     /**
      * Set a system generated property that specified the addressable path of the collections resource.
      *
-     * @param _colls the _colls value to set
+     * @param colls the colls value to set
      * @return the SqlDatabaseInner object itself.
      */
-    public SqlDatabaseInner with_colls(String _colls) {
-        this._colls = _colls;
+    public SqlDatabaseInner withColls(String colls) {
+        this.colls = colls;
         return this;
     }
 
     /**
      * Get a system generated property that specifies the addressable path of the users resource.
      *
-     * @return the _users value
+     * @return the users value
      */
-    public String _users() {
-        return this._users;
+    public String users() {
+        return this.users;
     }
 
     /**
      * Set a system generated property that specifies the addressable path of the users resource.
      *
-     * @param _users the _users value to set
+     * @param users the users value to set
      * @return the SqlDatabaseInner object itself.
      */
-    public SqlDatabaseInner with_users(String _users) {
-        this._users = _users;
+    public SqlDatabaseInner withUsers(String users) {
+        this.users = users;
         return this;
     }
 

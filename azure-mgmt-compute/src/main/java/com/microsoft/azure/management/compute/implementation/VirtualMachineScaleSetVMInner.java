@@ -8,20 +8,19 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.compute.AdditionalCapabilities;
-import com.microsoft.azure.management.compute.DiagnosticsProfile;
-import com.microsoft.azure.management.compute.HardwareProfile;
-import com.microsoft.azure.management.compute.NetworkProfile;
-import com.microsoft.azure.management.compute.OSProfile;
-import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.Sku;
+import com.microsoft.azure.management.compute.HardwareProfile;
 import com.microsoft.azure.management.compute.StorageProfile;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import com.microsoft.azure.management.compute.AdditionalCapabilities;
+import com.microsoft.azure.management.compute.OSProfile;
+import com.microsoft.azure.management.compute.NetworkProfile;
+import com.microsoft.azure.management.compute.DiagnosticsProfile;
+import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.compute.Plan;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Describes a virtual machine scale set virtual machine.
@@ -46,13 +45,6 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     @JsonProperty(value = "properties.latestModelApplied", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean latestModelApplied;
-
-    /**
-     * Specifies whether the virtual machine instance shouldn't be considered
-     * for deletion during a scale-in operation.
-     */
-    @JsonProperty(value = "properties.protectFromScaleIn")
-    private Boolean protectFromScaleIn;
 
     /**
      * Azure VM unique ID.
@@ -193,26 +185,6 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     public Boolean latestModelApplied() {
         return this.latestModelApplied;
-    }
-
-    /**
-     * Get specifies whether the virtual machine instance shouldn't be considered for deletion during a scale-in operation.
-     *
-     * @return the protectFromScaleIn value
-     */
-    public Boolean protectFromScaleIn() {
-        return this.protectFromScaleIn;
-    }
-
-    /**
-     * Set specifies whether the virtual machine instance shouldn't be considered for deletion during a scale-in operation.
-     *
-     * @param protectFromScaleIn the protectFromScaleIn value to set
-     * @return the VirtualMachineScaleSetVMInner object itself.
-     */
-    public VirtualMachineScaleSetVMInner withProtectFromScaleIn(Boolean protectFromScaleIn) {
-        this.protectFromScaleIn = protectFromScaleIn;
-        return this;
     }
 
     /**

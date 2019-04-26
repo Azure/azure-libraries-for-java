@@ -8,14 +8,13 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.compute.AutomaticOSUpgradeProperties;
-import com.microsoft.azure.management.compute.DataDiskImage;
-import com.microsoft.azure.management.compute.OSDiskImage;
 import com.microsoft.azure.management.compute.PurchasePlan;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import com.microsoft.azure.management.compute.OSDiskImage;
 import java.util.List;
+import com.microsoft.azure.management.compute.DataDiskImage;
+import com.microsoft.azure.management.compute.AutomaticOSUpgradeProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * Describes a Virtual Machine Image.

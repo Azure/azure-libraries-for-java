@@ -8,11 +8,11 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.ImageStorageProfile;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * The source user image virtual hard disk. The virtual hard disk will be

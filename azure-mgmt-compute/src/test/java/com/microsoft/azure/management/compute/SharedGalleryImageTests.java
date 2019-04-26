@@ -154,7 +154,6 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
     }
 
     @Test
-    @Ignore("Service consistently fail with error 'Replication job not completed at region:XXXXX', reported to service team, ")
     public void canCreateUpdateGetDeleteGalleryImageVersion() {
         //
         // Create {
@@ -203,6 +202,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                 .withSourceCustomImage(customImage)
                 // Options - Start
                 .withRegionAvailability(Region.US_WEST2, 1)
+                .withStorageAccountType(StorageAccountType.STANDARD_LRS)
                 // Options - End
                 .create();
 
@@ -210,6 +210,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         Assert.assertNotNull(imageVersion.inner());
         Assert.assertNotNull(imageVersion.availableRegions());
         Assert.assertEquals(2, imageVersion.availableRegions().size());
+        Assert.assertEquals(StorageAccountType.STANDARD_LRS, imageVersion.storageAccountType());
         boolean found = false;
         String expectedRegion = "westus2";
         for(TargetRegion targetRegion: imageVersion.availableRegions()) {
@@ -220,17 +221,18 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         }
         Assert.assertTrue("expected region" + expectedRegion + " not found", found);
         Assert.assertFalse(imageVersion.isExcludedFromLatest());
-
         //
         // Update image version
         //
         imageVersion.update()
                 .withoutRegionAvailability(Region.US_WEST2)
+                .withStorageAccountType(StorageAccountType.STANDARD_ZRS)
                 .apply();
 
         Assert.assertNotNull(imageVersion.availableRegions());
         Assert.assertEquals(1, imageVersion.availableRegions().size());
         Assert.assertFalse(imageVersion.isExcludedFromLatest());
+        Assert.assertEquals(StorageAccountType.STANDARD_ZRS, imageVersion.storageAccountType());
 
         //
         // List image versions

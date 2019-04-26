@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.compute;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-
-import java.util.Map;
 
 /**
  * Disk update resource.

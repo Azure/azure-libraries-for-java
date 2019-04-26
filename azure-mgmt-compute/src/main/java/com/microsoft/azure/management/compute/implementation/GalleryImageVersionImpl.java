@@ -13,6 +13,7 @@ import com.microsoft.azure.management.compute.GalleryImageVersionPublishingProfi
 import com.microsoft.azure.management.compute.GalleryImageVersionStorageProfile;
 import com.microsoft.azure.management.compute.ManagedArtifact;
 import com.microsoft.azure.management.compute.ReplicationStatus;
+import com.microsoft.azure.management.compute.StorageAccountType;
 import com.microsoft.azure.management.compute.TargetRegion;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -124,6 +125,15 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
             }
         }
         return Collections.unmodifiableList(regions);
+    }
+
+    @Override
+    public StorageAccountType storageAccountType() {
+        if (this.inner().publishingProfile() != null) {
+            return this.inner().publishingProfile().storageAccountType();
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -301,6 +311,15 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
                 this.inner().publishingProfile().targetRegions().remove(foundIndex);
             }
         }
+        return this;
+    }
+
+    @Override
+    public GalleryImageVersionImpl withStorageAccountType(StorageAccountType storageAccountType) {
+        if (this.inner().publishingProfile() == null) {
+            this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
+        }
+        this.inner().publishingProfile().withStorageAccountType(storageAccountType);
         return this;
     }
 

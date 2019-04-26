@@ -8,16 +8,16 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.Sku;
+import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.UpgradePolicy;
-import com.microsoft.azure.management.compute.VirtualMachineScaleSetIdentity;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMProfile;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetIdentity;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Describes a Virtual Machine Scale Set.
@@ -68,6 +68,14 @@ public class VirtualMachineScaleSetInner extends Resource {
     private Boolean overprovision;
 
     /**
+     * When Overprovision is enabled, extensions are launched only on the
+     * requested number of VMs which are finally kept. This property will hence
+     * ensure that the extensions do not run on the extra overprovisioned VMs.
+     */
+    @JsonProperty(value = "properties.doNotRunExtensionsOnOverprovisionedVMs")
+    private Boolean doNotRunExtensionsOnOverprovisionedVMs;
+
+    /**
      * Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
      */
     @JsonProperty(value = "properties.uniqueId", access = JsonProperty.Access.WRITE_ONLY)
@@ -92,6 +100,14 @@ public class VirtualMachineScaleSetInner extends Resource {
      */
     @JsonProperty(value = "properties.platformFaultDomainCount")
     private Integer platformFaultDomainCount;
+
+    /**
+     * Specifies information about the proximity placement group that the
+     * virtual machine scale set should be assigned to.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     */
+    @JsonProperty(value = "properties.proximityPlacementGroup")
+    private SubResource proximityPlacementGroup;
 
     /**
      * The identity of the virtual machine scale set, if configured.
@@ -215,6 +231,26 @@ public class VirtualMachineScaleSetInner extends Resource {
     }
 
     /**
+     * Get when Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs.
+     *
+     * @return the doNotRunExtensionsOnOverprovisionedVMs value
+     */
+    public Boolean doNotRunExtensionsOnOverprovisionedVMs() {
+        return this.doNotRunExtensionsOnOverprovisionedVMs;
+    }
+
+    /**
+     * Set when Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs.
+     *
+     * @param doNotRunExtensionsOnOverprovisionedVMs the doNotRunExtensionsOnOverprovisionedVMs value to set
+     * @return the VirtualMachineScaleSetInner object itself.
+     */
+    public VirtualMachineScaleSetInner withDoNotRunExtensionsOnOverprovisionedVMs(Boolean doNotRunExtensionsOnOverprovisionedVMs) {
+        this.doNotRunExtensionsOnOverprovisionedVMs = doNotRunExtensionsOnOverprovisionedVMs;
+        return this;
+    }
+
+    /**
      * Get specifies the ID which uniquely identifies a Virtual Machine Scale Set.
      *
      * @return the uniqueId value
@@ -280,6 +316,26 @@ public class VirtualMachineScaleSetInner extends Resource {
      */
     public VirtualMachineScaleSetInner withPlatformFaultDomainCount(Integer platformFaultDomainCount) {
         this.platformFaultDomainCount = platformFaultDomainCount;
+        return this;
+    }
+
+    /**
+     * Get specifies information about the proximity placement group that the virtual machine scale set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @return the proximityPlacementGroup value
+     */
+    public SubResource proximityPlacementGroup() {
+        return this.proximityPlacementGroup;
+    }
+
+    /**
+     * Set specifies information about the proximity placement group that the virtual machine scale set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @param proximityPlacementGroup the proximityPlacementGroup value to set
+     * @return the VirtualMachineScaleSetInner object itself.
+     */
+    public VirtualMachineScaleSetInner withProximityPlacementGroup(SubResource proximityPlacementGroup) {
+        this.proximityPlacementGroup = proximityPlacementGroup;
         return this;
     }
 

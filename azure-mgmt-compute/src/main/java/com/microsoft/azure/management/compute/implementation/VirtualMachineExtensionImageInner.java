@@ -9,8 +9,8 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Describes a Virtual Machine Extension Image.

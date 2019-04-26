@@ -8,19 +8,18 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.management.compute.ContainerServiceAgentPoolProfile;
-import com.microsoft.azure.management.compute.ContainerServiceCustomProfile;
-import com.microsoft.azure.management.compute.ContainerServiceDiagnosticsProfile;
-import com.microsoft.azure.management.compute.ContainerServiceLinuxProfile;
-import com.microsoft.azure.management.compute.ContainerServiceMasterProfile;
 import com.microsoft.azure.management.compute.ContainerServiceOrchestratorProfile;
+import com.microsoft.azure.management.compute.ContainerServiceCustomProfile;
 import com.microsoft.azure.management.compute.ContainerServiceServicePrincipalProfile;
-import com.microsoft.azure.management.compute.ContainerServiceWindowsProfile;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import com.microsoft.azure.management.compute.ContainerServiceMasterProfile;
 import java.util.List;
+import com.microsoft.azure.management.compute.ContainerServiceAgentPoolProfile;
+import com.microsoft.azure.management.compute.ContainerServiceWindowsProfile;
+import com.microsoft.azure.management.compute.ContainerServiceLinuxProfile;
+import com.microsoft.azure.management.compute.ContainerServiceDiagnosticsProfile;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Container service.

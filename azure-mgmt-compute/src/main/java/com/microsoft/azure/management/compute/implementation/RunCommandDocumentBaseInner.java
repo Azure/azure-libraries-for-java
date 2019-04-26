@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Describes the properties of a Run Command metadata.

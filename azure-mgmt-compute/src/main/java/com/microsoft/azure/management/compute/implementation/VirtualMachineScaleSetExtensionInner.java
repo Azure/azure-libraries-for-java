@@ -8,11 +8,10 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.compute.SubResourceReadOnly;
-import com.microsoft.rest.serializer.JsonFlatten;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.compute.SubResourceReadOnly;
 
 /**
  * Describes a Virtual Machine Scale Set Extension.

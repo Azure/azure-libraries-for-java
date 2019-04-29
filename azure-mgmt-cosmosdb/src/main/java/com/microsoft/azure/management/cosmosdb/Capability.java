@@ -23,7 +23,7 @@ public class Capability {
     private String name;
 
     /**
-     * Get the name value.
+     * Get name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include "EnableTable" and "EnableGremlin".
      *
      * @return the name value
      */
@@ -32,7 +32,7 @@ public class Capability {
     }
 
     /**
-     * Set the name value.
+     * Set name of the Cosmos DB capability. For example, "name": "EnableCassandra". Current values also include "EnableTable" and "EnableGremlin".
      *
      * @param name the name value to set
      * @return the Capability object itself.

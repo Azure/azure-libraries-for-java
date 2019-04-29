@@ -8,20 +8,22 @@
 
 package com.microsoft.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import java.util.List;
-import com.microsoft.azure.management.cosmosdb.Location;
-import com.microsoft.azure.management.cosmosdb.Capability;
-import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.cosmosdb.Capability;
+import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
+import com.microsoft.azure.management.cosmosdb.Location;
+import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * Parameters to create and update Cosmos DB database accounts.
  */
 @JsonFlatten
+@SkipParentValidation
 public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     /**
      * Indicates the type of database account. This can only be set at database
@@ -45,7 +47,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     private List<Location> locations;
 
     /**
-     * The databaseAccountOfferType property.
+     * The offer type for the database.
      */
     @JsonProperty(value = "properties.databaseAccountOfferType", required = true)
     private String databaseAccountOfferType;
@@ -87,6 +89,12 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     private List<VirtualNetworkRule> virtualNetworkRules;
 
     /**
+     * Enables the account to write in multiple locations.
+     */
+    @JsonProperty(value = "properties.enableMultipleWriteLocations")
+    private Boolean enableMultipleWriteLocations;
+
+    /**
      * Creates an instance of DatabaseAccountCreateUpdateParametersInner class.
      */
     public DatabaseAccountCreateUpdateParametersInner() {
@@ -94,7 +102,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the kind value.
+     * Get indicates the type of database account. This can only be set at database account creation. Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'.
      *
      * @return the kind value
      */
@@ -103,7 +111,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the kind value.
+     * Set indicates the type of database account. This can only be set at database account creation. Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'.
      *
      * @param kind the kind value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
@@ -114,7 +122,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the consistencyPolicy value.
+     * Get the consistency policy for the Cosmos DB account.
      *
      * @return the consistencyPolicy value
      */
@@ -123,7 +131,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the consistencyPolicy value.
+     * Set the consistency policy for the Cosmos DB account.
      *
      * @param consistencyPolicy the consistencyPolicy value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
@@ -134,7 +142,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the locations value.
+     * Get an array that contains the georeplication locations enabled for the Cosmos DB account.
      *
      * @return the locations value
      */
@@ -143,7 +151,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the locations value.
+     * Set an array that contains the georeplication locations enabled for the Cosmos DB account.
      *
      * @param locations the locations value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
@@ -154,7 +162,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the databaseAccountOfferType value.
+     * Get the offer type for the database.
      *
      * @return the databaseAccountOfferType value
      */
@@ -163,7 +171,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the databaseAccountOfferType value.
+     * Set the offer type for the database.
      *
      * @param databaseAccountOfferType the databaseAccountOfferType value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
@@ -174,7 +182,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the ipRangeFilter value.
+     * Get cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.
      *
      * @return the ipRangeFilter value
      */
@@ -183,7 +191,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the ipRangeFilter value.
+     * Set cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.
      *
      * @param ipRangeFilter the ipRangeFilter value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
@@ -194,7 +202,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the isVirtualNetworkFilterEnabled value.
+     * Get flag to indicate whether to enable/disable Virtual Network ACL rules.
      *
      * @return the isVirtualNetworkFilterEnabled value
      */
@@ -203,7 +211,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the isVirtualNetworkFilterEnabled value.
+     * Set flag to indicate whether to enable/disable Virtual Network ACL rules.
      *
      * @param isVirtualNetworkFilterEnabled the isVirtualNetworkFilterEnabled value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
@@ -214,7 +222,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the enableAutomaticFailover value.
+     * Get enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
      *
      * @return the enableAutomaticFailover value
      */
@@ -223,7 +231,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the enableAutomaticFailover value.
+     * Set enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
      *
      * @param enableAutomaticFailover the enableAutomaticFailover value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
@@ -234,7 +242,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the capabilities value.
+     * Get list of Cosmos DB capabilities for the account.
      *
      * @return the capabilities value
      */
@@ -243,7 +251,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the capabilities value.
+     * Set list of Cosmos DB capabilities for the account.
      *
      * @param capabilities the capabilities value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
@@ -254,7 +262,7 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Get the virtualNetworkRules value.
+     * Get list of Virtual Network ACL rules configured for the Cosmos DB account.
      *
      * @return the virtualNetworkRules value
      */
@@ -263,13 +271,33 @@ public class DatabaseAccountCreateUpdateParametersInner extends Resource {
     }
 
     /**
-     * Set the virtualNetworkRules value.
+     * Set list of Virtual Network ACL rules configured for the Cosmos DB account.
      *
      * @param virtualNetworkRules the virtualNetworkRules value to set
      * @return the DatabaseAccountCreateUpdateParametersInner object itself.
      */
     public DatabaseAccountCreateUpdateParametersInner withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules) {
         this.virtualNetworkRules = virtualNetworkRules;
+        return this;
+    }
+
+    /**
+     * Get enables the account to write in multiple locations.
+     *
+     * @return the enableMultipleWriteLocations value
+     */
+    public Boolean enableMultipleWriteLocations() {
+        return this.enableMultipleWriteLocations;
+    }
+
+    /**
+     * Set enables the account to write in multiple locations.
+     *
+     * @param enableMultipleWriteLocations the enableMultipleWriteLocations value to set
+     * @return the DatabaseAccountCreateUpdateParametersInner object itself.
+     */
+    public DatabaseAccountCreateUpdateParametersInner withEnableMultipleWriteLocations(Boolean enableMultipleWriteLocations) {
+        this.enableMultipleWriteLocations = enableMultipleWriteLocations;
         return this;
     }
 

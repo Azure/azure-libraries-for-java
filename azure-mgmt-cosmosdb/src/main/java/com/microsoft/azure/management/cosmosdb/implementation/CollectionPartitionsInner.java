@@ -154,7 +154,11 @@ public class CollectionPartitionsInner {
                 public Observable<ServiceResponse<List<PartitionMetricInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<PartitionMetricInner>> result = listMetricsDelegate(response);
-                        ServiceResponse<List<PartitionMetricInner>> clientResponse = new ServiceResponse<List<PartitionMetricInner>>(result.body().items(), result.response());
+                        List<PartitionMetricInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<PartitionMetricInner>> clientResponse = new ServiceResponse<List<PartitionMetricInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -256,7 +260,11 @@ public class CollectionPartitionsInner {
                 public Observable<ServiceResponse<List<PartitionUsageInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<PartitionUsageInner>> result = listUsagesDelegate(response);
-                        ServiceResponse<List<PartitionUsageInner>> clientResponse = new ServiceResponse<List<PartitionUsageInner>>(result.body().items(), result.response());
+                        List<PartitionUsageInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<PartitionUsageInner>> clientResponse = new ServiceResponse<List<PartitionUsageInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -354,7 +362,11 @@ public class CollectionPartitionsInner {
                 public Observable<ServiceResponse<List<PartitionUsageInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<PartitionUsageInner>> result = listUsagesDelegate(response);
-                        ServiceResponse<List<PartitionUsageInner>> clientResponse = new ServiceResponse<List<PartitionUsageInner>>(result.body().items(), result.response());
+                        List<PartitionUsageInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<PartitionUsageInner>> clientResponse = new ServiceResponse<List<PartitionUsageInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

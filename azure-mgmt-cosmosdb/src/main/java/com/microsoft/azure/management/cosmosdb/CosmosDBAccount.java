@@ -104,6 +104,11 @@ public interface CosmosDBAccount extends
     Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
 
     /**
+     * @return whether write is enabled for multiple locations or not
+     */
+    boolean multipleWriteLocationsEnabled();
+
+    /**
      * @return a list that contains the Cosmos DB capabilities
      */
     @Beta(SinceVersion.V1_10_0)
@@ -356,6 +361,20 @@ public interface CosmosDBAccount extends
         }
 
         /**
+         * The stage of the cosmos db definition allowing to specify whether multiple write locations will be enabled.
+         */
+        interface WithMultipleLocations {
+
+            /**
+             * Specifies whether multiple write locations are enabled for this cosmos db account.
+             *
+             * @param enabled whether multiple write locations are enabled or not.
+             * @return the next stage
+             */
+            WithCreate withMultipleWriteLocationsEnabled(boolean enabled);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
          * for any other optional settings to be specified.
@@ -366,6 +385,7 @@ public interface CosmosDBAccount extends
                 WithReadReplication,
                 WithIpRangeFilter,
                 WithVirtualNetworkRule,
+                WithMultipleLocations,
                 DefinitionWithTags<WithCreate> {
         }
     }
@@ -390,6 +410,7 @@ public interface CosmosDBAccount extends
             Appliable<CosmosDBAccount>,
             UpdateStages.WithConsistencyPolicy,
             UpdateStages.WithVirtualNetworkRule,
+            UpdateStages.WithMultipleLocations,
             UpdateStages.WithIpRangeFilter {
         }
 
@@ -490,11 +511,24 @@ public interface CosmosDBAccount extends
              *
              * @param virtualNetworkRules the list of Virtual Network ACL Rules (an empty list value
              *                            will remove all the rules)
-             * @return the next stage of the update definition
+             * @return the next stage of the update definition-
              */
             @Beta(SinceVersion.V1_11_0)
             WithOptionals withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
         }
 
+        /**
+         * The stage of the Cosmos DB update definition allowing to specify whether multiple write locations are enabled or not.
+         */
+        interface WithMultipleLocations {
+
+            /**
+             * Specifies whether multiple write locations are enabled or not for this cosmos db account.
+             *
+             * @param enabled whether multiple write locatiosn are enabled or not.
+             * @return the next stage of the update definition
+             */
+            WithOptionals withMultipleWriteLocationsEnabled(boolean enabled);
+        }
     }
 }

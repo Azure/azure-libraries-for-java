@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class PartitionMetricInner extends MetricInner {
     /**
-     * The parition id (GUID identifier) of the metric values.
+     * The partition id (GUID identifier) of the metric values.
      */
     @JsonProperty(value = "partitionId", access = JsonProperty.Access.WRITE_ONLY)
     private String partitionId;
@@ -27,7 +27,7 @@ public class PartitionMetricInner extends MetricInner {
     private String partitionKeyRangeId;
 
     /**
-     * Get the partitionId value.
+     * Get the partition id (GUID identifier) of the metric values.
      *
      * @return the partitionId value
      */
@@ -36,7 +36,7 @@ public class PartitionMetricInner extends MetricInner {
     }
 
     /**
-     * Get the partitionKeyRangeId value.
+     * Get the partition key range id (integer identifier) of the metric values.
      *
      * @return the partitionKeyRangeId value
      */

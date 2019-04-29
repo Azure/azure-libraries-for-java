@@ -143,7 +143,11 @@ public class PercentileTargetsInner {
                 public Observable<ServiceResponse<List<PercentileMetricInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<PercentileMetricInner>> result = listMetricsDelegate(response);
-                        ServiceResponse<List<PercentileMetricInner>> clientResponse = new ServiceResponse<List<PercentileMetricInner>>(result.body().items(), result.response());
+                        List<PercentileMetricInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<PercentileMetricInner>> clientResponse = new ServiceResponse<List<PercentileMetricInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

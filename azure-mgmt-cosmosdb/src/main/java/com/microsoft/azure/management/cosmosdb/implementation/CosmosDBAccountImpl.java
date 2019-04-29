@@ -153,6 +153,11 @@ class CosmosDBAccountImpl
     }
 
     @Override
+    public boolean multipleWriteLocationsEnabled() {
+        return this.inner().enableMultipleWriteLocations();
+    }
+
+    @Override
     public List<Capability> capabilities() {
         List<Capability> capabilities = this.inner().capabilities();
         if (capabilities == null) {
@@ -344,6 +349,7 @@ class CosmosDBAccountImpl
         createUpdateParametersInner.withKind(inner.kind());
         createUpdateParametersInner.withCapabilities(inner.capabilities());
         createUpdateParametersInner.withTags(inner.getTags());
+        createUpdateParametersInner.withEnableMultipleWriteLocations(inner.enableMultipleWriteLocations());
         this.addLocationsForCreateUpdateParameters(createUpdateParametersInner, this.failoverPolicies);
         createUpdateParametersInner.withIsVirtualNetworkFilterEnabled(inner.isVirtualNetworkFilterEnabled());
         if (this.virtualNetworkRulesMap != null) {
@@ -547,6 +553,12 @@ class CosmosDBAccountImpl
             this.virtualNetworkRulesMap.put(vnetRule.id(), vnetRule);
         }
 
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withMultipleWriteLocationsEnabled(boolean enabled) {
+        this.inner().withEnableMultipleWriteLocations(enabled);
         return this;
     }
 }

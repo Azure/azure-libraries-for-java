@@ -6,11 +6,11 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 /**
  * Scale set virtual machine SKU types.

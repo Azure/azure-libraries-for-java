@@ -13,32 +13,33 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Describes the target region information.
  */
-public final class TargetRegion {
+public class TargetRegion {
     /**
      * The name of the region.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", required = true)
     private String name;
 
     /**
-     * This is the number of source blob copies in this specific region.
+     * The number of replicas of the Image Version to be created per region.
+     * This property is updatable.
      */
     @JsonProperty(value = "regionalReplicaCount")
     private Integer regionalReplicaCount;
 
     /**
-     * Get the name value.
+     * Get the name of the region.
      *
-     * @return the name value.
+     * @return the name value
      */
     public String name() {
         return this.name;
     }
 
     /**
-     * Set the name value.
+     * Set the name of the region.
      *
-     * @param name the name value to set.
+     * @param name the name value to set
      * @return the TargetRegion object itself.
      */
     public TargetRegion withName(String name) {
@@ -47,22 +48,23 @@ public final class TargetRegion {
     }
 
     /**
-     * Get the regionalReplicaCount value.
+     * Get the number of replicas of the Image Version to be created per region. This property is updatable.
      *
-     * @return the regionalReplicaCount value.
+     * @return the regionalReplicaCount value
      */
     public Integer regionalReplicaCount() {
         return this.regionalReplicaCount;
     }
 
     /**
-     * Set the regionalReplicaCount value.
+     * Set the number of replicas of the Image Version to be created per region. This property is updatable.
      *
-     * @param regionalReplicaCount the regionalReplicaCount value to set.
+     * @param regionalReplicaCount the regionalReplicaCount value to set
      * @return the TargetRegion object itself.
      */
     public TargetRegion withRegionalReplicaCount(Integer regionalReplicaCount) {
         this.regionalReplicaCount = regionalReplicaCount;
         return this;
     }
+
 }

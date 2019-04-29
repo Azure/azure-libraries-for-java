@@ -26,6 +26,7 @@ import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -167,7 +168,15 @@ public class VirtualMachineScaleSetsImpl
 
     @Override
     public Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand) {
-        return this.manager().inner().virtualMachineScaleSetVMs().runCommandAsync(groupName, scaleSetName, vmId, inputCommand);
+        return this.manager().inner().virtualMachineScaleSetVMs().runCommandAsync(groupName, scaleSetName, vmId, inputCommand).map(
+                new Func1<RunCommandResultInner, RunCommandResult>() {
+
+                    @Override
+                    public RunCommandResult call(RunCommandResultInner runCommandResultInner) {
+                        return new RunCommandResultImpl(runCommandResultInner);
+                    }
+                }
+        );
     }
 
     @Override

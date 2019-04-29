@@ -64,7 +64,7 @@ public final class ManageAvailabilitySet {
                     .withNewResourceGroup(rgName)
                     .withFaultDomainCount(2)
                     .withUpdateDomainCount(4)
-                    .withSku(AvailabilitySetSkuTypes.MANAGED)
+                    .withSku(AvailabilitySetSkuTypes.ALIGNED)
                     .withTag("cluster", "Windowslinux")
                     .withTag("tag1", "tag1val")
                     .create();

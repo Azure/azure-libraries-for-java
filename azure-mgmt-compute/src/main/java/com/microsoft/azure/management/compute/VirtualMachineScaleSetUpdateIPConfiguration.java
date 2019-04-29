@@ -8,10 +8,11 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.List;
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.SubResource;
 import com.microsoft.rest.serializer.JsonFlatten;
+
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set network profile's IP configuration.
@@ -55,8 +56,14 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     /**
      * The application gateway backend address pools.
      */
-    @JsonProperty(value = "properties.applicationGatewayBackendAddressPoolsIds")
+    @JsonProperty(value = "properties.applicationGatewayBackendAddressPools")
     private List<SubResource> applicationGatewayBackendAddressPools;
+
+    /**
+     * Specifies an array of references to application security group.
+     */
+    @JsonProperty(value = "properties.applicationSecurityGroups")
+    private List<SubResource> applicationSecurityGroups;
 
     /**
      * The load balancer backend address pools.
@@ -69,12 +76,6 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
      */
     @JsonProperty(value = "properties.loadBalancerInboundNatPools")
     private List<SubResource> loadBalancerInboundNatPools;
-
-    /**
-     * Gets the applicationSecurityGroups.
-     */
-    @JsonProperty(value = "properties.applicationSecurityGroups")
-    private List<SubResource> applicationSecurityGroups;
 
     /**
      * Get the IP configuration name.
@@ -179,7 +180,7 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     /**
      * Get the application gateway backend address pools.
      *
-     * @return the applicationGatewayBackendAddressPoolsIds value
+     * @return the applicationGatewayBackendAddressPools value
      */
     public List<SubResource> applicationGatewayBackendAddressPools() {
         return this.applicationGatewayBackendAddressPools;
@@ -188,11 +189,31 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
     /**
      * Set the application gateway backend address pools.
      *
-     * @param applicationGatewayBackendAddressPools the applicationGatewayBackendAddressPoolsIds value to set
+     * @param applicationGatewayBackendAddressPools the applicationGatewayBackendAddressPools value to set
      * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
      */
     public VirtualMachineScaleSetUpdateIPConfiguration withApplicationGatewayBackendAddressPools(List<SubResource> applicationGatewayBackendAddressPools) {
         this.applicationGatewayBackendAddressPools = applicationGatewayBackendAddressPools;
+        return this;
+    }
+
+    /**
+     * Get specifies an array of references to application security group.
+     *
+     * @return the applicationSecurityGroups value
+     */
+    public List<SubResource> applicationSecurityGroups() {
+        return this.applicationSecurityGroups;
+    }
+
+    /**
+     * Set specifies an array of references to application security group.
+     *
+     * @param applicationSecurityGroups the applicationSecurityGroups value to set
+     * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
+     */
+    public VirtualMachineScaleSetUpdateIPConfiguration withApplicationSecurityGroups(List<SubResource> applicationSecurityGroups) {
+        this.applicationSecurityGroups = applicationSecurityGroups;
         return this;
     }
 
@@ -236,23 +257,4 @@ public class VirtualMachineScaleSetUpdateIPConfiguration extends SubResource {
         return this;
     }
 
-    /**
-     * Get application security groups.
-     *
-     * @return the applicationSecurityGroups value
-     */
-    public List<SubResource> applicationSecurityGroups() {
-        return this.applicationSecurityGroups;
-    }
-
-    /**
-     * Set application security groups.
-     *
-     * @param applicationSecurityGroups application security groups
-     * @return the VirtualMachineScaleSetUpdateIPConfiguration object itself.
-     */
-    public VirtualMachineScaleSetUpdateIPConfiguration withApplicationSecurityGroups(List<SubResource> applicationSecurityGroups) {
-        this.applicationSecurityGroups = applicationSecurityGroups;
-        return this;
-    }
 }

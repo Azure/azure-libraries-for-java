@@ -6,8 +6,6 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.graphrbac.implementation.ServicePrincipalInner;
 import com.microsoft.azure.management.resources.ResourceGroup;
@@ -24,7 +22,6 @@ import java.util.Set;
  * An immutable client-side representation of an Azure AD service principal.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
-@Beta
 public interface ServicePrincipal extends
         ActiveDirectoryObject,
         HasInner<ServicePrincipalInner>,
@@ -42,19 +39,16 @@ public interface ServicePrincipal extends
     /**
      * @return the mapping of password credentials from their names
      */
-    @Beta(SinceVersion.V1_1_0)
     Map<String, PasswordCredential> passwordCredentials();
 
     /**
      * @return the mapping of certificate credentials from their names
      */
-    @Beta(SinceVersion.V1_1_0)
     Map<String, CertificateCredential> certificateCredentials();
 
     /**
      * @return the mapping from scopes to role assignments
      */
-    @Beta(SinceVersion.V1_2_0)
     Set<RoleAssignment> roleAssignments();
 
     /**************************************************************
@@ -88,7 +82,6 @@ public interface ServicePrincipal extends
              * @param id the app ID of the application
              * @return the next stage of the service principal definition
              */
-            @Beta(SinceVersion.V1_1_0)
             WithCreate withExistingApplication(String id);
 
             /**
@@ -96,7 +89,6 @@ public interface ServicePrincipal extends
              * @param application the application
              * @return the next stage of the service principal definition
              */
-            @Beta(SinceVersion.V1_1_0)
             WithCreate withExistingApplication(ActiveDirectoryApplication application);
 
             /**
@@ -104,7 +96,6 @@ public interface ServicePrincipal extends
              * @param applicationCreatable the new application's creatable
              * @return the next stage of the service principal definition
              */
-            @Beta(SinceVersion.V1_1_0)
             WithCreate withNewApplication(Creatable<ActiveDirectoryApplication> applicationCreatable);
 
             /**
@@ -112,7 +103,6 @@ public interface ServicePrincipal extends
              * @param signOnUrl the new application's sign on URL
              * @return the next stage of the service principal definition
              */
-            @Beta(SinceVersion.V1_1_0)
             WithCreate withNewApplication(String signOnUrl);
         }
 
@@ -125,7 +115,6 @@ public interface ServicePrincipal extends
              * @param name the descriptive name of the certificate credential
              * @return the first stage in certificate credential definition
              */
-            @Beta(SinceVersion.V1_1_0)
             CertificateCredential.DefinitionStages.Blank<WithCreate> defineCertificateCredential(String name);
 
             /**
@@ -133,7 +122,6 @@ public interface ServicePrincipal extends
              * @param name the descriptive name of the password credential
              * @return the first stage in password credential definition
              */
-            @Beta(SinceVersion.V1_1_0)
             PasswordCredential.DefinitionStages.Blank<WithCreate> definePasswordCredential(String name);
         }
 
@@ -147,7 +135,6 @@ public interface ServicePrincipal extends
              * @param scope the scope the service principal can access
              * @return the next stage of the service principal definition
              */
-            @Beta(SinceVersion.V1_1_0)
             WithCreate withNewRole(BuiltInRole role, String scope);
 
             /**
@@ -156,7 +143,6 @@ public interface ServicePrincipal extends
              * @param subscriptionId the subscription the service principal can access
              * @return the next stage of the service principal definition
              */
-            @Beta(SinceVersion.V1_1_0)
             WithCreate withNewRoleInSubscription(BuiltInRole role, String subscriptionId);
 
             /**
@@ -165,7 +151,6 @@ public interface ServicePrincipal extends
              * @param resourceGroup the resource group the service principal can access
              * @return the next stage of the service principal definition
              */
-            @Beta(SinceVersion.V1_1_0)
             WithCreate withNewRoleInResourceGroup(BuiltInRole role, ResourceGroup resourceGroup);
         }
 
@@ -194,7 +179,6 @@ public interface ServicePrincipal extends
              * @param name the descriptive name of the certificate credential
              * @return the first stage in certificate credential update
              */
-            @Beta(SinceVersion.V1_2_0)
             CertificateCredential.UpdateDefinitionStages.Blank<Update> defineCertificateCredential(String name);
 
             /**
@@ -202,7 +186,6 @@ public interface ServicePrincipal extends
              * @param name the descriptive name of the password credential
              * @return the first stage in password credential update
              */
-            @Beta(SinceVersion.V1_2_0)
             PasswordCredential.UpdateDefinitionStages.Blank<Update> definePasswordCredential(String name);
 
             /**
@@ -210,7 +193,6 @@ public interface ServicePrincipal extends
              * @param name the name of the credential
              * @return the next stage of the service principal update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withoutCredential(String name);
         }
 
@@ -224,7 +206,6 @@ public interface ServicePrincipal extends
              * @param scope the scope the service principal can access
              * @return the next stage of the service principal update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withNewRole(BuiltInRole role, String scope);
 
             /**
@@ -233,7 +214,6 @@ public interface ServicePrincipal extends
              * @param subscriptionId the subscription the service principal can access
              * @return the next stage of the service principal update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withNewRoleInSubscription(BuiltInRole role, String subscriptionId);
 
             /**
@@ -242,7 +222,6 @@ public interface ServicePrincipal extends
              * @param resourceGroup the resource group the service principal can access
              * @return the next stage of the service principal update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withNewRoleInResourceGroup(BuiltInRole role, ResourceGroup resourceGroup);
 
             /**
@@ -250,7 +229,6 @@ public interface ServicePrincipal extends
              * @param roleAssignment the role assignment to remove
              * @return the next stage of the service principal update
              */
-            @Beta(SinceVersion.V1_2_0)
             Update withoutRole(RoleAssignment roleAssignment);
         }
     }

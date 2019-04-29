@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class PartitionUsageInner extends UsageInner {
     /**
-     * The parition id (GUID identifier) of the usages.
+     * The partition id (GUID identifier) of the usages.
      */
     @JsonProperty(value = "partitionId", access = JsonProperty.Access.WRITE_ONLY)
     private String partitionId;
@@ -27,7 +27,7 @@ public class PartitionUsageInner extends UsageInner {
     private String partitionKeyRangeId;
 
     /**
-     * Get the partitionId value.
+     * Get the partition id (GUID identifier) of the usages.
      *
      * @return the partitionId value
      */
@@ -36,7 +36,7 @@ public class PartitionUsageInner extends UsageInner {
     }
 
     /**
-     * Get the partitionKeyRangeId value.
+     * Get the partition key range id (integer identifier) of the usages.
      *
      * @return the partitionKeyRangeId value
      */

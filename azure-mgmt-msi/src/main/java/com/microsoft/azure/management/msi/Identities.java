@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.msi;
 
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.msi.implementation.UserAssignedIdentitiesInner;
@@ -26,7 +25,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  * Entry point to Azure Managed Service Identity (MSI) Identity resource management API.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_5_1)
 public interface Identities extends
         SupportsListing<Identity>,
         SupportsListingByResourceGroup<Identity>,

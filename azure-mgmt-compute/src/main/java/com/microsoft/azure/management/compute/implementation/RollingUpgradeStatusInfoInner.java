@@ -8,13 +8,13 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.RollingUpgradePolicy;
-import com.microsoft.azure.management.compute.RollingUpgradeRunningStatus;
-import com.microsoft.azure.management.compute.RollingUpgradeProgressInfo;
-import com.microsoft.azure.management.compute.ApiError;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.compute.ApiError;
+import com.microsoft.azure.management.compute.RollingUpgradePolicy;
+import com.microsoft.azure.management.compute.RollingUpgradeProgressInfo;
+import com.microsoft.azure.management.compute.RollingUpgradeRunningStatus;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * The status of the latest virtual machine scale set rolling upgrade.

@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+
+import java.util.Map;
 
 /**
  * Disk update resource.
@@ -38,6 +39,21 @@ public class DiskUpdate {
      */
     @JsonProperty(value = "properties.encryptionSettings")
     private EncryptionSettings encryptionSettings;
+
+    /**
+     * The number of IOPS allowed for this disk; only settable for UltraSSD
+     * disks. One operation can transfer between 4k and 256k bytes.
+     */
+    @JsonProperty(value = "properties.diskIOPSReadWrite")
+    private Long diskIOPSReadWrite;
+
+    /**
+     * The bandwidth allowed for this disk; only settable for UltraSSD disks.
+     * MBps means millions of bytes per second - MB here uses the ISO notation,
+     * of powers of 10.
+     */
+    @JsonProperty(value = "properties.diskMBpsReadWrite")
+    private Integer diskMBpsReadWrite;
 
     /**
      * Resource tags.
@@ -108,6 +124,46 @@ public class DiskUpdate {
      */
     public DiskUpdate withEncryptionSettings(EncryptionSettings encryptionSettings) {
         this.encryptionSettings = encryptionSettings;
+        return this;
+    }
+
+    /**
+     * Get the number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
+     *
+     * @return the diskIOPSReadWrite value
+     */
+    public Long diskIOPSReadWrite() {
+        return this.diskIOPSReadWrite;
+    }
+
+    /**
+     * Set the number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
+     *
+     * @param diskIOPSReadWrite the diskIOPSReadWrite value to set
+     * @return the DiskUpdate object itself.
+     */
+    public DiskUpdate withDiskIOPSReadWrite(Long diskIOPSReadWrite) {
+        this.diskIOPSReadWrite = diskIOPSReadWrite;
+        return this;
+    }
+
+    /**
+     * Get the bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
+     *
+     * @return the diskMBpsReadWrite value
+     */
+    public Integer diskMBpsReadWrite() {
+        return this.diskMBpsReadWrite;
+    }
+
+    /**
+     * Set the bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
+     *
+     * @param diskMBpsReadWrite the diskMBpsReadWrite value to set
+     * @return the DiskUpdate object itself.
+     */
+    public DiskUpdate withDiskMBpsReadWrite(Integer diskMBpsReadWrite) {
+        this.diskMBpsReadWrite = diskMBpsReadWrite;
         return this;
     }
 

@@ -8,51 +8,54 @@
 
 package com.microsoft.azure.management.compute;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.joda.time.DateTime;
 
 /**
- * The publishing profile of a gallery image version.
+ * The publishing profile of a gallery Image Version.
  */
-public final class GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
+public class GalleryImageVersionPublishingProfile extends GalleryArtifactPublishingProfileBase {
     /**
-     * This is the number of source blob copies in a region.
+     * The number of replicas of the Image Version to be created per region.
+     * This property would take effect for a region when regionalReplicaCount
+     * is not specified. This property is updatable.
      */
     @JsonProperty(value = "replicaCount")
     private Integer replicaCount;
 
     /**
-     * The flag means that if it is set to true, people deploying VMs with
-     * 'latest' as version will not use this version.
+     * If set to true, Virtual Machines deployed from the latest version of the
+     * Image Definition won't use this Image Version.
      */
     @JsonProperty(value = "excludeFromLatest")
     private Boolean excludeFromLatest;
 
     /**
-     * The time when the gallery image version is published.
+     * The timestamp for when the gallery Image Version is published.
      */
     @JsonProperty(value = "publishedDate", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime publishedDate;
 
     /**
-     * The end of life date of the gallery image version.
+     * The end of life date of the gallery Image Version. This property can be
+     * used for decommissioning purposes. This property is updatable.
      */
     @JsonProperty(value = "endOfLifeDate")
     private DateTime endOfLifeDate;
 
     /**
-     * Get the replicaCount value.
+     * Get the number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
      *
-     * @return the replicaCount value.
+     * @return the replicaCount value
      */
     public Integer replicaCount() {
         return this.replicaCount;
     }
 
     /**
-     * Set the replicaCount value.
+     * Set the number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
      *
-     * @param replicaCount the replicaCount value to set.
+     * @param replicaCount the replicaCount value to set
      * @return the GalleryImageVersionPublishingProfile object itself.
      */
     public GalleryImageVersionPublishingProfile withReplicaCount(Integer replicaCount) {
@@ -61,18 +64,18 @@ public final class GalleryImageVersionPublishingProfile extends GalleryArtifactP
     }
 
     /**
-     * Get the excludeFromLatest value.
+     * Get if set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
      *
-     * @return the excludeFromLatest value.
+     * @return the excludeFromLatest value
      */
     public Boolean excludeFromLatest() {
         return this.excludeFromLatest;
     }
 
     /**
-     * Set the excludeFromLatest value.
+     * Set if set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
      *
-     * @param excludeFromLatest the excludeFromLatest value to set.
+     * @param excludeFromLatest the excludeFromLatest value to set
      * @return the GalleryImageVersionPublishingProfile object itself.
      */
     public GalleryImageVersionPublishingProfile withExcludeFromLatest(Boolean excludeFromLatest) {
@@ -81,31 +84,32 @@ public final class GalleryImageVersionPublishingProfile extends GalleryArtifactP
     }
 
     /**
-     * Get the publishedDate value.
+     * Get the timestamp for when the gallery Image Version is published.
      *
-     * @return the publishedDate value.
+     * @return the publishedDate value
      */
     public DateTime publishedDate() {
         return this.publishedDate;
     }
 
     /**
-     * Get the endOfLifeDate value.
+     * Get the end of life date of the gallery Image Version. This property can be used for decommissioning purposes. This property is updatable.
      *
-     * @return the endOfLifeDate value.
+     * @return the endOfLifeDate value
      */
     public DateTime endOfLifeDate() {
         return this.endOfLifeDate;
     }
 
     /**
-     * Set the endOfLifeDate value.
+     * Set the end of life date of the gallery Image Version. This property can be used for decommissioning purposes. This property is updatable.
      *
-     * @param endOfLifeDate the endOfLifeDate value to set.
+     * @param endOfLifeDate the endOfLifeDate value to set
      * @return the GalleryImageVersionPublishingProfile object itself.
      */
     public GalleryImageVersionPublishingProfile withEndOfLifeDate(DateTime endOfLifeDate) {
         this.endOfLifeDate = endOfLifeDate;
         return this;
     }
+
 }

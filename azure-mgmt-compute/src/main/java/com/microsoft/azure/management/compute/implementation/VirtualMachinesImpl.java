@@ -248,7 +248,15 @@ class VirtualMachinesImpl
 
     @Override
     public Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand) {
-        return this.inner().runCommandAsync(groupName, name, inputCommand);
+        return this.inner().runCommandAsync(groupName, name, inputCommand).map(
+                new Func1<RunCommandResultInner, RunCommandResult>() {
+
+                    @Override
+                    public RunCommandResult call(RunCommandResultInner runCommandResultInner) {
+                        return new RunCommandResultImpl(runCommandResultInner);
+                    }
+                }
+        );
     }
 
     // Getters

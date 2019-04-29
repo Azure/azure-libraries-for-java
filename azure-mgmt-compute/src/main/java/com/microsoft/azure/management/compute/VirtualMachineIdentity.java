@@ -8,11 +8,10 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Map;
 
 /**
  * Identity for the virtual machine.
@@ -50,7 +49,7 @@ public class VirtualMachineIdentity {
      * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
      */
     @JsonProperty(value = "userAssignedIdentities")
-    @JsonInclude(content = Include.ALWAYS)
+    @JsonInclude(content = JsonInclude.Include.ALWAYS)
     private Map<String, VirtualMachineIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
 
     /**

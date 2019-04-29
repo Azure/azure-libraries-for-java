@@ -15,13 +15,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GalleryIdentifier {
     /**
-     * The unique name of the gallery.
+     * The unique name of the Shared Image Gallery. This name is generated
+     * automatically by Azure.
      */
     @JsonProperty(value = "uniqueName", access = JsonProperty.Access.WRITE_ONLY)
     private String uniqueName;
 
     /**
-     * Get the unique name of the gallery.
+     * Get the unique name of the Shared Image Gallery. This name is generated automatically by Azure.
      *
      * @return the uniqueName value
      */

@@ -143,7 +143,11 @@ public class DatabaseAccountRegionsInner {
                 public Observable<ServiceResponse<List<MetricInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<MetricInner>> result = listMetricsDelegate(response);
-                        ServiceResponse<List<MetricInner>> clientResponse = new ServiceResponse<List<MetricInner>>(result.body().items(), result.response());
+                        List<MetricInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<MetricInner>> clientResponse = new ServiceResponse<List<MetricInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

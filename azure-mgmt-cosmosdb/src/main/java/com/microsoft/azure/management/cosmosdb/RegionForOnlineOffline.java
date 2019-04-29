@@ -21,7 +21,7 @@ public class RegionForOnlineOffline {
     private String region;
 
     /**
-     * Get the region value.
+     * Get cosmos DB region, with spaces between words and each word capitalized.
      *
      * @return the region value
      */
@@ -30,7 +30,7 @@ public class RegionForOnlineOffline {
     }
 
     /**
-     * Set the region value.
+     * Set cosmos DB region, with spaces between words and each word capitalized.
      *
      * @param region the region value to set
      * @return the RegionForOnlineOffline object itself.

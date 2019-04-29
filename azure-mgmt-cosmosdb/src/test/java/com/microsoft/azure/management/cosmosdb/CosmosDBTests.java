@@ -16,6 +16,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CosmosDBTests extends TestBase {
 
@@ -56,14 +58,16 @@ public class CosmosDBTests extends TestBase {
             .withWriteReplication(Region.US_EAST)
             .withReadReplication(Region.US_CENTRAL)
             .withIpRangeFilter("")
+            .withMultipleWriteLocationsEnabled(true)
             .withTag("tag1", "value1")
             .create();
 
         Assert.assertEquals(cosmosDBAccount.name(), cosmosDbAccountName.toLowerCase());
         Assert.assertEquals(cosmosDBAccount.kind(), DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
-        Assert.assertEquals(cosmosDBAccount.writableReplications().size(), 1);
+        Assert.assertEquals(cosmosDBAccount.writableReplications().size(), 2);
         Assert.assertEquals(cosmosDBAccount.readableReplications().size(), 2);
         Assert.assertEquals(cosmosDBAccount.defaultConsistencyLevel(), DefaultConsistencyLevel.EVENTUAL);
+        Assert.assertTrue(cosmosDBAccount.multipleWriteLocationsEnabled());
     }
 
     @Test

@@ -109,6 +109,12 @@ class ExpressRouteCrossConnectionPeeringImpl extends
     }
 
     @Override
+    public ExpressRouteCrossConnectionPeeringImpl withState(ExpressRoutePeeringState state) {
+        inner().withState(state);
+        return this;
+    }
+
+    @Override
     protected Observable<ExpressRouteCrossConnectionPeeringInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }

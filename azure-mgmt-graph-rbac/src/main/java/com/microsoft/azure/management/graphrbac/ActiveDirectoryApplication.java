@@ -6,8 +6,6 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.graphrbac.implementation.ApplicationInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -24,7 +22,6 @@ import java.util.Set;
  * An immutable client-side representation of an Azure AD application.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
-@Beta(SinceVersion.V1_1_0)
 public interface ActiveDirectoryApplication extends
         ActiveDirectoryObject,
         HasInner<ApplicationInner>,

@@ -14,9 +14,9 @@ import com.microsoft.azure.management.compute.implementation.VirtualMachineScale
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.ApplicationSecurityGroup;
+import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
-import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
@@ -167,7 +167,6 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runPowerShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -178,7 +177,6 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -189,7 +187,6 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -201,7 +198,6 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -211,7 +207,6 @@ public interface VirtualMachineScaleSet extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runCommandInVMInstance(String vmId, RunCommandInput inputCommand);
 
     /**
@@ -221,7 +216,6 @@ public interface VirtualMachineScaleSet extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand);
 
     // Getters

@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.SubResource;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.SubResource;
+
+import java.util.List;
 
 /**
  * Describes a set of certificates which are all in the same Key Vault.

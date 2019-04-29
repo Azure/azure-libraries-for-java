@@ -11,29 +11,29 @@ package com.microsoft.azure.management.compute;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * This is the gallery image identifier.
+ * This is the gallery Image Definition identifier.
  */
 public class GalleryImageIdentifier {
     /**
-     * The gallery image publisher name.
+     * The name of the gallery Image Definition publisher.
      */
-    @JsonProperty(value = "publisher")
+    @JsonProperty(value = "publisher", required = true)
     private String publisher;
 
     /**
-     * The gallery image offer name.
+     * The name of the gallery Image Definition offer.
      */
-    @JsonProperty(value = "offer")
+    @JsonProperty(value = "offer", required = true)
     private String offer;
 
     /**
-     * The gallery image sku name.
+     * The name of the gallery Image Definition SKU.
      */
-    @JsonProperty(value = "sku")
+    @JsonProperty(value = "sku", required = true)
     private String sku;
 
     /**
-     * Get the gallery image publisher name.
+     * Get the name of the gallery Image Definition publisher.
      *
      * @return the publisher value
      */
@@ -42,7 +42,7 @@ public class GalleryImageIdentifier {
     }
 
     /**
-     * Set the gallery image publisher name.
+     * Set the name of the gallery Image Definition publisher.
      *
      * @param publisher the publisher value to set
      * @return the GalleryImageIdentifier object itself.
@@ -53,7 +53,7 @@ public class GalleryImageIdentifier {
     }
 
     /**
-     * Get the gallery image offer name.
+     * Get the name of the gallery Image Definition offer.
      *
      * @return the offer value
      */
@@ -62,7 +62,7 @@ public class GalleryImageIdentifier {
     }
 
     /**
-     * Set the gallery image offer name.
+     * Set the name of the gallery Image Definition offer.
      *
      * @param offer the offer value to set
      * @return the GalleryImageIdentifier object itself.
@@ -73,7 +73,7 @@ public class GalleryImageIdentifier {
     }
 
     /**
-     * Get the gallery image sku name.
+     * Get the name of the gallery Image Definition SKU.
      *
      * @return the sku value
      */
@@ -82,7 +82,7 @@ public class GalleryImageIdentifier {
     }
 
     /**
-     * Set the gallery image sku name.
+     * Set the name of the gallery Image Definition SKU.
      *
      * @param sku the sku value to set
      * @return the GalleryImageIdentifier object itself.

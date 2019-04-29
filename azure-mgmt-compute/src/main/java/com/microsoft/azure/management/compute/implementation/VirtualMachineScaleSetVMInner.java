@@ -8,19 +8,20 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.Sku;
-import com.microsoft.azure.management.compute.HardwareProfile;
-import com.microsoft.azure.management.compute.StorageProfile;
-import com.microsoft.azure.management.compute.OSProfile;
-import com.microsoft.azure.management.compute.NetworkProfile;
-import com.microsoft.azure.management.compute.DiagnosticsProfile;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.compute.Plan;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
-import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
+import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.compute.AdditionalCapabilities;
+import com.microsoft.azure.management.compute.DiagnosticsProfile;
+import com.microsoft.azure.management.compute.HardwareProfile;
+import com.microsoft.azure.management.compute.NetworkProfile;
+import com.microsoft.azure.management.compute.OSProfile;
+import com.microsoft.azure.management.compute.Plan;
+import com.microsoft.azure.management.compute.Sku;
+import com.microsoft.azure.management.compute.StorageProfile;
+import com.microsoft.rest.serializer.JsonFlatten;
+
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set virtual machine.
@@ -47,6 +48,13 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     private Boolean latestModelApplied;
 
     /**
+     * Specifies whether the virtual machine instance shouldn't be considered
+     * for deletion during a scale-in operation.
+     */
+    @JsonProperty(value = "properties.protectFromScaleIn")
+    private Boolean protectFromScaleIn;
+
+    /**
      * Azure VM unique ID.
      */
     @JsonProperty(value = "properties.vmId", access = JsonProperty.Access.WRITE_ONLY)
@@ -56,7 +64,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * The virtual machine instance view.
      */
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
-    private VirtualMachineInstanceView instanceView;
+    private VirtualMachineScaleSetVMInstanceViewInner instanceView;
 
     /**
      * Specifies the hardware settings for the virtual machine.
@@ -69,6 +77,15 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     @JsonProperty(value = "properties.storageProfile")
     private StorageProfile storageProfile;
+
+    /**
+     * Specifies additional capabilities enabled or disabled on the virtual
+     * machine in the scale set. For instance: whether the virtual machine has
+     * the capability to support attaching managed data disks with UltraSSD_LRS
+     * storage account type.
+     */
+    @JsonProperty(value = "properties.additionalCapabilities")
+    private AdditionalCapabilities additionalCapabilities;
 
     /**
      * Specifies the operating system settings for the virtual machine.
@@ -96,7 +113,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      * availability. For more information about availability sets, see [Manage
      * the availability of virtual
      * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-     * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance,
+     * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance,
      * see [Planned maintenance for virtual machines in
      * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
      * &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability
@@ -146,6 +163,12 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     private List<VirtualMachineExtensionInner> resources;
 
     /**
+     * The virtual machine zones.
+     */
+    @JsonProperty(value = "zones", access = JsonProperty.Access.WRITE_ONLY)
+    private List<String> zones;
+
+    /**
      * Get the virtual machine instance ID.
      *
      * @return the instanceId value
@@ -173,6 +196,26 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
+     * Get specifies whether the virtual machine instance shouldn't be considered for deletion during a scale-in operation.
+     *
+     * @return the protectFromScaleIn value
+     */
+    public Boolean protectFromScaleIn() {
+        return this.protectFromScaleIn;
+    }
+
+    /**
+     * Set specifies whether the virtual machine instance shouldn't be considered for deletion during a scale-in operation.
+     *
+     * @param protectFromScaleIn the protectFromScaleIn value to set
+     * @return the VirtualMachineScaleSetVMInner object itself.
+     */
+    public VirtualMachineScaleSetVMInner withProtectFromScaleIn(Boolean protectFromScaleIn) {
+        this.protectFromScaleIn = protectFromScaleIn;
+        return this;
+    }
+
+    /**
      * Get azure VM unique ID.
      *
      * @return the vmId value
@@ -186,7 +229,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      *
      * @return the instanceView value
      */
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineScaleSetVMInstanceViewInner instanceView() {
         return this.instanceView;
     }
 
@@ -227,6 +270,26 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     public VirtualMachineScaleSetVMInner withStorageProfile(StorageProfile storageProfile) {
         this.storageProfile = storageProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.
+     *
+     * @return the additionalCapabilities value
+     */
+    public AdditionalCapabilities additionalCapabilities() {
+        return this.additionalCapabilities;
+    }
+
+    /**
+     * Set specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.
+     *
+     * @param additionalCapabilities the additionalCapabilities value to set
+     * @return the VirtualMachineScaleSetVMInner object itself.
+     */
+    public VirtualMachineScaleSetVMInner withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
+        this.additionalCapabilities = additionalCapabilities;
         return this;
     }
 
@@ -291,7 +354,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Get specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
+     * Get specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
      *
      * @return the availabilitySet value
      */
@@ -300,7 +363,7 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
-     * Set specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
+     * Set specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
      *
      * @param availabilitySet the availabilitySet value to set
      * @return the VirtualMachineScaleSetVMInner object itself.
@@ -366,6 +429,15 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     public List<VirtualMachineExtensionInner> resources() {
         return this.resources;
+    }
+
+    /**
+     * Get the virtual machine zones.
+     *
+     * @return the zones value
+     */
+    public List<String> zones() {
+        return this.zones;
     }
 
 }

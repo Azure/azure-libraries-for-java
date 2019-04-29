@@ -27,7 +27,7 @@ public class DatabaseAccountListReadOnlyKeysResultInner {
     private String secondaryReadonlyMasterKey;
 
     /**
-     * Get the primaryReadonlyMasterKey value.
+     * Get base 64 encoded value of the primary read-only key.
      *
      * @return the primaryReadonlyMasterKey value
      */
@@ -36,7 +36,7 @@ public class DatabaseAccountListReadOnlyKeysResultInner {
     }
 
     /**
-     * Get the secondaryReadonlyMasterKey value.
+     * Get base 64 encoded value of the secondary read-only key.
      *
      * @return the secondaryReadonlyMasterKey value
      */

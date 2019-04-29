@@ -256,7 +256,6 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -266,7 +265,6 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runPowerShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -276,7 +274,6 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runShellScript(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -287,7 +284,6 @@ public interface VirtualMachine extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runShellScriptAsync(List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -296,7 +292,6 @@ public interface VirtualMachine extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runCommand(RunCommandInput inputCommand);
 
     /**
@@ -305,7 +300,6 @@ public interface VirtualMachine extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runCommandAsync(RunCommandInput inputCommand);
 
     // Getters
@@ -465,33 +459,28 @@ public interface VirtualMachine extends
     /**
      * @return true if Managed Service Identity is enabled for the virtual machine
      */
-    @Beta(Beta.SinceVersion.V1_2_0)
     boolean isManagedServiceIdentityEnabled();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
      * to the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
      * assigned to the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
      * @return the type of Managed Service Identity used for the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_4_0)
     ResourceIdentityType managedServiceIdentityType();
 
     /**
      * @return the resource ids of User Assigned Managed Service Identities associated with the virtual machine.
      */
-    @Beta(Beta.SinceVersion.V1_5_1)
     Set<String> userAssignedManagedServiceIdentityIds();
 
     // Setters

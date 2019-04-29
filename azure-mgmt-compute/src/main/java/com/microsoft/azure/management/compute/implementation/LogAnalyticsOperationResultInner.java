@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.LogAnalyticsOutput;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.LogAnalyticsOutput;
 
 /**
  * LogAnalytics operation status response.

@@ -163,9 +163,7 @@ public final class ManageUserAssignedMSIEnabledVirtualMachine {
                 .withCommandId("RunShellScript")
                 .withScript(commands);
 
-        return azure.virtualMachines()
-                .inner()
-                .runCommand(virtualMachine.resourceGroupName(), virtualMachine.name(), runParams);
+        return azure.virtualMachines().runCommand(virtualMachine.resourceGroupName(), virtualMachine.name(), runParams);
     }
 
     /**

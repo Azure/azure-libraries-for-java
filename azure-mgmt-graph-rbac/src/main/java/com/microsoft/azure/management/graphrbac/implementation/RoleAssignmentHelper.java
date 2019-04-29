@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.graphrbac.implementation;
 
 import com.microsoft.azure.CloudException;
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
@@ -28,7 +27,6 @@ import java.util.Objects;
  * the method signature and behaviour can change in future releases.
  */
 @LangDefinition
-@Beta
 public class RoleAssignmentHelper {
     /**
      * A type that provide the service principal id (object id) and ARM resource

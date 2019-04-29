@@ -10,6 +10,7 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.Disallowed;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
+import com.microsoft.azure.management.compute.DiskStorageAccountTypes;
 import com.microsoft.azure.management.compute.Gallery;
 import com.microsoft.azure.management.compute.GalleryImage;
 import com.microsoft.azure.management.compute.GalleryImageIdentifier;
@@ -19,9 +20,9 @@ import com.microsoft.azure.management.compute.OperatingSystemStateTypes;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.RecommendedMachineConfiguration;
 import com.microsoft.azure.management.compute.ResourceRange;
-import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import org.joda.time.DateTime;
 import rx.Observable;
 
 import java.util.ArrayList;
@@ -30,7 +31,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import org.joda.time.DateTime;
 
 /**
  * The implementation for GalleryImage and its create and update interfaces.
@@ -127,7 +127,7 @@ class GalleryImageImpl
         } else {
             List<DiskSkuTypes> diskTypes = new ArrayList<DiskSkuTypes>();
             for (String diskTypeStr : this.inner().disallowed().diskTypes()) {
-                diskTypes.add(DiskSkuTypes.fromStorageAccountType(StorageAccountTypes.fromString(diskTypeStr)));
+                diskTypes.add(DiskSkuTypes.fromStorageAccountType(DiskStorageAccountTypes.fromString(diskTypeStr)));
             }
             return Collections.unmodifiableList(diskTypes);
         }

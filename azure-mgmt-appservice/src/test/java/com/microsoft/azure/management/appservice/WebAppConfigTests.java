@@ -27,7 +27,7 @@ public class WebAppConfigTests extends AppServiceTest {
     public void canCRUDWebAppConfig() throws Exception {
         // Create with new app service plan
         appServiceManager.webApps().define(WEBAPP_NAME)
-                .withRegion(Region.US_WEST)
+                .withRegion(Region.US_WEST2)
                 .withNewResourceGroup(RG_NAME)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
                 .withNetFrameworkVersion(NetFrameworkVersion.V3_0)
@@ -35,7 +35,7 @@ public class WebAppConfigTests extends AppServiceTest {
 
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Assert.assertNotNull(webApp);
-        Assert.assertEquals(Region.US_WEST, webApp.region());
+        Assert.assertEquals(Region.US_WEST2, webApp.region());
         Assert.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
 
         // Java version
@@ -52,6 +52,7 @@ public class WebAppConfigTests extends AppServiceTest {
                 .apply();
         webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Assert.assertEquals(PythonVersion.PYTHON_34, webApp.pythonVersion());
+
 
         // Default documents
         int documentSize = webApp.defaultDocuments().size();
@@ -98,4 +99,82 @@ public class WebAppConfigTests extends AppServiceTest {
                 .apply();
         Assert.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
     }
+
+    @Test
+    public void canCRUDWebAppConfigJava11() throws Exception {
+        // Create with new app service plan
+        appServiceManager.webApps().define(WEBAPP_NAME)
+                .withRegion(Region.US_WEST2)
+                .withNewResourceGroup(RG_NAME)
+                .withNewWindowsPlan(PricingTier.BASIC_B1)
+                .withNetFrameworkVersion(NetFrameworkVersion.V3_0)
+                .create();
+
+        WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
+        Assert.assertNotNull(webApp);
+        Assert.assertEquals(Region.US_WEST2, webApp.region());
+        Assert.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
+
+        // Java version
+        webApp.update()
+                .withJavaVersion(JavaVersion.JAVA_11)
+                .withWebContainer(WebContainer.TOMCAT_9_0_NEWEST)
+                .apply();
+        webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
+        Assert.assertEquals(JavaVersion.JAVA_11, webApp.javaVersion());
+
+        // Python version
+        webApp.update()
+                .withPythonVersion(PythonVersion.PYTHON_34)
+                .apply();
+        webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
+        Assert.assertEquals(PythonVersion.PYTHON_34, webApp.pythonVersion());
+
+
+        // Default documents
+        int documentSize = webApp.defaultDocuments().size();
+        webApp.update()
+                .withDefaultDocument("somedocument.html")
+                .apply();
+        webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
+        Assert.assertEquals(documentSize + 1, webApp.defaultDocuments().size());
+        Assert.assertTrue(webApp.defaultDocuments().contains("somedocument.html"));
+
+        // App settings
+        webApp.update()
+                .withAppSetting("appkey", "appvalue")
+                .withStickyAppSetting("stickykey", "stickyvalue")
+                .apply();
+        webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
+        Map<String, AppSetting> appSettingMap = webApp.getAppSettings();
+        Assert.assertEquals("appvalue", appSettingMap.get("appkey").value());
+        Assert.assertEquals(false, appSettingMap.get("appkey").sticky());
+        Assert.assertEquals("stickyvalue", appSettingMap.get("stickykey").value());
+        Assert.assertEquals(true, appSettingMap.get("stickykey").sticky());
+
+        // Connection strings
+        webApp.update()
+                .withConnectionString("connectionName", "connectionValue", ConnectionStringType.CUSTOM)
+                .withStickyConnectionString("stickyName", "stickyValue", ConnectionStringType.CUSTOM)
+                .apply();
+        webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
+        Map<String, ConnectionString> connectionStringMap = webApp.getConnectionStrings();
+        Assert.assertEquals("connectionValue", connectionStringMap.get("connectionName").value());
+        Assert.assertEquals(false, connectionStringMap.get("connectionName").sticky());
+        Assert.assertEquals("stickyValue", connectionStringMap.get("stickyName").value());
+        Assert.assertEquals(true, connectionStringMap.get("stickyName").sticky());
+
+        // HTTPS only
+        webApp = webApp.update()
+                .withHttpsOnly(true)
+                .apply();
+        Assert.assertTrue(webApp.httpsOnly());
+
+        // FTPS
+        webApp = webApp.update()
+                .withFtpsState(FtpsState.FTPS_ONLY)
+                .apply();
+        Assert.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
+    }
+
 }

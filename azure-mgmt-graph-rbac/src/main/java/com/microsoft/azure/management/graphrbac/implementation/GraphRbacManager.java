@@ -9,11 +9,9 @@ package com.microsoft.azure.management.graphrbac.implementation;
 import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryApplications;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroups;
+import com.microsoft.azure.management.graphrbac.ActiveDirectoryUsers;
 import com.microsoft.azure.management.graphrbac.RoleAssignments;
 import com.microsoft.azure.management.graphrbac.RoleDefinitions;
 import com.microsoft.azure.management.graphrbac.ServicePrincipals;
@@ -29,7 +27,6 @@ import com.microsoft.rest.interceptors.RequestIdHeaderInterceptor;
 /**
  * Entry point to Azure Graph RBAC management.
  */
-@Beta
 public final class GraphRbacManager implements HasInner<GraphRbacManagementClientImpl> {
     private String tenantId;
     // The sdk clients
@@ -149,7 +146,6 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     /**
      * @return the Active Directory group management API entry point
      */
-    @Beta(SinceVersion.V1_1_0)
     public ActiveDirectoryGroups groups() {
         if (activeDirectoryGroups == null) {
             activeDirectoryGroups = new ActiveDirectoryGroupsImpl(this);
@@ -170,7 +166,6 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     /**
      * @return the application management API entry point
      */
-    @Beta(SinceVersion.V1_1_0)
     public ActiveDirectoryApplications applications() {
         if (applications == null) {
             applications = new ActiveDirectoryApplicationsImpl(graphRbacManagementClient.applications(), this);
@@ -181,7 +176,6 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     /**
      * @return the role assignment management API entry point
      */
-    @Beta(SinceVersion.V1_1_0)
     public RoleAssignments roleAssignments() {
         if (roleAssignments == null) {
             roleAssignments = new RoleAssignmentsImpl(this);
@@ -192,7 +186,6 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     /**
      * @return the role definition management API entry point
      */
-    @Beta(SinceVersion.V1_1_0)
     public RoleDefinitions roleDefinitions() {
         if (roleDefinitions == null) {
             roleDefinitions = new RoleDefinitionsImpl(this);

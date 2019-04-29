@@ -28,6 +28,15 @@ public class VirtualMachineScaleSetVMProfile {
     private VirtualMachineScaleSetStorageProfile storageProfile;
 
     /**
+     * Specifies additional capabilities enabled or disabled on the virtual
+     * machine in the scale set. For instance: whether the virtual machine has
+     * the capability to support attaching managed data disks with UltraSSD_LRS
+     * storage account type.
+     */
+    @JsonProperty(value = "additionalCapabilities")
+    private AdditionalCapabilities additionalCapabilities;
+
+    /**
      * Specifies properties of the network interfaces of the virtual machines
      * in the scale set.
      */
@@ -116,6 +125,26 @@ public class VirtualMachineScaleSetVMProfile {
      */
     public VirtualMachineScaleSetVMProfile withStorageProfile(VirtualMachineScaleSetStorageProfile storageProfile) {
         this.storageProfile = storageProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.
+     *
+     * @return the additionalCapabilities value
+     */
+    public AdditionalCapabilities additionalCapabilities() {
+        return this.additionalCapabilities;
+    }
+
+    /**
+     * Set specifies additional capabilities enabled or disabled on the virtual machine in the scale set. For instance: whether the virtual machine has the capability to support attaching managed data disks with UltraSSD_LRS storage account type.
+     *
+     * @param additionalCapabilities the additionalCapabilities value to set
+     * @return the VirtualMachineScaleSetVMProfile object itself.
+     */
+    public VirtualMachineScaleSetVMProfile withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
+        this.additionalCapabilities = additionalCapabilities;
         return this;
     }
 

@@ -27,7 +27,7 @@ public class MetricAvailability {
     private String retention;
 
     /**
-     * Get the timeGrain value.
+     * Get the time grain to be used to summarize the metric values.
      *
      * @return the timeGrain value
      */
@@ -36,7 +36,7 @@ public class MetricAvailability {
     }
 
     /**
-     * Get the retention value.
+     * Get the retention for the metric values.
      *
      * @return the retention value
      */

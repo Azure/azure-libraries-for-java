@@ -17,14 +17,22 @@ public class BootDiagnosticsInstanceView {
     /**
      * The console screenshot blob URI.
      */
-    @JsonProperty(value = "consoleScreenshotBlobUri")
+    @JsonProperty(value = "consoleScreenshotBlobUri", access = JsonProperty.Access.WRITE_ONLY)
     private String consoleScreenshotBlobUri;
 
     /**
      * The Linux serial console log blob Uri.
      */
-    @JsonProperty(value = "serialConsoleLogBlobUri")
+    @JsonProperty(value = "serialConsoleLogBlobUri", access = JsonProperty.Access.WRITE_ONLY)
     private String serialConsoleLogBlobUri;
+
+    /**
+     * The boot diagnostics status information for the VM. &lt;br&gt;&lt;br&gt;
+     * NOTE: It will be set only if there are errors encountered in enabling
+     * boot diagnostics.
+     */
+    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
+    private InstanceViewStatus status;
 
     /**
      * Get the console screenshot blob URI.
@@ -33,17 +41,6 @@ public class BootDiagnosticsInstanceView {
      */
     public String consoleScreenshotBlobUri() {
         return this.consoleScreenshotBlobUri;
-    }
-
-    /**
-     * Set the console screenshot blob URI.
-     *
-     * @param consoleScreenshotBlobUri the consoleScreenshotBlobUri value to set
-     * @return the BootDiagnosticsInstanceView object itself.
-     */
-    public BootDiagnosticsInstanceView withConsoleScreenshotBlobUri(String consoleScreenshotBlobUri) {
-        this.consoleScreenshotBlobUri = consoleScreenshotBlobUri;
-        return this;
     }
 
     /**
@@ -56,14 +53,12 @@ public class BootDiagnosticsInstanceView {
     }
 
     /**
-     * Set the Linux serial console log blob Uri.
+     * Get the boot diagnostics status information for the VM. &lt;br&gt;&lt;br&gt; NOTE: It will be set only if there are errors encountered in enabling boot diagnostics.
      *
-     * @param serialConsoleLogBlobUri the serialConsoleLogBlobUri value to set
-     * @return the BootDiagnosticsInstanceView object itself.
+     * @return the status value
      */
-    public BootDiagnosticsInstanceView withSerialConsoleLogBlobUri(String serialConsoleLogBlobUri) {
-        this.serialConsoleLogBlobUri = serialConsoleLogBlobUri;
-        return this;
+    public InstanceViewStatus status() {
+        return this.status;
     }
 
 }

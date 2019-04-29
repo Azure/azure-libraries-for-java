@@ -69,6 +69,9 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
     @Beta(Beta.SinceVersion.V1_15_0)
     List<TargetRegion> availableRegions();
 
+    /**
+     * @return the storage account type of this image version.
+     */
     StorageAccountType storageAccountType();
 
     /**

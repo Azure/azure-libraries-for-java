@@ -33,7 +33,7 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
     @Test
     public void canCreateUpdateListGetDeleteGallery() {
         // Create a gallery
-        //
+        //canCreateUpdateListGetDeleteGallery
         Gallery javaGallery = this.computeManager.galleries().define("JavaImageGallery")
                 .withRegion(REGION)
                 .withNewResourceGroup(RG_NAME)
@@ -226,13 +226,11 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
         //
         imageVersion.update()
                 .withoutRegionAvailability(Region.US_WEST2)
-                .withStorageAccountType(StorageAccountType.STANDARD_ZRS)
                 .apply();
 
         Assert.assertNotNull(imageVersion.availableRegions());
         Assert.assertEquals(1, imageVersion.availableRegions().size());
         Assert.assertFalse(imageVersion.isExcludedFromLatest());
-        Assert.assertEquals(StorageAccountType.STANDARD_ZRS, imageVersion.storageAccountType());
 
         //
         // List image versions

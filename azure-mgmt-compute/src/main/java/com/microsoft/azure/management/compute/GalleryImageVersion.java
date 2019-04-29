@@ -301,7 +301,6 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
     @Beta(Beta.SinceVersion.V1_15_0)
     interface Update extends Appliable<GalleryImageVersion>,
             UpdateStages.WithAvailableRegion,
-            UpdateStages.WithStorageAccountType,
             UpdateStages.WithEndOfLifeDate,
             UpdateStages.WithExcludeFromLatest,
             UpdateStages.WithTags {
@@ -344,20 +343,6 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              */
             @Beta(Beta.SinceVersion.V1_15_0)
             Update withoutRegionAvailability(Region region);
-        }
-
-        /**
-         * The stage of image version update allowing to specify the storage account type.
-         */
-        @Beta(Beta.SinceVersion.V1_22_0)
-        interface WithStorageAccountType {
-            /**
-             * Specifies the storage account type for this gallery image version.
-             *
-             * @param storageAccountType the storage account type for this gallery image version.
-             * @return the next update stage
-             */
-            Update withStorageAccountType(StorageAccountType storageAccountType);
         }
 
         /**

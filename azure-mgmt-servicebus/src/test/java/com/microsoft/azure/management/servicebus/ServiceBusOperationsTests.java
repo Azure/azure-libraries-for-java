@@ -17,6 +17,7 @@ import com.microsoft.rest.RestClient;
 import org.joda.time.Period;
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.util.concurrent.TimeUnit;
 
 public class ServiceBusOperationsTests extends TestBase {
@@ -46,7 +47,7 @@ public class ServiceBusOperationsTests extends TestBase {
 
     @Override
     protected void cleanUpResources() {
-        if (RG_NAME != null) {
+        if (RG_NAME != null && resourceManager != null) {
             resourceManager.resourceGroups().deleteByName(RG_NAME);
         }
     }

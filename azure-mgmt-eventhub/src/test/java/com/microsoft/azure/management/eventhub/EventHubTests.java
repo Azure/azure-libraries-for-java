@@ -42,7 +42,7 @@ public class EventHubTests extends TestBase {
 
     @Override
     protected void cleanUpResources() {
-        if (RG_NAME != null && RG_NAME != "") {
+        if (RG_NAME != null && !RG_NAME.isEmpty()) {
             resourceManager.resourceGroups().deleteByName(RG_NAME);
         }
     }

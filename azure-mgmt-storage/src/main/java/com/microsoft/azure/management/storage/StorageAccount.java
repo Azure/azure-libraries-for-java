@@ -540,8 +540,6 @@ public interface StorageAccount extends
 
         /**
          * The stage of storage account definition allowing to specify whether azure files aad integration will be enabled.
-         *
-         * @return the next stage of the storage account definition.
          */
         interface WithAzureFilesAadIntegration {
             /**
@@ -556,9 +554,7 @@ public interface StorageAccount extends
         }
 
         /**
-         * The stage of the storage account definition allowing to specifiy whether Hns is enabled.
-         *
-         * @return the next stage of the storage account definition.
+         * The stage of the storage account definition allowing to specify whether Hns is enabled.
          */
         interface WithHns {
             /**

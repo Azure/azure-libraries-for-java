@@ -317,7 +317,7 @@ public interface ExpressRouteCrossConnectionPeering extends
         interface WithPeerAsn {
             /**
              * Sets peer ASN.
-             * @param peerAsn
+             * @param peerAsn the AS number for peering
              * @return the next stage of the update
              */
             Update withPeerAsn(long peerAsn);

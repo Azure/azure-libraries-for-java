@@ -14,16 +14,10 @@ import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
- * User crendentials used for publishing activity.
+ * User credentials used for publishing activity.
  */
 @JsonFlatten
 public class DeploymentInner extends ProxyOnlyResource {
-    /**
-     * Identifier for deployment.
-     */
-    @JsonProperty(value = "properties.id")
-    private String deploymentId;
-
     /**
      * Deployment status.
      */
@@ -51,19 +45,19 @@ public class DeploymentInner extends ProxyOnlyResource {
     /**
      * Author email.
      */
-    @JsonProperty(value = "properties.authorEmail")
+    @JsonProperty(value = "properties.author_email")
     private String authorEmail;
 
     /**
      * Start time.
      */
-    @JsonProperty(value = "properties.startTime")
+    @JsonProperty(value = "properties.start_time")
     private DateTime startTime;
 
     /**
      * End time.
      */
-    @JsonProperty(value = "properties.endTime")
+    @JsonProperty(value = "properties.end_time")
     private DateTime endTime;
 
     /**
@@ -80,27 +74,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     private String details;
 
     /**
-     * Get the deploymentId value.
-     *
-     * @return the deploymentId value
-     */
-    public String deploymentId() {
-        return this.deploymentId;
-    }
-
-    /**
-     * Set the deploymentId value.
-     *
-     * @param deploymentId the deploymentId value to set
-     * @return the DeploymentInner object itself.
-     */
-    public DeploymentInner withDeploymentId(String deploymentId) {
-        this.deploymentId = deploymentId;
-        return this;
-    }
-
-    /**
-     * Get the status value.
+     * Get deployment status.
      *
      * @return the status value
      */
@@ -109,7 +83,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the status value.
+     * Set deployment status.
      *
      * @param status the status value to set
      * @return the DeploymentInner object itself.
@@ -120,7 +94,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the message value.
+     * Get details about deployment status.
      *
      * @return the message value
      */
@@ -129,7 +103,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the message value.
+     * Set details about deployment status.
      *
      * @param message the message value to set
      * @return the DeploymentInner object itself.
@@ -140,7 +114,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the author value.
+     * Get who authored the deployment.
      *
      * @return the author value
      */
@@ -149,7 +123,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the author value.
+     * Set who authored the deployment.
      *
      * @param author the author value to set
      * @return the DeploymentInner object itself.
@@ -160,7 +134,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the deployer value.
+     * Get who performed the deployment.
      *
      * @return the deployer value
      */
@@ -169,7 +143,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the deployer value.
+     * Set who performed the deployment.
      *
      * @param deployer the deployer value to set
      * @return the DeploymentInner object itself.
@@ -180,7 +154,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the authorEmail value.
+     * Get author email.
      *
      * @return the authorEmail value
      */
@@ -189,7 +163,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the authorEmail value.
+     * Set author email.
      *
      * @param authorEmail the authorEmail value to set
      * @return the DeploymentInner object itself.
@@ -200,7 +174,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the startTime value.
+     * Get start time.
      *
      * @return the startTime value
      */
@@ -209,7 +183,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the startTime value.
+     * Set start time.
      *
      * @param startTime the startTime value to set
      * @return the DeploymentInner object itself.
@@ -220,7 +194,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the endTime value.
+     * Get end time.
      *
      * @return the endTime value
      */
@@ -229,7 +203,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the endTime value.
+     * Set end time.
      *
      * @param endTime the endTime value to set
      * @return the DeploymentInner object itself.
@@ -240,7 +214,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the active value.
+     * Get true if deployment is currently active, false if completed and null if not started.
      *
      * @return the active value
      */
@@ -249,7 +223,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the active value.
+     * Set true if deployment is currently active, false if completed and null if not started.
      *
      * @param active the active value to set
      * @return the DeploymentInner object itself.
@@ -260,7 +234,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the details value.
+     * Get details on deployment.
      *
      * @return the details value
      */
@@ -269,7 +243,7 @@ public class DeploymentInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the details value.
+     * Set details on deployment.
      *
      * @param details the details value to set
      * @return the DeploymentInner object itself.

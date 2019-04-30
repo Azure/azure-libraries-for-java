@@ -36,7 +36,7 @@ public class Region {
     private List<Region> regions;
 
     /**
-     * Get the code value.
+     * Get the code of the region.
      *
      * @return the code value
      */
@@ -45,7 +45,7 @@ public class Region {
     }
 
     /**
-     * Set the code value.
+     * Set the code of the region.
      *
      * @param code the code value to set
      * @return the Region object itself.
@@ -56,7 +56,7 @@ public class Region {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the region.
      *
      * @return the name value
      */
@@ -65,7 +65,7 @@ public class Region {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the region.
      *
      * @param name the name value to set
      * @return the Region object itself.
@@ -76,7 +76,7 @@ public class Region {
     }
 
     /**
-     * Get the regions value.
+     * Get the list of Regions grouped under this Region in the Geographic Hierarchy.
      *
      * @return the regions value
      */
@@ -85,7 +85,7 @@ public class Region {
     }
 
     /**
-     * Set the regions value.
+     * Set the list of Regions grouped under this Region in the Geographic Hierarchy.
      *
      * @param regions the regions value to set
      * @return the Region object itself.

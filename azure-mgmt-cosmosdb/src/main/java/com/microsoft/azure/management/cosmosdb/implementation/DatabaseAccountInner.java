@@ -12,15 +12,19 @@ import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountOfferType;
 import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import java.util.List;
+import com.microsoft.azure.management.cosmosdb.Capability;
 import com.microsoft.azure.management.cosmosdb.Location;
+import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
- * A DocumentDB database account.
+ * An Azure Cosmos DB database account.
  */
 @JsonFlatten
+@SkipParentValidation
 public class DatabaseAccountInner extends Resource {
     /**
      * Indicates the type of database account. This can only be set at database
@@ -37,42 +41,62 @@ public class DatabaseAccountInner extends Resource {
     private String provisioningState;
 
     /**
-     * The connection endpoint for the DocumentDB database account.
+     * The connection endpoint for the Cosmos DB database account.
      */
     @JsonProperty(value = "properties.documentEndpoint", access = JsonProperty.Access.WRITE_ONLY)
     private String documentEndpoint;
 
     /**
-     * The offer type for the DocumentDB database account. Default value:
+     * The offer type for the Cosmos DB database account. Default value:
      * Standard. Possible values include: 'Standard'.
      */
     @JsonProperty(value = "properties.databaseAccountOfferType", access = JsonProperty.Access.WRITE_ONLY)
     private DatabaseAccountOfferType databaseAccountOfferType;
 
     /**
-     * DocumentDB Firewall Support: This value specifies the set of IP
-     * addresses or IP address ranges in CIDR form to be included as the
-     * allowed list of client IPs for a given database account. IP
-     * addresses/ranges must be comma separated and must not contain any
-     * spaces.
+     * Cosmos DB Firewall Support: This value specifies the set of IP addresses
+     * or IP address ranges in CIDR form to be included as the allowed list of
+     * client IPs for a given database account. IP addresses/ranges must be
+     * comma separated and must not contain any spaces.
      */
     @JsonProperty(value = "properties.ipRangeFilter")
     private String ipRangeFilter;
 
     /**
-     * The consistency policy for the DocumentDB database account.
+     * Flag to indicate whether to enable/disable Virtual Network ACL rules.
+     */
+    @JsonProperty(value = "properties.isVirtualNetworkFilterEnabled")
+    private Boolean isVirtualNetworkFilterEnabled;
+
+    /**
+     * Enables automatic failover of the write region in the rare event that
+     * the region is unavailable due to an outage. Automatic failover will
+     * result in a new write region for the account and is chosen based on the
+     * failover priorities configured for the account.
+     */
+    @JsonProperty(value = "properties.enableAutomaticFailover")
+    private Boolean enableAutomaticFailover;
+
+    /**
+     * The consistency policy for the Cosmos DB database account.
      */
     @JsonProperty(value = "properties.consistencyPolicy")
     private ConsistencyPolicy consistencyPolicy;
 
     /**
-     * An array that contains the write location for the DocumentDB account.
+     * List of Cosmos DB capabilities for the account.
+     */
+    @JsonProperty(value = "properties.capabilities")
+    private List<Capability> capabilities;
+
+    /**
+     * An array that contains the write location for the Cosmos DB account.
      */
     @JsonProperty(value = "properties.writeLocations", access = JsonProperty.Access.WRITE_ONLY)
     private List<Location> writeLocations;
 
     /**
-     * An array that contains of the read locations enabled for the DocumentDB
+     * An array that contains of the read locations enabled for the Cosmos DB
      * account.
      */
     @JsonProperty(value = "properties.readLocations", access = JsonProperty.Access.WRITE_ONLY)
@@ -85,7 +109,19 @@ public class DatabaseAccountInner extends Resource {
     private List<FailoverPolicyInner> failoverPolicies;
 
     /**
-     * Get the kind value.
+     * List of Virtual Network ACL rules configured for the Cosmos DB account.
+     */
+    @JsonProperty(value = "properties.virtualNetworkRules")
+    private List<VirtualNetworkRule> virtualNetworkRules;
+
+    /**
+     * Enables the account to write in multiple locations.
+     */
+    @JsonProperty(value = "properties.enableMultipleWriteLocations")
+    private Boolean enableMultipleWriteLocations;
+
+    /**
+     * Get indicates the type of database account. This can only be set at database account creation. Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'.
      *
      * @return the kind value
      */
@@ -94,7 +130,7 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Set the kind value.
+     * Set indicates the type of database account. This can only be set at database account creation. Possible values include: 'GlobalDocumentDB', 'MongoDB', 'Parse'.
      *
      * @param kind the kind value to set
      * @return the DatabaseAccountInner object itself.
@@ -125,7 +161,7 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Get the documentEndpoint value.
+     * Get the connection endpoint for the Cosmos DB database account.
      *
      * @return the documentEndpoint value
      */
@@ -134,7 +170,7 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Get the databaseAccountOfferType value.
+     * Get the offer type for the Cosmos DB database account. Default value: Standard. Possible values include: 'Standard'.
      *
      * @return the databaseAccountOfferType value
      */
@@ -143,7 +179,7 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Get the ipRangeFilter value.
+     * Get cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.
      *
      * @return the ipRangeFilter value
      */
@@ -152,7 +188,7 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Set the ipRangeFilter value.
+     * Set cosmos DB Firewall Support: This value specifies the set of IP addresses or IP address ranges in CIDR form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges must be comma separated and must not contain any spaces.
      *
      * @param ipRangeFilter the ipRangeFilter value to set
      * @return the DatabaseAccountInner object itself.
@@ -163,7 +199,47 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Get the consistencyPolicy value.
+     * Get flag to indicate whether to enable/disable Virtual Network ACL rules.
+     *
+     * @return the isVirtualNetworkFilterEnabled value
+     */
+    public Boolean isVirtualNetworkFilterEnabled() {
+        return this.isVirtualNetworkFilterEnabled;
+    }
+
+    /**
+     * Set flag to indicate whether to enable/disable Virtual Network ACL rules.
+     *
+     * @param isVirtualNetworkFilterEnabled the isVirtualNetworkFilterEnabled value to set
+     * @return the DatabaseAccountInner object itself.
+     */
+    public DatabaseAccountInner withIsVirtualNetworkFilterEnabled(Boolean isVirtualNetworkFilterEnabled) {
+        this.isVirtualNetworkFilterEnabled = isVirtualNetworkFilterEnabled;
+        return this;
+    }
+
+    /**
+     * Get enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
+     *
+     * @return the enableAutomaticFailover value
+     */
+    public Boolean enableAutomaticFailover() {
+        return this.enableAutomaticFailover;
+    }
+
+    /**
+     * Set enables automatic failover of the write region in the rare event that the region is unavailable due to an outage. Automatic failover will result in a new write region for the account and is chosen based on the failover priorities configured for the account.
+     *
+     * @param enableAutomaticFailover the enableAutomaticFailover value to set
+     * @return the DatabaseAccountInner object itself.
+     */
+    public DatabaseAccountInner withEnableAutomaticFailover(Boolean enableAutomaticFailover) {
+        this.enableAutomaticFailover = enableAutomaticFailover;
+        return this;
+    }
+
+    /**
+     * Get the consistency policy for the Cosmos DB database account.
      *
      * @return the consistencyPolicy value
      */
@@ -172,7 +248,7 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Set the consistencyPolicy value.
+     * Set the consistency policy for the Cosmos DB database account.
      *
      * @param consistencyPolicy the consistencyPolicy value to set
      * @return the DatabaseAccountInner object itself.
@@ -183,7 +259,27 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Get the writeLocations value.
+     * Get list of Cosmos DB capabilities for the account.
+     *
+     * @return the capabilities value
+     */
+    public List<Capability> capabilities() {
+        return this.capabilities;
+    }
+
+    /**
+     * Set list of Cosmos DB capabilities for the account.
+     *
+     * @param capabilities the capabilities value to set
+     * @return the DatabaseAccountInner object itself.
+     */
+    public DatabaseAccountInner withCapabilities(List<Capability> capabilities) {
+        this.capabilities = capabilities;
+        return this;
+    }
+
+    /**
+     * Get an array that contains the write location for the Cosmos DB account.
      *
      * @return the writeLocations value
      */
@@ -192,7 +288,7 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Get the readLocations value.
+     * Get an array that contains of the read locations enabled for the Cosmos DB account.
      *
      * @return the readLocations value
      */
@@ -201,12 +297,52 @@ public class DatabaseAccountInner extends Resource {
     }
 
     /**
-     * Get the failoverPolicies value.
+     * Get an array that contains the regions ordered by their failover priorities.
      *
      * @return the failoverPolicies value
      */
     public List<FailoverPolicyInner> failoverPolicies() {
         return this.failoverPolicies;
+    }
+
+    /**
+     * Get list of Virtual Network ACL rules configured for the Cosmos DB account.
+     *
+     * @return the virtualNetworkRules value
+     */
+    public List<VirtualNetworkRule> virtualNetworkRules() {
+        return this.virtualNetworkRules;
+    }
+
+    /**
+     * Set list of Virtual Network ACL rules configured for the Cosmos DB account.
+     *
+     * @param virtualNetworkRules the virtualNetworkRules value to set
+     * @return the DatabaseAccountInner object itself.
+     */
+    public DatabaseAccountInner withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules) {
+        this.virtualNetworkRules = virtualNetworkRules;
+        return this;
+    }
+
+    /**
+     * Get enables the account to write in multiple locations.
+     *
+     * @return the enableMultipleWriteLocations value
+     */
+    public Boolean enableMultipleWriteLocations() {
+        return this.enableMultipleWriteLocations;
+    }
+
+    /**
+     * Set enables the account to write in multiple locations.
+     *
+     * @param enableMultipleWriteLocations the enableMultipleWriteLocations value to set
+     * @return the DatabaseAccountInner object itself.
+     */
+    public DatabaseAccountInner withEnableMultipleWriteLocations(Boolean enableMultipleWriteLocations) {
+        this.enableMultipleWriteLocations = enableMultipleWriteLocations;
+        return this;
     }
 
 }

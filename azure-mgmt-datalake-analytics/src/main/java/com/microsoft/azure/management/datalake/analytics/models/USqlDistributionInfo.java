@@ -40,7 +40,7 @@ public class USqlDistributionInfo {
     private Integer dynamicCount;
 
     /**
-     * Get the type value.
+     * Get the type of this distribution.
      *
      * @return the type value
      */
@@ -49,7 +49,7 @@ public class USqlDistributionInfo {
     }
 
     /**
-     * Set the type value.
+     * Set the type of this distribution.
      *
      * @param type the type value to set
      * @return the USqlDistributionInfo object itself.
@@ -60,7 +60,7 @@ public class USqlDistributionInfo {
     }
 
     /**
-     * Get the keys value.
+     * Get the list of directed columns in the distribution.
      *
      * @return the keys value
      */
@@ -69,7 +69,7 @@ public class USqlDistributionInfo {
     }
 
     /**
-     * Set the keys value.
+     * Set the list of directed columns in the distribution.
      *
      * @param keys the keys value to set
      * @return the USqlDistributionInfo object itself.
@@ -80,7 +80,7 @@ public class USqlDistributionInfo {
     }
 
     /**
-     * Get the count value.
+     * Get the count of indices using this distribution.
      *
      * @return the count value
      */
@@ -89,7 +89,7 @@ public class USqlDistributionInfo {
     }
 
     /**
-     * Set the count value.
+     * Set the count of indices using this distribution.
      *
      * @param count the count value to set
      * @return the USqlDistributionInfo object itself.
@@ -100,7 +100,7 @@ public class USqlDistributionInfo {
     }
 
     /**
-     * Get the dynamicCount value.
+     * Get the dynamic count of indices using this distribution.
      *
      * @return the dynamicCount value
      */
@@ -109,7 +109,7 @@ public class USqlDistributionInfo {
     }
 
     /**
-     * Set the dynamicCount value.
+     * Set the dynamic count of indices using this distribution.
      *
      * @param dynamicCount the dynamicCount value to set
      * @return the USqlDistributionInfo object itself.

@@ -8,48 +8,55 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
+import com.microsoft.azure.management.batchai.FileType;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Properties of the file.
+ * Properties of the file or directory.
  */
 @JsonFlatten
 public class FileInner {
     /**
-     * file name.
+     * Name.
+     * Name of the file.
      */
-    @JsonProperty(value = "name", required = true)
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
-     * file downloand url, example:
-     * https://mystg.blob.core.windows.net/mycontainer/myModel_1.dnn.
-     * This will be returned only if the model has been archived. During job
-     * run, this won't be returned and customers can use SSH tunneling to
-     * download. Users can use Get Remote Login Information API to get the IP
-     * address and port information of all the compute nodes running the job.
+     * File type.
+     * Type of the file. Possible values are file and directory. Possible
+     * values include: 'file', 'directory'.
      */
-    @JsonProperty(value = "downloadUrl", required = true)
+    @JsonProperty(value = "fileType", access = JsonProperty.Access.WRITE_ONLY)
+    private FileType fileType;
+
+    /**
+     * Download URL.
+     * URL to download the corresponding file. The downloadUrl is not returned
+     * for directories.
+     */
+    @JsonProperty(value = "downloadUrl", access = JsonProperty.Access.WRITE_ONLY)
     private String downloadUrl;
 
     /**
-     * The time at which the file was last modified.
+     * Last modified time.
      * The time at which the file was last modified.
      */
-    @JsonProperty(value = "properties.lastModified")
+    @JsonProperty(value = "properties.lastModified", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime lastModified;
 
     /**
-     * The file size.
-     * The file size.
+     * Content length.
+     * The file of the size.
      */
-    @JsonProperty(value = "properties.contentLength")
+    @JsonProperty(value = "properties.contentLength", access = JsonProperty.Access.WRITE_ONLY)
     private Long contentLength;
 
     /**
-     * Get the name value.
+     * Get name of the file.
      *
      * @return the name value
      */
@@ -58,18 +65,16 @@ public class FileInner {
     }
 
     /**
-     * Set the name value.
+     * Get type of the file. Possible values are file and directory. Possible values include: 'file', 'directory'.
      *
-     * @param name the name value to set
-     * @return the FileInner object itself.
+     * @return the fileType value
      */
-    public FileInner withName(String name) {
-        this.name = name;
-        return this;
+    public FileType fileType() {
+        return this.fileType;
     }
 
     /**
-     * Get the downloadUrl value.
+     * Get uRL to download the corresponding file. The downloadUrl is not returned for directories.
      *
      * @return the downloadUrl value
      */
@@ -78,18 +83,7 @@ public class FileInner {
     }
 
     /**
-     * Set the downloadUrl value.
-     *
-     * @param downloadUrl the downloadUrl value to set
-     * @return the FileInner object itself.
-     */
-    public FileInner withDownloadUrl(String downloadUrl) {
-        this.downloadUrl = downloadUrl;
-        return this;
-    }
-
-    /**
-     * Get the lastModified value.
+     * Get the time at which the file was last modified.
      *
      * @return the lastModified value
      */
@@ -98,34 +92,12 @@ public class FileInner {
     }
 
     /**
-     * Set the lastModified value.
-     *
-     * @param lastModified the lastModified value to set
-     * @return the FileInner object itself.
-     */
-    public FileInner withLastModified(DateTime lastModified) {
-        this.lastModified = lastModified;
-        return this;
-    }
-
-    /**
-     * Get the contentLength value.
+     * Get the file of the size.
      *
      * @return the contentLength value
      */
     public Long contentLength() {
         return this.contentLength;
-    }
-
-    /**
-     * Set the contentLength value.
-     *
-     * @param contentLength the contentLength value to set
-     * @return the FileInner object itself.
-     */
-    public FileInner withContentLength(Long contentLength) {
-        this.contentLength = contentLength;
-        return this;
     }
 
 }

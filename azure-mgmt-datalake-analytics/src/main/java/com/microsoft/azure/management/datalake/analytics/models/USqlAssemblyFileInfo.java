@@ -34,7 +34,7 @@ public class USqlAssemblyFileInfo {
     private String contentPath;
 
     /**
-     * Get the type value.
+     * Get the assembly file type. Possible values include: 'Assembly', 'Resource', 'Nodeploy'.
      *
      * @return the type value
      */
@@ -43,7 +43,7 @@ public class USqlAssemblyFileInfo {
     }
 
     /**
-     * Set the type value.
+     * Set the assembly file type. Possible values include: 'Assembly', 'Resource', 'Nodeploy'.
      *
      * @param type the type value to set
      * @return the USqlAssemblyFileInfo object itself.
@@ -54,7 +54,7 @@ public class USqlAssemblyFileInfo {
     }
 
     /**
-     * Get the originalPath value.
+     * Get the the original path to the assembly file.
      *
      * @return the originalPath value
      */
@@ -63,7 +63,7 @@ public class USqlAssemblyFileInfo {
     }
 
     /**
-     * Set the originalPath value.
+     * Set the the original path to the assembly file.
      *
      * @param originalPath the originalPath value to set
      * @return the USqlAssemblyFileInfo object itself.
@@ -74,7 +74,7 @@ public class USqlAssemblyFileInfo {
     }
 
     /**
-     * Get the contentPath value.
+     * Get the the content path to the assembly file.
      *
      * @return the contentPath value
      */
@@ -83,7 +83,7 @@ public class USqlAssemblyFileInfo {
     }
 
     /**
-     * Set the contentPath value.
+     * Set the the content path to the assembly file.
      *
      * @param contentPath the contentPath value to set
      * @return the USqlAssemblyFileInfo object itself.

@@ -8,19 +8,26 @@
 
 package com.microsoft.azure.management.batchai.implementation;
 
+import com.microsoft.azure.management.batchai.JobPriority;
 import com.microsoft.azure.management.batchai.ResourceId;
+import com.microsoft.azure.management.batchai.MountVolumes;
 import com.microsoft.azure.management.batchai.ContainerSettings;
 import com.microsoft.azure.management.batchai.ToolType;
 import com.microsoft.azure.management.batchai.CNTKsettings;
+import com.microsoft.azure.management.batchai.PyTorchSettings;
 import com.microsoft.azure.management.batchai.TensorFlowSettings;
 import com.microsoft.azure.management.batchai.CaffeSettings;
+import com.microsoft.azure.management.batchai.Caffe2Settings;
 import com.microsoft.azure.management.batchai.ChainerSettings;
 import com.microsoft.azure.management.batchai.CustomToolkitSettings;
+import com.microsoft.azure.management.batchai.CustomMpiSettings;
+import com.microsoft.azure.management.batchai.HorovodSettings;
 import com.microsoft.azure.management.batchai.JobPreparation;
 import java.util.List;
 import com.microsoft.azure.management.batchai.InputDirectory;
 import com.microsoft.azure.management.batchai.OutputDirectory;
-import com.microsoft.azure.management.batchai.EnvironmentSetting;
+import com.microsoft.azure.management.batchai.EnvironmentVariable;
+import com.microsoft.azure.management.batchai.EnvironmentVariableWithSecretValue;
 import com.microsoft.azure.management.batchai.JobPropertiesConstraints;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.batchai.ProvisioningState;
@@ -28,33 +35,37 @@ import com.microsoft.azure.management.batchai.ExecutionState;
 import com.microsoft.azure.management.batchai.JobPropertiesExecutionInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.ProxyResource;
 
 /**
- * Contains information about the job.
+ * Information about a Job.
  */
 @JsonFlatten
-public class JobInner extends Resource {
+public class JobInner extends ProxyResource {
     /**
-     * Describe the experiment information of the job.
+     * Scheduling priority.
+     * Scheduling priority associated with the job. Possible values include:
+     * 'low', 'normal', 'high'.
      */
-    @JsonProperty(value = "properties.experimentName")
-    private String experimentName;
+    @JsonProperty(value = "properties.schedulingPriority")
+    private JobPriority schedulingPriority;
 
     /**
-     * Priority associated with the job.
-     * Priority associated with the job. Priority values can range from -1000
-     * to 1000, with -1000 being the lowest priority and 1000 being the highest
-     * priority. The default value is 0.
-     */
-    @JsonProperty(value = "properties.priority")
-    private Integer priority;
-
-    /**
-     * Specifies the Id of the cluster on which this job will run.
+     * Cluster.
+     * Resource ID of the cluster associated with the job.
      */
     @JsonProperty(value = "properties.cluster")
     private ResourceId cluster;
+
+    /**
+     * Mount volumes.
+     * Collection of mount volumes available to the job during execution. These
+     * volumes are mounted before the job execution and unmouted after the job
+     * completion. The volumes are mounted at location specified by
+     * $AZ_BATCHAI_JOB_MOUNT_ROOT environment variable.
+     */
+    @JsonProperty(value = "properties.mountVolumes")
+    private MountVolumes mountVolumes;
 
     /**
      * Number of compute nodes to run the job on.
@@ -74,9 +85,9 @@ public class JobInner extends Resource {
 
     /**
      * The toolkit type of this job.
-     * Possible values are: cntk, tensorflow, caffe, caffe2, chainer, custom.
-     * Possible values include: 'cntk', 'tensorflow', 'caffe', 'caffe2',
-     * 'chainer', 'custom'.
+     * Possible values are: cntk, tensorflow, caffe, caffe2, chainer, pytorch,
+     * custom, mpi, horovod. Possible values include: 'cntk', 'tensorflow',
+     * 'caffe', 'caffe2', 'chainer', 'horovod', 'mpi', 'custom'.
      */
     @JsonProperty(value = "properties.toolType")
     private ToolType toolType;
@@ -86,6 +97,12 @@ public class JobInner extends Resource {
      */
     @JsonProperty(value = "properties.cntkSettings")
     private CNTKsettings cntkSettings;
+
+    /**
+     * Specifies the settings for pyTorch job.
+     */
+    @JsonProperty(value = "properties.pyTorchSettings")
+    private PyTorchSettings pyTorchSettings;
 
     /**
      * Specifies the settings for Tensor Flow job.
@@ -100,6 +117,12 @@ public class JobInner extends Resource {
     private CaffeSettings caffeSettings;
 
     /**
+     * Specifies the settings for Caffe2 job.
+     */
+    @JsonProperty(value = "properties.caffe2Settings")
+    private Caffe2Settings caffe2Settings;
+
+    /**
      * Specifies the settings for Chainer job.
      */
     @JsonProperty(value = "properties.chainerSettings")
@@ -112,6 +135,18 @@ public class JobInner extends Resource {
     private CustomToolkitSettings customToolkitSettings;
 
     /**
+     * Specifies the settings for custom MPI job.
+     */
+    @JsonProperty(value = "properties.customMpiSettings")
+    private CustomMpiSettings customMpiSettings;
+
+    /**
+     * Specifies the settings for Horovod job.
+     */
+    @JsonProperty(value = "properties.horovodSettings")
+    private HorovodSettings horovodSettings;
+
+    /**
      * Specifies the actions to be performed before tool kit is launched.
      * The specified actions will run on all the nodes that are part of the
      * job.
@@ -120,35 +155,54 @@ public class JobInner extends Resource {
     private JobPreparation jobPreparation;
 
     /**
-     * The path where the Batch AI service will upload stdout and stderror of
-     * the job.
+     * Output directory path segment.
+     * A segment of job's output directories path created by Batch AI. Batch AI
+     * creates job's output directories under an unique path to avoid conflicts
+     * between jobs. This value contains a path segment generated by Batch AI
+     * to make the path unique and can be used to find the output directory on
+     * the node or mounted filesystem.
+     */
+    @JsonProperty(value = "properties.jobOutputDirectoryPathSegment", access = JsonProperty.Access.WRITE_ONLY)
+    private String jobOutputDirectoryPathSegment;
+
+    /**
+     * Standard output directory path prefix.
+     * The path where the Batch AI service stores stdout, stderror and
+     * execution log of the job.
      */
     @JsonProperty(value = "properties.stdOutErrPathPrefix")
     private String stdOutErrPathPrefix;
 
     /**
-     * Specifies the list of input directories for the Job.
+     * Input directories.
+     * A list of input directories for the job.
      */
     @JsonProperty(value = "properties.inputDirectories")
     private List<InputDirectory> inputDirectories;
 
     /**
-     * Specifies the list of output directories where the models will be
-     * created. .
+     * Output directories.
+     * A list of output directories for the job.
      */
     @JsonProperty(value = "properties.outputDirectories")
     private List<OutputDirectory> outputDirectories;
 
     /**
-     * Additional environment variables to be passed to the job.
-     * Batch AI services sets the following environment variables for all jobs:
-     * AZ_BATCHAI_INPUT_id, AZ_BATCHAI_OUTPUT_id, AZ_BATCHAI_NUM_GPUS_PER_NODE,
-     * For distributed TensorFlow jobs, following additional environment
-     * variables are set by the Batch AI Service: AZ_BATCHAI_PS_HOSTS,
-     * AZ_BATCHAI_WORKER_HOSTS.
+     * Environment variables.
+     * A collection of user defined environment variables to be setup for the
+     * job.
      */
     @JsonProperty(value = "properties.environmentVariables")
-    private List<EnvironmentSetting> environmentVariables;
+    private List<EnvironmentVariable> environmentVariables;
+
+    /**
+     * Secrets.
+     * A collection of user defined environment variables with secret values to
+     * be setup for the job. Server will never report values of these variables
+     * back.
+     */
+    @JsonProperty(value = "properties.secrets")
+    private List<EnvironmentVariableWithSecretValue> secrets;
 
     /**
      * Constraints associated with the Job.
@@ -157,13 +211,14 @@ public class JobInner extends Resource {
     private JobPropertiesConstraints constraints;
 
     /**
-     * The job creation time.
+     * Creation time.
      * The creation time of the job.
      */
     @JsonProperty(value = "properties.creationTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime creationTime;
 
     /**
+     * Provisioning state.
      * The provisioned state of the Batch AI job. Possible values include:
      * 'creating', 'succeeded', 'failed', 'deleting'.
      */
@@ -171,14 +226,14 @@ public class JobInner extends Resource {
     private ProvisioningState provisioningState;
 
     /**
-     * The time at which the job entered its current provisioning state.
+     * Provisioning state transition time.
      * The time at which the job entered its current provisioning state.
      */
     @JsonProperty(value = "properties.provisioningStateTransitionTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime provisioningStateTransitionTime;
 
     /**
-     * The current state of the job.
+     * Execution state.
      * The current state of the job. Possible values are: queued - The job is
      * queued and able to run. A job enters this state when it is created, or
      * when it is awaiting a retry after a failed run. running - The job is
@@ -193,65 +248,44 @@ public class JobInner extends Resource {
      * occurred launching the job. Possible values include: 'queued',
      * 'running', 'terminating', 'succeeded', 'failed'.
      */
-    @JsonProperty(value = "properties.executionState")
+    @JsonProperty(value = "properties.executionState", access = JsonProperty.Access.WRITE_ONLY)
     private ExecutionState executionState;
 
     /**
-     * The time at which the job entered its current execution state.
+     * Execution state transition time.
      * The time at which the job entered its current execution state.
      */
     @JsonProperty(value = "properties.executionStateTransitionTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime executionStateTransitionTime;
 
     /**
-     * Contains information about the execution of a job in the Azure Batch
-     * service.
+     * Information about the execution of a job.
      */
     @JsonProperty(value = "properties.executionInfo")
     private JobPropertiesExecutionInfo executionInfo;
 
     /**
-     * Get the experimentName value.
+     * Get scheduling priority associated with the job. Possible values include: 'low', 'normal', 'high'.
      *
-     * @return the experimentName value
+     * @return the schedulingPriority value
      */
-    public String experimentName() {
-        return this.experimentName;
+    public JobPriority schedulingPriority() {
+        return this.schedulingPriority;
     }
 
     /**
-     * Set the experimentName value.
+     * Set scheduling priority associated with the job. Possible values include: 'low', 'normal', 'high'.
      *
-     * @param experimentName the experimentName value to set
+     * @param schedulingPriority the schedulingPriority value to set
      * @return the JobInner object itself.
      */
-    public JobInner withExperimentName(String experimentName) {
-        this.experimentName = experimentName;
+    public JobInner withSchedulingPriority(JobPriority schedulingPriority) {
+        this.schedulingPriority = schedulingPriority;
         return this;
     }
 
     /**
-     * Get the priority value.
-     *
-     * @return the priority value
-     */
-    public Integer priority() {
-        return this.priority;
-    }
-
-    /**
-     * Set the priority value.
-     *
-     * @param priority the priority value to set
-     * @return the JobInner object itself.
-     */
-    public JobInner withPriority(Integer priority) {
-        this.priority = priority;
-        return this;
-    }
-
-    /**
-     * Get the cluster value.
+     * Get resource ID of the cluster associated with the job.
      *
      * @return the cluster value
      */
@@ -260,7 +294,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the cluster value.
+     * Set resource ID of the cluster associated with the job.
      *
      * @param cluster the cluster value to set
      * @return the JobInner object itself.
@@ -271,7 +305,27 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the nodeCount value.
+     * Get collection of mount volumes available to the job during execution. These volumes are mounted before the job execution and unmouted after the job completion. The volumes are mounted at location specified by $AZ_BATCHAI_JOB_MOUNT_ROOT environment variable.
+     *
+     * @return the mountVolumes value
+     */
+    public MountVolumes mountVolumes() {
+        return this.mountVolumes;
+    }
+
+    /**
+     * Set collection of mount volumes available to the job during execution. These volumes are mounted before the job execution and unmouted after the job completion. The volumes are mounted at location specified by $AZ_BATCHAI_JOB_MOUNT_ROOT environment variable.
+     *
+     * @param mountVolumes the mountVolumes value to set
+     * @return the JobInner object itself.
+     */
+    public JobInner withMountVolumes(MountVolumes mountVolumes) {
+        this.mountVolumes = mountVolumes;
+        return this;
+    }
+
+    /**
+     * Get the job will be gang scheduled on that many compute nodes.
      *
      * @return the nodeCount value
      */
@@ -280,7 +334,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the nodeCount value.
+     * Set the job will be gang scheduled on that many compute nodes.
      *
      * @param nodeCount the nodeCount value to set
      * @return the JobInner object itself.
@@ -291,7 +345,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the containerSettings value.
+     * Get if the container was downloaded as part of cluster setup then the same container image will be used. If not provided, the job will run on the VM.
      *
      * @return the containerSettings value
      */
@@ -300,7 +354,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the containerSettings value.
+     * Set if the container was downloaded as part of cluster setup then the same container image will be used. If not provided, the job will run on the VM.
      *
      * @param containerSettings the containerSettings value to set
      * @return the JobInner object itself.
@@ -311,7 +365,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the toolType value.
+     * Get possible values are: cntk, tensorflow, caffe, caffe2, chainer, pytorch, custom, mpi, horovod. Possible values include: 'cntk', 'tensorflow', 'caffe', 'caffe2', 'chainer', 'horovod', 'mpi', 'custom'.
      *
      * @return the toolType value
      */
@@ -320,7 +374,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the toolType value.
+     * Set possible values are: cntk, tensorflow, caffe, caffe2, chainer, pytorch, custom, mpi, horovod. Possible values include: 'cntk', 'tensorflow', 'caffe', 'caffe2', 'chainer', 'horovod', 'mpi', 'custom'.
      *
      * @param toolType the toolType value to set
      * @return the JobInner object itself.
@@ -347,6 +401,26 @@ public class JobInner extends Resource {
      */
     public JobInner withCntkSettings(CNTKsettings cntkSettings) {
         this.cntkSettings = cntkSettings;
+        return this;
+    }
+
+    /**
+     * Get the pyTorchSettings value.
+     *
+     * @return the pyTorchSettings value
+     */
+    public PyTorchSettings pyTorchSettings() {
+        return this.pyTorchSettings;
+    }
+
+    /**
+     * Set the pyTorchSettings value.
+     *
+     * @param pyTorchSettings the pyTorchSettings value to set
+     * @return the JobInner object itself.
+     */
+    public JobInner withPyTorchSettings(PyTorchSettings pyTorchSettings) {
+        this.pyTorchSettings = pyTorchSettings;
         return this;
     }
 
@@ -391,6 +465,26 @@ public class JobInner extends Resource {
     }
 
     /**
+     * Get the caffe2Settings value.
+     *
+     * @return the caffe2Settings value
+     */
+    public Caffe2Settings caffe2Settings() {
+        return this.caffe2Settings;
+    }
+
+    /**
+     * Set the caffe2Settings value.
+     *
+     * @param caffe2Settings the caffe2Settings value to set
+     * @return the JobInner object itself.
+     */
+    public JobInner withCaffe2Settings(Caffe2Settings caffe2Settings) {
+        this.caffe2Settings = caffe2Settings;
+        return this;
+    }
+
+    /**
      * Get the chainerSettings value.
      *
      * @return the chainerSettings value
@@ -431,7 +525,47 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the jobPreparation value.
+     * Get the customMpiSettings value.
+     *
+     * @return the customMpiSettings value
+     */
+    public CustomMpiSettings customMpiSettings() {
+        return this.customMpiSettings;
+    }
+
+    /**
+     * Set the customMpiSettings value.
+     *
+     * @param customMpiSettings the customMpiSettings value to set
+     * @return the JobInner object itself.
+     */
+    public JobInner withCustomMpiSettings(CustomMpiSettings customMpiSettings) {
+        this.customMpiSettings = customMpiSettings;
+        return this;
+    }
+
+    /**
+     * Get the horovodSettings value.
+     *
+     * @return the horovodSettings value
+     */
+    public HorovodSettings horovodSettings() {
+        return this.horovodSettings;
+    }
+
+    /**
+     * Set the horovodSettings value.
+     *
+     * @param horovodSettings the horovodSettings value to set
+     * @return the JobInner object itself.
+     */
+    public JobInner withHorovodSettings(HorovodSettings horovodSettings) {
+        this.horovodSettings = horovodSettings;
+        return this;
+    }
+
+    /**
+     * Get the specified actions will run on all the nodes that are part of the job.
      *
      * @return the jobPreparation value
      */
@@ -440,7 +574,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the jobPreparation value.
+     * Set the specified actions will run on all the nodes that are part of the job.
      *
      * @param jobPreparation the jobPreparation value to set
      * @return the JobInner object itself.
@@ -451,7 +585,16 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the stdOutErrPathPrefix value.
+     * Get a segment of job's output directories path created by Batch AI. Batch AI creates job's output directories under an unique path to avoid conflicts between jobs. This value contains a path segment generated by Batch AI to make the path unique and can be used to find the output directory on the node or mounted filesystem.
+     *
+     * @return the jobOutputDirectoryPathSegment value
+     */
+    public String jobOutputDirectoryPathSegment() {
+        return this.jobOutputDirectoryPathSegment;
+    }
+
+    /**
+     * Get the path where the Batch AI service stores stdout, stderror and execution log of the job.
      *
      * @return the stdOutErrPathPrefix value
      */
@@ -460,7 +603,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the stdOutErrPathPrefix value.
+     * Set the path where the Batch AI service stores stdout, stderror and execution log of the job.
      *
      * @param stdOutErrPathPrefix the stdOutErrPathPrefix value to set
      * @return the JobInner object itself.
@@ -471,7 +614,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the inputDirectories value.
+     * Get a list of input directories for the job.
      *
      * @return the inputDirectories value
      */
@@ -480,7 +623,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the inputDirectories value.
+     * Set a list of input directories for the job.
      *
      * @param inputDirectories the inputDirectories value to set
      * @return the JobInner object itself.
@@ -491,7 +634,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the outputDirectories value.
+     * Get a list of output directories for the job.
      *
      * @return the outputDirectories value
      */
@@ -500,7 +643,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the outputDirectories value.
+     * Set a list of output directories for the job.
      *
      * @param outputDirectories the outputDirectories value to set
      * @return the JobInner object itself.
@@ -511,27 +654,47 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the environmentVariables value.
+     * Get a collection of user defined environment variables to be setup for the job.
      *
      * @return the environmentVariables value
      */
-    public List<EnvironmentSetting> environmentVariables() {
+    public List<EnvironmentVariable> environmentVariables() {
         return this.environmentVariables;
     }
 
     /**
-     * Set the environmentVariables value.
+     * Set a collection of user defined environment variables to be setup for the job.
      *
      * @param environmentVariables the environmentVariables value to set
      * @return the JobInner object itself.
      */
-    public JobInner withEnvironmentVariables(List<EnvironmentSetting> environmentVariables) {
+    public JobInner withEnvironmentVariables(List<EnvironmentVariable> environmentVariables) {
         this.environmentVariables = environmentVariables;
         return this;
     }
 
     /**
-     * Get the constraints value.
+     * Get a collection of user defined environment variables with secret values to be setup for the job. Server will never report values of these variables back.
+     *
+     * @return the secrets value
+     */
+    public List<EnvironmentVariableWithSecretValue> secrets() {
+        return this.secrets;
+    }
+
+    /**
+     * Set a collection of user defined environment variables with secret values to be setup for the job. Server will never report values of these variables back.
+     *
+     * @param secrets the secrets value to set
+     * @return the JobInner object itself.
+     */
+    public JobInner withSecrets(List<EnvironmentVariableWithSecretValue> secrets) {
+        this.secrets = secrets;
+        return this;
+    }
+
+    /**
+     * Get constraints associated with the Job.
      *
      * @return the constraints value
      */
@@ -540,7 +703,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the constraints value.
+     * Set constraints associated with the Job.
      *
      * @param constraints the constraints value to set
      * @return the JobInner object itself.
@@ -551,7 +714,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the creationTime value.
+     * Get the creation time of the job.
      *
      * @return the creationTime value
      */
@@ -560,7 +723,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioned state of the Batch AI job. Possible values include: 'creating', 'succeeded', 'failed', 'deleting'.
      *
      * @return the provisioningState value
      */
@@ -569,7 +732,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the provisioningStateTransitionTime value.
+     * Get the time at which the job entered its current provisioning state.
      *
      * @return the provisioningStateTransitionTime value
      */
@@ -578,7 +741,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the executionState value.
+     * Get the current state of the job. Possible values are: queued - The job is queued and able to run. A job enters this state when it is created, or when it is awaiting a retry after a failed run. running - The job is running on a compute cluster. This includes job-level preparation such as downloading resource files or set up container specified on the job - it does not necessarily mean that the job command line has started executing. terminating - The job is terminated by the user, the terminate operation is in progress. succeeded - The job has completed running succesfully and exited with exit code 0. failed - The job has finished unsuccessfully (failed with a non-zero exit code) and has exhausted its retry limit. A job is also marked as failed if an error occurred launching the job. Possible values include: 'queued', 'running', 'terminating', 'succeeded', 'failed'.
      *
      * @return the executionState value
      */
@@ -587,18 +750,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the executionState value.
-     *
-     * @param executionState the executionState value to set
-     * @return the JobInner object itself.
-     */
-    public JobInner withExecutionState(ExecutionState executionState) {
-        this.executionState = executionState;
-        return this;
-    }
-
-    /**
-     * Get the executionStateTransitionTime value.
+     * Get the time at which the job entered its current execution state.
      *
      * @return the executionStateTransitionTime value
      */
@@ -607,7 +759,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Get the executionInfo value.
+     * Get information about the execution of a job.
      *
      * @return the executionInfo value
      */
@@ -616,7 +768,7 @@ public class JobInner extends Resource {
     }
 
     /**
-     * Set the executionInfo value.
+     * Set information about the execution of a job.
      *
      * @param executionInfo the executionInfo value to set
      * @return the JobInner object itself.

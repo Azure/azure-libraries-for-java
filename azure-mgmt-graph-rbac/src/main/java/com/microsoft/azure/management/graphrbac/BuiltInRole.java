@@ -65,6 +65,12 @@ public final class BuiltInRole extends ExpandableStringEnum<BuiltInRole> {
     /** A role that can manage Intelligent Systems accounts. */
     public static final BuiltInRole INTELLIGENT_SYSTEMS_ACCOUNT_CONTRIBUTOR = BuiltInRole.fromString("Intelligent Systems Account Contributor");
 
+    /** A role that can manage user assigned identities. */
+    public static final BuiltInRole MANAGED_IDENTITY_CONTRIBUTOR = BuiltInRole.fromString("Managed Identity Contributor");
+
+    /** A role that can read and assign user assigned identities. */
+    public static final BuiltInRole MANAGED_IDENTITY_OPERATOR = BuiltInRole.fromString("Managed Identity Operator");
+
     /** A role that can read all monitoring data. */
     public static final BuiltInRole MONITORING_READER = BuiltInRole.fromString("Monitoring Reader");
 

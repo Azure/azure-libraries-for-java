@@ -13,16 +13,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * The parameters used to create a new compute policy.
+ * Data Lake Analytics compute policy information.
  */
 @JsonFlatten
-public class ComputePolicy {
-    /**
-     * The name of the compute policy.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
+public class ComputePolicy extends SubResource {
     /**
      * The AAD object identifier for the entity to create a policy for.
      */
@@ -40,26 +34,29 @@ public class ComputePolicy {
      * The maximum degree of parallelism per job this user can use to submit
      * jobs.
      */
-    @JsonProperty(value = "properties.maxDegreeOfParallelismPerJob")
+    @JsonProperty(value = "properties.maxDegreeOfParallelismPerJob", access = JsonProperty.Access.WRITE_ONLY)
     private Integer maxDegreeOfParallelismPerJob;
 
     /**
      * The minimum priority per job this user can use to submit jobs.
      */
-    @JsonProperty(value = "properties.minPriorityPerJob")
+    @JsonProperty(value = "properties.minPriorityPerJob", access = JsonProperty.Access.WRITE_ONLY)
     private Integer minPriorityPerJob;
 
     /**
-     * Get the name value.
-     *
-     * @return the name value
+     * The resource name.
      */
-    public String name() {
-        return this.name;
-    }
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
 
     /**
-     * Get the objectId value.
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
+     * Get the AAD object identifier for the entity to create a policy for.
      *
      * @return the objectId value
      */
@@ -68,7 +65,7 @@ public class ComputePolicy {
     }
 
     /**
-     * Get the objectType value.
+     * Get the type of AAD object the object identifier refers to. Possible values include: 'User', 'Group', 'ServicePrincipal'.
      *
      * @return the objectType value
      */
@@ -77,7 +74,7 @@ public class ComputePolicy {
     }
 
     /**
-     * Get the maxDegreeOfParallelismPerJob value.
+     * Get the maximum degree of parallelism per job this user can use to submit jobs.
      *
      * @return the maxDegreeOfParallelismPerJob value
      */
@@ -86,18 +83,7 @@ public class ComputePolicy {
     }
 
     /**
-     * Set the maxDegreeOfParallelismPerJob value.
-     *
-     * @param maxDegreeOfParallelismPerJob the maxDegreeOfParallelismPerJob value to set
-     * @return the ComputePolicy object itself.
-     */
-    public ComputePolicy withMaxDegreeOfParallelismPerJob(Integer maxDegreeOfParallelismPerJob) {
-        this.maxDegreeOfParallelismPerJob = maxDegreeOfParallelismPerJob;
-        return this;
-    }
-
-    /**
-     * Get the minPriorityPerJob value.
+     * Get the minimum priority per job this user can use to submit jobs.
      *
      * @return the minPriorityPerJob value
      */
@@ -106,14 +92,21 @@ public class ComputePolicy {
     }
 
     /**
-     * Set the minPriorityPerJob value.
+     * Get the resource name.
      *
-     * @param minPriorityPerJob the minPriorityPerJob value to set
-     * @return the ComputePolicy object itself.
+     * @return the name value
      */
-    public ComputePolicy withMinPriorityPerJob(Integer minPriorityPerJob) {
-        this.minPriorityPerJob = minPriorityPerJob;
-        return this;
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the resource type.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

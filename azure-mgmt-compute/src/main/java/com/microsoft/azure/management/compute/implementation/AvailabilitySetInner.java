@@ -8,13 +8,14 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.Resource;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.Sku;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+
+import java.util.List;
 
 /**
  * Specifies information about the availability set that the virtual machine
@@ -22,7 +23,7 @@ import com.microsoft.azure.Resource;
  * set are allocated to different nodes to maximize availability. For more
  * information about availability sets, see [Manage the availability of virtual
  * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
- * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance, see
+ * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see
  * [Planned maintenance for virtual machines in
  * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
  * &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set
@@ -55,13 +56,16 @@ public class AvailabilitySetInner extends Resource {
     private List<InstanceViewStatus> statuses;
 
     /**
-     * Sku of the availability set.
+     * Sku of the availability set, only name is required to be set. See
+     * AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for
+     * virtual machines with managed disks and 'Classic' for virtual machines
+     * with unmanaged disks. Default value is 'Classic'.
      */
     @JsonProperty(value = "sku")
     private Sku sku;
 
     /**
-     * Get the platformUpdateDomainCount value.
+     * Get update Domain count.
      *
      * @return the platformUpdateDomainCount value
      */
@@ -70,7 +74,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set the platformUpdateDomainCount value.
+     * Set update Domain count.
      *
      * @param platformUpdateDomainCount the platformUpdateDomainCount value to set
      * @return the AvailabilitySetInner object itself.
@@ -81,7 +85,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Get the platformFaultDomainCount value.
+     * Get fault Domain count.
      *
      * @return the platformFaultDomainCount value
      */
@@ -90,7 +94,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set the platformFaultDomainCount value.
+     * Set fault Domain count.
      *
      * @param platformFaultDomainCount the platformFaultDomainCount value to set
      * @return the AvailabilitySetInner object itself.
@@ -101,7 +105,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Get the virtualMachines value.
+     * Get a list of references to all virtual machines in the availability set.
      *
      * @return the virtualMachines value
      */
@@ -110,7 +114,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set the virtualMachines value.
+     * Set a list of references to all virtual machines in the availability set.
      *
      * @param virtualMachines the virtualMachines value to set
      * @return the AvailabilitySetInner object itself.
@@ -121,7 +125,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Get the statuses value.
+     * Get the resource status information.
      *
      * @return the statuses value
      */
@@ -130,7 +134,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Get the sku value.
+     * Get sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'.
      *
      * @return the sku value
      */
@@ -139,7 +143,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set the sku value.
+     * Set sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'.
      *
      * @param sku the sku value to set
      * @return the AvailabilitySetInner object itself.

@@ -8,8 +8,10 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.joda.time.DateTime;
+
+import java.util.Map;
 
 /**
  * Active Directory Password Credential information.
@@ -20,6 +22,12 @@ public class PasswordCredentialInner {
      */
     @JsonProperty(value = "customKeyIdentifier")
     private String customKeyIdentifier;
+
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
 
     /**
      * Start date.
@@ -62,6 +70,26 @@ public class PasswordCredentialInner {
      */
     public PasswordCredentialInner withCustomKeyIdentifier(String customKeyIdentifier) {
         this.customKeyIdentifier = customKeyIdentifier;
+        return this;
+    }
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the PasswordCredentialInner object itself.
+     */
+    public PasswordCredentialInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
         return this;
     }
 

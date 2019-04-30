@@ -90,11 +90,12 @@ public class DataLakeAnalyticsJobOperationsTests extends DataLakeAnalyticsManage
         jobToSubmit.withProperties(jobProperties);
         jobToSubmit.withRelated(jobRelated);
 
-        JobInformation jobCreateResponse = dataLakeAnalyticsJobManagementClient.jobs().create(
-                jobAndCatalogAdlaName,
-                jobId,
-                jobToSubmit
-        );
+        JobInformation jobCreateResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().create(
+                        jobAndCatalogAdlaName,
+                        jobId,
+                        jobToSubmit
+                );
 
         Assert.assertNotNull(jobCreateResponse);
 
@@ -105,10 +106,11 @@ public class DataLakeAnalyticsJobOperationsTests extends DataLakeAnalyticsManage
         );
 
         // Get the job and ensure it was cancelled
-        JobInformation cancelledJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(
-                jobAndCatalogAdlaName,
-                jobId
-        );
+        JobInformation cancelledJobResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().get(
+                        jobAndCatalogAdlaName,
+                        jobId
+                );
 
         Assert.assertEquals(JobResult.CANCELLED, cancelledJobResponse.result());
         Assert.assertNotNull(cancelledJobResponse.errorMessage());
@@ -117,19 +119,21 @@ public class DataLakeAnalyticsJobOperationsTests extends DataLakeAnalyticsManage
         // Resubmit and wait for job to finish
         // First update the runId to a new run
         jobToSubmit.related().withRunId(runId2);
-        jobCreateResponse = dataLakeAnalyticsJobManagementClient.jobs().create(
-                jobAndCatalogAdlaName,
-                jobId2,
-                jobToSubmit
-        );
+        jobCreateResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().create(
+                        jobAndCatalogAdlaName,
+                        jobId2,
+                        jobToSubmit
+                );
 
         Assert.assertNotNull(jobCreateResponse);
 
         // Poll the job until it finishes
-        JobInformation getJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(
-                jobAndCatalogAdlaName,
-                jobCreateResponse.jobId()
-        );
+        JobInformation getJobResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().get(
+                        jobAndCatalogAdlaName,
+                        jobCreateResponse.jobId()
+                );
 
         Assert.assertNotNull(getJobResponse);
 
@@ -142,10 +146,11 @@ public class DataLakeAnalyticsJobOperationsTests extends DataLakeAnalyticsManage
             // Wait 5 seconds before polling again
             SdkContext.sleep(5 * 1000);
             curWaitInSeconds += 5;
-            getJobResponse = dataLakeAnalyticsJobManagementClient.jobs().get(
-                    jobAndCatalogAdlaName,
-                    jobCreateResponse.jobId()
-            );
+            getJobResponse =
+                    dataLakeAnalyticsJobManagementClient.jobs().get(
+                            jobAndCatalogAdlaName,
+                            jobCreateResponse.jobId()
+                    );
 
             Assert.assertNotNull(getJobResponse);
         }
@@ -159,7 +164,11 @@ public class DataLakeAnalyticsJobOperationsTests extends DataLakeAnalyticsManage
                 getJobResponse.state() == JobState.ENDED && getJobResponse.result() == JobResult.SUCCEEDED);
 
         // Make sure the job is in the list of jobs
-        PagedList<JobInformationBasic> listJobResponse = dataLakeAnalyticsJobManagementClient.jobs().list(jobAndCatalogAdlaName);
+        PagedList<JobInformationBasic> listJobResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().list(
+                        jobAndCatalogAdlaName
+                );
+
         Assert.assertNotNull(listJobResponse);
 
         boolean foundJob = false;
@@ -176,17 +185,22 @@ public class DataLakeAnalyticsJobOperationsTests extends DataLakeAnalyticsManage
 
         // Validate job relationship retrieval (get/list pipeline and get/list recurrence)
         // Get/List pipeline
-        JobPipelineInformation getPipelineResponse = dataLakeAnalyticsJobManagementClient.pipelines().get(
-                jobAndCatalogAdlaName,
-                pipelineId
-        );
+        JobPipelineInformation getPipelineResponse =
+                dataLakeAnalyticsJobManagementClient.pipelines().get(
+                        jobAndCatalogAdlaName,
+                        pipelineId
+                );
 
         Assert.assertEquals(pipelineId, getPipelineResponse.pipelineId());
         Assert.assertEquals("pipeline", getPipelineResponse.pipelineName());
         Assert.assertEquals("https://pipelineuri.contoso.com/myJob", getPipelineResponse.pipelineUri());
         Assert.assertTrue(getPipelineResponse.runs().size() >= 2);
 
-        PagedList<JobPipelineInformation> listPipelineResponse = dataLakeAnalyticsJobManagementClient.pipelines().list(jobAndCatalogAdlaName);
+        PagedList<JobPipelineInformation> listPipelineResponse =
+                dataLakeAnalyticsJobManagementClient.pipelines().list(
+                        jobAndCatalogAdlaName
+                );
+
         Assert.assertEquals(1, listPipelineResponse.size());
 
         boolean foundPipeline = false;
@@ -202,16 +216,22 @@ public class DataLakeAnalyticsJobOperationsTests extends DataLakeAnalyticsManage
         Assert.assertTrue(foundPipeline);
 
         // Get/List recurrence
-        JobRecurrenceInformation getRecurrenceResponse = dataLakeAnalyticsJobManagementClient.recurrences().get(
-                jobAndCatalogAdlaName,
-                recurrenceId
-        );
+        JobRecurrenceInformation getRecurrenceResponse =
+                dataLakeAnalyticsJobManagementClient.recurrences().get(
+                        jobAndCatalogAdlaName,
+                        recurrenceId
+                );
 
         Assert.assertEquals(recurrenceId, getRecurrenceResponse.recurrenceId());
         Assert.assertEquals("recurrence", getRecurrenceResponse.recurrenceName());
 
-        PagedList<JobRecurrenceInformation> listRecurrenceResponse = dataLakeAnalyticsJobManagementClient.recurrences().list(jobAndCatalogAdlaName);
+        PagedList<JobRecurrenceInformation> listRecurrenceResponse =
+                dataLakeAnalyticsJobManagementClient.recurrences().list(
+                        jobAndCatalogAdlaName
+                );
+
         Assert.assertEquals(1, listRecurrenceResponse.size());
+
         boolean foundRecurrence = false;
         for (JobRecurrenceInformation eachRecurrence : listRecurrenceResponse)
         {
@@ -235,19 +255,21 @@ public class DataLakeAnalyticsJobOperationsTests extends DataLakeAnalyticsManage
         jobToBuild.withProperties(jobProperties);
 
         // Just compile the job, which requires a jobId in the job object.
-        JobInformation compileResponse = dataLakeAnalyticsJobManagementClient.jobs().build(
-                jobAndCatalogAdlaName,
-                jobToBuild
-        );
+        JobInformation compileResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().build(
+                        jobAndCatalogAdlaName,
+                        jobToBuild
+                );
 
         Assert.assertNotNull(compileResponse);
 
         // Now compile a broken job and verify diagnostics report an error
         jobToBuild.properties().withScript("DROP DATABASE IF EXIST FOO; CREATE DATABASE FOO;");
-        compileResponse = dataLakeAnalyticsJobManagementClient.jobs().build(
-                jobAndCatalogAdlaName,
-                jobToBuild
-        );
+        compileResponse =
+                dataLakeAnalyticsJobManagementClient.jobs().build(
+                        jobAndCatalogAdlaName,
+                        jobToBuild
+                );
 
         Assert.assertNotNull(compileResponse);
         Assert.assertEquals(1, ((USqlJobProperties) compileResponse.properties()).diagnostics().size());

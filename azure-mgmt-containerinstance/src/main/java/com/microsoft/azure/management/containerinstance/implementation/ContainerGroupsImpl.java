@@ -69,21 +69,21 @@ public class ContainerGroupsImpl
 
     @Override
     public String getLogContent(String resourceGroupName, String containerGroupName, String containerName) {
-        LogsInner logsInner = this.manager().inner().containerLogs().list(resourceGroupName, containerGroupName, containerName);
+        LogsInner logsInner = this.manager().inner().containers().listLogs(resourceGroupName, containerGroupName, containerName);
 
         return logsInner != null ? logsInner.content() : null;
     }
 
     @Override
     public String getLogContent(String resourceGroupName, String containerGroupName, String containerName, int tailLineCount) {
-        LogsInner logsInner = this.manager().inner().containerLogs().list(resourceGroupName, containerGroupName, containerName, tailLineCount);
+        LogsInner logsInner = this.manager().inner().containers().listLogs(resourceGroupName, containerGroupName, containerName, tailLineCount);
 
         return logsInner != null ? logsInner.content() : null;
     }
 
     @Override
     public Observable<String> getLogContentAsync(String resourceGroupName, String containerGroupName, String containerName) {
-        return this.manager().inner().containerLogs().listAsync(resourceGroupName, containerGroupName, containerName)
+        return this.manager().inner().containers().listLogsAsync(resourceGroupName, containerGroupName, containerName)
             .map(new Func1<LogsInner, String>() {
                 @Override
                 public String call(LogsInner logsInner) {
@@ -94,7 +94,7 @@ public class ContainerGroupsImpl
 
     @Override
     public Observable<String> getLogContentAsync(String resourceGroupName, String containerGroupName, String containerName, int tailLineCount) {
-        return this.manager().inner().containerLogs().listAsync(resourceGroupName, containerGroupName, containerName, tailLineCount)
+        return this.manager().inner().containers().listLogsAsync(resourceGroupName, containerGroupName, containerName, tailLineCount)
             .map(new Func1<LogsInner, String>() {
                 @Override
                 public String call(LogsInner logsInner) {

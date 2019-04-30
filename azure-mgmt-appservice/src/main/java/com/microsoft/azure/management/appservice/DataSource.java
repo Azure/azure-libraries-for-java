@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DataSource {
     /**
-     * Instrunctions if any for the data source.
+     * Instructions if any for the data source.
      */
     @JsonProperty(value = "instructions")
     private List<String> instructions;
@@ -28,7 +28,7 @@ public class DataSource {
     private List<NameValuePair> dataSourceUri;
 
     /**
-     * Get the instructions value.
+     * Get instructions if any for the data source.
      *
      * @return the instructions value
      */
@@ -37,7 +37,7 @@ public class DataSource {
     }
 
     /**
-     * Set the instructions value.
+     * Set instructions if any for the data source.
      *
      * @param instructions the instructions value to set
      * @return the DataSource object itself.
@@ -48,7 +48,7 @@ public class DataSource {
     }
 
     /**
-     * Get the dataSourceUri value.
+     * Get datasource Uri Links.
      *
      * @return the dataSourceUri value
      */
@@ -57,7 +57,7 @@ public class DataSource {
     }
 
     /**
-     * Set the dataSourceUri value.
+     * Set datasource Uri Links.
      *
      * @param dataSourceUri the dataSourceUri value to set
      * @return the DataSource object itself.

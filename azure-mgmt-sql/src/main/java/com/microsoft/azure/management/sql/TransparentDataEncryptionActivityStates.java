@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
- * Defines values for TransparentDataEncryptionActivityStates.
+ * Defines values for TransparentDataEncryptionActivityStatus.
  */
-public final class TransparentDataEncryptionActivityStates {
-    /** Static value Encrypting for TransparentDataEncryptionActivityStates. */
-    public static final TransparentDataEncryptionActivityStates ENCRYPTING = new TransparentDataEncryptionActivityStates("Encrypting");
+public final class TransparentDataEncryptionActivityStates extends ExpandableStringEnum<TransparentDataEncryptionActivityStates> {
+    /** Static value Encrypting for TransparentDataEncryptionActivityStatus. */
+    public static final TransparentDataEncryptionActivityStates ENCRYPTING = fromString("Encrypting");
 
-    /** Static value Decrypting for TransparentDataEncryptionActivityStates. */
-    public static final TransparentDataEncryptionActivityStates DECRYPTING = new TransparentDataEncryptionActivityStates("Decrypting");
-
-    private String value;
+    /** Static value Decrypting for TransparentDataEncryptionActivityStatus. */
+    public static final TransparentDataEncryptionActivityStates DECRYPTING = fromString("Decrypting");
 
     /**
-     * Creates a custom value for TransparentDataEncryptionActivityStates.
-     * @param value the custom value
+     * Creates or finds a TransparentDataEncryptionActivityStatus from its string representation.
+     * @param name a name to look for
+     * @return the corresponding TransparentDataEncryptionActivityStatus
      */
-    public TransparentDataEncryptionActivityStates(String value) {
-        this.value = value;
+    @JsonCreator
+    public static TransparentDataEncryptionActivityStates fromString(String name) {
+        return fromString(name, TransparentDataEncryptionActivityStates.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof TransparentDataEncryptionActivityStates)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        TransparentDataEncryptionActivityStates rhs = (TransparentDataEncryptionActivityStates) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known TransparentDataEncryptionActivityStatus values
+     */
+    public static Collection<TransparentDataEncryptionActivityStates> values() {
+        return values(TransparentDataEncryptionActivityStates.class);
     }
 }

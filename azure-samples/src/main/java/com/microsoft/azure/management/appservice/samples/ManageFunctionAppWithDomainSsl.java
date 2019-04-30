@@ -46,6 +46,7 @@ public final class ManageFunctionAppWithDomainSsl {
         final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
         final String rgName         = SdkContext.randomResourceName("rgNEMV_", 24);
         final String domainName     = SdkContext.randomResourceName("jsdkdemo-", 20) + ".com";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String certPassword   = "StrongPass!12";
 
         try {
@@ -55,7 +56,7 @@ public final class ManageFunctionAppWithDomainSsl {
             System.out.println("Creating function app " + app1Name + "...");
 
             FunctionApp app1 = azure.appServices().functionApps().define(app1Name)
-                    .withRegion(Region.US_WEST)
+                    .withRegion(Region.US_EAST2)
                     .withNewResourceGroup(rgName)
                     .create();
 
@@ -67,7 +68,7 @@ public final class ManageFunctionAppWithDomainSsl {
 
             System.out.println("Creating another function app " + app2Name + "...");
             FunctionApp app2 = azure.appServices().functionApps().define(app2Name)
-                    .withRegion(Region.US_WEST)
+                    .withRegion(Region.US_EAST2)
                     .withExistingResourceGroup(rgName)
                     .create();
 

@@ -16,6 +16,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import org.joda.time.DateTime;
 import rx.Observable;
 
+import java.util.List;
+
 /**
  * Entry point for Monitor Activity logs API.
  */
@@ -23,6 +25,23 @@ import rx.Observable;
 public interface ActivityLogs extends
         HasManager<MonitorManager>,
         HasInner<ActivityLogsInner> {
+
+
+    /**
+     * Lists available event categories supported in the Activity Logs Service.
+     *
+     * @return list of available event categories supported in the Activity Logs Service.
+     */
+    @Method
+    List<LocalizableString> listEventCategories();
+
+    /**
+     * Lists available event categories supported in the Activity Logs Service.
+     *
+     * @return list of available event categories supported in the Activity Logs Service.
+     */
+    @Method
+    Observable<LocalizableString> listEventCategoriesAsync();
 
     /**
      * Begins a definition for a new Activity log query.
@@ -91,6 +110,7 @@ public interface ActivityLogs extends
              *
              * @return the stage of Activity log filtering by type and query execution.
              */
+            @Method
             WithActivityLogsSelectFilter withAllPropertiesInResponse();
         }
 
@@ -142,6 +162,7 @@ public interface ActivityLogs extends
              *
              * @return Activity Log events received after query execution.
              */
+            @Method
             PagedList<EventData> execute();
 
             /**
@@ -149,7 +170,16 @@ public interface ActivityLogs extends
              *
              * @return a representation of the deferred computation of Activity Log query call.
              */
+            @Method
             Observable<EventData> executeAsync();
+
+            /**
+             * Filters events that were generated at the Tenant level.
+             *
+             * @return the stage of Activity log filtering by Tenant level and query execution.
+             */
+            @Method
+            WithActivityLogsQueryExecute filterAtTenantLevel();
         }
     }
 }

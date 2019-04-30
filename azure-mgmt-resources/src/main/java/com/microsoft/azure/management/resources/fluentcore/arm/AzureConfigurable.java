@@ -8,6 +8,8 @@ package com.microsoft.azure.management.resources.fluentcore.arm;
 
 import com.microsoft.rest.LogLevel;
 import okhttp3.Authenticator;
+import okhttp3.ConnectionPool;
+import okhttp3.Dispatcher;
 import okhttp3.Interceptor;
 
 import java.net.Proxy;
@@ -67,8 +69,33 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      *
      * @param maxIdleConnections the maximum idle connections
      * @return the configurable object itself for chaining
+     * @deprecated use {@link #withConnectionPool(ConnectionPool)} instead
      */
+    @Deprecated
     T withMaxIdleConnections(int maxIdleConnections);
+
+    /**
+     * Sets the connection pool for the Http client.
+     * @param connectionPool the OkHttp 3 connection pool to use
+     * @return the configurable object itself for chaining
+     */
+    T withConnectionPool(ConnectionPool connectionPool);
+
+    /**
+     * Sets whether to use the thread pool in OkHttp client or RxJava schedulers.
+     * If set to true, the thread pool in OkHttp client will be used. Default is false.
+     * @param useHttpClientThreadPool whether to use the thread pool in Okhttp client. Default is false.
+     * @return the configurable object itself for chaining
+     */
+    T useHttpClientThreadPool(boolean useHttpClientThreadPool);
+
+    /**
+     * Sets the dispatcher used in OkHttp client. This is also where to set
+     * the thread pool for executing HTTP requests.
+     * @param dispatcher the dispatcher to use
+     * @return the configurable object itself for chaining
+     */
+    T withDispatcher(Dispatcher dispatcher);
 
     /**
      * Sets the executor for async callbacks to run on.

@@ -9,7 +9,10 @@
 package com.microsoft.azure.management.compute;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.SubResource;
 import com.microsoft.rest.serializer.JsonFlatten;
+
+import java.util.List;
 
 /**
  * Describes a virtual machines scale set IP Configuration's PublicIPAddress
@@ -36,7 +39,19 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     private VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings;
 
     /**
-     * Get the name value.
+     * The list of IP tags associated with the public IP address.
+     */
+    @JsonProperty(value = "properties.ipTags")
+    private List<VirtualMachineScaleSetIpTag> ipTags;
+
+    /**
+     * The PublicIPPrefix from which to allocate publicIP addresses.
+     */
+    @JsonProperty(value = "properties.publicIPPrefix")
+    private SubResource publicIPPrefix;
+
+    /**
+     * Get the publicIP address configuration name.
      *
      * @return the name value
      */
@@ -45,7 +60,7 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Set the name value.
+     * Set the publicIP address configuration name.
      *
      * @param name the name value to set
      * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
@@ -56,7 +71,7 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Get the idleTimeoutInMinutes value.
+     * Get the idle timeout of the public IP address.
      *
      * @return the idleTimeoutInMinutes value
      */
@@ -65,7 +80,7 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Set the idleTimeoutInMinutes value.
+     * Set the idle timeout of the public IP address.
      *
      * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
      * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
@@ -76,7 +91,7 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Get the dnsSettings value.
+     * Get the dns settings to be applied on the publicIP addresses .
      *
      * @return the dnsSettings value
      */
@@ -85,13 +100,53 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
     }
 
     /**
-     * Set the dnsSettings value.
+     * Set the dns settings to be applied on the publicIP addresses .
      *
      * @param dnsSettings the dnsSettings value to set
      * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
      */
     public VirtualMachineScaleSetPublicIPAddressConfiguration withDnsSettings(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings dnsSettings) {
         this.dnsSettings = dnsSettings;
+        return this;
+    }
+
+    /**
+     * Get the list of IP tags associated with the public IP address.
+     *
+     * @return the ipTags value
+     */
+    public List<VirtualMachineScaleSetIpTag> ipTags() {
+        return this.ipTags;
+    }
+
+    /**
+     * Set the list of IP tags associated with the public IP address.
+     *
+     * @param ipTags the ipTags value to set
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
+     */
+    public VirtualMachineScaleSetPublicIPAddressConfiguration withIpTags(List<VirtualMachineScaleSetIpTag> ipTags) {
+        this.ipTags = ipTags;
+        return this;
+    }
+
+    /**
+     * Get the PublicIPPrefix from which to allocate publicIP addresses.
+     *
+     * @return the publicIPPrefix value
+     */
+    public SubResource publicIPPrefix() {
+        return this.publicIPPrefix;
+    }
+
+    /**
+     * Set the PublicIPPrefix from which to allocate publicIP addresses.
+     *
+     * @param publicIPPrefix the publicIPPrefix value to set
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
+     */
+    public VirtualMachineScaleSetPublicIPAddressConfiguration withPublicIPPrefix(SubResource publicIPPrefix) {
+        this.publicIPPrefix = publicIPPrefix;
         return this;
     }
 

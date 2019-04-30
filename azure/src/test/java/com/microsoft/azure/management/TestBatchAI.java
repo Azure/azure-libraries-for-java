@@ -8,9 +8,12 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.batchai.AzureFileShareReference;
 import com.microsoft.azure.management.batchai.BatchAICluster;
-import com.microsoft.azure.management.batchai.BatchAIClusters;
+import com.microsoft.azure.management.batchai.BatchAIWorkspaces;
 import com.microsoft.azure.management.batchai.VmPriority;
+import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
+import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.Networks;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -29,25 +32,37 @@ import static com.microsoft.azure.management.resources.core.TestBase.isPlaybackM
 public class TestBatchAI {
     private static final Region region = Region.US_EAST;
 
-    public static class Basic extends TestTemplate<BatchAICluster, BatchAIClusters> {
+    public static class Basic extends TestTemplate<BatchAIWorkspace, BatchAIWorkspaces> {
         private StorageAccounts storageAccounts;
+        private Networks networks;
 
-        public Basic(StorageAccounts storageAccounts) {
+        private final String clusterName = SdkContext.randomResourceName("cluster", 15);
+
+        public Basic(StorageAccounts storageAccounts, Networks networks) {
             this.storageAccounts = storageAccounts;
+            this.networks = networks;
         }
 
         @Override
-        public BatchAICluster createResource(BatchAIClusters clusters) throws Exception {
+        public BatchAIWorkspace createResource(BatchAIWorkspaces workspaces) throws Exception {
             final String groupName = SdkContext.randomResourceName("rg", 10);
-            final String clusterName = SdkContext.randomResourceName("cluster", 15);
+            final String workspaceName = SdkContext.randomResourceName("ws", 10);
+            final String vnetName = SdkContext.randomResourceName("vnet", 15);
             final String saName = SdkContext.randomResourceName("cluster", 15);
             final String shareName = "myfileshare";
             final String shareMountPath = "azurefileshare";
             final String blobFileSystemPath = "myblobsystem";
             final String containerName = "mycontainer";
             final String userName = "tirekicker";
+            final String subnetName = "MySubnet";
             String storageAccountKey;
             String fileShareUri;
+
+            BatchAIWorkspace workspace = workspaces.define(workspaceName)
+                    .withRegion(region)
+                    .withNewResourceGroup(groupName)
+                    .create();
+
             if (isPlaybackMode()) {
                 storageAccountKey = "dummy_key";
                 fileShareUri = "dummy_uri";
@@ -68,10 +83,15 @@ public class TestBatchAI {
                 fileShareUri = cloudFileShare.getStorageUri().getPrimaryUri().toString();
             }
 
-            BatchAICluster cluster = clusters.define(clusterName)
-                    .withRegion(region)
-                    .withNewResourceGroup(groupName)
-                    .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
+            Network network = networks.define(vnetName)
+                .withRegion(region)
+                .withExistingResourceGroup(groupName)
+                .withAddressSpace("192.168.0.0/16")
+                .withSubnet(subnetName, "192.168.200.0/24")
+                .create();
+
+            BatchAICluster cluster = workspace.clusters().define(clusterName)
+                    .withVMSize(VirtualMachineSizeTypes.STANDARD_D1_V2.toString())
                     .withUserName(userName)
                     .withPassword("MyPassword")
                     .withAutoScale(1, 1)
@@ -92,8 +112,12 @@ public class TestBatchAI {
                         .withRelativeMountPath(blobFileSystemPath)
                         .withAccountKey(storageAccountKey)
                         .attach()
-                    .withTag("tag1", "value1")
+                    .withVirtualMachineImage("microsoft-ads", "linux-data-science-vm-ubuntu", "linuxdsvmubuntu")
+                    .withSubnet(network.id(), subnetName)
+                    .withAppInsightsComponentId("appinsightsId")
+                    .withInstrumentationKey("appInsightsKey")
                     .create();
+            printBatchAICluster(cluster);
             Assert.assertEquals("steady", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
             Assert.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
@@ -101,74 +125,33 @@ public class TestBatchAI {
             Assert.assertEquals(shareMountPath, cluster.nodeSetup().mountVolumes().azureFileShares().get(0).relativeMountPath());
             Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().size());
             Assert.assertEquals(blobFileSystemPath, cluster.nodeSetup().mountVolumes().azureBlobFileSystems().get(0).relativeMountPath());
-            return cluster;
+            Assert.assertEquals(network.id() + "/subnets/" + subnetName, cluster.subnet().id());
+            Assert.assertEquals("appinsightsId", cluster.nodeSetup().performanceCountersSettings().appInsightsReference().component().id());
+            Assert.assertEquals("linux-data-science-vm-ubuntu", cluster.virtualMachineConfiguration().imageReference().offer());
+            return workspace;
         }
 
         @Override
-        public BatchAICluster updateResource(BatchAICluster cluster) throws Exception {
+        public BatchAIWorkspace updateResource(BatchAIWorkspace workspace) throws Exception {
+//            workspace.update().withTag("tag2", "value2").apply();
+            BatchAICluster cluster = workspace.clusters().getByName(clusterName);
             cluster.update()
                     .withAutoScale(1, 2, 2)
-                    .withTag("tag1", "value2")
                     .apply();
             Assert.assertEquals(2, cluster.scaleSettings().autoScale().maximumNodeCount());
-            Assert.assertEquals("value2", cluster.tags().get("tag1"));
-            return cluster;
+            return workspace;
         }
 
         @Override
-        public void print(BatchAICluster resource) {
-            printBatchAICluster(resource);
-        }
-    }
+        public void print(BatchAIWorkspace resource) {
 
-    public static class JobCreate extends TestTemplate<BatchAICluster, BatchAIClusters> {
-
-        @Override
-        public BatchAICluster createResource(BatchAIClusters clusters) throws Exception {
-            final String groupName = SdkContext.randomResourceName("rg", 10);
-            final String clusterName = SdkContext.randomResourceName("cluster", 15);
-            final String userName = "tirekicker";
-
-            BatchAICluster cluster = clusters.define(clusterName)
-                    .withRegion(region)
-                    .withNewResourceGroup(groupName)
-                    .withVMSize(VirtualMachineSizeTypes.STANDARD_NC6.toString())
-                    .withUserName(userName)
-                    .withPassword("MyPassword")
-                    .withAutoScale(1, 1)
-                    .create();
-            Assert.assertEquals("steady", cluster.allocationState().toString());
-            Assert.assertEquals(userName, cluster.adminUserName());
-            cluster.jobs().define("myJob")
-                    .withRegion(region)
-                    .withNodeCount(1)
-                    .withStdOutErrPathPrefix("$AZ_BATCHAI_MOUNT_ROOT/azurefileshare")
-                    .defineCognitiveToolkit()
-                        .withPythonScriptFile("$AZ_BATCHAI_INPUT_SAMPLE/ConvNet_MNIST.py")
-                        .withCommandLineArgs("$AZ_BATCHAI_INPUT_SAMPLE $AZ_BATCHAI_OUTPUT_MODEL")
-                        .attach()
-                    .withInputDirectory("SAMPLE", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/mnistcntksample")
-                    .withOutputDirectory("MODEL", "$AZ_BATCHAI_MOUNT_ROOT/azurefileshare/model")
-                    .withContainerImage("microsoft/cntk:2.1-gpu-python3.5-cuda8.0-cudnn6.0")
-                    .create();
-            return cluster;
-        }
-
-        @Override
-        public BatchAICluster updateResource(BatchAICluster cluster) throws Exception {
-            return cluster;
-        }
-
-        @Override
-        public void print(BatchAICluster resource) {
-            printBatchAICluster(resource);
         }
     }
 
     private static String ensureStorageAccount(StorageAccounts storageAccounts, String saName, String rgName, String shareName) throws Exception {
         StorageAccount storageAccount = storageAccounts.define(saName)
-                .withRegion(region)
-                .withNewResourceGroup(rgName)
+                .withRegion(Region.US_WEST)
+                .withExistingResourceGroup(rgName)
                 .create();
 
         return storageAccount.getKeys().get(0).value();
@@ -178,9 +161,8 @@ public class TestBatchAI {
         StringBuilder info = new StringBuilder();
         info.append("Batch AI Cluster: ").append(cluster.id())
                 .append("\n\tName: ").append(cluster.name())
-                .append("\n\tResource group: ").append(cluster.resourceGroupName())
-                .append("\n\tRegion: ").append(cluster.regionName())
-                .append("\n\tTags: ").append(cluster.tags())
+                .append("\n\tResource group: ").append(cluster.workspace().resourceGroupName())
+                .append("\n\tRegion: ").append(cluster.workspace().regionName())
                 .append("\n\tVM size: ").append(cluster.vmSize())
                 .append("\n\tAdmin user name: ").append(cluster.adminUserName())
                 .append("\n\tCreation time: ").append(cluster.creationTime());

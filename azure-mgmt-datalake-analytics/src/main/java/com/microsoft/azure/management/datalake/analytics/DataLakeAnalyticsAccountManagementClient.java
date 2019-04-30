@@ -58,14 +58,14 @@ public interface DataLakeAnalyticsAccountManagementClient {
     String apiVersion();
 
     /**
-     * Gets Gets or sets the preferred language for the response..
+     * Gets The preferred language for the response..
      *
      * @return the acceptLanguage value.
      */
     String acceptLanguage();
 
     /**
-     * Sets Gets or sets the preferred language for the response..
+     * Sets The preferred language for the response..
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -73,14 +73,14 @@ public interface DataLakeAnalyticsAccountManagementClient {
     DataLakeAnalyticsAccountManagementClient withAcceptLanguage(String acceptLanguage);
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30..
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30..
      *
      * @return the longRunningOperationRetryTimeout value.
      */
     int longRunningOperationRetryTimeout();
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30..
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30..
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -88,19 +88,37 @@ public interface DataLakeAnalyticsAccountManagementClient {
     DataLakeAnalyticsAccountManagementClient withLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout);
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
      *
      * @return the generateClientRequestId value.
      */
     boolean generateClientRequestId();
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
      */
     DataLakeAnalyticsAccountManagementClient withGenerateClientRequestId(boolean generateClientRequestId);
+
+    /**
+     * Gets the Accounts object to access its operations.
+     * @return the Accounts object.
+     */
+    Accounts accounts();
+
+    /**
+     * Gets the DataLakeStoreAccounts object to access its operations.
+     * @return the DataLakeStoreAccounts object.
+     */
+    DataLakeStoreAccounts dataLakeStoreAccounts();
+
+    /**
+     * Gets the StorageAccounts object to access its operations.
+     * @return the StorageAccounts object.
+     */
+    StorageAccounts storageAccounts();
 
     /**
      * Gets the ComputePolicies object to access its operations.
@@ -115,33 +133,15 @@ public interface DataLakeAnalyticsAccountManagementClient {
     FirewallRules firewallRules();
 
     /**
-     * Gets the StorageAccounts object to access its operations.
-     * @return the StorageAccounts object.
+     * Gets the Operations object to access its operations.
+     * @return the Operations object.
      */
-    StorageAccounts storageAccounts();
-
-    /**
-     * Gets the DataLakeStoreAccounts object to access its operations.
-     * @return the DataLakeStoreAccounts object.
-     */
-    DataLakeStoreAccounts dataLakeStoreAccounts();
-
-    /**
-     * Gets the Accounts object to access its operations.
-     * @return the Accounts object.
-     */
-    Accounts accounts();
+    Operations operations();
 
     /**
      * Gets the Locations object to access its operations.
      * @return the Locations object.
      */
     Locations locations();
-
-    /**
-     * Gets the Operations object to access its operations.
-     * @return the Operations object.
-     */
-    Operations operations();
 
 }

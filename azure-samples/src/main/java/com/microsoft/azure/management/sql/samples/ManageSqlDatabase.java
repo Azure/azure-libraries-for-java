@@ -13,6 +13,7 @@ import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseMetric;
 import com.microsoft.azure.management.sql.ServiceObjectiveName;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Azure Storage sample for managing SQL Database -
+ * Azure SQL sample for managing SQL Database -
  *  - Create a SQL Server along with 2 firewalls.
  *  - Create a database in SQL server
  *  - Change performance level (SKU) of SQL Database
@@ -46,6 +47,7 @@ public final class ManageSqlDatabase {
         final String sqlServerName = Utils.createRandomName("sqlserver");
         final String rgName = Utils.createRandomName("rgRSDSI");
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
         final String firewallRuleIPAddress = "10.0.0.1";
         final String firewallRuleStartIPAddress = "10.2.0.1";
@@ -106,6 +108,8 @@ public final class ManageSqlDatabase {
                     .create();
 
             Utils.print(firewallRule);
+
+            List<DatabaseMetric> usages = database.listUsages();
 
             // Delete the database.
             System.out.println("Deleting a database");

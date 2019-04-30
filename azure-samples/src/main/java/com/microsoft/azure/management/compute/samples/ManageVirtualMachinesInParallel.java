@@ -38,11 +38,12 @@ public final class ManageVirtualMachinesInParallel {
      */
     public static boolean runSample(Azure azure) {
         final int vmCount = 10;
-        final Region region = Region.US_EAST;
+        final Region region = Region.US_SOUTH_CENTRAL;
         final String rgName = SdkContext.randomResourceName("rgCOPP", 24);
         final String networkName = SdkContext.randomResourceName("vnetCOMV", 24);
         final String storageAccountName = SdkContext.randomResourceName("stgCOMV", 20);
         final String userName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
         try {
             // Create a resource group [Where all resources gets created]

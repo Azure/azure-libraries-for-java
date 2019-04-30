@@ -71,7 +71,7 @@ final class KeyVaultFutures {
 
         Observable<T> toObservable() {
             return Observable
-                    .fromEmitter(new Action1<Emitter<List<TInner>>>() {
+                    .create(new Action1<Emitter<List<TInner>>>() {
                         @Override
                         public void call(final Emitter<List<TInner>> emitter) {
                             list(new ListOperationCallback<TInner>() {

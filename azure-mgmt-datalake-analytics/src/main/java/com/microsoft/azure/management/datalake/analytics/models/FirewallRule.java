@@ -15,23 +15,35 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Data Lake Analytics firewall rule information.
  */
 @JsonFlatten
-public class FirewallRule extends OptionalSubResource {
+public class FirewallRule extends SubResource {
     /**
-     * the start IP address for the firewall rule. This can be either ipv4 or
+     * The start IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
      */
-    @JsonProperty(value = "properties.startIpAddress", required = true)
+    @JsonProperty(value = "properties.startIpAddress", access = JsonProperty.Access.WRITE_ONLY)
     private String startIpAddress;
 
     /**
-     * the end IP address for the firewall rule. This can be either ipv4 or
+     * The end IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
      */
-    @JsonProperty(value = "properties.endIpAddress", required = true)
+    @JsonProperty(value = "properties.endIpAddress", access = JsonProperty.Access.WRITE_ONLY)
     private String endIpAddress;
 
     /**
-     * Get the startIpAddress value.
+     * The resource name.
+     */
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
+     * Get the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @return the startIpAddress value
      */
@@ -40,18 +52,7 @@ public class FirewallRule extends OptionalSubResource {
     }
 
     /**
-     * Set the startIpAddress value.
-     *
-     * @param startIpAddress the startIpAddress value to set
-     * @return the FirewallRule object itself.
-     */
-    public FirewallRule withStartIpAddress(String startIpAddress) {
-        this.startIpAddress = startIpAddress;
-        return this;
-    }
-
-    /**
-     * Get the endIpAddress value.
+     * Get the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @return the endIpAddress value
      */
@@ -60,14 +61,21 @@ public class FirewallRule extends OptionalSubResource {
     }
 
     /**
-     * Set the endIpAddress value.
+     * Get the resource name.
      *
-     * @param endIpAddress the endIpAddress value to set
-     * @return the FirewallRule object itself.
+     * @return the name value
      */
-    public FirewallRule withEndIpAddress(String endIpAddress) {
-        this.endIpAddress = endIpAddress;
-        return this;
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the resource type.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

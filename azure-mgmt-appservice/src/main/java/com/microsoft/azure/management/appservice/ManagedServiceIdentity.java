@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.appservice;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -15,10 +16,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ManagedServiceIdentity {
     /**
-     * Type of managed service identity.
+     * Type of managed service identity. Possible values include:
+     * 'SystemAssigned', 'UserAssigned'.
      */
     @JsonProperty(value = "type")
-    private Object type;
+    private ManagedServiceIdentityType type;
 
     /**
      * Tenant of managed service identity.
@@ -33,27 +35,36 @@ public class ManagedServiceIdentity {
     private String principalId;
 
     /**
-     * Get the type value.
+     * The list of user assigned identities associated with the resource. The
+     * user identity dictionary key references will be ARM resource ids in the
+     * form:
+     * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     */
+    @JsonProperty(value = "userAssignedIdentities")
+    private Map<String, ManagedServiceIdentityUserAssignedIdentitiesValue> userAssignedIdentities;
+
+    /**
+     * Get type of managed service identity. Possible values include: 'SystemAssigned', 'UserAssigned'.
      *
      * @return the type value
      */
-    public Object type() {
+    public ManagedServiceIdentityType type() {
         return this.type;
     }
 
     /**
-     * Set the type value.
+     * Set type of managed service identity. Possible values include: 'SystemAssigned', 'UserAssigned'.
      *
      * @param type the type value to set
      * @return the ManagedServiceIdentity object itself.
      */
-    public ManagedServiceIdentity withType(Object type) {
+    public ManagedServiceIdentity withType(ManagedServiceIdentityType type) {
         this.type = type;
         return this;
     }
 
     /**
-     * Get the tenantId value.
+     * Get tenant of managed service identity.
      *
      * @return the tenantId value
      */
@@ -62,12 +73,32 @@ public class ManagedServiceIdentity {
     }
 
     /**
-     * Get the principalId value.
+     * Get principal Id of managed service identity.
      *
      * @return the principalId value
      */
     public String principalId() {
         return this.principalId;
+    }
+
+    /**
+     * Get the list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     *
+     * @return the userAssignedIdentities value
+     */
+    public Map<String, ManagedServiceIdentityUserAssignedIdentitiesValue> userAssignedIdentities() {
+        return this.userAssignedIdentities;
+    }
+
+    /**
+     * Set the list of user assigned identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}.
+     *
+     * @param userAssignedIdentities the userAssignedIdentities value to set
+     * @return the ManagedServiceIdentity object itself.
+     */
+    public ManagedServiceIdentity withUserAssignedIdentities(Map<String, ManagedServiceIdentityUserAssignedIdentitiesValue> userAssignedIdentities) {
+        this.userAssignedIdentities = userAssignedIdentities;
+        return this;
     }
 
 }

@@ -29,6 +29,7 @@ public class AppServiceSampleTests extends SamplesTestBase {
     }
 
     @Test
+    @Ignore("Fails randomly when creating one of the three slots")
     public void testManageWebAppSlots() {
         Assert.assertTrue(ManageWebAppSlots.runSample(azure));
     }

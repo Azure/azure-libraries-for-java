@@ -46,6 +46,7 @@ public final class ManageLinuxWebAppSqlConnection {
         final String sqlServerName  = SdkContext.randomResourceName("jsdkserver", 20);
         final String sqlDbName      = SdkContext.randomResourceName("jsdkdb", 20);
         final String admin          = "jsdkadmin";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password       = "StrongPass!123";
         final String rgName         = SdkContext.randomResourceName("rg1NEMV_", 24);
 

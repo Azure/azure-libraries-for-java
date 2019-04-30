@@ -8,19 +8,22 @@
 
 package com.microsoft.azure.management.trafficmanager.implementation;
 
-import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.trafficmanager.ProfileStatus;
 import com.microsoft.azure.management.trafficmanager.TrafficRoutingMethod;
 import com.microsoft.azure.management.trafficmanager.DnsConfig;
 import com.microsoft.azure.management.trafficmanager.MonitorConfig;
 import java.util.List;
+import com.microsoft.azure.management.trafficmanager.TrafficViewEnrollmentStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
+import com.microsoft.azure.Resource;
 
 /**
  * Class representing a Traffic Manager profile.
  */
 @JsonFlatten
+@SkipParentValidation
 public class ProfileInner extends Resource {
     /**
      * The status of the Traffic Manager profile. Possible values include:
@@ -31,7 +34,8 @@ public class ProfileInner extends Resource {
 
     /**
      * The traffic routing method of the Traffic Manager profile. Possible
-     * values include: 'Performance', 'Priority', 'Weighted', 'Geographic'.
+     * values include: 'Performance', 'Priority', 'Weighted', 'Geographic',
+     * 'MultiValue', 'Subnet'.
      */
     @JsonProperty(value = "properties.trafficRoutingMethod")
     private TrafficRoutingMethod trafficRoutingMethod;
@@ -55,7 +59,22 @@ public class ProfileInner extends Resource {
     private List<EndpointInner> endpoints;
 
     /**
-     * Get the profileStatus value.
+     * Indicates whether Traffic View is 'Enabled' or 'Disabled' for the
+     * Traffic Manager profile. Null, indicates 'Disabled'. Enabling this
+     * feature will increase the cost of the Traffic Manage profile. Possible
+     * values include: 'Enabled', 'Disabled'.
+     */
+    @JsonProperty(value = "properties.trafficViewEnrollmentStatus")
+    private TrafficViewEnrollmentStatus trafficViewEnrollmentStatus;
+
+    /**
+     * Maximum number of endpoints to be returned for MultiValue routing type.
+     */
+    @JsonProperty(value = "properties.maxReturn")
+    private Long maxReturn;
+
+    /**
+     * Get the status of the Traffic Manager profile. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the profileStatus value
      */
@@ -64,7 +83,7 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Set the profileStatus value.
+     * Set the status of the Traffic Manager profile. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param profileStatus the profileStatus value to set
      * @return the ProfileInner object itself.
@@ -75,7 +94,7 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Get the trafficRoutingMethod value.
+     * Get the traffic routing method of the Traffic Manager profile. Possible values include: 'Performance', 'Priority', 'Weighted', 'Geographic', 'MultiValue', 'Subnet'.
      *
      * @return the trafficRoutingMethod value
      */
@@ -84,7 +103,7 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Set the trafficRoutingMethod value.
+     * Set the traffic routing method of the Traffic Manager profile. Possible values include: 'Performance', 'Priority', 'Weighted', 'Geographic', 'MultiValue', 'Subnet'.
      *
      * @param trafficRoutingMethod the trafficRoutingMethod value to set
      * @return the ProfileInner object itself.
@@ -95,7 +114,7 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Get the dnsConfig value.
+     * Get the DNS settings of the Traffic Manager profile.
      *
      * @return the dnsConfig value
      */
@@ -104,7 +123,7 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Set the dnsConfig value.
+     * Set the DNS settings of the Traffic Manager profile.
      *
      * @param dnsConfig the dnsConfig value to set
      * @return the ProfileInner object itself.
@@ -115,7 +134,7 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Get the monitorConfig value.
+     * Get the endpoint monitoring settings of the Traffic Manager profile.
      *
      * @return the monitorConfig value
      */
@@ -124,7 +143,7 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Set the monitorConfig value.
+     * Set the endpoint monitoring settings of the Traffic Manager profile.
      *
      * @param monitorConfig the monitorConfig value to set
      * @return the ProfileInner object itself.
@@ -135,7 +154,7 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Get the endpoints value.
+     * Get the list of endpoints in the Traffic Manager profile.
      *
      * @return the endpoints value
      */
@@ -144,13 +163,53 @@ public class ProfileInner extends Resource {
     }
 
     /**
-     * Set the endpoints value.
+     * Set the list of endpoints in the Traffic Manager profile.
      *
      * @param endpoints the endpoints value to set
      * @return the ProfileInner object itself.
      */
     public ProfileInner withEndpoints(List<EndpointInner> endpoints) {
         this.endpoints = endpoints;
+        return this;
+    }
+
+    /**
+     * Get indicates whether Traffic View is 'Enabled' or 'Disabled' for the Traffic Manager profile. Null, indicates 'Disabled'. Enabling this feature will increase the cost of the Traffic Manage profile. Possible values include: 'Enabled', 'Disabled'.
+     *
+     * @return the trafficViewEnrollmentStatus value
+     */
+    public TrafficViewEnrollmentStatus trafficViewEnrollmentStatus() {
+        return this.trafficViewEnrollmentStatus;
+    }
+
+    /**
+     * Set indicates whether Traffic View is 'Enabled' or 'Disabled' for the Traffic Manager profile. Null, indicates 'Disabled'. Enabling this feature will increase the cost of the Traffic Manage profile. Possible values include: 'Enabled', 'Disabled'.
+     *
+     * @param trafficViewEnrollmentStatus the trafficViewEnrollmentStatus value to set
+     * @return the ProfileInner object itself.
+     */
+    public ProfileInner withTrafficViewEnrollmentStatus(TrafficViewEnrollmentStatus trafficViewEnrollmentStatus) {
+        this.trafficViewEnrollmentStatus = trafficViewEnrollmentStatus;
+        return this;
+    }
+
+    /**
+     * Get maximum number of endpoints to be returned for MultiValue routing type.
+     *
+     * @return the maxReturn value
+     */
+    public Long maxReturn() {
+        return this.maxReturn;
+    }
+
+    /**
+     * Set maximum number of endpoints to be returned for MultiValue routing type.
+     *
+     * @param maxReturn the maxReturn value to set
+     * @return the ProfileInner object itself.
+     */
+    public ProfileInner withMaxReturn(Long maxReturn) {
+        this.maxReturn = maxReturn;
         return this;
     }
 

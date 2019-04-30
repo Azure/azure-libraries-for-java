@@ -8,12 +8,19 @@
 
 package com.microsoft.azure.management.graphrbac;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The password profile associated with a user.
  */
 public class PasswordProfile {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * Password.
      */
@@ -25,6 +32,26 @@ public class PasswordProfile {
      */
     @JsonProperty(value = "forceChangePasswordNextLogin")
     private Boolean forceChangePasswordNextLogin;
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the PasswordProfile object itself.
+     */
+    public PasswordProfile withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
+    }
 
     /**
      * Get the password value.

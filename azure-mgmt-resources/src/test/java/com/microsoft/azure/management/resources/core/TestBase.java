@@ -47,7 +47,8 @@ public abstract class TestBase {
 
     public enum TestMode {
         PLAYBACK,
-        RECORD
+        RECORD,
+        NONE
     }
 
     protected final static String ZERO_SUBSCRIPTION = "00000000-0000-0000-0000-000000000000";
@@ -86,6 +87,8 @@ public abstract class TestBase {
                 testMode = TestMode.RECORD;
             } else if (azureTestMode.equalsIgnoreCase("Playback")) {
                 testMode = TestMode.PLAYBACK;
+            } else if (azureTestMode.equalsIgnoreCase("None")) {
+                testMode = TestMode.NONE;
             } else {
                 throw new IOException("Unknown AZURE_TEST_MODE: " + azureTestMode);
             }
@@ -162,6 +165,7 @@ public abstract class TestBase {
                     .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                     .withCredentials(credentials)
                     .withLogLevel(LogLevel.NONE)
+                    .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
                     .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
                     .withNetworkInterceptor(interceptorManager.initInterceptor())
                     .withInterceptor(new ResourceManagerThrottlingInterceptor())
@@ -193,19 +197,20 @@ public abstract class TestBase {
                 credentials = new ApplicationTokenCredentials(clientId, tenantId, clientSecret, AzureEnvironment.AZURE);
                 credentials.withDefaultSubscriptionId(subscriptionId);
             }
-            restClient = buildRestClient(new RestClient.Builder()
+            RestClient.Builder builder = new RestClient.Builder()
                             .withBaseUrl(this.baseUri())
                             .withSerializerAdapter(new AzureJacksonAdapter())
                             .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
                             .withInterceptor(new ProviderRegistrationInterceptor(credentials))
+                            .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
                             .withCredentials(credentials)
                             .withLogLevel(LogLevel.NONE)
                             .withReadTimeout(3, TimeUnit.MINUTES)
-                            .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
-                            .withNetworkInterceptor(interceptorManager.initInterceptor())
-                            .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                    ,false);
-
+                            .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS));
+            if (!interceptorManager.isNoneMode()) {
+                builder.withNetworkInterceptor(interceptorManager.initInterceptor());
+            }
+            restClient = buildRestClient(builder.withInterceptor(new ResourceManagerThrottlingInterceptor()),false);
             defaultSubscription = credentials.defaultSubscriptionId();
             interceptorManager.addTextReplacementRule(defaultSubscription, ZERO_SUBSCRIPTION);
             interceptorManager.addTextReplacementRule(credentials.domain(), ZERO_TENANT);

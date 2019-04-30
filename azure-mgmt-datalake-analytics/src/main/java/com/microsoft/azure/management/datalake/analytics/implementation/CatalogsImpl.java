@@ -15,10 +15,9 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.datalake.analytics.models.Acl;
 import com.microsoft.azure.management.datalake.analytics.models.AclCreateOrUpdateParameters;
 import com.microsoft.azure.management.datalake.analytics.models.AclDeleteParameters;
-import com.microsoft.azure.management.datalake.analytics.models.AclList;
-import com.microsoft.azure.management.datalake.analytics.models.AclType;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsCatalogCredentialCreateParameters;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsCatalogCredentialDeleteParameters;
 import com.microsoft.azure.management.datalake.analytics.models.DataLakeAnalyticsCatalogCredentialUpdateParameters;
@@ -34,7 +33,9 @@ import com.microsoft.azure.management.datalake.analytics.models.USqlProcedure;
 import com.microsoft.azure.management.datalake.analytics.models.USqlSchema;
 import com.microsoft.azure.management.datalake.analytics.models.USqlSecret;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTable;
+import com.microsoft.azure.management.datalake.analytics.models.USqlTableFragment;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTablePartition;
+import com.microsoft.azure.management.datalake.analytics.models.USqlTablePreview;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableStatistics;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableType;
 import com.microsoft.azure.management.datalake.analytics.models.USqlTableValuedFunction;
@@ -48,7 +49,6 @@ import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -93,19 +93,19 @@ public class CatalogsImpl implements Catalogs {
     interface CatalogsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs createSecret" })
         @PUT("catalog/usql/databases/{databaseName}/secrets/{secretName}")
-        Observable<Response<ResponseBody>> createSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs updateSecret" })
-        @PATCH("catalog/usql/databases/{databaseName}/secrets/{secretName}")
-        Observable<Response<ResponseBody>> updateSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs deleteSecret" })
-        @HTTP(path = "catalog/usql/databases/{databaseName}/secrets/{secretName}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> deleteSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Body DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getSecret" })
         @GET("catalog/usql/databases/{databaseName}/secrets/{secretName}")
         Observable<Response<ResponseBody>> getSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs updateSecret" })
+        @PATCH("catalog/usql/databases/{databaseName}/secrets/{secretName}")
+        Observable<Response<ResponseBody>> updateSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Body DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs deleteSecret" })
+        @HTTP(path = "catalog/usql/databases/{databaseName}/secrets/{secretName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> deleteSecret(@Path("databaseName") String databaseName, @Path("secretName") String secretName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs deleteAllSecrets" })
         @HTTP(path = "catalog/usql/databases/{databaseName}/secrets", method = "DELETE", hasBody = true)
@@ -115,6 +115,10 @@ public class CatalogsImpl implements Catalogs {
         @PUT("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
         Observable<Response<ResponseBody>> createCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Body DataLakeAnalyticsCatalogCredentialCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getCredential" })
+        @GET("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
+        Observable<Response<ResponseBody>> getCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs updateCredential" })
         @PATCH("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
         Observable<Response<ResponseBody>> updateCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Body DataLakeAnalyticsCatalogCredentialUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
@@ -122,10 +126,6 @@ public class CatalogsImpl implements Catalogs {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs deleteCredential" })
         @POST("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
         Observable<Response<ResponseBody>> deleteCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Query("cascade") Boolean cascade, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body DataLakeAnalyticsCatalogCredentialDeleteParameters parameters, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getCredential" })
-        @GET("catalog/usql/databases/{databaseName}/credentials/{credentialName}")
-        Observable<Response<ResponseBody>> getCredential(@Path("databaseName") String databaseName, @Path("credentialName") String credentialName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listCredentials" })
         @GET("catalog/usql/databases/{databaseName}/credentials")
@@ -150,6 +150,10 @@ public class CatalogsImpl implements Catalogs {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getTable" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}")
         Observable<Response<ResponseBody>> getTable(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableFragments" })
+        @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/tablefragments")
+        Observable<Response<ResponseBody>> listTableFragments(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTables" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables")
@@ -191,9 +195,17 @@ public class CatalogsImpl implements Catalogs {
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/statistics")
         Observable<Response<ResponseBody>> listTableStatistics(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs previewTablePartition" })
+        @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/partitions/{partitionName}/previewrows")
+        Observable<Response<ResponseBody>> previewTablePartition(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Path("partitionName") String partitionName, @Query("maxRows") Long maxRows, @Query("maxColumns") Long maxColumns, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs getTablePartition" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/partitions/{partitionName}")
         Observable<Response<ResponseBody>> getTablePartition(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Path("partitionName") String partitionName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs previewTable" })
+        @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/previewrows")
+        Observable<Response<ResponseBody>> previewTable(@Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Query("maxRows") Long maxRows, @Query("maxColumns") Long maxColumns, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTablePartitions" })
         @GET("catalog/usql/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/partitions")
@@ -259,21 +271,21 @@ public class CatalogsImpl implements Catalogs {
         @GET("catalog/usql/databases")
         Observable<Response<ResponseBody>> listDatabases(@Query("$filter") String filter, @Query("$top") Integer top, @Query("$skip") Integer skip, @Query("$select") String select, @Query("$orderby") String orderby, @Query("$count") Boolean count, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs grantAclToDatabase" })
-        @POST("catalog/usql/databases/{databaseName}/acl")
-        Observable<Response<ResponseBody>> grantAclToDatabase(@Path("databaseName") String databaseName, @Body AclCreateOrUpdateParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs revokeAclFromDatabase" })
-        @POST("catalog/usql/databases/{databaseName}/acl")
-        Observable<Response<ResponseBody>> revokeAclFromDatabase(@Path("databaseName") String databaseName, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body AclDeleteParameters parameters, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs grantAcl" })
         @POST("catalog/usql/acl")
         Observable<Response<ResponseBody>> grantAcl(@Body AclCreateOrUpdateParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs grantAclToDatabase" })
+        @POST("catalog/usql/databases/{databaseName}/acl")
+        Observable<Response<ResponseBody>> grantAclToDatabase(@Path("databaseName") String databaseName, @Body AclCreateOrUpdateParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs revokeAcl" })
         @POST("catalog/usql/acl")
-        Observable<Response<ResponseBody>> revokeAcl(@Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body AclDeleteParameters parameters, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> revokeAcl(@Body AclDeleteParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs revokeAclFromDatabase" })
+        @POST("catalog/usql/databases/{databaseName}/acl")
+        Observable<Response<ResponseBody>> revokeAclFromDatabase(@Path("databaseName") String databaseName, @Body AclDeleteParameters parameters, @Query("op") String op, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("x-ms-parameterized-host") String parameterizedHost, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listCredentialsNext" })
         @GET
@@ -286,6 +298,10 @@ public class CatalogsImpl implements Catalogs {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listProceduresNext" })
         @GET
         Observable<Response<ResponseBody>> listProceduresNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTableFragmentsNext" })
+        @GET
+        Observable<Response<ResponseBody>> listTableFragmentsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listTablesNext" })
         @GET
@@ -347,6 +363,14 @@ public class CatalogsImpl implements Catalogs {
         @GET
         Observable<Response<ResponseBody>> listViewsByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listAclsByDatabaseNext" })
+        @GET
+        Observable<Response<ResponseBody>> listAclsByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listAclsNext" })
+        @GET
+        Observable<Response<ResponseBody>> listAclsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Catalogs listDatabasesNext" })
         @GET
         Observable<Response<ResponseBody>> listDatabasesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -359,13 +383,13 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database in which to create the secret.
      * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
+     * @param parameters The parameters required to create the secret (name and password)
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void createSecret(String accountName, String databaseName, String secretName, String password) {
-        createSecretWithServiceResponseAsync(accountName, databaseName, secretName, password).toBlocking().single().body();
+    public void createSecret(String accountName, String databaseName, String secretName, DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters) {
+        createSecretWithServiceResponseAsync(accountName, databaseName, secretName, parameters).toBlocking().single().body();
     }
 
     /**
@@ -374,13 +398,13 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database in which to create the secret.
      * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
+     * @param parameters The parameters required to create the secret (name and password)
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> createSecretAsync(String accountName, String databaseName, String secretName, String password, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(createSecretWithServiceResponseAsync(accountName, databaseName, secretName, password), serviceCallback);
+    public ServiceFuture<Void> createSecretAsync(String accountName, String databaseName, String secretName, DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(createSecretWithServiceResponseAsync(accountName, databaseName, secretName, parameters), serviceCallback);
     }
 
     /**
@@ -389,12 +413,12 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database in which to create the secret.
      * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
+     * @param parameters The parameters required to create the secret (name and password)
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> createSecretAsync(String accountName, String databaseName, String secretName, String password) {
-        return createSecretWithServiceResponseAsync(accountName, databaseName, secretName, password).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> createSecretAsync(String accountName, String databaseName, String secretName, DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters) {
+        return createSecretWithServiceResponseAsync(accountName, databaseName, secretName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -408,11 +432,11 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database in which to create the secret.
      * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
+     * @param parameters The parameters required to create the secret (name and password)
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> createSecretWithServiceResponseAsync(String accountName, String databaseName, String secretName, String password) {
+    public Observable<ServiceResponse<Void>> createSecretWithServiceResponseAsync(String accountName, String databaseName, String secretName, DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters) {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -425,118 +449,15 @@ public class CatalogsImpl implements Catalogs {
         if (secretName == null) {
             throw new IllegalArgumentException("Parameter secretName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        if (password == null) {
-            throw new IllegalArgumentException("Parameter password is required and cannot be null.");
-        }
-        final String uri = null;
-        DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters = new DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters();
-        parameters.withPassword(password);
-        parameters.withUri(null);
-        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.createSecret(databaseName, secretName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = createSecretDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Creates the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use CreateCredential instead.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database in which to create the secret.
-     * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
-     * @param uri the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void createSecret(String accountName, String databaseName, String secretName, String password, String uri) {
-        createSecretWithServiceResponseAsync(accountName, databaseName, secretName, password, uri).toBlocking().single().body();
-    }
-
-    /**
-     * Creates the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use CreateCredential instead.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database in which to create the secret.
-     * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
-     * @param uri the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> createSecretAsync(String accountName, String databaseName, String secretName, String password, String uri, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(createSecretWithServiceResponseAsync(accountName, databaseName, secretName, password, uri), serviceCallback);
-    }
-
-    /**
-     * Creates the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use CreateCredential instead.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database in which to create the secret.
-     * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
-     * @param uri the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> createSecretAsync(String accountName, String databaseName, String secretName, String password, String uri) {
-        return createSecretWithServiceResponseAsync(accountName, databaseName, secretName, password, uri).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Creates the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use CreateCredential instead.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database in which to create the secret.
-     * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
-     * @param uri the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> createSecretWithServiceResponseAsync(String accountName, String databaseName, String secretName, String password, String uri) {
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (this.client.adlaCatalogDnsSuffix() == null) {
-            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
-        }
-        if (databaseName == null) {
-            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
-        }
-        if (secretName == null) {
-            throw new IllegalArgumentException("Parameter secretName is required and cannot be null.");
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        if (password == null) {
-            throw new IllegalArgumentException("Parameter password is required and cannot be null.");
-        }
-        DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters = new DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters();
-        parameters.withPassword(password);
-        parameters.withUri(uri);
+        Validator.validate(parameters);
         String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.createSecret(databaseName, secretName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, parameterizedHost, this.client.userAgent())
+        return service.createSecret(databaseName, secretName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -558,65 +479,62 @@ public class CatalogsImpl implements Catalogs {
     }
 
     /**
-     * Modifies the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use UpdateCredential instead.
+     * Gets the specified secret in the specified database. This is deprecated and will be removed in the next release. Please use GetCredential instead.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database containing the secret.
-     * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
+     * @param secretName The name of the secret to get
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlSecret object if successful.
      */
-    public void updateSecret(String accountName, String databaseName, String secretName, String password) {
-        updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, password).toBlocking().single().body();
+    public USqlSecret getSecret(String accountName, String databaseName, String secretName) {
+        return getSecretWithServiceResponseAsync(accountName, databaseName, secretName).toBlocking().single().body();
     }
 
     /**
-     * Modifies the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use UpdateCredential instead.
+     * Gets the specified secret in the specified database. This is deprecated and will be removed in the next release. Please use GetCredential instead.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database containing the secret.
-     * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
+     * @param secretName The name of the secret to get
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> updateSecretAsync(String accountName, String databaseName, String secretName, String password, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, password), serviceCallback);
+    public ServiceFuture<USqlSecret> getSecretAsync(String accountName, String databaseName, String secretName, final ServiceCallback<USqlSecret> serviceCallback) {
+        return ServiceFuture.fromResponse(getSecretWithServiceResponseAsync(accountName, databaseName, secretName), serviceCallback);
     }
 
     /**
-     * Modifies the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use UpdateCredential instead.
+     * Gets the specified secret in the specified database. This is deprecated and will be removed in the next release. Please use GetCredential instead.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database containing the secret.
-     * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
+     * @param secretName The name of the secret to get
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @return the observable to the USqlSecret object
      */
-    public Observable<Void> updateSecretAsync(String accountName, String databaseName, String secretName, String password) {
-        return updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, password).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<USqlSecret> getSecretAsync(String accountName, String databaseName, String secretName) {
+        return getSecretWithServiceResponseAsync(accountName, databaseName, secretName).map(new Func1<ServiceResponse<USqlSecret>, USqlSecret>() {
             @Override
-            public Void call(ServiceResponse<Void> response) {
+            public USqlSecret call(ServiceResponse<USqlSecret> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Modifies the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use UpdateCredential instead.
+     * Gets the specified secret in the specified database. This is deprecated and will be removed in the next release. Please use GetCredential instead.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database containing the secret.
-     * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
+     * @param secretName The name of the secret to get
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @return the observable to the USqlSecret object
      */
-    public Observable<ServiceResponse<Void>> updateSecretWithServiceResponseAsync(String accountName, String databaseName, String secretName, String password) {
+    public Observable<ServiceResponse<USqlSecret>> getSecretWithServiceResponseAsync(String accountName, String databaseName, String secretName) {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -632,20 +550,13 @@ public class CatalogsImpl implements Catalogs {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        if (password == null) {
-            throw new IllegalArgumentException("Parameter password is required and cannot be null.");
-        }
-        final String uri = null;
-        DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters = new DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters();
-        parameters.withPassword(password);
-        parameters.withUri(null);
         String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.updateSecret(databaseName, secretName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+        return service.getSecret(databaseName, secretName, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlSecret>>>() {
                 @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<USqlSecret>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<Void> clientResponse = updateSecretDelegate(response);
+                        ServiceResponse<USqlSecret> clientResponse = getSecretDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -654,20 +565,26 @@ public class CatalogsImpl implements Catalogs {
             });
     }
 
+    private ServiceResponse<USqlSecret> getSecretDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<USqlSecret, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<USqlSecret>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
     /**
      * Modifies the specified secret for use with external data sources in the specified database. This is deprecated and will be removed in the next release. Please use UpdateCredential instead.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database containing the secret.
      * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
-     * @param uri the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;
+     * @param parameters The parameters required to modify the secret (name and password)
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void updateSecret(String accountName, String databaseName, String secretName, String password, String uri) {
-        updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, password, uri).toBlocking().single().body();
+    public void updateSecret(String accountName, String databaseName, String secretName, DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters) {
+        updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, parameters).toBlocking().single().body();
     }
 
     /**
@@ -676,14 +593,13 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database containing the secret.
      * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
-     * @param uri the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;
+     * @param parameters The parameters required to modify the secret (name and password)
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> updateSecretAsync(String accountName, String databaseName, String secretName, String password, String uri, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, password, uri), serviceCallback);
+    public ServiceFuture<Void> updateSecretAsync(String accountName, String databaseName, String secretName, DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, parameters), serviceCallback);
     }
 
     /**
@@ -692,13 +608,12 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database containing the secret.
      * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
-     * @param uri the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;
+     * @param parameters The parameters required to modify the secret (name and password)
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> updateSecretAsync(String accountName, String databaseName, String secretName, String password, String uri) {
-        return updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, password, uri).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> updateSecretAsync(String accountName, String databaseName, String secretName, DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters) {
+        return updateSecretWithServiceResponseAsync(accountName, databaseName, secretName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -712,12 +627,11 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database containing the secret.
      * @param secretName The name of the secret.
-     * @param password the password for the secret to pass in
-     * @param uri the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;
+     * @param parameters The parameters required to modify the secret (name and password)
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> updateSecretWithServiceResponseAsync(String accountName, String databaseName, String secretName, String password, String uri) {
+    public Observable<ServiceResponse<Void>> updateSecretWithServiceResponseAsync(String accountName, String databaseName, String secretName, DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters) {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -730,17 +644,15 @@ public class CatalogsImpl implements Catalogs {
         if (secretName == null) {
             throw new IllegalArgumentException("Parameter secretName is required and cannot be null.");
         }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        if (password == null) {
-            throw new IllegalArgumentException("Parameter password is required and cannot be null.");
-        }
-        DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters parameters = new DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters();
-        parameters.withPassword(password);
-        parameters.withUri(uri);
+        Validator.validate(parameters);
         String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.updateSecret(databaseName, secretName, this.client.apiVersion(), this.client.acceptLanguage(), parameters, parameterizedHost, this.client.userAgent())
+        return service.updateSecret(databaseName, secretName, parameters, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -850,100 +762,6 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<Void> deleteSecretDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Gets the specified secret in the specified database. This is deprecated and will be removed in the next release. Please use GetCredential instead.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database containing the secret.
-     * @param secretName The name of the secret to get
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the USqlSecret object if successful.
-     */
-    public USqlSecret getSecret(String accountName, String databaseName, String secretName) {
-        return getSecretWithServiceResponseAsync(accountName, databaseName, secretName).toBlocking().single().body();
-    }
-
-    /**
-     * Gets the specified secret in the specified database. This is deprecated and will be removed in the next release. Please use GetCredential instead.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database containing the secret.
-     * @param secretName The name of the secret to get
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<USqlSecret> getSecretAsync(String accountName, String databaseName, String secretName, final ServiceCallback<USqlSecret> serviceCallback) {
-        return ServiceFuture.fromResponse(getSecretWithServiceResponseAsync(accountName, databaseName, secretName), serviceCallback);
-    }
-
-    /**
-     * Gets the specified secret in the specified database. This is deprecated and will be removed in the next release. Please use GetCredential instead.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database containing the secret.
-     * @param secretName The name of the secret to get
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the USqlSecret object
-     */
-    public Observable<USqlSecret> getSecretAsync(String accountName, String databaseName, String secretName) {
-        return getSecretWithServiceResponseAsync(accountName, databaseName, secretName).map(new Func1<ServiceResponse<USqlSecret>, USqlSecret>() {
-            @Override
-            public USqlSecret call(ServiceResponse<USqlSecret> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Gets the specified secret in the specified database. This is deprecated and will be removed in the next release. Please use GetCredential instead.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database containing the secret.
-     * @param secretName The name of the secret to get
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the USqlSecret object
-     */
-    public Observable<ServiceResponse<USqlSecret>> getSecretWithServiceResponseAsync(String accountName, String databaseName, String secretName) {
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (this.client.adlaCatalogDnsSuffix() == null) {
-            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
-        }
-        if (databaseName == null) {
-            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
-        }
-        if (secretName == null) {
-            throw new IllegalArgumentException("Parameter secretName is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.getSecret(databaseName, secretName, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlSecret>>>() {
-                @Override
-                public Observable<ServiceResponse<USqlSecret>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<USqlSecret> clientResponse = getSecretDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<USqlSecret> getSecretDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<USqlSecret, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<USqlSecret>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1131,6 +949,100 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<Void> createCredentialDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves the specified credential from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the schema.
+     * @param credentialName The name of the credential.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlCredential object if successful.
+     */
+    public USqlCredential getCredential(String accountName, String databaseName, String credentialName) {
+        return getCredentialWithServiceResponseAsync(accountName, databaseName, credentialName).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves the specified credential from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the schema.
+     * @param credentialName The name of the credential.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlCredential> getCredentialAsync(String accountName, String databaseName, String credentialName, final ServiceCallback<USqlCredential> serviceCallback) {
+        return ServiceFuture.fromResponse(getCredentialWithServiceResponseAsync(accountName, databaseName, credentialName), serviceCallback);
+    }
+
+    /**
+     * Retrieves the specified credential from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the schema.
+     * @param credentialName The name of the credential.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlCredential object
+     */
+    public Observable<USqlCredential> getCredentialAsync(String accountName, String databaseName, String credentialName) {
+        return getCredentialWithServiceResponseAsync(accountName, databaseName, credentialName).map(new Func1<ServiceResponse<USqlCredential>, USqlCredential>() {
+            @Override
+            public USqlCredential call(ServiceResponse<USqlCredential> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves the specified credential from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the schema.
+     * @param credentialName The name of the credential.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlCredential object
+     */
+    public Observable<ServiceResponse<USqlCredential>> getCredentialWithServiceResponseAsync(String accountName, String databaseName, String credentialName) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (credentialName == null) {
+            throw new IllegalArgumentException("Parameter credentialName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.getCredential(databaseName, credentialName, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlCredential>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlCredential>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlCredential> clientResponse = getCredentialDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<USqlCredential> getCredentialDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<USqlCredential, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<USqlCredential>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1428,100 +1340,6 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<Void> deleteCredentialDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Retrieves the specified credential from the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database containing the schema.
-     * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the USqlCredential object if successful.
-     */
-    public USqlCredential getCredential(String accountName, String databaseName, String credentialName) {
-        return getCredentialWithServiceResponseAsync(accountName, databaseName, credentialName).toBlocking().single().body();
-    }
-
-    /**
-     * Retrieves the specified credential from the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database containing the schema.
-     * @param credentialName The name of the credential.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<USqlCredential> getCredentialAsync(String accountName, String databaseName, String credentialName, final ServiceCallback<USqlCredential> serviceCallback) {
-        return ServiceFuture.fromResponse(getCredentialWithServiceResponseAsync(accountName, databaseName, credentialName), serviceCallback);
-    }
-
-    /**
-     * Retrieves the specified credential from the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database containing the schema.
-     * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the USqlCredential object
-     */
-    public Observable<USqlCredential> getCredentialAsync(String accountName, String databaseName, String credentialName) {
-        return getCredentialWithServiceResponseAsync(accountName, databaseName, credentialName).map(new Func1<ServiceResponse<USqlCredential>, USqlCredential>() {
-            @Override
-            public USqlCredential call(ServiceResponse<USqlCredential> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Retrieves the specified credential from the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database containing the schema.
-     * @param credentialName The name of the credential.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the USqlCredential object
-     */
-    public Observable<ServiceResponse<USqlCredential>> getCredentialWithServiceResponseAsync(String accountName, String databaseName, String credentialName) {
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (this.client.adlaCatalogDnsSuffix() == null) {
-            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
-        }
-        if (databaseName == null) {
-            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
-        }
-        if (credentialName == null) {
-            throw new IllegalArgumentException("Parameter credentialName is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.getCredential(databaseName, credentialName, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlCredential>>>() {
-                @Override
-                public Observable<ServiceResponse<USqlCredential>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<USqlCredential> clientResponse = getCredentialDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<USqlCredential> getCredentialDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<USqlCredential, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<USqlCredential>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -2665,6 +2483,315 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<USqlTable> getTableDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<USqlTable, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<USqlTable>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    public PagedList<USqlTableFragment> listTableFragments(final String accountName, final String databaseName, final String schemaName, final String tableName) {
+        ServiceResponse<Page<USqlTableFragment>> response = listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName).toBlocking().single();
+        return new PagedList<USqlTableFragment>(response.body()) {
+            @Override
+            public Page<USqlTableFragment> nextPage(String nextPageLink) {
+                return listTableFragmentsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final ListOperationCallback<USqlTableFragment> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName),
+            new Func1<String, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(String nextPageLink) {
+                    return listTableFragmentsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<Page<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName) {
+        return listTableFragmentsWithServiceResponseAsync(accountName, databaseName, schemaName, tableName)
+            .map(new Func1<ServiceResponse<Page<USqlTableFragment>>, Page<USqlTableFragment>>() {
+                @Override
+                public Page<USqlTableFragment> call(ServiceResponse<Page<USqlTableFragment>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsWithServiceResponseAsync(final String accountName, final String databaseName, final String schemaName, final String tableName) {
+        return listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName)
+            .concatMap(new Func1<ServiceResponse<Page<USqlTableFragment>>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(ServiceResponse<Page<USqlTableFragment>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listTableFragmentsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;USqlTableFragment&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsSinglePageAsync(final String accountName, final String databaseName, final String schemaName, final String tableName) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final String filter = null;
+        final Integer top = null;
+        final Integer skip = null;
+        final String select = null;
+        final String orderby = null;
+        final Boolean count = null;
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.listTableFragments(databaseName, schemaName, tableName, filter, top, skip, select, orderby, count, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<USqlTableFragment>> result = listTableFragmentsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<USqlTableFragment>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    public PagedList<USqlTableFragment> listTableFragments(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        ServiceResponse<Page<USqlTableFragment>> response = listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName, filter, top, skip, select, orderby, count).toBlocking().single();
+        return new PagedList<USqlTableFragment>(response.body()) {
+            @Override
+            public Page<USqlTableFragment> nextPage(String nextPageLink) {
+                return listTableFragmentsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<USqlTableFragment> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName, filter, top, skip, select, orderby, count),
+            new Func1<String, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(String nextPageLink) {
+                    return listTableFragmentsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<Page<USqlTableFragment>> listTableFragmentsAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        return listTableFragmentsWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, filter, top, skip, select, orderby, count)
+            .map(new Func1<ServiceResponse<Page<USqlTableFragment>>, Page<USqlTableFragment>>() {
+                @Override
+                public Page<USqlTableFragment> call(ServiceResponse<Page<USqlTableFragment>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table fragments.
+     * @param schemaName The name of the schema containing the table fragments.
+     * @param tableName The name of the table containing the table fragments.
+     * @param filter OData filter. Optional.
+     * @param top The number of items to return. Optional.
+     * @param skip The number of items to skip over before returning elements. Optional.
+     * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+     * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+     * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsWithServiceResponseAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        return listTableFragmentsSinglePageAsync(accountName, databaseName, schemaName, tableName, filter, top, skip, select, orderby, count)
+            .concatMap(new Func1<ServiceResponse<Page<USqlTableFragment>>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(ServiceResponse<Page<USqlTableFragment>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listTableFragmentsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param databaseName The name of the database containing the table fragments.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param schemaName The name of the schema containing the table fragments.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param tableName The name of the table containing the table fragments.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param filter OData filter. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param top The number of items to return. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param skip The number of items to skip over before returning elements. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;USqlTableFragment&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsSinglePageAsync(final String accountName, final String databaseName, final String schemaName, final String tableName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.listTableFragments(databaseName, schemaName, tableName, filter, top, skip, select, orderby, count, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<USqlTableFragment>> result = listTableFragmentsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<USqlTableFragment>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<USqlTableFragment>> listTableFragmentsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<USqlTableFragment>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<USqlTableFragment>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -4861,6 +4988,225 @@ public class CatalogsImpl implements Catalogs {
     }
 
     /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    public USqlTablePreview previewTablePartition(String accountName, String databaseName, String schemaName, String tableName, String partitionName) {
+        return previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, final ServiceCallback<USqlTablePreview> serviceCallback) {
+        return ServiceFuture.fromResponse(previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName), serviceCallback);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName) {
+        return previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName).map(new Func1<ServiceResponse<USqlTablePreview>, USqlTablePreview>() {
+            @Override
+            public USqlTablePreview call(ServiceResponse<USqlTablePreview> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<ServiceResponse<USqlTablePreview>> previewTablePartitionWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (partitionName == null) {
+            throw new IllegalArgumentException("Parameter partitionName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Long maxRows = null;
+        final Long maxColumns = null;
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.previewTablePartition(databaseName, schemaName, tableName, partitionName, maxRows, maxColumns, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlTablePreview>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlTablePreview>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlTablePreview> clientResponse = previewTablePartitionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    public USqlTablePreview previewTablePartition(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns) {
+        return previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName, maxRows, maxColumns).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns, final ServiceCallback<USqlTablePreview> serviceCallback) {
+        return ServiceFuture.fromResponse(previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName, maxRows, maxColumns), serviceCallback);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<USqlTablePreview> previewTablePartitionAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns) {
+        return previewTablePartitionWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, partitionName, maxRows, maxColumns).map(new Func1<ServiceResponse<USqlTablePreview>, USqlTablePreview>() {
+            @Override
+            public USqlTablePreview call(ServiceResponse<USqlTablePreview> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given partition.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the partition.
+     * @param schemaName The name of the schema containing the partition.
+     * @param tableName The name of the table containing the partition.
+     * @param partitionName The name of the table partition.
+     * @param maxRows The maximum number of preview rows to be retrieved.Rows returned may be less than or equal to this number depending on row sizes and number of rows in the partition.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<ServiceResponse<USqlTablePreview>> previewTablePartitionWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, String partitionName, Long maxRows, Long maxColumns) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (partitionName == null) {
+            throw new IllegalArgumentException("Parameter partitionName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.previewTablePartition(databaseName, schemaName, tableName, partitionName, maxRows, maxColumns, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlTablePreview>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlTablePreview>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlTablePreview> clientResponse = previewTablePartitionDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<USqlTablePreview> previewTablePartitionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<USqlTablePreview, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<USqlTablePreview>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Retrieves the specified table partition from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
@@ -4964,6 +5310,211 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<USqlTablePartition> getTablePartitionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<USqlTablePartition, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<USqlTablePartition>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    public USqlTablePreview previewTable(String accountName, String databaseName, String schemaName, String tableName) {
+        return previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, final ServiceCallback<USqlTablePreview> serviceCallback) {
+        return ServiceFuture.fromResponse(previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName), serviceCallback);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName) {
+        return previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName).map(new Func1<ServiceResponse<USqlTablePreview>, USqlTablePreview>() {
+            @Override
+            public USqlTablePreview call(ServiceResponse<USqlTablePreview> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<ServiceResponse<USqlTablePreview>> previewTableWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Long maxRows = null;
+        final Long maxColumns = null;
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.previewTable(databaseName, schemaName, tableName, maxRows, maxColumns, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlTablePreview>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlTablePreview>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlTablePreview> clientResponse = previewTableDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the USqlTablePreview object if successful.
+     */
+    public USqlTablePreview previewTable(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns) {
+        return previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, maxRows, maxColumns).toBlocking().single().body();
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns, final ServiceCallback<USqlTablePreview> serviceCallback) {
+        return ServiceFuture.fromResponse(previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, maxRows, maxColumns), serviceCallback);
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<USqlTablePreview> previewTableAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns) {
+        return previewTableWithServiceResponseAsync(accountName, databaseName, schemaName, tableName, maxRows, maxColumns).map(new Func1<ServiceResponse<USqlTablePreview>, USqlTablePreview>() {
+            @Override
+            public USqlTablePreview call(ServiceResponse<USqlTablePreview> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Retrieves a preview set of rows in given table.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database containing the table.
+     * @param schemaName The name of the schema containing the table.
+     * @param tableName The name of the table.
+     * @param maxRows The maximum number of preview rows to be retrieved. Rows returned may be less than or equal to this number depending on row sizes and number of rows in the table.
+     * @param maxColumns The maximum number of columns to be retrieved.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the USqlTablePreview object
+     */
+    public Observable<ServiceResponse<USqlTablePreview>> previewTableWithServiceResponseAsync(String accountName, String databaseName, String schemaName, String tableName, Long maxRows, Long maxColumns) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.previewTable(databaseName, schemaName, tableName, maxRows, maxColumns, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<USqlTablePreview>>>() {
+                @Override
+                public Observable<ServiceResponse<USqlTablePreview>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<USqlTablePreview> clientResponse = previewTableDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<USqlTablePreview> previewTableDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<USqlTablePreview, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<USqlTablePreview>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -7828,10 +8379,16 @@ public class CatalogsImpl implements Catalogs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the AclList object if successful.
+     * @return the PagedList&lt;Acl&gt; object if successful.
      */
-    public AclList listAclsByDatabase(String accountName, String databaseName) {
-        return listAclsByDatabaseWithServiceResponseAsync(accountName, databaseName).toBlocking().single().body();
+    public PagedList<Acl> listAclsByDatabase(final String accountName, final String databaseName) {
+        ServiceResponse<Page<Acl>> response = listAclsByDatabaseSinglePageAsync(accountName, databaseName).toBlocking().single();
+        return new PagedList<Acl>(response.body()) {
+            @Override
+            public Page<Acl> nextPage(String nextPageLink) {
+                return listAclsByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
     }
 
     /**
@@ -7843,8 +8400,16 @@ public class CatalogsImpl implements Catalogs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AclList> listAclsByDatabaseAsync(String accountName, String databaseName, final ServiceCallback<AclList> serviceCallback) {
-        return ServiceFuture.fromResponse(listAclsByDatabaseWithServiceResponseAsync(accountName, databaseName), serviceCallback);
+    public ServiceFuture<List<Acl>> listAclsByDatabaseAsync(final String accountName, final String databaseName, final ListOperationCallback<Acl> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAclsByDatabaseSinglePageAsync(accountName, databaseName),
+            new Func1<String, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(String nextPageLink) {
+                    return listAclsByDatabaseNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
     }
 
     /**
@@ -7853,15 +8418,16 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AclList object
+     * @return the observable to the PagedList&lt;Acl&gt; object
      */
-    public Observable<AclList> listAclsByDatabaseAsync(String accountName, String databaseName) {
-        return listAclsByDatabaseWithServiceResponseAsync(accountName, databaseName).map(new Func1<ServiceResponse<AclList>, AclList>() {
-            @Override
-            public AclList call(ServiceResponse<AclList> response) {
-                return response.body();
-            }
-        });
+    public Observable<Page<Acl>> listAclsByDatabaseAsync(final String accountName, final String databaseName) {
+        return listAclsByDatabaseWithServiceResponseAsync(accountName, databaseName)
+            .map(new Func1<ServiceResponse<Page<Acl>>, Page<Acl>>() {
+                @Override
+                public Page<Acl> call(ServiceResponse<Page<Acl>> response) {
+                    return response.body();
+                }
+            });
     }
 
     /**
@@ -7870,9 +8436,31 @@ public class CatalogsImpl implements Catalogs {
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @param databaseName The name of the database.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AclList object
+     * @return the observable to the PagedList&lt;Acl&gt; object
      */
-    public Observable<ServiceResponse<AclList>> listAclsByDatabaseWithServiceResponseAsync(String accountName, String databaseName) {
+    public Observable<ServiceResponse<Page<Acl>>> listAclsByDatabaseWithServiceResponseAsync(final String accountName, final String databaseName) {
+        return listAclsByDatabaseSinglePageAsync(accountName, databaseName)
+            .concatMap(new Func1<ServiceResponse<Page<Acl>>, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(ServiceResponse<Page<Acl>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAclsByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;Acl&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<Acl>>> listAclsByDatabaseSinglePageAsync(final String accountName, final String databaseName) {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -7893,12 +8481,12 @@ public class CatalogsImpl implements Catalogs {
         final Boolean count = null;
         String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
         return service.listAclsByDatabase(databaseName, filter, top, skip, select, orderby, count, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AclList>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<Acl>>>>() {
                 @Override
-                public Observable<ServiceResponse<AclList>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<Acl>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<AclList> clientResponse = listAclsByDatabaseDelegate(response);
-                        return Observable.just(clientResponse);
+                        ServiceResponse<PageImpl<Acl>> result = listAclsByDatabaseDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<Acl>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -7920,10 +8508,16 @@ public class CatalogsImpl implements Catalogs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the AclList object if successful.
+     * @return the PagedList&lt;Acl&gt; object if successful.
      */
-    public AclList listAclsByDatabase(String accountName, String databaseName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count) {
-        return listAclsByDatabaseWithServiceResponseAsync(accountName, databaseName, filter, top, skip, select, orderby, count).toBlocking().single().body();
+    public PagedList<Acl> listAclsByDatabase(final String accountName, final String databaseName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        ServiceResponse<Page<Acl>> response = listAclsByDatabaseSinglePageAsync(accountName, databaseName, filter, top, skip, select, orderby, count).toBlocking().single();
+        return new PagedList<Acl>(response.body()) {
+            @Override
+            public Page<Acl> nextPage(String nextPageLink) {
+                return listAclsByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
     }
 
     /**
@@ -7941,8 +8535,16 @@ public class CatalogsImpl implements Catalogs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AclList> listAclsByDatabaseAsync(String accountName, String databaseName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count, final ServiceCallback<AclList> serviceCallback) {
-        return ServiceFuture.fromResponse(listAclsByDatabaseWithServiceResponseAsync(accountName, databaseName, filter, top, skip, select, orderby, count), serviceCallback);
+    public ServiceFuture<List<Acl>> listAclsByDatabaseAsync(final String accountName, final String databaseName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<Acl> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAclsByDatabaseSinglePageAsync(accountName, databaseName, filter, top, skip, select, orderby, count),
+            new Func1<String, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(String nextPageLink) {
+                    return listAclsByDatabaseNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
     }
 
     /**
@@ -7957,15 +8559,16 @@ public class CatalogsImpl implements Catalogs {
      * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
      * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AclList object
+     * @return the observable to the PagedList&lt;Acl&gt; object
      */
-    public Observable<AclList> listAclsByDatabaseAsync(String accountName, String databaseName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count) {
-        return listAclsByDatabaseWithServiceResponseAsync(accountName, databaseName, filter, top, skip, select, orderby, count).map(new Func1<ServiceResponse<AclList>, AclList>() {
-            @Override
-            public AclList call(ServiceResponse<AclList> response) {
-                return response.body();
-            }
-        });
+    public Observable<Page<Acl>> listAclsByDatabaseAsync(final String accountName, final String databaseName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        return listAclsByDatabaseWithServiceResponseAsync(accountName, databaseName, filter, top, skip, select, orderby, count)
+            .map(new Func1<ServiceResponse<Page<Acl>>, Page<Acl>>() {
+                @Override
+                public Page<Acl> call(ServiceResponse<Page<Acl>> response) {
+                    return response.body();
+                }
+            });
     }
 
     /**
@@ -7980,9 +8583,37 @@ public class CatalogsImpl implements Catalogs {
      * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
      * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AclList object
+     * @return the observable to the PagedList&lt;Acl&gt; object
      */
-    public Observable<ServiceResponse<AclList>> listAclsByDatabaseWithServiceResponseAsync(String accountName, String databaseName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count) {
+    public Observable<ServiceResponse<Page<Acl>>> listAclsByDatabaseWithServiceResponseAsync(final String accountName, final String databaseName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        return listAclsByDatabaseSinglePageAsync(accountName, databaseName, filter, top, skip, select, orderby, count)
+            .concatMap(new Func1<ServiceResponse<Page<Acl>>, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(ServiceResponse<Page<Acl>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAclsByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog.
+     *
+    ServiceResponse<PageImpl<Acl>> * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+    ServiceResponse<PageImpl<Acl>> * @param databaseName The name of the database.
+    ServiceResponse<PageImpl<Acl>> * @param filter OData filter. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param top The number of items to return. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param skip The number of items to skip over before returning elements. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;Acl&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<Acl>>> listAclsByDatabaseSinglePageAsync(final String accountName, final String databaseName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -7997,12 +8628,12 @@ public class CatalogsImpl implements Catalogs {
         }
         String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
         return service.listAclsByDatabase(databaseName, filter, top, skip, select, orderby, count, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AclList>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<Acl>>>>() {
                 @Override
-                public Observable<ServiceResponse<AclList>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<Acl>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<AclList> clientResponse = listAclsByDatabaseDelegate(response);
-                        return Observable.just(clientResponse);
+                        ServiceResponse<PageImpl<Acl>> result = listAclsByDatabaseDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<Acl>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -8010,9 +8641,9 @@ public class CatalogsImpl implements Catalogs {
             });
     }
 
-    private ServiceResponse<AclList> listAclsByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AclList, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<AclList>() { }.getType())
+    private ServiceResponse<PageImpl<Acl>> listAclsByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<Acl>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<Acl>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -8024,10 +8655,16 @@ public class CatalogsImpl implements Catalogs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the AclList object if successful.
+     * @return the PagedList&lt;Acl&gt; object if successful.
      */
-    public AclList listAcls(String accountName) {
-        return listAclsWithServiceResponseAsync(accountName).toBlocking().single().body();
+    public PagedList<Acl> listAcls(final String accountName) {
+        ServiceResponse<Page<Acl>> response = listAclsSinglePageAsync(accountName).toBlocking().single();
+        return new PagedList<Acl>(response.body()) {
+            @Override
+            public Page<Acl> nextPage(String nextPageLink) {
+                return listAclsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
     }
 
     /**
@@ -8038,8 +8675,16 @@ public class CatalogsImpl implements Catalogs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AclList> listAclsAsync(String accountName, final ServiceCallback<AclList> serviceCallback) {
-        return ServiceFuture.fromResponse(listAclsWithServiceResponseAsync(accountName), serviceCallback);
+    public ServiceFuture<List<Acl>> listAclsAsync(final String accountName, final ListOperationCallback<Acl> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAclsSinglePageAsync(accountName),
+            new Func1<String, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(String nextPageLink) {
+                    return listAclsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
     }
 
     /**
@@ -8047,15 +8692,16 @@ public class CatalogsImpl implements Catalogs {
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AclList object
+     * @return the observable to the PagedList&lt;Acl&gt; object
      */
-    public Observable<AclList> listAclsAsync(String accountName) {
-        return listAclsWithServiceResponseAsync(accountName).map(new Func1<ServiceResponse<AclList>, AclList>() {
-            @Override
-            public AclList call(ServiceResponse<AclList> response) {
-                return response.body();
-            }
-        });
+    public Observable<Page<Acl>> listAclsAsync(final String accountName) {
+        return listAclsWithServiceResponseAsync(accountName)
+            .map(new Func1<ServiceResponse<Page<Acl>>, Page<Acl>>() {
+                @Override
+                public Page<Acl> call(ServiceResponse<Page<Acl>> response) {
+                    return response.body();
+                }
+            });
     }
 
     /**
@@ -8063,9 +8709,30 @@ public class CatalogsImpl implements Catalogs {
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AclList object
+     * @return the observable to the PagedList&lt;Acl&gt; object
      */
-    public Observable<ServiceResponse<AclList>> listAclsWithServiceResponseAsync(String accountName) {
+    public Observable<ServiceResponse<Page<Acl>>> listAclsWithServiceResponseAsync(final String accountName) {
+        return listAclsSinglePageAsync(accountName)
+            .concatMap(new Func1<ServiceResponse<Page<Acl>>, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(ServiceResponse<Page<Acl>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAclsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;Acl&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<Acl>>> listAclsSinglePageAsync(final String accountName) {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -8083,12 +8750,12 @@ public class CatalogsImpl implements Catalogs {
         final Boolean count = null;
         String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
         return service.listAcls(filter, top, skip, select, orderby, count, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AclList>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<Acl>>>>() {
                 @Override
-                public Observable<ServiceResponse<AclList>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<Acl>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<AclList> clientResponse = listAclsDelegate(response);
-                        return Observable.just(clientResponse);
+                        ServiceResponse<PageImpl<Acl>> result = listAclsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<Acl>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -8109,10 +8776,16 @@ public class CatalogsImpl implements Catalogs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the AclList object if successful.
+     * @return the PagedList&lt;Acl&gt; object if successful.
      */
-    public AclList listAcls(String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count) {
-        return listAclsWithServiceResponseAsync(accountName, filter, top, skip, select, orderby, count).toBlocking().single().body();
+    public PagedList<Acl> listAcls(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        ServiceResponse<Page<Acl>> response = listAclsSinglePageAsync(accountName, filter, top, skip, select, orderby, count).toBlocking().single();
+        return new PagedList<Acl>(response.body()) {
+            @Override
+            public Page<Acl> nextPage(String nextPageLink) {
+                return listAclsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
     }
 
     /**
@@ -8129,8 +8802,16 @@ public class CatalogsImpl implements Catalogs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AclList> listAclsAsync(String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count, final ServiceCallback<AclList> serviceCallback) {
-        return ServiceFuture.fromResponse(listAclsWithServiceResponseAsync(accountName, filter, top, skip, select, orderby, count), serviceCallback);
+    public ServiceFuture<List<Acl>> listAclsAsync(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<Acl> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAclsSinglePageAsync(accountName, filter, top, skip, select, orderby, count),
+            new Func1<String, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(String nextPageLink) {
+                    return listAclsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
     }
 
     /**
@@ -8144,15 +8825,16 @@ public class CatalogsImpl implements Catalogs {
      * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
      * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AclList object
+     * @return the observable to the PagedList&lt;Acl&gt; object
      */
-    public Observable<AclList> listAclsAsync(String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count) {
-        return listAclsWithServiceResponseAsync(accountName, filter, top, skip, select, orderby, count).map(new Func1<ServiceResponse<AclList>, AclList>() {
-            @Override
-            public AclList call(ServiceResponse<AclList> response) {
-                return response.body();
-            }
-        });
+    public Observable<Page<Acl>> listAclsAsync(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        return listAclsWithServiceResponseAsync(accountName, filter, top, skip, select, orderby, count)
+            .map(new Func1<ServiceResponse<Page<Acl>>, Page<Acl>>() {
+                @Override
+                public Page<Acl> call(ServiceResponse<Page<Acl>> response) {
+                    return response.body();
+                }
+            });
     }
 
     /**
@@ -8166,9 +8848,36 @@ public class CatalogsImpl implements Catalogs {
      * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
      * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the AclList object
+     * @return the observable to the PagedList&lt;Acl&gt; object
      */
-    public Observable<ServiceResponse<AclList>> listAclsWithServiceResponseAsync(String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count) {
+    public Observable<ServiceResponse<Page<Acl>>> listAclsWithServiceResponseAsync(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
+        return listAclsSinglePageAsync(accountName, filter, top, skip, select, orderby, count)
+            .concatMap(new Func1<ServiceResponse<Page<Acl>>, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(ServiceResponse<Page<Acl>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAclsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the Data Lake Analytics catalog.
+     *
+    ServiceResponse<PageImpl<Acl>> * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+    ServiceResponse<PageImpl<Acl>> * @param filter OData filter. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param top The number of items to return. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param skip The number of items to skip over before returning elements. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param select OData Select statement. Limits the properties on each entry to just those requested, e.g. Categories?$select=CategoryName,Description. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param orderby OrderBy clause. One or more comma-separated expressions with an optional "asc" (the default) or "desc" depending on the order you'd like the values sorted, e.g. Categories?$orderby=CategoryName desc. Optional.
+    ServiceResponse<PageImpl<Acl>> * @param count The Boolean value of true or false to request a count of the matching resources included with the resources in the response, e.g. Categories?$count=true. Optional.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;Acl&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<Acl>>> listAclsSinglePageAsync(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count) {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -8180,12 +8889,12 @@ public class CatalogsImpl implements Catalogs {
         }
         String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
         return service.listAcls(filter, top, skip, select, orderby, count, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AclList>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<Acl>>>>() {
                 @Override
-                public Observable<ServiceResponse<AclList>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<Acl>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<AclList> clientResponse = listAclsDelegate(response);
-                        return Observable.just(clientResponse);
+                        ServiceResponse<PageImpl<Acl>> result = listAclsDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<Acl>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -8193,9 +8902,9 @@ public class CatalogsImpl implements Catalogs {
             });
     }
 
-    private ServiceResponse<AclList> listAclsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AclList, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<AclList>() { }.getType())
+    private ServiceResponse<PageImpl<Acl>> listAclsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<Acl>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<Acl>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -8549,6 +9258,94 @@ public class CatalogsImpl implements Catalogs {
     }
 
     /**
+     * Grants an access control list (ACL) entry to the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param parameters Parameters supplied to create or update an access control list (ACL) entry for a Data Lake Analytics catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void grantAcl(String accountName, AclCreateOrUpdateParameters parameters) {
+        grantAclWithServiceResponseAsync(accountName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Grants an access control list (ACL) entry to the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param parameters Parameters supplied to create or update an access control list (ACL) entry for a Data Lake Analytics catalog.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> grantAclAsync(String accountName, AclCreateOrUpdateParameters parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(grantAclWithServiceResponseAsync(accountName, parameters), serviceCallback);
+    }
+
+    /**
+     * Grants an access control list (ACL) entry to the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param parameters Parameters supplied to create or update an access control list (ACL) entry for a Data Lake Analytics catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> grantAclAsync(String accountName, AclCreateOrUpdateParameters parameters) {
+        return grantAclWithServiceResponseAsync(accountName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Grants an access control list (ACL) entry to the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param parameters Parameters supplied to create or update an access control list (ACL) entry for a Data Lake Analytics catalog.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> grantAclWithServiceResponseAsync(String accountName, AclCreateOrUpdateParameters parameters) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String op = "GRANTACE";
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.grantAcl(parameters, op, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = grantAclDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> grantAclDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Grants an access control list (ACL) entry to the database from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
@@ -8644,47 +9441,41 @@ public class CatalogsImpl implements Catalogs {
     }
 
     /**
-     * Revokes an access control list (ACL) entry for the database from the Data Lake Analytics catalog.
+     * Revokes an access control list (ACL) entry from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database.
-     * @param aceType the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'
-     * @param principalId the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
+     * @param parameters Parameters supplied to delete an access control list (ACL) entry from a Data Lake Analytics catalog.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void revokeAclFromDatabase(String accountName, String databaseName, AclType aceType, UUID principalId) {
-        revokeAclFromDatabaseWithServiceResponseAsync(accountName, databaseName, aceType, principalId).toBlocking().single().body();
+    public void revokeAcl(String accountName, AclDeleteParameters parameters) {
+        revokeAclWithServiceResponseAsync(accountName, parameters).toBlocking().single().body();
     }
 
     /**
-     * Revokes an access control list (ACL) entry for the database from the Data Lake Analytics catalog.
+     * Revokes an access control list (ACL) entry from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database.
-     * @param aceType the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'
-     * @param principalId the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
+     * @param parameters Parameters supplied to delete an access control list (ACL) entry from a Data Lake Analytics catalog.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> revokeAclFromDatabaseAsync(String accountName, String databaseName, AclType aceType, UUID principalId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(revokeAclFromDatabaseWithServiceResponseAsync(accountName, databaseName, aceType, principalId), serviceCallback);
+    public ServiceFuture<Void> revokeAclAsync(String accountName, AclDeleteParameters parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(revokeAclWithServiceResponseAsync(accountName, parameters), serviceCallback);
     }
 
     /**
-     * Revokes an access control list (ACL) entry for the database from the Data Lake Analytics catalog.
+     * Revokes an access control list (ACL) entry from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database.
-     * @param aceType the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'
-     * @param principalId the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
+     * @param parameters Parameters supplied to delete an access control list (ACL) entry from a Data Lake Analytics catalog.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> revokeAclFromDatabaseAsync(String accountName, String databaseName, AclType aceType, UUID principalId) {
-        return revokeAclFromDatabaseWithServiceResponseAsync(accountName, databaseName, aceType, principalId).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> revokeAclAsync(String accountName, AclDeleteParameters parameters) {
+        return revokeAclWithServiceResponseAsync(accountName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -8693,112 +9484,14 @@ public class CatalogsImpl implements Catalogs {
     }
 
     /**
-     * Revokes an access control list (ACL) entry for the database from the Data Lake Analytics catalog.
+     * Revokes an access control list (ACL) entry from the Data Lake Analytics catalog.
      *
      * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param databaseName The name of the database.
-     * @param aceType the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'
-     * @param principalId the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
+     * @param parameters Parameters supplied to delete an access control list (ACL) entry from a Data Lake Analytics catalog.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> revokeAclFromDatabaseWithServiceResponseAsync(String accountName, String databaseName, AclType aceType, UUID principalId) {
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (this.client.adlaCatalogDnsSuffix() == null) {
-            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
-        }
-        if (databaseName == null) {
-            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        if (aceType == null) {
-            throw new IllegalArgumentException("Parameter aceType is required and cannot be null.");
-        }
-        if (principalId == null) {
-            throw new IllegalArgumentException("Parameter principalId is required and cannot be null.");
-        }
-        final String op = "REVOKEACE";
-        AclDeleteParameters parameters = new AclDeleteParameters();
-        parameters.withAceType(aceType);
-        parameters.withPrincipalId(principalId);
-        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.revokeAclFromDatabase(databaseName, op, this.client.apiVersion(), this.client.acceptLanguage(), parameters, parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = revokeAclFromDatabaseDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> revokeAclFromDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Grants an access control list (ACL) entry to the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param parameters Parameters supplied to create or update an access control list (ACL) entry for a Data Lake Analytics catalog.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void grantAcl(String accountName, AclCreateOrUpdateParameters parameters) {
-        grantAclWithServiceResponseAsync(accountName, parameters).toBlocking().single().body();
-    }
-
-    /**
-     * Grants an access control list (ACL) entry to the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param parameters Parameters supplied to create or update an access control list (ACL) entry for a Data Lake Analytics catalog.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> grantAclAsync(String accountName, AclCreateOrUpdateParameters parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(grantAclWithServiceResponseAsync(accountName, parameters), serviceCallback);
-    }
-
-    /**
-     * Grants an access control list (ACL) entry to the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param parameters Parameters supplied to create or update an access control list (ACL) entry for a Data Lake Analytics catalog.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> grantAclAsync(String accountName, AclCreateOrUpdateParameters parameters) {
-        return grantAclWithServiceResponseAsync(accountName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Grants an access control list (ACL) entry to the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param parameters Parameters supplied to create or update an access control list (ACL) entry for a Data Lake Analytics catalog.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> grantAclWithServiceResponseAsync(String accountName, AclCreateOrUpdateParameters parameters) {
+    public Observable<ServiceResponse<Void>> revokeAclWithServiceResponseAsync(String accountName, AclDeleteParameters parameters) {
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
@@ -8812,106 +9505,9 @@ public class CatalogsImpl implements Catalogs {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String op = "GRANTACE";
-        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.grantAcl(parameters, op, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = grantAclDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> grantAclDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
-    }
-
-    /**
-     * Revokes an access control list (ACL) entry from the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param aceType the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'
-     * @param principalId the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void revokeAcl(String accountName, AclType aceType, UUID principalId) {
-        revokeAclWithServiceResponseAsync(accountName, aceType, principalId).toBlocking().single().body();
-    }
-
-    /**
-     * Revokes an access control list (ACL) entry from the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param aceType the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'
-     * @param principalId the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> revokeAclAsync(String accountName, AclType aceType, UUID principalId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(revokeAclWithServiceResponseAsync(accountName, aceType, principalId), serviceCallback);
-    }
-
-    /**
-     * Revokes an access control list (ACL) entry from the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param aceType the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'
-     * @param principalId the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> revokeAclAsync(String accountName, AclType aceType, UUID principalId) {
-        return revokeAclWithServiceResponseAsync(accountName, aceType, principalId).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Revokes an access control list (ACL) entry from the Data Lake Analytics catalog.
-     *
-     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
-     * @param aceType the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'
-     * @param principalId the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> revokeAclWithServiceResponseAsync(String accountName, AclType aceType, UUID principalId) {
-        if (accountName == null) {
-            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
-        }
-        if (this.client.adlaCatalogDnsSuffix() == null) {
-            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        if (aceType == null) {
-            throw new IllegalArgumentException("Parameter aceType is required and cannot be null.");
-        }
-        if (principalId == null) {
-            throw new IllegalArgumentException("Parameter principalId is required and cannot be null.");
-        }
         final String op = "REVOKEACE";
-        AclDeleteParameters parameters = new AclDeleteParameters();
-        parameters.withAceType(aceType);
-        parameters.withPrincipalId(principalId);
         String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
-        return service.revokeAcl(op, this.client.apiVersion(), this.client.acceptLanguage(), parameters, parameterizedHost, this.client.userAgent())
+        return service.revokeAcl(parameters, op, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -8926,6 +9522,101 @@ public class CatalogsImpl implements Catalogs {
     }
 
     private ServiceResponse<Void> revokeAclDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Revokes an access control list (ACL) entry for the database from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database.
+     * @param parameters Parameters supplied to delete an access control list (ACL) entry for a database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void revokeAclFromDatabase(String accountName, String databaseName, AclDeleteParameters parameters) {
+        revokeAclFromDatabaseWithServiceResponseAsync(accountName, databaseName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Revokes an access control list (ACL) entry for the database from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database.
+     * @param parameters Parameters supplied to delete an access control list (ACL) entry for a database.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> revokeAclFromDatabaseAsync(String accountName, String databaseName, AclDeleteParameters parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(revokeAclFromDatabaseWithServiceResponseAsync(accountName, databaseName, parameters), serviceCallback);
+    }
+
+    /**
+     * Revokes an access control list (ACL) entry for the database from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database.
+     * @param parameters Parameters supplied to delete an access control list (ACL) entry for a database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> revokeAclFromDatabaseAsync(String accountName, String databaseName, AclDeleteParameters parameters) {
+        return revokeAclFromDatabaseWithServiceResponseAsync(accountName, databaseName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Revokes an access control list (ACL) entry for the database from the Data Lake Analytics catalog.
+     *
+     * @param accountName The Azure Data Lake Analytics account upon which to execute catalog operations.
+     * @param databaseName The name of the database.
+     * @param parameters Parameters supplied to delete an access control list (ACL) entry for a database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> revokeAclFromDatabaseWithServiceResponseAsync(String accountName, String databaseName, AclDeleteParameters parameters) {
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (this.client.adlaCatalogDnsSuffix() == null) {
+            throw new IllegalArgumentException("Parameter this.client.adlaCatalogDnsSuffix() is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String op = "REVOKEACE";
+        String parameterizedHost = Joiner.on(", ").join("{accountName}", accountName, "{adlaCatalogDnsSuffix}", this.client.adlaCatalogDnsSuffix());
+        return service.revokeAclFromDatabase(databaseName, parameters, op, this.client.apiVersion(), this.client.acceptLanguage(), parameterizedHost, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = revokeAclFromDatabaseDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> revokeAclFromDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
@@ -9261,6 +9952,117 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<PageImpl<USqlProcedure>> listProceduresNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<USqlProcedure>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<USqlProcedure>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;USqlTableFragment&gt; object if successful.
+     */
+    public PagedList<USqlTableFragment> listTableFragmentsNext(final String nextPageLink) {
+        ServiceResponse<Page<USqlTableFragment>> response = listTableFragmentsNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<USqlTableFragment>(response.body()) {
+            @Override
+            public Page<USqlTableFragment> nextPage(String nextPageLink) {
+                return listTableFragmentsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<USqlTableFragment>> listTableFragmentsNextAsync(final String nextPageLink, final ServiceFuture<List<USqlTableFragment>> serviceFuture, final ListOperationCallback<USqlTableFragment> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listTableFragmentsNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(String nextPageLink) {
+                    return listTableFragmentsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<Page<USqlTableFragment>> listTableFragmentsNextAsync(final String nextPageLink) {
+        return listTableFragmentsNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<USqlTableFragment>>, Page<USqlTableFragment>>() {
+                @Override
+                public Page<USqlTableFragment> call(ServiceResponse<Page<USqlTableFragment>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;USqlTableFragment&gt; object
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsNextWithServiceResponseAsync(final String nextPageLink) {
+        return listTableFragmentsNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<USqlTableFragment>>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(ServiceResponse<Page<USqlTableFragment>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listTableFragmentsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of table fragments from the Data Lake Analytics catalog.
+     *
+    ServiceResponse<PageImpl<USqlTableFragment>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;USqlTableFragment&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<USqlTableFragment>>> listTableFragmentsNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listTableFragmentsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<USqlTableFragment>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<USqlTableFragment>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<USqlTableFragment>> result = listTableFragmentsNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<USqlTableFragment>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<USqlTableFragment>> listTableFragmentsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<USqlTableFragment>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<USqlTableFragment>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -10926,6 +11728,228 @@ public class CatalogsImpl implements Catalogs {
     private ServiceResponse<PageImpl<USqlView>> listViewsByDatabaseNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<USqlView>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<USqlView>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;Acl&gt; object if successful.
+     */
+    public PagedList<Acl> listAclsByDatabaseNext(final String nextPageLink) {
+        ServiceResponse<Page<Acl>> response = listAclsByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<Acl>(response.body()) {
+            @Override
+            public Page<Acl> nextPage(String nextPageLink) {
+                return listAclsByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<Acl>> listAclsByDatabaseNextAsync(final String nextPageLink, final ServiceFuture<List<Acl>> serviceFuture, final ListOperationCallback<Acl> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAclsByDatabaseNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(String nextPageLink) {
+                    return listAclsByDatabaseNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;Acl&gt; object
+     */
+    public Observable<Page<Acl>> listAclsByDatabaseNextAsync(final String nextPageLink) {
+        return listAclsByDatabaseNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<Acl>>, Page<Acl>>() {
+                @Override
+                public Page<Acl> call(ServiceResponse<Page<Acl>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;Acl&gt; object
+     */
+    public Observable<ServiceResponse<Page<Acl>>> listAclsByDatabaseNextWithServiceResponseAsync(final String nextPageLink) {
+        return listAclsByDatabaseNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<Acl>>, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(ServiceResponse<Page<Acl>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAclsByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the database from the Data Lake Analytics catalog.
+     *
+    ServiceResponse<PageImpl<Acl>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;Acl&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<Acl>>> listAclsByDatabaseNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listAclsByDatabaseNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<Acl>> result = listAclsByDatabaseNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<Acl>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<Acl>> listAclsByDatabaseNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<Acl>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<Acl>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;Acl&gt; object if successful.
+     */
+    public PagedList<Acl> listAclsNext(final String nextPageLink) {
+        ServiceResponse<Page<Acl>> response = listAclsNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<Acl>(response.body()) {
+            @Override
+            public Page<Acl> nextPage(String nextPageLink) {
+                return listAclsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<Acl>> listAclsNextAsync(final String nextPageLink, final ServiceFuture<List<Acl>> serviceFuture, final ListOperationCallback<Acl> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAclsNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(String nextPageLink) {
+                    return listAclsNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;Acl&gt; object
+     */
+    public Observable<Page<Acl>> listAclsNextAsync(final String nextPageLink) {
+        return listAclsNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<Acl>>, Page<Acl>>() {
+                @Override
+                public Page<Acl> call(ServiceResponse<Page<Acl>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the Data Lake Analytics catalog.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;Acl&gt; object
+     */
+    public Observable<ServiceResponse<Page<Acl>>> listAclsNextWithServiceResponseAsync(final String nextPageLink) {
+        return listAclsNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<Acl>>, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(ServiceResponse<Page<Acl>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAclsNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Retrieves the list of access control list (ACL) entries for the Data Lake Analytics catalog.
+     *
+    ServiceResponse<PageImpl<Acl>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;Acl&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<Acl>>> listAclsNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listAclsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<Acl>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<Acl>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<Acl>> result = listAclsNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<Acl>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<Acl>> listAclsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<Acl>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<Acl>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

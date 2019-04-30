@@ -9,6 +9,8 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.management.trafficmanager.EndpointPropertiesCustomHeadersItem;
+import com.microsoft.azure.management.trafficmanager.EndpointPropertiesSubnetsItem;
 import com.microsoft.azure.management.trafficmanager.EndpointStatus;
 import com.microsoft.azure.management.trafficmanager.GeographicLocation;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerEndpoint;
@@ -23,7 +25,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 /**
  * Implementation for {@link TrafficManagerEndpoint}.
@@ -40,6 +44,7 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
         TrafficManagerEndpoint.UpdateExternalEndpoint,
         TrafficManagerEndpoint.UpdateNestedProfileEndpoint {
     private final EndpointsInner client;
+    private EndpointType endpointType;
 
     TrafficManagerEndpointImpl(String name,
                                TrafficManagerProfileImpl parent,
@@ -56,7 +61,11 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
 
     @Override
     public EndpointType endpointType() {
-        return EndpointType.fromValue(this.inner().type());
+        if (this.inner().type() != null) {
+            return EndpointType.fromValue(this.inner().type());
+        } else {
+            return this.endpointType;
+        }
     }
 
     @Override
@@ -85,6 +94,28 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
             return Collections.unmodifiableSet(new HashSet<String>());
         }
         return Collections.unmodifiableSet(new HashSet<String>(this.inner().geoMapping()));
+    }
+
+    @Override
+    public Collection<EndpointPropertiesSubnetsItem> subnets() {
+        if (this.inner().subnets() == null) {
+            return Collections.unmodifiableList(new ArrayList<EndpointPropertiesSubnetsItem>());
+        } else {
+            return Collections.unmodifiableList(this.inner().subnets());
+        }
+    }
+
+    @Override
+    public Map<String, String> customHeaders() {
+        if (this.inner().customHeaders() == null) {
+            return Collections.unmodifiableMap(new TreeMap<String, String>());
+        } else {
+            Map<String, String> headers = new TreeMap<String, String>();
+            for (EndpointPropertiesCustomHeadersItem header : this.inner().customHeaders()) {
+                headers.put(header.name(), header.value());
+            }
+            return Collections.unmodifiableMap(headers);
+        }
     }
 
     @Override
@@ -206,6 +237,152 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
     }
 
     @Override
+    public TrafficManagerEndpointImpl withSubnet(String subnetStartIp, int mask) {
+        if (this.inner().subnets() == null) {
+            this.inner().withSubnets(new ArrayList<EndpointPropertiesSubnetsItem>());
+        }
+        boolean found = false;
+        for (EndpointPropertiesSubnetsItem subnetItem : this.inner().subnets()) {
+            if (subnetItem.first() != null && subnetItem.scope() != null) {
+                if (subnetItem.first().equalsIgnoreCase(subnetStartIp) && subnetItem.scope() == mask) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (!found) {
+            this.inner().subnets().add(new EndpointPropertiesSubnetsItem().withFirst(subnetStartIp).withScope(mask));
+        }
+        return this;
+    }
+
+    @Override
+    public TrafficManagerEndpointImpl withSubnet(String subnetStartIp, String subnetEndIp) {
+        if (this.inner().subnets() == null) {
+            this.inner().withSubnets(new ArrayList<EndpointPropertiesSubnetsItem>());
+        }
+        boolean found = false;
+        for (EndpointPropertiesSubnetsItem subnetItem : this.inner().subnets()) {
+            if (subnetItem.first() != null && subnetItem.last() != null) {
+                if (subnetItem.first().equalsIgnoreCase(subnetStartIp) && subnetItem.last().equalsIgnoreCase(subnetEndIp)) {
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (!found) {
+            this.inner().subnets().add(new EndpointPropertiesSubnetsItem().withFirst(subnetStartIp).withLast(subnetEndIp));
+        }
+        return this;
+    }
+
+    @Override
+    public TrafficManagerEndpointImpl withSubnets(List<EndpointPropertiesSubnetsItem> subnets) {
+        this.inner().withSubnets(new ArrayList<EndpointPropertiesSubnetsItem>());
+        for (EndpointPropertiesSubnetsItem subnet : subnets) {
+            this.inner().subnets().add(new EndpointPropertiesSubnetsItem()
+                    .withFirst(subnet.first())
+                    .withLast(subnet.last())
+                    .withScope(subnet.scope()));
+        }
+        return this;
+    }
+
+    @Override
+    public TrafficManagerEndpointImpl withoutSubnet(String subnetStartIp, int mask) {
+        if (this.inner().subnets() == null) {
+            return this;
+        }
+        int foundIndex = -1;
+        int i = 0;
+        for (EndpointPropertiesSubnetsItem subnetItem : this.inner().subnets()) {
+            if (subnetItem.first() != null && subnetItem.scope() != null) {
+                if (subnetItem.first().equalsIgnoreCase(subnetStartIp) && subnetItem.scope() == mask) {
+                    foundIndex = i;
+                    break;
+                }
+            }
+            i++;
+        }
+        if (foundIndex != -1) {
+            this.inner().subnets().remove(foundIndex);
+        }
+        return this;
+    }
+
+    @Override
+    public TrafficManagerEndpointImpl withoutSubnet(String subnetStartIp, String subnetEndIp) {
+        if (this.inner().subnets() == null) {
+            return this;
+        }
+        int foundIndex = -1;
+        int i = 0;
+        for (EndpointPropertiesSubnetsItem subnetItem : this.inner().subnets()) {
+            if (subnetItem.first() != null && subnetItem.last() != null) {
+                if (subnetItem.first().equalsIgnoreCase(subnetStartIp) && subnetItem.last().equalsIgnoreCase(subnetEndIp)) {
+                    foundIndex = i;
+                    break;
+                }
+            }
+            i++;
+        }
+        if (foundIndex != -1) {
+            this.inner().subnets().remove(foundIndex);
+        }
+        return this;
+    }
+
+
+    @Override
+    public TrafficManagerEndpointImpl withCustomHeader(String name, String value) {
+        if (this.inner().customHeaders() == null) {
+            this.inner().withCustomHeaders(new ArrayList<EndpointPropertiesCustomHeadersItem>());
+        }
+        boolean found = false;
+        for (EndpointPropertiesCustomHeadersItem headersItem : this.inner().customHeaders()) {
+            if (headersItem.name() != null && headersItem.name().equalsIgnoreCase(name)
+                    && headersItem.value() != null && headersItem.value().equalsIgnoreCase(value)) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            this.inner().customHeaders().add(new EndpointPropertiesCustomHeadersItem().withName(name).withValue(value));
+        }
+        return this;
+    }
+
+    @Override
+    public TrafficManagerEndpointImpl withCustomHeaders(Map<String, String> headers) {
+        this.inner().withCustomHeaders(new ArrayList<EndpointPropertiesCustomHeadersItem>());
+        for (Map.Entry<String, String> entry : headers.entrySet()) {
+            this.inner().customHeaders().add(new EndpointPropertiesCustomHeadersItem().withName(entry.getKey()).withValue(entry.getValue()));
+        }
+        return this;
+    }
+
+    @Override
+    public TrafficManagerEndpointImpl withoutCustomHeader(String name) {
+        if (this.inner().customHeaders() == null) {
+            return this;
+        }
+
+        int foundIndex = -1;
+        int i = 0;
+        for (EndpointPropertiesCustomHeadersItem headersItem : this.inner().customHeaders()) {
+            if (headersItem.name() != null && headersItem.name().equalsIgnoreCase(name)) {
+                foundIndex = i;
+                break;
+            }
+            i++;
+        }
+        if (foundIndex != -1) {
+            this.inner().customHeaders().remove(foundIndex);
+        }
+        return this;
+    }
+
+    @Override
     public Observable<TrafficManagerEndpoint> createResourceAsync() {
         final TrafficManagerEndpointImpl self = this;
         return this.client.createOrUpdateAsync(this.parent().resourceGroupName(),
@@ -251,5 +428,9 @@ class TrafficManagerEndpointImpl extends ExternalChildResourceImpl<TrafficManage
                 this.parent().name(),
                 this.endpointType().toString(),
                 this.name());
+    }
+
+    void withEndpointType(EndpointType endpointType) {
+        this.endpointType = endpointType;
     }
 }

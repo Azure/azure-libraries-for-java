@@ -42,7 +42,7 @@ public class WebAppsTests extends AppServiceTest {
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME_1)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
-                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2013)
+                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2015)
                 .create();
         Assert.assertNotNull(webApp1);
         Assert.assertEquals(Region.US_WEST, webApp1.region());

@@ -9,69 +9,73 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * A deleted app.
  */
-public class DeletedSiteInner {
+@JsonFlatten
+public class DeletedSiteInner extends ProxyOnlyResource {
     /**
      * Numeric id for the deleted site.
      */
-    @JsonProperty(value = "id")
-    private Integer id;
+    @JsonProperty(value = "properties.deletedSiteId", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer deletedSiteId;
 
     /**
      * Time in UTC when the app was deleted.
      */
-    @JsonProperty(value = "deletedTimestamp", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.deletedTimestamp", access = JsonProperty.Access.WRITE_ONLY)
     private String deletedTimestamp;
 
     /**
      * Subscription containing the deleted site.
      */
-    @JsonProperty(value = "subscription", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.subscription", access = JsonProperty.Access.WRITE_ONLY)
     private String subscription;
 
     /**
      * ResourceGroup that contained the deleted site.
      */
-    @JsonProperty(value = "resourceGroup", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.resourceGroup", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGroup;
 
     /**
      * Name of the deleted site.
      */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
+    @JsonProperty(value = "properties.deletedSiteName", access = JsonProperty.Access.WRITE_ONLY)
+    private String deletedSiteName;
 
     /**
      * Slot of the deleted site.
      */
-    @JsonProperty(value = "slot", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.slot", access = JsonProperty.Access.WRITE_ONLY)
     private String slot;
 
     /**
-     * Get the id value.
-     *
-     * @return the id value
+     * Kind of site that was deleted.
      */
-    public Integer id() {
-        return this.id;
+    @JsonProperty(value = "properties.kind", access = JsonProperty.Access.WRITE_ONLY)
+    private String deletedSiteKind;
+
+    /**
+     * Geo Region of the deleted site.
+     */
+    @JsonProperty(value = "properties.geoRegionName", access = JsonProperty.Access.WRITE_ONLY)
+    private String geoRegionName;
+
+    /**
+     * Get numeric id for the deleted site.
+     *
+     * @return the deletedSiteId value
+     */
+    public Integer deletedSiteId() {
+        return this.deletedSiteId;
     }
 
     /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the DeletedSiteInner object itself.
-     */
-    public DeletedSiteInner withId(Integer id) {
-        this.id = id;
-        return this;
-    }
-
-    /**
-     * Get the deletedTimestamp value.
+     * Get time in UTC when the app was deleted.
      *
      * @return the deletedTimestamp value
      */
@@ -80,7 +84,7 @@ public class DeletedSiteInner {
     }
 
     /**
-     * Get the subscription value.
+     * Get subscription containing the deleted site.
      *
      * @return the subscription value
      */
@@ -89,7 +93,7 @@ public class DeletedSiteInner {
     }
 
     /**
-     * Get the resourceGroup value.
+     * Get resourceGroup that contained the deleted site.
      *
      * @return the resourceGroup value
      */
@@ -98,21 +102,39 @@ public class DeletedSiteInner {
     }
 
     /**
-     * Get the name value.
+     * Get name of the deleted site.
      *
-     * @return the name value
+     * @return the deletedSiteName value
      */
-    public String name() {
-        return this.name;
+    public String deletedSiteName() {
+        return this.deletedSiteName;
     }
 
     /**
-     * Get the slot value.
+     * Get slot of the deleted site.
      *
      * @return the slot value
      */
     public String slot() {
         return this.slot;
+    }
+
+    /**
+     * Get kind of site that was deleted.
+     *
+     * @return the deletedSiteKind value
+     */
+    public String deletedSiteKind() {
+        return this.deletedSiteKind;
+    }
+
+    /**
+     * Get geo Region of the deleted site.
+     *
+     * @return the geoRegionName value
+     */
+    public String geoRegionName() {
+        return this.geoRegionName;
     }
 
 }

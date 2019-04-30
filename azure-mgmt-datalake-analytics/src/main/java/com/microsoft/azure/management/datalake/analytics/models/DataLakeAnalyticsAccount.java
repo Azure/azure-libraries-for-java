@@ -8,11 +8,12 @@
 
 package com.microsoft.azure.management.datalake.analytics.models;
 
-import org.joda.time.DateTime;
 import java.util.UUID;
+import org.joda.time.DateTime;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
@@ -20,9 +21,16 @@ import com.microsoft.azure.Resource;
  * with the named Data Lake Analytics account.
  */
 @JsonFlatten
+@SkipParentValidation
 public class DataLakeAnalyticsAccount extends Resource {
     /**
-     * the provisioning status of the Data Lake Analytics account. Possible
+     * The unique identifier associated with this Data Lake Analytics account.
+     */
+    @JsonProperty(value = "properties.accountId", access = JsonProperty.Access.WRITE_ONLY)
+    private UUID accountId;
+
+    /**
+     * The provisioning status of the Data Lake Analytics account. Possible
      * values include: 'Failed', 'Creating', 'Running', 'Succeeded',
      * 'Patching', 'Suspending', 'Resuming', 'Deleting', 'Deleted',
      * 'Undeleting', 'Canceled'.
@@ -31,101 +39,87 @@ public class DataLakeAnalyticsAccount extends Resource {
     private DataLakeAnalyticsAccountStatus provisioningState;
 
     /**
-     * the state of the Data Lake Analytics account. Possible values include:
+     * The state of the Data Lake Analytics account. Possible values include:
      * 'Active', 'Suspended'.
      */
     @JsonProperty(value = "properties.state", access = JsonProperty.Access.WRITE_ONLY)
     private DataLakeAnalyticsAccountState state;
 
     /**
-     * the account creation time.
+     * The account creation time.
      */
     @JsonProperty(value = "properties.creationTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime creationTime;
 
     /**
-     * the account last modified time.
+     * The account last modified time.
      */
     @JsonProperty(value = "properties.lastModifiedTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime lastModifiedTime;
 
     /**
-     * the full CName endpoint for this account.
+     * The full CName endpoint for this account.
      */
     @JsonProperty(value = "properties.endpoint", access = JsonProperty.Access.WRITE_ONLY)
     private String endpoint;
 
     /**
-     * The unique identifier associated with this Data Lake Analytics account.
+     * The default Data Lake Store account associated with this account.
      */
-    @JsonProperty(value = "properties.accountId", access = JsonProperty.Access.WRITE_ONLY)
-    private UUID accountId;
-
-    /**
-     * the default data lake storage account associated with this Data Lake
-     * Analytics account.
-     */
-    @JsonProperty(value = "properties.defaultDataLakeStoreAccount", required = true)
+    @JsonProperty(value = "properties.defaultDataLakeStoreAccount", access = JsonProperty.Access.WRITE_ONLY)
     private String defaultDataLakeStoreAccount;
 
     /**
-     * the maximum supported degree of parallelism for this account.
+     * The list of Data Lake Store accounts associated with this account.
      */
-    @JsonProperty(value = "properties.maxDegreeOfParallelism")
-    private Integer maxDegreeOfParallelism;
+    @JsonProperty(value = "properties.dataLakeStoreAccounts", access = JsonProperty.Access.WRITE_ONLY)
+    private List<DataLakeStoreAccountInformation> dataLakeStoreAccounts;
 
     /**
-     * the number of days that job metadata is retained.
+     * The list of Azure Blob Storage accounts associated with this account.
      */
-    @JsonProperty(value = "properties.queryStoreRetention")
-    private Integer queryStoreRetention;
+    @JsonProperty(value = "properties.storageAccounts", access = JsonProperty.Access.WRITE_ONLY)
+    private List<StorageAccountInformation> storageAccounts;
 
     /**
-     * the maximum supported jobs running under the account at the same time.
+     * The list of compute policies associated with this account.
      */
-    @JsonProperty(value = "properties.maxJobCount")
-    private Integer maxJobCount;
+    @JsonProperty(value = "properties.computePolicies", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ComputePolicy> computePolicies;
 
     /**
-     * the system defined maximum supported degree of parallelism for this
-     * account, which restricts the maximum value of parallelism the user can
-     * set for the account.
+     * The list of firewall rules associated with this account.
      */
-    @JsonProperty(value = "properties.systemMaxDegreeOfParallelism", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer systemMaxDegreeOfParallelism;
+    @JsonProperty(value = "properties.firewallRules", access = JsonProperty.Access.WRITE_ONLY)
+    private List<FirewallRule> firewallRules;
 
     /**
-     * the system defined maximum supported jobs running under the account at
-     * the same time, which restricts the maximum number of running jobs the
-     * user can set for the account.
+     * The current state of the IP address firewall for this account. Possible
+     * values include: 'Enabled', 'Disabled'.
      */
-    @JsonProperty(value = "properties.systemMaxJobCount", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer systemMaxJobCount;
+    @JsonProperty(value = "properties.firewallState", access = JsonProperty.Access.WRITE_ONLY)
+    private FirewallState firewallState;
 
     /**
-     * the list of Data Lake storage accounts associated with this account.
+     * The current state of allowing or disallowing IPs originating within
+     * Azure through the firewall. If the firewall is disabled, this is not
+     * enforced. Possible values include: 'Enabled', 'Disabled'.
      */
-    @JsonProperty(value = "properties.dataLakeStoreAccounts", required = true)
-    private List<DataLakeStoreAccountInfo> dataLakeStoreAccounts;
+    @JsonProperty(value = "properties.firewallAllowAzureIps", access = JsonProperty.Access.WRITE_ONLY)
+    private FirewallAllowAzureIpsState firewallAllowAzureIps;
 
     /**
-     * the list of Azure Blob storage accounts associated with this account.
-     */
-    @JsonProperty(value = "properties.storageAccounts")
-    private List<StorageAccountInfo> storageAccounts;
-
-    /**
-     * the commitment tier for the next month. Possible values include:
+     * The commitment tier for the next month. Possible values include:
      * 'Consumption', 'Commitment_100AUHours', 'Commitment_500AUHours',
      * 'Commitment_1000AUHours', 'Commitment_5000AUHours',
      * 'Commitment_10000AUHours', 'Commitment_50000AUHours',
      * 'Commitment_100000AUHours', 'Commitment_500000AUHours'.
      */
-    @JsonProperty(value = "properties.newTier")
+    @JsonProperty(value = "properties.newTier", access = JsonProperty.Access.WRITE_ONLY)
     private TierType newTier;
 
     /**
-     * the commitment tier in use for the current month. Possible values
+     * The commitment tier in use for the current month. Possible values
      * include: 'Consumption', 'Commitment_100AUHours',
      * 'Commitment_500AUHours', 'Commitment_1000AUHours',
      * 'Commitment_5000AUHours', 'Commitment_10000AUHours',
@@ -136,92 +130,53 @@ public class DataLakeAnalyticsAccount extends Resource {
     private TierType currentTier;
 
     /**
-     * The current state of the IP address firewall for this Data Lake
-     * Analytics account. Possible values include: 'Enabled', 'Disabled'.
+     * The maximum supported jobs running under the account at the same time.
      */
-    @JsonProperty(value = "properties.firewallState")
-    private FirewallState firewallState;
+    @JsonProperty(value = "properties.maxJobCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer maxJobCount;
 
     /**
-     * The current state of allowing or disallowing IPs originating within
-     * Azure through the firewall. If the firewall is disabled, this is not
-     * enforced. Possible values include: 'Enabled', 'Disabled'.
+     * The system defined maximum supported jobs running under the account at
+     * the same time, which restricts the maximum number of running jobs the
+     * user can set for the account.
      */
-    @JsonProperty(value = "properties.firewallAllowAzureIps")
-    private FirewallAllowAzureIpsState firewallAllowAzureIps;
+    @JsonProperty(value = "properties.systemMaxJobCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer systemMaxJobCount;
 
     /**
-     * The list of firewall rules associated with this Data Lake Analytics
-     * account.
+     * The maximum supported degree of parallelism for this account.
      */
-    @JsonProperty(value = "properties.firewallRules")
-    private List<FirewallRule> firewallRules;
+    @JsonProperty(value = "properties.maxDegreeOfParallelism", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer maxDegreeOfParallelism;
 
     /**
-     * the maximum supported degree of parallelism per job for this account.
+     * The system defined maximum supported degree of parallelism for this
+     * account, which restricts the maximum value of parallelism the user can
+     * set for the account.
      */
-    @JsonProperty(value = "properties.maxDegreeOfParallelismPerJob")
+    @JsonProperty(value = "properties.systemMaxDegreeOfParallelism", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer systemMaxDegreeOfParallelism;
+
+    /**
+     * The maximum supported degree of parallelism per job for this account.
+     */
+    @JsonProperty(value = "properties.maxDegreeOfParallelismPerJob", access = JsonProperty.Access.WRITE_ONLY)
     private Integer maxDegreeOfParallelismPerJob;
 
     /**
-     * the minimum supported priority per job for this account.
+     * The minimum supported priority per job for this account.
      */
-    @JsonProperty(value = "properties.minPriorityPerJob")
+    @JsonProperty(value = "properties.minPriorityPerJob", access = JsonProperty.Access.WRITE_ONLY)
     private Integer minPriorityPerJob;
 
     /**
-     * the list of compute policies to create in this account.
+     * The number of days that job metadata is retained.
      */
-    @JsonProperty(value = "properties.computePolicies")
-    private List<ComputePolicyAccountCreateParameters> computePolicies;
+    @JsonProperty(value = "properties.queryStoreRetention", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer queryStoreRetention;
 
     /**
-     * Get the provisioningState value.
-     *
-     * @return the provisioningState value
-     */
-    public DataLakeAnalyticsAccountStatus provisioningState() {
-        return this.provisioningState;
-    }
-
-    /**
-     * Get the state value.
-     *
-     * @return the state value
-     */
-    public DataLakeAnalyticsAccountState state() {
-        return this.state;
-    }
-
-    /**
-     * Get the creationTime value.
-     *
-     * @return the creationTime value
-     */
-    public DateTime creationTime() {
-        return this.creationTime;
-    }
-
-    /**
-     * Get the lastModifiedTime value.
-     *
-     * @return the lastModifiedTime value
-     */
-    public DateTime lastModifiedTime() {
-        return this.lastModifiedTime;
-    }
-
-    /**
-     * Get the endpoint value.
-     *
-     * @return the endpoint value
-     */
-    public String endpoint() {
-        return this.endpoint;
-    }
-
-    /**
-     * Get the accountId value.
+     * Get the unique identifier associated with this Data Lake Analytics account.
      *
      * @return the accountId value
      */
@@ -230,7 +185,52 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Get the defaultDataLakeStoreAccount value.
+     * Get the provisioning status of the Data Lake Analytics account. Possible values include: 'Failed', 'Creating', 'Running', 'Succeeded', 'Patching', 'Suspending', 'Resuming', 'Deleting', 'Deleted', 'Undeleting', 'Canceled'.
+     *
+     * @return the provisioningState value
+     */
+    public DataLakeAnalyticsAccountStatus provisioningState() {
+        return this.provisioningState;
+    }
+
+    /**
+     * Get the state of the Data Lake Analytics account. Possible values include: 'Active', 'Suspended'.
+     *
+     * @return the state value
+     */
+    public DataLakeAnalyticsAccountState state() {
+        return this.state;
+    }
+
+    /**
+     * Get the account creation time.
+     *
+     * @return the creationTime value
+     */
+    public DateTime creationTime() {
+        return this.creationTime;
+    }
+
+    /**
+     * Get the account last modified time.
+     *
+     * @return the lastModifiedTime value
+     */
+    public DateTime lastModifiedTime() {
+        return this.lastModifiedTime;
+    }
+
+    /**
+     * Get the full CName endpoint for this account.
+     *
+     * @return the endpoint value
+     */
+    public String endpoint() {
+        return this.endpoint;
+    }
+
+    /**
+     * Get the default Data Lake Store account associated with this account.
      *
      * @return the defaultDataLakeStoreAccount value
      */
@@ -239,205 +239,34 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Set the defaultDataLakeStoreAccount value.
-     *
-     * @param defaultDataLakeStoreAccount the defaultDataLakeStoreAccount value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withDefaultDataLakeStoreAccount(String defaultDataLakeStoreAccount) {
-        this.defaultDataLakeStoreAccount = defaultDataLakeStoreAccount;
-        return this;
-    }
-
-    /**
-     * Get the maxDegreeOfParallelism value.
-     *
-     * @return the maxDegreeOfParallelism value
-     */
-    public Integer maxDegreeOfParallelism() {
-        return this.maxDegreeOfParallelism;
-    }
-
-    /**
-     * Set the maxDegreeOfParallelism value.
-     *
-     * @param maxDegreeOfParallelism the maxDegreeOfParallelism value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withMaxDegreeOfParallelism(Integer maxDegreeOfParallelism) {
-        this.maxDegreeOfParallelism = maxDegreeOfParallelism;
-        return this;
-    }
-
-    /**
-     * Get the queryStoreRetention value.
-     *
-     * @return the queryStoreRetention value
-     */
-    public Integer queryStoreRetention() {
-        return this.queryStoreRetention;
-    }
-
-    /**
-     * Set the queryStoreRetention value.
-     *
-     * @param queryStoreRetention the queryStoreRetention value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withQueryStoreRetention(Integer queryStoreRetention) {
-        this.queryStoreRetention = queryStoreRetention;
-        return this;
-    }
-
-    /**
-     * Get the maxJobCount value.
-     *
-     * @return the maxJobCount value
-     */
-    public Integer maxJobCount() {
-        return this.maxJobCount;
-    }
-
-    /**
-     * Set the maxJobCount value.
-     *
-     * @param maxJobCount the maxJobCount value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withMaxJobCount(Integer maxJobCount) {
-        this.maxJobCount = maxJobCount;
-        return this;
-    }
-
-    /**
-     * Get the systemMaxDegreeOfParallelism value.
-     *
-     * @return the systemMaxDegreeOfParallelism value
-     */
-    public Integer systemMaxDegreeOfParallelism() {
-        return this.systemMaxDegreeOfParallelism;
-    }
-
-    /**
-     * Get the systemMaxJobCount value.
-     *
-     * @return the systemMaxJobCount value
-     */
-    public Integer systemMaxJobCount() {
-        return this.systemMaxJobCount;
-    }
-
-    /**
-     * Get the dataLakeStoreAccounts value.
+     * Get the list of Data Lake Store accounts associated with this account.
      *
      * @return the dataLakeStoreAccounts value
      */
-    public List<DataLakeStoreAccountInfo> dataLakeStoreAccounts() {
+    public List<DataLakeStoreAccountInformation> dataLakeStoreAccounts() {
         return this.dataLakeStoreAccounts;
     }
 
     /**
-     * Set the dataLakeStoreAccounts value.
-     *
-     * @param dataLakeStoreAccounts the dataLakeStoreAccounts value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withDataLakeStoreAccounts(List<DataLakeStoreAccountInfo> dataLakeStoreAccounts) {
-        this.dataLakeStoreAccounts = dataLakeStoreAccounts;
-        return this;
-    }
-
-    /**
-     * Get the storageAccounts value.
+     * Get the list of Azure Blob Storage accounts associated with this account.
      *
      * @return the storageAccounts value
      */
-    public List<StorageAccountInfo> storageAccounts() {
+    public List<StorageAccountInformation> storageAccounts() {
         return this.storageAccounts;
     }
 
     /**
-     * Set the storageAccounts value.
+     * Get the list of compute policies associated with this account.
      *
-     * @param storageAccounts the storageAccounts value to set
-     * @return the DataLakeAnalyticsAccount object itself.
+     * @return the computePolicies value
      */
-    public DataLakeAnalyticsAccount withStorageAccounts(List<StorageAccountInfo> storageAccounts) {
-        this.storageAccounts = storageAccounts;
-        return this;
+    public List<ComputePolicy> computePolicies() {
+        return this.computePolicies;
     }
 
     /**
-     * Get the newTier value.
-     *
-     * @return the newTier value
-     */
-    public TierType newTier() {
-        return this.newTier;
-    }
-
-    /**
-     * Set the newTier value.
-     *
-     * @param newTier the newTier value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withNewTier(TierType newTier) {
-        this.newTier = newTier;
-        return this;
-    }
-
-    /**
-     * Get the currentTier value.
-     *
-     * @return the currentTier value
-     */
-    public TierType currentTier() {
-        return this.currentTier;
-    }
-
-    /**
-     * Get the firewallState value.
-     *
-     * @return the firewallState value
-     */
-    public FirewallState firewallState() {
-        return this.firewallState;
-    }
-
-    /**
-     * Set the firewallState value.
-     *
-     * @param firewallState the firewallState value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withFirewallState(FirewallState firewallState) {
-        this.firewallState = firewallState;
-        return this;
-    }
-
-    /**
-     * Get the firewallAllowAzureIps value.
-     *
-     * @return the firewallAllowAzureIps value
-     */
-    public FirewallAllowAzureIpsState firewallAllowAzureIps() {
-        return this.firewallAllowAzureIps;
-    }
-
-    /**
-     * Set the firewallAllowAzureIps value.
-     *
-     * @param firewallAllowAzureIps the firewallAllowAzureIps value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withFirewallAllowAzureIps(FirewallAllowAzureIpsState firewallAllowAzureIps) {
-        this.firewallAllowAzureIps = firewallAllowAzureIps;
-        return this;
-    }
-
-    /**
-     * Get the firewallRules value.
+     * Get the list of firewall rules associated with this account.
      *
      * @return the firewallRules value
      */
@@ -446,18 +275,79 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Set the firewallRules value.
+     * Get the current state of the IP address firewall for this account. Possible values include: 'Enabled', 'Disabled'.
      *
-     * @param firewallRules the firewallRules value to set
-     * @return the DataLakeAnalyticsAccount object itself.
+     * @return the firewallState value
      */
-    public DataLakeAnalyticsAccount withFirewallRules(List<FirewallRule> firewallRules) {
-        this.firewallRules = firewallRules;
-        return this;
+    public FirewallState firewallState() {
+        return this.firewallState;
     }
 
     /**
-     * Get the maxDegreeOfParallelismPerJob value.
+     * Get the current state of allowing or disallowing IPs originating within Azure through the firewall. If the firewall is disabled, this is not enforced. Possible values include: 'Enabled', 'Disabled'.
+     *
+     * @return the firewallAllowAzureIps value
+     */
+    public FirewallAllowAzureIpsState firewallAllowAzureIps() {
+        return this.firewallAllowAzureIps;
+    }
+
+    /**
+     * Get the commitment tier for the next month. Possible values include: 'Consumption', 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours', 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours', 'Commitment_100000AUHours', 'Commitment_500000AUHours'.
+     *
+     * @return the newTier value
+     */
+    public TierType newTier() {
+        return this.newTier;
+    }
+
+    /**
+     * Get the commitment tier in use for the current month. Possible values include: 'Consumption', 'Commitment_100AUHours', 'Commitment_500AUHours', 'Commitment_1000AUHours', 'Commitment_5000AUHours', 'Commitment_10000AUHours', 'Commitment_50000AUHours', 'Commitment_100000AUHours', 'Commitment_500000AUHours'.
+     *
+     * @return the currentTier value
+     */
+    public TierType currentTier() {
+        return this.currentTier;
+    }
+
+    /**
+     * Get the maximum supported jobs running under the account at the same time.
+     *
+     * @return the maxJobCount value
+     */
+    public Integer maxJobCount() {
+        return this.maxJobCount;
+    }
+
+    /**
+     * Get the system defined maximum supported jobs running under the account at the same time, which restricts the maximum number of running jobs the user can set for the account.
+     *
+     * @return the systemMaxJobCount value
+     */
+    public Integer systemMaxJobCount() {
+        return this.systemMaxJobCount;
+    }
+
+    /**
+     * Get the maximum supported degree of parallelism for this account.
+     *
+     * @return the maxDegreeOfParallelism value
+     */
+    public Integer maxDegreeOfParallelism() {
+        return this.maxDegreeOfParallelism;
+    }
+
+    /**
+     * Get the system defined maximum supported degree of parallelism for this account, which restricts the maximum value of parallelism the user can set for the account.
+     *
+     * @return the systemMaxDegreeOfParallelism value
+     */
+    public Integer systemMaxDegreeOfParallelism() {
+        return this.systemMaxDegreeOfParallelism;
+    }
+
+    /**
+     * Get the maximum supported degree of parallelism per job for this account.
      *
      * @return the maxDegreeOfParallelismPerJob value
      */
@@ -466,18 +356,7 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Set the maxDegreeOfParallelismPerJob value.
-     *
-     * @param maxDegreeOfParallelismPerJob the maxDegreeOfParallelismPerJob value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withMaxDegreeOfParallelismPerJob(Integer maxDegreeOfParallelismPerJob) {
-        this.maxDegreeOfParallelismPerJob = maxDegreeOfParallelismPerJob;
-        return this;
-    }
-
-    /**
-     * Get the minPriorityPerJob value.
+     * Get the minimum supported priority per job for this account.
      *
      * @return the minPriorityPerJob value
      */
@@ -486,34 +365,12 @@ public class DataLakeAnalyticsAccount extends Resource {
     }
 
     /**
-     * Set the minPriorityPerJob value.
+     * Get the number of days that job metadata is retained.
      *
-     * @param minPriorityPerJob the minPriorityPerJob value to set
-     * @return the DataLakeAnalyticsAccount object itself.
+     * @return the queryStoreRetention value
      */
-    public DataLakeAnalyticsAccount withMinPriorityPerJob(Integer minPriorityPerJob) {
-        this.minPriorityPerJob = minPriorityPerJob;
-        return this;
-    }
-
-    /**
-     * Get the computePolicies value.
-     *
-     * @return the computePolicies value
-     */
-    public List<ComputePolicyAccountCreateParameters> computePolicies() {
-        return this.computePolicies;
-    }
-
-    /**
-     * Set the computePolicies value.
-     *
-     * @param computePolicies the computePolicies value to set
-     * @return the DataLakeAnalyticsAccount object itself.
-     */
-    public DataLakeAnalyticsAccount withComputePolicies(List<ComputePolicyAccountCreateParameters> computePolicies) {
-        this.computePolicies = computePolicies;
-        return this;
+    public Integer queryStoreRetention() {
+        return this.queryStoreRetention;
     }
 
 }

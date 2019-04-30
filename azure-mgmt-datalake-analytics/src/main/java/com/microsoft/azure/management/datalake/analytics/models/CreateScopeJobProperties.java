@@ -14,26 +14,27 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 /**
- * Scope job properties used when submitting Scope jobs.
+ * Scope job properties used when submitting Scope jobs. (Only for use
+ * internally with Scope job type.).
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonTypeName("Scope")
 public class CreateScopeJobProperties extends CreateJobProperties {
     /**
-     * the list of resources that are required by the job.
+     * The list of resources that are required by the job.
      */
     @JsonProperty(value = "resources")
     private List<ScopeJobResource> resources;
 
     /**
-     * the list of email addresses, separated by semi-colons, to notify when
+     * The list of email addresses, separated by semi-colons, to notify when
      * the job reaches a terminal state.
      */
     @JsonProperty(value = "notifier")
     private String notifier;
 
     /**
-     * Get the resources value.
+     * Get the list of resources that are required by the job.
      *
      * @return the resources value
      */
@@ -42,7 +43,7 @@ public class CreateScopeJobProperties extends CreateJobProperties {
     }
 
     /**
-     * Set the resources value.
+     * Set the list of resources that are required by the job.
      *
      * @param resources the resources value to set
      * @return the CreateScopeJobProperties object itself.
@@ -53,7 +54,7 @@ public class CreateScopeJobProperties extends CreateJobProperties {
     }
 
     /**
-     * Get the notifier value.
+     * Get the list of email addresses, separated by semi-colons, to notify when the job reaches a terminal state.
      *
      * @return the notifier value
      */
@@ -62,7 +63,7 @@ public class CreateScopeJobProperties extends CreateJobProperties {
     }
 
     /**
-     * Set the notifier value.
+     * Set the list of email addresses, separated by semi-colons, to notify when the job reaches a terminal state.
      *
      * @param notifier the notifier value to set
      * @return the CreateScopeJobProperties object itself.

@@ -15,48 +15,36 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class OutputDirectory {
     /**
-     * The name for the output directory.
-     * It will be available for the job as an environment variable under
-     * AZ_BATCHAI_OUTPUT_id.
+     * ID.
+     * The ID of the output directory. The job can use
+     * AZ_BATCHAI_OUTPUT_&lt;id&gt; environment variale to find the directory
+     * path, where &lt;id&gt; is the value of id attribute.
      */
     @JsonProperty(value = "id", required = true)
     private String id;
 
     /**
-     * The prefix path where the output directory will be created.
-     * NOTE: This is an absolute path to prefix. E.g.
-     * $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs.
+     * Path prefix.
+     * The prefix path where the output directory will be created. Note, this
+     * is an absolute path to prefix. E.g. $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs.
+     * The full path to the output directory by combining pathPrefix,
+     * jobOutputDirectoryPathSegment (reported by get job) and pathSuffix.
      */
     @JsonProperty(value = "pathPrefix", required = true)
     private String pathPrefix;
 
     /**
-     * The suffix path where the output directory will be created.
-     * The suffix path where the output directory will be created.
+     * Path suffix.
+     * The suffix path where the output directory will be created. E.g. models.
+     * You can find the full path to the output directory by combining
+     * pathPrefix, jobOutputDirectoryPathSegment (reported by get job) and
+     * pathSuffix.
      */
     @JsonProperty(value = "pathSuffix")
     private String pathSuffix;
 
     /**
-     * An enumeration, which specifies the type of job output directory.
-     * Default value is Custom. The possible values are Model, Logs, Summary,
-     * and Custom. Users can use multiple enums for a single directory. Eg.
-     * outPutType='Model,Logs, Summary'. Possible values include: 'model',
-     * 'logs', 'summary', 'custom'.
-     */
-    @JsonProperty(value = "type")
-    private OutputType type;
-
-    /**
-     * True to create new directory.
-     * Default is true. If false, then the directory is not created and can be
-     * any directory path that the user specifies.
-     */
-    @JsonProperty(value = "createNew")
-    private Boolean createNew;
-
-    /**
-     * Get the id value.
+     * Get the ID of the output directory. The job can use AZ_BATCHAI_OUTPUT_&lt;id&gt; environment variale to find the directory path, where &lt;id&gt; is the value of id attribute.
      *
      * @return the id value
      */
@@ -65,7 +53,7 @@ public class OutputDirectory {
     }
 
     /**
-     * Set the id value.
+     * Set the ID of the output directory. The job can use AZ_BATCHAI_OUTPUT_&lt;id&gt; environment variale to find the directory path, where &lt;id&gt; is the value of id attribute.
      *
      * @param id the id value to set
      * @return the OutputDirectory object itself.
@@ -76,7 +64,7 @@ public class OutputDirectory {
     }
 
     /**
-     * Get the pathPrefix value.
+     * Get the prefix path where the output directory will be created. Note, this is an absolute path to prefix. E.g. $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs. The full path to the output directory by combining pathPrefix, jobOutputDirectoryPathSegment (reported by get job) and pathSuffix.
      *
      * @return the pathPrefix value
      */
@@ -85,7 +73,7 @@ public class OutputDirectory {
     }
 
     /**
-     * Set the pathPrefix value.
+     * Set the prefix path where the output directory will be created. Note, this is an absolute path to prefix. E.g. $AZ_BATCHAI_MOUNT_ROOT/MyNFS/MyLogs. The full path to the output directory by combining pathPrefix, jobOutputDirectoryPathSegment (reported by get job) and pathSuffix.
      *
      * @param pathPrefix the pathPrefix value to set
      * @return the OutputDirectory object itself.
@@ -96,7 +84,7 @@ public class OutputDirectory {
     }
 
     /**
-     * Get the pathSuffix value.
+     * Get the suffix path where the output directory will be created. E.g. models. You can find the full path to the output directory by combining pathPrefix, jobOutputDirectoryPathSegment (reported by get job) and pathSuffix.
      *
      * @return the pathSuffix value
      */
@@ -105,53 +93,13 @@ public class OutputDirectory {
     }
 
     /**
-     * Set the pathSuffix value.
+     * Set the suffix path where the output directory will be created. E.g. models. You can find the full path to the output directory by combining pathPrefix, jobOutputDirectoryPathSegment (reported by get job) and pathSuffix.
      *
      * @param pathSuffix the pathSuffix value to set
      * @return the OutputDirectory object itself.
      */
     public OutputDirectory withPathSuffix(String pathSuffix) {
         this.pathSuffix = pathSuffix;
-        return this;
-    }
-
-    /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public OutputType type() {
-        return this.type;
-    }
-
-    /**
-     * Set the type value.
-     *
-     * @param type the type value to set
-     * @return the OutputDirectory object itself.
-     */
-    public OutputDirectory withType(OutputType type) {
-        this.type = type;
-        return this;
-    }
-
-    /**
-     * Get the createNew value.
-     *
-     * @return the createNew value
-     */
-    public Boolean createNew() {
-        return this.createNew;
-    }
-
-    /**
-     * Set the createNew value.
-     *
-     * @param createNew the createNew value to set
-     * @return the OutputDirectory object itself.
-     */
-    public OutputDirectory withCreateNew(Boolean createNew) {
-        this.createNew = createNew;
         return this;
     }
 

@@ -45,18 +45,6 @@ public interface NodeSetupTask extends
         }
 
         /**
-         * The stage of the setup task definition allowing to specify if ommand line instructions should run in elevated mode.
-         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
-         */
-        interface WithElevatedMode<ParentT> {
-            /**
-             * Specifies that the setup task should run in elevated mode.
-             * @return the next stage of the definition
-             */
-            WithAttach<ParentT> withRunElevated();
-        }
-
-        /**
          * The stage of the setup task definition allowing to specify where Batch AI will upload stdout and stderr of the setup task.
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
@@ -81,6 +69,31 @@ public interface NodeSetupTask extends
             WithAttach<ParentT> withEnvironmentVariable(String name, String value);
         }
 
+        /**
+         * The stage of the setup task definition allowing to specify environment variables with secrets.
+         * @param <ParentT> the stage of the parent definition to return to after attaching this definition
+         */
+        interface WithEnvironmentVariableSecretValue<ParentT> {
+            /**
+             * Sets the value of the environment variable. This value will never be reported
+             * back by Batch AI.
+             * @param name name of the variable to set
+             * @param value value of the variable to set
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withEnvironmentVariableSecretValue(String name, String value);
+
+            /**
+             * Specifies KeyVault Store and Secret which contains the value for the
+             * environment variable.
+             * @param name name of the variable to set
+             * @param keyVaultId fully qualified resource Id for the Key Vault
+             * @param secretUrl the URL referencing a secret in a Key Vault
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withEnvironmentVariableSecretValue(String name, String keyVaultId, String secretUrl);
+        }
+
         /** The final stage of the setup task definition.
          * At this stage, any remaining optional settings can be specified, or the setup task definition
          * can be attached to the parent cluster definition.
@@ -88,8 +101,8 @@ public interface NodeSetupTask extends
          */
         interface WithAttach<ParentT> extends
                 Attachable.InDefinition<ParentT>,
-                WithElevatedMode<ParentT>,
-                WithEnvironmentVariable<ParentT> {
+                WithEnvironmentVariable<ParentT>,
+                WithEnvironmentVariableSecretValue<ParentT> {
         }
     }
 
@@ -98,7 +111,6 @@ public interface NodeSetupTask extends
      */
     interface Definition<ParentT> extends
             DefinitionStages.Blank<ParentT>,
-            DefinitionStages.WithElevatedMode<ParentT>,
             DefinitionStages.WithStdOutErrPath<ParentT>,
             DefinitionStages.WithEnvironmentVariable<ParentT>,
             DefinitionStages.WithAttach<ParentT> {

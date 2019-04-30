@@ -8,11 +8,11 @@ package com.microsoft.azure.management.graphrbac.implementation;
 
 import com.google.common.io.BaseEncoding;
 import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.CertificateCredential;
 import com.microsoft.azure.management.graphrbac.CertificateType;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.rest.RestClient;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -40,8 +40,8 @@ class CertificateCredentialImpl<T>
 
     CertificateCredentialImpl(KeyCredentialInner keyCredential) {
         super(keyCredential);
-        if (keyCredential.customKeyIdentifier() != null && !keyCredential.customKeyIdentifier().isEmpty()) {
-            this.name = new String(BaseEncoding.base64().decode(keyCredential.customKeyIdentifier()));
+        if (keyCredential.customKeyIdentifier() != null && keyCredential.customKeyIdentifier().length > 0) {
+            this.name = new String(keyCredential.customKeyIdentifier());
         } else {
             this.name = keyCredential.keyId();
         }
@@ -50,7 +50,7 @@ class CertificateCredentialImpl<T>
     CertificateCredentialImpl(String name, HasCredential<?> parent) {
         super(new KeyCredentialInner()
                 .withUsage("Verify")
-                .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()))
+                .withCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()).getBytes())
                 .withStartDate(DateTime.now())
                 .withEndDate(DateTime.now().plusYears(1)));
         this.name = name;
@@ -144,21 +144,7 @@ class CertificateCredentialImpl<T>
             return;
         }
         RestClient restClient = servicePrincipal.manager().roleInner().restClient();
-        AzureEnvironment environment = null;
-        if (restClient.credentials() instanceof AzureTokenCredentials) {
-            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
-        } else {
-            String baseUrl = restClient.retrofit().baseUrl().toString();
-            for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
-                if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
-                    environment = env;
-                    break;
-                }
-            }
-            if (environment == null) {
-                throw new IllegalArgumentException("Unknown resource manager endpoint " + baseUrl);
-            }
-        }
+        AzureEnvironment environment = Utils.extractAzureEnvironment(restClient);
 
         StringBuilder builder = new StringBuilder("{\n");
         builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");

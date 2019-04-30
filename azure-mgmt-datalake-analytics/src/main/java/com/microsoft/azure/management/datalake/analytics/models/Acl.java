@@ -39,7 +39,7 @@ public class Acl {
     private PermissionType permission;
 
     /**
-     * Get the aceType value.
+     * Get the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'.
      *
      * @return the aceType value
      */
@@ -48,7 +48,7 @@ public class Acl {
     }
 
     /**
-     * Get the principalId value.
+     * Get the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
      *
      * @return the principalId value
      */
@@ -57,7 +57,7 @@ public class Acl {
     }
 
     /**
-     * Get the permission value.
+     * Get the permission type of the access control list (ACL) entry. Possible values include: 'None', 'Use', 'Create', 'Drop', 'Alter', 'Write', 'All'.
      *
      * @return the permission value
      */

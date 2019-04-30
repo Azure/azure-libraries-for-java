@@ -46,6 +46,39 @@ public interface MetricDefinition extends
     LocalizableString name();
 
     /**
+     * Get the namespace value.
+     *
+     * @return the namespace value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    String namespace();
+
+    /**
+     * Get the isDimensionRequired value.
+     *
+     * @return the isDimensionRequired value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    boolean isDimensionRequired();
+
+    /**
+     * the name and the display name of the dimension, i.e. it is a localizable
+     * string.
+     *
+     * @return the list of dimension values.
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    List<LocalizableString> dimensions();
+
+    /**
+     * the collection of what aggregation types are supported.
+     *
+     * @return the list of supported aggregation type values.
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    List<AggregationType> supportedAggregationTypes();
+
+    /**
      * Get the unit value.
      *
      * @return the unit value
@@ -183,7 +216,7 @@ public interface MetricDefinition extends
              * @param top the maximum number of records to retrieve.
              * @return the stage of optional query parameter definition and query execution.
              */
-            WithMetricsQueryExecute selectTop(double top);
+            WithMetricsQueryExecute selectTop(int top);
 
             /**
              * Sets the aggregation to use for sorting results and the direction of the sort.
@@ -196,10 +229,19 @@ public interface MetricDefinition extends
             WithMetricsQueryExecute orderBy(String orderBy);
 
             /**
+             * Filters Metrics for a given namespace.
+             *
+             * @param namespaceName Metric namespace to query metric definitions for.
+             * @return the stage of optional query parameter definition and query execution.
+             */
+            WithMetricsQueryExecute filterByNamespace(String namespaceName);
+
+            /**
              * Executes the query.
              *
              * @return Metric collection received after query execution.
              */
+            @Method
             MetricCollection execute();
 
             /**
@@ -207,6 +249,7 @@ public interface MetricDefinition extends
              *
              * @return a representation of the deferred computation of Metric collection query call
              */
+            @Method
             Observable<MetricCollection> executeAsync();
         }
     }

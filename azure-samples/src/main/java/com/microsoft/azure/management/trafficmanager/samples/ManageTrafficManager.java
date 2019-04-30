@@ -50,6 +50,7 @@ public final class ManageTrafficManager {
     public static boolean runSample(Azure azure) {
         final String rgName                     = SdkContext.randomResourceName("rgNEMV_", 24);
         final String domainName                 = SdkContext.randomResourceName("jsdkdemo-", 20) + ".com";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String certPassword               = "StrongPass!12";
         final String appServicePlanNamePrefix   = SdkContext.randomResourceName("jplan1_", 15);
         final String webAppNamePrefix           = SdkContext.randomResourceName("webapp1-", 20);

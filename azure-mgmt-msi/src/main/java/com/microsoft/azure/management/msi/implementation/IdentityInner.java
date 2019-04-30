@@ -9,10 +9,9 @@
 package com.microsoft.azure.management.msi.implementation;
 
 import java.util.UUID;
-
-import com.microsoft.azure.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Describes an identity resource.
@@ -41,13 +40,15 @@ public class IdentityInner extends Resource {
 
     /**
      * The ManagedServiceIdentity DataPlane URL that can be queried to obtain
-     * the identity credentials.
+     * the identity credentials. If identity is user assigned, then the
+     * clientSecretUrl will not be present in the response, otherwise it will
+     * be present.
      */
     @JsonProperty(value = "properties.clientSecretUrl", access = JsonProperty.Access.WRITE_ONLY)
     private String clientSecretUrl;
 
     /**
-     * Get the tenantId value.
+     * Get the id of the tenant which the identity belongs to.
      *
      * @return the tenantId value
      */
@@ -56,7 +57,7 @@ public class IdentityInner extends Resource {
     }
 
     /**
-     * Get the principalId value.
+     * Get the id of the service principal object associated with the created identity.
      *
      * @return the principalId value
      */
@@ -65,7 +66,7 @@ public class IdentityInner extends Resource {
     }
 
     /**
-     * Get the clientId value.
+     * Get the id of the app associated with the identity. This is a random generated UUID by MSI.
      *
      * @return the clientId value
      */
@@ -74,11 +75,12 @@ public class IdentityInner extends Resource {
     }
 
     /**
-     * Get the clientSecretUrl value.
+     * Get the ManagedServiceIdentity DataPlane URL that can be queried to obtain the identity credentials. If identity is user assigned, then the clientSecretUrl will not be present in the response, otherwise it will be present.
      *
      * @return the clientSecretUrl value
      */
     public String clientSecretUrl() {
         return this.clientSecretUrl;
     }
+
 }

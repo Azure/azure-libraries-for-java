@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.datalake.store.models;
 
-import org.joda.time.DateTime;
 import java.util.UUID;
+import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -20,7 +20,13 @@ import com.microsoft.azure.Resource;
 @JsonFlatten
 public class DataLakeStoreAccountBasic extends Resource {
     /**
-     * the provisioning status of the Data Lake Store account. Possible values
+     * The unique identifier associated with this Data Lake Store account.
+     */
+    @JsonProperty(value = "properties.accountId", access = JsonProperty.Access.WRITE_ONLY)
+    private UUID accountId;
+
+    /**
+     * The provisioning status of the Data Lake Store account. Possible values
      * include: 'Failed', 'Creating', 'Running', 'Succeeded', 'Patching',
      * 'Suspending', 'Resuming', 'Deleting', 'Deleted', 'Undeleting',
      * 'Canceled'.
@@ -29,35 +35,38 @@ public class DataLakeStoreAccountBasic extends Resource {
     private DataLakeStoreAccountStatus provisioningState;
 
     /**
-     * the state of the Data Lake Store account. Possible values include:
+     * The state of the Data Lake Store account. Possible values include:
      * 'Active', 'Suspended'.
      */
     @JsonProperty(value = "properties.state", access = JsonProperty.Access.WRITE_ONLY)
     private DataLakeStoreAccountState state;
 
     /**
-     * the account creation time.
+     * The account creation time.
      */
     @JsonProperty(value = "properties.creationTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime creationTime;
 
     /**
-     * the account last modified time.
+     * The account last modified time.
      */
     @JsonProperty(value = "properties.lastModifiedTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime lastModifiedTime;
 
     /**
-     * the full CName endpoint for this account.
+     * The full CName endpoint for this account.
      */
     @JsonProperty(value = "properties.endpoint", access = JsonProperty.Access.WRITE_ONLY)
     private String endpoint;
 
     /**
-     * The unique identifier associated with this Data Lake Store account.
+     * Get the accountId value.
+     *
+     * @return the accountId value
      */
-    @JsonProperty(value = "properties.accountId", access = JsonProperty.Access.WRITE_ONLY)
-    private UUID accountId;
+    public UUID accountId() {
+        return this.accountId;
+    }
 
     /**
      * Get the provisioningState value.
@@ -102,15 +111,6 @@ public class DataLakeStoreAccountBasic extends Resource {
      */
     public String endpoint() {
         return this.endpoint;
-    }
-
-    /**
-     * Get the accountId value.
-     *
-     * @return the accountId value
-     */
-    public UUID accountId() {
-        return this.accountId;
     }
 
 }

@@ -10,13 +10,14 @@ import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
 import com.microsoft.azure.management.appservice.Contact;
 import com.microsoft.azure.management.appservice.DomainPurchaseConsent;
 import com.microsoft.azure.management.appservice.DomainStatus;
 import com.microsoft.azure.management.appservice.HostName;
+import com.microsoft.azure.management.appservice.TopLevelDomainAgreementOption;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
@@ -65,7 +66,7 @@ class AppServiceDomainImpl
         String[] domainParts = this.name().split("\\.");
         String topLevel = domainParts[domainParts.length - 1];
         final DomainsInner client = this.manager().inner().domains();
-        return this.manager().inner().topLevelDomains().listAgreementsAsync(topLevel, new TopLevelDomainAgreementOptionInner())
+        return this.manager().inner().topLevelDomains().listAgreementsAsync(topLevel, new TopLevelDomainAgreementOption())
                 // Step 1: Consent to agreements
                 .flatMap(new Func1<Page<TldLegalAgreementInner>, Observable<List<String>>>() {
                     @Override

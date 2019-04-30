@@ -8,12 +8,13 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
-import com.microsoft.azure.management.graphrbac.ClassicAdministratorProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * Classic Administrators.
  */
+@JsonFlatten
 public class ClassicAdministratorInner {
     /**
      * The ID of the administrator.
@@ -34,10 +35,16 @@ public class ClassicAdministratorInner {
     private String type;
 
     /**
-     * Properties for the classic administrator.
+     * The email address of the administrator.
      */
-    @JsonProperty(value = "properties")
-    private ClassicAdministratorProperties properties;
+    @JsonProperty(value = "properties.emailAddress")
+    private String emailAddress;
+
+    /**
+     * The role of the administrator.
+     */
+    @JsonProperty(value = "properties.role")
+    private String role;
 
     /**
      * Get the id value.
@@ -100,22 +107,42 @@ public class ClassicAdministratorInner {
     }
 
     /**
-     * Get the properties value.
+     * Get the emailAddress value.
      *
-     * @return the properties value
+     * @return the emailAddress value
      */
-    public ClassicAdministratorProperties properties() {
-        return this.properties;
+    public String emailAddress() {
+        return this.emailAddress;
     }
 
     /**
-     * Set the properties value.
+     * Set the emailAddress value.
      *
-     * @param properties the properties value to set
+     * @param emailAddress the emailAddress value to set
      * @return the ClassicAdministratorInner object itself.
      */
-    public ClassicAdministratorInner withProperties(ClassicAdministratorProperties properties) {
-        this.properties = properties;
+    public ClassicAdministratorInner withEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+        return this;
+    }
+
+    /**
+     * Get the role value.
+     *
+     * @return the role value
+     */
+    public String role() {
+        return this.role;
+    }
+
+    /**
+     * Set the role value.
+     *
+     * @param role the role value to set
+     * @return the ClassicAdministratorInner object itself.
+     */
+    public ClassicAdministratorInner withRole(String role) {
+        this.role = role;
         return this;
     }
 

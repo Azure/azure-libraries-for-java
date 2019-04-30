@@ -21,6 +21,12 @@ public class RoleDefinitionFilter {
     private String roleName;
 
     /**
+     * Returns role definition with the specific type.
+     */
+    @JsonProperty(value = "type")
+    private String type;
+
+    /**
      * Get the roleName value.
      *
      * @return the roleName value
@@ -37,6 +43,26 @@ public class RoleDefinitionFilter {
      */
     public RoleDefinitionFilter withRoleName(String roleName) {
         this.roleName = roleName;
+        return this;
+    }
+
+    /**
+     * Get the type value.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
+    }
+
+    /**
+     * Set the type value.
+     *
+     * @param type the type value to set
+     * @return the RoleDefinitionFilter object itself.
+     */
+    public RoleDefinitionFilter withType(String type) {
+        this.type = type;
         return this;
     }
 

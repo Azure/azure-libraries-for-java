@@ -15,26 +15,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class Operation {
     /**
-     * the name of the operation.
+     * The name of the operation.
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
-     * the display information for the operation.
+     * The display information for the operation.
      */
-    @JsonProperty(value = "display")
+    @JsonProperty(value = "display", access = JsonProperty.Access.WRITE_ONLY)
     private OperationDisplay display;
 
     /**
-     * the intended executor of the operation. Possible values include: 'user',
+     * The intended executor of the operation. Possible values include: 'user',
      * 'system', 'user,system'.
      */
     @JsonProperty(value = "origin", access = JsonProperty.Access.WRITE_ONLY)
     private OperationOrigin origin;
 
     /**
-     * Get the name value.
+     * Get the name of the operation.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class Operation {
     }
 
     /**
-     * Get the display value.
+     * Get the display information for the operation.
      *
      * @return the display value
      */
@@ -52,18 +52,7 @@ public class Operation {
     }
 
     /**
-     * Set the display value.
-     *
-     * @param display the display value to set
-     * @return the Operation object itself.
-     */
-    public Operation withDisplay(OperationDisplay display) {
-        this.display = display;
-        return this;
-    }
-
-    /**
-     * Get the origin value.
+     * Get the intended executor of the operation. Possible values include: 'user', 'system', 'user,system'.
      *
      * @return the origin value
      */

@@ -7,6 +7,7 @@ package com.microsoft.azure.management.containerinstance;
 
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerGroupInner;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerInstanceManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -16,6 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import rx.Completable;
 import rx.Observable;
 
 import java.util.Collection;
@@ -123,6 +125,38 @@ public interface ContainerGroup extends
      ***********************************************************/
 
     /**
+     * Restarts all containers in a container group in place. If container image has updates, new image will be downloaded.
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    @Method
+    void restart();
+
+    /**
+     * Restarts all containers in a container group in place asynchronously. If container image has updates, new image will be downloaded.
+     *
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    @Method
+    Completable restartAsync();
+
+    /**
+     * Stops all containers in a container group. Compute resources will be de-allocated and billing will stop.
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    @Method
+    void stop();
+
+    /**
+     * Stops all containers in a container group asynchronously. Compute resources will be de-allocated and billing will stop.
+     *
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_15_0)
+    @Method
+    Completable stopAsync();
+
+    /**
      * Get the log content for the specified container instance within the container group.
      *
      * @param containerName the container instance name
@@ -160,9 +194,35 @@ public interface ContainerGroup extends
      */
     Observable<String> getLogContentAsync(String containerName, int tailLineCount);
 
+    /**
+     * Starts the exec command for a specific container instance.
+     *
+     * @param containerName the container instance name
+     * @param command the command to be executed
+     * @param row the row size of the terminal
+     * @param column the column size of the terminal
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the log lines from the end, up to the number specified
+     */
+    @Beta(Beta.SinceVersion.V1_11_0)
+    ContainerExecResponse executeCommand(String containerName, String command, int row, int column);
 
     /**
-     * The entirety of the Azure Container Instance service container group definition.
+     * Starts the exec command for a specific container instance within the container group.
+     *
+     * @param containerName the container instance name
+     * @param command the command to be executed
+     * @param row the row size of the terminal
+     * @param column the column size of the terminal
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return a representation of the future computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_11_0)
+    Observable<ContainerExecResponse> executeCommandAsync(String containerName, String command, int row, int column);
+
+
+    /**
+     * Starts the exec command for a specific container instance within the current group asynchronously.
      */
     interface Definition extends
         DefinitionStages.Blank,
@@ -573,6 +633,7 @@ public interface ContainerGroup extends
              *
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
+            @Beta(Beta.SinceVersion.V1_8_0)
             interface WithPorts<ParentT> {
                 /**
                  * Specifies the container's TCP ports available to external clients.
@@ -627,7 +688,7 @@ public interface ContainerGroup extends
                 WithPortsOrContainerInstanceAttach<ParentT> withExternalUdpPort(int port);
 
                 /**
-                 * Specifies the container's ports are available to internal clients only (other container instances within the container group).
+                 * Specifies the container's TCP ports are available to internal clients only (other container instances within the container group).
                  * <p>
                  * Containers within a group can reach each other via localhost on the ports that they have exposed,
                  *   even if those ports are not exposed externally on the group's IP address.
@@ -635,10 +696,23 @@ public interface ContainerGroup extends
                  * @param ports array of TCP ports to be exposed internally
                  * @return the next stage of the definition
                  */
-                WithPortsOrContainerInstanceAttach<ParentT> withInternalPorts(int... ports);
+                @Beta(Beta.SinceVersion.V1_8_0)
+                WithPortsOrContainerInstanceAttach<ParentT> withInternalTcpPorts(int... ports);
 
                 /**
-                 * Specifies the container's port is available to internal clients only (other container instances within the container group).
+                 * Specifies the container's Udp ports are available to internal clients only (other container instances within the container group).
+                 * <p>
+                 * Containers within a group can reach each other via localhost on the ports that they have exposed,
+                 *   even if those ports are not exposed externally on the group's IP address.
+                 *
+                 * @param ports array of UDP ports to be exposed internally
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_8_0)
+                WithPortsOrContainerInstanceAttach<ParentT> withInternalUdpPorts(int... ports);
+
+                /**
+                 * Specifies the container's TCP port is available to internal clients only (other container instances within the container group).
                  * <p>
                  * Containers within a group can reach each other via localhost on the ports that they have exposed,
                  *   even if those ports are not exposed externally on the group's IP address.
@@ -646,7 +720,20 @@ public interface ContainerGroup extends
                  * @param port TCP port to be exposed internally
                  * @return the next stage of the definition
                  */
-                WithPortsOrContainerInstanceAttach<ParentT> withInternalPort(int port);
+                @Beta(Beta.SinceVersion.V1_8_0)
+                WithPortsOrContainerInstanceAttach<ParentT> withInternalTcpPort(int port);
+
+                /**
+                 * Specifies the container's UDP port is available to internal clients only (other container instances within the container group).
+                 * <p>
+                 * Containers within a group can reach each other via localhost on the ports that they have exposed,
+                 *   even if those ports are not exposed externally on the group's IP address.
+                 *
+                 * @param port UDP port to be exposed internally
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_8_0)
+                WithPortsOrContainerInstanceAttach<ParentT> withInternalUdpPort(int port);
             }
 
             /**
@@ -693,18 +780,20 @@ public interface ContainerGroup extends
                 /**
                  * Specifies the starting command lines.
                  *
-                 * @param commandLines the starting command lines the container will execute after it gets initialized
+                 * @param executable the executable which it will call after initializing the container
+                 * @param parameters the parameter list for the executable to be called
                  * @return the next stage of the definition
                  */
-                WithContainerInstanceAttach<ParentT> withStartingCommandLines(String... commandLines);
+                @Beta(Beta.SinceVersion.V1_11_0)
+                WithContainerInstanceAttach<ParentT> withStartingCommandLine(String executable, String... parameters);
 
                 /**
                  * Specifies the starting command line.
                  *
-                 * @param commandLine the starting command line the container will execute after it gets initialized
+                 * @param executable the executable or path to the executable that will be called after initializing the container
                  * @return the next stage of the definition
                  */
-                WithContainerInstanceAttach<ParentT> withStartingCommandLine(String commandLine);
+                WithContainerInstanceAttach<ParentT> withStartingCommandLine(String executable);
             }
 
             /**
@@ -712,6 +801,7 @@ public interface ContainerGroup extends
              *
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
+            @Beta(Beta.SinceVersion.V1_15_0)
             interface WithEnvironmentVariables<ParentT> {
                 /**
                  * Specifies the environment variables.
@@ -729,6 +819,25 @@ public interface ContainerGroup extends
                  * @return the next stage of the definition
                  */
                 WithContainerInstanceAttach<ParentT> withEnvironmentVariable(String envName, String envValue);
+
+                /**
+                 * Specifies a collection of name and secure value pairs for the environment variables.
+                 *
+                 * @param environmentVariables the environment variables in a name and value pair to be set after the container gets initialized
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_15_0)
+                WithContainerInstanceAttach<ParentT> withEnvironmentVariableWithSecuredValue(Map<String, String> environmentVariables);
+
+                /**
+                 * Specifies the environment variable that has a secured value.
+                 *
+                 * @param envName the environment variable name
+                 * @param securedValue the environment variable secured value
+                 * @return the next stage of the definition
+                 */
+                @Beta(Beta.SinceVersion.V1_15_0)
+                WithContainerInstanceAttach<ParentT> withEnvironmentVariableWithSecuredValue(String envName, String securedValue);
             }
 
             /**

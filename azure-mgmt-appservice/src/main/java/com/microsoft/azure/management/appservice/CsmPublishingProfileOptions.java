@@ -24,7 +24,16 @@ public class CsmPublishingProfileOptions {
     private PublishingProfileFormat format;
 
     /**
-     * Get the format value.
+     * Include the DisasterRecover endpoint if true.
+     */
+    @JsonProperty(value = "includeDisasterRecoveryEndpoints")
+    private Boolean includeDisasterRecoveryEndpoints;
+
+    /**
+     * Get name of the format. Valid values are:
+     FileZilla3
+     WebDeploy -- default
+     Ftp. Possible values include: 'FileZilla3', 'WebDeploy', 'Ftp'.
      *
      * @return the format value
      */
@@ -33,13 +42,36 @@ public class CsmPublishingProfileOptions {
     }
 
     /**
-     * Set the format value.
+     * Set name of the format. Valid values are:
+     FileZilla3
+     WebDeploy -- default
+     Ftp. Possible values include: 'FileZilla3', 'WebDeploy', 'Ftp'.
      *
      * @param format the format value to set
      * @return the CsmPublishingProfileOptions object itself.
      */
     public CsmPublishingProfileOptions withFormat(PublishingProfileFormat format) {
         this.format = format;
+        return this;
+    }
+
+    /**
+     * Get include the DisasterRecover endpoint if true.
+     *
+     * @return the includeDisasterRecoveryEndpoints value
+     */
+    public Boolean includeDisasterRecoveryEndpoints() {
+        return this.includeDisasterRecoveryEndpoints;
+    }
+
+    /**
+     * Set include the DisasterRecover endpoint if true.
+     *
+     * @param includeDisasterRecoveryEndpoints the includeDisasterRecoveryEndpoints value to set
+     * @return the CsmPublishingProfileOptions object itself.
+     */
+    public CsmPublishingProfileOptions withIncludeDisasterRecoveryEndpoints(Boolean includeDisasterRecoveryEndpoints) {
+        this.includeDisasterRecoveryEndpoints = includeDisasterRecoveryEndpoints;
         return this;
     }
 

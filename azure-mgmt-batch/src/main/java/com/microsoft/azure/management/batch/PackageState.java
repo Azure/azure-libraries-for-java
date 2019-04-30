@@ -15,14 +15,14 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for PackageState.
  */
 public enum PackageState {
-    /** Enum value pending. */
-    PENDING("pending"),
+    /** Enum value Pending. */
+    PENDING("Pending"),
 
-    /** Enum value active. */
-    ACTIVE("active"),
+    /** Enum value Active. */
+    ACTIVE("Active"),
 
-    /** Enum value unmapped. */
-    UNMAPPED("unmapped");
+    /** Enum value Unmapped. */
+    UNMAPPED("Unmapped");
 
     /** The actual serialized value for a PackageState instance. */
     private String value;

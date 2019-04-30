@@ -11,8 +11,8 @@ package com.microsoft.azure.management.appservice.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -59,6 +59,22 @@ public class DiagnosticsInner {
      * used by Retrofit to perform actually REST calls.
      */
     interface DiagnosticsService {
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listHostingEnvironmentDetectorResponses" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors")
+        Observable<Response<ResponseBody>> listHostingEnvironmentDetectorResponses(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics getHostingEnvironmentDetectorResponse" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/detectors/{detectorName}")
+        Observable<Response<ResponseBody>> getHostingEnvironmentDetectorResponse(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("detectorName") String detectorName, @Path("subscriptionId") String subscriptionId, @Query("startTime") DateTime startTime, @Query("endTime") DateTime endTime, @Query("timeGrain") String timeGrain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDetectorResponses" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors")
+        Observable<Response<ResponseBody>> listSiteDetectorResponses(@Path("resourceGroupName") String resourceGroupName, @Path("siteName") String siteName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics getSiteDetectorResponse" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/detectors/{detectorName}")
+        Observable<Response<ResponseBody>> getSiteDetectorResponse(@Path("resourceGroupName") String resourceGroupName, @Path("siteName") String siteName, @Path("detectorName") String detectorName, @Path("subscriptionId") String subscriptionId, @Query("startTime") DateTime startTime, @Query("endTime") DateTime endTime, @Query("timeGrain") String timeGrain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDiagnosticCategories" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics")
         Observable<Response<ResponseBody>> listSiteDiagnosticCategories(@Path("resourceGroupName") String resourceGroupName, @Path("siteName") String siteName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -90,6 +106,14 @@ public class DiagnosticsInner {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics executeSiteDetector" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/detectors/{detectorName}/execute")
         Observable<Response<ResponseBody>> executeSiteDetector(@Path("resourceGroupName") String resourceGroupName, @Path("siteName") String siteName, @Path("detectorName") String detectorName, @Path("diagnosticCategory") String diagnosticCategory, @Path("subscriptionId") String subscriptionId, @Query("startTime") DateTime startTime, @Query("endTime") DateTime endTime, @Query("timeGrain") String timeGrain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDetectorResponsesSlot" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/detectors")
+        Observable<Response<ResponseBody>> listSiteDetectorResponsesSlot(@Path("resourceGroupName") String resourceGroupName, @Path("siteName") String siteName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics getSiteDetectorResponseSlot" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/detectors/{detectorName}")
+        Observable<Response<ResponseBody>> getSiteDetectorResponseSlot(@Path("resourceGroupName") String resourceGroupName, @Path("siteName") String siteName, @Path("detectorName") String detectorName, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("startTime") DateTime startTime, @Query("endTime") DateTime endTime, @Query("timeGrain") String timeGrain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDiagnosticCategoriesSlot" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics")
@@ -123,6 +147,14 @@ public class DiagnosticsInner {
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/slots/{slot}/diagnostics/{diagnosticCategory}/detectors/{detectorName}/execute")
         Observable<Response<ResponseBody>> executeSiteDetectorSlot(@Path("resourceGroupName") String resourceGroupName, @Path("siteName") String siteName, @Path("detectorName") String detectorName, @Path("diagnosticCategory") String diagnosticCategory, @Path("slot") String slot, @Path("subscriptionId") String subscriptionId, @Query("startTime") DateTime startTime, @Query("endTime") DateTime endTime, @Query("timeGrain") String timeGrain, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listHostingEnvironmentDetectorResponsesNext" })
+        @GET
+        Observable<Response<ResponseBody>> listHostingEnvironmentDetectorResponsesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDetectorResponsesNext" })
+        @GET
+        Observable<Response<ResponseBody>> listSiteDetectorResponsesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDiagnosticCategoriesNext" })
         @GET
         Observable<Response<ResponseBody>> listSiteDiagnosticCategoriesNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -138,6 +170,10 @@ public class DiagnosticsInner {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics getSiteDetectorNext" })
         @GET
         Observable<Response<ResponseBody>> getSiteDetectorNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDetectorResponsesSlotNext" })
+        @GET
+        Observable<Response<ResponseBody>> listSiteDetectorResponsesSlotNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDiagnosticCategoriesSlotNext" })
         @GET
@@ -158,13 +194,673 @@ public class DiagnosticsInner {
     }
 
     /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;DetectorResponseInner&gt; object if successful.
+     */
+    public PagedList<DetectorResponseInner> listHostingEnvironmentDetectorResponses(final String resourceGroupName, final String name) {
+        ServiceResponse<Page<DetectorResponseInner>> response = listHostingEnvironmentDetectorResponsesSinglePageAsync(resourceGroupName, name).toBlocking().single();
+        return new PagedList<DetectorResponseInner>(response.body()) {
+            @Override
+            public Page<DetectorResponseInner> nextPage(String nextPageLink) {
+                return listHostingEnvironmentDetectorResponsesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site Name
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<DetectorResponseInner>> listHostingEnvironmentDetectorResponsesAsync(final String resourceGroupName, final String name, final ListOperationCallback<DetectorResponseInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listHostingEnvironmentDetectorResponsesSinglePageAsync(resourceGroupName, name),
+            new Func1<String, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(String nextPageLink) {
+                    return listHostingEnvironmentDetectorResponsesNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<Page<DetectorResponseInner>> listHostingEnvironmentDetectorResponsesAsync(final String resourceGroupName, final String name) {
+        return listHostingEnvironmentDetectorResponsesWithServiceResponseAsync(resourceGroupName, name)
+            .map(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Page<DetectorResponseInner>>() {
+                @Override
+                public Page<DetectorResponseInner> call(ServiceResponse<Page<DetectorResponseInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name Site Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listHostingEnvironmentDetectorResponsesWithServiceResponseAsync(final String resourceGroupName, final String name) {
+        return listHostingEnvironmentDetectorResponsesSinglePageAsync(resourceGroupName, name)
+            .concatMap(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(ServiceResponse<Page<DetectorResponseInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listHostingEnvironmentDetectorResponsesNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param name Site Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;DetectorResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listHostingEnvironmentDetectorResponsesSinglePageAsync(final String resourceGroupName, final String name) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listHostingEnvironmentDetectorResponses(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<DetectorResponseInner>> result = listHostingEnvironmentDetectorResponsesDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<DetectorResponseInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<DetectorResponseInner>> listHostingEnvironmentDetectorResponsesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<DetectorResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get Hosting Environment Detector Response.
+     * Get Hosting Environment Detector Response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name App Service Environment Name
+     * @param detectorName Detector Resource Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DetectorResponseInner object if successful.
+     */
+    public DetectorResponseInner getHostingEnvironmentDetectorResponse(String resourceGroupName, String name, String detectorName) {
+        return getHostingEnvironmentDetectorResponseWithServiceResponseAsync(resourceGroupName, name, detectorName).toBlocking().single().body();
+    }
+
+    /**
+     * Get Hosting Environment Detector Response.
+     * Get Hosting Environment Detector Response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name App Service Environment Name
+     * @param detectorName Detector Resource Name
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DetectorResponseInner> getHostingEnvironmentDetectorResponseAsync(String resourceGroupName, String name, String detectorName, final ServiceCallback<DetectorResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getHostingEnvironmentDetectorResponseWithServiceResponseAsync(resourceGroupName, name, detectorName), serviceCallback);
+    }
+
+    /**
+     * Get Hosting Environment Detector Response.
+     * Get Hosting Environment Detector Response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name App Service Environment Name
+     * @param detectorName Detector Resource Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<DetectorResponseInner> getHostingEnvironmentDetectorResponseAsync(String resourceGroupName, String name, String detectorName) {
+        return getHostingEnvironmentDetectorResponseWithServiceResponseAsync(resourceGroupName, name, detectorName).map(new Func1<ServiceResponse<DetectorResponseInner>, DetectorResponseInner>() {
+            @Override
+            public DetectorResponseInner call(ServiceResponse<DetectorResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get Hosting Environment Detector Response.
+     * Get Hosting Environment Detector Response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name App Service Environment Name
+     * @param detectorName Detector Resource Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<ServiceResponse<DetectorResponseInner>> getHostingEnvironmentDetectorResponseWithServiceResponseAsync(String resourceGroupName, String name, String detectorName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (detectorName == null) {
+            throw new IllegalArgumentException("Parameter detectorName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final DateTime startTime = null;
+        final DateTime endTime = null;
+        final String timeGrain = null;
+        return service.getHostingEnvironmentDetectorResponse(resourceGroupName, name, detectorName, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DetectorResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DetectorResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DetectorResponseInner> clientResponse = getHostingEnvironmentDetectorResponseDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Get Hosting Environment Detector Response.
+     * Get Hosting Environment Detector Response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name App Service Environment Name
+     * @param detectorName Detector Resource Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DetectorResponseInner object if successful.
+     */
+    public DetectorResponseInner getHostingEnvironmentDetectorResponse(String resourceGroupName, String name, String detectorName, DateTime startTime, DateTime endTime, String timeGrain) {
+        return getHostingEnvironmentDetectorResponseWithServiceResponseAsync(resourceGroupName, name, detectorName, startTime, endTime, timeGrain).toBlocking().single().body();
+    }
+
+    /**
+     * Get Hosting Environment Detector Response.
+     * Get Hosting Environment Detector Response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name App Service Environment Name
+     * @param detectorName Detector Resource Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DetectorResponseInner> getHostingEnvironmentDetectorResponseAsync(String resourceGroupName, String name, String detectorName, DateTime startTime, DateTime endTime, String timeGrain, final ServiceCallback<DetectorResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getHostingEnvironmentDetectorResponseWithServiceResponseAsync(resourceGroupName, name, detectorName, startTime, endTime, timeGrain), serviceCallback);
+    }
+
+    /**
+     * Get Hosting Environment Detector Response.
+     * Get Hosting Environment Detector Response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name App Service Environment Name
+     * @param detectorName Detector Resource Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<DetectorResponseInner> getHostingEnvironmentDetectorResponseAsync(String resourceGroupName, String name, String detectorName, DateTime startTime, DateTime endTime, String timeGrain) {
+        return getHostingEnvironmentDetectorResponseWithServiceResponseAsync(resourceGroupName, name, detectorName, startTime, endTime, timeGrain).map(new Func1<ServiceResponse<DetectorResponseInner>, DetectorResponseInner>() {
+            @Override
+            public DetectorResponseInner call(ServiceResponse<DetectorResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get Hosting Environment Detector Response.
+     * Get Hosting Environment Detector Response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param name App Service Environment Name
+     * @param detectorName Detector Resource Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<ServiceResponse<DetectorResponseInner>> getHostingEnvironmentDetectorResponseWithServiceResponseAsync(String resourceGroupName, String name, String detectorName, DateTime startTime, DateTime endTime, String timeGrain) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (name == null) {
+            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
+        }
+        if (detectorName == null) {
+            throw new IllegalArgumentException("Parameter detectorName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getHostingEnvironmentDetectorResponse(resourceGroupName, name, detectorName, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DetectorResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DetectorResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DetectorResponseInner> clientResponse = getHostingEnvironmentDetectorResponseDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<DetectorResponseInner> getHostingEnvironmentDetectorResponseDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DetectorResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DetectorResponseInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;DetectorResponseInner&gt; object if successful.
+     */
+    public PagedList<DetectorResponseInner> listSiteDetectorResponses(final String resourceGroupName, final String siteName) {
+        ServiceResponse<Page<DetectorResponseInner>> response = listSiteDetectorResponsesSinglePageAsync(resourceGroupName, siteName).toBlocking().single();
+        return new PagedList<DetectorResponseInner>(response.body()) {
+            @Override
+            public Page<DetectorResponseInner> nextPage(String nextPageLink) {
+                return listSiteDetectorResponsesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<DetectorResponseInner>> listSiteDetectorResponsesAsync(final String resourceGroupName, final String siteName, final ListOperationCallback<DetectorResponseInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSiteDetectorResponsesSinglePageAsync(resourceGroupName, siteName),
+            new Func1<String, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(String nextPageLink) {
+                    return listSiteDetectorResponsesNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<Page<DetectorResponseInner>> listSiteDetectorResponsesAsync(final String resourceGroupName, final String siteName) {
+        return listSiteDetectorResponsesWithServiceResponseAsync(resourceGroupName, siteName)
+            .map(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Page<DetectorResponseInner>>() {
+                @Override
+                public Page<DetectorResponseInner> call(ServiceResponse<Page<DetectorResponseInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listSiteDetectorResponsesWithServiceResponseAsync(final String resourceGroupName, final String siteName) {
+        return listSiteDetectorResponsesSinglePageAsync(resourceGroupName, siteName)
+            .concatMap(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(ServiceResponse<Page<DetectorResponseInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSiteDetectorResponsesNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param siteName Site Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;DetectorResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listSiteDetectorResponsesSinglePageAsync(final String resourceGroupName, final String siteName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (siteName == null) {
+            throw new IllegalArgumentException("Parameter siteName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDetectorResponses(resourceGroupName, siteName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<DetectorResponseInner>> result = listSiteDetectorResponsesDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<DetectorResponseInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<DetectorResponseInner>> listSiteDetectorResponsesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<DetectorResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DetectorResponseInner object if successful.
+     */
+    public DetectorResponseInner getSiteDetectorResponse(String resourceGroupName, String siteName, String detectorName) {
+        return getSiteDetectorResponseWithServiceResponseAsync(resourceGroupName, siteName, detectorName).toBlocking().single().body();
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DetectorResponseInner> getSiteDetectorResponseAsync(String resourceGroupName, String siteName, String detectorName, final ServiceCallback<DetectorResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSiteDetectorResponseWithServiceResponseAsync(resourceGroupName, siteName, detectorName), serviceCallback);
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<DetectorResponseInner> getSiteDetectorResponseAsync(String resourceGroupName, String siteName, String detectorName) {
+        return getSiteDetectorResponseWithServiceResponseAsync(resourceGroupName, siteName, detectorName).map(new Func1<ServiceResponse<DetectorResponseInner>, DetectorResponseInner>() {
+            @Override
+            public DetectorResponseInner call(ServiceResponse<DetectorResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<ServiceResponse<DetectorResponseInner>> getSiteDetectorResponseWithServiceResponseAsync(String resourceGroupName, String siteName, String detectorName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (siteName == null) {
+            throw new IllegalArgumentException("Parameter siteName is required and cannot be null.");
+        }
+        if (detectorName == null) {
+            throw new IllegalArgumentException("Parameter detectorName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final DateTime startTime = null;
+        final DateTime endTime = null;
+        final String timeGrain = null;
+        return service.getSiteDetectorResponse(resourceGroupName, siteName, detectorName, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DetectorResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DetectorResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DetectorResponseInner> clientResponse = getSiteDetectorResponseDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DetectorResponseInner object if successful.
+     */
+    public DetectorResponseInner getSiteDetectorResponse(String resourceGroupName, String siteName, String detectorName, DateTime startTime, DateTime endTime, String timeGrain) {
+        return getSiteDetectorResponseWithServiceResponseAsync(resourceGroupName, siteName, detectorName, startTime, endTime, timeGrain).toBlocking().single().body();
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DetectorResponseInner> getSiteDetectorResponseAsync(String resourceGroupName, String siteName, String detectorName, DateTime startTime, DateTime endTime, String timeGrain, final ServiceCallback<DetectorResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSiteDetectorResponseWithServiceResponseAsync(resourceGroupName, siteName, detectorName, startTime, endTime, timeGrain), serviceCallback);
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<DetectorResponseInner> getSiteDetectorResponseAsync(String resourceGroupName, String siteName, String detectorName, DateTime startTime, DateTime endTime, String timeGrain) {
+        return getSiteDetectorResponseWithServiceResponseAsync(resourceGroupName, siteName, detectorName, startTime, endTime, timeGrain).map(new Func1<ServiceResponse<DetectorResponseInner>, DetectorResponseInner>() {
+            @Override
+            public DetectorResponseInner call(ServiceResponse<DetectorResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<ServiceResponse<DetectorResponseInner>> getSiteDetectorResponseWithServiceResponseAsync(String resourceGroupName, String siteName, String detectorName, DateTime startTime, DateTime endTime, String timeGrain) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (siteName == null) {
+            throw new IllegalArgumentException("Parameter siteName is required and cannot be null.");
+        }
+        if (detectorName == null) {
+            throw new IllegalArgumentException("Parameter detectorName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDetectorResponse(resourceGroupName, siteName, detectorName, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DetectorResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DetectorResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DetectorResponseInner> clientResponse = getSiteDetectorResponseDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<DetectorResponseInner> getSiteDetectorResponseDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DetectorResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DetectorResponseInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
      * Get Diagnostics Categories.
      * Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DiagnosticCategoryInner&gt; object if successful.
      */
@@ -261,8 +957,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteDiagnosticCategories(resourceGroupName, siteName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDiagnosticCategories(resourceGroupName, siteName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiagnosticCategoryInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DiagnosticCategoryInner>>> call(Response<ResponseBody> response) {
@@ -276,10 +974,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DiagnosticCategoryInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -291,7 +989,7 @@ public class DiagnosticsInner {
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticCategoryInner object if successful.
      */
@@ -356,8 +1054,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteDiagnosticCategory(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDiagnosticCategory(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticCategoryInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticCategoryInner>> call(Response<ResponseBody> response) {
@@ -371,10 +1071,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticCategoryInner> getSiteDiagnosticCategoryDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticCategoryInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticCategoryInner> getSiteDiagnosticCategoryDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticCategoryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticCategoryInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -386,7 +1086,7 @@ public class DiagnosticsInner {
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AnalysisDefinitionInner&gt; object if successful.
      */
@@ -490,8 +1190,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteAnalyses(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteAnalyses(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AnalysisDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AnalysisDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -505,10 +1207,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AnalysisDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -521,7 +1223,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param analysisName Analysis Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -592,8 +1294,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -607,10 +1311,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -623,7 +1327,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Category Name
      * @param analysisName Analysis Resource Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -694,11 +1398,13 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final DateTime startTime = null;
         final DateTime endTime = null;
         final String timeGrain = null;
-        return service.executeSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.executeSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -724,7 +1430,7 @@ public class DiagnosticsInner {
      * @param endTime End Time
      * @param timeGrain Time Grain
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -804,8 +1510,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.executeSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.executeSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -819,10 +1527,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> executeSiteAnalysisDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticAnalysisInner> executeSiteAnalysisDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -834,7 +1542,7 @@ public class DiagnosticsInner {
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -938,8 +1646,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteDetectors(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDetectors(resourceGroupName, siteName, diagnosticCategory, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -953,10 +1663,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -969,7 +1679,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param detectorName Detector Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -1080,8 +1790,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteDetector(resourceGroupName, siteName, diagnosticCategory, detectorName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDetector(resourceGroupName, siteName, diagnosticCategory, detectorName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -1095,10 +1807,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1111,7 +1823,7 @@ public class DiagnosticsInner {
      * @param detectorName Detector Resource Name
      * @param diagnosticCategory Category Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticDetectorResponseInner object if successful.
      */
@@ -1182,11 +1894,13 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final DateTime startTime = null;
         final DateTime endTime = null;
         final String timeGrain = null;
-        return service.executeSiteDetector(resourceGroupName, siteName, detectorName, diagnosticCategory, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.executeSiteDetector(resourceGroupName, siteName, detectorName, diagnosticCategory, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticDetectorResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticDetectorResponseInner>> call(Response<ResponseBody> response) {
@@ -1212,7 +1926,7 @@ public class DiagnosticsInner {
      * @param endTime End Time
      * @param timeGrain Time Grain
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticDetectorResponseInner object if successful.
      */
@@ -1292,8 +2006,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.executeSiteDetector(resourceGroupName, siteName, detectorName, diagnosticCategory, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.executeSiteDetector(resourceGroupName, siteName, detectorName, diagnosticCategory, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticDetectorResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticDetectorResponseInner>> call(Response<ResponseBody> response) {
@@ -1307,10 +2023,362 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticDetectorResponseInner> executeSiteDetectorDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticDetectorResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticDetectorResponseInner> executeSiteDetectorDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticDetectorResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticDetectorResponseInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param slot Slot Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;DetectorResponseInner&gt; object if successful.
+     */
+    public PagedList<DetectorResponseInner> listSiteDetectorResponsesSlot(final String resourceGroupName, final String siteName, final String slot) {
+        ServiceResponse<Page<DetectorResponseInner>> response = listSiteDetectorResponsesSlotSinglePageAsync(resourceGroupName, siteName, slot).toBlocking().single();
+        return new PagedList<DetectorResponseInner>(response.body()) {
+            @Override
+            public Page<DetectorResponseInner> nextPage(String nextPageLink) {
+                return listSiteDetectorResponsesSlotNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param slot Slot Name
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<DetectorResponseInner>> listSiteDetectorResponsesSlotAsync(final String resourceGroupName, final String siteName, final String slot, final ListOperationCallback<DetectorResponseInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSiteDetectorResponsesSlotSinglePageAsync(resourceGroupName, siteName, slot),
+            new Func1<String, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(String nextPageLink) {
+                    return listSiteDetectorResponsesSlotNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param slot Slot Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<Page<DetectorResponseInner>> listSiteDetectorResponsesSlotAsync(final String resourceGroupName, final String siteName, final String slot) {
+        return listSiteDetectorResponsesSlotWithServiceResponseAsync(resourceGroupName, siteName, slot)
+            .map(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Page<DetectorResponseInner>>() {
+                @Override
+                public Page<DetectorResponseInner> call(ServiceResponse<Page<DetectorResponseInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param slot Slot Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listSiteDetectorResponsesSlotWithServiceResponseAsync(final String resourceGroupName, final String siteName, final String slot) {
+        return listSiteDetectorResponsesSlotSinglePageAsync(resourceGroupName, siteName, slot)
+            .concatMap(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(ServiceResponse<Page<DetectorResponseInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSiteDetectorResponsesSlotNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param siteName Site Name
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param slot Slot Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;DetectorResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listSiteDetectorResponsesSlotSinglePageAsync(final String resourceGroupName, final String siteName, final String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (siteName == null) {
+            throw new IllegalArgumentException("Parameter siteName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDetectorResponsesSlot(resourceGroupName, siteName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<DetectorResponseInner>> result = listSiteDetectorResponsesSlotDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<DetectorResponseInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<DetectorResponseInner>> listSiteDetectorResponsesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<DetectorResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param slot Slot Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DetectorResponseInner object if successful.
+     */
+    public DetectorResponseInner getSiteDetectorResponseSlot(String resourceGroupName, String siteName, String detectorName, String slot) {
+        return getSiteDetectorResponseSlotWithServiceResponseAsync(resourceGroupName, siteName, detectorName, slot).toBlocking().single().body();
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param slot Slot Name
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DetectorResponseInner> getSiteDetectorResponseSlotAsync(String resourceGroupName, String siteName, String detectorName, String slot, final ServiceCallback<DetectorResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSiteDetectorResponseSlotWithServiceResponseAsync(resourceGroupName, siteName, detectorName, slot), serviceCallback);
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param slot Slot Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<DetectorResponseInner> getSiteDetectorResponseSlotAsync(String resourceGroupName, String siteName, String detectorName, String slot) {
+        return getSiteDetectorResponseSlotWithServiceResponseAsync(resourceGroupName, siteName, detectorName, slot).map(new Func1<ServiceResponse<DetectorResponseInner>, DetectorResponseInner>() {
+            @Override
+            public DetectorResponseInner call(ServiceResponse<DetectorResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param slot Slot Name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<ServiceResponse<DetectorResponseInner>> getSiteDetectorResponseSlotWithServiceResponseAsync(String resourceGroupName, String siteName, String detectorName, String slot) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (siteName == null) {
+            throw new IllegalArgumentException("Parameter siteName is required and cannot be null.");
+        }
+        if (detectorName == null) {
+            throw new IllegalArgumentException("Parameter detectorName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final DateTime startTime = null;
+        final DateTime endTime = null;
+        final String timeGrain = null;
+        return service.getSiteDetectorResponseSlot(resourceGroupName, siteName, detectorName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DetectorResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DetectorResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DetectorResponseInner> clientResponse = getSiteDetectorResponseSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param slot Slot Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DetectorResponseInner object if successful.
+     */
+    public DetectorResponseInner getSiteDetectorResponseSlot(String resourceGroupName, String siteName, String detectorName, String slot, DateTime startTime, DateTime endTime, String timeGrain) {
+        return getSiteDetectorResponseSlotWithServiceResponseAsync(resourceGroupName, siteName, detectorName, slot, startTime, endTime, timeGrain).toBlocking().single().body();
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param slot Slot Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DetectorResponseInner> getSiteDetectorResponseSlotAsync(String resourceGroupName, String siteName, String detectorName, String slot, DateTime startTime, DateTime endTime, String timeGrain, final ServiceCallback<DetectorResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSiteDetectorResponseSlotWithServiceResponseAsync(resourceGroupName, siteName, detectorName, slot, startTime, endTime, timeGrain), serviceCallback);
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param slot Slot Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<DetectorResponseInner> getSiteDetectorResponseSlotAsync(String resourceGroupName, String siteName, String detectorName, String slot, DateTime startTime, DateTime endTime, String timeGrain) {
+        return getSiteDetectorResponseSlotWithServiceResponseAsync(resourceGroupName, siteName, detectorName, slot, startTime, endTime, timeGrain).map(new Func1<ServiceResponse<DetectorResponseInner>, DetectorResponseInner>() {
+            @Override
+            public DetectorResponseInner call(ServiceResponse<DetectorResponseInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Get site detector response.
+     * Get site detector response.
+     *
+     * @param resourceGroupName Name of the resource group to which the resource belongs.
+     * @param siteName Site Name
+     * @param detectorName Detector Resource Name
+     * @param slot Slot Name
+     * @param startTime Start Time
+     * @param endTime End Time
+     * @param timeGrain Time Grain
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DetectorResponseInner object
+     */
+    public Observable<ServiceResponse<DetectorResponseInner>> getSiteDetectorResponseSlotWithServiceResponseAsync(String resourceGroupName, String siteName, String detectorName, String slot, DateTime startTime, DateTime endTime, String timeGrain) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (siteName == null) {
+            throw new IllegalArgumentException("Parameter siteName is required and cannot be null.");
+        }
+        if (detectorName == null) {
+            throw new IllegalArgumentException("Parameter detectorName is required and cannot be null.");
+        }
+        if (slot == null) {
+            throw new IllegalArgumentException("Parameter slot is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDetectorResponseSlot(resourceGroupName, siteName, detectorName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DetectorResponseInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DetectorResponseInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DetectorResponseInner> clientResponse = getSiteDetectorResponseSlotDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<DetectorResponseInner> getSiteDetectorResponseSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DetectorResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DetectorResponseInner>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1322,7 +2390,7 @@ public class DiagnosticsInner {
      * @param siteName Site Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DiagnosticCategoryInner&gt; object if successful.
      */
@@ -1426,8 +2494,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteDiagnosticCategoriesSlot(resourceGroupName, siteName, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDiagnosticCategoriesSlot(resourceGroupName, siteName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DiagnosticCategoryInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DiagnosticCategoryInner>>> call(Response<ResponseBody> response) {
@@ -1441,10 +2511,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DiagnosticCategoryInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1457,7 +2527,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticCategoryInner object if successful.
      */
@@ -1528,8 +2598,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteDiagnosticCategorySlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDiagnosticCategorySlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticCategoryInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticCategoryInner>> call(Response<ResponseBody> response) {
@@ -1543,10 +2615,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticCategoryInner> getSiteDiagnosticCategorySlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticCategoryInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticCategoryInner> getSiteDiagnosticCategorySlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticCategoryInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticCategoryInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1559,7 +2631,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AnalysisDefinitionInner&gt; object if successful.
      */
@@ -1670,8 +2742,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteAnalysesSlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteAnalysesSlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AnalysisDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AnalysisDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -1685,10 +2759,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AnalysisDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1702,7 +2776,7 @@ public class DiagnosticsInner {
      * @param analysisName Analysis Name
      * @param slot Slot - optional
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -1779,8 +2853,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -1794,10 +2870,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -1811,7 +2887,7 @@ public class DiagnosticsInner {
      * @param analysisName Analysis Resource Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -1888,11 +2964,13 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final DateTime startTime = null;
         final DateTime endTime = null;
         final String timeGrain = null;
-        return service.executeSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.executeSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -1919,7 +2997,7 @@ public class DiagnosticsInner {
      * @param endTime End Time
      * @param timeGrain Time Grain
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticAnalysisInner object if successful.
      */
@@ -2005,8 +3083,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.executeSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.executeSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
@@ -2020,10 +3100,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> executeSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticAnalysisInner> executeSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2036,7 +3116,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Diagnostic Category
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -2147,8 +3227,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.listSiteDetectorsSlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listSiteDetectorsSlot(resourceGroupName, siteName, diagnosticCategory, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -2162,10 +3244,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2179,7 +3261,7 @@ public class DiagnosticsInner {
      * @param detectorName Detector Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -2297,8 +3379,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.getSiteDetectorSlot(resourceGroupName, siteName, diagnosticCategory, detectorName, slot, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getSiteDetectorSlot(resourceGroupName, siteName, diagnosticCategory, detectorName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
@@ -2312,10 +3396,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2329,7 +3413,7 @@ public class DiagnosticsInner {
      * @param diagnosticCategory Category Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticDetectorResponseInner object if successful.
      */
@@ -2406,11 +3490,13 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
         final DateTime startTime = null;
         final DateTime endTime = null;
         final String timeGrain = null;
-        return service.executeSiteDetectorSlot(resourceGroupName, siteName, detectorName, diagnosticCategory, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.executeSiteDetectorSlot(resourceGroupName, siteName, detectorName, diagnosticCategory, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticDetectorResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticDetectorResponseInner>> call(Response<ResponseBody> response) {
@@ -2437,7 +3523,7 @@ public class DiagnosticsInner {
      * @param endTime End Time
      * @param timeGrain Time Grain
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DiagnosticDetectorResponseInner object if successful.
      */
@@ -2523,8 +3609,10 @@ public class DiagnosticsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2016-03-01";
-        return service.executeSiteDetectorSlot(resourceGroupName, siteName, detectorName, diagnosticCategory, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.executeSiteDetectorSlot(resourceGroupName, siteName, detectorName, diagnosticCategory, slot, this.client.subscriptionId(), startTime, endTime, timeGrain, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticDetectorResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DiagnosticDetectorResponseInner>> call(Response<ResponseBody> response) {
@@ -2538,10 +3626,242 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticDetectorResponseInner> executeSiteDetectorSlotDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticDetectorResponseInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<DiagnosticDetectorResponseInner> executeSiteDetectorSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DiagnosticDetectorResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DiagnosticDetectorResponseInner>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;DetectorResponseInner&gt; object if successful.
+     */
+    public PagedList<DetectorResponseInner> listHostingEnvironmentDetectorResponsesNext(final String nextPageLink) {
+        ServiceResponse<Page<DetectorResponseInner>> response = listHostingEnvironmentDetectorResponsesNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<DetectorResponseInner>(response.body()) {
+            @Override
+            public Page<DetectorResponseInner> nextPage(String nextPageLink) {
+                return listHostingEnvironmentDetectorResponsesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<DetectorResponseInner>> listHostingEnvironmentDetectorResponsesNextAsync(final String nextPageLink, final ServiceFuture<List<DetectorResponseInner>> serviceFuture, final ListOperationCallback<DetectorResponseInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listHostingEnvironmentDetectorResponsesNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(String nextPageLink) {
+                    return listHostingEnvironmentDetectorResponsesNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<Page<DetectorResponseInner>> listHostingEnvironmentDetectorResponsesNextAsync(final String nextPageLink) {
+        return listHostingEnvironmentDetectorResponsesNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Page<DetectorResponseInner>>() {
+                @Override
+                public Page<DetectorResponseInner> call(ServiceResponse<Page<DetectorResponseInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listHostingEnvironmentDetectorResponsesNextWithServiceResponseAsync(final String nextPageLink) {
+        return listHostingEnvironmentDetectorResponsesNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(ServiceResponse<Page<DetectorResponseInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listHostingEnvironmentDetectorResponsesNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List Hosting Environment Detector Responses.
+     * List Hosting Environment Detector Responses.
+     *
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;DetectorResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listHostingEnvironmentDetectorResponsesNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listHostingEnvironmentDetectorResponsesNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<DetectorResponseInner>> result = listHostingEnvironmentDetectorResponsesNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<DetectorResponseInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<DetectorResponseInner>> listHostingEnvironmentDetectorResponsesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<DetectorResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;DetectorResponseInner&gt; object if successful.
+     */
+    public PagedList<DetectorResponseInner> listSiteDetectorResponsesNext(final String nextPageLink) {
+        ServiceResponse<Page<DetectorResponseInner>> response = listSiteDetectorResponsesNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<DetectorResponseInner>(response.body()) {
+            @Override
+            public Page<DetectorResponseInner> nextPage(String nextPageLink) {
+                return listSiteDetectorResponsesNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<DetectorResponseInner>> listSiteDetectorResponsesNextAsync(final String nextPageLink, final ServiceFuture<List<DetectorResponseInner>> serviceFuture, final ListOperationCallback<DetectorResponseInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSiteDetectorResponsesNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(String nextPageLink) {
+                    return listSiteDetectorResponsesNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<Page<DetectorResponseInner>> listSiteDetectorResponsesNextAsync(final String nextPageLink) {
+        return listSiteDetectorResponsesNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Page<DetectorResponseInner>>() {
+                @Override
+                public Page<DetectorResponseInner> call(ServiceResponse<Page<DetectorResponseInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listSiteDetectorResponsesNextWithServiceResponseAsync(final String nextPageLink) {
+        return listSiteDetectorResponsesNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(ServiceResponse<Page<DetectorResponseInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSiteDetectorResponsesNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;DetectorResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listSiteDetectorResponsesNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listSiteDetectorResponsesNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<DetectorResponseInner>> result = listSiteDetectorResponsesNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<DetectorResponseInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<DetectorResponseInner>> listSiteDetectorResponsesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<DetectorResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2551,7 +3871,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DiagnosticCategoryInner&gt; object if successful.
      */
@@ -2654,10 +3974,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DiagnosticCategoryInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2667,7 +3987,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AnalysisDefinitionInner&gt; object if successful.
      */
@@ -2770,10 +4090,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AnalysisDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2783,7 +4103,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -2886,10 +4206,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -2899,7 +4219,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -3002,10 +4322,126 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;DetectorResponseInner&gt; object if successful.
+     */
+    public PagedList<DetectorResponseInner> listSiteDetectorResponsesSlotNext(final String nextPageLink) {
+        ServiceResponse<Page<DetectorResponseInner>> response = listSiteDetectorResponsesSlotNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<DetectorResponseInner>(response.body()) {
+            @Override
+            public Page<DetectorResponseInner> nextPage(String nextPageLink) {
+                return listSiteDetectorResponsesSlotNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<DetectorResponseInner>> listSiteDetectorResponsesSlotNextAsync(final String nextPageLink, final ServiceFuture<List<DetectorResponseInner>> serviceFuture, final ListOperationCallback<DetectorResponseInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSiteDetectorResponsesSlotNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(String nextPageLink) {
+                    return listSiteDetectorResponsesSlotNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<Page<DetectorResponseInner>> listSiteDetectorResponsesSlotNextAsync(final String nextPageLink) {
+        return listSiteDetectorResponsesSlotNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Page<DetectorResponseInner>>() {
+                @Override
+                public Page<DetectorResponseInner> call(ServiceResponse<Page<DetectorResponseInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;DetectorResponseInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listSiteDetectorResponsesSlotNextWithServiceResponseAsync(final String nextPageLink) {
+        return listSiteDetectorResponsesSlotNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<DetectorResponseInner>>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(ServiceResponse<Page<DetectorResponseInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listSiteDetectorResponsesSlotNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * List Site Detector Responses.
+     * List Site Detector Responses.
+     *
+    ServiceResponse<PageImpl<DetectorResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;DetectorResponseInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<DetectorResponseInner>>> listSiteDetectorResponsesSlotNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listSiteDetectorResponsesSlotNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorResponseInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<DetectorResponseInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<DetectorResponseInner>> result = listSiteDetectorResponsesSlotNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<DetectorResponseInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<DetectorResponseInner>> listSiteDetectorResponsesSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorResponseInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<DetectorResponseInner>>() { }.getType())
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3015,7 +4451,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DiagnosticCategoryInner&gt; object if successful.
      */
@@ -3118,10 +4554,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DiagnosticCategoryInner>> listSiteDiagnosticCategoriesSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DiagnosticCategoryInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DiagnosticCategoryInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3131,7 +4567,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;AnalysisDefinitionInner&gt; object if successful.
      */
@@ -3234,10 +4670,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<AnalysisDefinitionInner>> listSiteAnalysesSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<AnalysisDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<AnalysisDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3247,7 +4683,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -3350,10 +4786,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
@@ -3363,7 +4799,7 @@ public class DiagnosticsInner {
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
      */
@@ -3466,10 +4902,10 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 

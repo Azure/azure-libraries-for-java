@@ -29,7 +29,7 @@ public class EntityId {
     private UUID version;
 
     /**
-     * Get the name value.
+     * Get the name of the external table associated with this database, schema and table.
      *
      * @return the name value
      */
@@ -38,7 +38,7 @@ public class EntityId {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the external table associated with this database, schema and table.
      *
      * @param name the name value to set
      * @return the EntityId object itself.
@@ -49,7 +49,7 @@ public class EntityId {
     }
 
     /**
-     * Get the version value.
+     * Get the version of the external data source.
      *
      * @return the version value
      */
@@ -58,7 +58,7 @@ public class EntityId {
     }
 
     /**
-     * Set the version value.
+     * Set the version of the external data source.
      *
      * @param version the version value to set
      * @return the EntityId object itself.

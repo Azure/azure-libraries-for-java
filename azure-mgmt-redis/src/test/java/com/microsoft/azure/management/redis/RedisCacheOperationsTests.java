@@ -9,6 +9,7 @@ package com.microsoft.azure.management.redis;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.CreatedResources;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -17,6 +18,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.fail;
 
@@ -46,7 +48,11 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withNewResourceGroup(resourceGroups)
                 .withPremiumSku(2)
                 .withRedisConfiguration("maxclients", "2")
-                .withNonSslPort();
+                .withNonSslPort()
+                .withFirewallRule("rule1", "192.168.0.1", "192.168.0.4")
+                .withFirewallRule("rule2", "192.168.0.10", "192.168.0.40");
+                // Server throws "The 'minimumTlsVersion' property is not yet supported." exception. Uncomment when fixed.
+                //.withMinimumTlsVersion(TlsVersion.ONE_FULL_STOP_ONE);
 
         CreatedResources<RedisCache> batchRedisCaches = redisManager.redisCaches()
                 .create(redisCacheDefinition1, redisCacheDefinition2, redisCacheDefinition3);
@@ -134,11 +140,22 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
         // Premium SKU Functionality
         RedisCachePremium premiumCache = redisCachePremium.asPremium();
         Assert.assertEquals(SkuFamily.P, premiumCache.sku().family());
+        Assert.assertEquals(2, premiumCache.firewallRules().size());
+        Assert.assertTrue(premiumCache.firewallRules().containsKey("rule1"));
+        Assert.assertTrue(premiumCache.firewallRules().containsKey("rule2"));
 
         // Redis configuration update
         premiumCache.update()
                 .withRedisConfiguration("maxclients", "3")
+                .withoutFirewallRule("rule1")
+                .withFirewallRule("rule3", "192.168.0.10", "192.168.0.104")
+                .withoutMinimumTlsVersion()
                 .apply();
+
+        Assert.assertEquals(2, premiumCache.firewallRules().size());
+        Assert.assertTrue(premiumCache.firewallRules().containsKey("rule2"));
+        Assert.assertTrue(premiumCache.firewallRules().containsKey("rule3"));
+        Assert.assertFalse(premiumCache.firewallRules().containsKey("rule1"));
 
         premiumCache.update()
                 .withoutRedisConfiguration("maxclients")
@@ -148,11 +165,13 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
                 .withoutRedisConfiguration()
                 .apply();
 
+        Assert.assertEquals(0, premiumCache.patchSchedules().size());
         premiumCache.update()
                 .withPatchSchedule(DayOfWeek.MONDAY, 1)
                 .withPatchSchedule(DayOfWeek.TUESDAY, 5)
                 .apply();
 
+        Assert.assertEquals(2, premiumCache.patchSchedules().size());
         // Reboot
         premiumCache.forceReboot(RebootType.ALL_NODES);
 
@@ -178,5 +197,58 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
         /*premiumCache.exportData(storageAccount.name(),"snapshot1");
 
         premiumCache.importData(Arrays.asList("snapshot1"));*/
+    }
+
+    @Test
+    public void canCRUDLinkedServers() throws Exception {
+
+        RedisCache rgg = redisManager.redisCaches()
+                .define(RR_NAME_THIRD)
+                .withRegion(Region.US_CENTRAL)
+                .withNewResourceGroup(RG_NAME_SECOND)
+                .withPremiumSku(2)
+                .withPatchSchedule(DayOfWeek.SATURDAY, 5, Period.hours(5))
+                .withRedisConfiguration("maxclients", "2")
+                .withNonSslPort()
+                .withFirewallRule("rule1", "192.168.0.1", "192.168.0.4")
+                .withFirewallRule("rule2", "192.168.0.10", "192.168.0.40")
+                .create();
+
+        RedisCache rggLinked = redisManager.redisCaches()
+                .define(RR_NAME_SECOND)
+                .withRegion(Region.US_EAST)
+                .withExistingResourceGroup(RG_NAME_SECOND)
+                .withPremiumSku(2)
+                .create();
+
+        Assert.assertNotNull(rgg);
+        Assert.assertNotNull(rggLinked);
+
+        RedisCachePremium premiumRgg = rgg.asPremium();
+
+        String llName = premiumRgg.addLinkedServer(rggLinked.id(), rggLinked.regionName(), ReplicationRole.PRIMARY);
+
+        Assert.assertEquals(ResourceUtils.nameFromResourceId(rggLinked.id()), llName);
+
+        Map<String, ReplicationRole> linkedServers = premiumRgg.listLinkedServers();
+        Assert.assertEquals(1, linkedServers.size());
+        Assert.assertTrue(linkedServers.keySet().contains(llName));
+        Assert.assertEquals(ReplicationRole.PRIMARY, linkedServers.get(llName));
+
+        ReplicationRole repRole = premiumRgg.getLinkedServerRole(llName);
+        Assert.assertEquals(ReplicationRole.PRIMARY, repRole);
+
+        premiumRgg.removeLinkedServer(llName);
+
+        rgg.update()
+                .withoutPatchSchedule()
+                .apply();
+
+        rggLinked.update()
+                .withFirewallRule("rulesmhule", "192.168.1.10", "192.168.1.20")
+                .apply();
+
+        linkedServers = premiumRgg.listLinkedServers();
+        Assert.assertEquals(0, linkedServers.size());
     }
 }

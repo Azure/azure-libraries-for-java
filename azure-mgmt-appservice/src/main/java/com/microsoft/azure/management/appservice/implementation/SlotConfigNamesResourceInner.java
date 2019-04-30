@@ -31,7 +31,13 @@ public class SlotConfigNamesResourceInner extends ProxyOnlyResource {
     private List<String> appSettingNames;
 
     /**
-     * Get the connectionStringNames value.
+     * List of external Azure storage account identifiers.
+     */
+    @JsonProperty(value = "properties.azureStorageConfigNames")
+    private List<String> azureStorageConfigNames;
+
+    /**
+     * Get list of connection string names.
      *
      * @return the connectionStringNames value
      */
@@ -40,7 +46,7 @@ public class SlotConfigNamesResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the connectionStringNames value.
+     * Set list of connection string names.
      *
      * @param connectionStringNames the connectionStringNames value to set
      * @return the SlotConfigNamesResourceInner object itself.
@@ -51,7 +57,7 @@ public class SlotConfigNamesResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the appSettingNames value.
+     * Get list of application settings names.
      *
      * @return the appSettingNames value
      */
@@ -60,13 +66,33 @@ public class SlotConfigNamesResourceInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the appSettingNames value.
+     * Set list of application settings names.
      *
      * @param appSettingNames the appSettingNames value to set
      * @return the SlotConfigNamesResourceInner object itself.
      */
     public SlotConfigNamesResourceInner withAppSettingNames(List<String> appSettingNames) {
         this.appSettingNames = appSettingNames;
+        return this;
+    }
+
+    /**
+     * Get list of external Azure storage account identifiers.
+     *
+     * @return the azureStorageConfigNames value
+     */
+    public List<String> azureStorageConfigNames() {
+        return this.azureStorageConfigNames;
+    }
+
+    /**
+     * Set list of external Azure storage account identifiers.
+     *
+     * @param azureStorageConfigNames the azureStorageConfigNames value to set
+     * @return the SlotConfigNamesResourceInner object itself.
+     */
+    public SlotConfigNamesResourceInner withAzureStorageConfigNames(List<String> azureStorageConfigNames) {
+        this.azureStorageConfigNames = azureStorageConfigNames;
         return this;
     }
 

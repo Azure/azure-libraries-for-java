@@ -6,22 +6,31 @@
 package com.microsoft.azure.management.cosmosdb.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.cosmosdb.Capability;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountOfferType;
 import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import com.microsoft.azure.management.cosmosdb.DefaultConsistencyLevel;
 import com.microsoft.azure.management.cosmosdb.Location;
 import com.microsoft.azure.management.cosmosdb.KeyKind;
+import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -41,6 +50,7 @@ class CosmosDBAccountImpl
     private List<FailoverPolicyInner> failoverPolicies;
     private boolean hasFailoverPolicyChanges;
     private final int maxDelayDueToMissingFailovers = 60 * 10;
+    private Map<String, VirtualNetworkRule> virtualNetworkRulesMap;
 
     CosmosDBAccountImpl(String name, DatabaseAccountInner innerObject, CosmosDBManager manager) {
         super(fixDBName(name), innerObject, manager);
@@ -98,8 +108,31 @@ class CosmosDBAccountImpl
 
     @Override
     public Observable<DatabaseAccountListKeysResult> listKeysAsync() {
-        return this.manager().inner().databaseAccounts().listKeysAsync(this.resourceGroupName(),
-                this.name());
+        return this.manager().inner().databaseAccounts()
+            .listKeysAsync(this.resourceGroupName(), this.name())
+            .map(new Func1<DatabaseAccountListKeysResultInner, DatabaseAccountListKeysResult>() {
+                @Override
+                public DatabaseAccountListKeysResult call(DatabaseAccountListKeysResultInner databaseAccountListKeysResultInner) {
+                    return new DatabaseAccountListKeysResultImpl(databaseAccountListKeysResultInner);
+                }
+            });
+    }
+
+    @Override
+    public DatabaseAccountListReadOnlyKeysResult listReadOnlyKeys() {
+        return this.listReadOnlyKeysAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync() {
+        return this.manager().inner().databaseAccounts()
+            .listReadOnlyKeysAsync(this.resourceGroupName(), this.name())
+            .map(new Func1<DatabaseAccountListReadOnlyKeysResultInner, DatabaseAccountListReadOnlyKeysResult>() {
+                @Override
+                public DatabaseAccountListReadOnlyKeysResult call(DatabaseAccountListReadOnlyKeysResultInner databaseAccountListReadOnlyKeysResultInner) {
+                    return new DatabaseAccountListReadOnlyKeysResultImpl(databaseAccountListReadOnlyKeysResultInner);
+                }
+            });
     }
 
     @Override
@@ -109,25 +142,120 @@ class CosmosDBAccountImpl
 
     @Override
     public Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync() {
-        return this.manager().inner().databaseAccounts().listConnectionStringsAsync(this.resourceGroupName(),
-                this.name());
+        return this.manager().inner().databaseAccounts()
+            .listConnectionStringsAsync(this.resourceGroupName(), this.name())
+            .map(new Func1<DatabaseAccountListConnectionStringsResultInner, DatabaseAccountListConnectionStringsResult>() {
+                @Override
+                public DatabaseAccountListConnectionStringsResult call(DatabaseAccountListConnectionStringsResultInner databaseAccountListConnectionStringsResultInner) {
+                    return new DatabaseAccountListConnectionStringsResultImpl(databaseAccountListConnectionStringsResultInner);
+                }
+            });
+    }
+
+    @Override
+    public boolean multipleWriteLocationsEnabled() {
+        return this.inner().enableMultipleWriteLocations();
+    }
+
+    @Override
+    public List<Capability> capabilities() {
+        List<Capability> capabilities = this.inner().capabilities();
+        if (capabilities == null) {
+            capabilities = new ArrayList<>();
+        }
+        return Collections.unmodifiableList(capabilities);
+    }
+
+    @Override
+    public List<VirtualNetworkRule> virtualNetworkRules() {
+        List<VirtualNetworkRule> result = (this.inner() != null && this.inner().virtualNetworkRules() != null) ? this.inner().virtualNetworkRules() : new ArrayList<VirtualNetworkRule>();
+        return Collections.unmodifiableList(result);
+    }
+
+    @Override
+    public void offlineRegion(Region region) {
+        this.manager().inner().databaseAccounts().offlineRegion(this.resourceGroupName(), this.name(), region.label());
+    }
+
+    @Override
+    public Completable offlineRegionAsync(Region region) {
+        return this.manager().inner().databaseAccounts().offlineRegionAsync(this.resourceGroupName(), this.name(), region.label()).toCompletable();
+    }
+
+    @Override
+    public void onlineRegion(Region region) {
+        this.manager().inner().databaseAccounts().onlineRegion(this.resourceGroupName(), this.name(), region.label());
+    }
+
+    @Override
+    public Completable onlineRegionAsync(Region region) {
+        return this.manager().inner().databaseAccounts().onlineRegionAsync(this.resourceGroupName(), this.name(), region.label()).toCompletable();
     }
 
     @Override
     public void regenerateKey(KeyKind keyKind) {
-        this.regenerateKeyAsync(keyKind).toBlocking().last();
+        this.manager().inner().databaseAccounts().regenerateKey(this.resourceGroupName(), this.name(), keyKind);
     }
 
     @Override
-    public Observable<Void> regenerateKeyAsync(KeyKind keyKind) {
+    public Completable regenerateKeyAsync(KeyKind keyKind) {
         return this.manager().inner().databaseAccounts().regenerateKeyAsync(this.resourceGroupName(),
-                this.name(), keyKind);
+                this.name(), keyKind).toCompletable();
     }
 
     @Override
     public CosmosDBAccountImpl withKind(DatabaseAccountKind kind) {
         this.inner().withKind(kind);
         return this;        
+    }
+
+    @Override
+    public CosmosDBAccountImpl withKind(DatabaseAccountKind kind, Capability... capabilities) {
+        this.inner().withKind(kind);
+        this.inner().withCapabilities(Arrays.asList(capabilities));
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelSql() {
+        this.inner().withKind(DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelMongoDB() {
+        this.inner().withKind(DatabaseAccountKind.MONGO_DB);
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelCassandra() {
+        this.inner().withKind(DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
+        List<Capability> capabilities = new ArrayList<Capability>();
+        capabilities.add(new Capability().withName("EnableCassandra"));
+        this.inner().withCapabilities(capabilities);
+        this.withTag("defaultExperience", "Cassandra");
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelAzureTable() {
+        this.inner().withKind(DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
+        List<Capability> capabilities = new ArrayList<Capability>();
+        capabilities.add(new Capability().withName("EnableTable"));
+        this.inner().withCapabilities(capabilities);
+        this.withTag("defaultExperience", "Table");
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withDataModelGremlin() {
+        this.inner().withKind(DatabaseAccountKind.GLOBAL_DOCUMENT_DB);
+        List<Capability> capabilities = new ArrayList<Capability>();
+        capabilities.add(new Capability().withName("EnableGremlin"));
+        this.inner().withCapabilities(capabilities);
+        this.withTag("defaultExperience", "Graph");
+        return this;
     }
 
 
@@ -190,7 +318,7 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    public CosmosDBAccountImpl withBoundedStalenessConsistency(int maxStalenessPrefix, int maxIntervalInSeconds) {
+    public CosmosDBAccountImpl withBoundedStalenessConsistency(long maxStalenessPrefix, int maxIntervalInSeconds) {
         this.setConsistencyPolicy(DefaultConsistencyLevel.BOUNDED_STALENESS,
                 maxStalenessPrefix,
                 maxIntervalInSeconds);
@@ -219,8 +347,15 @@ class CosmosDBAccountImpl
                 DatabaseAccountOfferType.STANDARD.toString());
         createUpdateParametersInner.withIpRangeFilter(inner.ipRangeFilter());
         createUpdateParametersInner.withKind(inner.kind());
+        createUpdateParametersInner.withCapabilities(inner.capabilities());
         createUpdateParametersInner.withTags(inner.getTags());
+        createUpdateParametersInner.withEnableMultipleWriteLocations(inner.enableMultipleWriteLocations());
         this.addLocationsForCreateUpdateParameters(createUpdateParametersInner, this.failoverPolicies);
+        createUpdateParametersInner.withIsVirtualNetworkFilterEnabled(inner.isVirtualNetworkFilterEnabled());
+        if (this.virtualNetworkRulesMap != null) {
+            createUpdateParametersInner.withVirtualNetworkRules(new ArrayList<VirtualNetworkRule>(this.virtualNetworkRulesMap.values()));
+            this.virtualNetworkRulesMap = null;
+        }
         return createUpdateParametersInner;
     }
 
@@ -246,17 +381,22 @@ class CosmosDBAccountImpl
             DatabaseAccountCreateUpdateParametersInner createUpdateParametersInner,
             List<FailoverPolicyInner> failoverPolicies) {
         List<Location> locations = new ArrayList<Location>();
-        for (int i = 0; i < failoverPolicies.size(); i++) {
-            FailoverPolicyInner policyInner = failoverPolicies.get(i);
+
+        if (failoverPolicies.size() > 0) {
+            for (int i = 0; i < failoverPolicies.size(); i++) {
+                FailoverPolicyInner policyInner = failoverPolicies.get(i);
+                Location location = new Location();
+                location.withFailoverPriority(i);
+                location.withLocationName(policyInner.locationName());
+                locations.add(location);
+            }
+        } else {
             Location location = new Location();
-            location.withFailoverPriority(i);
-            location.withLocationName(policyInner.locationName());
+            location.withFailoverPriority(0);
+            location.withLocationName(createUpdateParametersInner.location());
             locations.add(location);
         }
-
-        if (locations.size() > 0) {
-            createUpdateParametersInner.withLocations(locations);
-        }
+        createUpdateParametersInner.withLocations(locations);
     }
 
     private Observable<CosmosDBAccount> updateFailoverPriorityAsync() {
@@ -367,5 +507,58 @@ class CosmosDBAccountImpl
             default:
                 return false;
         }
+    }
+
+    private Map<String, VirtualNetworkRule> ensureVirtualNetworkRules() {
+        if (this.virtualNetworkRulesMap == null) {
+            this.virtualNetworkRulesMap = new HashMap<>();
+            if (this.inner() != null && this.inner().virtualNetworkRules() != null) {
+                for (VirtualNetworkRule virtualNetworkRule : this.inner().virtualNetworkRules()) {
+                    this.virtualNetworkRulesMap.put(virtualNetworkRule.id(), virtualNetworkRule);
+                }
+            }
+        }
+
+        return this.virtualNetworkRulesMap;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withVirtualNetwork(String virtualNetworkId, String subnetName) {
+        this.inner().withIsVirtualNetworkFilterEnabled(true);
+        String vnetId = virtualNetworkId + "/subnets/" + subnetName;
+        ensureVirtualNetworkRules().put(vnetId, new VirtualNetworkRule().withId(vnetId));
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withoutVirtualNetwork(String virtualNetworkId, String subnetName) {
+        Map<String, VirtualNetworkRule> vnetRules = ensureVirtualNetworkRules();
+        vnetRules.remove(virtualNetworkId + "/subnets/" + subnetName);
+        if (vnetRules.size() == 0) {
+            this.inner().withIsVirtualNetworkFilterEnabled(false);
+        }
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules) {
+        Map<String, VirtualNetworkRule> vnetRules = ensureVirtualNetworkRules();
+        if (virtualNetworkRules == null || virtualNetworkRules.isEmpty()) {
+            vnetRules.clear();
+            this.inner().withIsVirtualNetworkFilterEnabled(false);
+            return this;
+        }
+        this.inner().withIsVirtualNetworkFilterEnabled(true);
+        for (VirtualNetworkRule vnetRule : virtualNetworkRules) {
+            this.virtualNetworkRulesMap.put(vnetRule.id(), vnetRule);
+        }
+
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withMultipleWriteLocationsEnabled(boolean enabled) {
+        this.inner().withEnableMultipleWriteLocations(enabled);
+        return this;
     }
 }

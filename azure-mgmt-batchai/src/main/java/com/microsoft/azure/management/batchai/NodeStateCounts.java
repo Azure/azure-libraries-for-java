@@ -15,133 +15,83 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class NodeStateCounts {
     /**
+     * Idle node count.
      * Number of compute nodes in idle state.
      */
-    @JsonProperty(value = "idleNodeCount", required = true)
-    private int idleNodeCount;
+    @JsonProperty(value = "idleNodeCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer idleNodeCount;
 
     /**
+     * Running node count.
      * Number of compute nodes which are running jobs.
      */
-    @JsonProperty(value = "runningNodeCount", required = true)
-    private int runningNodeCount;
+    @JsonProperty(value = "runningNodeCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer runningNodeCount;
 
     /**
+     * Preparing node count.
      * Number of compute nodes which are being prepared.
      */
-    @JsonProperty(value = "preparingNodeCount", required = true)
-    private int preparingNodeCount;
+    @JsonProperty(value = "preparingNodeCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer preparingNodeCount;
 
     /**
-     * Number of compute nodes which are unusable.
+     * Unusable node count.
+     * Number of compute nodes which are in unusable state.
      */
-    @JsonProperty(value = "unusableNodeCount", required = true)
-    private int unusableNodeCount;
+    @JsonProperty(value = "unusableNodeCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer unusableNodeCount;
 
     /**
+     * Leaving node count.
      * Number of compute nodes which are leaving the cluster.
      */
-    @JsonProperty(value = "leavingNodeCount", required = true)
-    private int leavingNodeCount;
+    @JsonProperty(value = "leavingNodeCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer leavingNodeCount;
 
     /**
-     * Get the idleNodeCount value.
+     * Get number of compute nodes in idle state.
      *
      * @return the idleNodeCount value
      */
-    public int idleNodeCount() {
+    public Integer idleNodeCount() {
         return this.idleNodeCount;
     }
 
     /**
-     * Set the idleNodeCount value.
-     *
-     * @param idleNodeCount the idleNodeCount value to set
-     * @return the NodeStateCounts object itself.
-     */
-    public NodeStateCounts withIdleNodeCount(int idleNodeCount) {
-        this.idleNodeCount = idleNodeCount;
-        return this;
-    }
-
-    /**
-     * Get the runningNodeCount value.
+     * Get number of compute nodes which are running jobs.
      *
      * @return the runningNodeCount value
      */
-    public int runningNodeCount() {
+    public Integer runningNodeCount() {
         return this.runningNodeCount;
     }
 
     /**
-     * Set the runningNodeCount value.
-     *
-     * @param runningNodeCount the runningNodeCount value to set
-     * @return the NodeStateCounts object itself.
-     */
-    public NodeStateCounts withRunningNodeCount(int runningNodeCount) {
-        this.runningNodeCount = runningNodeCount;
-        return this;
-    }
-
-    /**
-     * Get the preparingNodeCount value.
+     * Get number of compute nodes which are being prepared.
      *
      * @return the preparingNodeCount value
      */
-    public int preparingNodeCount() {
+    public Integer preparingNodeCount() {
         return this.preparingNodeCount;
     }
 
     /**
-     * Set the preparingNodeCount value.
-     *
-     * @param preparingNodeCount the preparingNodeCount value to set
-     * @return the NodeStateCounts object itself.
-     */
-    public NodeStateCounts withPreparingNodeCount(int preparingNodeCount) {
-        this.preparingNodeCount = preparingNodeCount;
-        return this;
-    }
-
-    /**
-     * Get the unusableNodeCount value.
+     * Get number of compute nodes which are in unusable state.
      *
      * @return the unusableNodeCount value
      */
-    public int unusableNodeCount() {
+    public Integer unusableNodeCount() {
         return this.unusableNodeCount;
     }
 
     /**
-     * Set the unusableNodeCount value.
-     *
-     * @param unusableNodeCount the unusableNodeCount value to set
-     * @return the NodeStateCounts object itself.
-     */
-    public NodeStateCounts withUnusableNodeCount(int unusableNodeCount) {
-        this.unusableNodeCount = unusableNodeCount;
-        return this;
-    }
-
-    /**
-     * Get the leavingNodeCount value.
+     * Get number of compute nodes which are leaving the cluster.
      *
      * @return the leavingNodeCount value
      */
-    public int leavingNodeCount() {
+    public Integer leavingNodeCount() {
         return this.leavingNodeCount;
-    }
-
-    /**
-     * Set the leavingNodeCount value.
-     *
-     * @param leavingNodeCount the leavingNodeCount value to set
-     * @return the NodeStateCounts object itself.
-     */
-    public NodeStateCounts withLeavingNodeCount(int leavingNodeCount) {
-        this.leavingNodeCount = leavingNodeCount;
-        return this;
     }
 
 }

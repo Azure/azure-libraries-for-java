@@ -12,6 +12,7 @@ import com.microsoft.azure.management.batch.Application;
 import com.microsoft.azure.management.batch.AutoStorageBaseProperties;
 import com.microsoft.azure.management.batch.AutoStorageProperties;
 import com.microsoft.azure.management.batch.BatchAccount;
+import com.microsoft.azure.management.batch.BatchAccountCreateParameters;
 import com.microsoft.azure.management.batch.BatchAccountKeys;
 import com.microsoft.azure.management.batch.ProvisioningState;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -78,7 +79,7 @@ public class BatchAccountImpl
         final BatchAccountImpl self = this;
 
         handleStorageSettings();
-        BatchAccountCreateParametersInner batchAccountCreateParametersInner = new BatchAccountCreateParametersInner();
+        BatchAccountCreateParameters batchAccountCreateParametersInner = new BatchAccountCreateParameters();
         if (autoStorage != null) {
             batchAccountCreateParametersInner.withAutoStorage(new AutoStorageBaseProperties());
             batchAccountCreateParametersInner.autoStorage().withStorageAccountId(autoStorage.storageAccountId());

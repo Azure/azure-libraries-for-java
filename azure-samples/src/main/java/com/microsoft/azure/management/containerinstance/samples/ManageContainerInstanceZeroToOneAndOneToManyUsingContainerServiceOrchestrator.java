@@ -83,7 +83,7 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
      */
     public static boolean runSample(Azure azure, String clientId, String secret) {
         final String rgName = SdkContext.randomResourceName("rgaci", 15);
-        final Region region = Region.US_WEST;
+        final Region region = Region.US_EAST2;
 
         final String acrName = SdkContext.randomResourceName("acr", 20);
 
@@ -222,15 +222,19 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
             //
             //   If the environment variable was not set then reuse the main service principal set for running this sample.
 
-            if (servicePrincipalClientId.isEmpty() || servicePrincipalSecret.isEmpty()) {
-                String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
+            if (servicePrincipalClientId == null || servicePrincipalClientId.isEmpty() || servicePrincipalSecret == null || servicePrincipalSecret.isEmpty()) {
+                servicePrincipalClientId = System.getenv("AZURE_CLIENT_ID");
+                servicePrincipalSecret = System.getenv("AZURE_CLIENT_SECRET");
+                if (servicePrincipalClientId == null || servicePrincipalClientId.isEmpty() || servicePrincipalSecret == null || servicePrincipalSecret.isEmpty()) {
+                    String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
 
-                if (envSecondaryServicePrincipal == null || !envSecondaryServicePrincipal.isEmpty() || !Files.exists(Paths.get(envSecondaryServicePrincipal))) {
-                    envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION");
+                    if (envSecondaryServicePrincipal == null || !envSecondaryServicePrincipal.isEmpty() || !Files.exists(Paths.get(envSecondaryServicePrincipal))) {
+                        envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION");
+                    }
+
+                    servicePrincipalClientId = Utils.getSecondaryServicePrincipalClientID(envSecondaryServicePrincipal);
+                    servicePrincipalSecret = Utils.getSecondaryServicePrincipalSecret(envSecondaryServicePrincipal);
                 }
-
-                servicePrincipalClientId = Utils.getSecondaryServicePrincipalClientID(envSecondaryServicePrincipal);
-                servicePrincipalSecret = Utils.getSecondaryServicePrincipalSecret(envSecondaryServicePrincipal);
             }
 
 
@@ -302,7 +306,8 @@ public class ManageContainerInstanceZeroToOneAndOneToManyUsingContainerServiceOr
             Config config = new Config();
             KubernetesClient kubernetesClient = new DefaultKubernetesClient(config);
 
-            SdkContext.sleep(5000);
+            // Wait for 15 minutes for kube endpoint to be available
+            SdkContext.sleep(15 * 60 * 1000);
 
 
             //=============================================================

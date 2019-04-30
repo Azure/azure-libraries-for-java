@@ -9,15 +9,12 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.FileServersInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByNameAsync;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingByName;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
@@ -29,13 +26,10 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 public interface BatchAIFileServers extends
         SupportsCreating<BatchAIFileServer.DefinitionStages.Blank>,
         SupportsListing<BatchAIFileServer>,
-        SupportsListingByResourceGroup<BatchAIFileServer>,
-        SupportsGettingByResourceGroup<BatchAIFileServer>,
         SupportsGettingById<BatchAIFileServer>,
+        SupportsGettingByNameAsync<BatchAIFileServer>,
         SupportsDeletingById,
-        SupportsDeletingByResourceGroup,
-        SupportsBatchCreation<BatchAIFileServer>,
-        SupportsBatchDeletion,
+        SupportsDeletingByName,
         HasManager<BatchAIManager>,
         HasInner<FileServersInner> {
 }

@@ -14,8 +14,10 @@ import com.microsoft.azure.management.resources.fluentcore.arm.CountryPhoneCode;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.RestClient;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
@@ -38,6 +40,13 @@ public class AppServiceTest extends TestBase {
 
     private static OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(3, TimeUnit.MINUTES).build();
 
+    public AppServiceTest() {
+    }
+
+    AppServiceTest(RunCondition runCondition) {
+        super(runCondition);
+    }
+
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         RG_NAME = generateRandomResourceName("javacsmrg", 20);
@@ -57,7 +66,7 @@ public class AppServiceTest extends TestBase {
 
     @Override
     protected void cleanUpResources() {
-//        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
+        resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
     }
 
     private void useExistingDomainAndCertificate() {
@@ -143,5 +152,14 @@ public class AppServiceTest extends TestBase {
     static Response curl(String url) throws IOException {
         Request request = new Request.Builder().url(url).get().build();
         return httpClient.newCall(request).execute();
+    }
+
+    static String post(String url, String body) {
+        Request request = new Request.Builder().url(url).post(RequestBody.create(MediaType.parse("text/plain"), body)).build();
+        try {
+            return httpClient.newCall(request).execute().body().string();
+        } catch (IOException e) {
+            return null;
+        }
     }
 }

@@ -5,7 +5,6 @@
  */
 package com.microsoft.azure.management;
 
-import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
@@ -27,32 +26,34 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
     public KubernetesCluster createResource(KubernetesClusters kubernetesClusters) throws Exception {
         final String sshKeyData =  this.getSshKey();
 
-        Set<String> kubernetesVersions = kubernetesClusters.listKubernetesVersions(Region.UK_WEST);
+        Set<String> kubernetesVersions = kubernetesClusters.listKubernetesVersions(Region.US_EAST);
         Assert.assertTrue(kubernetesVersions.contains("1.8.1"));
 
         final String newName = "aks" + this.testId;
         final String dnsPrefix = "dns" + newName;
         final String agentPoolName = "ap" + newName;
+        final String clientId = "clientId";
+        final String secret = "secret";
 
         KubernetesCluster resource = kubernetesClusters.define(newName)
-            .withRegion(Region.UK_WEST)
+            .withRegion(Region.US_EAST)
             .withNewResourceGroup()
             .withLatestVersion()
             .withRootUsername("aksadmin")
             .withSshKey(sshKeyData)
-            .withServicePrincipalClientId("clientId")
-            .withServicePrincipalSecret("secret")
+            .withServicePrincipalClientId(clientId)
+            .withServicePrincipalSecret(secret)
             .defineAgentPool(agentPoolName)
-                .withVirtualMachineCount(1)
                 .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D2_V2)
+                .withAgentPoolVirtualMachineCount(1)
                 .attach()
             .withDnsPrefix(dnsPrefix)
             .withTag("tag1", "value1")
             .create();
         Assert.assertNotNull("Container service not found.", resource.id());
-        Assert.assertEquals(Region.UK_WEST, resource.region());
+        Assert.assertEquals(Region.US_EAST, resource.region());
         Assert.assertEquals("aksadmin", resource.linuxRootUsername());
-        Assert.assertEquals(KubernetesVersion.KUBERNETES_1_8_1, resource.version());
+        Assert.assertEquals(KubernetesVersion.KUBERNETES_1_9_9, resource.version());
         Assert.assertEquals(1, resource.agentPools().size());
         Assert.assertNotNull(resource.agentPools().get(agentPoolName));
         Assert.assertEquals(1, resource.agentPools().get(agentPoolName).count());
@@ -60,6 +61,11 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
         Assert.assertTrue(resource.tags().containsKey("tag1"));
 
         resource = kubernetesClusters.getByResourceGroup(resource.resourceGroupName(), newName);
+
+        byte[] kubeConfigAdmin = resource.adminKubeConfigContent();
+        Assert.assertTrue(kubeConfigAdmin != null && kubeConfigAdmin.length > 0);
+        byte[] kubeConfigUser = resource.userKubeConfigContent();
+        Assert.assertTrue(kubeConfigUser != null && kubeConfigUser.length > 0);
 
         return resource;
     }
@@ -69,7 +75,7 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
         String agentPoolName = new ArrayList<>(resource.agentPools().keySet()).get(0);
         // Modify existing container service
         resource =  resource.update()
-            .withAgentVirtualMachineCount(agentPoolName, 5)
+            .withAgentPoolVirtualMachineCount(agentPoolName, 5)
             .withTag("tag2", "value2")
             .withTag("tag3", "value3")
             .withoutTag("tag1")

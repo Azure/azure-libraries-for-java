@@ -30,7 +30,7 @@ public class DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters {
     private String uri;
 
     /**
-     * Get the password value.
+     * Get the password for the secret to pass in.
      *
      * @return the password value
      */
@@ -39,7 +39,7 @@ public class DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters {
     }
 
     /**
-     * Set the password value.
+     * Set the password for the secret to pass in.
      *
      * @param password the password value to set
      * @return the DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters object itself.
@@ -50,7 +50,7 @@ public class DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters {
     }
 
     /**
-     * Get the uri value.
+     * Get the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;.
      *
      * @return the uri value
      */
@@ -59,7 +59,7 @@ public class DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters {
     }
 
     /**
-     * Set the uri value.
+     * Set the URI identifier for the secret in the format &lt;hostname&gt;:&lt;port&gt;.
      *
      * @param uri the uri value to set
      * @return the DataLakeAnalyticsCatalogSecretCreateOrUpdateParameters object itself.

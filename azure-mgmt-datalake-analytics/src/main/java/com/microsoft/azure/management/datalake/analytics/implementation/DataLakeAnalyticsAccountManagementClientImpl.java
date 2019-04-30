@@ -71,11 +71,11 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
         return this.apiVersion;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /** The preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -84,7 +84,7 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -94,11 +94,11 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -107,7 +107,7 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -117,11 +117,11 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -130,7 +130,7 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -138,6 +138,45 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
     public DataLakeAnalyticsAccountManagementClientImpl withGenerateClientRequestId(boolean generateClientRequestId) {
         this.generateClientRequestId = generateClientRequestId;
         return this;
+    }
+
+    /**
+     * The Accounts object to access its operations.
+     */
+    private Accounts accounts;
+
+    /**
+     * Gets the Accounts object to access its operations.
+     * @return the Accounts object.
+     */
+    public Accounts accounts() {
+        return this.accounts;
+    }
+
+    /**
+     * The DataLakeStoreAccounts object to access its operations.
+     */
+    private DataLakeStoreAccounts dataLakeStoreAccounts;
+
+    /**
+     * Gets the DataLakeStoreAccounts object to access its operations.
+     * @return the DataLakeStoreAccounts object.
+     */
+    public DataLakeStoreAccounts dataLakeStoreAccounts() {
+        return this.dataLakeStoreAccounts;
+    }
+
+    /**
+     * The StorageAccounts object to access its operations.
+     */
+    private StorageAccounts storageAccounts;
+
+    /**
+     * Gets the StorageAccounts object to access its operations.
+     * @return the StorageAccounts object.
+     */
+    public StorageAccounts storageAccounts() {
+        return this.storageAccounts;
     }
 
     /**
@@ -167,42 +206,16 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
     }
 
     /**
-     * The StorageAccounts object to access its operations.
+     * The Operations object to access its operations.
      */
-    private StorageAccounts storageAccounts;
+    private Operations operations;
 
     /**
-     * Gets the StorageAccounts object to access its operations.
-     * @return the StorageAccounts object.
+     * Gets the Operations object to access its operations.
+     * @return the Operations object.
      */
-    public StorageAccounts storageAccounts() {
-        return this.storageAccounts;
-    }
-
-    /**
-     * The DataLakeStoreAccounts object to access its operations.
-     */
-    private DataLakeStoreAccounts dataLakeStoreAccounts;
-
-    /**
-     * Gets the DataLakeStoreAccounts object to access its operations.
-     * @return the DataLakeStoreAccounts object.
-     */
-    public DataLakeStoreAccounts dataLakeStoreAccounts() {
-        return this.dataLakeStoreAccounts;
-    }
-
-    /**
-     * The Accounts object to access its operations.
-     */
-    private Accounts accounts;
-
-    /**
-     * Gets the Accounts object to access its operations.
-     * @return the Accounts object.
-     */
-    public Accounts accounts() {
-        return this.accounts;
+    public Operations operations() {
+        return this.operations;
     }
 
     /**
@@ -216,19 +229,6 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
      */
     public Locations locations() {
         return this.locations;
-    }
-
-    /**
-     * The Operations object to access its operations.
-     */
-    private Operations operations;
-
-    /**
-     * Gets the Operations object to access its operations.
-     * @return the Operations object.
-     */
-    public Operations operations() {
-        return this.operations;
     }
 
     /**
@@ -266,13 +266,13 @@ public class DataLakeAnalyticsAccountManagementClientImpl extends AzureServiceCl
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.accounts = new AccountsImpl(restClient().retrofit(), this);
+        this.dataLakeStoreAccounts = new DataLakeStoreAccountsImpl(restClient().retrofit(), this);
+        this.storageAccounts = new StorageAccountsImpl(restClient().retrofit(), this);
         this.computePolicies = new ComputePoliciesImpl(restClient().retrofit(), this);
         this.firewallRules = new FirewallRulesImpl(restClient().retrofit(), this);
-        this.storageAccounts = new StorageAccountsImpl(restClient().retrofit(), this);
-        this.dataLakeStoreAccounts = new DataLakeStoreAccountsImpl(restClient().retrofit(), this);
-        this.accounts = new AccountsImpl(restClient().retrofit(), this);
-        this.locations = new LocationsImpl(restClient().retrofit(), this);
         this.operations = new OperationsImpl(restClient().retrofit(), this);
+        this.locations = new LocationsImpl(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

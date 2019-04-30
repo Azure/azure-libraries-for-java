@@ -17,6 +17,7 @@ import com.microsoft.azure.management.network.implementation.ApplicationGatewayI
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.model.HasPrivateIPAddress;
 import com.microsoft.azure.management.network.model.HasPublicIPAddress;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasSubnet;
@@ -37,6 +38,7 @@ public interface ApplicationGateway extends
         GroupableResource<NetworkManager, ApplicationGatewayInner>,
         Refreshable<ApplicationGateway>,
         Updatable<ApplicationGateway.Update>,
+        UpdatableWithTags<ApplicationGateway>,
         HasSubnet,
         HasPrivateIPAddress {
 
@@ -198,6 +200,12 @@ public interface ApplicationGateway extends
     Map<String, ApplicationGatewayRedirectConfiguration> redirectConfigurations();
 
     /**
+     * @return URL path maps, indexed by name (case sensitive)
+     */
+    @Beta(SinceVersion.V1_11_0)
+    Map<String, ApplicationGatewayUrlPathMap> urlPathMaps();
+
+    /**
      * @return request routing rules, indexed by name
      */
     Map<String, ApplicationGatewayRequestRoutingRule> requestRoutingRules();
@@ -207,6 +215,12 @@ public interface ApplicationGateway extends
      */
     @Beta(SinceVersion.V1_4_0)
     Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates();
+
+    /**
+     * @return whether HTTP2 enabled for the application gateway
+     */
+    @Beta(SinceVersion.V1_14_0)
+    boolean isHttp2Enabled();
 
     /**
      * The availability zones assigned to the application gateway.
@@ -407,6 +421,15 @@ public interface ApplicationGateway extends
              * @return the first stage of the request routing rule
              */
             ApplicationGatewayRequestRoutingRule.DefinitionStages.Blank<WithRequestRoutingRuleOrCreate> defineRequestRoutingRule(String name);
+
+            /**
+             * Begins the definition of a new application gateway path-based request routing rule and URL path map to be attached to the gateway.
+             * Note: both will be created with the same name and attached to the gateway.
+             * @param name a unique name for the URL path map
+             * @return the first stage of the URL path map definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            ApplicationGatewayUrlPathMap.DefinitionStages.Blank<WithRequestRoutingRuleOrCreate> definePathBasedRoutingRule(String name);
         }
 
         /**
@@ -527,6 +550,26 @@ public interface ApplicationGateway extends
         }
 
         /**
+         * The stage of the application gateway definition allowing to specify whether HTTP2 is enabled on the application gateway.
+         */
+        @Beta(SinceVersion.V1_14_0)
+        interface WithHttp2 {
+            /**
+             * Enables HTTP2 for the application gateway.
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_14_0)
+            WithCreate withHttp2();
+
+            /**
+             * Disables HTTP2 for the application gateway.
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_14_0)
+            WithCreate withoutHttp2();
+        }
+
+        /**
          * The stage of an application gateway definition containing all the required inputs for
          * the resource to be created, but also allowing
          * for any other optional settings to be specified.
@@ -550,7 +593,8 @@ public interface ApplicationGateway extends
             WithDisabledSslProtocol,
             WithAuthenticationCertificate,
             WithRedirectConfiguration,
-            WithAvailabilityZone {
+            WithAvailabilityZone,
+            WithHttp2 {
         }
     }
 
@@ -980,6 +1024,29 @@ public interface ApplicationGateway extends
         }
 
         /**
+         * The stage of an application gateway definition allowing to modify URL path maps.
+         */
+        interface WithUrlPathMap {
+            /**
+             * Removes a URL path map from the application gateway.
+             * <p>
+             * Note that removing a URL path map referenced by other settings may break the application gateway.
+             * @param name the name of the URL path map to remove (case sensitive)
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_11_0)
+            Update withoutUrlPathMap(String name);
+
+            /**
+             * Begins the update of a URL path map.
+             * @param name the name of an existing redirect configuration to update (case sensitive)
+             * @return the next stage of the definition or null if the requested URL path map does not exist
+             */
+            @Beta(SinceVersion.V1_11_0)
+            ApplicationGatewayUrlPathMap.Update updateUrlPathMap(String name);
+        }
+
+        /**
          * The stage of an application gateway update allowing to modify backend HTTP configurations.
          */
         interface WithBackendHttpConfig {
@@ -1031,6 +1098,15 @@ public interface ApplicationGateway extends
              * @return the first stage of a request routing rule update or null if the requested rule does not exist
              */
             ApplicationGatewayRequestRoutingRule.Update updateRequestRoutingRule(String name);
+
+            /**
+             * Begins the definition of a new application gateway path-based request routing rule and URL path map to be attached to the gateway.
+             * Note: both will be created with the same name and attached to the gateway.
+             * @param name a unique name for the URL path map
+             * @return the first stage of the URL path map definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            ApplicationGatewayUrlPathMap.UpdateDefinitionStages.Blank<Update> definePathBasedRoutingRule(String name);
         }
 
         /**
@@ -1077,6 +1153,26 @@ public interface ApplicationGateway extends
             @Method
             Update withoutAnyDisabledSslProtocols();
         }
+
+        /**
+         * The stage of the application gateway update allowing to specify whether HTTP2 is enabled on the application gateway.
+         */
+        @Beta(SinceVersion.V1_14_0)
+        interface WithHttp2 {
+            /**
+             * Enables HTTP2 for the application gateway.
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_14_0)
+            Update withHttp2();
+
+            /**
+             * Disables HTTP2 for the application gateway.
+             * @return the next stage of the update
+             */
+            @Beta(SinceVersion.V1_14_0)
+            Update withoutHttp2();
+        }
     }
 
     /**
@@ -1101,6 +1197,8 @@ public interface ApplicationGateway extends
         UpdateStages.WithProbe,
         UpdateStages.WithDisabledSslProtocol,
         UpdateStages.WithAuthenticationCertificate,
-        UpdateStages.WithRedirectConfiguration {
+        UpdateStages.WithRedirectConfiguration,
+        UpdateStages.WithUrlPathMap,
+        UpdateStages.WithHttp2 {
     }
 }

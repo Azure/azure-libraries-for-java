@@ -42,4 +42,9 @@ public interface OutputFile extends
      * @return the file size.
      */
     long contentLength();
+
+    /**
+     * @return information about file type
+     */
+    FileType fileType();
 }

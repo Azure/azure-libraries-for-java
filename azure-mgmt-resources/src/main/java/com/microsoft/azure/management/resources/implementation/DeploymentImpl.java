@@ -21,6 +21,7 @@ import com.microsoft.azure.management.resources.TemplateLink;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -288,11 +289,7 @@ public final class DeploymentImpl extends
         return this;
     }
 
-    @Override
-    public DeploymentImpl beginCreate() {
-        if (creatableResourceGroup != null) {
-            creatableResourceGroup.create();
-        }
+    private DeploymentInner createRequestFromInner() {
         DeploymentInner inner = new DeploymentInner()
                 .withProperties(new DeploymentProperties());
         inner.properties().withMode(mode());
@@ -300,20 +297,43 @@ public final class DeploymentImpl extends
         inner.properties().withTemplateLink(templateLink());
         inner.properties().withParameters(parameters());
         inner.properties().withParametersLink(parametersLink());
-        this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), inner);
+        return inner;
+    }
+
+    @Override
+    public DeploymentImpl beginCreate() {
+        if (this.creatableResourceGroup != null) {
+            this.creatableResourceGroup.create();
+        }
+        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()));
         return this;
     }
 
     @Override
+    public Observable<Deployment> beginCreateAsync() {
+        return Observable.just(creatableResourceGroup)
+                .flatMap(new Func1<Creatable<ResourceGroup>, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(Creatable<ResourceGroup> resourceGroupCreatable) {
+                        if (resourceGroupCreatable != null) {
+                            return creatableResourceGroup.createAsync();
+                        } else {
+                            return Observable.just((Indexable) DeploymentImpl.this);
+                        }
+                    }
+                })
+                .flatMap(new Func1<Indexable, Observable<DeploymentExtendedInner>>() {
+                    @Override
+                    public Observable<DeploymentExtendedInner> call(Indexable indexable) {
+                        return manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner());
+                    }
+                })
+                .map(innerToFluentMap(this));
+    }
+
+    @Override
     public Observable<Deployment> createResourceAsync() {
-        DeploymentInner inner = new DeploymentInner()
-                .withProperties(new DeploymentProperties());
-        inner.properties().withMode(mode());
-        inner.properties().withTemplate(template());
-        inner.properties().withTemplateLink(templateLink());
-        inner.properties().withParameters(parameters());
-        inner.properties().withParametersLink(parametersLink());
-        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), inner)
+        return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner())
                 .map(innerToFluentMap(this));
     }
 
@@ -350,5 +370,10 @@ public final class DeploymentImpl extends
     @Override
     public ResourceManager manager() {
         return this.resourceManager;
+    }
+
+    @Override
+    public String id() {
+        return inner().id();
     }
 }

@@ -17,14 +17,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class UpdateJobParameters {
     /**
-     * the degree of parallelism used for this job. This must be greater than
+     * The degree of parallelism used for this job. This must be greater than
      * 0, if set to less than 0 it will default to 1.
      */
     @JsonProperty(value = "degreeOfParallelism")
     private Integer degreeOfParallelism;
 
     /**
-     * the priority value for the current job. Lower numbers have a higher
+     * The priority value for the current job. Lower numbers have a higher
      * priority. By default, a job has a priority of 1000. This must be greater
      * than 0.
      */
@@ -32,14 +32,14 @@ public class UpdateJobParameters {
     private Integer priority;
 
     /**
-     * the key-value pairs used to add additional metadata to the job
-     * information. (Only for use internally with Scope job type.).
+     * The key-value pairs used to add additional metadata to the job
+     * information.
      */
     @JsonProperty(value = "tags")
     private Map<String, String> tags;
 
     /**
-     * Get the degreeOfParallelism value.
+     * Get the degree of parallelism used for this job. This must be greater than 0, if set to less than 0 it will default to 1.
      *
      * @return the degreeOfParallelism value
      */
@@ -48,7 +48,7 @@ public class UpdateJobParameters {
     }
 
     /**
-     * Set the degreeOfParallelism value.
+     * Set the degree of parallelism used for this job. This must be greater than 0, if set to less than 0 it will default to 1.
      *
      * @param degreeOfParallelism the degreeOfParallelism value to set
      * @return the UpdateJobParameters object itself.
@@ -59,7 +59,7 @@ public class UpdateJobParameters {
     }
 
     /**
-     * Get the priority value.
+     * Get the priority value for the current job. Lower numbers have a higher priority. By default, a job has a priority of 1000. This must be greater than 0.
      *
      * @return the priority value
      */
@@ -68,7 +68,7 @@ public class UpdateJobParameters {
     }
 
     /**
-     * Set the priority value.
+     * Set the priority value for the current job. Lower numbers have a higher priority. By default, a job has a priority of 1000. This must be greater than 0.
      *
      * @param priority the priority value to set
      * @return the UpdateJobParameters object itself.
@@ -79,7 +79,7 @@ public class UpdateJobParameters {
     }
 
     /**
-     * Get the tags value.
+     * Get the key-value pairs used to add additional metadata to the job information.
      *
      * @return the tags value
      */
@@ -88,7 +88,7 @@ public class UpdateJobParameters {
     }
 
     /**
-     * Set the tags value.
+     * Set the key-value pairs used to add additional metadata to the job information.
      *
      * @param tags the tags value to set
      * @return the UpdateJobParameters object itself.

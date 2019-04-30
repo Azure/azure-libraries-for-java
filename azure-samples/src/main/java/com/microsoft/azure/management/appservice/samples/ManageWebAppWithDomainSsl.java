@@ -48,6 +48,7 @@ public final class ManageWebAppWithDomainSsl {
         final String app2Name       = SdkContext.randomResourceName("webapp2-", 20);
         final String rgName         = SdkContext.randomResourceName("rgNEMV_", 24);
         final String domainName     = SdkContext.randomResourceName("jsdkdemo-", 20) + ".com";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String certPassword   = "StrongPass!12";
 
         try {
@@ -154,7 +155,7 @@ public final class ManageWebAppWithDomainSsl {
                     .withManagedHostnameBindings(domain, app2Name)
                     .defineSslBinding()
                         .forHostname(app2Name + "." + domainName)
-                        .withPfxCertificateToUpload(new File(pfxPath), certPassword)
+                        .withExistingCertificate(app1.hostNameSslStates().get(app1Name + "." + domainName).thumbprint())
                         .withSniBasedSsl()
                         .attach()
                     .apply();

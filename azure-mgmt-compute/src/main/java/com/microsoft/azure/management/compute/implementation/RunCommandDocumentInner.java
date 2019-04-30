@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import java.util.List;
-import com.microsoft.azure.management.compute.RunCommandParameterDefinition;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.RunCommandParameterDefinition;
+
+import java.util.List;
 
 /**
  * Describes the properties of a Run Command.
@@ -29,7 +30,7 @@ public class RunCommandDocumentInner extends RunCommandDocumentBaseInner {
     private List<RunCommandParameterDefinition> parameters;
 
     /**
-     * Get the script value.
+     * Get the script to be executed.
      *
      * @return the script value
      */
@@ -38,7 +39,7 @@ public class RunCommandDocumentInner extends RunCommandDocumentBaseInner {
     }
 
     /**
-     * Set the script value.
+     * Set the script to be executed.
      *
      * @param script the script value to set
      * @return the RunCommandDocumentInner object itself.
@@ -49,7 +50,7 @@ public class RunCommandDocumentInner extends RunCommandDocumentBaseInner {
     }
 
     /**
-     * Get the parameters value.
+     * Get the parameters used by the script.
      *
      * @return the parameters value
      */
@@ -58,7 +59,7 @@ public class RunCommandDocumentInner extends RunCommandDocumentBaseInner {
     }
 
     /**
-     * Set the parameters value.
+     * Set the parameters used by the script.
      *
      * @param parameters the parameters value to set
      * @return the RunCommandDocumentInner object itself.

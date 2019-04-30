@@ -12,7 +12,6 @@ import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroup;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.RoleAssignmentPropertiesWithScope;
 import com.microsoft.azure.management.graphrbac.RoleDefinition;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.resources.ResourceGroup;
@@ -43,8 +42,8 @@ class RoleAssignmentImpl
     private String roleDefinitionId;
     private String roleName;
 
-    RoleAssignmentImpl(RoleAssignmentInner innerObject, GraphRbacManager manager) {
-        super(innerObject.name(), innerObject);
+    RoleAssignmentImpl(String name, RoleAssignmentInner innerObject, GraphRbacManager manager) {
+        super(name, innerObject);
         this.manager = manager;
     }
 
@@ -98,15 +97,15 @@ class RoleAssignmentImpl
             throw new IllegalArgumentException("Please pass a non-null value for either role name or role definition ID");
         }
 
-        return Observable.zip(objectIdObservable, roleDefinitionIdObservable, new Func2<String, String, RoleAssignmentPropertiesInner>() {
+        return Observable.zip(objectIdObservable, roleDefinitionIdObservable, new Func2<String, String, RoleAssignmentCreateParametersInner>() {
             @Override
-            public RoleAssignmentPropertiesInner call(String objectId, String roleDefinitionId) {
-                return new RoleAssignmentPropertiesInner()
+            public RoleAssignmentCreateParametersInner call(String objectId, String roleDefinitionId) {
+                return new RoleAssignmentCreateParametersInner()
                         .withPrincipalId(objectId).withRoleDefinitionId(roleDefinitionId);
             }
-        }).flatMap(new Func1<RoleAssignmentPropertiesInner, Observable<RoleAssignmentInner>>() {
+        }).flatMap(new Func1<RoleAssignmentCreateParametersInner, Observable<RoleAssignmentInner>>() {
             @Override
-            public Observable<RoleAssignmentInner> call(RoleAssignmentPropertiesInner roleAssignmentPropertiesInner) {
+            public Observable<RoleAssignmentInner> call(RoleAssignmentCreateParametersInner roleAssignmentPropertiesInner) {
                 return manager().roleInner().roleAssignments()
                         .createAsync(scope(), name(), roleAssignmentPropertiesInner)
                         .retryWhen(new Func1<Observable<? extends Throwable>, Observable<?>>() {
@@ -115,9 +114,15 @@ class RoleAssignmentImpl
                                 return observable.zipWith(Observable.range(1, 30), new Func2<Throwable, Integer, Integer>() {
                                     @Override
                                     public Integer call(Throwable throwable, Integer integer) {
-                                        if (throwable instanceof CloudException
-                                                && ((CloudException) throwable).body().code().equalsIgnoreCase("PrincipalNotFound")) {
-                                            return integer;
+                                        if (throwable instanceof CloudException) {
+                                            CloudException cloudException = (CloudException) throwable;
+                                            if ((cloudException.body().code() != null && cloudException.body().code().equalsIgnoreCase("PrincipalNotFound"))
+                                                    || (cloudException.body().message() != null && cloudException.body().message().toLowerCase().contains("does not exist in the directory"))) {
+                                                // ref: https://github.com/Azure/azure-cli/blob/dev/src/command_modules/azure-cli-role/azure/cli/command_modules/role/custom.py#L1048-L1065
+                                                return integer;
+                                            } else {
+                                                throw Exceptions.propagate(throwable);
+                                            }
                                         } else {
                                             throw Exceptions.propagate(throwable);
                                         }
@@ -146,26 +151,17 @@ class RoleAssignmentImpl
 
     @Override
     public String scope() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().scope();
+        return inner().scope();
     }
 
     @Override
     public String roleDefinitionId() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().roleDefinitionId();
+        return inner().roleDefinitionId();
     }
 
     @Override
     public String principalId() {
-        if (inner().properties() == null) {
-            return null;
-        }
-        return inner().properties().principalId();
+        return inner().principalId();
     }
 
     @Override
@@ -218,10 +214,7 @@ class RoleAssignmentImpl
 
     @Override
     public RoleAssignmentImpl withScope(String scope) {
-        if (this.inner().properties() == null) {
-            this.inner().withProperties(new RoleAssignmentPropertiesWithScope());
-        }
-        this.inner().properties().withScope(scope);
+        this.inner().withScope(scope);
         return this;
     }
 

@@ -35,7 +35,7 @@ public class Status {
     private DateTime timestamp;
 
     /**
-     * Get the displayStatus value.
+     * Get the short label for the status.
      *
      * @return the displayStatus value
      */
@@ -44,7 +44,7 @@ public class Status {
     }
 
     /**
-     * Get the message value.
+     * Get the detailed message for the status, including alerts and error messages.
      *
      * @return the message value
      */
@@ -53,7 +53,7 @@ public class Status {
     }
 
     /**
-     * Get the timestamp value.
+     * Get the timestamp when the status was changed to the current value.
      *
      * @return the timestamp value
      */

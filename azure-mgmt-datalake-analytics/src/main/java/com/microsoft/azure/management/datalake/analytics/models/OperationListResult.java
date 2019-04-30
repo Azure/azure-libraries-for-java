@@ -16,19 +16,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class OperationListResult {
     /**
-     * the results of the list operation.
+     * The results of the list operation.
      */
     @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
     private List<Operation> value;
 
     /**
-     * the link (url) to the next page of results.
+     * The link (url) to the next page of results.
      */
     @JsonProperty(value = "nextLink", access = JsonProperty.Access.WRITE_ONLY)
     private String nextLink;
 
     /**
-     * Get the value value.
+     * Get the results of the list operation.
      *
      * @return the value value
      */
@@ -37,7 +37,7 @@ public class OperationListResult {
     }
 
     /**
-     * Get the nextLink value.
+     * Get the link (url) to the next page of results.
      *
      * @return the nextLink value
      */

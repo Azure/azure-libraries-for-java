@@ -8,46 +8,34 @@
 
 package com.microsoft.azure.management.batchai;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for AllocationState.
  */
-public enum AllocationState {
-    /** Enum value steady. */
-    STEADY("steady"),
+public final class AllocationState extends ExpandableStringEnum<AllocationState> {
+    /** Static value steady for AllocationState. */
+    public static final AllocationState STEADY = fromString("steady");
 
-    /** Enum value resizing. */
-    RESIZING("resizing");
+    /** Static value resizing for AllocationState. */
+    public static final AllocationState RESIZING = fromString("resizing");
 
-    /** The actual serialized value for a AllocationState instance. */
-    private String value;
-
-    AllocationState(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a AllocationState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding AllocationState
+     */
+    @JsonCreator
+    public static AllocationState fromString(String name) {
+        return fromString(name, AllocationState.class);
     }
 
     /**
-     * Parses a serialized value to a AllocationState instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed AllocationState object, or null if unable to parse.
+     * @return known AllocationState values
      */
-    @JsonCreator
-    public static AllocationState fromString(String value) {
-        AllocationState[] items = AllocationState.values();
-        for (AllocationState item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<AllocationState> values() {
+        return values(AllocationState.class);
     }
 }

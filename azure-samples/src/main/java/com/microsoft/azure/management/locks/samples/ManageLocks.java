@@ -51,7 +51,7 @@ public final class ManageLocks {
         final String storageName = SdkContext.randomResourceName("st", 15);
         final String diskName = SdkContext.randomResourceName("dsk", 15);
         final String netName = SdkContext.randomResourceName("net", 15);
-        final Region region = Region.US_EAST;
+        final Region region = Region.US_SOUTH_CENTRAL;
 
         ResourceGroup resourceGroup = null;
         ManagementLock lockGroup = null,

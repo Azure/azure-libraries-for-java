@@ -43,8 +43,8 @@ public class FunctionAppsTests extends AppServiceTest {
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().beginDeleteByName(RG_NAME_2);
         resourceManager.resourceGroups().beginDeleteByName(RG_NAME_1);
+        resourceManager.resourceGroups().beginDeleteByName(RG_NAME_2);
     }
 
     @Test

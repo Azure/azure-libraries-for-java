@@ -21,9 +21,9 @@ import rx.Observable;
  */
 public interface Locations {
     /**
-     * Gets subscription-level properties and limits for Data Lake Store specified by Resource location.
+     * Gets subscription-level properties and limits for Data Lake Store specified by resource location.
      *
-     * @param location The Resource location without whitespace.
+     * @param location The resource location without whitespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -32,9 +32,9 @@ public interface Locations {
     CapabilityInformation getCapability(String location);
 
     /**
-     * Gets subscription-level properties and limits for Data Lake Store specified by Resource location.
+     * Gets subscription-level properties and limits for Data Lake Store specified by resource location.
      *
-     * @param location The Resource location without whitespace.
+     * @param location The resource location without whitespace.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -42,18 +42,18 @@ public interface Locations {
     ServiceFuture<CapabilityInformation> getCapabilityAsync(String location, final ServiceCallback<CapabilityInformation> serviceCallback);
 
     /**
-     * Gets subscription-level properties and limits for Data Lake Store specified by Resource location.
+     * Gets subscription-level properties and limits for Data Lake Store specified by resource location.
      *
-     * @param location The Resource location without whitespace.
+     * @param location The resource location without whitespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CapabilityInformation object
      */
     Observable<CapabilityInformation> getCapabilityAsync(String location);
 
     /**
-     * Gets subscription-level properties and limits for Data Lake Store specified by Resource location.
+     * Gets subscription-level properties and limits for Data Lake Store specified by resource location.
      *
-     * @param location The Resource location without whitespace.
+     * @param location The resource location without whitespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CapabilityInformation object
      */

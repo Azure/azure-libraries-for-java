@@ -6,18 +6,24 @@
 
 package com.microsoft.azure.management.batchai;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.ClusterInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.batchai.model.HasMountVolumes;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import org.joda.time.DateTime;
+import rx.Observable;
 
 import java.util.List;
 
@@ -27,9 +33,27 @@ import java.util.List;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAICluster extends
-        GroupableResource<BatchAIManager, ClusterInner>,
+        HasInner<ClusterInner>,
+        Indexable,
+        HasId,
+        HasName,
+        HasManager<BatchAIManager>,
         Refreshable<BatchAICluster>,
         Updatable<BatchAICluster.Update> {
+    /**
+     * Get the IP address, port of all the compute nodes in the Cluster.
+     * @return list of remote login details
+     */
+    @Method
+    PagedList<RemoteLoginInformation> listRemoteLoginInformation();
+
+    /**
+     * Get the IP address, port of all the compute nodes in the Cluster.
+     * @return an observable that emits remote login information
+     */
+    @Method
+    Observable<RemoteLoginInformation> listRemoteLoginInformationAsync();
+
     /**
      * All virtual machines in a cluster are the same size. For information
      * about available VM sizes for clusters using images from the Virtual
@@ -116,20 +140,19 @@ public interface BatchAICluster extends
     NodeStateCounts nodeStateCounts();
 
     /**
-     * @return the entry point to Batch AI jobs management API for this cluster
+     * @return workspace this cluster belongs to
      */
-    BatchAIJobs jobs();
+    BatchAIWorkspace workspace();
 
     /**
      * The entirety of a Batch AI cluster definition.
      */
     interface Definition extends
             DefinitionStages.Blank,
-            DefinitionStages.WithGroup,
-            DefinitionStages.WithVMSize,
             DefinitionStages.WithUserName,
             DefinitionStages.WithUserCredentials,
             DefinitionStages.WithScaleSettings,
+            DefinitionStages.WithAppInsightsKey,
             DefinitionStages.WithCreate {
     }
 
@@ -140,13 +163,7 @@ public interface BatchAICluster extends
         /**
          * The first stage of a Batch AI cluster definition.
          */
-        interface Blank extends DefinitionWithRegion<WithGroup> {
-        }
-
-        /**
-         * The stage of a Batch AI cluster definition allowing the resource group to be specified.
-         */
-        interface WithGroup extends GroupableResource.DefinitionStages.WithGroup<WithVMSize> {
+        interface Blank extends WithVMSize {
         }
 
         /**
@@ -254,37 +271,94 @@ public interface BatchAICluster extends
         }
 
         /**
-         * Defines the volumes to mount on the cluster.
+         * Specifies Azure Application Insights information for performance counters reporting.
          */
-        interface WithMountVolumes {
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithAppInsightsResourceId {
             /**
-             * Begins the definition of Azure file share reference to be mounted on each cluster node.
-             * @return the first stage of file share reference definition
+             * @param resoureId Azure Application Insights component resource id
+             * @return the next stage of the definition
              */
-            @Method
-            AzureFileShare.DefinitionStages.Blank<WithCreate> defineAzureFileShare();
+            WithAppInsightsKey withAppInsightsComponentId(String resoureId);
+        }
+
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithAppInsightsKey {
+            /**
+             * @param instrumentationKey value of the Azure Application Insights instrumentation key
+             * @return the next stage of the definition
+             */
+            WithCreate withInstrumentationKey(String instrumentationKey);
 
             /**
-             * Begins the definition of Azure blob file system reference to be mounted on each cluster node.
-             * @return the first stage of Azure blob file system reference definition
+             * Specifies KeyVault Store and Secret which contains the value for the instrumentation key.
+             * @param keyVaultId fully qualified resource Id for the Key Vault
+             * @param secretUrl the URL referencing a secret in a Key Vault
+             * @return the next stage of the definition
              */
-            @Method
-            AzureBlobFileSystem.DefinitionStages.Blank<WithCreate> defineAzureBlobFileSystem();
+            WithCreate withInstrumentationKeySecretReference(String keyVaultId, String secretUrl);
+        }
+
+        /**
+         * Defines subnet for the cluster.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithSubnet {
+            /**
+             * @param subnetId identifier of the subnet
+             * @return the next stage of the definition
+             */
+            WithCreate withSubnet(String subnetId);
 
             /**
-             * Begins the definition of Azure file server reference.
-             * @return the first stage of file server reference definition
+             * @param networkId identifier of the network
+             * @param subnetName subnet name
+             * @return the next stage of the definition
              */
-            @Method
-            FileServer.DefinitionStages.Blank<WithCreate> defineFileServer();
+            WithCreate withSubnet(String networkId, String subnetName);
+        }
+
+
+        /**
+         * Specifies virtual machine image.
+         */
+        @Beta(Beta.SinceVersion.V1_8_0)
+        interface WithVirtualMachineImage {
+            /**
+             * Specifies virtual machine image.
+             * @param publisher publisher of the image
+             * @param offer offer of the image
+             * @param sku sku of the image
+             * @param version version of the image
+             * @return the next stage of the definition
+             */
+            WithCreate withVirtualMachineImage(String publisher, String offer, String sku, String version);
 
             /**
-             * Specifies the details of the file system to mount on the compute cluster nodes.
-             * @param mountCommand command used to mount the unmanaged file system
-             * @param relativeMountPath the relative path on the compute cluster node where the file system will be mounted.
-             * @return the next stage of Batch AI cluster definition
+             * Specifies virtual machine image.
+             * @param publisher publisher of the image
+             * @param offer offer of the image
+             * @param sku sku of the image
+             * @return the next stage of the definition
              */
-            WithCreate withUnmanagedFileSystem(String mountCommand, String relativeMountPath);
+            WithCreate withVirtualMachineImage(String publisher, String offer, String sku);
+
+            /**
+             * Computes nodes of the cluster will be created using this custom image. This is of the form
+             * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}.
+             * The virtual machine image must be in the same region and subscription as
+             * the cluster. For information about the firewall settings for the Batch
+             * node agent to communicate with the Batch service see
+             * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+             * Note, you need to provide publisher, offer and sku of the base OS image
+             * of which the custom image has been derived from.
+             * @param virtualMachineImageId the ARM resource identifier of the virtual machine image
+             * @param publisher publisher of the image
+             * @param offer offer of the image
+             * @param sku sku of the image
+             * @return the next stage of the definition
+             */
+            WithCreate withVirtualMachineImageId(String virtualMachineImageId, String publisher, String offer, String sku);
         }
 
         /**
@@ -296,8 +370,10 @@ public interface BatchAICluster extends
                 DefinitionStages.WithUserCredentials,
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithSetupTask,
-                DefinitionStages.WithMountVolumes,
-                Resource.DefinitionWithTags<WithCreate> {
+                HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate>,
+                DefinitionStages.WithAppInsightsResourceId,
+                DefinitionStages.WithVirtualMachineImage,
+                DefinitionStages.WithSubnet {
         }
     }
 
@@ -348,7 +424,6 @@ public interface BatchAICluster extends
      */
     interface Update extends
             Appliable<BatchAICluster>,
-            UpdateStages.WithScaleSettings,
-            Resource.UpdateWithTags<Update> {
+            UpdateStages.WithScaleSettings {
     }
 }

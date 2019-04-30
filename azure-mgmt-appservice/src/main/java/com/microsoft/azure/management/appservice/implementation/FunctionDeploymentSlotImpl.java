@@ -10,6 +10,12 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.FunctionApp;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlot.DefinitionStages.WithCreate;
+import rx.Completable;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * The implementation for FunctionDeploymentSlot.
@@ -26,8 +32,9 @@ class FunctionDeploymentSlotImpl
         FunctionDeploymentSlot,
         FunctionDeploymentSlot.Definition,
         FunctionDeploymentSlot.Update {
-    FunctionDeploymentSlotImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, FunctionAppImpl parent) {
-        super(name, innerObject, configObject, parent);
+
+    FunctionDeploymentSlotImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, FunctionAppImpl parent) {
+        super(name, innerObject, siteConfig, logConfig, parent);
     }
 
     @Override
@@ -40,5 +47,29 @@ class FunctionDeploymentSlotImpl
         this.siteConfig = ((WebAppBaseImpl) app).siteConfig;
         configurationSource = app;
         return this;
+    }
+
+    @Override
+    public void zipDeploy(File zipFile) {
+        zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public void zipDeploy(InputStream zipFile) {
+        zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public Completable zipDeployAsync(InputStream zipFile) {
+        return kuduClient.zipDeployAsync(zipFile);
+    }
+
+    @Override
+    public Completable zipDeployAsync(File zipFile) {
+        try {
+            return zipDeployAsync(new FileInputStream(zipFile));
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
     }
 }

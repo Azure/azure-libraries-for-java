@@ -22,7 +22,7 @@ public class DatabaseAccountRegenerateKeyParameters {
     private KeyKind keyKind;
 
     /**
-     * Get the keyKind value.
+     * Get the access key to regenerate. Possible values include: 'primary', 'secondary', 'primaryReadonly', 'secondaryReadonly'.
      *
      * @return the keyKind value
      */
@@ -31,7 +31,7 @@ public class DatabaseAccountRegenerateKeyParameters {
     }
 
     /**
-     * Set the keyKind value.
+     * Set the access key to regenerate. Possible values include: 'primary', 'secondary', 'primaryReadonly', 'secondaryReadonly'.
      *
      * @param keyKind the keyKind value to set
      * @return the DatabaseAccountRegenerateKeyParameters object itself.

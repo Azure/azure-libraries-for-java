@@ -8,58 +8,46 @@
 
 package com.microsoft.azure.management.trafficmanager;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for TrafficRoutingMethod.
  */
-public final class TrafficRoutingMethod {
+public final class TrafficRoutingMethod extends ExpandableStringEnum<TrafficRoutingMethod> {
     /** Static value Performance for TrafficRoutingMethod. */
-    public static final TrafficRoutingMethod PERFORMANCE = new TrafficRoutingMethod("Performance");
+    public static final TrafficRoutingMethod PERFORMANCE = fromString("Performance");
 
     /** Static value Priority for TrafficRoutingMethod. */
-    public static final TrafficRoutingMethod PRIORITY = new TrafficRoutingMethod("Priority");
+    public static final TrafficRoutingMethod PRIORITY = fromString("Priority");
 
     /** Static value Weighted for TrafficRoutingMethod. */
-    public static final TrafficRoutingMethod WEIGHTED = new TrafficRoutingMethod("Weighted");
+    public static final TrafficRoutingMethod WEIGHTED = fromString("Weighted");
 
     /** Static value Geographic for TrafficRoutingMethod. */
-    public static final TrafficRoutingMethod GEOGRAPHIC = new TrafficRoutingMethod("Geographic");
+    public static final TrafficRoutingMethod GEOGRAPHIC = fromString("Geographic");
 
-    private String value;
+    /** Static value MultiValue for TrafficRoutingMethod. */
+    public static final TrafficRoutingMethod MULTI_VALUE = fromString("MultiValue");
+
+    /** Static value Subnet for TrafficRoutingMethod. */
+    public static final TrafficRoutingMethod SUBNET = fromString("Subnet");
 
     /**
-     * Creates a custom value for TrafficRoutingMethod.
-     * @param value the custom value
+     * Creates or finds a TrafficRoutingMethod from its string representation.
+     * @param name a name to look for
+     * @return the corresponding TrafficRoutingMethod
      */
-    public TrafficRoutingMethod(String value) {
-        this.value = value;
+    @JsonCreator
+    public static TrafficRoutingMethod fromString(String name) {
+        return fromString(name, TrafficRoutingMethod.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof TrafficRoutingMethod)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        TrafficRoutingMethod rhs = (TrafficRoutingMethod) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known TrafficRoutingMethod values
+     */
+    public static Collection<TrafficRoutingMethod> values() {
+        return values(TrafficRoutingMethod.class);
     }
 }

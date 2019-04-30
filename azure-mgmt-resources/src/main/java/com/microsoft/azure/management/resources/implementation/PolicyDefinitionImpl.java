@@ -25,8 +25,8 @@ final class PolicyDefinitionImpl extends
         PolicyDefinition.Update {
     private final PolicyDefinitionsInner innerCollection;
 
-    PolicyDefinitionImpl(PolicyDefinitionInner innerModel, PolicyDefinitionsInner innerCollection) {
-        super(innerModel.name(), innerModel);
+    PolicyDefinitionImpl(String name, PolicyDefinitionInner innerModel, PolicyDefinitionsInner innerCollection) {
+        super(name, innerModel);
         this.innerCollection = innerCollection;
     }
 

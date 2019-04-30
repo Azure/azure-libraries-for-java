@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
+import org.joda.time.DateTime;
 import rx.Observable;
 import rx.Scheduler;
 import rx.schedulers.Schedulers;
@@ -90,6 +91,13 @@ public class SdkContext {
         delayProvider.sleep(milliseconds);
     }
 
+    /**
+     * @return the current date time.
+     */
+    public static DateTime dateTimeNow() {
+        ResourceNamer resourceNamer = SdkContext.getResourceNamerFactory().createResourceNamer("");
+        return resourceNamer.dateTimeNow();
+    }
     /**
      * Wrapper delayed emission, based on delayProvider.
      *

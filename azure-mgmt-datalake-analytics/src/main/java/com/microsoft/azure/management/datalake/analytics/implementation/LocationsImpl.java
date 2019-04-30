@@ -55,14 +55,14 @@ public class LocationsImpl implements Locations {
     interface LocationsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.datalake.analytics.Locations getCapability" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.DataLakeAnalytics/locations/{location}/capability")
-        Observable<Response<ResponseBody>> getCapability(@Path("location") String location, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getCapability(@Path("subscriptionId") String subscriptionId, @Path("location") String location, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
     /**
-     * Gets subscription-level properties and limits for Data Lake Analytics specified by Resource location.
+     * Gets subscription-level properties and limits for Data Lake Analytics specified by resource location.
      *
-     * @param location The Resource location without whitespace.
+     * @param location The resource location without whitespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -73,9 +73,9 @@ public class LocationsImpl implements Locations {
     }
 
     /**
-     * Gets subscription-level properties and limits for Data Lake Analytics specified by Resource location.
+     * Gets subscription-level properties and limits for Data Lake Analytics specified by resource location.
      *
-     * @param location The Resource location without whitespace.
+     * @param location The resource location without whitespace.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -85,9 +85,9 @@ public class LocationsImpl implements Locations {
     }
 
     /**
-     * Gets subscription-level properties and limits for Data Lake Analytics specified by Resource location.
+     * Gets subscription-level properties and limits for Data Lake Analytics specified by resource location.
      *
-     * @param location The Resource location without whitespace.
+     * @param location The resource location without whitespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CapabilityInformation object
      */
@@ -101,23 +101,23 @@ public class LocationsImpl implements Locations {
     }
 
     /**
-     * Gets subscription-level properties and limits for Data Lake Analytics specified by Resource location.
+     * Gets subscription-level properties and limits for Data Lake Analytics specified by resource location.
      *
-     * @param location The Resource location without whitespace.
+     * @param location The resource location without whitespace.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CapabilityInformation object
      */
     public Observable<ServiceResponse<CapabilityInformation>> getCapabilityWithServiceResponseAsync(String location) {
-        if (location == null) {
-            throw new IllegalArgumentException("Parameter location is required and cannot be null.");
-        }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (location == null) {
+            throw new IllegalArgumentException("Parameter location is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.getCapability(location, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.getCapability(this.client.subscriptionId(), location, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CapabilityInformation>>>() {
                 @Override
                 public Observable<ServiceResponse<CapabilityInformation>> call(Response<ResponseBody> response) {

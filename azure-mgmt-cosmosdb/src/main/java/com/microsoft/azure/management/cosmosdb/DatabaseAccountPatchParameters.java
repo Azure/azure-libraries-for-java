@@ -9,17 +9,26 @@
 package com.microsoft.azure.management.cosmosdb;
 
 import java.util.Map;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Parameters for patching Azure DocumentDB database account properties.
+ * Parameters for patching Azure Cosmos DB database account properties.
  */
+@JsonFlatten
 public class DatabaseAccountPatchParameters {
     /**
      * The tags property.
      */
-    @JsonProperty(value = "tags", required = true)
+    @JsonProperty(value = "tags")
     private Map<String, String> tags;
+
+    /**
+     * List of Cosmos DB capabilities for the account.
+     */
+    @JsonProperty(value = "properties.capabilities")
+    private List<Capability> capabilities;
 
     /**
      * Get the tags value.
@@ -38,6 +47,26 @@ public class DatabaseAccountPatchParameters {
      */
     public DatabaseAccountPatchParameters withTags(Map<String, String> tags) {
         this.tags = tags;
+        return this;
+    }
+
+    /**
+     * Get list of Cosmos DB capabilities for the account.
+     *
+     * @return the capabilities value
+     */
+    public List<Capability> capabilities() {
+        return this.capabilities;
+    }
+
+    /**
+     * Set list of Cosmos DB capabilities for the account.
+     *
+     * @param capabilities the capabilities value to set
+     * @return the DatabaseAccountPatchParameters object itself.
+     */
+    public DatabaseAccountPatchParameters withCapabilities(List<Capability> capabilities) {
+        this.capabilities = capabilities;
         return this;
     }
 

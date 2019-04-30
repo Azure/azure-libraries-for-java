@@ -39,7 +39,7 @@ public class USqlPackage extends CatalogItem {
     private String definition;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database containing the package.
      *
      * @return the databaseName value
      */
@@ -48,7 +48,7 @@ public class USqlPackage extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database containing the package.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlPackage object itself.
@@ -59,7 +59,7 @@ public class USqlPackage extends CatalogItem {
     }
 
     /**
-     * Get the schemaName value.
+     * Get the name of the schema associated with this package and database.
      *
      * @return the schemaName value
      */
@@ -68,7 +68,7 @@ public class USqlPackage extends CatalogItem {
     }
 
     /**
-     * Set the schemaName value.
+     * Set the name of the schema associated with this package and database.
      *
      * @param schemaName the schemaName value to set
      * @return the USqlPackage object itself.
@@ -79,7 +79,7 @@ public class USqlPackage extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the package.
      *
      * @return the name value
      */
@@ -88,7 +88,7 @@ public class USqlPackage extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the package.
      *
      * @param name the name value to set
      * @return the USqlPackage object itself.
@@ -99,7 +99,7 @@ public class USqlPackage extends CatalogItem {
     }
 
     /**
-     * Get the definition value.
+     * Get the definition of the package.
      *
      * @return the definition value
      */
@@ -108,7 +108,7 @@ public class USqlPackage extends CatalogItem {
     }
 
     /**
-     * Set the definition value.
+     * Set the definition of the package.
      *
      * @param definition the definition value to set
      * @return the USqlPackage object itself.

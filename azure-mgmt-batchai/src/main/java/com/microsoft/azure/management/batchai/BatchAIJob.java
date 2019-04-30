@@ -9,12 +9,13 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.JobInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.batchai.model.HasMountVolumes;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import org.joda.time.DateTime;
 import rx.Completable;
@@ -28,9 +29,11 @@ import java.util.List;
 @Fluent
 @Beta(Beta.SinceVersion.V1_6_0)
 public interface BatchAIJob extends
-        IndependentChildResource<BatchAIManager, JobInner>,
-        Refreshable<BatchAIJob>,
-        HasParent<BatchAICluster> {
+        HasInner<JobInner>,
+        Indexable,
+        HasId,
+        HasName,
+        Refreshable<BatchAIJob> {
 
     /**
      * Terminates a job.
@@ -64,21 +67,69 @@ public interface BatchAIJob extends
     Observable<OutputFile> listFilesAsync(String outputDirectoryId);
 
     /**
-     * @return the experiment information of the job.
+     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * @param outputDirectoryId Id of the job output directory. This is the OutputDirectory--&gt;id parameter that is given by the user during Create Job.
+     * @param directory the path to the directory
+     * @param linkExpiryMinutes the number of minutes after which the download link will expire
+     * @param maxResults the maximum number of items to return in the response. A maximum of 1000 files can be returned
+     * @return list of files inside the given output directory
      */
-    String experimentName();
+    @Method
+    PagedList<OutputFile> listFiles(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults);
+
+    /**
+     * List all files inside the given output directory (Only if the output directory is on Azure File Share or Azure Storage container).
+     * @param outputDirectoryId Id of the job output directory. This is the OutputDirectory--&gt;id parameter that is given by the user during Create Job.
+     * @param directory the path to the directory
+     * @param linkExpiryMinutes the number of minutes after which the download link will expire
+     * @param maxResults the maximum number of items to return in the response. A maximum of 1000 files can be returned
+     * @return an observable that emits output file information
+     */
+    @Method
+    Observable<OutputFile> listFilesAsync(String outputDirectoryId, String directory, Integer linkExpiryMinutes, Integer maxResults);
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     * @return list of remote login details
+     */
+    @Method
+    PagedList<RemoteLoginInformation> listRemoteLoginInformation();
+
+    /**
+     * Gets a list of currently existing nodes which were used for the Job execution. The returned information contains the node ID, its public IP and SSH port.
+     * @return an observable that emits remote login information
+     */
+    @Method
+    Observable<RemoteLoginInformation> listRemoteLoginInformationAsync();
 
     /**
      * @return priority associated with the job. Priority values can range from -1000
      * to 1000, with -1000 being the lowest priority and 1000 being the highest
      * priority. The default value is 0.
      */
-    Integer priority();
+    JobPriority schedulingPriority();
 
     /**
      * @return  the Id of the cluster on which this job will run.
      */
     ResourceId cluster();
+
+    /**
+     * @return information on mount volumes to be used by the job.
+     * These volumes will be mounted before the job execution and will be
+     * unmouted after the job completion. The volumes will be mounted at
+     * location specified by $AZ_BATCHAI_JOB_MOUNT_ROOT environment variable.
+     */
+    MountVolumes mountVolumes();
+
+    /**
+     * @return a segment of job's output directories path created by BatchAI.
+     * Batch AI creates job's output directories under an unique path to avoid
+     * conflicts between jobs. This value contains a path segment generated by
+     * Batch AI to make the path unique and can be used to find the output
+     * directory on the node or mounted filesystem.
+     */
+    String jobOutputDirectoryPathSegment();
 
     /**
      * @return number of compute nodes to run the job on. The job will be gang scheduled on that many compute nodes.
@@ -99,6 +150,11 @@ public interface BatchAIJob extends
      * @return the settings for CNTK (aka Microsoft Cognitive Toolkit) job
      */
     CNTKsettings cntkSettings();
+
+    /**
+     * @return the settings for pyTorch job
+     */
+    PyTorchSettings pyTorchSettings();
 
     /**
      * @return the settings for Tensor Flow job
@@ -150,7 +206,13 @@ public interface BatchAIJob extends
      * variables are set by the Batch AI Service: AZ_BATCHAI_PS_HOSTS,
      * AZ_BATCHAI_WORKER_HOSTS.
      */
-    List<EnvironmentSetting> environmentVariables();
+    List<EnvironmentVariable> environmentVariables();
+
+    /**
+     * @return environment variables with secret values to set on the job. Only names are reported,
+     * server will never report values of these variables back.
+     */
+    List<EnvironmentVariableWithSecretValue> secrets();
 
     /**
      * @return constraints associated with the Job.
@@ -201,6 +263,11 @@ public interface BatchAIJob extends
     JobPropertiesExecutionInfo executionInfo();
 
     /**
+     * @return the experiment information of the job.
+     */
+    BatchAIExperiment experiment();
+
+    /**
      * The entirety of the Batch AI job definition.
      */
     interface Definition extends
@@ -218,11 +285,30 @@ public interface BatchAIJob extends
         /**
          * The first stage of Batch AI job definition.
          */
-        interface Blank extends DefinitionWithRegion<WithNodeCount> {
+        interface Blank extends WithCluster {
         }
 
         /**
-         * The stage of the setup task definition allowing to specify where Batch AI will upload stdout and stderr of the job.
+         * The stage of the Batch AI job definition allowing to specify cluster for the job.
+         */
+        interface WithCluster {
+            /**
+             * Sets Batch AI cluster for the job.
+             * @param cluster Batch AI cluster to run the job
+             * @return the next stage of the definition
+             */
+            WithNodeCount withExistingCluster(BatchAICluster cluster);
+
+            /**
+             * Sets Batch AI cluster id for the job.
+             * @param clusterId Batch AI cluster id
+             * @return the next stage of the definition
+             */
+            WithNodeCount withExistingClusterId(String clusterId);
+        }
+
+        /**
+         * The stage of the job definition allowing to specify where Batch AI will upload stdout and stderr of the job.
          */
         interface WithStdOutErrPathPrefix {
             /**
@@ -245,17 +331,36 @@ public interface BatchAIJob extends
         }
 
         interface WithToolType {
+            @Method
             ToolTypeSettings.CognitiveToolkit.DefinitionStages.Blank<WithCreate> defineCognitiveToolkit();
 
+            @Method
             ToolTypeSettings.TensorFlow.DefinitionStages.Blank<WithCreate> defineTensorflow();
 
+            @Method
             ToolTypeSettings.Caffe.DefinitionStages.Blank<WithCreate> defineCaffe();
 
+            @Method
             ToolTypeSettings.Caffe2.DefinitionStages.Blank<WithCreate> defineCaffe2();
 
+            @Method
             ToolTypeSettings.Chainer.DefinitionStages.Blank<WithCreate> defineChainer();
 
-            WithCreate withCustomCommandLine(String commandLine);
+            @Method
+            @Beta(Beta.SinceVersion.V1_8_0)
+            ToolTypeSettings.PyTorch.DefinitionStages.Blank<WithCreate> definePyTorch();
+
+            @Method
+            @Beta(Beta.SinceVersion.V1_12_0)
+            ToolTypeSettings.CustomMpi.DefinitionStages.Blank<WithCreate> defineCustomMpi();
+
+            @Method
+            @Beta(Beta.SinceVersion.V1_12_0)
+            ToolTypeSettings.Horovod.DefinitionStages.Blank<WithCreate> defineHorovod();
+
+            @Method
+            @Beta(Beta.SinceVersion.V1_12_0)
+            ToolTypeSettings.CustomToolkit.DefinitionStages.Blank<WithCreate> defineCustomToolkit();
         }
 
         interface WithInputDirectory {
@@ -264,6 +369,14 @@ public interface BatchAIJob extends
 
         interface WithOutputDirectory {
             WithCreate withOutputDirectory(String id, String pathPrefix);
+
+            /**
+             * @param id The name for the output directory
+             * @return the nest stage of the definition for output directory settings
+             */
+            @Method
+            @Beta(Beta.SinceVersion.V1_8_0)
+            OutputDirectorySettings.DefinitionStages.Blank<WithCreate> defineOutputDirectory(String id);
         }
 
         /**
@@ -275,7 +388,7 @@ public interface BatchAIJob extends
              * @param commandLine command line to execute
              * @return the next stage of the definition
              */
-            WithCreate withCommandLine(String commandLine);
+            WithCreate withJobPreparationCommandLine(String commandLine);
         }
 
         /**
@@ -287,17 +400,49 @@ public interface BatchAIJob extends
              * @return the next stage of the definition
              */
             WithCreate withContainerImage(String image);
+
+            /**
+             * Begins the definition of container settings.
+             * @param image the name of the image in image repository
+             * @return next definition stage
+             */
+            ContainerImageSettings.DefinitionStages.Blank<BatchAIJob.DefinitionStages.WithCreate> defineContainerSettings(String image);
         }
 
         /**
-         * Allows tro specify the experiment information of the job.
+         * Allows to specify environment variables.
          */
-        interface WithExperimentName {
+        interface WithEnvironmentVariable {
             /**
-             * @param experimentName describes the experiment information of the job
+             * @param name name of the variable to set
+             * @param value value of the variable to set
              * @return the next stage of the definition
              */
-            WithCreate withExperimentName(String experimentName);
+            WithCreate withEnvironmentVariable(String name, String value);
+        }
+
+        /**
+         * The stage of the Batch AI job definition allowing to specify environment variables with secrets.
+         */
+        interface WithEnvironmentVariableSecretValue {
+            /**
+             * Sets the value of the environment variable. This value will never be reported
+             * back by Batch AI.
+             * @param name name of the variable to set
+             * @param value value of the variable to set
+             * @return the next stage of the definition
+             */
+            WithCreate withEnvironmentVariableSecretValue(String name, String value);
+
+            /**
+             * Specifies KeyVault Store and Secret which contains the value for the
+             * environment variable.
+             * @param name name of the variable to set
+             * @param keyVaultId fully qualified resource Id for the Key Vault
+             * @param secretUrl the URL referencing a secret in a Key Vault
+             * @return the next stage of the definition
+             */
+            WithCreate withEnvironmentVariableSecretValue(String name, String keyVaultId, String secretUrl);
         }
 
         /**
@@ -306,12 +451,13 @@ public interface BatchAIJob extends
          */
         interface WithCreate extends
                 Creatable<BatchAIJob>,
-                Resource.DefinitionWithTags<WithCreate>,
                 WithJobPreparation,
                 WithInputDirectory,
                 WithOutputDirectory,
                 WithContainerSettings,
-                WithExperimentName {
+                WithEnvironmentVariable,
+                WithEnvironmentVariableSecretValue,
+                HasMountVolumes.DefinitionStages.WithMountVolumes<WithCreate> {
         }
     }
 }

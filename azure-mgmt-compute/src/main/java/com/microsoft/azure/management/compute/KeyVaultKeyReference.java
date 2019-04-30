@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.SubResource;
 
 /**
  * Describes a reference to Key Vault Key.
@@ -28,7 +28,7 @@ public class KeyVaultKeyReference {
     private SubResource sourceVault;
 
     /**
-     * Get the keyUrl value.
+     * Get the URL referencing a key encryption key in Key Vault.
      *
      * @return the keyUrl value
      */
@@ -37,7 +37,7 @@ public class KeyVaultKeyReference {
     }
 
     /**
-     * Set the keyUrl value.
+     * Set the URL referencing a key encryption key in Key Vault.
      *
      * @param keyUrl the keyUrl value to set
      * @return the KeyVaultKeyReference object itself.
@@ -48,7 +48,7 @@ public class KeyVaultKeyReference {
     }
 
     /**
-     * Get the sourceVault value.
+     * Get the relative URL of the Key Vault containing the key.
      *
      * @return the sourceVault value
      */
@@ -57,7 +57,7 @@ public class KeyVaultKeyReference {
     }
 
     /**
-     * Set the sourceVault value.
+     * Set the relative URL of the Key Vault containing the key.
      *
      * @param sourceVault the sourceVault value to set
      * @return the KeyVaultKeyReference object itself.

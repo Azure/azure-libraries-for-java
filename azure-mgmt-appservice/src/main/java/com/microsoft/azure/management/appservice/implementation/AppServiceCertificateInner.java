@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.appservice.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.management.appservice.KeyVaultSecretStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Key Vault container for a certificate that is purchased through Azure.
@@ -39,7 +39,7 @@ public class AppServiceCertificateInner {
     private KeyVaultSecretStatus provisioningState;
 
     /**
-     * Get the keyVaultId value.
+     * Get key Vault resource Id.
      *
      * @return the keyVaultId value
      */
@@ -48,7 +48,7 @@ public class AppServiceCertificateInner {
     }
 
     /**
-     * Set the keyVaultId value.
+     * Set key Vault resource Id.
      *
      * @param keyVaultId the keyVaultId value to set
      * @return the AppServiceCertificateInner object itself.
@@ -59,7 +59,7 @@ public class AppServiceCertificateInner {
     }
 
     /**
-     * Get the keyVaultSecretName value.
+     * Get key Vault secret name.
      *
      * @return the keyVaultSecretName value
      */
@@ -68,7 +68,7 @@ public class AppServiceCertificateInner {
     }
 
     /**
-     * Set the keyVaultSecretName value.
+     * Set key Vault secret name.
      *
      * @param keyVaultSecretName the keyVaultSecretName value to set
      * @return the AppServiceCertificateInner object itself.
@@ -79,7 +79,7 @@ public class AppServiceCertificateInner {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get status of the Key Vault secret. Possible values include: 'Initialized', 'WaitingOnCertificateOrder', 'Succeeded', 'CertificateOrderFailed', 'OperationNotPermittedOnKeyVault', 'AzureServiceUnauthorizedToAccessKeyVault', 'KeyVaultDoesNotExist', 'KeyVaultSecretDoesNotExist', 'UnknownError', 'ExternalPrivateKey', 'Unknown'.
      *
      * @return the provisioningState value
      */

@@ -9,11 +9,13 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AccessLevel;
 import com.microsoft.azure.management.compute.CreationData;
+import com.microsoft.azure.management.compute.CreationSource;
 import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.DiskCreateOption;
-import com.microsoft.azure.management.compute.CreationSource;
 import com.microsoft.azure.management.compute.DiskSku;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
+import com.microsoft.azure.management.compute.EncryptionSettings;
+import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
@@ -96,13 +98,18 @@ class DiskImpl
     }
 
     @Override
+    public EncryptionSettings encryptionSettings() {
+        return this.inner().encryptionSettings();
+    }
+
+    @Override
     public String grantAccess(int accessDurationInSeconds) {
         return this.grantAccessAsync(accessDurationInSeconds).toBlocking().last();
     }
 
     @Override
     public Observable<String> grantAccessAsync(int accessDurationInSeconds) {
-        GrantAccessDataInner grantAccessDataInner = new GrantAccessDataInner();
+        GrantAccessData grantAccessDataInner = new GrantAccessData();
         grantAccessDataInner.withAccess(AccessLevel.READ)
                 .withDurationInSeconds(accessDurationInSeconds);
 

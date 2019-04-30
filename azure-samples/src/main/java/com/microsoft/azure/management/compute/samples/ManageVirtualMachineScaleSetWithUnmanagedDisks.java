@@ -8,6 +8,7 @@ package com.microsoft.azure.management.compute.samples;
 
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.Azure;
+import com.microsoft.azure.management.compute.ImageReference;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVM;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
 import com.microsoft.azure.management.network.Network;
@@ -15,7 +16,6 @@ import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.TransportProtocol;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
-import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetSkuTypes;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNicIPConfiguration;
@@ -49,7 +49,7 @@ public final class ManageVirtualMachineScaleSetWithUnmanagedDisks {
      * @return true if sample runs successfully
      */
     public static boolean runSample(Azure azure) {
-        final Region region = Region.US_WEST_CENTRAL;
+        final Region region = Region.US_EAST2;
         final String rgName = SdkContext.randomResourceName("rgCOVS", 15);
         final String vnetName = SdkContext.randomResourceName("vnet", 24);
         final String loadBalancerName1 = SdkContext.randomResourceName("intlb" + "-", 18);
@@ -73,12 +73,11 @@ public final class ManageVirtualMachineScaleSetWithUnmanagedDisks {
         final String userName = "tirekicker";
         final String sshKey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCfSPC2K7LZcFKEO+/t3dzmQYtrJFZNxOsbVgOVKietqHyvmYGHEC0J2wPdAqQ/63g/hhAEFRoyehM+rbeDri4txB3YFfnOK58jqdkyXzupWqXzOrlKY4Wz9SKjjN765+dqUITjKRIaAip1Ri137szRg71WnrmdP3SphTRlCx1Bk2nXqWPsclbRDCiZeF8QOTi4JqbmJyK5+0UqhqYRduun8ylAwKKQJ1NJt85sYIHn9f1Rfr6Tq2zS0wZ7DHbZL+zB5rSlAr8QyUdg/GQD+cmSs6LvPJKL78d6hMGk84ARtFo4A79ovwX/Fj01znDQkU6nJildfkaolH2rWFG/qttD azjava@javalib.com";
 
-        final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-samples/src/main/resources/install_apache.sh";
+        final String apacheInstallScript = "https://raw.githubusercontent.com/anuchandy/azure-libraries-for-java/master/azure-samples/src/main/resources/install_apache.sh";
         final String installCommand = "bash install_apache.sh";
         List<String> fileUris = new ArrayList<>();
         fileUris.add(apacheInstallScript);
         try {
-
             //=============================================================
             // Create a virtual network with a frontend subnet
             System.out.println("Creating virtual network with a frontend subnet ...");
@@ -201,6 +200,12 @@ public final class ManageVirtualMachineScaleSetWithUnmanagedDisks {
 
             Date t1 = new Date();
 
+            ImageReference imageReference = new ImageReference()
+                    .withPublisher("Canonical")
+                    .withOffer("UbuntuServer")
+                    .withSku("18.04-LTS")
+                    .withVersion("latest");
+
             VirtualMachineScaleSet virtualMachineScaleSet = azure.virtualMachineScaleSets().define(vmssName)
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
@@ -210,7 +215,7 @@ public final class ManageVirtualMachineScaleSetWithUnmanagedDisks {
                     .withPrimaryInternetFacingLoadBalancerBackends(backendPoolName1, backendPoolName2)
                     .withPrimaryInternetFacingLoadBalancerInboundNatPools(natPool50XXto22, natPool60XXto23)
                     .withoutPrimaryInternalLoadBalancer()
-                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                    .withSpecificLinuxImageVersion(imageReference)
                     .withRootUsername(userName)
                     .withSsh(sshKey)
                     .withUnmanagedDisks()

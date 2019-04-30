@@ -8,52 +8,37 @@
 
 package com.microsoft.azure.management.batchai;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for DeallocationOption.
  */
-public enum DeallocationOption {
-    /** Enum value requeue. */
-    REQUEUE("requeue"),
+public final class DeallocationOption extends ExpandableStringEnum<DeallocationOption> {
+    /** Static value requeue for DeallocationOption. */
+    public static final DeallocationOption REQUEUE = fromString("requeue");
 
-    /** Enum value terminate. */
-    TERMINATE("terminate"),
+    /** Static value terminate for DeallocationOption. */
+    public static final DeallocationOption TERMINATE = fromString("terminate");
 
-    /** Enum value waitforjobcompletion. */
-    WAITFORJOBCOMPLETION("waitforjobcompletion"),
+    /** Static value waitforjobcompletion for DeallocationOption. */
+    public static final DeallocationOption WAITFORJOBCOMPLETION = fromString("waitforjobcompletion");
 
-    /** Enum value unknown. */
-    UNKNOWN("unknown");
-
-    /** The actual serialized value for a DeallocationOption instance. */
-    private String value;
-
-    DeallocationOption(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a DeallocationOption from its string representation.
+     * @param name a name to look for
+     * @return the corresponding DeallocationOption
+     */
+    @JsonCreator
+    public static DeallocationOption fromString(String name) {
+        return fromString(name, DeallocationOption.class);
     }
 
     /**
-     * Parses a serialized value to a DeallocationOption instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed DeallocationOption object, or null if unable to parse.
+     * @return known DeallocationOption values
      */
-    @JsonCreator
-    public static DeallocationOption fromString(String value) {
-        DeallocationOption[] items = DeallocationOption.values();
-        for (DeallocationOption item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<DeallocationOption> values() {
+        return values(DeallocationOption.class);
     }
 }

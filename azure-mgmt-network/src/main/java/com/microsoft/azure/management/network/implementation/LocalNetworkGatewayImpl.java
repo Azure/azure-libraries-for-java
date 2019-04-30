@@ -9,8 +9,12 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.BgpSettings;
 import com.microsoft.azure.management.network.LocalNetworkGateway;
+import com.microsoft.azure.management.network.model.AppliableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,7 +34,8 @@ class LocalNetworkGatewayImpl
         implements
         LocalNetworkGateway,
         LocalNetworkGateway.Definition,
-        LocalNetworkGateway.Update {
+        LocalNetworkGateway.Update,
+        AppliableWithTags<LocalNetworkGateway> {
 
     LocalNetworkGatewayImpl(String name,
                               final LocalNetworkGatewayInner innerModel,
@@ -118,5 +123,31 @@ class LocalNetworkGatewayImpl
             inner().withBgpSettings(new BgpSettings());
         }
         return inner().bgpSettings();
+    }
+
+    @Override
+    public LocalNetworkGatewayImpl updateTags() {
+        return this;
+    }
+
+    @Override
+    public LocalNetworkGateway applyTags() {
+        return applyTagsAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<LocalNetworkGateway> applyTagsAsync() {
+        return this.manager().inner().localNetworkGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
+                .flatMap(new Func1<LocalNetworkGatewayInner, Observable<LocalNetworkGateway>>() {
+                    @Override
+                    public Observable<LocalNetworkGateway> call(LocalNetworkGatewayInner inner) {
+                        setInner(inner);
+                        return Observable.just((LocalNetworkGateway) LocalNetworkGatewayImpl.this);                    }
+                });
+    }
+
+    @Override
+    public ServiceFuture<LocalNetworkGateway> applyTagsAsync(ServiceCallback<LocalNetworkGateway> callback) {
+        return ServiceFuture.fromBody(applyTagsAsync(), callback);
     }
 }

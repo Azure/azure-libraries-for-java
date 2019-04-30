@@ -12,26 +12,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Data Lake Analytics firewall rule update parameters.
+ * The parameters used to update a firewall rule.
  */
 @JsonFlatten
 public class UpdateFirewallRuleParameters {
     /**
-     * the start IP address for the firewall rule. This can be either ipv4 or
+     * The start IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
      */
     @JsonProperty(value = "properties.startIpAddress")
     private String startIpAddress;
 
     /**
-     * the end IP address for the firewall rule. This can be either ipv4 or
+     * The end IP address for the firewall rule. This can be either ipv4 or
      * ipv6. Start and End should be in the same protocol.
      */
     @JsonProperty(value = "properties.endIpAddress")
     private String endIpAddress;
 
     /**
-     * Get the startIpAddress value.
+     * Get the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @return the startIpAddress value
      */
@@ -40,7 +40,7 @@ public class UpdateFirewallRuleParameters {
     }
 
     /**
-     * Set the startIpAddress value.
+     * Set the start IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @param startIpAddress the startIpAddress value to set
      * @return the UpdateFirewallRuleParameters object itself.
@@ -51,7 +51,7 @@ public class UpdateFirewallRuleParameters {
     }
 
     /**
-     * Get the endIpAddress value.
+     * Get the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @return the endIpAddress value
      */
@@ -60,7 +60,7 @@ public class UpdateFirewallRuleParameters {
     }
 
     /**
-     * Set the endIpAddress value.
+     * Set the end IP address for the firewall rule. This can be either ipv4 or ipv6. Start and End should be in the same protocol.
      *
      * @param endIpAddress the endIpAddress value to set
      * @return the UpdateFirewallRuleParameters object itself.

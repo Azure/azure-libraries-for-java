@@ -9,7 +9,6 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import java.util.List;
-import com.microsoft.azure.management.appservice.AppServiceEnvironment;
 import com.microsoft.azure.management.appservice.HostingEnvironmentDeploymentInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -29,7 +28,7 @@ public class DeploymentLocationsInner {
      * environments.
      */
     @JsonProperty(value = "hostingEnvironments")
-    private List<AppServiceEnvironment> hostingEnvironments;
+    private List<AppServiceEnvironmentInner> hostingEnvironments;
 
     /**
      * Available App Service Environments with basic information.
@@ -38,7 +37,7 @@ public class DeploymentLocationsInner {
     private List<HostingEnvironmentDeploymentInfo> hostingEnvironmentDeploymentInfos;
 
     /**
-     * Get the locations value.
+     * Get available regions.
      *
      * @return the locations value
      */
@@ -47,7 +46,7 @@ public class DeploymentLocationsInner {
     }
 
     /**
-     * Set the locations value.
+     * Set available regions.
      *
      * @param locations the locations value to set
      * @return the DeploymentLocationsInner object itself.
@@ -58,27 +57,27 @@ public class DeploymentLocationsInner {
     }
 
     /**
-     * Get the hostingEnvironments value.
+     * Get available App Service Environments with full descriptions of the environments.
      *
      * @return the hostingEnvironments value
      */
-    public List<AppServiceEnvironment> hostingEnvironments() {
+    public List<AppServiceEnvironmentInner> hostingEnvironments() {
         return this.hostingEnvironments;
     }
 
     /**
-     * Set the hostingEnvironments value.
+     * Set available App Service Environments with full descriptions of the environments.
      *
      * @param hostingEnvironments the hostingEnvironments value to set
      * @return the DeploymentLocationsInner object itself.
      */
-    public DeploymentLocationsInner withHostingEnvironments(List<AppServiceEnvironment> hostingEnvironments) {
+    public DeploymentLocationsInner withHostingEnvironments(List<AppServiceEnvironmentInner> hostingEnvironments) {
         this.hostingEnvironments = hostingEnvironments;
         return this;
     }
 
     /**
-     * Get the hostingEnvironmentDeploymentInfos value.
+     * Get available App Service Environments with basic information.
      *
      * @return the hostingEnvironmentDeploymentInfos value
      */
@@ -87,7 +86,7 @@ public class DeploymentLocationsInner {
     }
 
     /**
-     * Set the hostingEnvironmentDeploymentInfos value.
+     * Set available App Service Environments with basic information.
      *
      * @param hostingEnvironmentDeploymentInfos the hostingEnvironmentDeploymentInfos value to set
      * @return the DeploymentLocationsInner object itself.

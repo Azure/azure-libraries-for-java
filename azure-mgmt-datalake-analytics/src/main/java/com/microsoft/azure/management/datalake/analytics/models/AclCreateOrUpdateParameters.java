@@ -39,7 +39,7 @@ public class AclCreateOrUpdateParameters {
     private PermissionType permission;
 
     /**
-     * Get the aceType value.
+     * Get the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'.
      *
      * @return the aceType value
      */
@@ -48,7 +48,7 @@ public class AclCreateOrUpdateParameters {
     }
 
     /**
-     * Set the aceType value.
+     * Set the access control list (ACL) entry type. UserObj and GroupObj denote the owning user and group, respectively. Possible values include: 'UserObj', 'GroupObj', 'Other', 'User', 'Group'.
      *
      * @param aceType the aceType value to set
      * @return the AclCreateOrUpdateParameters object itself.
@@ -59,7 +59,7 @@ public class AclCreateOrUpdateParameters {
     }
 
     /**
-     * Get the principalId value.
+     * Get the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
      *
      * @return the principalId value
      */
@@ -68,7 +68,7 @@ public class AclCreateOrUpdateParameters {
     }
 
     /**
-     * Set the principalId value.
+     * Set the Azure AD object ID of the user or group being specified in the access control list (ACL) entry.
      *
      * @param principalId the principalId value to set
      * @return the AclCreateOrUpdateParameters object itself.
@@ -79,7 +79,7 @@ public class AclCreateOrUpdateParameters {
     }
 
     /**
-     * Get the permission value.
+     * Get the permission type of the access control list (ACL) entry. Possible values include: 'None', 'Use', 'Create', 'Drop', 'Alter', 'Write', 'All'.
      *
      * @return the permission value
      */
@@ -88,7 +88,7 @@ public class AclCreateOrUpdateParameters {
     }
 
     /**
-     * Set the permission value.
+     * Set the permission type of the access control list (ACL) entry. Possible values include: 'None', 'Use', 'Create', 'Drop', 'Alter', 'Write', 'All'.
      *
      * @param permission the permission value to set
      * @return the AclCreateOrUpdateParameters object itself.

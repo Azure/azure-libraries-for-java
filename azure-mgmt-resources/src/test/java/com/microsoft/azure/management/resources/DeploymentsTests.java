@@ -78,7 +78,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         Assert.assertNotNull(resourceGroup.exportTemplate(ResourceGroupExportTemplateOptions.INCLUDE_BOTH));
         // Deployment operations
         List<DeploymentOperation> operations = deployment.deploymentOperations().list();
-        Assert.assertEquals(2, operations.size());
+        Assert.assertEquals(4, operations.size());
         DeploymentOperation op = deployment.deploymentOperations().getById(operations.get(0).operationId());
         Assert.assertNotNull(op);
         resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");
@@ -111,7 +111,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         final String dp = "dpC" + testId;
 
         // Begin create
-        resourceClient.deployments()
+        Deployment createdDeployment = resourceClient.deployments()
                 .define(dp)
                 .withExistingResourceGroup(rgName)
                 .withTemplateLink(templateUri, contentVersion)
@@ -119,6 +119,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withMode(DeploymentMode.COMPLETE)
                 .beginCreate();
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
+        Assert.assertEquals(createdDeployment.correlationId(), deployment.correlationId());
         Assert.assertEquals(dp, deployment.name());
         // Cancel
         deployment.cancel();

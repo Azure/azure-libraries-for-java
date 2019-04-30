@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.dns.ARecordSets;
 import com.microsoft.azure.management.dns.AaaaRecordSets;
 import com.microsoft.azure.management.dns.CNameRecordSets;
+import com.microsoft.azure.management.dns.CaaRecordSets;
 import com.microsoft.azure.management.dns.DnsRecordSet;
 import com.microsoft.azure.management.dns.DnsZone;
 import com.microsoft.azure.management.dns.MXRecordSets;
@@ -18,7 +19,9 @@ import com.microsoft.azure.management.dns.PtrRecordSets;
 import com.microsoft.azure.management.dns.RecordType;
 import com.microsoft.azure.management.dns.SoaRecordSet;
 import com.microsoft.azure.management.dns.SrvRecordSets;
+import com.microsoft.azure.management.dns.SubResource;
 import com.microsoft.azure.management.dns.TxtRecordSets;
+import com.microsoft.azure.management.dns.ZoneType;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -47,6 +50,7 @@ public class DnsZoneImpl
 
     private ARecordSets aRecordSets;
     private AaaaRecordSets aaaaRecordSets;
+    private CaaRecordSets caaRecordSets;
     private CNameRecordSets cnameRecordSets;
     private MXRecordSets mxRecordSets;
     private NSRecordSets nsRecordSets;
@@ -60,6 +64,10 @@ public class DnsZoneImpl
         super(name, innerModel, manager);
         this.recordSets = new DnsRecordSetsImpl(this);
         initRecordSets();
+        if (isInCreateMode()) {
+            // Set the zone type to Public by default
+            this.inner().withZoneType(ZoneType.PUBLIC);
+        }
     }
 
     @Override
@@ -75,6 +83,33 @@ public class DnsZoneImpl
     @Override
     public String eTag() {
         return this.inner().etag();
+    }
+
+    @Override
+    public ZoneType accessType() {
+        return this.inner().zoneType();
+    }
+
+    @Override
+    public List<String> registrationVirtualNetworkIds() {
+        List<String> list = new ArrayList<>();
+        if (this.inner().registrationVirtualNetworks() != null) {
+            for (SubResource sb : this.inner().registrationVirtualNetworks()) {
+                list.add(sb.id());
+            }
+        }
+        return list;
+    }
+
+    @Override
+    public List<String> resolutionVirtualNetworkIds() {
+        List<String> list = new ArrayList<>();
+        if (this.inner().resolutionVirtualNetworks() != null) {
+            for (SubResource sb : this.inner().resolutionVirtualNetworks()) {
+                list.add(sb.id());
+            }
+        }
+        return list;
     }
 
     @Override
@@ -116,6 +151,11 @@ public class DnsZoneImpl
     }
 
     @Override
+    public CaaRecordSets caaRecordSets() {
+        return this.caaRecordSets;
+    }
+
+    @Override
     public CNameRecordSets cNameRecordSets() {
         return this.cnameRecordSets;
     }
@@ -148,7 +188,10 @@ public class DnsZoneImpl
     @Override
     public SoaRecordSet getSoaRecordSet() {
         RecordSetInner inner = this.manager().inner().recordSets().get(this.resourceGroupName(), this.name(), "@", RecordType.SOA);
-        return new SoaRecordSetImpl(this, inner);
+        if (inner == null) {
+            return null;
+        }
+        return new SoaRecordSetImpl(inner.name(), this, inner);
     }
 
     // Setters
@@ -161,6 +204,11 @@ public class DnsZoneImpl
     @Override
     public DnsRecordSetImpl defineAaaaRecordSet(String name) {
         return recordSets.defineAaaaRecordSet(name);
+    }
+
+    @Override
+    public DnsRecordSetImpl defineCaaRecordSet(String name) {
+        return recordSets.defineCaaRecordSet(name);
     }
 
     @Override
@@ -208,6 +256,11 @@ public class DnsZoneImpl
     @Override
     public DnsRecordSetImpl updateAaaaRecordSet(String name) {
         return recordSets.updateAaaaRecordSet(name);
+    }
+
+    @Override
+    public DnsRecordSetImpl updateCaaRecordSet(String name) {
+        return recordSets.updateCaaRecordSet(name);
     }
 
     @Override
@@ -264,6 +317,17 @@ public class DnsZoneImpl
     @Override
     public DnsZoneImpl withoutAaaaRecordSet(String name, String eTag) {
         recordSets.withoutAaaaRecordSet(name, eTag);
+        return this;
+    }
+
+    @Override
+    public DnsZoneImpl withoutCaaRecordSet(String name) {
+        return this.withoutCaaRecordSet(name, null);
+    }
+
+    @Override
+    public DnsZoneImpl withoutCaaRecordSet(String name, String eTag) {
+        recordSets.withoutCaaRecordSet(name, eTag);
         return this;
     }
 
@@ -400,6 +464,7 @@ public class DnsZoneImpl
     private void initRecordSets() {
         this.aRecordSets = new ARecordSetsImpl(this);
         this.aaaaRecordSets = new AaaaRecordSetsImpl(this);
+        this.caaRecordSets = new CaaRecordSetsImpl(this);
         this.cnameRecordSets = new CNameRecordSetsImpl(this);
         this.mxRecordSets = new MXRecordSetsImpl(this);
         this.nsRecordSets = new NSRecordSetsImpl(this);
@@ -414,31 +479,67 @@ public class DnsZoneImpl
         PagedListConverter<RecordSetInner, DnsRecordSet> converter = new PagedListConverter<RecordSetInner, DnsRecordSet>() {
             @Override
             public Observable<DnsRecordSet> typeConvertAsync(RecordSetInner inner) {
-                DnsRecordSet recordSet = new DnsRecordSetImpl(self, inner);
+                DnsRecordSet recordSet = new DnsRecordSetImpl(inner.name(), inner.type(), self, inner);
                 switch (recordSet.recordType()) {
                     case A:
-                        return Observable.just((DnsRecordSet) new ARecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new ARecordSetImpl(inner.name(), self, inner));
                     case AAAA:
-                        return Observable.just((DnsRecordSet) new AaaaRecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new AaaaRecordSetImpl(inner.name(), self, inner));
+                    case CAA:
+                        return Observable.just((DnsRecordSet) new CaaRecordSetImpl(inner.name(), self, inner));
                     case CNAME:
-                        return Observable.just((DnsRecordSet) new CNameRecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new CNameRecordSetImpl(inner.name(), self, inner));
                     case MX:
-                        return Observable.just((DnsRecordSet) new MXRecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new MXRecordSetImpl(inner.name(), self, inner));
                     case NS:
-                        return Observable.just((DnsRecordSet) new NSRecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new NSRecordSetImpl(inner.name(), self, inner));
                     case PTR:
-                        return Observable.just((DnsRecordSet) new PtrRecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new PtrRecordSetImpl(inner.name(), self, inner));
                     case SOA:
-                        return Observable.just((DnsRecordSet) new SoaRecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new SoaRecordSetImpl(inner.name(), self, inner));
                     case SRV:
-                        return Observable.just((DnsRecordSet) new SrvRecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new SrvRecordSetImpl(inner.name(), self, inner));
                     case TXT:
-                        return Observable.just((DnsRecordSet) new TxtRecordSetImpl(self, inner));
+                        return Observable.just((DnsRecordSet) new TxtRecordSetImpl(inner.name(), self, inner));
                     default:
                         return Observable.just(recordSet);
                 }
             }
         };
         return converter.convert(manager().inner().recordSets().listByDnsZone(this.resourceGroupName(), this.name(), pageSize, recordSetSuffix));
+    }
+
+    @Override
+    public DnsZoneImpl withPublicAccess() {
+        this.inner().withZoneType(ZoneType.PUBLIC);
+        this.inner().withRegistrationVirtualNetworks(null);
+        this.inner().withResolutionVirtualNetworks(null);
+        return this;
+    }
+
+    @Override
+    public DnsZoneImpl withPrivateAccess() {
+        this.inner().withZoneType(ZoneType.PRIVATE);
+        this.inner().withRegistrationVirtualNetworks(null);
+        this.inner().withResolutionVirtualNetworks(null);
+        return this;
+    }
+
+    @Override
+    public DnsZoneImpl withPrivateAccess(List<String> registrationVirtualNetworkIds, List<String> resolutionVirtualNetworkIds) {
+        this.withPrivateAccess();
+        this.inner().withRegistrationVirtualNetworks(new ArrayList<SubResource>());
+        this.inner().withResolutionVirtualNetworks(new ArrayList<SubResource>());
+        for (String rvnId : registrationVirtualNetworkIds) {
+            SubResource sb = new SubResource();
+            sb.withId(rvnId);
+            this.inner().registrationVirtualNetworks().add(sb);
+        }
+        for (String rvnId : resolutionVirtualNetworkIds) {
+            SubResource sb = new SubResource();
+            sb.withId(rvnId);
+            this.inner().resolutionVirtualNetworks().add(sb);
+        }
+        return this;
     }
 }

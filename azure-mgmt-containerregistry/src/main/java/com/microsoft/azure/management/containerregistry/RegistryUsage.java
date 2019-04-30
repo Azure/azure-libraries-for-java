@@ -39,7 +39,7 @@ public class RegistryUsage {
     private RegistryUsageUnit unit;
 
     /**
-     * Get the name value.
+     * Get the name of the usage.
      *
      * @return the name value
      */
@@ -48,7 +48,7 @@ public class RegistryUsage {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the usage.
      *
      * @param name the name value to set
      * @return the RegistryUsage object itself.
@@ -59,7 +59,7 @@ public class RegistryUsage {
     }
 
     /**
-     * Get the limit value.
+     * Get the limit of the usage.
      *
      * @return the limit value
      */
@@ -68,7 +68,7 @@ public class RegistryUsage {
     }
 
     /**
-     * Set the limit value.
+     * Set the limit of the usage.
      *
      * @param limit the limit value to set
      * @return the RegistryUsage object itself.
@@ -79,7 +79,7 @@ public class RegistryUsage {
     }
 
     /**
-     * Get the currentValue value.
+     * Get the current value of the usage.
      *
      * @return the currentValue value
      */
@@ -88,7 +88,7 @@ public class RegistryUsage {
     }
 
     /**
-     * Set the currentValue value.
+     * Set the current value of the usage.
      *
      * @param currentValue the currentValue value to set
      * @return the RegistryUsage object itself.
@@ -99,7 +99,7 @@ public class RegistryUsage {
     }
 
     /**
-     * Get the unit value.
+     * Get the unit of measurement. Possible values include: 'Count', 'Bytes'.
      *
      * @return the unit value
      */
@@ -108,7 +108,7 @@ public class RegistryUsage {
     }
 
     /**
-     * Set the unit value.
+     * Set the unit of measurement. Possible values include: 'Count', 'Bytes'.
      *
      * @param unit the unit value to set
      * @return the RegistryUsage object itself.

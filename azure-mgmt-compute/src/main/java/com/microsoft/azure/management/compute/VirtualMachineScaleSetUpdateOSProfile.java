@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set OS profile.
@@ -40,7 +41,7 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     private List<VaultSecretGroup> secrets;
 
     /**
-     * Get the customData value.
+     * Get a base-64 encoded string of custom data.
      *
      * @return the customData value
      */
@@ -49,7 +50,7 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Set the customData value.
+     * Set a base-64 encoded string of custom data.
      *
      * @param customData the customData value to set
      * @return the VirtualMachineScaleSetUpdateOSProfile object itself.
@@ -60,7 +61,7 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Get the windowsConfiguration value.
+     * Get the Windows Configuration of the OS profile.
      *
      * @return the windowsConfiguration value
      */
@@ -69,7 +70,7 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Set the windowsConfiguration value.
+     * Set the Windows Configuration of the OS profile.
      *
      * @param windowsConfiguration the windowsConfiguration value to set
      * @return the VirtualMachineScaleSetUpdateOSProfile object itself.
@@ -80,7 +81,7 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Get the linuxConfiguration value.
+     * Get the Linux Configuration of the OS profile.
      *
      * @return the linuxConfiguration value
      */
@@ -89,7 +90,7 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Set the linuxConfiguration value.
+     * Set the Linux Configuration of the OS profile.
      *
      * @param linuxConfiguration the linuxConfiguration value to set
      * @return the VirtualMachineScaleSetUpdateOSProfile object itself.
@@ -100,7 +101,7 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Get the secrets value.
+     * Get the List of certificates for addition to the VM.
      *
      * @return the secrets value
      */
@@ -109,7 +110,7 @@ public class VirtualMachineScaleSetUpdateOSProfile {
     }
 
     /**
-     * Set the secrets value.
+     * Set the List of certificates for addition to the VM.
      *
      * @param secrets the secrets value to set
      * @return the VirtualMachineScaleSetUpdateOSProfile object itself.

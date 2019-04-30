@@ -14,13 +14,12 @@ import com.microsoft.azure.management.sql.SloUsageMetric;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.management.sql.SqlSubResource;
 
 /**
  * Represents a Service Tier Advisor.
  */
 @JsonFlatten
-public class ServiceTierAdvisorInner extends SqlSubResource {
+public class ServiceTierAdvisorInner extends ProxyResourceInner {
     /**
      * The observation period start (ISO8601 format).
      */
@@ -142,7 +141,7 @@ public class ServiceTierAdvisorInner extends SqlSubResource {
      * Gets or sets confidence for service tier advisor.
      */
     @JsonProperty(value = "properties.confidence", access = JsonProperty.Access.WRITE_ONLY)
-    private Double confidence;
+    private double confidence;
 
     /**
      * Get the observationPeriodStart value.
@@ -311,7 +310,7 @@ public class ServiceTierAdvisorInner extends SqlSubResource {
      *
      * @return the confidence value
      */
-    public Double confidence() {
+    public double confidence() {
         return this.confidence;
     }
 

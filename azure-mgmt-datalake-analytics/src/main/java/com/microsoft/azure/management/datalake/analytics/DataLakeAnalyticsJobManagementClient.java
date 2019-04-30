@@ -36,13 +36,6 @@ public interface DataLakeAnalyticsJobManagementClient {
     String userAgent();
 
     /**
-     * Gets Client Api Version..
-     *
-     * @return the apiVersion value.
-     */
-    String apiVersion();
-
-    /**
      * Gets The DNS suffix used as the base for all Azure Data Lake Analytics Job service requests..
      *
      * @return the adlaJobDnsSuffix value.
@@ -58,14 +51,21 @@ public interface DataLakeAnalyticsJobManagementClient {
     DataLakeAnalyticsJobManagementClient withAdlaJobDnsSuffix(String adlaJobDnsSuffix);
 
     /**
-     * Gets Gets or sets the preferred language for the response..
+     * Gets Client Api Version..
+     *
+     * @return the apiVersion value.
+     */
+    String apiVersion();
+
+    /**
+     * Gets The preferred language for the response..
      *
      * @return the acceptLanguage value.
      */
     String acceptLanguage();
 
     /**
-     * Sets Gets or sets the preferred language for the response..
+     * Sets The preferred language for the response..
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -73,14 +73,14 @@ public interface DataLakeAnalyticsJobManagementClient {
     DataLakeAnalyticsJobManagementClient withAcceptLanguage(String acceptLanguage);
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30..
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30..
      *
      * @return the longRunningOperationRetryTimeout value.
      */
     int longRunningOperationRetryTimeout();
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30..
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30..
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -88,19 +88,25 @@ public interface DataLakeAnalyticsJobManagementClient {
     DataLakeAnalyticsJobManagementClient withLongRunningOperationRetryTimeout(int longRunningOperationRetryTimeout);
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
      *
      * @return the generateClientRequestId value.
      */
     boolean generateClientRequestId();
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true..
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
      */
     DataLakeAnalyticsJobManagementClient withGenerateClientRequestId(boolean generateClientRequestId);
+
+    /**
+     * Gets the Jobs object to access its operations.
+     * @return the Jobs object.
+     */
+    Jobs jobs();
 
     /**
      * Gets the Pipelines object to access its operations.
@@ -113,11 +119,5 @@ public interface DataLakeAnalyticsJobManagementClient {
      * @return the Recurrences object.
      */
     Recurrences recurrences();
-
-    /**
-     * Gets the Jobs object to access its operations.
-     * @return the Jobs object.
-     */
-    Jobs jobs();
 
 }

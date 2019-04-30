@@ -6,11 +6,8 @@
 
 package com.microsoft.azure.management.graphrbac;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.graphrbac.implementation.PermissionInner;
 import com.microsoft.azure.management.graphrbac.implementation.RoleDefinitionInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
@@ -23,7 +20,6 @@ import java.util.Set;
  * An immutable client-side representation of an Azure AD role definition.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
-@Beta(SinceVersion.V1_1_0)
 public interface RoleDefinition extends
         HasInner<RoleDefinitionInner>,
         HasId,
@@ -47,7 +43,7 @@ public interface RoleDefinition extends
     /**
      * @return role definition permissions
      */
-    Set<PermissionInner> permissions();
+    Set<Permission> permissions();
 
     /**
      * @return role definition assignable scopes

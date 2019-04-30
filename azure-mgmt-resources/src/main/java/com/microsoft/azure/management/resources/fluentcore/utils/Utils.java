@@ -7,10 +7,14 @@
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
 import com.google.common.primitives.Ints;
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.credentials.AzureTokenCredentials;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
+import com.microsoft.rest.RestClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
@@ -29,8 +33,8 @@ public final class Utils {
     /**
      * Converts an object Boolean to a primitive boolean.
      *
-     * @param value the <tt>Boolean</tt> value
-     * @return <tt>false</tt> if the given Boolean value is null or false else <tt>true</tt>
+     * @param value the Boolean value
+     * @return false if the given Boolean value is null or false else true
      */
     public static boolean toPrimitiveBoolean(Boolean value) {
         if (value == null) {
@@ -42,8 +46,8 @@ public final class Utils {
     /**
      * Converts an object Integer to a primitive int.
      *
-     * @param value the <tt>Integer</tt> value
-     * @return <tt>0</tt> if the given Integer value is null else <tt>integer value</tt>
+     * @param value the Integer value
+     * @return 0 if the given Integer value is null else integer value
      */
     public static int toPrimitiveInt(Integer value) {
         if (value == null) {
@@ -55,8 +59,8 @@ public final class Utils {
     /**
      * Converts an object Long to a primitive int.
      *
-     * @param value the <tt>Long</tt> value
-     * @return <tt>0</tt> if the given Long value is null else <tt>integer value</tt>
+     * @param value the Long value
+     * @return 0 if the given Long value is null else integer value
      */
     public static int toPrimitiveInt(Long value) {
         if (value == null) {
@@ -70,8 +74,8 @@ public final class Utils {
     /**
      * Converts an object Long to a primitive long.
      *
-     * @param value the <tt>Long</tt> value
-     * @return <tt>0</tt> if the given Long value is null else <tt>long value</tt>
+     * @param value the Long value
+     * @return 0 if the given Long value is null else long value
      */
     public static long toPrimitiveLong(Long value) {
         if (value == null) {
@@ -79,6 +83,7 @@ public final class Utils {
         }
         return value;
     }
+
     /**
      * Creates an Odata filter string that can be used for filtering list results by tags.
      *
@@ -97,8 +102,8 @@ public final class Utils {
     }
 
     /**
-     * Gets an observable of {@link U} that emits only the root resource from a given
-     * observable of {@link Indexable}.
+     * Gets an observable of type {@code U}, where U extends {@link Indexable}, that emits only the root
+     * resource from a given observable of {@link Indexable}.
      *
      * @param stream the input observable of {@link Indexable}
      * @param <U> the specialized type of last item in the input stream
@@ -204,11 +209,47 @@ public final class Utils {
     }
 
     /**
+     * Try to extract the environment the client is authenticated to based
+     * on the information on the rest client.
+     * @param restClient the RestClient instance
+     * @return the non-null AzureEnvironment
+     */
+    public static AzureEnvironment extractAzureEnvironment(RestClient restClient) {
+        AzureEnvironment environment = null;
+        if (restClient.credentials() instanceof AzureTokenCredentials) {
+            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
+        } else {
+            String baseUrl = restClient.retrofit().baseUrl().toString();
+            for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
+                if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
+                    environment = env;
+                    break;
+                }
+            }
+            if (environment == null) {
+                throw new IllegalArgumentException("Unknown resource manager endpoint " + baseUrl);
+            }
+        }
+        return environment;
+    }
+
+    /**
      * A Retrofit service used to download a file.
      */
     private interface FileService {
         @GET
         Observable<ResponseBody> download(@Url String url);
+    }
+
+    /**
+     * @param id resource id
+     * @return resource group id for the resource id provided
+     */
+    public static String resourceGroupId(String id) {
+        final ResourceId resourceId = ResourceId.fromString(id);
+        return String.format("/subscriptions/%s/resourceGroups/%s",
+                resourceId.subscriptionId(),
+                resourceId.resourceGroupName());
     }
 
     private Utils() {

@@ -19,10 +19,10 @@ import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 @JsonFlatten
 public class ProcessThreadInfoInner extends ProxyOnlyResource {
     /**
-     * ARM Identifier for deployment.
+     * Site extension ID.
      */
-    @JsonProperty(value = "properties.id")
-    private Integer processThreadInfoId;
+    @JsonProperty(value = "properties.identifier", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer identifier;
 
     /**
      * HRef URI.
@@ -39,49 +39,49 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     /**
      * Start address.
      */
-    @JsonProperty(value = "properties.startAddress")
+    @JsonProperty(value = "properties.start_address")
     private String startAddress;
 
     /**
      * Current thread priority.
      */
-    @JsonProperty(value = "properties.currentPriority")
+    @JsonProperty(value = "properties.current_priority")
     private Integer currentPriority;
 
     /**
      * Thread priority level.
      */
-    @JsonProperty(value = "properties.priorityLevel")
+    @JsonProperty(value = "properties.priority_level")
     private String priorityLevel;
 
     /**
      * Base priority.
      */
-    @JsonProperty(value = "properties.basePriority")
+    @JsonProperty(value = "properties.base_priority")
     private Integer basePriority;
 
     /**
      * Start time.
      */
-    @JsonProperty(value = "properties.startTime")
+    @JsonProperty(value = "properties.start_time")
     private DateTime startTime;
 
     /**
      * Total processor time.
      */
-    @JsonProperty(value = "properties.totalProcessorTime")
+    @JsonProperty(value = "properties.total_processor_time")
     private String totalProcessorTime;
 
     /**
      * User processor time.
      */
-    @JsonProperty(value = "properties.userProcessorTime")
+    @JsonProperty(value = "properties.user_processor_time")
     private String userProcessorTime;
 
     /**
-     * Priviledged processor time.
+     * Privileged processor time.
      */
-    @JsonProperty(value = "properties.priviledgedProcessorTime")
+    @JsonProperty(value = "properties.priviledged_processor_time")
     private String priviledgedProcessorTime;
 
     /**
@@ -93,31 +93,20 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     /**
      * Wait reason.
      */
-    @JsonProperty(value = "properties.waitReason")
+    @JsonProperty(value = "properties.wait_reason")
     private String waitReason;
 
     /**
-     * Get the processThreadInfoId value.
+     * Get site extension ID.
      *
-     * @return the processThreadInfoId value
+     * @return the identifier value
      */
-    public Integer processThreadInfoId() {
-        return this.processThreadInfoId;
+    public Integer identifier() {
+        return this.identifier;
     }
 
     /**
-     * Set the processThreadInfoId value.
-     *
-     * @param processThreadInfoId the processThreadInfoId value to set
-     * @return the ProcessThreadInfoInner object itself.
-     */
-    public ProcessThreadInfoInner withProcessThreadInfoId(Integer processThreadInfoId) {
-        this.processThreadInfoId = processThreadInfoId;
-        return this;
-    }
-
-    /**
-     * Get the href value.
+     * Get hRef URI.
      *
      * @return the href value
      */
@@ -126,7 +115,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the href value.
+     * Set hRef URI.
      *
      * @param href the href value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -137,7 +126,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the process value.
+     * Get process URI.
      *
      * @return the process value
      */
@@ -146,7 +135,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the process value.
+     * Set process URI.
      *
      * @param process the process value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -157,7 +146,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the startAddress value.
+     * Get start address.
      *
      * @return the startAddress value
      */
@@ -166,7 +155,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the startAddress value.
+     * Set start address.
      *
      * @param startAddress the startAddress value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -177,7 +166,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the currentPriority value.
+     * Get current thread priority.
      *
      * @return the currentPriority value
      */
@@ -186,7 +175,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the currentPriority value.
+     * Set current thread priority.
      *
      * @param currentPriority the currentPriority value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -197,7 +186,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the priorityLevel value.
+     * Get thread priority level.
      *
      * @return the priorityLevel value
      */
@@ -206,7 +195,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the priorityLevel value.
+     * Set thread priority level.
      *
      * @param priorityLevel the priorityLevel value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -217,7 +206,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the basePriority value.
+     * Get base priority.
      *
      * @return the basePriority value
      */
@@ -226,7 +215,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the basePriority value.
+     * Set base priority.
      *
      * @param basePriority the basePriority value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -237,7 +226,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the startTime value.
+     * Get start time.
      *
      * @return the startTime value
      */
@@ -246,7 +235,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the startTime value.
+     * Set start time.
      *
      * @param startTime the startTime value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -257,7 +246,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the totalProcessorTime value.
+     * Get total processor time.
      *
      * @return the totalProcessorTime value
      */
@@ -266,7 +255,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the totalProcessorTime value.
+     * Set total processor time.
      *
      * @param totalProcessorTime the totalProcessorTime value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -277,7 +266,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the userProcessorTime value.
+     * Get user processor time.
      *
      * @return the userProcessorTime value
      */
@@ -286,7 +275,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the userProcessorTime value.
+     * Set user processor time.
      *
      * @param userProcessorTime the userProcessorTime value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -297,7 +286,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the priviledgedProcessorTime value.
+     * Get privileged processor time.
      *
      * @return the priviledgedProcessorTime value
      */
@@ -306,7 +295,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the priviledgedProcessorTime value.
+     * Set privileged processor time.
      *
      * @param priviledgedProcessorTime the priviledgedProcessorTime value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -317,7 +306,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the state value.
+     * Get thread state.
      *
      * @return the state value
      */
@@ -326,7 +315,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the state value.
+     * Set thread state.
      *
      * @param state the state value to set
      * @return the ProcessThreadInfoInner object itself.
@@ -337,7 +326,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the waitReason value.
+     * Get wait reason.
      *
      * @return the waitReason value
      */
@@ -346,7 +335,7 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the waitReason value.
+     * Set wait reason.
      *
      * @param waitReason the waitReason value to set
      * @return the ProcessThreadInfoInner object itself.

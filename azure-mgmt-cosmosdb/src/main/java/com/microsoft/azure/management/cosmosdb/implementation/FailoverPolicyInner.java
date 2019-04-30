@@ -38,7 +38,7 @@ public class FailoverPolicyInner {
     private Integer failoverPriority;
 
     /**
-     * Get the id value.
+     * Get the unique identifier of the region in which the database account replicates to. Example: &amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.
      *
      * @return the id value
      */
@@ -47,7 +47,7 @@ public class FailoverPolicyInner {
     }
 
     /**
-     * Get the locationName value.
+     * Get the name of the region in which the database account exists.
      *
      * @return the locationName value
      */
@@ -56,7 +56,7 @@ public class FailoverPolicyInner {
     }
 
     /**
-     * Set the locationName value.
+     * Set the name of the region in which the database account exists.
      *
      * @param locationName the locationName value to set
      * @return the FailoverPolicyInner object itself.
@@ -67,7 +67,7 @@ public class FailoverPolicyInner {
     }
 
     /**
-     * Get the failoverPriority value.
+     * Get the failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
      *
      * @return the failoverPriority value
      */
@@ -76,7 +76,7 @@ public class FailoverPolicyInner {
     }
 
     /**
-     * Set the failoverPriority value.
+     * Set the failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
      *
      * @param failoverPriority the failoverPriority value to set
      * @return the FailoverPolicyInner object itself.

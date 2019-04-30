@@ -36,7 +36,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Azure Storage sample for managing SQL Database -
+ * Azure SQL sample for managing SQL Database -
  *  - Create 3 SQL Servers in different region.
  *  - Create a master database in master SQL Server.
  *  - Create 2 more SQL Servers in different azure regions
@@ -57,6 +57,7 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
         final String sqlServerName = Utils.createRandomName("sqlserver");
         final String rgName = Utils.createRandomName("rgRSSDRE");
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
         final String slaveSqlServer1Name = "slave1sql";
         final String slaveSqlServer2Name = "slave2sql";

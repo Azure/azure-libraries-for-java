@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.compute.implementation.RunCommandResultInner;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
@@ -25,10 +26,10 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
-
 import rx.functions.Func1;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -126,6 +127,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                 .withSize(VirtualMachineSizeTypes.STANDARD_D3)
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .withOSDiskName("javatest")
+                .withLicenseType("Windows_Server")
             .create();
 
         VirtualMachine foundVM = null;
@@ -142,6 +144,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         foundVM = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
         Assert.assertNotNull(foundVM);
         Assert.assertEquals(REGION, foundVM.region());
+        Assert.assertEquals("Windows_Server", foundVM.licenseType());
 
         // Fetch instance view
         PowerState powerState = foundVM.powerState();
@@ -363,6 +366,62 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         unmanagedDataDisks = virtualMachine.unmanagedDataDisks();
         Assert.assertNotNull(unmanagedDataDisks);
         Assert.assertEquals(2, unmanagedDataDisks.size());
+    }
+
+
+    @Test
+    public void canUpdateTagsOnVM() {
+        //Create
+        VirtualMachine virtualMachine = computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("firstuser")
+                .withRootPassword("afh123RVS!")
+                .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
+                .create();
+
+        //checking to see if withTag correctly update
+        virtualMachine.update().withTag("test", "testValue").apply();
+        Assert.assertEquals("testValue", virtualMachine.inner().getTags().get("test"));
+
+        //checking to see if withTags correctly updates
+        Map<String, String> testTags = new HashMap<String, String>();
+        testTags.put("testTag", "testValue");
+        virtualMachine.update().withTags(testTags).apply();
+        Assert.assertEquals(testTags, virtualMachine.inner().getTags());
+
+    }
+
+
+
+    @Test
+    public void canRunScriptOnVM() {
+        // Create
+        VirtualMachine virtualMachine = computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("firstuser")
+                .withRootPassword("afh123RVS!")
+                .create();
+
+        List<String> installGit = new ArrayList<>();
+        installGit.add("sudo apt-get update");
+        installGit.add("sudo apt-get install -y git");
+
+        RunCommandResult runResult = virtualMachine.runShellScript(installGit, new ArrayList<RunCommandInputParameter>());
+        Assert.assertNotNull(runResult);
+        Assert.assertNotNull(runResult.value());
+        Assert.assertTrue(runResult.value().size() > 0);
     }
 
     private CreatablesInfo prepareCreatableVirtualMachines(Region region,

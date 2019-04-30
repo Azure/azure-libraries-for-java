@@ -3,7 +3,6 @@
  * Licensed under the MIT License. See License.txt in the project root for
  * license information.
  */
-
 package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
@@ -20,38 +19,43 @@ import rx.Completable;
 import rx.Observable;
 
 /**
- * Implementation for SqlServer and its parent interfaces.
+ * Implementation for SQL replication link interface.
  */
 @LangDefinition
 class ReplicationLinkImpl
         extends RefreshableWrapperImpl<ReplicationLinkInner, ReplicationLink>
         implements ReplicationLink {
-    private final DatabasesInner innerCollection;
+
+    private final String sqlServerName;
+    private final String resourceGroupName;
+    private final SqlServerManager sqlServerManager;
     private final ResourceId resourceId;
 
-    protected ReplicationLinkImpl(ReplicationLinkInner innerObject, DatabasesInner innerCollection) {
+    protected ReplicationLinkImpl(String resourceGroupName, String sqlServerName, ReplicationLinkInner innerObject, SqlServerManager sqlServerManager) {
         super(innerObject);
+        this.resourceGroupName = resourceGroupName;
+        this.sqlServerName = sqlServerName;
+        this.sqlServerManager = sqlServerManager;
         this.resourceId = ResourceId.fromString(this.inner().id());
-        this.innerCollection = innerCollection;
     }
 
     @Override
     protected Observable<ReplicationLinkInner> getInnerAsync() {
-        return this.innerCollection.getReplicationLinkAsync(
-                this.resourceGroupName(),
-                this.sqlServerName(),
+        return this.sqlServerManager.inner().replicationLinks()
+            .getAsync(this.resourceGroupName,
+                this.sqlServerName,
                 this.databaseName(),
                 this.name());
     }
 
     @Override
     public String sqlServerName() {
-        return resourceId.parent().parent().name();
+        return this.sqlServerName;
     }
 
     @Override
     public String databaseName() {
-        return resourceId.parent().name();
+        return this.resourceId.parent().name();
     }
 
     @Override
@@ -95,24 +99,43 @@ class ReplicationLinkImpl
     }
 
     @Override
+    public String location() {
+        return this.inner().location();
+    }
+
+    @Override
+    public boolean isTerminationAllowed() {
+        return this.inner().isTerminationAllowed();
+    }
+
+    @Override
+    public String replicationMode() {
+        return this.inner().replicationMode();
+    }
+
+    @Override
     public void delete() {
-        this.innerCollection.deleteReplicationLink(
-                this.resourceGroupName(),
-                this.sqlServerName(),
+        this.sqlServerManager.inner().replicationLinks()
+            .delete(this.resourceGroupName,
+                this.sqlServerName,
                 this.databaseName(),
                 this.name());
     }
 
     @Override
     public void failover() {
-        this.failoverAsync().await();
+        this.sqlServerManager.inner().replicationLinks()
+            .failover(this.resourceGroupName,
+                this.sqlServerName,
+                this.databaseName(),
+                this.name());
     }
 
     @Override
     public Completable failoverAsync() {
-        return this.innerCollection.failoverReplicationLinkAsync(
-                this.resourceGroupName(),
-                this.sqlServerName(),
+        return this.sqlServerManager.inner().replicationLinks()
+            .failoverAsync(this.resourceGroupName,
+                this.sqlServerName,
                 this.databaseName(),
                 this.name()).toCompletable();
     }
@@ -124,14 +147,18 @@ class ReplicationLinkImpl
 
     @Override
     public void forceFailoverAllowDataLoss() {
-        this.forceFailoverAllowDataLossAsync().await();
+        this.sqlServerManager.inner().replicationLinks()
+            .failoverAllowDataLoss(this.resourceGroupName,
+                this.sqlServerName,
+                this.databaseName(),
+                this.name());
     }
 
     @Override
     public Completable forceFailoverAllowDataLossAsync() {
-        return this.innerCollection.failoverReplicationLinkAllowDataLossAsync(
-                this.resourceGroupName(),
-                this.sqlServerName(),
+        return this.sqlServerManager.inner().replicationLinks()
+            .failoverAllowDataLossAsync(this.resourceGroupName,
+                this.sqlServerName,
                 this.databaseName(),
                 this.name()).toCompletable();
     }
@@ -143,16 +170,16 @@ class ReplicationLinkImpl
 
     @Override
     public String name() {
-        return this.resourceId.name();
+        return this.inner().name();
     }
 
     @Override
     public String id() {
-        return this.resourceId.id();
+        return this.inner().id();
     }
 
     @Override
     public String resourceGroupName() {
-        return this.resourceId.resourceGroupName();
+        return this.resourceGroupName;
     }
 }

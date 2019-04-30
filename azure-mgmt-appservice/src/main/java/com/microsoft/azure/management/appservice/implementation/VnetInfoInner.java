@@ -59,7 +59,13 @@ public class VnetInfoInner extends ProxyOnlyResource {
     private String dnsServers;
 
     /**
-     * Get the vnetResourceId value.
+     * Flag that is used to denote if this is VNET injection.
+     */
+    @JsonProperty(value = "properties.isSwift")
+    private Boolean isSwift;
+
+    /**
+     * Get the Virtual Network's resource ID.
      *
      * @return the vnetResourceId value
      */
@@ -68,7 +74,7 @@ public class VnetInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the vnetResourceId value.
+     * Set the Virtual Network's resource ID.
      *
      * @param vnetResourceId the vnetResourceId value to set
      * @return the VnetInfoInner object itself.
@@ -79,7 +85,7 @@ public class VnetInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the certThumbprint value.
+     * Get the client certificate thumbprint.
      *
      * @return the certThumbprint value
      */
@@ -88,7 +94,8 @@ public class VnetInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the certBlob value.
+     * Get a certificate file (.cer) blob containing the public key of the private key used to authenticate a
+     Point-To-Site VPN connection.
      *
      * @return the certBlob value
      */
@@ -97,7 +104,8 @@ public class VnetInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the certBlob value.
+     * Set a certificate file (.cer) blob containing the public key of the private key used to authenticate a
+     Point-To-Site VPN connection.
      *
      * @param certBlob the certBlob value to set
      * @return the VnetInfoInner object itself.
@@ -108,7 +116,7 @@ public class VnetInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the routes value.
+     * Get the routes that this Virtual Network connection uses.
      *
      * @return the routes value
      */
@@ -117,7 +125,7 @@ public class VnetInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the resyncRequired value.
+     * Get &lt;code&gt;true&lt;/code&gt; if a resync is required; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @return the resyncRequired value
      */
@@ -126,7 +134,7 @@ public class VnetInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Get the dnsServers value.
+     * Get dNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.
      *
      * @return the dnsServers value
      */
@@ -135,13 +143,33 @@ public class VnetInfoInner extends ProxyOnlyResource {
     }
 
     /**
-     * Set the dnsServers value.
+     * Set dNS servers to be used by this Virtual Network. This should be a comma-separated list of IP addresses.
      *
      * @param dnsServers the dnsServers value to set
      * @return the VnetInfoInner object itself.
      */
     public VnetInfoInner withDnsServers(String dnsServers) {
         this.dnsServers = dnsServers;
+        return this;
+    }
+
+    /**
+     * Get flag that is used to denote if this is VNET injection.
+     *
+     * @return the isSwift value
+     */
+    public Boolean isSwift() {
+        return this.isSwift;
+    }
+
+    /**
+     * Set flag that is used to denote if this is VNET injection.
+     *
+     * @param isSwift the isSwift value to set
+     * @return the VnetInfoInner object itself.
+     */
+    public VnetInfoInner withIsSwift(Boolean isSwift) {
+        this.isSwift = isSwift;
         return this;
     }
 

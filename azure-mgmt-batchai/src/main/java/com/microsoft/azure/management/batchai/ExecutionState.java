@@ -8,55 +8,43 @@
 
 package com.microsoft.azure.management.batchai;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ExecutionState.
  */
-public enum ExecutionState {
-    /** Enum value queued. */
-    QUEUED("queued"),
+public final class ExecutionState extends ExpandableStringEnum<ExecutionState> {
+    /** Static value queued for ExecutionState. */
+    public static final ExecutionState QUEUED = fromString("queued");
 
-    /** Enum value running. */
-    RUNNING("running"),
+    /** Static value running for ExecutionState. */
+    public static final ExecutionState RUNNING = fromString("running");
 
-    /** Enum value terminating. */
-    TERMINATING("terminating"),
+    /** Static value terminating for ExecutionState. */
+    public static final ExecutionState TERMINATING = fromString("terminating");
 
-    /** Enum value succeeded. */
-    SUCCEEDED("succeeded"),
+    /** Static value succeeded for ExecutionState. */
+    public static final ExecutionState SUCCEEDED = fromString("succeeded");
 
-    /** Enum value failed. */
-    FAILED("failed");
+    /** Static value failed for ExecutionState. */
+    public static final ExecutionState FAILED = fromString("failed");
 
-    /** The actual serialized value for a ExecutionState instance. */
-    private String value;
-
-    ExecutionState(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a ExecutionState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ExecutionState
+     */
+    @JsonCreator
+    public static ExecutionState fromString(String name) {
+        return fromString(name, ExecutionState.class);
     }
 
     /**
-     * Parses a serialized value to a ExecutionState instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed ExecutionState object, or null if unable to parse.
+     * @return known ExecutionState values
      */
-    @JsonCreator
-    public static ExecutionState fromString(String value) {
-        ExecutionState[] items = ExecutionState.values();
-        for (ExecutionState item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<ExecutionState> values() {
+        return values(ExecutionState.class);
     }
 }

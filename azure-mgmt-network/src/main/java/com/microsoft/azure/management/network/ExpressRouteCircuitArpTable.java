@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ExpressRouteCircuitArpTable {
     /**
-     * Age.
+     * Entry age in minutes.
      */
     @JsonProperty(value = "age")
     private Integer age;
 
     /**
-     * Interface.
+     * Interface address.
      */
     @JsonProperty(value = "interface")
     private String interfaceProperty;

@@ -25,6 +25,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
+import okhttp3.HttpUrl;
 import okhttp3.Request;
 import org.joda.time.DateTime;
 import retrofit2.http.Body;
@@ -38,16 +39,13 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Completable;
 import rx.Observable;
-import rx.Subscription;
 import rx.functions.Action0;
-import rx.functions.Action1;
 import rx.functions.Func1;
-import rx.schedulers.Schedulers;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,21 +68,35 @@ class FunctionAppImpl
     private StorageAccount storageAccountToSet;
     private StorageAccount currentStorageAccount;
     private final FunctionAppKeyService functionAppKeyService;
-    private final FunctionService functionService;
-    private final KuduClient kuduClient;
+    private FunctionService functionService;
     private FunctionDeploymentSlots deploymentSlots;
 
-    FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
-        super(name, innerObject, configObject, manager);
+    FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
+        super(name, innerObject, siteConfig, logConfig, manager);
         functionAppKeyService = manager.restClient().retrofit().create(FunctionAppKeyService.class);
-        String defaultHostName = defaultHostName().startsWith("http") ? defaultHostName() : "http://" + defaultHostName();
-        functionService = manager.restClient().newBuilder()
-                .withBaseUrl(defaultHostName)
-                .withCredentials(new FunctionCredentials(this))
-                .withLogLevel(LogLevel.BODY_AND_HEADERS)
-                .build()
-                .retrofit().create(FunctionService.class);
-        kuduClient = new KuduClient(this);
+        if (!isInCreateMode()) {
+            initializeFunctionService();
+        }
+    }
+
+    private void initializeFunctionService() {
+        if (functionService == null) {
+            HttpUrl defaultHostName = HttpUrl.parse(defaultHostName());
+            if (defaultHostName == null) {
+                defaultHostName = new HttpUrl.Builder().host(defaultHostName()).scheme("http").build();
+            }
+            functionService = manager().restClient().newBuilder()
+                    .withBaseUrl(defaultHostName.toString())
+                    .withCredentials(new FunctionCredentials(this))
+                    .withLogLevel(LogLevel.BODY_AND_HEADERS)
+                    .build()
+                    .retrofit().create(FunctionService.class);
+        }
+    }
+
+    @Override
+    public void setInner(SiteInner innerObject) {
+        super.setInner(innerObject);
     }
 
     @Override
@@ -294,52 +306,92 @@ class FunctionAppImpl
     }
 
     @Override
-    public InputStream streamApplicationLogs() {
-        PipedInputStreamWithCallback in = new PipedInputStreamWithCallback();
-        final PipedOutputStream out = new PipedOutputStream();
-        try {
-            in.connect(out);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        final Subscription subscription = streamApplicationLogsAsync()
-                // Do not block current thread
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Action1<String>() {
-                    @Override
-                    public void call(String s) {
-                        try {
-                            out.write(s.getBytes());
-                            out.write('\n');
-                            out.flush();
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    }
-                });
-        in.addCallback(new Action0() {
-            @Override
-            public void call() {
-                subscription.unsubscribe();
-                try {
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        return in;
-    }
-
-    @Override
     public Observable<String> streamApplicationLogsAsync() {
         return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
                 .flatMap(new Func1<Void, Observable<String>>() {
                     @Override
                     public Observable<String> call(Void aVoid) {
-                        return kuduClient.streamApplicationLogsAsync();
+                        return FunctionAppImpl.super.streamApplicationLogsAsync();
                     }
                 });
+    }
+
+    @Override
+    public Observable<String> streamHttpLogsAsync() {
+        return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
+                .flatMap(new Func1<Void, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Void aVoid) {
+                        return FunctionAppImpl.super.streamHttpLogsAsync();
+                    }
+                });
+    }
+
+    @Override
+    public Observable<String> streamTraceLogsAsync() {
+        return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
+                .flatMap(new Func1<Void, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Void aVoid) {
+                        return FunctionAppImpl.super.streamTraceLogsAsync();
+                    }
+                });
+    }
+
+    @Override
+    public Observable<String> streamDeploymentLogsAsync() {
+        return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
+                .flatMap(new Func1<Void, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Void aVoid) {
+                        return FunctionAppImpl.super.streamDeploymentLogsAsync();
+                    }
+                });
+    }
+
+    @Override
+    public Observable<String> streamAllLogsAsync() {
+        return functionService.ping()
+                .mergeWith(functionService.getHostStatus())
+                .last()
+                .flatMap(new Func1<Void, Observable<String>>() {
+                    @Override
+                    public Observable<String> call(Void aVoid) {
+                        return FunctionAppImpl.super.streamAllLogsAsync();
+                    }
+                });
+    }
+
+    @Override
+    public Completable zipDeployAsync(File zipFile) {
+        try {
+            return zipDeployAsync(new FileInputStream(zipFile));
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    @Override
+    public void zipDeploy(File zipFile) {
+        zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public Completable zipDeployAsync(InputStream zipFile) {
+        return kuduClient.zipDeployAsync(zipFile);
+    }
+
+    @Override
+    public void zipDeploy(InputStream zipFile) {
+        zipDeployAsync(zipFile).await();
     }
 
     @Override
@@ -351,6 +403,14 @@ class FunctionAppImpl
             withNewStorageAccount(SdkContext.randomResourceName(name(), 20), SkuName.STANDARD_GRS);
         }
         return super.createAsync();
+    }
+
+    @Override
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (!isGroupFaulted) {
+            initializeFunctionService();
+        }
+        return super.afterPostRunAsync(isGroupFaulted);
     }
 
     private interface FunctionAppKeyService {
@@ -379,6 +439,10 @@ class FunctionAppImpl
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps ping" })
         @POST("admin/host/ping")
         Observable<Void> ping();
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebApps getHostStatus" })
+        @GET("admin/host/status")
+        Observable<Void> getHostStatus();
     }
 
     private static class FunctionKeyListResult {
@@ -408,20 +472,6 @@ class FunctionAppImpl
                 expire = Long.parseLong(matcher.group(1));
             }
             return token;
-        }
-    }
-
-    private static class PipedInputStreamWithCallback extends PipedInputStream {
-        private Action0 callback;
-
-        private void addCallback(Action0 action) {
-            this.callback = action;
-        }
-
-        @Override
-        public void close() throws IOException {
-            callback.call();
-            super.close();
         }
     }
 }

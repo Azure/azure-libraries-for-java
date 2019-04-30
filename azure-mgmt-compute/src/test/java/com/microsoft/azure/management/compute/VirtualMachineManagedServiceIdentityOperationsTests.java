@@ -21,8 +21,6 @@ import org.junit.Test;
 import rx.Observable;
 import rx.functions.Action1;
 
-import java.util.Map;
-
 public class VirtualMachineManagedServiceIdentityOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
     private static final Region REGION = Region.US_SOUTH_CENTRAL;
@@ -64,27 +62,6 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
         Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
 
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineExtension> extensions = virtualMachine.listExtensions();
-        VirtualMachineExtension msiExtension = null;
-        for (VirtualMachineExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                msiExtension = extension;
-                break;
-            }
-        }
-        Assert.assertNotNull(msiExtension);
-        // Check the default token port
-        //
-        Map<String, Object> publicSettings = msiExtension.publicSettings();
-        Assert.assertNotNull(publicSettings);
-        Assert.assertTrue(publicSettings.containsKey("port"));
-        Object portObj = publicSettings.get("port");
-        Assert.assertNotNull(portObj);
-        int port = objectToInteger(portObj);
-        Assert.assertEquals(50342, port);
 
         // Ensure NO role assigned for resource group
         //
@@ -101,7 +78,7 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         Assert.assertFalse("Resource group should not have a role assignment with virtual machine MSI principal", found);
 
         virtualMachine = virtualMachine.update()
-                .withSystemAssignedManagedServiceIdentity(50343)
+                .withSystemAssignedManagedServiceIdentity()
                 .apply();
 
         Assert.assertNotNull(virtualMachine);
@@ -109,26 +86,6 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         Assert.assertTrue(virtualMachine.isManagedServiceIdentityEnabled());
         Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
         Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
-
-        extensions = virtualMachine.listExtensions();
-        msiExtension = null;
-        for (VirtualMachineExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                msiExtension = extension;
-                break;
-            }
-        }
-        Assert.assertNotNull(msiExtension);
-        // Check the default token port
-        //
-        publicSettings = msiExtension.publicSettings();
-        Assert.assertNotNull(publicSettings);
-        Assert.assertTrue(publicSettings.containsKey("port"));
-        portObj = publicSettings.get("port");
-        Assert.assertNotNull(portObj);
-        port = objectToInteger(portObj);
-        Assert.assertEquals(50343, port);
 
         // Ensure NO role assigned for resource group
         //
@@ -198,19 +155,6 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
 
         Assert.assertNotNull(servicePrincipal);
         Assert.assertNotNull(servicePrincipal.inner());
-
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineExtension> extensions = virtualMachine.listExtensions();
-        boolean extensionFound = false;
-        for (VirtualMachineExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                extensionFound = true;
-                break;
-            }
-        }
-        Assert.assertTrue(extensionFound);
 
         // Ensure role assigned
         //
@@ -288,19 +232,6 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         Assert.assertNotNull(servicePrincipal);
         Assert.assertNotNull(servicePrincipal.inner());
 
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineExtension> extensions = virtualMachine.listExtensions();
-        boolean extensionFound = false;
-        for (VirtualMachineExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                extensionFound = true;
-                break;
-            }
-        }
-        Assert.assertTrue(extensionFound);
-
         // Ensure role assigned for resource group
         //
         PagedList<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
@@ -353,19 +284,6 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
 
         Assert.assertNotNull(virtualMachine.managedServiceIdentityType());
         Assert.assertTrue(virtualMachine.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED));
-
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineExtension> extensions = virtualMachine.listExtensions();
-        boolean extensionFound = false;
-        for (VirtualMachineExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                extensionFound = true;
-                break;
-            }
-        }
-        Assert.assertTrue(extensionFound);
 
         // Ensure NO role assigned for resource group
         //

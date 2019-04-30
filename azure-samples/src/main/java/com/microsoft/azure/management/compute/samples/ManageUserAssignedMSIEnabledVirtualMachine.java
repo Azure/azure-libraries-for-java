@@ -9,10 +9,10 @@ package com.microsoft.azure.management.compute.samples;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
+import com.microsoft.azure.management.compute.RunCommandInput;
+import com.microsoft.azure.management.compute.RunCommandResult;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.compute.implementation.RunCommandInputInner;
-import com.microsoft.azure.management.compute.implementation.RunCommandResultInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.ResourceGroup;
@@ -47,6 +47,7 @@ public final class ManageUserAssignedMSIEnabledVirtualMachine {
         final String linuxVMName = Utils.createRandomName("VM1");
         final String pipName = Utils.createRandomName("pip1");
         final String userName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPAwX0rd!";
         final Region region = Region.US_WEST_CENTRAL;
 
@@ -157,14 +158,12 @@ public final class ManageUserAssignedMSIEnabledVirtualMachine {
         return false;
     }
 
-    private static RunCommandResultInner runCommandOnVM(Azure azure, VirtualMachine virtualMachine, List<String> commands) {
-        RunCommandInputInner runParams = new RunCommandInputInner()
+    private static RunCommandResult runCommandOnVM(Azure azure, VirtualMachine virtualMachine, List<String> commands) {
+        RunCommandInput runParams = new RunCommandInput()
                 .withCommandId("RunShellScript")
                 .withScript(commands);
 
-        return azure.virtualMachines()
-                .inner()
-                .runCommand(virtualMachine.resourceGroupName(), virtualMachine.name(), runParams);
+        return azure.virtualMachines().runCommand(virtualMachine.resourceGroupName(), virtualMachine.name(), runParams);
     }
 
     /**

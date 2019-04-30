@@ -16,42 +16,36 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Azure Storage blob container information.
  */
 @JsonFlatten
-public class StorageContainer {
+public class StorageContainer extends SubResource {
     /**
-     * the unique identifier of the blob container.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * the name of the blob container.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /**
-     * the type of the blob container.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /**
-     * the last modified time of the blob container.
+     * The last modified time of the blob container.
      */
     @JsonProperty(value = "properties.lastModifiedTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime lastModifiedTime;
 
     /**
-     * Get the id value.
-     *
-     * @return the id value
+     * The resource name.
      */
-    public String id() {
-        return this.id;
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
+
+    /**
+     * The resource type.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
+     * Get the last modified time of the blob container.
+     *
+     * @return the lastModifiedTime value
+     */
+    public DateTime lastModifiedTime() {
+        return this.lastModifiedTime;
     }
 
     /**
-     * Get the name value.
+     * Get the resource name.
      *
      * @return the name value
      */
@@ -60,21 +54,12 @@ public class StorageContainer {
     }
 
     /**
-     * Get the type value.
+     * Get the resource type.
      *
      * @return the type value
      */
     public String type() {
         return this.type;
-    }
-
-    /**
-     * Get the lastModifiedTime value.
-     *
-     * @return the lastModifiedTime value
-     */
-    public DateTime lastModifiedTime() {
-        return this.lastModifiedTime;
     }
 
 }

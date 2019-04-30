@@ -8,58 +8,40 @@
 
 package com.microsoft.azure.management.sql;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ReplicationState.
  */
-public final class ReplicationState {
+public final class ReplicationState extends ExpandableStringEnum<ReplicationState> {
     /** Static value PENDING for ReplicationState. */
-    public static final ReplicationState PENDING = new ReplicationState("PENDING");
+    public static final ReplicationState PENDING = fromString("PENDING");
 
     /** Static value SEEDING for ReplicationState. */
-    public static final ReplicationState SEEDING = new ReplicationState("SEEDING");
+    public static final ReplicationState SEEDING = fromString("SEEDING");
 
     /** Static value CATCH_UP for ReplicationState. */
-    public static final ReplicationState CATCH_UP = new ReplicationState("CATCH_UP");
+    public static final ReplicationState CATCH_UP = fromString("CATCH_UP");
 
     /** Static value SUSPENDED for ReplicationState. */
-    public static final ReplicationState SUSPENDED = new ReplicationState("SUSPENDED");
-
-    private String value;
+    public static final ReplicationState SUSPENDED = fromString("SUSPENDED");
 
     /**
-     * Creates a custom value for ReplicationState.
-     * @param value the custom value
+     * Creates or finds a ReplicationState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ReplicationState
      */
-    public ReplicationState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ReplicationState fromString(String name) {
+        return fromString(name, ReplicationState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ReplicationState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ReplicationState rhs = (ReplicationState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ReplicationState values
+     */
+    public static Collection<ReplicationState> values() {
+        return values(ReplicationState.class);
     }
 }

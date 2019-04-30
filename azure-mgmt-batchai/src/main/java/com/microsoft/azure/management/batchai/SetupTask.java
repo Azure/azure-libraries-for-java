@@ -17,33 +17,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SetupTask {
     /**
-     * Command Line to start Setup process.
+     * Command line.
+     * The command line to be executed on each cluster's node after it being
+     * allocated or rebooted. The command is executed in a bash subshell as a
+     * root.
      */
     @JsonProperty(value = "commandLine", required = true)
     private String commandLine;
 
     /**
-     * Collection of environment settings.
+     * Environment variables.
+     * A collection of user defined environment variables to be set for setup
+     * task.
      */
     @JsonProperty(value = "environmentVariables")
-    private List<EnvironmentSetting> environmentVariables;
+    private List<EnvironmentVariable> environmentVariables;
 
     /**
-     * Specifies whether to run the setup task in elevated mode. The default
-     * value is false.
+     * Secrets.
+     * A collection of user defined environment variables with secret values to
+     * be set for the setup task. Server will never report values of these
+     * variables back.
      */
-    @JsonProperty(value = "runElevated")
-    private Boolean runElevated;
+    @JsonProperty(value = "secrets")
+    private List<EnvironmentVariableWithSecretValue> secrets;
 
     /**
-     * The path where the Batch AI service will upload the stdout and stderror
-     * of setup task.
+     * Output path prefix.
+     * The prefix of a path where the Batch AI service will upload the stdout,
+     * stderr and execution log of the setup task.
      */
     @JsonProperty(value = "stdOutErrPathPrefix", required = true)
     private String stdOutErrPathPrefix;
 
     /**
-     * Get the commandLine value.
+     * Output path suffix.
+     * A path segment appended by Batch AI to stdOutErrPathPrefix to form a
+     * path where stdout, stderr and execution log of the setup task will be
+     * uploaded. Batch AI creates the setup task output directories under an
+     * unique path to avoid conflicts between different clusters. The full path
+     * can be obtained by concatenation of stdOutErrPathPrefix and
+     * stdOutErrPathSuffix.
+     */
+    @JsonProperty(value = "stdOutErrPathSuffix", access = JsonProperty.Access.WRITE_ONLY)
+    private String stdOutErrPathSuffix;
+
+    /**
+     * Get the command line to be executed on each cluster's node after it being allocated or rebooted. The command is executed in a bash subshell as a root.
      *
      * @return the commandLine value
      */
@@ -52,7 +72,7 @@ public class SetupTask {
     }
 
     /**
-     * Set the commandLine value.
+     * Set the command line to be executed on each cluster's node after it being allocated or rebooted. The command is executed in a bash subshell as a root.
      *
      * @param commandLine the commandLine value to set
      * @return the SetupTask object itself.
@@ -63,47 +83,47 @@ public class SetupTask {
     }
 
     /**
-     * Get the environmentVariables value.
+     * Get a collection of user defined environment variables to be set for setup task.
      *
      * @return the environmentVariables value
      */
-    public List<EnvironmentSetting> environmentVariables() {
+    public List<EnvironmentVariable> environmentVariables() {
         return this.environmentVariables;
     }
 
     /**
-     * Set the environmentVariables value.
+     * Set a collection of user defined environment variables to be set for setup task.
      *
      * @param environmentVariables the environmentVariables value to set
      * @return the SetupTask object itself.
      */
-    public SetupTask withEnvironmentVariables(List<EnvironmentSetting> environmentVariables) {
+    public SetupTask withEnvironmentVariables(List<EnvironmentVariable> environmentVariables) {
         this.environmentVariables = environmentVariables;
         return this;
     }
 
     /**
-     * Get the runElevated value.
+     * Get a collection of user defined environment variables with secret values to be set for the setup task. Server will never report values of these variables back.
      *
-     * @return the runElevated value
+     * @return the secrets value
      */
-    public Boolean runElevated() {
-        return this.runElevated;
+    public List<EnvironmentVariableWithSecretValue> secrets() {
+        return this.secrets;
     }
 
     /**
-     * Set the runElevated value.
+     * Set a collection of user defined environment variables with secret values to be set for the setup task. Server will never report values of these variables back.
      *
-     * @param runElevated the runElevated value to set
+     * @param secrets the secrets value to set
      * @return the SetupTask object itself.
      */
-    public SetupTask withRunElevated(Boolean runElevated) {
-        this.runElevated = runElevated;
+    public SetupTask withSecrets(List<EnvironmentVariableWithSecretValue> secrets) {
+        this.secrets = secrets;
         return this;
     }
 
     /**
-     * Get the stdOutErrPathPrefix value.
+     * Get the prefix of a path where the Batch AI service will upload the stdout, stderr and execution log of the setup task.
      *
      * @return the stdOutErrPathPrefix value
      */
@@ -112,7 +132,7 @@ public class SetupTask {
     }
 
     /**
-     * Set the stdOutErrPathPrefix value.
+     * Set the prefix of a path where the Batch AI service will upload the stdout, stderr and execution log of the setup task.
      *
      * @param stdOutErrPathPrefix the stdOutErrPathPrefix value to set
      * @return the SetupTask object itself.
@@ -120,6 +140,15 @@ public class SetupTask {
     public SetupTask withStdOutErrPathPrefix(String stdOutErrPathPrefix) {
         this.stdOutErrPathPrefix = stdOutErrPathPrefix;
         return this;
+    }
+
+    /**
+     * Get a path segment appended by Batch AI to stdOutErrPathPrefix to form a path where stdout, stderr and execution log of the setup task will be uploaded. Batch AI creates the setup task output directories under an unique path to avoid conflicts between different clusters. The full path can be obtained by concatenation of stdOutErrPathPrefix and stdOutErrPathSuffix.
+     *
+     * @return the stdOutErrPathSuffix value
+     */
+    public String stdOutErrPathSuffix() {
+        return this.stdOutErrPathSuffix;
     }
 
 }

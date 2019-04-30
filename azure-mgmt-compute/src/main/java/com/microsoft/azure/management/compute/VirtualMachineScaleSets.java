@@ -12,8 +12,8 @@ import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
@@ -24,8 +24,10 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
+import rx.Observable;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  *  Entry point to virtual machine scale set management API.
@@ -194,4 +196,75 @@ public interface VirtualMachineScaleSets extends
      * @return a handle to cancel the request
      */
     ServiceFuture<Void> reimageAsync(String groupName, String name, ServiceCallback<Void> callback);
+
+    /**
+     * Run PowerShell script in a virtual machine instance in a scale set.
+     *
+     * @param groupName the resource group name
+     * @param scaleSetName the virtual machine scale set name
+     * @param vmId the virtual machine instance id
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return result of PowerShell script execution
+     */
+    RunCommandResult runPowerShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run PowerShell in a virtual machine instance in a scale set asynchronously.
+     *
+     * @param groupName the resource group name
+     * @param scaleSetName the virtual machine scale set name
+     * @param vmId the virtual machine instance id
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run shell script in a virtual machine instance in a scale set.
+     *
+     * @param groupName the resource group name
+     * @param scaleSetName the virtual machine scale set name
+     * @param vmId the virtual machine instance id
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return result of shell script execution
+     */
+    RunCommandResult runShellScriptInVMInstance(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+
+    /**
+     * Run shell script in a virtual machine instance in a scale set asynchronously.
+     *
+     * @param groupName the resource group name
+     * @param scaleSetName the virtual machine scale set name
+     * @param vmId the virtual machine instance id
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String groupName, String scaleSetName, String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run commands in a virtual machine instance in a scale set.
+     *
+     * @param groupName the resource group name
+     * @param scaleSetName the virtual machine scale set name
+     * @param vmId the virtual machine instance id
+     * @param inputCommand command input
+     * @return result of execution
+     */
+    RunCommandResult runCommandInVMInstance(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
+
+    /**
+     * Run commands in a virtual machine instance in a scale set asynchronously.
+     *
+     * @param groupName the resource group name
+     * @param scaleSetName the virtual machine scale set name
+     * @param vmId the virtual machine instance id
+     * @param inputCommand command input
+     * @return handle to the asynchronous execution
+     */
+    Observable<RunCommandResult> runCommandVMInstanceAsync(String groupName, String scaleSetName, String vmId, RunCommandInput inputCommand);
 }

@@ -9,24 +9,13 @@
 package com.microsoft.azure.management.appservice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Azure proxy only resource. This resource is not tracked by Azure Resource
  * Manager.
  */
-public class ProxyOnlyResource {
-    /**
-     * Resource Id.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * Resource Name.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
+public class ProxyOnlyResource extends ProxyResource {
     /**
      * Kind of resource.
      */
@@ -34,31 +23,7 @@ public class ProxyOnlyResource {
     private String kind;
 
     /**
-     * Resource type.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the kind value.
+     * Get kind of resource.
      *
      * @return the kind value
      */
@@ -67,7 +32,7 @@ public class ProxyOnlyResource {
     }
 
     /**
-     * Set the kind value.
+     * Set kind of resource.
      *
      * @param kind the kind value to set
      * @return the ProxyOnlyResource object itself.
@@ -75,15 +40,6 @@ public class ProxyOnlyResource {
     public ProxyOnlyResource withKind(String kind) {
         this.kind = kind;
         return this;
-    }
-
-    /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public String type() {
-        return this.type;
     }
 
 }

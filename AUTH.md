@@ -55,6 +55,65 @@ And you are good to go.
 
 If Azure CLI is authenticated as a user, tokens acquired in Azure CLI expire after 90 days. You will be prompted to re-authenticate. If Azure CLI is authenticated with a service principal, it will never expire until the service principal credential expires.
 
+## Using `MSICredentials` & `AppServiceMSICredentials`
+
+For the MSI enabled Virtual Machine and App Service, Azure creates Service Principal and injects the credentials for the Service Principal into the resource. 
+
+The `MSICredential` & `AppServiceMSICredentails` type retrieves these Azure assigned credentials underneath and use it to authenticate. 
+
+### Using MSI credentials from VirtualMachine
+
+```java
+  MSICredentials vmMsiCredentials = new MSICredentials();
+```
+
+In order to retrieve the Azure Assigned credentials, the MSICredential instance requires one of the following:
+
+
+The object id associated with the Managed Service Identity assigned to the Virtual Machine.
+
+```java
+vmMsiCredentials.withObjectId(objectId);
+```
+
+The client (application) Id associated with the Managed Service Identity assigned to the Virtual Machine.
+
+```java
+vmMsiCredentials.withClientId(clientId);
+```
+
+The ARM resource id of the user assigned Managed Service Identity assigned to the Virtual Machine.
+
+```java
+vmMsiCredentials.withIdentityId(IdentityId);
+```
+
+```
+Azure azure = Azure.authenticate(vmMsiCredentials).withSubscription(subscriptionId);
+```
+
+### Using MSI credentials from App Service
+
+```java
+  AppServiceMSICredentials appServiceMsiCredentials = new AppServiceMSICredentials();
+```
+
+```
+Azure azure = Azure.authenticate(appServiceMsiCredentials).withSubscription(subscriptionId);
+```
+
+## Oauth 2 for web apps
+
+For web apps that authenticate users interactively, Azure Active Directory allows Oauth 2 code grant flow. Create an application in Azure Active Directory and assign delegated permissions to the application: https://docs.microsoft.com/en-us/azure/active-directory/develop/active-directory-integrating-applications.
+
+Create an instance of `DelegatedTokenCredentials` with the info of the application and the redirect URL. The credential instance must also be accessible through the page that's handling the redirection. The credential instance is not authenticated yet until the following steps are finished:
+
+1. Direct the user to the URL generated through `generateAuthenticationUrl()`. The URL is under the Active Directory endpoint so make sure the redirect URL is correctly routed to your web app.
+2. The user authenticates to Active Directory by typing in the credentials.
+3. In your redirect URL callback, call `setAuthenticationCode(String authCode)` with the authentication code passed back from Active Directory.
+
+Now you have a `DelegatedTokenCredential` instance that's ready to talk to Azure.
+
 ## Auth file formats
 
 Prior to this release, we've been using Java properties file format containing the following information:
@@ -124,5 +183,3 @@ If you are using the default Azure public cloud, you can leave all the URL field
 The `clientId` and `tenantId` are from your service principal registration. If your service principal uses key authentication, `clientSecret` is the password credential added to the service principal. If your service principal uses certificate authentication, `clientCertificate` is the path to your pem or pfx certificate. In the case of a pfx certificate, you also need to provide the `clientCertificatePassword`.
 
 This approach enables unattended authentication for your application (i.e. no interactive user login, no token management needed).  The `subscription` represents the subscription ID you want to use as the default subscription. The remaining URIs and URLs represent the end points for the needed Azure services, defaulted to Azure public cloud.
-
-

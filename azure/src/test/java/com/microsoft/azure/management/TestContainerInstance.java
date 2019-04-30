@@ -23,7 +23,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         final String cgName = "aci" + this.testId;
         final String rgName = "rgaci" + this.testId;
         ContainerGroup containerGroup = containerGroups.define(cgName)
-            .withRegion(Region.US_WEST)
+            .withRegion(Region.US_EAST2)
             .withNewResourceGroup(rgName)
             .withLinux()
             .withPublicImageRegistryOnly()
@@ -32,10 +32,12 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
                 .withImage("tomcat")
                 .withExternalTcpPort(8080)
                 .withCpuCoreCount(1)
-            .attach()
+                .withEnvironmentVariable("ENV1", "value1")
+                .attach()
             .defineContainerInstance("nginx")
                 .withImage("nginx")
                 .withExternalTcpPort(80)
+                .withEnvironmentVariableWithSecuredValue("ENV2", "securedValue1")
                 .attach()
             .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
             .withDnsPrefix(cgName)
@@ -68,7 +70,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertNull(tomcatContainer.volumeMounts());
         Assert.assertNull(tomcatContainer.command());
         Assert.assertNotNull(tomcatContainer.environmentVariables());
-        Assert.assertEquals(0, tomcatContainer.environmentVariables().size());
+        Assert.assertEquals(1, tomcatContainer.environmentVariables().size());
         Assert.assertEquals("nginx", nginxContainer.name());
         Assert.assertEquals("nginx", nginxContainer.image());
         Assert.assertEquals(1.0, nginxContainer.resources().requests().cpu(), .1);
@@ -78,7 +80,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertNull(nginxContainer.volumeMounts());
         Assert.assertNull(nginxContainer.command());
         Assert.assertNotNull(nginxContainer.environmentVariables());
-        Assert.assertEquals(0, nginxContainer.environmentVariables().size());
+        Assert.assertEquals(1, nginxContainer.environmentVariables().size());
         Assert.assertTrue(containerGroup.tags().containsKey("tag1"));
         Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
         Assert.assertEquals(cgName, containerGroup.dnsPrefix());
@@ -92,7 +94,8 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         containerGroup.refresh();
 
         Set<Operation> containerGroupOperations = containerGroups.listOperations();
-        Assert.assertEquals(4, containerGroupOperations.size());
+        // Number of supported operation can change hence don't assert with a predefined number.
+        Assert.assertTrue(containerGroupOperations.size() > 0);
 
         return containerGroup;
     }
@@ -105,6 +108,10 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
             .apply();
         Assert.assertFalse(containerGroup.tags().containsKey("tag"));
         Assert.assertTrue(containerGroup.tags().containsKey("tag2"));
+
+        containerGroup.restart();
+        containerGroup.stop();
+
         return containerGroup;
     }
 

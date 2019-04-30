@@ -16,38 +16,38 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CapabilityInformation {
     /**
-     * the subscription credentials that uniquely identifies the subscription.
+     * The subscription credentials that uniquely identifies the subscription.
      */
     @JsonProperty(value = "subscriptionId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID subscriptionId;
 
     /**
-     * the subscription state. Possible values include: 'Registered',
+     * The subscription state. Possible values include: 'Registered',
      * 'Suspended', 'Deleted', 'Unregistered', 'Warned'.
      */
     @JsonProperty(value = "state", access = JsonProperty.Access.WRITE_ONLY)
     private SubscriptionState state;
 
     /**
-     * the maximum supported number of accounts under this subscription.
+     * The maximum supported number of accounts under this subscription.
      */
     @JsonProperty(value = "maxAccountCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer maxAccountCount;
 
     /**
-     * the current number of accounts under this subscription.
+     * The current number of accounts under this subscription.
      */
     @JsonProperty(value = "accountCount", access = JsonProperty.Access.WRITE_ONLY)
     private Integer accountCount;
 
     /**
-     * the Boolean value of true or false to indicate the maintenance state.
+     * The Boolean value of true or false to indicate the maintenance state.
      */
     @JsonProperty(value = "migrationState", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean migrationState;
 
     /**
-     * Get the subscriptionId value.
+     * Get the subscription credentials that uniquely identifies the subscription.
      *
      * @return the subscriptionId value
      */
@@ -56,7 +56,7 @@ public class CapabilityInformation {
     }
 
     /**
-     * Get the state value.
+     * Get the subscription state. Possible values include: 'Registered', 'Suspended', 'Deleted', 'Unregistered', 'Warned'.
      *
      * @return the state value
      */
@@ -65,7 +65,7 @@ public class CapabilityInformation {
     }
 
     /**
-     * Get the maxAccountCount value.
+     * Get the maximum supported number of accounts under this subscription.
      *
      * @return the maxAccountCount value
      */
@@ -74,7 +74,7 @@ public class CapabilityInformation {
     }
 
     /**
-     * Get the accountCount value.
+     * Get the current number of accounts under this subscription.
      *
      * @return the accountCount value
      */
@@ -83,7 +83,7 @@ public class CapabilityInformation {
     }
 
     /**
-     * Get the migrationState value.
+     * Get the Boolean value of true or false to indicate the maintenance state.
      *
      * @return the migrationState value
      */

@@ -8,8 +8,7 @@ package com.microsoft.azure.management.cosmosdb;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountListConnectionStringsResult;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountListKeysResult;
+import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
 import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -19,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import rx.Completable;
 import rx.Observable;
 
 import java.util.List;
@@ -84,6 +84,16 @@ public interface CosmosDBAccount extends
     Observable<DatabaseAccountListKeysResult> listKeysAsync();
 
     /**
+     * @return the read-only access keys for the specified Azure CosmosDB database account
+     */
+    DatabaseAccountListReadOnlyKeysResult listReadOnlyKeys();
+
+    /**
+     * @return the read-only access keys for the specified Azure CosmosDB database account
+     */
+    Observable<DatabaseAccountListReadOnlyKeysResult> listReadOnlyKeysAsync();
+
+    /**
      * @return the connection strings for the specified Azure CosmosDB database account
      */
     DatabaseAccountListConnectionStringsResult listConnectionStrings();
@@ -94,15 +104,67 @@ public interface CosmosDBAccount extends
     Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
 
     /**
+     * @return whether write is enabled for multiple locations or not
+     */
+    boolean multipleWriteLocationsEnabled();
+
+    /**
+     * @return a list that contains the Cosmos DB capabilities
+     */
+    @Beta(SinceVersion.V1_10_0)
+    List<Capability> capabilities();
+
+    /**
+     * @return a list that contains the Cosmos DB Virtual Network ACL Rules (empty list if none is set)
+     */
+    @Beta(SinceVersion.V1_10_0)
+    List<VirtualNetworkRule> virtualNetworkRules();
+
+    /**
+     * It takes offline the specified region for the current Azure Cosmos DB database account.
+     *
+     * @param region Cosmos DB region
+     */
+    @Beta(SinceVersion.V1_11_0)
+    void offlineRegion(Region region);
+
+    /**
+     * Asynchronously it takes offline the specified region for the current Azure Cosmos DB database account.
+     *
+     * @param region Cosmos DB region
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(SinceVersion.V1_11_0)
+    Completable offlineRegionAsync(Region region);
+
+    /**
+     * It brings online the specified region for the current Azure Cosmos DB database account.
+     *
+     * @param region Cosmos DB region
+     */
+    @Beta(SinceVersion.V1_11_0)
+    void onlineRegion(Region region);
+
+    /**
+     * Asynchronously it brings online the specified region for the current Azure Cosmos DB database account.
+     *
+     * @param region Cosmos DB region
+     * @return a representation of the deferred computation of this call
+     */
+    @Beta(SinceVersion.V1_11_0)
+    Completable onlineRegionAsync(Region region);
+
+    /**
      * @param keyKind the key kind
      */
     void regenerateKey(KeyKind keyKind);
 
     /**
      * @param keyKind the key kind
-     * @return the ServiceResponse object if successful.
+     * @return a representation of the deferred computation of this call
      */
-    Observable<Void> regenerateKeyAsync(KeyKind keyKind);
+    @Beta(SinceVersion.V1_11_0)
+    Completable regenerateKeyAsync(KeyKind keyKind);
 
     /**
      * Grouping of cosmos db definition stages.
@@ -146,6 +208,61 @@ public interface CosmosDBAccount extends
              * @return the next stage of the definition
              */
             WithConsistencyPolicy withKind(DatabaseAccountKind kind);
+
+            /**
+             * The database account kind for the CosmosDB account.
+             *
+             * @param kind the account kind
+             * @param capabilities the list of Cosmos DB capabilities for the account
+             * @return the next stage of the definition
+             */
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withKind(DatabaseAccountKind kind, Capability... capabilities);
+
+            /**
+             * Creates a SQL CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelSql();
+
+            /**
+             * Creates a MongoDB CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelMongoDB();
+
+            /**
+             * Creates a Cassandra CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelCassandra();
+
+            /**
+             * Creates an Azure Table CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelAzureTable();
+
+            /**
+             * Creates a Gremlin CosmosDB account.
+             *
+             * @return the next stage of the definition
+             */
+            @Method
+            @Beta(SinceVersion.V1_10_0)
+            WithConsistencyPolicy withDataModelGremlin();
         }
 
         /**
@@ -170,7 +287,7 @@ public interface CosmosDBAccount extends
              * @param maxIntervalInSeconds the max interval in seconds
              * @return the next stage of the definition
              */
-            WithWriteReplication withBoundedStalenessConsistency(int maxStalenessPrefix, int maxIntervalInSeconds);
+            WithWriteReplication withBoundedStalenessConsistency(long maxStalenessPrefix, int maxIntervalInSeconds);
 
             /**
              * The strong consistency policy for the CosmosDB account.
@@ -218,6 +335,46 @@ public interface CosmosDBAccount extends
         }
 
         /**
+         * The stage of the cosmos db definition allowing the definition of a Virtual Network ACL Rule.
+         */
+        @Beta(SinceVersion.V1_11_0)
+        interface WithVirtualNetworkRule {
+            /**
+             * Specifies a Virtual Network ACL Rule for the CosmosDB account.
+             *
+             * @param virtualNetworkId the ID of a virtual network
+             * @param subnetName the name of the subnet within the virtual network; the subnet must have the service
+             *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
+             * @return the next stage
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithCreate withVirtualNetwork(String virtualNetworkId, String subnetName);
+
+            /**
+             * Specifies the list of Virtual Network ACL Rules for the CosmosDB account.
+             *
+             * @param virtualNetworkRules the list of Virtual Network ACL Rules.
+             * @return the next stage
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithCreate withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
+        }
+
+        /**
+         * The stage of the cosmos db definition allowing to specify whether multiple write locations will be enabled.
+         */
+        interface WithMultipleLocations {
+
+            /**
+             * Specifies whether multiple write locations are enabled for this cosmos db account.
+             *
+             * @param enabled whether multiple write locations are enabled or not.
+             * @return the next stage
+             */
+            WithCreate withMultipleWriteLocationsEnabled(boolean enabled);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
          * for any other optional settings to be specified.
@@ -226,7 +383,10 @@ public interface CosmosDBAccount extends
                 Creatable<CosmosDBAccount>,
                 WithConsistencyPolicy,
                 WithReadReplication,
-                WithIpRangeFilter {
+                WithIpRangeFilter,
+                WithVirtualNetworkRule,
+                WithMultipleLocations,
+                DefinitionWithTags<WithCreate> {
         }
     }
 
@@ -249,6 +409,8 @@ public interface CosmosDBAccount extends
             Resource.UpdateWithTags<WithOptionals>,
             Appliable<CosmosDBAccount>,
             UpdateStages.WithConsistencyPolicy,
+            UpdateStages.WithVirtualNetworkRule,
+            UpdateStages.WithMultipleLocations,
             UpdateStages.WithIpRangeFilter {
         }
 
@@ -294,7 +456,7 @@ public interface CosmosDBAccount extends
              * @param maxIntervalInSeconds the max interval in seconds
              * @return the next stage of the definition
              */
-            WithOptionals withBoundedStalenessConsistency(int maxStalenessPrefix, int maxIntervalInSeconds);
+            WithOptionals withBoundedStalenessConsistency(long maxStalenessPrefix, int maxIntervalInSeconds);
 
             /**
              * The consistency policy for the CosmosDB account.
@@ -312,9 +474,61 @@ public interface CosmosDBAccount extends
              * form to be included as the allowed list of client IPs for a given database account. IP addresses/ranges
              * must be comma separated and must not contain any spaces.
              * @param ipRangeFilter specifies the set of IP addresses or IP address ranges
-             * @return the next stage of the definition
+             * @return the next stage of the update definition
              */
             WithOptionals withIpRangeFilter(String ipRangeFilter);
+        }
+
+        /**
+         * The stage of the Cosmos DB update definition allowing the definition of a Virtual Network ACL Rule.
+         */
+        @Beta(SinceVersion.V1_11_0)
+        interface WithVirtualNetworkRule {
+            /**
+             * Specifies a new Virtual Network ACL Rule for the CosmosDB account.
+             *
+             * @param virtualNetworkId the ID of a virtual network
+             * @param subnetName the name of the subnet within the virtual network; the subnet must have the service
+             *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
+             * @return the next stage of the update definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithOptionals withVirtualNetwork(String virtualNetworkId, String subnetName);
+
+            /**
+             * Removes a Virtual Network ACL Rule for the CosmosDB account.
+             *
+             * @param virtualNetworkId the ID of a virtual network
+             * @param subnetName the name of the subnet within the virtual network; the subnet must have the service
+             *                   endpoints enabled for 'Microsoft.AzureCosmosDB'.
+             * @return the next stage of the update definition
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithOptionals withoutVirtualNetwork(String virtualNetworkId, String subnetName);
+
+            /**
+             * A Virtual Network ACL Rule for the CosmosDB account.
+             *
+             * @param virtualNetworkRules the list of Virtual Network ACL Rules (an empty list value
+             *                            will remove all the rules)
+             * @return the next stage of the update definition-
+             */
+            @Beta(SinceVersion.V1_11_0)
+            WithOptionals withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
+        }
+
+        /**
+         * The stage of the Cosmos DB update definition allowing to specify whether multiple write locations are enabled or not.
+         */
+        interface WithMultipleLocations {
+
+            /**
+             * Specifies whether multiple write locations are enabled or not for this cosmos db account.
+             *
+             * @param enabled whether multiple write locatiosn are enabled or not.
+             * @return the next stage of the update definition
+             */
+            WithOptionals withMultipleWriteLocationsEnabled(boolean enabled);
         }
     }
 }

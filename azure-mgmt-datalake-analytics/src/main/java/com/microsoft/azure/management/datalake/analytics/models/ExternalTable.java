@@ -27,7 +27,7 @@ public class ExternalTable {
     private EntityId dataSource;
 
     /**
-     * Get the tableName value.
+     * Get the name of the table associated with this database and schema.
      *
      * @return the tableName value
      */
@@ -36,7 +36,7 @@ public class ExternalTable {
     }
 
     /**
-     * Set the tableName value.
+     * Set the name of the table associated with this database and schema.
      *
      * @param tableName the tableName value to set
      * @return the ExternalTable object itself.
@@ -47,7 +47,7 @@ public class ExternalTable {
     }
 
     /**
-     * Get the dataSource value.
+     * Get the data source associated with this external table.
      *
      * @return the dataSource value
      */
@@ -56,7 +56,7 @@ public class ExternalTable {
     }
 
     /**
-     * Set the dataSource value.
+     * Set the data source associated with this external table.
      *
      * @param dataSource the dataSource value to set
      * @return the ExternalTable object itself.

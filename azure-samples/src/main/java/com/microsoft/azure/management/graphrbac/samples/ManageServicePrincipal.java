@@ -105,6 +105,7 @@ public final class ManageServicePrincipal {
         String name = SdkContext.randomResourceName("adapp-sample", 20);
         //create a self-sighed certificate
         String domainName = name + ".com";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         String certPassword = "StrongPass!12";
         Certificate certificate = Certificate.createSelfSigned(domainName, certPassword);
 
@@ -114,6 +115,7 @@ public final class ManageServicePrincipal {
                     .withSignOnUrl("https://github.com/Azure/azure-sdk-for-java/" + name)
                     // password credentials definition
                     .definePasswordCredential("password")
+                        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
                         .withPasswordValue("P@ssw0rd")
                         .withDuration(Duration.standardDays(700))
                         .attach()
@@ -138,6 +140,7 @@ public final class ManageServicePrincipal {
         String name = SdkContext.randomResourceName("sp-sample", 20);
         //create a self-sighed certificate
         String domainName = name + ".com";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         String certPassword = "StrongPass!12";
         Certificate certificate = Certificate.createSelfSigned(domainName, certPassword);
 
@@ -147,6 +150,7 @@ public final class ManageServicePrincipal {
                     .withExistingApplication(activeDirectoryApplication)
                     // password credentials definition
                     .definePasswordCredential("ServicePrincipalAzureSample")
+                    // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
                         .withPasswordValue("StrongPass!12")
                         .attach()
                     // certificate credentials definition

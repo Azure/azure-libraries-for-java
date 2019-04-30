@@ -15,25 +15,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class OperationDisplay {
     /**
-     * the Resource provider of the operation.
+     * The resource provider of the operation.
      */
     @JsonProperty(value = "provider", access = JsonProperty.Access.WRITE_ONLY)
     private String provider;
 
     /**
-     * the Resource type of the operation.
+     * The resource type of the operation.
      */
     @JsonProperty(value = "resource", access = JsonProperty.Access.WRITE_ONLY)
     private String resource;
 
     /**
-     * a friendly name of the operation.
+     * A friendly name of the operation.
      */
     @JsonProperty(value = "operation", access = JsonProperty.Access.WRITE_ONLY)
     private String operation;
 
     /**
-     * a friendly description of the operation.
+     * A friendly description of the operation.
      */
     @JsonProperty(value = "description", access = JsonProperty.Access.WRITE_ONLY)
     private String description;

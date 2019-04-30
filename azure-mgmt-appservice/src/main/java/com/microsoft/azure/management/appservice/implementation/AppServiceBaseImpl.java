@@ -13,10 +13,14 @@ import com.google.common.io.CharStreams;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
+import com.microsoft.azure.management.appservice.CsmPublishingProfileOptions;
+import com.microsoft.azure.management.appservice.CsmSlotEntity;
 import com.microsoft.azure.management.appservice.HostNameBinding;
+import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.PublishingProfile;
+import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebAppSourceControl;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -50,14 +54,18 @@ abstract class AppServiceBaseImpl<
     FluentUpdateT>
         extends WebAppBaseImpl<FluentT, FluentImplT> {
 
-    AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
-        super(name, innerObject, configObject, manager);
-        String defaultHostName = defaultHostName().startsWith("http") ? defaultHostName() : "http://" + defaultHostName();
+    AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
+        super(name, innerObject, siteConfig, logConfig, manager);
     }
 
     @Override
     Observable<SiteInner> createOrUpdateInner(SiteInner site) {
         return this.manager().inner().webApps().createOrUpdateAsync(resourceGroupName(), name(), site);
+    }
+
+    @Override
+    Observable<SiteInner> updateInner(SitePatchResource siteUpdate) {
+        return this.manager().inner().webApps().updateAsync(resourceGroupName(), name(), siteUpdate);
     }
 
     @Override
@@ -175,7 +183,7 @@ abstract class AppServiceBaseImpl<
     }
 
     public Observable<PublishingProfile> getPublishingProfileAsync() {
-        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name())
+        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name(), new CsmPublishingProfileOptions())
                 .map(new Func1<InputStream, PublishingProfile>() {
                     @Override
                     public PublishingProfile call(InputStream stream) {
@@ -206,7 +214,7 @@ abstract class AppServiceBaseImpl<
     }
 
     @Override
-    Observable<MSDeployStatusInner> createMSDeploy(MSDeployInner msDeployInner) {
+    Observable<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner) {
         return manager().inner().webApps()
                 .createMSDeployOperationAsync(resourceGroupName(), name(), msDeployInner);
     }
@@ -283,7 +291,7 @@ abstract class AppServiceBaseImpl<
 
     @Override
     public Completable swapAsync(String slotName) {
-        return manager().inner().webApps().swapSlotWithProductionAsync(resourceGroupName(), name(), new CsmSlotEntityInner().withTargetSlot(slotName))
+        return manager().inner().webApps().swapSlotWithProductionAsync(resourceGroupName(), name(), new CsmSlotEntity().withTargetSlot(slotName))
                 .flatMap(new Func1<Void, Observable<?>>() {
                     @Override
                     public Observable<?> call(Void aVoid) {
@@ -299,7 +307,7 @@ abstract class AppServiceBaseImpl<
 
     @Override
     public Completable applySlotConfigurationsAsync(String slotName) {
-        return manager().inner().webApps().applySlotConfigToProductionAsync(resourceGroupName(), name(), new CsmSlotEntityInner().withTargetSlot(slotName))
+        return manager().inner().webApps().applySlotConfigToProductionAsync(resourceGroupName(), name(), new CsmSlotEntity().withTargetSlot(slotName))
                 .flatMap(new Func1<Void, Observable<?>>() {
                     @Override
                     public Observable<?> call(Void aVoid) {
@@ -351,7 +359,7 @@ abstract class AppServiceBaseImpl<
 
     @Override
     public Observable<byte[]> getContainerLogsZipAsync() {
-        return manager().inner().webApps().getWebSiteContainerLogsZipAsync(resourceGroupName(), name())
+        return manager().inner().webApps().getContainerLogsZipAsync(resourceGroupName(), name())
                 .map(new Func1<InputStream, byte[]>() {
                     @Override
                     public byte[] call(InputStream inputStream) {

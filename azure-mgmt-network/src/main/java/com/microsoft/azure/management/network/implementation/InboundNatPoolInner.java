@@ -25,8 +25,7 @@ public class InboundNatPoolInner extends SubResource {
     private SubResource frontendIPConfiguration;
 
     /**
-     * The transport protocol for the endpoint. Possible values are: 'Udp' or
-     * 'Tcp'. Possible values include: 'Udp', 'Tcp'.
+     * Possible values include: 'Udp', 'Tcp', 'All'.
      */
     @JsonProperty(value = "properties.protocol", required = true)
     private TransportProtocol protocol;
@@ -53,6 +52,23 @@ public class InboundNatPoolInner extends SubResource {
      */
     @JsonProperty(value = "properties.backendPort", required = true)
     private int backendPort;
+
+    /**
+     * The timeout for the TCP idle connection. The value can be set between 4
+     * and 30 minutes. The default value is 4 minutes. This element is only
+     * used when the protocol is set to TCP.
+     */
+    @JsonProperty(value = "properties.idleTimeoutInMinutes")
+    private Integer idleTimeoutInMinutes;
+
+    /**
+     * Configures a virtual machine's endpoint for the floating IP capability
+     * required to configure a SQL AlwaysOn Availability Group. This setting is
+     * required when using the SQL AlwaysOn Availability Groups in SQL server.
+     * This setting can't be changed after you create the endpoint.
+     */
+    @JsonProperty(value = "properties.enableFloatingIP")
+    private Boolean enableFloatingIP;
 
     /**
      * Gets the provisioning state of the PublicIP resource. Possible values
@@ -171,6 +187,46 @@ public class InboundNatPoolInner extends SubResource {
      */
     public InboundNatPoolInner withBackendPort(int backendPort) {
         this.backendPort = backendPort;
+        return this;
+    }
+
+    /**
+     * Get the idleTimeoutInMinutes value.
+     *
+     * @return the idleTimeoutInMinutes value
+     */
+    public Integer idleTimeoutInMinutes() {
+        return this.idleTimeoutInMinutes;
+    }
+
+    /**
+     * Set the idleTimeoutInMinutes value.
+     *
+     * @param idleTimeoutInMinutes the idleTimeoutInMinutes value to set
+     * @return the InboundNatPoolInner object itself.
+     */
+    public InboundNatPoolInner withIdleTimeoutInMinutes(Integer idleTimeoutInMinutes) {
+        this.idleTimeoutInMinutes = idleTimeoutInMinutes;
+        return this;
+    }
+
+    /**
+     * Get the enableFloatingIP value.
+     *
+     * @return the enableFloatingIP value
+     */
+    public Boolean enableFloatingIP() {
+        return this.enableFloatingIP;
+    }
+
+    /**
+     * Set the enableFloatingIP value.
+     *
+     * @param enableFloatingIP the enableFloatingIP value to set
+     * @return the InboundNatPoolInner object itself.
+     */
+    public InboundNatPoolInner withEnableFloatingIP(Boolean enableFloatingIP) {
+        this.enableFloatingIP = enableFloatingIP;
         return this;
     }
 

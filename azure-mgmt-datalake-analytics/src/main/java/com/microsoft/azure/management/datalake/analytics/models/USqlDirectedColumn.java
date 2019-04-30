@@ -27,7 +27,7 @@ public class USqlDirectedColumn {
     private Boolean descending;
 
     /**
-     * Get the name value.
+     * Get the name of the index in the table.
      *
      * @return the name value
      */
@@ -36,7 +36,7 @@ public class USqlDirectedColumn {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the index in the table.
      *
      * @param name the name value to set
      * @return the USqlDirectedColumn object itself.
@@ -47,7 +47,7 @@ public class USqlDirectedColumn {
     }
 
     /**
-     * Get the descending value.
+     * Get the switch indicating if the index is descending or not.
      *
      * @return the descending value
      */
@@ -56,7 +56,7 @@ public class USqlDirectedColumn {
     }
 
     /**
-     * Set the descending value.
+     * Set the switch indicating if the index is descending or not.
      *
      * @param descending the descending value to set
      * @return the USqlDirectedColumn object itself.

@@ -52,11 +52,13 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
         final String networkName = SdkContext.randomResourceName("vnetCOMV", 24);
         final String storageAccountName = SdkContext.randomResourceName("stgCOMV", 20);
         final String userName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
+        final Region region = Region.US_SOUTH_CENTRAL;
         try {
             // Create a resource group [Where all resources gets created]
             ResourceGroup resourceGroup = azure.resourceGroups().define(rgName)
-                    .withRegion(Region.US_EAST)
+                    .withRegion(region)
                     .create();
 
             //============================================================
@@ -66,7 +68,7 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
             // - ALLOW-WEB- allows HTTP traffic into the front end subnet
 
             Creatable<NetworkSecurityGroup> frontEndNSGCreatable = azure.networkSecurityGroups().define(frontEndNsgName)
-                    .withRegion(Region.US_EAST)
+                    .withRegion(region)
                     .withExistingResourceGroup(resourceGroup)
                     .defineRule("ALLOW-SSH")
                         .allowInbound()
@@ -96,7 +98,7 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
             // - DENY-WEB - denies all outbound internet traffic from the back end subnet
 
             Creatable<NetworkSecurityGroup> backEndNSGCreatable = azure.networkSecurityGroups().define(backEndNsgName)
-                    .withRegion(Region.US_EAST)
+                    .withRegion(region)
                     .withExistingResourceGroup(resourceGroup)
                     .defineRule("ALLOW-SQL")
                         .allowInbound()
@@ -146,7 +148,7 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
 
             // Create Network [Where all the virtual machines get added to]
             Network network = azure.networks().define(networkName)
-                    .withRegion(Region.US_EAST)
+                    .withRegion(region)
                     .withExistingResourceGroup(resourceGroup)
                     .withAddressSpace("172.16.0.0/16")
                     .defineSubnet("Front-end")
@@ -161,14 +163,14 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
 
             // Prepare Creatable Storage account definition [For storing VMs disk]
             Creatable<StorageAccount> creatableStorageAccount = azure.storageAccounts().define(storageAccountName)
-                    .withRegion(Region.US_EAST)
+                    .withRegion(region)
                     .withExistingResourceGroup(resourceGroup);
 
             // Prepare a batch of Creatable Virtual Machines definitions
             List<Creatable<VirtualMachine>> frontendCreatableVirtualMachines = new ArrayList<>();
             for (int i = 0; i < frontendVMCount; i++) {
                 Creatable<VirtualMachine> creatableVirtualMachine = azure.virtualMachines().define("VM-FE-" + i)
-                        .withRegion(Region.US_EAST)
+                        .withRegion(region)
                         .withExistingResourceGroup(resourceGroup)
                         .withExistingPrimaryNetwork(network)
                         .withSubnet("Front-end")
@@ -186,7 +188,7 @@ public final class ManageVirtualMachinesInParallelWithNetwork {
 
             for (int i = 0; i < backendVMCount; i++) {
                 Creatable<VirtualMachine> creatableVirtualMachine = azure.virtualMachines().define("VM-BE-" + i)
-                        .withRegion(Region.US_EAST)
+                        .withRegion(region)
                         .withExistingResourceGroup(resourceGroup)
                         .withExistingPrimaryNetwork(network)
                         .withSubnet("Back-end")

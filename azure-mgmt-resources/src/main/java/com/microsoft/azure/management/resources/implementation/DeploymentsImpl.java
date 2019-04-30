@@ -77,7 +77,11 @@ final class DeploymentsImpl
         return this.manager().inner().deployments().getByResourceGroupAsync(groupName, name).map(new Func1<DeploymentExtendedInner, Deployment>() {
             @Override
             public Deployment call(DeploymentExtendedInner deploymentExtendedInner) {
-                return createFluentModel(deploymentExtendedInner);
+                if (deploymentExtendedInner != null) {
+                    return createFluentModel(deploymentExtendedInner);
+                } else {
+                    return null;
+                }
             }
         });
     }

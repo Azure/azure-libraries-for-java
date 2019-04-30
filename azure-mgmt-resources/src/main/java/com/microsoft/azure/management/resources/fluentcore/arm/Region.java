@@ -19,7 +19,7 @@ public final class Region {
     // This needs to be at the beginning for the initialization to happen correctly
     private static final Map<String, Region> VALUES_BY_NAME = new HashMap<>();
 
-    // CHECKSTYLE IGNORE Javadoc FOR NEXT 50 LINES
+    // CHECKSTYLE IGNORE Javadoc FOR NEXT 52 LINES
     /**************************************************
      * Azure Cloud - Americas
      **************************************************/
@@ -41,6 +41,8 @@ public final class Region {
     public static final Region EUROPE_WEST = new Region("westeurope", "West Europe");
     public static final Region UK_SOUTH = new Region("uksouth", "UK South");
     public static final Region UK_WEST = new Region("ukwest", "UK West");
+    public static final Region FRANCE_CENTRAL = new Region("francecentral", "France Central");
+    public static final Region FRANCE_SOUTH = new Region("francesouth", "France South");
     /**************************************************
      * Azure Cloud - Asia
      **************************************************/
@@ -50,6 +52,8 @@ public final class Region {
     public static final Region JAPAN_WEST = new Region("japanwest", "Japan West");
     public static final Region AUSTRALIA_EAST = new Region("australiaeast", "Australia East");
     public static final Region AUSTRALIA_SOUTHEAST = new Region("australiasoutheast", "Australia Southeast");
+    public static final Region AUSTRALIA_CENTRAL = new Region("australiacentral", "Australia Central");
+    public static final Region AUSTRALIA_CENTRAL2 = new Region("australiacentral2", "Australia Central 2");
     public static final Region INDIA_CENTRAL = new Region("centralindia", "Central India");
     public static final Region INDIA_SOUTH = new Region("southindia", "South India");
     public static final Region INDIA_WEST = new Region("westindia", "West India");
@@ -60,6 +64,8 @@ public final class Region {
      **************************************************/
     public static final Region CHINA_NORTH = new Region("chinanorth", "China North");
     public static final Region CHINA_EAST = new Region("chinaeast", "China East");
+    public static final Region CHINA_NORTH2 = new Region("chinanorth2", "China North 2");
+    public static final Region CHINA_EAST2 = new Region("chinaeast2", "China East 2");
     /**************************************************
      * Azure German Cloud
      **************************************************/

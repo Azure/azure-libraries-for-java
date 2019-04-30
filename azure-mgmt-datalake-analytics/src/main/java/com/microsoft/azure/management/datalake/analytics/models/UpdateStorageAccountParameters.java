@@ -12,26 +12,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Storage account parameters for a storage account being updated in a Data
- * Lake Analytics account.
+ * The parameters used to update an Azure Storage account.
  */
 @JsonFlatten
 public class UpdateStorageAccountParameters {
     /**
-     * the updated access key associated with this Azure Storage account that
+     * The updated access key associated with this Azure Storage account that
      * will be used to connect to it.
      */
     @JsonProperty(value = "properties.accessKey")
     private String accessKey;
 
     /**
-     * the optional suffix for the storage account.
+     * The optional suffix for the storage account.
      */
     @JsonProperty(value = "properties.suffix")
     private String suffix;
 
     /**
-     * Get the accessKey value.
+     * Get the updated access key associated with this Azure Storage account that will be used to connect to it.
      *
      * @return the accessKey value
      */
@@ -40,7 +39,7 @@ public class UpdateStorageAccountParameters {
     }
 
     /**
-     * Set the accessKey value.
+     * Set the updated access key associated with this Azure Storage account that will be used to connect to it.
      *
      * @param accessKey the accessKey value to set
      * @return the UpdateStorageAccountParameters object itself.
@@ -51,7 +50,7 @@ public class UpdateStorageAccountParameters {
     }
 
     /**
-     * Get the suffix value.
+     * Get the optional suffix for the storage account.
      *
      * @return the suffix value
      */
@@ -60,7 +59,7 @@ public class UpdateStorageAccountParameters {
     }
 
     /**
-     * Set the suffix value.
+     * Set the optional suffix for the storage account.
      *
      * @param suffix the suffix value to set
      * @return the UpdateStorageAccountParameters object itself.

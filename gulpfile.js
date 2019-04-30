@@ -6,6 +6,11 @@ var execa = require('execa');
 var pAll = require('p-all');
 var os = require('os');
 var fs = require('fs');
+var shell = require('gulp-shell');
+var ghPages = require('gulp-gh-pages');
+var argv = require('yargs').argv;
+var gulpif = require('gulp-if');
+var exec = require('child_process').exec;
 
 const mappings = require('./api-specs.json');
 const defaultSpecRoot = "https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master";
@@ -155,3 +160,18 @@ var deleteFolderRecursive = function(path) {
         });
     }
 };
+
+gulp.task('java:build', shell.task('mvn package javadoc:aggregate -DskipTests=true -q'));
+gulp.task('java:stage', ['java:build'], function(){
+    return gulp.src('./target/site/apidocs/**/*').pipe(gulp.dest('./dist')); 
+});
+
+/// Top level build entry point
+gulp.task('stage', ['java:stage']);
+gulp.task('publish', ['stage'], function(){
+    var options = {};
+    if(process.env.GH_TOKEN){
+        options.remoteUrl = 'https://' + process.env.GH_TOKEN + '@github.com/azure/azure-libraries-for-java.git'  
+    }
+    return gulp.src('./dist/**/*').pipe(gulpif(!argv.dryrun, ghPages(options)));
+});

@@ -11,41 +11,43 @@ package com.microsoft.azure.management.batchai;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Provides required information, for the service to be able to mount Azure
- * FileShare on the cluster nodes.
+ * File Server mounting configuration.
  */
 public class FileServerReference {
     /**
-     * Reference to the file server resource.
+     * File server.
+     * Resource ID of the existing File Server to be mounted.
      */
     @JsonProperty(value = "fileServer", required = true)
     private ResourceId fileServer;
 
     /**
-     * Specifies the source directory in File Server that needs to be mounted.
-     * If this property is not specified, the entire File Server will be
-     * mounted.
+     * Source directory.
+     * File Server directory that needs to be mounted. If this property is not
+     * specified, the entire File Server will be mounted.
      */
     @JsonProperty(value = "sourceDirectory")
     private String sourceDirectory;
 
     /**
-     * Specifies the relative path on the compute node where the File Server
-     * will be mounted.
-     * Note that all file shares will be mounted under $AZ_BATCHAI_MOUNT_ROOT
-     * location.
+     * Relative mount path.
+     * The relative path on the compute node where the File Server will be
+     * mounted. Note that all cluster level file servers will be mounted under
+     * $AZ_BATCHAI_MOUNT_ROOT location and all job level file servers will be
+     * mounted under $AZ_BATCHAI_JOB_MOUNT_ROOT.
      */
     @JsonProperty(value = "relativeMountPath", required = true)
     private String relativeMountPath;
 
     /**
-     * Specifies the mount options for File Server.
+     * Mount options.
+     * Mount options to be passed to mount command.
      */
     @JsonProperty(value = "mountOptions")
     private String mountOptions;
 
     /**
-     * Get the fileServer value.
+     * Get resource ID of the existing File Server to be mounted.
      *
      * @return the fileServer value
      */
@@ -54,7 +56,7 @@ public class FileServerReference {
     }
 
     /**
-     * Set the fileServer value.
+     * Set resource ID of the existing File Server to be mounted.
      *
      * @param fileServer the fileServer value to set
      * @return the FileServerReference object itself.
@@ -65,7 +67,7 @@ public class FileServerReference {
     }
 
     /**
-     * Get the sourceDirectory value.
+     * Get file Server directory that needs to be mounted. If this property is not specified, the entire File Server will be mounted.
      *
      * @return the sourceDirectory value
      */
@@ -74,7 +76,7 @@ public class FileServerReference {
     }
 
     /**
-     * Set the sourceDirectory value.
+     * Set file Server directory that needs to be mounted. If this property is not specified, the entire File Server will be mounted.
      *
      * @param sourceDirectory the sourceDirectory value to set
      * @return the FileServerReference object itself.
@@ -85,7 +87,7 @@ public class FileServerReference {
     }
 
     /**
-     * Get the relativeMountPath value.
+     * Get the relative path on the compute node where the File Server will be mounted. Note that all cluster level file servers will be mounted under $AZ_BATCHAI_MOUNT_ROOT location and all job level file servers will be mounted under $AZ_BATCHAI_JOB_MOUNT_ROOT.
      *
      * @return the relativeMountPath value
      */
@@ -94,7 +96,7 @@ public class FileServerReference {
     }
 
     /**
-     * Set the relativeMountPath value.
+     * Set the relative path on the compute node where the File Server will be mounted. Note that all cluster level file servers will be mounted under $AZ_BATCHAI_MOUNT_ROOT location and all job level file servers will be mounted under $AZ_BATCHAI_JOB_MOUNT_ROOT.
      *
      * @param relativeMountPath the relativeMountPath value to set
      * @return the FileServerReference object itself.
@@ -105,7 +107,7 @@ public class FileServerReference {
     }
 
     /**
-     * Get the mountOptions value.
+     * Get mount options to be passed to mount command.
      *
      * @return the mountOptions value
      */
@@ -114,7 +116,7 @@ public class FileServerReference {
     }
 
     /**
-     * Set the mountOptions value.
+     * Set mount options to be passed to mount command.
      *
      * @param mountOptions the mountOptions value to set
      * @return the FileServerReference object itself.

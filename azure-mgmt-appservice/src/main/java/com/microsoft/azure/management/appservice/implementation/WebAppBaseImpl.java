@@ -9,6 +9,7 @@ package com.microsoft.azure.management.appservice.implementation;
 import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServiceCertificate;
 import com.microsoft.azure.management.appservice.AppServiceDomain;
@@ -19,14 +20,13 @@ import com.microsoft.azure.management.appservice.ConnStringValueTypePair;
 import com.microsoft.azure.management.appservice.ConnectionString;
 import com.microsoft.azure.management.appservice.ConnectionStringType;
 import com.microsoft.azure.management.appservice.CustomHostNameDnsRecordType;
-import com.microsoft.azure.management.appservice.FileSystemHttpLogsConfig;
+import com.microsoft.azure.management.appservice.FtpsState;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.HostNameSslState;
 import com.microsoft.azure.management.appservice.HostNameType;
-import com.microsoft.azure.management.appservice.HttpLogsConfig;
 import com.microsoft.azure.management.appservice.JavaVersion;
+import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.ManagedPipelineMode;
-import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
 import com.microsoft.azure.management.appservice.NetFrameworkVersion;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PhpVersion;
@@ -36,26 +36,38 @@ import com.microsoft.azure.management.appservice.RemoteVisualStudioVersion;
 import com.microsoft.azure.management.appservice.ScmType;
 import com.microsoft.azure.management.appservice.SiteAvailabilityState;
 import com.microsoft.azure.management.appservice.SiteConfig;
+import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.SslState;
 import com.microsoft.azure.management.appservice.UsageState;
+import com.microsoft.azure.management.appservice.VirtualApplication;
 import com.microsoft.azure.management.appservice.WebAppAuthentication;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebContainer;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
+import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.RestException;
 import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.functions.FuncN;
+import rx.schedulers.Schedulers;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PipedInputStream;
+import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -86,7 +98,15 @@ abstract class WebAppBaseImpl<
             WebAppBase.Update<FluentT>,
             WebAppBase.UpdateStages.WithWebContainer<FluentT> {
 
+    private static final Map<AzureEnvironment, String> DNS_MAP = new HashMap<AzureEnvironment, String>() {{
+        put(AzureEnvironment.AZURE, "azurewebsites.net");
+        put(AzureEnvironment.AZURE_CHINA, "chinacloudsites.cn");
+        put(AzureEnvironment.AZURE_GERMANY, "azurewebsites.de");
+        put(AzureEnvironment.AZURE_US_GOVERNMENT, "azurewebsites.us");
+    }};
+
     SiteConfigResourceInner siteConfig;
+    KuduClient kuduClient;
 
     private Set<String> hostNamesSet;
     private Set<String> enabledHostNamesSet;
@@ -105,25 +125,41 @@ abstract class WebAppBaseImpl<
     private Map<String, Boolean> connectionStringStickiness;
     private WebAppSourceControlImpl<FluentT, FluentImplT> sourceControl;
     private boolean sourceControlToDelete;
-    private MSDeployInner msDeploy;
+    private MSDeploy msDeploy;
     private WebAppAuthenticationImpl<FluentT, FluentImplT> authentication;
     private boolean authenticationToUpdate;
-    private SiteLogsConfigInner siteLogsConfig;
+    private WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogs;
+    private boolean diagnosticLogsToUpdate;
     private FunctionalTaskItem msiHandler;
     private boolean isInCreateMode;
+    private WebAppMsiHandler webAppMsiHandler;
 
-    WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
+    WebAppBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, manager);
         if (innerObject != null && innerObject.kind() != null) {
             innerObject.withKind(innerObject.kind().replace(";", ","));
         }
-        this.siteConfig = configObject;
+        this.siteConfig = siteConfig;
+        if (logConfig != null) {
+            this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(logConfig, this);
+        }
+
+        webAppMsiHandler = new WebAppMsiHandler(manager.rbacManager(), this);
         normalizeProperties();
         isInCreateMode = inner() == null || inner().id() == null;
+        if (!isInCreateMode) {
+            initializeKuduClient();
+        }
     }
 
     public boolean isInCreateMode() {
         return isInCreateMode;
+    }
+
+    private void initializeKuduClient() {
+        if (kuduClient == null) {
+            kuduClient = new KuduClient(this);
+        }
     }
 
     @Override
@@ -132,6 +168,28 @@ abstract class WebAppBaseImpl<
             innerObject.withKind(innerObject.kind().replace(";", ","));
         }
         super.setInner(innerObject);
+    }
+
+    RoleAssignmentHelper.IdProvider idProvider() {
+        return new RoleAssignmentHelper.IdProvider() {
+            @Override
+            public String principalId() {
+                if (inner() != null && inner().identity() != null) {
+                    return inner().identity().principalId();
+                } else {
+                    return null;
+                }
+            }
+
+            @Override
+            public String resourceId() {
+                if (inner() != null) {
+                    return inner().id();
+                } else {
+                    return null;
+                }
+            }
+        };
     }
 
     @SuppressWarnings("unchecked")
@@ -147,6 +205,7 @@ abstract class WebAppBaseImpl<
         this.sourceControl = null;
         this.sourceControlToDelete = false;
         this.authenticationToUpdate = false;
+        this.diagnosticLogsToUpdate = false;
         this.sslBindingsToCreate = new TreeMap<>();
         this.msiHandler = null;
         if (inner().hostNames() != null) {
@@ -171,6 +230,7 @@ abstract class WebAppBaseImpl<
                 hostNameSslStateMap.put(hostNameSslState.name(), hostNameSslState);
             }
         }
+        this.webAppMsiHandler.clear();
         return (FluentT) this;
     }
 
@@ -282,7 +342,13 @@ abstract class WebAppBaseImpl<
         if (inner().defaultHostName() != null) {
             return inner().defaultHostName();
         } else {
-            return "http://" + name() + ".azurewebsites.net";
+            AzureEnvironment environment = Utils.extractAzureEnvironment(manager().restClient());
+            String dns = DNS_MAP.get(environment);
+            String leaf = name();
+            if (this instanceof DeploymentSlotBaseImpl<?, ?, ?, ?, ?>) {
+                leaf = ((DeploymentSlotBaseImpl<?, ?, ?, ?, ?>) this).parent().name() + "-" + leaf;
+            }
+            return leaf + "." + dns;
         }
     }
 
@@ -416,6 +482,59 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    public boolean httpsOnly() {
+        return Utils.toPrimitiveBoolean(inner().httpsOnly());
+    }
+
+    @Override
+    public FtpsState ftpsState() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.ftpsState();
+    }
+
+    @Override
+    public List<VirtualApplication> virtualApplications() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.virtualApplications();
+    }
+
+    @Override
+    public boolean http20Enabled() {
+        if (siteConfig == null) {
+            return false;
+        }
+        return Utils.toPrimitiveBoolean(siteConfig.http20Enabled());
+    }
+
+    @Override
+    public boolean localMySqlEnabled() {
+        if (siteConfig == null) {
+            return false;
+        }
+        return Utils.toPrimitiveBoolean(siteConfig.localMySqlEnabled());
+    }
+
+    @Override
+    public ScmType scmType() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.scmType();
+    }
+
+    @Override
+    public String documentRoot() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.documentRoot();
+    }
+
+    @Override
     public OperatingSystem operatingSystem() {
         if (inner().kind() != null && inner().kind().toLowerCase().contains("linux")) {
             return OperatingSystem.LINUX;
@@ -438,6 +557,106 @@ abstract class WebAppBaseImpl<
             return null;
         }
         return inner().identity().principalId();
+    }
+
+    @Override
+    public Set<String> userAssignedManagedServiceIdentityIds() {
+        if (inner().identity() == null) {
+            return null;
+        }
+        return inner().identity().userAssignedIdentities().keySet();
+    }
+
+    @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogsConfig() {
+        return diagnosticLogs;
+    }
+
+    @Override
+    public InputStream streamApplicationLogs() {
+        return pipeObservableToInputStream(streamApplicationLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamApplicationLogsAsync() {
+        return kuduClient.streamApplicationLogsAsync();
+    }
+
+    @Override
+    public InputStream streamHttpLogs() {
+        return pipeObservableToInputStream(streamHttpLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamHttpLogsAsync() {
+        return kuduClient.streamHttpLogsAsync();
+    }
+
+    @Override
+    public InputStream streamTraceLogs() {
+        return pipeObservableToInputStream(streamTraceLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamTraceLogsAsync() {
+        return kuduClient.streamTraceLogsAsync();
+    }
+
+    @Override
+    public InputStream streamDeploymentLogs() {
+        return pipeObservableToInputStream(streamDeploymentLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamDeploymentLogsAsync() {
+        return kuduClient.streamDeploymentLogsAsync();
+    }
+
+    @Override
+    public InputStream streamAllLogs() {
+        return pipeObservableToInputStream(streamAllLogsAsync());
+    }
+
+    @Override
+    public Observable<String> streamAllLogsAsync() {
+        return kuduClient.streamAllLogsAsync();
+    }
+
+    private InputStream pipeObservableToInputStream(Observable<String> observable) {
+        PipedInputStreamWithCallback in = new PipedInputStreamWithCallback();
+        final PipedOutputStream out = new PipedOutputStream();
+        try {
+            in.connect(out);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        final Subscription subscription = observable
+                // Do not block current thread
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Action1<String>() {
+                    @Override
+                    public void call(String s) {
+                        try {
+                            out.write(s.getBytes());
+                            out.write('\n');
+                            out.flush();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                });
+        in.addCallback(new Action0() {
+            @Override
+            public void call() {
+                subscription.unsubscribe();
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        return in;
     }
 
     @Override
@@ -505,6 +724,8 @@ abstract class WebAppBaseImpl<
 
     abstract Observable<SiteInner> createOrUpdateInner(SiteInner site);
 
+    abstract Observable<SiteInner> updateInner(SitePatchResource siteUpdate);
+
     abstract Observable<SiteInner> getInner();
 
     abstract Observable<SiteConfigResourceInner> getConfigInner();
@@ -533,7 +754,7 @@ abstract class WebAppBaseImpl<
 
     abstract Observable<SiteAuthSettingsInner> getAuthentication();
 
-    abstract Observable<MSDeployStatusInner> createMSDeploy(MSDeployInner msDeployInner);
+    abstract Observable<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner);
 
     abstract Observable<SiteLogsConfigInner> updateDiagnosticLogsConfig(SiteLogsConfigInner siteLogsConfigInner);
 
@@ -612,6 +833,8 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public Observable<FluentT> createResourceAsync() {
+        this.webAppMsiHandler.processCreatedExternalIdentities();
+        this.webAppMsiHandler.handleExternalIdentities();
         return submitSite(inner()).map(new Func1<SiteInner, FluentT>() {
             @Override
             public FluentT call(SiteInner siteInner) {
@@ -622,9 +845,45 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean succeeded) {
-        if (succeeded) {
+    public Observable<FluentT> updateResourceAsync() {
+        SiteInner siteInner = (SiteInner) this.inner();
+        SitePatchResource siteUpdate = new SitePatchResource();
+        siteUpdate.withHostNameSslStates(siteInner.hostNameSslStates());
+        siteUpdate.withKind(siteInner.kind());
+        siteUpdate.withEnabled(siteInner.enabled());
+        siteUpdate.withServerFarmId(siteInner.serverFarmId());
+        siteUpdate.withReserved(siteInner.reserved());
+        siteUpdate.withIsXenon(siteInner.isXenon());
+        siteUpdate.withHyperV(siteInner.hyperV());
+        siteUpdate.withScmSiteAlsoStopped(siteInner.scmSiteAlsoStopped());
+        siteUpdate.withHostingEnvironmentProfile(siteInner.hostingEnvironmentProfile());
+        siteUpdate.withClientAffinityEnabled(siteInner.clientAffinityEnabled());
+        siteUpdate.withClientCertEnabled(siteInner.clientCertEnabled());
+        siteUpdate.withClientCertExclusionPaths(siteInner.clientCertExclusionPaths());
+        siteUpdate.withHostNamesDisabled(siteInner.hostNamesDisabled());
+        siteUpdate.withContainerSize(siteInner.containerSize());
+        siteUpdate.withDailyMemoryTimeQuota(siteInner.dailyMemoryTimeQuota());
+        siteUpdate.withCloningInfo(siteInner.cloningInfo());
+        siteUpdate.withHttpsOnly(siteInner.httpsOnly());
+        siteUpdate.withRedundancyMode(siteInner.redundancyMode());
+        siteUpdate.withGeoDistributions(siteInner.geoDistributions());
+
+        this.webAppMsiHandler.handleExternalIdentities(siteUpdate);
+        return submitSite(siteUpdate).map(new Func1<SiteInner, FluentT>() {
+            @Override
+            public FluentT call(SiteInner siteInner) {
+                setInner(siteInner);
+                webAppMsiHandler.clear();
+                return (FluentT) WebAppBaseImpl.this;
+            }
+        });
+    }
+
+    @Override
+    public Completable afterPostRunAsync(final boolean isGroupFaulted) {
+        if (!isGroupFaulted) {
             isInCreateMode = false;
+            initializeKuduClient();
         }
         return Completable.fromAction(new Action0() {
             @Override
@@ -647,8 +906,20 @@ abstract class WebAppBaseImpl<
                 });
     }
 
+    Observable<SiteInner> submitSite(final SitePatchResource siteUpdate) {
+        // Construct web app observable
+        return updateInner(siteUpdate)
+                .map(new Func1<SiteInner, SiteInner>() {
+                    @Override
+                    public SiteInner call(SiteInner siteInner) {
+                        siteInner.withSiteConfig(null);
+                        return siteInner;
+                    }
+                });
+    }
+
     Observable<FluentT> submitHostNameBindings() {
-        List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
+        final List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
         for (HostNameBindingImpl<FluentT, FluentImplT> binding : hostNameBindingsToCreate.values()) {
             bindingObservables.add(Utils.<HostNameBinding>rootResource(binding.createAsync()));
         }
@@ -667,6 +938,25 @@ abstract class WebAppBaseImpl<
                 @Override
                 public WebAppBaseImpl call(Object... args) {
                     return WebAppBaseImpl.this;
+                }
+            }).onErrorResumeNext(new Func1<Throwable, Observable<? extends WebAppBaseImpl>>() {
+                @Override
+                public Observable<? extends WebAppBaseImpl> call(Throwable throwable) {
+                    if (throwable instanceof RestException && ((RestException) throwable).response().code() == 400) {
+                        return submitSite(inner()).flatMap(new Func1<SiteInner, Observable<WebAppBaseImpl>>() {
+                            @Override
+                            public Observable<WebAppBaseImpl> call(SiteInner siteInner) {
+                                return Observable.zip(bindingObservables, new FuncN<WebAppBaseImpl>() {
+                                    @Override
+                                    public WebAppBaseImpl call(Object... args) {
+                                        return WebAppBaseImpl.this;
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+                        return Observable.error(throwable);
+                    }
                 }
             }).flatMap(new Func1<WebAppBaseImpl, Observable<FluentT>>() {
                 @Override
@@ -875,20 +1165,21 @@ abstract class WebAppBaseImpl<
         return updateAuthentication(authentication.inner()).map(new Func1<SiteAuthSettingsInner, Indexable>() {
             @Override
             public Indexable call(SiteAuthSettingsInner siteAuthSettingsInner) {
+                WebAppBaseImpl.this.authentication = new WebAppAuthenticationImpl<>(siteAuthSettingsInner, WebAppBaseImpl.this);
                 return WebAppBaseImpl.this;
             }
         });
     }
 
     Observable<Indexable> submitLogConfiguration() {
-        if (siteLogsConfig == null) {
+        if (!diagnosticLogsToUpdate) {
             return Observable.just((Indexable) this);
         }
-        return updateDiagnosticLogsConfig(siteLogsConfig)
+        return updateDiagnosticLogsConfig(diagnosticLogs.inner())
                 .map(new Func1<SiteLogsConfigInner, Indexable>() {
                     @Override
                     public Indexable call(SiteLogsConfigInner siteLogsConfigInner) {
-                        siteLogsConfig = null;
+                        WebAppBaseImpl.this.diagnosticLogs = new WebAppDiagnosticLogsImpl<>(siteLogsConfigInner, WebAppBaseImpl.this);
                         return WebAppBaseImpl.this;
                     }
                 });
@@ -1031,7 +1322,7 @@ abstract class WebAppBaseImpl<
     }
 
     public FluentImplT withoutJava() {
-        return withJavaVersion(JavaVersion.fromString("")).withWebContainer(null);
+        return withJavaVersion(JavaVersion.fromString("")).withWebContainer(WebContainer.fromString(""));
     }
 
     @SuppressWarnings("unchecked")
@@ -1042,6 +1333,9 @@ abstract class WebAppBaseImpl<
         if (webContainer == null) {
             siteConfig.withJavaContainer(null);
             siteConfig.withJavaContainerVersion(null);
+        } else if (webContainer.toString().isEmpty()) {
+            siteConfig.withJavaContainer("");
+            siteConfig.withJavaContainerVersion("");
         } else {
             String[] containerInfo = webContainer.toString().split(" ");
             siteConfig.withJavaContainer(containerInfo[0]);
@@ -1163,6 +1457,39 @@ abstract class WebAppBaseImpl<
     }
 
     @SuppressWarnings("unchecked")
+    public FluentImplT withHttpsOnly(boolean httpsOnly) {
+        inner().withHttpsOnly(httpsOnly);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withHttp20Enabled(boolean http20Enabled) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withHttp20Enabled(http20Enabled);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withFtpsState(FtpsState ftpsState) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withFtpsState(ftpsState);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withVirtualApplications(List<VirtualApplication> virtualApplications) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withVirtualApplications(virtualApplications);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
     public FluentImplT withAppSetting(String key, String value) {
         appSettingsToAdd.put(key, value);
         return (FluentImplT) this;
@@ -1261,6 +1588,11 @@ abstract class WebAppBaseImpl<
         authenticationToUpdate = true;
     }
 
+    void withDiagnosticLogs(WebAppDiagnosticLogsImpl<FluentT, FluentImplT> diagnosticLogs) {
+        this.diagnosticLogs = diagnosticLogs;
+        diagnosticLogsToUpdate = true;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public Observable<FluentT> refreshAsync() {
@@ -1299,10 +1631,12 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withContainerLoggingEnabled(int quotaInMB, int retentionDays) {
-        siteLogsConfig = new SiteLogsConfigInner()
-                .withHttpLogs(new HttpLogsConfig().withFileSystem(
-                        new FileSystemHttpLogsConfig().withEnabled(true).withRetentionInMb(quotaInMB).withRetentionInDays(retentionDays)));
-        return (FluentImplT) this;
+        return updateDiagnosticLogsConfiguration()
+                .withWebServerLogging()
+                .withWebServerLogsStoredOnFileSystem()
+                .withWebServerFileSystemQuotaInMB(quotaInMB)
+                .withLogRetentionDays(retentionDays)
+                .attach();
     }
 
     @Override
@@ -1313,100 +1647,101 @@ abstract class WebAppBaseImpl<
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withContainerLoggingDisabled() {
-        siteLogsConfig = new SiteLogsConfigInner()
-                .withHttpLogs(new HttpLogsConfig().withFileSystem(
-                        new FileSystemHttpLogsConfig().withEnabled(false)));
-        return (FluentImplT) this;
+        return updateDiagnosticLogsConfiguration()
+                .withoutWebServerLogging()
+                .attach();
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedManagedServiceIdentity() {
-        inner().withIdentity(new ManagedServiceIdentity().withType("SystemAssigned"));
+        this.webAppMsiHandler.withLocalManagedServiceIdentity();
+        return (FluentImplT) this;
+    }
+
+    @Override
+    public FluentImplT withoutSystemAssignedManagedServiceIdentity() {
+        this.webAppMsiHandler.withoutLocalManagedServiceIdentity();
+        return (FluentImplT) this;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withUserAssignedManagedServiceIdentity() {
         return (FluentImplT) this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessTo(final String resourceId, final BuiltInRole role) {
-        if (inner().identity() == null || inner().identity().type() == null) {
-            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
-        }
-        msiHandler = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(Context context) {
-                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
-                        .forObjectId(systemAssignedManagedServiceIdentityPrincipalId())
-                        .withBuiltInRole(role)
-                        .withScope(resourceId)
-                        .createAsync();
-            }
-        };
+        this.webAppMsiHandler.withAccessTo(resourceId, role);
         return (FluentImplT) this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(final BuiltInRole role) {
-        if (inner().identity() == null || inner().identity().type() == null) {
-            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
-        }
-        msiHandler = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(Context context) {
-                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
-                        .forObjectId(systemAssignedManagedServiceIdentityPrincipalId())
-                        .withBuiltInRole(role)
-                        .withScope(resourceGroupId(id()))
-                        .createAsync();
-            }
-        };
+        this.webAppMsiHandler.withAccessToCurrentResourceGroup(role);
         return (FluentImplT) this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessTo(final String resourceId, final String roleDefinitionId) {
-        if (inner().identity() == null || inner().identity().type() == null) {
-            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
-        }
-        msiHandler = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(Context context) {
-                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
-                        .forServicePrincipal(systemAssignedManagedServiceIdentityPrincipalId())
-                        .withRoleDefinition(roleDefinitionId)
-                        .withScope(resourceId)
-                        .createAsync();
-            }
-        };
+        this.webAppMsiHandler.withAccessTo(resourceId, roleDefinitionId);
         return (FluentImplT) this;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public FluentImplT withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(final String roleDefinitionId) {
-        if (inner().identity() == null || inner().identity().type() == null) {
-            throw new IllegalArgumentException("The web app must be assigned with Managed Service Identity.");
-        }
-        msiHandler = new FunctionalTaskItem() {
-            @Override
-            public Observable<Indexable> call(Context context) {
-                return manager().rbacManager().roleAssignments().define(SdkContext.randomUuid())
-                        .forServicePrincipal(systemAssignedManagedServiceIdentityPrincipalId())
-                        .withRoleDefinition(roleDefinitionId)
-                        .withScope(resourceGroupId(id()))
-                        .createAsync();
-            }
-        };
+        this.webAppMsiHandler.withAccessToCurrentResourceGroup(roleDefinitionId);
         return (FluentImplT) this;
     }
 
-    private static String resourceGroupId(String id) {
-        final ResourceId resourceId = ResourceId.fromString(id);
-        return String.format("/subscriptions/%s/resourceGroups/%s",
-                resourceId.subscriptionId(),
-                resourceId.resourceGroupName());
+    @Override
+    public FluentImplT withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
+        this.webAppMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
+        return (FluentImplT) this;
+    }
 
+    @Override
+    public FluentImplT withExistingUserAssignedManagedServiceIdentity(Identity identity) {
+        this.webAppMsiHandler.withExistingExternalManagedServiceIdentity(identity);
+        return (FluentImplT) this;
+    }
+
+    @Override
+    public FluentImplT withoutUserAssignedManagedServiceIdentity(String identityId) {
+        this.webAppMsiHandler.withoutExternalManagedServiceIdentity(identityId);
+        return (FluentImplT) this;
+    }
+
+    @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> defineDiagnosticLogsConfiguration() {
+        if (diagnosticLogs == null) {
+            return new WebAppDiagnosticLogsImpl<>(new SiteLogsConfigInner(), this);
+        } else {
+            return diagnosticLogs;
+        }
+    }
+
+    @Override
+    public WebAppDiagnosticLogsImpl<FluentT, FluentImplT> updateDiagnosticLogsConfiguration() {
+        return defineDiagnosticLogsConfiguration();
+    }
+
+    private static class PipedInputStreamWithCallback extends PipedInputStream {
+        private Action0 callback;
+
+        private void addCallback(Action0 action) {
+            this.callback = action;
+        }
+
+        @Override
+        public void close() throws IOException {
+            callback.call();
+            super.close();
+        }
     }
 }

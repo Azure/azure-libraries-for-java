@@ -8,9 +8,10 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.SubResource;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.SubResource;
+
+import java.util.List;
 
 /**
  * Describes a set of certificates which are all in the same Key Vault.
@@ -31,7 +32,7 @@ public class VaultSecretGroup {
     private List<VaultCertificate> vaultCertificates;
 
     /**
-     * Get the sourceVault value.
+     * Get the relative URL of the Key Vault containing all of the certificates in VaultCertificates.
      *
      * @return the sourceVault value
      */
@@ -40,7 +41,7 @@ public class VaultSecretGroup {
     }
 
     /**
-     * Set the sourceVault value.
+     * Set the relative URL of the Key Vault containing all of the certificates in VaultCertificates.
      *
      * @param sourceVault the sourceVault value to set
      * @return the VaultSecretGroup object itself.
@@ -51,7 +52,7 @@ public class VaultSecretGroup {
     }
 
     /**
-     * Get the vaultCertificates value.
+     * Get the list of key vault references in SourceVault which contain certificates.
      *
      * @return the vaultCertificates value
      */
@@ -60,7 +61,7 @@ public class VaultSecretGroup {
     }
 
     /**
-     * Set the vaultCertificates value.
+     * Set the list of key vault references in SourceVault which contain certificates.
      *
      * @param vaultCertificates the vaultCertificates value to set
      * @return the VaultSecretGroup object itself.

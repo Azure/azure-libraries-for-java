@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.IPAllocationMethod;
@@ -340,7 +339,7 @@ class NicIPConfigurationImpl
      * not specified then existing associated (if any) public IP will be returned.
      * @return public IP SubResource
      */
-    private SubResource publicIPToAssociate() {
+    private PublicIPAddressInner publicIPToAssociate() {
         String pipId = null;
         if (this.removePrimaryPublicIPAssociation) {
             return null;
@@ -352,7 +351,7 @@ class NicIPConfigurationImpl
         }
 
         if (pipId != null) {
-            return new SubResource().withId(pipId);
+            return new PublicIPAddressInner().withId(pipId);
         } else if (!this.isInCreateMode) {
             return this.inner().publicIPAddress();
         } else {

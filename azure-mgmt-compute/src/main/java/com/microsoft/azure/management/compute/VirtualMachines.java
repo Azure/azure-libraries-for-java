@@ -11,8 +11,8 @@ import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.compute.implementation.VirtualMachinesInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
@@ -24,6 +24,8 @@ import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
+
+import java.util.List;
 
 /**
  *  Entry point to virtual machine management API.
@@ -274,4 +276,69 @@ public interface VirtualMachines extends
      * @return a handle to cancel the request
      */
     ServiceFuture<Void> migrateToManagedAsync(String groupName, String name, ServiceCallback<Void> callback);
+
+    /**
+     * Run shell script in a virtual machine.
+     *
+     * @param groupName the resource group name
+     * @param name the virtual machine name
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return result of PowerShell script execution
+     */
+    RunCommandResult runPowerShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run shell script in a virtual machine asynchronously.
+     *
+     * @param groupName the resource group name
+     * @param name the virtual machine name
+     * @param scriptLines PowerShell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    Observable<RunCommandResult> runPowerShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run shell script in a virtual machine.
+     *
+     * @param groupName the resource group name
+     * @param name the virtual machine name
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return result of shell script execution
+     */
+    RunCommandResult runShellScript(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+
+    /**
+     * Run shell script in a virtual machine asynchronously.
+     *
+     * @param groupName the resource group name
+     * @param name the virtual machine name
+     * @param scriptLines shell script lines
+     * @param scriptParameters script parameters
+     * @return handle to the asynchronous execution
+     */
+    Observable<RunCommandResult> runShellScriptAsync(String groupName, String name, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
+
+    /**
+     * Run commands in a virtual machine.
+     *
+     * @param groupName the resource group name
+     * @param name the virtual machine name
+     * @param inputCommand command input
+     * @return result of execution
+     */
+    RunCommandResult runCommand(String groupName, String name, RunCommandInput inputCommand);
+
+    /**
+     * Run commands in a virtual machine asynchronously.
+     *
+     * @param groupName the resource group name
+     * @param name the virtual machine name
+     * @param inputCommand command input
+     * @return handle to the asynchronous execution
+     */
+    Observable<RunCommandResult> runCommandAsync(String groupName, String name, RunCommandInput inputCommand);
 }

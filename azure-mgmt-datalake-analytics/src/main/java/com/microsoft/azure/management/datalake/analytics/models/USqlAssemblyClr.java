@@ -33,7 +33,7 @@ public class USqlAssemblyClr extends CatalogItem {
     private String clrName;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -42,7 +42,7 @@ public class USqlAssemblyClr extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlAssemblyClr object itself.
@@ -53,7 +53,7 @@ public class USqlAssemblyClr extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the assembly.
      *
      * @return the name value
      */
@@ -62,7 +62,7 @@ public class USqlAssemblyClr extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the assembly.
      *
      * @param name the name value to set
      * @return the USqlAssemblyClr object itself.
@@ -73,7 +73,7 @@ public class USqlAssemblyClr extends CatalogItem {
     }
 
     /**
-     * Get the clrName value.
+     * Get the name of the CLR.
      *
      * @return the clrName value
      */
@@ -82,7 +82,7 @@ public class USqlAssemblyClr extends CatalogItem {
     }
 
     /**
-     * Set the clrName value.
+     * Set the name of the CLR.
      *
      * @param clrName the clrName value to set
      * @return the USqlAssemblyClr object itself.

@@ -5,12 +5,15 @@
  */
 package com.microsoft.azure.management.batchai;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
+import com.microsoft.azure.management.batchai.implementation.BatchAIManager;
 import com.microsoft.azure.management.batchai.implementation.JobsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByNameAsync;
+import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
@@ -32,5 +35,12 @@ public interface BatchAIJobs extends
         SupportsDeletingByName,
         SupportsDeletingById,
         HasInner<JobsInner>,
-        HasParent<BatchAICluster> {
+        HasManager<BatchAIManager>,
+        HasParent<BatchAIExperiment> {
+    /**
+     * List Batch AI jobs.
+     * @param maxResults maximum number of results
+     * @return jobs  list
+     */
+    PagedList<BatchAIJob> list(int maxResults);
 }

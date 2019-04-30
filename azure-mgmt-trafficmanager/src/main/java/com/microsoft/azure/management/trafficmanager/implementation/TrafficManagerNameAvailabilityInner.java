@@ -46,7 +46,7 @@ public class TrafficManagerNameAvailabilityInner {
     private String message;
 
     /**
-     * Get the name value.
+     * Get the relative name.
      *
      * @return the name value
      */
@@ -55,7 +55,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Set the name value.
+     * Set the relative name.
      *
      * @param name the name value to set
      * @return the TrafficManagerNameAvailabilityInner object itself.
@@ -66,7 +66,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Get the type value.
+     * Get traffic Manager profile resource type.
      *
      * @return the type value
      */
@@ -75,7 +75,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Set the type value.
+     * Set traffic Manager profile resource type.
      *
      * @param type the type value to set
      * @return the TrafficManagerNameAvailabilityInner object itself.
@@ -86,7 +86,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Get the nameAvailable value.
+     * Get describes whether the relative name is available or not.
      *
      * @return the nameAvailable value
      */
@@ -95,7 +95,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Set the nameAvailable value.
+     * Set describes whether the relative name is available or not.
      *
      * @param nameAvailable the nameAvailable value to set
      * @return the TrafficManagerNameAvailabilityInner object itself.
@@ -106,7 +106,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Get the reason value.
+     * Get the reason why the name is not available, when applicable.
      *
      * @return the reason value
      */
@@ -115,7 +115,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Set the reason value.
+     * Set the reason why the name is not available, when applicable.
      *
      * @param reason the reason value to set
      * @return the TrafficManagerNameAvailabilityInner object itself.
@@ -126,7 +126,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Get the message value.
+     * Get descriptive message that explains why the name is not available, when applicable.
      *
      * @return the message value
      */
@@ -135,7 +135,7 @@ public class TrafficManagerNameAvailabilityInner {
     }
 
     /**
-     * Set the message value.
+     * Set descriptive message that explains why the name is not available, when applicable.
      *
      * @param message the message value to set
      * @return the TrafficManagerNameAvailabilityInner object itself.

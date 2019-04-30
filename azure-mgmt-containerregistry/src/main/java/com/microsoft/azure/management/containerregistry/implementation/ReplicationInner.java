@@ -34,7 +34,7 @@ public class ReplicationInner extends Resource {
     private Status status;
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the replication at the time the operation was called. Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Failed', 'Canceled'.
      *
      * @return the provisioningState value
      */
@@ -43,7 +43,7 @@ public class ReplicationInner extends Resource {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the replication at the time the operation was called.
      *
      * @return the status value
      */

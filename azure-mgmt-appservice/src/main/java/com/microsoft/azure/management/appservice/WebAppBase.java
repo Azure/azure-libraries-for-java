@@ -13,6 +13,7 @@ import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.appservice.implementation.SiteInner;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -21,6 +22,8 @@ import org.joda.time.DateTime;
 import rx.Completable;
 import rx.Observable;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -217,18 +220,56 @@ public interface WebAppBase extends
     String autoSwapSlotName();
 
     /**
+     * @return true if the web app is configured to accept only HTTPS requests. HTTP requests will be redirected.
+     */
+    boolean httpsOnly();
+
+    /**
+     * @return the state of FTP / FTPS service
+     */
+    FtpsState ftpsState();
+
+    /**
+     * @return the virtual applications and their virtual directories in this web app
+     */
+    List<VirtualApplication> virtualApplications();
+
+    /**
+     * @return whether to allow clients to connect over http2.0
+     */
+    boolean http20Enabled();
+
+    /**
+     * @return whether local MySQL is enabled
+     */
+    boolean localMySqlEnabled();
+
+    /**
+     * @return the SCM configuration for the web app
+     */
+    ScmType scmType();
+
+    /**
+     * @return the root directory for the web app
+     */
+    String documentRoot();
+
+    /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory tenant ID assigned
      * to the web app.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the System Assigned (Local) Managed Service Identity specific Active Directory service principal ID
      * assigned to the web app.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return The ids of the user assigned identities
+     */
+    Set<String> userAssignedManagedServiceIdentityIds();
 
     /**
      * @return the app settings defined on the web app
@@ -274,6 +315,12 @@ public interface WebAppBase extends
      * @return the Linux app framework and version if this is a Linux web app.
      */
     String linuxFxVersion();
+
+    /**
+     * @return the diagnostic logs configuration
+     */
+    @Beta(SinceVersion.V1_18_0)
+    WebAppDiagnosticLogs diagnosticLogsConfig();
 
     /**
      * @return the mapping from host names and the host name bindings
@@ -345,6 +392,76 @@ public interface WebAppBase extends
     @Beta(SinceVersion.V1_5_0)
     @Method
     Observable<byte[]> getContainerLogsZipAsync();
+
+    /**
+     * @return a open stream to the application logs
+     */
+    @Beta(SinceVersion.V1_6_0)
+    @Method
+    InputStream streamApplicationLogs();
+
+    /**
+     * @return a open stream to the HTTP logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    InputStream streamHttpLogs();
+
+    /**
+     * @return a open stream to the trace logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    InputStream streamTraceLogs();
+
+    /**
+     * @return a open stream to the deployment logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    InputStream streamDeploymentLogs();
+
+    /**
+     * @return a open stream to all logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    InputStream streamAllLogs();
+
+    /**
+     * @return an Observable streaming application logs
+     */
+    @Beta(SinceVersion.V1_6_0)
+    @Method
+    Observable<String> streamApplicationLogsAsync();
+
+    /**
+     * @return an Observable streaming HTTP logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    Observable<String> streamHttpLogsAsync();
+
+    /**
+     * @return an Observable streaming trace logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    Observable<String> streamTraceLogsAsync();
+
+    /**
+     * @return an Observable streaming deployment logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    Observable<String> streamDeploymentLogsAsync();
+
+    /**
+     * @return an Observable streaming all logs
+     */
+    @Beta(SinceVersion.V1_18_0)
+    @Method
+    Observable<String> streamAllLogsAsync();
 
     /**
      * Verifies the ownership of the domain for a certificate order by verifying a hostname
@@ -447,6 +564,36 @@ public interface WebAppBase extends
     @Method
     Completable resetSlotConfigurationsAsync();
 
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     */
+    @Beta(SinceVersion.V1_14_0)
+    void zipDeploy(File zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_14_0)
+    Completable zipDeployAsync(File zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     */
+    @Beta(SinceVersion.V1_14_0)
+    void zipDeploy(InputStream zipFile);
+
+    /**
+     * Deploys a ZIP file onto the Azure specialized Java SE image on this web app.
+     * @param zipFile the ZIP file to upload
+     * @return a completable of the operation
+     */
+    @Beta(SinceVersion.V1_14_0)
+    Completable zipDeployAsync(InputStream zipFile);
+
     /**************************************************************
      * Fluent interfaces to provision a Web App or deployment slot.
      **************************************************************/
@@ -459,7 +606,8 @@ public interface WebAppBase extends
     interface Definition<FluentT> extends
             DefinitionStages.WithWebContainer<FluentT>,
             DefinitionStages.WithCreate<FluentT>,
-            DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> {
+            DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate<FluentT>,
+            DefinitionStages.WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> {
     }
 
     /**
@@ -683,6 +831,34 @@ public interface WebAppBase extends
              * @return the next stage of the definition
              */
             WithCreate<FluentT> withoutDefaultDocument(String document);
+
+            /**
+             * Sets whether the web app only accepts HTTPS traffic.
+             * @param httpsOnly true if the web app only accepts HTTPS traffic
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withHttpsOnly(boolean httpsOnly);
+
+            /**
+             * Sets whether the web app accepts HTTP 2.0 traffic.
+             * @param http20Enabled true if the web app accepts HTTP 2.0 traffic
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withHttp20Enabled(boolean http20Enabled);
+
+            /**
+             * Sets whether the web app supports certain type of FTP(S).
+             * @param ftpsState the FTP(S) configuration
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withFtpsState(FtpsState ftpsState);
+
+            /**
+             * Sets the virtual applications in the web app.
+             * @param virtualApplications the list of virtual applications in the web app
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withVirtualApplications(List<VirtualApplication> virtualApplications);
         }
 
         /**
@@ -788,6 +964,13 @@ public interface WebAppBase extends
         @Beta(SinceVersion.V1_5_0)
         interface WithDiagnosticLogging<FluentT> {
             /**
+             * Specifies the definition of a new diagnostic logs configuration.
+             * @return the first stage of an diagnostic logs definition
+             */
+            @Beta(SinceVersion.V1_18_0)
+            WebAppDiagnosticLogs.DefinitionStages.Blank<WithCreate<FluentT>> defineDiagnosticLogsConfiguration();
+
+            /**
              * Specifies the configuration for container logging for Linux web apps.
              * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.
              * @param retentionDays maximum days of logs that will be available
@@ -815,7 +998,6 @@ public interface WebAppBase extends
          * A web app definition stage allowing System Assigned Managed Service Identity to be set.
          * @param <FluentT> the type of the resource
          */
-        @Beta(SinceVersion.V1_6_0)
         interface WithManagedServiceIdentity<FluentT> {
             /**
              * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app.
@@ -823,6 +1005,22 @@ public interface WebAppBase extends
              */
             @Method
             WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that User Assigned Managed Service Identity needs to be enabled in the web app.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withUserAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that System Assigned (Local) Managed Service Identity needs to be disabled.
+             *
+             * @return the next stage of the update
+             */
+            @Method
+            Update<FluentT> withoutSystemAssignedManagedServiceIdentity();
+
         }
 
         /**
@@ -830,7 +1028,6 @@ public interface WebAppBase extends
          * set access role for the identity.
          * @param <FluentT> the type of the resource
          */
-        @Beta(Beta.SinceVersion.V1_6_0)
         interface WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> extends WithCreate<FluentT> {
             /**
              * Specifies that web app's system assigned (local) identity should have the given access
@@ -874,6 +1071,34 @@ public interface WebAppBase extends
              * @return the next stage of the definition
              */
             WithSystemAssignedIdentityBasedAccessOrCreate<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
+
+        /**
+         * The stage of the web app update allowing to add User Assigned (External) Managed Service Identities.
+         */
+        interface WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> extends WithCreate<FluentT> {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the web app.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the definition.
+             */
+            WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the web app.
+             * @param identity the identity
+             * @return the next stage of the definition.
+             */
+            WithUserAssignedManagedServiceIdentityBasedAccessOrCreate<FluentT> withExistingUserAssignedManagedServiceIdentity(Identity identity);
+
+            /**
+             * Specifies that an user assigned identity associated with the web app should be removed.
+             *
+             * @param identityId ARM resource id of the identity
+             * @return the next stage of the virtual machine update
+             */
+            Update<FluentT> withoutUserAssignedManagedServiceIdentity(String identityId);
         }
 
         /**
@@ -1141,6 +1366,34 @@ public interface WebAppBase extends
              * @return the next stage of web app update
              */
             Update<FluentT> withoutDefaultDocument(String document);
+
+            /**
+             * Sets whether the web app only accepts HTTPS traffic.
+             * @param httpsOnly true if the web app only accepts HTTPS traffic
+             * @return the next stage of web app update
+             */
+            Update<FluentT> withHttpsOnly(boolean httpsOnly);
+
+            /**
+             * Sets whether the web app accepts HTTP 2.0 traffic.
+             * @param http20Enabled true if the web app accepts HTTP 2.0 traffic
+             * @return the next stage of web app update
+             */
+            Update<FluentT> withHttp20Enabled(boolean http20Enabled);
+
+            /**
+             * Sets whether the web app supports certain type of FTP(S).
+             * @param ftpsState the FTP(S) configuration
+             * @return the next stage of web app update
+             */
+            Update<FluentT> withFtpsState(FtpsState ftpsState);
+
+            /**
+             * Sets the virtual applications in the web app.
+             * @param virtualApplications the list of virtual applications in the web app
+             * @return the next stage of web app update
+             */
+            Update<FluentT> withVirtualApplications(List<VirtualApplication> virtualApplications);
         }
 
         /**
@@ -1288,6 +1541,13 @@ public interface WebAppBase extends
         @Beta(SinceVersion.V1_5_0)
         interface WithDiagnosticLogging<FluentT> {
             /**
+             * Specifies the update of an existing diagnostic logs configuration.
+             * @return the first stage of an diagnostic logs update
+             */
+            @Beta(SinceVersion.V1_18_0)
+            WebAppDiagnosticLogs.UpdateStages.Blank<Update<FluentT>> updateDiagnosticLogsConfiguration();
+
+            /**
              * Specifies the configuration for container logging for Linux web apps.
              * @param quotaInMB the limit that restricts file system usage by app diagnostics logs. Value can range from 25 MB and 100 MB.
              * @param retentionDays maximum days of logs that will be available
@@ -1315,7 +1575,6 @@ public interface WebAppBase extends
          * A web app definition stage allowing System Assigned Managed Service Identity to be set.
          * @param <FluentT> the type of the resource
          */
-        @Beta(SinceVersion.V1_6_0)
         interface WithManagedServiceIdentity<FluentT> {
             /**
              * Specifies that System Assigned Managed Service Identity needs to be enabled in the web app.
@@ -1323,6 +1582,13 @@ public interface WebAppBase extends
              */
             @Method
             Update<FluentT> withSystemAssignedManagedServiceIdentity();
+
+            /**
+             * Specifies that User Assigned Managed Service Identity needs to be enabled in the web app.
+             * @return the next stage of the web app definition
+             */
+            @Method
+            Update<FluentT> withUserAssignedManagedServiceIdentity();
         }
 
         /**
@@ -1330,7 +1596,6 @@ public interface WebAppBase extends
          * set access role for the identity.
          * @param <FluentT> the type of the resource
          */
-        @Beta(Beta.SinceVersion.V1_6_0)
         interface WithSystemAssignedIdentityBasedAccess<FluentT> {
             /**
              * Specifies that web app's system assigned (local) identity should have the given access
@@ -1375,6 +1640,26 @@ public interface WebAppBase extends
              */
             Update<FluentT> withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
+
+        /**
+         * The stage of the web app update allowing to add User Assigned (External) Managed Service Identities.
+         */
+        interface WithUserAssignedManagedServiceIdentityBasedAccess<FluentT> {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the web app.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the definition.
+             */
+            Update<FluentT> withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associated with the web app.
+             * @param identity the identity
+             * @return the next stage of the definition.
+             */
+            Update<FluentT> withExistingUserAssignedManagedServiceIdentity(Identity identity);
+        }
     }
 
     /**
@@ -1396,6 +1681,7 @@ public interface WebAppBase extends
         UpdateStages.WithAuthentication<FluentT>,
         UpdateStages.WithDiagnosticLogging<FluentT>,
         UpdateStages.WithManagedServiceIdentity<FluentT>,
-        UpdateStages.WithSystemAssignedIdentityBasedAccess<FluentT> {
+        UpdateStages.WithSystemAssignedIdentityBasedAccess<FluentT>,
+        UpdateStages.WithUserAssignedManagedServiceIdentityBasedAccess<FluentT> {
     }
 }

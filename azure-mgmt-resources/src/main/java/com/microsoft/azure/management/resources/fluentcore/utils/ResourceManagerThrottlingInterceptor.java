@@ -6,14 +6,20 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.microsoft.rest.DateTimeRfc1123;
 import okhttp3.Interceptor;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
+import org.joda.time.DateTime;
+import org.joda.time.Duration;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
@@ -26,15 +32,20 @@ import java.util.regex.Pattern;
  */
 public class ResourceManagerThrottlingInterceptor implements Interceptor {
     private static final String LOGGING_HEADER = "x-ms-logging-context";
-    private static final ReentrantLock REENTRANT_LOCK = new ReentrantLock();
+    private static final ConcurrentMap<String, ReentrantLock> REENTRANT_LOCK_MAP = new ConcurrentHashMap<>();
 
     @Override
     public Response intercept(Chain chain) throws IOException {
         // Gate control
+        String subscriptionId = ResourceUtils.extractFromResourceId(chain.request().url().url().getPath(), "subscriptions");
+        if (subscriptionId == null) {
+            subscriptionId = "global";
+        }
+        REENTRANT_LOCK_MAP.putIfAbsent(subscriptionId, new ReentrantLock());
         try {
-            synchronized (REENTRANT_LOCK) {
-                if (REENTRANT_LOCK.isLocked()) {
-                    REENTRANT_LOCK.wait();
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
+                if (REENTRANT_LOCK_MAP.get(subscriptionId).isLocked()) {
+                    REENTRANT_LOCK_MAP.get(subscriptionId).wait();
                 }
             }
         } catch (InterruptedException e) {
@@ -46,12 +57,12 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         }
 
         try {
-            synchronized (REENTRANT_LOCK) {
-                if (REENTRANT_LOCK.isLocked()) {
-                    REENTRANT_LOCK.wait();
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
+                if (REENTRANT_LOCK_MAP.get(subscriptionId).isLocked()) {
+                    REENTRANT_LOCK_MAP.get(subscriptionId).wait();
                     return chain.proceed(chain.request());
                 } else {
-                    REENTRANT_LOCK.lock();
+                    REENTRANT_LOCK_MAP.get(subscriptionId).lock();
                 }
             }
         } catch (InterruptedException e) {
@@ -62,13 +73,27 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
             String retryAfterHeader = response.header("Retry-After");
             int retryAfter = 0;
             if (retryAfterHeader != null) {
-                retryAfter = Integer.parseInt(retryAfterHeader);
+                DateTime retryWhen = null;
+                try {
+                    retryWhen = new DateTimeRfc1123(retryAfterHeader).dateTime();
+                } catch (Exception e) { }
+                if (retryWhen == null) {
+                    retryAfter = Integer.parseInt(retryAfterHeader);
+                } else {
+                    retryAfter = new Duration(null, retryWhen).toStandardSeconds().getSeconds();
+                }
             }
             if (retryAfter <= 0) {
                 Pattern pattern = Pattern.compile("try again after '([0-9]*)' minutes", Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(content(response.body()));
                 if (matcher.find()) {
                     retryAfter = (int) TimeUnit.MINUTES.toSeconds(Integer.parseInt(matcher.group(1)));
+                } else {
+                    pattern = Pattern.compile("try again after '([0-9]*)' seconds", Pattern.CASE_INSENSITIVE);
+                    matcher = pattern.matcher(content(response.body()));
+                    if (matcher.find()) {
+                        retryAfter = Integer.parseInt(matcher.group(1));
+                    }
                 }
             }
             if (retryAfter > 0) {
@@ -84,9 +109,12 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         } catch (Throwable t) {
             throw new IOException(t);
         } finally {
-            synchronized (REENTRANT_LOCK) {
-                REENTRANT_LOCK.unlock();
-                REENTRANT_LOCK.notifyAll();
+            if (response.body() != null) {
+                response.body().close();
+            }
+            synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
+                REENTRANT_LOCK_MAP.get(subscriptionId).unlock();
+                REENTRANT_LOCK_MAP.get(subscriptionId).notifyAll();
             }
         }
     }

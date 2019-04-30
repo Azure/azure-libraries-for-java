@@ -9,36 +9,37 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.compute.InstanceViewStatus;
+
+import java.util.List;
 
 /**
- * Run command operation response.
+ * The RunCommandResultInner model.
  */
-@JsonFlatten
-public class RunCommandResultInner extends OperationStatusResponseInner {
+public class RunCommandResultInner {
     /**
-     * Operation output data (raw JSON).
+     * Run command operation response.
      */
-    @JsonProperty(value = "properties.output")
-    private Object output;
+    @JsonProperty(value = "value")
+    private List<InstanceViewStatus> value;
 
     /**
-     * Get the output value.
+     * Get run command operation response.
      *
-     * @return the output value
+     * @return the value value
      */
-    public Object output() {
-        return this.output;
+    public List<InstanceViewStatus> value() {
+        return this.value;
     }
 
     /**
-     * Set the output value.
+     * Set run command operation response.
      *
-     * @param output the output value to set
+     * @param value the value value to set
      * @return the RunCommandResultInner object itself.
      */
-    public RunCommandResultInner withOutput(Object output) {
-        this.output = output;
+    public RunCommandResultInner withValue(List<InstanceViewStatus> value) {
+        this.value = value;
         return this;
     }
 

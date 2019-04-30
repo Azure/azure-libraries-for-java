@@ -39,7 +39,6 @@ public interface Webhook extends
     /**
      * @return the status of the webhook
      */
-    @Method
     boolean isEnabled();
 
     /**
@@ -51,37 +50,31 @@ public interface Webhook extends
      *  - 'foo' is equivalent to 'foo:latest'
      *  - empty means all events
      */
-    @Method
     String scope();
 
     /**
      * @return the service URI for the webhook to post notifications
      */
-    @Method
     String serviceUri();
 
     /**
      * @return the Custom headers that will be added to the webhook notifications
      */
-    @Method
     Map<String, String> customHeaders();
 
     /**
      * @return the list of actions that trigger the webhook to post notifications
      */
-    @Method
     Collection<WebhookAction> triggers();
 
     /**
      * @return the provisioning state of the webhook
      */
-    @Method
     ProvisioningState provisioningState();
 
     /**
      * @return the webhook parent ID
      */
-    @Method
     String parentId();
 
     /**

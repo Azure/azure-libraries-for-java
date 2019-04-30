@@ -31,7 +31,8 @@ public class ApplicationGatewayHttpListenerInner extends SubResource {
     private SubResource frontendPort;
 
     /**
-     * Protocol. Possible values include: 'Http', 'Https'.
+     * Protocol of the HTTP listener. Possible values are 'Http' and 'Https'.
+     * Possible values include: 'Http', 'Https'.
      */
     @JsonProperty(value = "properties.protocol")
     private ApplicationGatewayProtocol protocol;
@@ -62,8 +63,7 @@ public class ApplicationGatewayHttpListenerInner extends SubResource {
     private String provisioningState;
 
     /**
-     * Name of the resource that is unique within a resource group. This name
-     * can be used to access the resource.
+     * Name of the HTTP listener that is unique within an Application Gateway.
      */
     @JsonProperty(value = "name")
     private String name;

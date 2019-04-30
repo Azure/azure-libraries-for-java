@@ -49,6 +49,7 @@ public final class ManageAvailabilitySet {
         final String vnetName = Utils.createRandomName("vnet");
 
         final String userName = "tirekicker";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String password = "12NewPA$$w0rd!";
 
         try {
@@ -63,7 +64,7 @@ public final class ManageAvailabilitySet {
                     .withNewResourceGroup(rgName)
                     .withFaultDomainCount(2)
                     .withUpdateDomainCount(4)
-                    .withSku(AvailabilitySetSkuTypes.MANAGED)
+                    .withSku(AvailabilitySetSkuTypes.ALIGNED)
                     .withTag("cluster", "Windowslinux")
                     .withTag("tag1", "tag1val")
                     .create();

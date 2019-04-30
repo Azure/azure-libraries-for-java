@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.LocalNetworkGatewayInner;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -27,7 +28,8 @@ import java.util.Set;
 public interface LocalNetworkGateway extends
         GroupableResource<NetworkManager, LocalNetworkGatewayInner>,
         Refreshable<LocalNetworkGateway>,
-        Updatable<LocalNetworkGateway.Update> {
+        Updatable<LocalNetworkGateway.Update>,
+        UpdatableWithTags<LocalNetworkGateway> {
 
     // Getters
 

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.sql;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
@@ -103,5 +104,35 @@ public interface ElasticPoolActivity extends
      * @return the current state of the operation
      */
     String state();
+
+    /**
+     * @return the geo-location where the resource lives.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    String location();
+
+    /**
+     * @return the requested storage limit in MB.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    int requestedStorageLimitInMB();
+
+    /**
+     * @return he requested per database DTU guarantee.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    int requestedDatabaseDtuGuarantee();
+
+    /**
+     * @return the requested per database DTU cap.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    int requestedDatabaseDtuCap();
+
+    /**
+     * @return the requested DTU guarantee.
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    int requestedDtuGuarantee();
 }
 

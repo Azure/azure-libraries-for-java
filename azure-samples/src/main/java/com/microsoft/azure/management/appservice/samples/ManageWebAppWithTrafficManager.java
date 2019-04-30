@@ -39,6 +39,7 @@ import java.util.concurrent.TimeUnit;
  */
 public final class ManageWebAppWithTrafficManager {
     private static final String RG_NAME = SdkContext.randomResourceName("rgNEMV_", 24);
+    // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
     private static final String CERT_PASSWORD = "StrongPass!12";
 
     private static OkHttpClient httpClient;

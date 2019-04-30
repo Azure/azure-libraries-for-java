@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.network.implementation.VirtualNetworkGatewayConnectionInner;
+import com.microsoft.azure.management.network.model.UpdatableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -29,6 +30,7 @@ public interface VirtualNetworkGatewayConnection extends
         IndependentChildResource<NetworkManager, VirtualNetworkGatewayConnectionInner>,
         Refreshable<VirtualNetworkGatewayConnection>,
         Updatable<VirtualNetworkGatewayConnection.Update>,
+        UpdatableWithTags<VirtualNetworkGatewayConnection>,
         HasParent<VirtualNetworkGateway> {
 
     /**

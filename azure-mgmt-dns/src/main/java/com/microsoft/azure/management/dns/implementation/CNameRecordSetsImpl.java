@@ -31,7 +31,10 @@ class CNameRecordSetsImpl
                 this.dnsZone.name(),
                 name,
                 this.recordType);
-        return new CNameRecordSetImpl(this.dnsZone, inner);
+        if (inner == null) {
+            return null;
+        }
+        return new CNameRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 
     @Override
@@ -57,6 +60,6 @@ class CNameRecordSetsImpl
         if (inner == null) {
             return null;
         }
-        return new CNameRecordSetImpl(this.dnsZone, inner);
+        return new CNameRecordSetImpl(inner.name(), this.dnsZone, inner);
     }
 }

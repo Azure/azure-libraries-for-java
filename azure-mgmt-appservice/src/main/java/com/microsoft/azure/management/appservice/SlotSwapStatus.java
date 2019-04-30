@@ -12,7 +12,7 @@ import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The status of the last successfull slot swap operation.
+ * The status of the last successful slot swap operation.
  */
 public class SlotSwapStatus {
     /**
@@ -34,7 +34,7 @@ public class SlotSwapStatus {
     private String destinationSlotName;
 
     /**
-     * Get the timestampUtc value.
+     * Get the time the last successful slot swap completed.
      *
      * @return the timestampUtc value
      */
@@ -43,7 +43,7 @@ public class SlotSwapStatus {
     }
 
     /**
-     * Get the sourceSlotName value.
+     * Get the source slot of the last swap operation.
      *
      * @return the sourceSlotName value
      */
@@ -52,7 +52,7 @@ public class SlotSwapStatus {
     }
 
     /**
-     * Get the destinationSlotName value.
+     * Get the destination slot of the last swap operation.
      *
      * @return the destinationSlotName value
      */

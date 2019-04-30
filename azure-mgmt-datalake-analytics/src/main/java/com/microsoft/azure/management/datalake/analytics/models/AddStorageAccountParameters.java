@@ -12,26 +12,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
- * Storage account parameters for a storage account being added to a Data Lake
- * Analytics account.
+ * The parameters used to add a new Azure Storage account.
  */
 @JsonFlatten
 public class AddStorageAccountParameters {
     /**
-     * the access key associated with this Azure Storage account that will be
+     * The access key associated with this Azure Storage account that will be
      * used to connect to it.
      */
     @JsonProperty(value = "properties.accessKey", required = true)
     private String accessKey;
 
     /**
-     * the optional suffix for the storage account.
+     * The optional suffix for the storage account.
      */
     @JsonProperty(value = "properties.suffix")
     private String suffix;
 
     /**
-     * Get the accessKey value.
+     * Get the access key associated with this Azure Storage account that will be used to connect to it.
      *
      * @return the accessKey value
      */
@@ -40,7 +39,7 @@ public class AddStorageAccountParameters {
     }
 
     /**
-     * Set the accessKey value.
+     * Set the access key associated with this Azure Storage account that will be used to connect to it.
      *
      * @param accessKey the accessKey value to set
      * @return the AddStorageAccountParameters object itself.
@@ -51,7 +50,7 @@ public class AddStorageAccountParameters {
     }
 
     /**
-     * Get the suffix value.
+     * Get the optional suffix for the storage account.
      *
      * @return the suffix value
      */
@@ -60,7 +59,7 @@ public class AddStorageAccountParameters {
     }
 
     /**
-     * Set the suffix value.
+     * Set the optional suffix for the storage account.
      *
      * @param suffix the suffix value to set
      * @return the AddStorageAccountParameters object itself.

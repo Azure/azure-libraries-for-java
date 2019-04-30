@@ -8,52 +8,34 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for ProcessorArchitecture.
  */
-public final class ProcessorArchitecture {
+public final class ProcessorArchitecture extends ExpandableStringEnum<ProcessorArchitecture> {
     /** Static value Amd64 for ProcessorArchitecture. */
-    public static final ProcessorArchitecture AMD64 = new ProcessorArchitecture("Amd64");
+    public static final ProcessorArchitecture AMD64 = fromString("Amd64");
 
     /** Static value X86 for ProcessorArchitecture. */
-    public static final ProcessorArchitecture X86 = new ProcessorArchitecture("X86");
-
-    private String value;
+    public static final ProcessorArchitecture X86 = fromString("X86");
 
     /**
-     * Creates a custom value for ProcessorArchitecture.
-     * @param value the custom value
+     * Creates or finds a ProcessorArchitecture from its string representation.
+     * @param name a name to look for
+     * @return the corresponding ProcessorArchitecture
      */
-    public ProcessorArchitecture(String value) {
-        this.value = value;
+    @JsonCreator
+    public static ProcessorArchitecture fromString(String name) {
+        return fromString(name, ProcessorArchitecture.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ProcessorArchitecture)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        ProcessorArchitecture rhs = (ProcessorArchitecture) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known ProcessorArchitecture values
+     */
+    public static Collection<ProcessorArchitecture> values() {
+        return values(ProcessorArchitecture.class);
     }
 }

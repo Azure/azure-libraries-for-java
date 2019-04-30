@@ -11,6 +11,7 @@ import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.DataDisk;
 import com.microsoft.azure.management.compute.DiagnosticsProfile;
 import com.microsoft.azure.management.compute.ImageReference;
+import com.microsoft.azure.management.compute.NetworkInterfaceReference;
 import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.PowerState;
@@ -61,7 +62,20 @@ class VirtualMachineScaleSetVMImpl
         super(inner, parent);
         this.client = client;
         this.computeManager = computeManager;
-        this.virtualMachineInstanceView = this.inner().instanceView();
+        VirtualMachineScaleSetVMInstanceViewInner instanceViewInner = this.inner().instanceView();
+        if (instanceViewInner != null) {
+            this.virtualMachineInstanceView = new VirtualMachineInstanceViewImpl(new VirtualMachineInstanceViewInner()
+                    .withBootDiagnostics(instanceViewInner.bootDiagnostics())
+                    .withDisks(instanceViewInner.disks())
+                    .withExtensions(instanceViewInner.extensions())
+                    .withPlatformFaultDomain(instanceViewInner.platformFaultDomain())
+                    .withPlatformUpdateDomain(instanceViewInner.platformUpdateDomain())
+                    .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
+                    .withStatuses(instanceViewInner.statuses())
+                    .withVmAgent(instanceViewInner.vmAgent()));
+        } else {
+            this.virtualMachineInstanceView = null;
+        }
     }
 
     @Override
@@ -125,7 +139,7 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public boolean isOSBasedOnPlatformImage() {
-        ImageReferenceInner imageReference = this.inner().storageProfile().imageReference();
+        ImageReference imageReference = this.inner().storageProfile().imageReference();
         if (imageReference != null
                 && imageReference.publisher() != null
                 && imageReference.sku() != null
@@ -138,7 +152,7 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public  boolean isOSBasedOnCustomImage() {
-        ImageReferenceInner imageReference = this.inner().storageProfile().imageReference();
+        ImageReference imageReference = this.inner().storageProfile().imageReference();
         if (imageReference != null
                 && imageReference.id() != null) {
             return true;
@@ -158,7 +172,7 @@ class VirtualMachineScaleSetVMImpl
     @Override
     public ImageReference platformImageReference() {
         if (isOSBasedOnPlatformImage()) {
-            return new ImageReference(this.inner().storageProfile().imageReference());
+            return this.inner().storageProfile().imageReference();
         }
         return null;
     }
@@ -179,7 +193,7 @@ class VirtualMachineScaleSetVMImpl
     @Override
     public VirtualMachineCustomImage getOSCustomImage() {
         if (this.isOSBasedOnCustomImage()) {
-            ImageReferenceInner imageReference = this.inner().storageProfile().imageReference();
+            ImageReference imageReference = this.inner().storageProfile().imageReference();
             return this.computeManager.virtualMachineCustomImages().getById(imageReference.id());
         }
         return null;
@@ -328,7 +342,7 @@ class VirtualMachineScaleSetVMImpl
     @Override
     public List<String> networkInterfaceIds() {
         List<String> resourceIds = new ArrayList<>();
-        for (NetworkInterfaceReferenceInner reference : this.inner().networkProfile().networkInterfaces()) {
+        for (NetworkInterfaceReference reference : this.inner().networkProfile().networkInterfaces()) {
             resourceIds.add(reference.id());
         }
         return Collections.unmodifiableList(resourceIds);
@@ -336,7 +350,7 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public String primaryNetworkInterfaceId() {
-        for (NetworkInterfaceReferenceInner reference : this.inner().networkProfile().networkInterfaces()) {
+        for (NetworkInterfaceReference reference : this.inner().networkProfile().networkInterfaces()) {
             if (reference.primary() != null && reference.primary()) {
                 return reference.id();
             }
@@ -391,7 +405,7 @@ class VirtualMachineScaleSetVMImpl
                 @Override
                 public VirtualMachineInstanceView call(VirtualMachineScaleSetVMInstanceViewInner instanceViewInner) {
                     if (instanceViewInner != null) {
-                        virtualMachineInstanceView = new VirtualMachineInstanceView()
+                        virtualMachineInstanceView = new VirtualMachineInstanceViewImpl(new VirtualMachineInstanceViewInner()
                             .withBootDiagnostics(instanceViewInner.bootDiagnostics())
                             .withDisks(instanceViewInner.disks())
                             .withExtensions(instanceViewInner.extensions())
@@ -399,7 +413,7 @@ class VirtualMachineScaleSetVMImpl
                             .withPlatformUpdateDomain(instanceViewInner.platformUpdateDomain())
                             .withRdpThumbPrint(instanceViewInner.rdpThumbPrint())
                             .withStatuses(instanceViewInner.statuses())
-                            .withVmAgent(instanceViewInner.vmAgent());
+                            .withVmAgent(instanceViewInner.vmAgent()));
                     }
                     return virtualMachineInstanceView;
                 }

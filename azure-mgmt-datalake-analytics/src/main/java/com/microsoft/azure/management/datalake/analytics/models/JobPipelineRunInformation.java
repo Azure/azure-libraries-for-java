@@ -17,19 +17,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class JobPipelineRunInformation {
     /**
-     * the run identifier of an instance of pipeline executions (a GUID).
+     * The run identifier of an instance of pipeline executions (a GUID).
      */
     @JsonProperty(value = "runId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID runId;
 
     /**
-     * the time this instance was last submitted.
+     * The time this instance was last submitted.
      */
     @JsonProperty(value = "lastSubmitTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime lastSubmitTime;
 
     /**
-     * Get the runId value.
+     * Get the run identifier of an instance of pipeline executions (a GUID).
      *
      * @return the runId value
      */
@@ -38,7 +38,7 @@ public class JobPipelineRunInformation {
     }
 
     /**
-     * Get the lastSubmitTime value.
+     * Get the time this instance was last submitted.
      *
      * @return the lastSubmitTime value
      */

@@ -14,8 +14,11 @@ import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppSetting;
 import com.microsoft.azure.management.appservice.ConnectionString;
+import com.microsoft.azure.management.appservice.CsmSlotEntity;
 import com.microsoft.azure.management.appservice.HostNameBinding;
+import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.PublishingProfile;
+import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebAppSourceControl;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
@@ -35,7 +38,7 @@ import java.util.Map;
  * The implementation for DeploymentSlot.
  */
 @LangDefinition(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
-class DeploymentSlotBaseImpl<
+abstract class DeploymentSlotBaseImpl<
         FluentT extends WebAppBase,
         FluentImplT extends DeploymentSlotBaseImpl<FluentT, FluentImplT, ParentImplT, FluentWithCreateT, FluentUpdateT>,
         ParentImplT extends AppServiceBaseImpl<?, ?, ?, ?>,
@@ -46,8 +49,8 @@ class DeploymentSlotBaseImpl<
     private final String name;
     WebAppBase configurationSource;
 
-    DeploymentSlotBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, final ParentImplT parent) {
-        super(name.replaceAll(".*/", ""), innerObject, configObject, parent.manager());
+    DeploymentSlotBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, final ParentImplT parent) {
+        super(name.replaceAll(".*/", ""), innerObject, siteConfig, logConfig, parent.manager());
         this.name = name.replaceAll(".*/", "");
         this.parent = parent;
         inner().withServerFarmId(parent.appServicePlanId());
@@ -99,7 +102,7 @@ class DeploymentSlotBaseImpl<
     }
 
     public Observable<PublishingProfile> getPublishingProfileAsync() {
-        return manager().inner().webApps().listPublishingProfileXmlWithSecretsSlotAsync(resourceGroupName(), this.parent().name(), name())
+        return manager().inner().webApps().listPublishingProfileXmlWithSecretsSlotAsync(resourceGroupName(), this.parent().name(), name(), null)
                 .map(new Func1<InputStream, PublishingProfile>() {
                     @Override
                     public PublishingProfile call(InputStream stream) {
@@ -179,7 +182,7 @@ class DeploymentSlotBaseImpl<
             @Override
             public Observable<Indexable> call(WebAppBase webAppBase) {
                 if (webAppBase == null || !isInCreateMode()) {
-                    return Observable.just((Indexable) DeploymentSlotBaseImpl.this);
+                    return DeploymentSlotBaseImpl.super.submitAppSettings();
                 }
                 return webAppBase.getAppSettingsAsync().flatMap(new Func1<Map<String, AppSetting>, Observable<Indexable>>() {
                     @Override
@@ -203,7 +206,7 @@ class DeploymentSlotBaseImpl<
             @Override
             public Observable<Indexable> call(WebAppBase webAppBase) {
                 if (webAppBase == null || !isInCreateMode()) {
-                    return Observable.just((Indexable) DeploymentSlotBaseImpl.this);
+                    return DeploymentSlotBaseImpl.super.submitConnectionStrings();
                 }
                 return webAppBase.getConnectionStringsAsync().flatMap(new Func1<Map<String, ConnectionString>, Observable<Indexable>>() {
                     @Override
@@ -230,6 +233,11 @@ class DeploymentSlotBaseImpl<
     @Override
     Observable<SiteInner> createOrUpdateInner(SiteInner site) {
         return manager().inner().webApps().createOrUpdateSlotAsync(resourceGroupName(), this.parent().name(), name(), site);
+    }
+
+    @Override
+    Observable<SiteInner> updateInner(SitePatchResource siteUpdate) {
+        return manager().inner().webApps().updateSlotAsync(resourceGroupName(), this.parent().name(), name(), siteUpdate);
     }
 
     @Override
@@ -294,7 +302,7 @@ class DeploymentSlotBaseImpl<
 
     @Override
     public Completable swapAsync(String slotName) {
-        return manager().inner().webApps().swapSlotSlotAsync(resourceGroupName(), this.parent().name(), name(), new CsmSlotEntityInner().withTargetSlot(slotName))
+        return manager().inner().webApps().swapSlotSlotAsync(resourceGroupName(), this.parent().name(), name(), new CsmSlotEntity().withTargetSlot(slotName))
                 .flatMap(new Func1<Void, Observable<?>>() {
                     @Override
                     public Observable<?> call(Void aVoid) {
@@ -310,7 +318,7 @@ class DeploymentSlotBaseImpl<
 
     @Override
     public Completable applySlotConfigurationsAsync(String slotName) {
-        return manager().inner().webApps().applySlotConfigurationSlotAsync(resourceGroupName(), this.parent().name(), name(), new CsmSlotEntityInner().withTargetSlot(slotName))
+        return manager().inner().webApps().applySlotConfigurationSlotAsync(resourceGroupName(), this.parent().name(), name(), new CsmSlotEntity().withTargetSlot(slotName))
                 .flatMap(new Func1<Void, Observable<?>>() {
                     @Override
                     public Observable<?> call(Void aVoid) {
@@ -356,7 +364,7 @@ class DeploymentSlotBaseImpl<
     }
 
     @Override
-    Observable<MSDeployStatusInner> createMSDeploy(MSDeployInner msDeployInner) {
+    Observable<MSDeployStatusInner> createMSDeploy(MSDeploy msDeployInner) {
         return parent().manager().inner().webApps()
                 .createMSDeployOperationAsync(parent().resourceGroupName(), parent().name(), msDeployInner);
     }
@@ -404,7 +412,7 @@ class DeploymentSlotBaseImpl<
 
     @Override
     public Observable<byte[]> getContainerLogsZipAsync() {
-        return manager().inner().webApps().getWebSiteContainerLogsZipSlotAsync(resourceGroupName(), parent().name(), name())
+        return manager().inner().webApps().getContainerLogsZipSlotAsync(resourceGroupName(), parent().name(), name())
                 .map(new Func1<InputStream, byte[]>() {
                     @Override
                     public byte[] call(InputStream inputStream) {

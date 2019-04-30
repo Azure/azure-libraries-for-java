@@ -8,61 +8,43 @@
 
 package com.microsoft.azure.management.network;
 
-import com.fasterxml.jackson.annotation.JsonValue;
+import java.util.Collection;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for BgpPeerState.
  */
-public final class BgpPeerState {
+public final class BgpPeerState extends ExpandableStringEnum<BgpPeerState> {
     /** Static value Unknown for BgpPeerState. */
-    public static final BgpPeerState UNKNOWN = new BgpPeerState("Unknown");
+    public static final BgpPeerState UNKNOWN = fromString("Unknown");
 
     /** Static value Stopped for BgpPeerState. */
-    public static final BgpPeerState STOPPED = new BgpPeerState("Stopped");
+    public static final BgpPeerState STOPPED = fromString("Stopped");
 
     /** Static value Idle for BgpPeerState. */
-    public static final BgpPeerState IDLE = new BgpPeerState("Idle");
+    public static final BgpPeerState IDLE = fromString("Idle");
 
     /** Static value Connecting for BgpPeerState. */
-    public static final BgpPeerState CONNECTING = new BgpPeerState("Connecting");
+    public static final BgpPeerState CONNECTING = fromString("Connecting");
 
     /** Static value Connected for BgpPeerState. */
-    public static final BgpPeerState CONNECTED = new BgpPeerState("Connected");
-
-    private String value;
+    public static final BgpPeerState CONNECTED = fromString("Connected");
 
     /**
-     * Creates a custom value for BgpPeerState.
-     * @param value the custom value
+     * Creates or finds a BgpPeerState from its string representation.
+     * @param name a name to look for
+     * @return the corresponding BgpPeerState
      */
-    public BgpPeerState(String value) {
-        this.value = value;
+    @JsonCreator
+    public static BgpPeerState fromString(String name) {
+        return fromString(name, BgpPeerState.class);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return value;
-    }
-
-    @Override
-    public int hashCode() {
-        return value.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof BgpPeerState)) {
-            return false;
-        }
-        if (obj == this) {
-            return true;
-        }
-        BgpPeerState rhs = (BgpPeerState) obj;
-        if (value == null) {
-            return rhs.value == null;
-        } else {
-            return value.equals(rhs.value);
-        }
+    /**
+     * @return known BgpPeerState values
+     */
+    public static Collection<BgpPeerState> values() {
+        return values(BgpPeerState.class);
     }
 }

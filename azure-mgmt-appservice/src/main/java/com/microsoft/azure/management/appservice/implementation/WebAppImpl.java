@@ -17,6 +17,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import rx.Completable;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * The implementation for WebApp.
@@ -39,11 +42,9 @@ class WebAppImpl
     private static final String SETTING_REGISTRY_PASSWORD = "DOCKER_REGISTRY_SERVER_PASSWORD";
 
     private DeploymentSlots deploymentSlots;
-    private KuduClient kuduClient;
 
-    WebAppImpl(String name, SiteInner innerObject, SiteConfigResourceInner configObject, AppServiceManager manager) {
-        super(name, innerObject, configObject, manager);
-        kuduClient = new KuduClient(this);
+    WebAppImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
+        super(name, innerObject, siteConfig, logConfig, manager);
     }
 
     @Override
@@ -181,11 +182,68 @@ class WebAppImpl
 
     @Override
     public Completable warDeployAsync(File warFile) {
-        return kuduClient.warDeployAsync(warFile);
+        return warDeployAsync(warFile, null);
     }
 
     @Override
     public void warDeploy(File warFile) {
         warDeployAsync(warFile).await();
+    }
+
+    @Override
+    public Completable warDeployAsync(InputStream warFile) {
+        return warDeployAsync(warFile, null);
+    }
+
+    @Override
+    public void warDeploy(InputStream warFile) {
+        warDeployAsync(warFile).await();
+    }
+
+    @Override
+    public Completable warDeployAsync(File warFile, String appName) {
+        try {
+            return warDeployAsync(new FileInputStream(warFile), appName);
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    @Override
+    public void warDeploy(File warFile, String appName) {
+        warDeployAsync(warFile, appName).await();
+    }
+    @Override
+    public void warDeploy(InputStream warFile, String appName) {
+        warDeployAsync(warFile, appName).await();
+    }
+
+    @Override
+    public Completable warDeployAsync(InputStream warFile, String appName) {
+        return kuduClient.warDeployAsync(warFile, appName);
+    }
+
+    @Override
+    public Completable zipDeployAsync(File zipFile) {
+        try {
+            return zipDeployAsync(new FileInputStream(zipFile));
+        } catch (IOException e) {
+            return Completable.error(e);
+        }
+    }
+
+    @Override
+    public void zipDeploy(File zipFile) {
+        zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    public Completable zipDeployAsync(InputStream zipFile) {
+        return kuduClient.zipDeployAsync(zipFile).concatWith(WebAppImpl.this.stopAsync()).concatWith(WebAppImpl.this.startAsync());
+    }
+
+    @Override
+    public void zipDeploy(InputStream zipFile) {
+        zipDeployAsync(zipFile).await();
     }
 }

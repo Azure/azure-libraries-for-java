@@ -21,6 +21,22 @@ import java.util.List;
 public interface MetricCollection
         extends HasInner<ResponseInner> {
     /**
+     * Get the namespace value.
+     *
+     * @return the namespace value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    String namespace();
+
+    /**
+     * Get the resource region value.
+     *
+     * @return the resource region value
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    String resourceRegion();
+
+    /**
      * Get the cost value.
      *
      * @return the cost value

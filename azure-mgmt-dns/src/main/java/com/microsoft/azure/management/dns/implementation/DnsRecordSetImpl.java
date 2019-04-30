@@ -9,6 +9,7 @@ import com.google.common.base.Splitter;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.dns.ARecord;
 import com.microsoft.azure.management.dns.AaaaRecord;
+import com.microsoft.azure.management.dns.CaaRecord;
 import com.microsoft.azure.management.dns.CnameRecord;
 import com.microsoft.azure.management.dns.DnsRecordSet;
 import com.microsoft.azure.management.dns.DnsZone;
@@ -41,15 +42,16 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
             DnsRecordSet.UpdateDefinition<DnsZone.Update>,
             DnsRecordSet.UpdateCombined {
     protected final RecordSetInner recordSetRemoveInfo;
+    protected final String type;
     private final ETagState eTagState = new ETagState();
 
-    protected DnsRecordSetImpl(final DnsZoneImpl parent, final RecordSetInner innerModel) {
-        super(innerModel.name(), parent, innerModel);
+    protected DnsRecordSetImpl(String name, String type, final DnsZoneImpl parent, final RecordSetInner innerModel) {
+        super(name, parent, innerModel);
+        this.type = type;
         this.recordSetRemoveInfo = new RecordSetInner()
-            .withName(innerModel.name())
-            .withType(innerModel.type())
             .withARecords(new ArrayList<ARecord>())
             .withAaaaRecords(new ArrayList<AaaaRecord>())
+            .withCaaRecords(new ArrayList<CaaRecord>())
             .withCnameRecord(new CnameRecord())
             .withMxRecords(new ArrayList<MxRecord>())
             .withNsRecords(new ArrayList<NsRecord>())
@@ -66,7 +68,7 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
 
     @Override
     public RecordType recordType() {
-        String fullyQualifiedType = this.inner().type();
+        String fullyQualifiedType = this.type;
         String[] parts = fullyQualifiedType.split("/");
         return RecordType.fromString(parts[parts.length - 1]);
     }
@@ -82,6 +84,11 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
             return Collections.unmodifiableMap(new LinkedHashMap<String, String>());
         }
         return Collections.unmodifiableMap(this.inner().metadata());
+    }
+
+    @Override
+    public String fqdn() {
+        return this.inner().fqdn();
     }
 
     @Override
@@ -176,6 +183,25 @@ class DnsRecordSetImpl extends ExternalChildResourceImpl<DnsRecordSet,
         this.recordSetRemoveInfo
                 .ptrRecords()
                 .add(new PtrRecord().withPtrdname(targetDomainName));
+        return this;
+    }
+
+    @Override
+    public DnsRecordSetImpl withRecord(int flags, String tag, String value) {
+        this.inner().caaRecords().add(new CaaRecord()
+                .withFlags(flags)
+                .withTag(tag)
+                .withValue(value));
+        return this;
+    }
+
+    @Override
+    public DnsRecordSetImpl withoutRecord(int flags, String tag, String value) {
+        this.recordSetRemoveInfo.
+                caaRecords().add(new CaaRecord()
+                .withFlags(flags)
+                .withTag(tag)
+                .withValue(value));
         return this;
     }
 

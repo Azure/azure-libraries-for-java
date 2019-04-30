@@ -105,7 +105,7 @@ public class USqlType extends CatalogItem {
     private Boolean isComplexType;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database.
      *
      * @return the databaseName value
      */
@@ -114,7 +114,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the name of the database.
      *
      * @param databaseName the databaseName value to set
      * @return the USqlType object itself.
@@ -125,7 +125,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the schemaName value.
+     * Get the name of the schema associated with this table and database.
      *
      * @return the schemaName value
      */
@@ -134,7 +134,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the schemaName value.
+     * Set the name of the schema associated with this table and database.
      *
      * @param schemaName the schemaName value to set
      * @return the USqlType object itself.
@@ -145,7 +145,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the name value.
+     * Get the name of type for this type.
      *
      * @return the name value
      */
@@ -154,7 +154,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the name value.
+     * Set the name of type for this type.
      *
      * @param name the name value to set
      * @return the USqlType object itself.
@@ -165,7 +165,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the typeFamily value.
+     * Get the type family for this type.
      *
      * @return the typeFamily value
      */
@@ -174,7 +174,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the typeFamily value.
+     * Set the type family for this type.
      *
      * @param typeFamily the typeFamily value to set
      * @return the USqlType object itself.
@@ -185,7 +185,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the cSharpName value.
+     * Get the C# name for this type.
      *
      * @return the cSharpName value
      */
@@ -194,7 +194,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the cSharpName value.
+     * Set the C# name for this type.
      *
      * @param cSharpName the cSharpName value to set
      * @return the USqlType object itself.
@@ -205,7 +205,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the fullCSharpName value.
+     * Get the fully qualified C# name for this type.
      *
      * @return the fullCSharpName value
      */
@@ -214,7 +214,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the fullCSharpName value.
+     * Set the fully qualified C# name for this type.
      *
      * @param fullCSharpName the fullCSharpName value to set
      * @return the USqlType object itself.
@@ -225,7 +225,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the systemTypeId value.
+     * Get the system type ID for this type.
      *
      * @return the systemTypeId value
      */
@@ -234,7 +234,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the systemTypeId value.
+     * Set the system type ID for this type.
      *
      * @param systemTypeId the systemTypeId value to set
      * @return the USqlType object itself.
@@ -245,7 +245,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the userTypeId value.
+     * Get the user type ID for this type.
      *
      * @return the userTypeId value
      */
@@ -254,7 +254,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the userTypeId value.
+     * Set the user type ID for this type.
      *
      * @param userTypeId the userTypeId value to set
      * @return the USqlType object itself.
@@ -265,7 +265,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the schemaId value.
+     * Get the schema ID for this type.
      *
      * @return the schemaId value
      */
@@ -274,7 +274,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the schemaId value.
+     * Set the schema ID for this type.
      *
      * @param schemaId the schemaId value to set
      * @return the USqlType object itself.
@@ -285,7 +285,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the principalId value.
+     * Get the principal ID for this type.
      *
      * @return the principalId value
      */
@@ -294,7 +294,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the principalId value.
+     * Set the principal ID for this type.
      *
      * @param principalId the principalId value to set
      * @return the USqlType object itself.
@@ -305,7 +305,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the isNullable value.
+     * Get the the switch indicating if this type is nullable.
      *
      * @return the isNullable value
      */
@@ -314,7 +314,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the isNullable value.
+     * Set the the switch indicating if this type is nullable.
      *
      * @param isNullable the isNullable value to set
      * @return the USqlType object itself.
@@ -325,7 +325,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the isUserDefined value.
+     * Get the the switch indicating if this type is user defined.
      *
      * @return the isUserDefined value
      */
@@ -334,7 +334,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the isUserDefined value.
+     * Set the the switch indicating if this type is user defined.
      *
      * @param isUserDefined the isUserDefined value to set
      * @return the USqlType object itself.
@@ -345,7 +345,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the isAssemblyType value.
+     * Get the the switch indicating if this type is an assembly type.
      *
      * @return the isAssemblyType value
      */
@@ -354,7 +354,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the isAssemblyType value.
+     * Set the the switch indicating if this type is an assembly type.
      *
      * @param isAssemblyType the isAssemblyType value to set
      * @return the USqlType object itself.
@@ -365,7 +365,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the isTableType value.
+     * Get the the switch indicating if this type is a table type.
      *
      * @return the isTableType value
      */
@@ -374,7 +374,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the isTableType value.
+     * Set the the switch indicating if this type is a table type.
      *
      * @param isTableType the isTableType value to set
      * @return the USqlType object itself.
@@ -385,7 +385,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Get the isComplexType value.
+     * Get the the switch indicating if this type is a complex type.
      *
      * @return the isComplexType value
      */
@@ -394,7 +394,7 @@ public class USqlType extends CatalogItem {
     }
 
     /**
-     * Set the isComplexType value.
+     * Set the the switch indicating if this type is a complex type.
      *
      * @param isComplexType the isComplexType value to set
      * @return the USqlType object itself.

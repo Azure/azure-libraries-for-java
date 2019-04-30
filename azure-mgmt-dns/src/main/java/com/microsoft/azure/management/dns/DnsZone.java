@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.dns;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.dns.implementation.DnsZoneManager;
@@ -41,6 +42,24 @@ public interface DnsZone extends
      * @return the etag associated with this zone.
      */
     String eTag();
+
+    /**
+     * @return the access type of this zone (Private or Public).
+     */
+    @Beta(Beta.SinceVersion.V1_9_0)
+    ZoneType accessType();
+
+    /**
+     * @return a list of references to virtual networks that register hostnames in this DNS zone for Private DNS zone.
+     */
+    @Beta(Beta.SinceVersion.V1_9_0)
+    List<String> registrationVirtualNetworkIds();
+
+    /**
+     * @return a list of references to virtual networks that resolve records in this DNS zone for Private DNS zone.
+     */
+    @Beta(Beta.SinceVersion.V1_9_0)
+    List<String> resolutionVirtualNetworkIds();
 
     /**
      * @return the record sets in this zone.
@@ -88,6 +107,12 @@ public interface DnsZone extends
      * @return entry point to manage record sets in this zone containing AAAA (IPv6 address) records
      */
     AaaaRecordSets aaaaRecordSets();
+
+    /**
+     * @return entry point to manage record sets in this zone containing Caa (canonical name) records
+     */
+    @Beta
+    CaaRecordSets caaRecordSets();
 
     /**
      * @return entry point to manage record sets in this zone containing CNAME (canonical name) records
@@ -163,6 +188,15 @@ public interface DnsZone extends
             DnsRecordSet.DefinitionStages.AaaaRecordSetBlank<WithCreate> defineAaaaRecordSet(String name);
 
             /**
+             * Specifies definition of a Caa record set.
+             *
+             * @param name the name of the Caa record set
+             * @return the stage representing configuration for the Caa record set
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            DnsRecordSet.DefinitionStages.CaaRecordSetBlank<WithCreate> defineCaaRecordSet(String name);
+
+            /**
              * Specifies definition of a CNAME record set.
              *
              * @param name name of the CNAME record set
@@ -233,6 +267,40 @@ public interface DnsZone extends
         }
 
         /**
+         * The stage of the DNS zone definition allowing to specify Zone access type.
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface WithZoneType {
+            /**
+             * Sets the type of this zone to Public (default behavior).
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            @Method
+            WithCreate withPublicAccess();
+
+            /**
+             * Sets the type of this zone to Private.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            @Method
+            WithCreate withPrivateAccess();
+
+            /**
+             * Sets the type of this zone to Private.
+             *
+             * @param registrationVirtualNetworkIds a list of references to virtual networks that register hostnames in this DNS zone.
+             * @param resolutionVirtualNetworkIds a list of references to virtual networks that resolve records in this DNS zone.
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            WithCreate withPrivateAccess(List<String> registrationVirtualNetworkIds,  List<String> resolutionVirtualNetworkIds);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          * (via {@link WithCreate#create()}), but also allows for any other optional settings to be specified.
          */
@@ -240,6 +308,7 @@ public interface DnsZone extends
                 Creatable<DnsZone>,
                 DefinitionStages.WithRecordSet,
                 DefinitionStages.WithETagCheck,
+                DefinitionStages.WithZoneType,
                 Resource.DefinitionWithTags<WithCreate> {
         }
     }
@@ -267,6 +336,15 @@ public interface DnsZone extends
              * @return the stage representing configuration for the AAAA record set
              */
             DnsRecordSet.UpdateDefinitionStages.AaaaRecordSetBlank<Update> defineAaaaRecordSet(String name);
+
+            /**
+             * Specifies definition of a Caa record set to be attached to the DNS zone.
+             *
+             * @param name the name of the Caa record set
+             * @return the stage representing configuration for the Caa record set
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            DnsRecordSet.UpdateDefinitionStages.CaaRecordSetBlank<Update> defineCaaRecordSet(String name);
 
             /**
              * Specifies definition of a CNAME record set to be attached to the DNS zone.
@@ -340,6 +418,15 @@ public interface DnsZone extends
              * @return the stage representing configuration for the AAAA record set
              */
             DnsRecordSet.UpdateAaaaRecordSet updateAaaaRecordSet(String name);
+
+            /**
+             * Begins the description of an update of an existing Caa record set in this DNS zone.
+             *
+             * @param name the name of the Caa record set
+             * @return the stage representing configuration for the Caa record set
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            DnsRecordSet.UpdateCaaRecordSet updateCaaRecordSet(String name);
 
             /**
              * Specifies definition of a CNAME record set.
@@ -430,6 +517,25 @@ public interface DnsZone extends
              * @return the next stage of DNS zone update
              */
             Update withoutAaaaRecordSet(String name, String eTagValue);
+
+            /**
+             * Removes a Caa record set in the DNS zone.
+             *
+             * @param name name of the Caa record set
+             * @return the next stage of DNS zone update
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            Update withoutCaaRecordSet(String name);
+
+            /**
+             * Removes a Caa record set in the DNS zone.
+             *
+             * @param name name of the Caa record set
+             * @param eTagValue the etag to use for concurrent protection
+             * @return the next stage of DNS zone update
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            Update withoutCaaRecordSet(String name, String eTagValue);
 
             /**
              * Removes a CNAME record set in the DNS zone.
@@ -554,6 +660,41 @@ public interface DnsZone extends
              */
             Update withETagCheck(String eTagValue);
         }
+
+        /**
+         * The stage of the DNS zone update allowing to specify Zone access type.
+         */
+        @Beta(Beta.SinceVersion.V1_9_0)
+        interface WithZoneType {
+            /**
+             * Sets the type of this zone to Public (default behavior).
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            @Method
+            Update withPublicAccess();
+
+            /**
+             * Sets the type of this zone to Private. Note that this method call will clean any previously set
+             * registrationVirtualNetworkIds and resolutionVirtualNetworkIds lists.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            @Method
+            Update withPrivateAccess();
+
+            /**
+             * Sets the type of this zone to Private.
+             *
+             * @param registrationVirtualNetworkIds a list of references to virtual networks that register hostnames in this DNS zone.
+             * @param resolutionVirtualNetworkIds a list of references to virtual networks that resolve records in this DNS zone.
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_9_0)
+            Update withPrivateAccess(List<String> registrationVirtualNetworkIds,  List<String> resolutionVirtualNetworkIds);
+        }
     }
 
     /**
@@ -565,6 +706,7 @@ public interface DnsZone extends
             Appliable<DnsZone>,
             UpdateStages.WithRecordSet,
             UpdateStages.WithETagCheck,
+            UpdateStages.WithZoneType,
             Resource.UpdateWithTags<Update> {
     }
 }

@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.DiskSku;
-import org.joda.time.DateTime;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.compute.CreationData;
 import com.microsoft.azure.management.compute.EncryptionSettings;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.SnapshotSku;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.Resource;
+import org.joda.time.DateTime;
 
 /**
  * Snapshot resource.
@@ -32,7 +32,7 @@ public class SnapshotInner extends Resource {
      * The sku property.
      */
     @JsonProperty(value = "sku")
-    private DiskSku sku;
+    private SnapshotSku sku;
 
     /**
      * The time when the disk was created.
@@ -76,7 +76,7 @@ public class SnapshotInner extends Resource {
     private String provisioningState;
 
     /**
-     * Get the managedBy value.
+     * Get unused. Always Null.
      *
      * @return the managedBy value
      */
@@ -89,7 +89,7 @@ public class SnapshotInner extends Resource {
      *
      * @return the sku value
      */
-    public DiskSku sku() {
+    public SnapshotSku sku() {
         return this.sku;
     }
 
@@ -99,13 +99,13 @@ public class SnapshotInner extends Resource {
      * @param sku the sku value to set
      * @return the SnapshotInner object itself.
      */
-    public SnapshotInner withSku(DiskSku sku) {
+    public SnapshotInner withSku(SnapshotSku sku) {
         this.sku = sku;
         return this;
     }
 
     /**
-     * Get the timeCreated value.
+     * Get the time when the disk was created.
      *
      * @return the timeCreated value
      */
@@ -114,7 +114,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get the osType value.
+     * Get the Operating System type. Possible values include: 'Windows', 'Linux'.
      *
      * @return the osType value
      */
@@ -123,7 +123,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Set the osType value.
+     * Set the Operating System type. Possible values include: 'Windows', 'Linux'.
      *
      * @param osType the osType value to set
      * @return the SnapshotInner object itself.
@@ -134,7 +134,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get the creationData value.
+     * Get disk source information. CreationData information cannot be changed after the disk has been created.
      *
      * @return the creationData value
      */
@@ -143,7 +143,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Set the creationData value.
+     * Set disk source information. CreationData information cannot be changed after the disk has been created.
      *
      * @param creationData the creationData value to set
      * @return the SnapshotInner object itself.
@@ -154,7 +154,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get the diskSizeGB value.
+     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @return the diskSizeGB value
      */
@@ -163,7 +163,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Set the diskSizeGB value.
+     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @param diskSizeGB the diskSizeGB value to set
      * @return the SnapshotInner object itself.
@@ -174,7 +174,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get the encryptionSettings value.
+     * Get encryption settings for disk or snapshot.
      *
      * @return the encryptionSettings value
      */
@@ -183,7 +183,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Set the encryptionSettings value.
+     * Set encryption settings for disk or snapshot.
      *
      * @param encryptionSettings the encryptionSettings value to set
      * @return the SnapshotInner object itself.
@@ -194,7 +194,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the disk provisioning state.
      *
      * @return the provisioningState value
      */

@@ -156,9 +156,10 @@ class ContainerServiceAgentPoolImpl extends
     }
 
     @Override
-    public ContainerServiceAgentPoolImpl withSubnetName(String subnetName) {
+    public ContainerServiceAgentPoolImpl withVirtualNetwork(String virtualNetworkId, String subnetName) {
+        String vnetSubnetId = virtualNetworkId + "/subnets/" + subnetName;
         this.subnetName = subnetName;
-        this.inner().withVnetSubnetID(subnetName);
+        this.inner().withVnetSubnetID(vnetSubnetId);
         return this;
     }
 

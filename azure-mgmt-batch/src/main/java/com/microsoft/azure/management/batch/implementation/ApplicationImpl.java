@@ -8,7 +8,9 @@ package com.microsoft.azure.management.batch.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batch.Application;
+import com.microsoft.azure.management.batch.ApplicationCreateParameters;
 import com.microsoft.azure.management.batch.ApplicationPackage;
+import com.microsoft.azure.management.batch.ApplicationUpdateParameters;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
@@ -71,7 +73,7 @@ public class ApplicationImpl
     @Override
     public Observable<Application> createResourceAsync() {
         final ApplicationImpl self = this;
-        ApplicationCreateParametersInner createParameter = new ApplicationCreateParametersInner();
+        ApplicationCreateParameters createParameter = new ApplicationCreateParameters();
         createParameter.withDisplayName(this.inner().displayName());
         createParameter.withAllowUpdates(this.inner().allowUpdates());
 
@@ -104,7 +106,7 @@ public class ApplicationImpl
     public Observable<Application> updateResourceAsync() {
         final ApplicationImpl self = this;
 
-        ApplicationUpdateParametersInner updateParameter = new ApplicationUpdateParametersInner();
+        ApplicationUpdateParameters updateParameter = new ApplicationUpdateParameters();
         updateParameter.withDisplayName(this.inner().displayName());
         updateParameter.withAllowUpdates(this.inner().allowUpdates());
 

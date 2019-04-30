@@ -43,7 +43,7 @@ public class DataLakeAnalyticsCatalogCredentialUpdateParameters {
     private String userId;
 
     /**
-     * Get the password value.
+     * Get the current password for the credential and user with access to the data source. This is required if the requester is not the account owner.
      *
      * @return the password value
      */
@@ -52,7 +52,7 @@ public class DataLakeAnalyticsCatalogCredentialUpdateParameters {
     }
 
     /**
-     * Set the password value.
+     * Set the current password for the credential and user with access to the data source. This is required if the requester is not the account owner.
      *
      * @param password the password value to set
      * @return the DataLakeAnalyticsCatalogCredentialUpdateParameters object itself.
@@ -63,7 +63,7 @@ public class DataLakeAnalyticsCatalogCredentialUpdateParameters {
     }
 
     /**
-     * Get the newPassword value.
+     * Get the new password for the credential and user with access to the data source.
      *
      * @return the newPassword value
      */
@@ -72,7 +72,7 @@ public class DataLakeAnalyticsCatalogCredentialUpdateParameters {
     }
 
     /**
-     * Set the newPassword value.
+     * Set the new password for the credential and user with access to the data source.
      *
      * @param newPassword the newPassword value to set
      * @return the DataLakeAnalyticsCatalogCredentialUpdateParameters object itself.
@@ -83,7 +83,7 @@ public class DataLakeAnalyticsCatalogCredentialUpdateParameters {
     }
 
     /**
-     * Get the uri value.
+     * Get the URI identifier for the data source this credential can connect to in the format &lt;hostname&gt;:&lt;port&gt;.
      *
      * @return the uri value
      */
@@ -92,7 +92,7 @@ public class DataLakeAnalyticsCatalogCredentialUpdateParameters {
     }
 
     /**
-     * Set the uri value.
+     * Set the URI identifier for the data source this credential can connect to in the format &lt;hostname&gt;:&lt;port&gt;.
      *
      * @param uri the uri value to set
      * @return the DataLakeAnalyticsCatalogCredentialUpdateParameters object itself.
@@ -103,7 +103,7 @@ public class DataLakeAnalyticsCatalogCredentialUpdateParameters {
     }
 
     /**
-     * Get the userId value.
+     * Get the object identifier for the user associated with this credential with access to the data source.
      *
      * @return the userId value
      */
@@ -112,7 +112,7 @@ public class DataLakeAnalyticsCatalogCredentialUpdateParameters {
     }
 
     /**
-     * Set the userId value.
+     * Set the object identifier for the user associated with this credential with access to the data source.
      *
      * @param userId the userId value to set
      * @return the DataLakeAnalyticsCatalogCredentialUpdateParameters object itself.

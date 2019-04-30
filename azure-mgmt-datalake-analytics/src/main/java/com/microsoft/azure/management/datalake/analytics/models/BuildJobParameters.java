@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class BuildJobParameters extends BaseJobParameters {
     /**
-     * the friendly name of the job to build.
+     * The friendly name of the job to build.
      */
     @JsonProperty(value = "name")
     private String name;
 
     /**
-     * Get the name value.
+     * Get the friendly name of the job to build.
      *
      * @return the name value
      */
@@ -30,7 +30,7 @@ public class BuildJobParameters extends BaseJobParameters {
     }
 
     /**
-     * Set the name value.
+     * Set the friendly name of the job to build.
      *
      * @param name the name value to set
      * @return the BuildJobParameters object itself.

@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.ResourceGroup;
@@ -19,7 +18,6 @@ import com.microsoft.azure.management.storage.StorageAccount;
 import rx.Completable;
 import rx.Observable;
 
-import java.io.InputStream;
 import java.util.Map;
 
 /**
@@ -114,20 +112,6 @@ public interface FunctionApp extends
      */
     @Method
     Completable syncTriggersAsync();
-
-    /**
-     * @return a open stream to the application logs
-     */
-    @Beta(SinceVersion.V1_6_0)
-    @Method
-    InputStream streamApplicationLogs();
-
-    /**
-     * @return an Observable streaming application logs
-     */
-    @Beta(SinceVersion.V1_6_0)
-    @Method
-    Observable<String> streamApplicationLogsAsync();
 
     /**************************************************************
      * Fluent interfaces to provision a Function App

@@ -1,5 +1,9 @@
 *.class
 
+#Javadoc files
+dist/
+.publish/
+
 #External libs
 extlib/
 
@@ -38,12 +42,16 @@ local.properties
 .settings/
 .loadpath
 
+# VS Code #
+.vs
+
 # Other Tooling #
 .classpath
 .project
 target
 .idea
 *.iml
+.factorypath
 
 # Mac OS #
 .DS_Store
@@ -54,3 +62,7 @@ Thumbs.db
 
 # reduced pom files should not be included
 dependency-reduced-pom.xml
+package-lock.json
+
+# err file #
+hs_err_pid15312.log

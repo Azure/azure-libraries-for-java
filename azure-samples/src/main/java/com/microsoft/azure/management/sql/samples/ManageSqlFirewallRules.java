@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Azure Storage sample for managing SQL Database -
+ * Azure SQL sample for managing SQL Database -
  *  - Create a SQL Server along with 2 firewalls.
  *  - Add another firewall in the SQL Server
  *  - List all firewalls.
@@ -45,6 +45,7 @@ public final class ManageSqlFirewallRules {
         final String sqlServerName = Utils.createRandomName("sqlserver");
         final String rgName = Utils.createRandomName("rgRSSDFW");
         final String administratorLogin = "sqladmin3423";
+        // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
         final String administratorPassword = "myS3cureP@ssword";
         final String firewallRuleIPAddress = "10.0.0.1";
         final String firewallRuleStartIPAddress = "10.2.0.1";

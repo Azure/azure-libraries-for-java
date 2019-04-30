@@ -8,12 +8,19 @@
 
 package com.microsoft.azure.management.graphrbac.implementation;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Request parameters for creating a new group.
  */
 public class GroupCreateParametersInner {
+    /**
+     * Unmatched properties from the message are deserialized this collection.
+     */
+    @JsonProperty(value = "")
+    private Map<String, Object> additionalProperties;
+
     /**
      * Group display name.
      */
@@ -46,6 +53,26 @@ public class GroupCreateParametersInner {
     public GroupCreateParametersInner() {
         mailEnabled = false;
         securityEnabled = true;
+    }
+
+    /**
+     * Get the additionalProperties value.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, Object> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additionalProperties value.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the GroupCreateParametersInner object itself.
+     */
+    public GroupCreateParametersInner withAdditionalProperties(Map<String, Object> additionalProperties) {
+        this.additionalProperties = additionalProperties;
+        return this;
     }
 
     /**

@@ -9,7 +9,7 @@ package com.microsoft.azure.management.appservice;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.Ignore;
 
 import java.util.List;
 import java.util.Map;
@@ -32,7 +32,7 @@ public class FunctionDeploymentSlotsTests extends AppServiceTest {
         super.initializeClients(restClient, defaultSubscription, domain);
     }
 
-    @Test
+    @Ignore("Contains connection string in request payload")
     public void canCRUDFunctionSwapSlots() throws Exception {
         // Create with consumption
         FunctionApp functionApp1 = appServiceManager.functionApps().define(WEBAPP_NAME_1)

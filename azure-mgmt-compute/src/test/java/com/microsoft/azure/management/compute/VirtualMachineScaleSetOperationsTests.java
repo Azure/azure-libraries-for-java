@@ -10,7 +10,18 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.network.*;
+import com.microsoft.azure.management.network.ApplicationSecurityGroup;
+import com.microsoft.azure.management.network.LoadBalancer;
+import com.microsoft.azure.management.network.LoadBalancerBackend;
+import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
+import com.microsoft.azure.management.network.LoadBalancerSkuType;
+import com.microsoft.azure.management.network.LoadBalancingRule;
+import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.NetworkSecurityGroup;
+import com.microsoft.azure.management.network.PublicIPAddress;
+import com.microsoft.azure.management.network.SecurityRuleProtocol;
+import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
+import com.microsoft.azure.management.network.VirtualMachineScaleSetNicIPConfiguration;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
@@ -271,6 +282,116 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
             this.sleep(1000 * 60); // Wait some time for VM to be available
             this.ensureCanDoSsh(fqdn, sshFrontendPort, uname, password);
         }
+    }
+
+    @Test
+    public void canCreateVirtualMachineScaleSetWithOptionalNetworkSettings() throws Exception {
+        final String vmss_name = generateRandomResourceName("vmss", 10);
+        final String vmssVmDnsLabel = generateRandomResourceName("pip", 10);
+        final String nsgName = generateRandomResourceName("nsg", 10);
+        final String asgName = generateRandomResourceName("asg", 8);
+
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        Network network = this.networkManager
+                .networks()
+                .define("vmssvnet")
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+        ApplicationSecurityGroup asg = this.networkManager
+                .applicationSecurityGroups()
+                .define(asgName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .create();
+
+        // Create VMSS with instance public ip
+        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
+                .define(vmss_name)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_D3_V2)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withoutPrimaryInternetFacingLoadBalancer()
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("jvuser")
+                .withRootPassword("123OData!@#123")
+                .withVirtualMachinePublicIp(vmssVmDnsLabel)
+                .withExistingApplicationSecurityGroup(asg)
+                .create();
+
+        VirtualMachineScaleSetPublicIPAddressConfiguration currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
+
+        Assert.assertNotNull(currentIpConfig);
+        Assert.assertNotNull(currentIpConfig.dnsSettings());
+        Assert.assertNotNull(currentIpConfig.dnsSettings().domainNameLabel());
+
+        currentIpConfig.withIdleTimeoutInMinutes(20);
+
+        virtualMachineScaleSet.update()
+                .withVirtualMachinePublicIp(currentIpConfig)
+                .apply();
+
+        currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
+        Assert.assertNotNull(currentIpConfig);
+        Assert.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
+        Assert.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
+
+        virtualMachineScaleSet.refresh();
+        currentIpConfig = virtualMachineScaleSet.virtualMachinePublicIpConfig();
+        Assert.assertNotNull(currentIpConfig);
+        Assert.assertNotNull(currentIpConfig.idleTimeoutInMinutes());
+        Assert.assertEquals((long) 20, (long) currentIpConfig.idleTimeoutInMinutes());
+
+        List<String> asgIds = virtualMachineScaleSet.applicationSecurityGroupIds();
+        Assert.assertNotNull(asgIds);
+        Assert.assertEquals(1, asgIds.size());
+
+        NetworkSecurityGroup nsg = networkManager.networkSecurityGroups().define(nsgName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .defineRule("rule1")
+                    .allowOutbound()
+                    .fromAnyAddress()
+                    .fromPort(80)
+                    .toAnyAddress()
+                    .toPort(80)
+                    .withProtocol(SecurityRuleProtocol.TCP)
+                    .attach()
+                .create();
+
+        virtualMachineScaleSet.update()
+                .withIpForwarding()
+                .withAcceleratedNetworking()
+                .withExistingNetworkSecurityGroup(nsg)
+                .apply();
+
+        Assert.assertTrue(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assert.assertTrue(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assert.assertNotNull(virtualMachineScaleSet.networkSecurityGroupId());
+        //
+        virtualMachineScaleSet.refresh();
+        //
+        Assert.assertTrue(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assert.assertTrue(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assert.assertNotNull(virtualMachineScaleSet.networkSecurityGroupId());
+
+        virtualMachineScaleSet.update()
+                .withoutIpForwarding()
+                .withoutAcceleratedNetworking()
+                .withoutNetworkSecurityGroup()
+                .apply();
+        Assert.assertFalse(virtualMachineScaleSet.isIpForwardingEnabled());
+        Assert.assertFalse(virtualMachineScaleSet.isAcceleratedNetworkingEnabled());
+        Assert.assertNull(virtualMachineScaleSet.networkSecurityGroupId());
     }
 
     @Test
@@ -708,19 +829,6 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertNotNull(servicePrincipal);
         Assert.assertNotNull(servicePrincipal.inner());
 
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        boolean extensionFound = false;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                extensionFound = true;
-                break;
-            }
-        }
-        Assert.assertTrue(extensionFound);
-
         // Ensure role assigned for resource group
         //
         PagedList<RoleAssignment> rgRoleAssignments = rbacManager.roleAssignments().listByScope(resourceGroup.id());
@@ -796,19 +904,6 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         Assert.assertNotNull(servicePrincipal);
         Assert.assertNotNull(servicePrincipal.inner());
-
-        // Ensure the MSI extension is set
-        //
-        Map<String, VirtualMachineScaleSetExtension> extensions = virtualMachineScaleSet.extensions();
-        boolean extensionFound = false;
-        for (VirtualMachineScaleSetExtension extension : extensions.values()) {
-            if (extension.publisherName().equalsIgnoreCase("Microsoft.ManagedIdentity")
-                    && extension.typeName().equalsIgnoreCase("ManagedIdentityExtensionForLinux")) {
-                extensionFound = true;
-                break;
-            }
-        }
-        Assert.assertTrue(extensionFound);
 
         // Ensure role assigned for resource group
         //

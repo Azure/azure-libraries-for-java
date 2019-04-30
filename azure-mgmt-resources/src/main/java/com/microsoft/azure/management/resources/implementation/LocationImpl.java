@@ -48,6 +48,6 @@ final class LocationImpl extends
 
     @Override
     public Region region() {
-        return Region.findByLabelOrName(this.name());
+        return Region.fromName(this.name());
     }
 }

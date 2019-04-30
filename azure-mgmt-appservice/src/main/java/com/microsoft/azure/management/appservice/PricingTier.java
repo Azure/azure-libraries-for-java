@@ -41,6 +41,15 @@ public final class PricingTier {
     /** Premium pricing tier with a large size. */
     public static final PricingTier PREMIUM_P3 = new PricingTier("Premium", "P3");
 
+    /** V2 Premium pricing tier with a small size. */
+    public static final PricingTier PREMIUM_P1V2 = new PricingTier("PremiumV2", "P1v2");
+
+    /** V2 Premium pricing tier with a medium size. */
+    public static final PricingTier PREMIUM_P2V2 = new PricingTier("PremiumV2", "P2v2");
+
+    /** V2 Premium pricing tier with a large size. */
+    public static final PricingTier PREMIUM_P3V2 = new PricingTier("PremiumV2", "P3v2");
+
     /** Free pricing tier. This does not work with Linux web apps, host name bindings, and SSL bindings. */
     public static final PricingTier FREE_F1 = new PricingTier("Free", "F1");
 

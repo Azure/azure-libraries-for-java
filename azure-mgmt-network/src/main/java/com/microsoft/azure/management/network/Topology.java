@@ -10,8 +10,8 @@ import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.network.implementation.TopologyInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import org.joda.time.DateTime;
 
 import java.util.Map;
@@ -21,18 +21,18 @@ import java.util.Map;
  */
 @Fluent
 @Beta(SinceVersion.V1_2_0)
-public interface Topology extends HasParent<NetworkWatcher>,
+public interface Topology extends Executable<Topology>,
         HasInner<TopologyInner>,
-        Refreshable<Topology> {
+        HasParent<NetworkWatcher> {
     /**
      * @return GUID representing the id
      */
     String id();
 
     /**
-     * @return name of resource group this topology represents
+     * @return parameters used to query this topology
      */
-    String resourceGroupName();
+    TopologyParameters topologyParameters();
 
     /**
      * @return the datetime when the topology was initially created for the resource
@@ -49,4 +49,70 @@ public interface Topology extends HasParent<NetworkWatcher>,
      * @return The resources in this topology
      */
     Map<String, TopologyResource> resources();
+    /**
+     * The entirety of topology parameters definition.
+     */
+    interface Definition extends
+            DefinitionStages.WithTargetResourceGroup,
+            DefinitionStages.WithExecute,
+            DefinitionStages.WithExecuteAndSubnet {
+    }
+
+    /**
+     * Grouping of topology definition stages.
+     */
+    interface DefinitionStages {
+        /**
+         * The first stage of topology parameters definition.
+         */
+        interface WithTargetResourceGroup {
+            /**
+             * Set the targetResourceId value.
+             *
+             * @param resourceGroupName the name of the target resource group to perform getTopology on
+             * @return the Topology object itself.
+             */
+            DefinitionStages.WithExecute withTargetResourceGroup(String resourceGroupName);
+        }
+
+        /**
+         * Sets the target virtual network.
+         */
+        interface WithTargetNetwork {
+            /**
+             * Set the target virtual network.
+             *
+             * @param networkId the target network id value to set
+             * @return the Topology object itself.
+             */
+            DefinitionStages.WithExecuteAndSubnet withTargetNetwork(String networkId);
+        }
+
+        /**
+         * Sets the target subnet.
+         */
+        interface WithTargetSubnet {
+            /**
+             * Set the subnetName value.
+             *
+             * @param subnetName the destinationIPAddress value to set
+             * @return the Topology object itself.
+             */
+            DefinitionStages.WithExecute withTargetSubnet(String subnetName);
+        }
+
+        /**
+         * The stage of the definition which contains all the minimum required inputs for execution, but also allows
+         * for any other optional settings to be specified.
+         */
+        interface WithExecute extends
+                Executable<Topology>,
+                DefinitionStages.WithTargetNetwork {
+        }
+
+        interface WithExecuteAndSubnet extends
+                Executable<Topology>,
+                DefinitionStages.WithTargetSubnet {
+        }
+    }
 }

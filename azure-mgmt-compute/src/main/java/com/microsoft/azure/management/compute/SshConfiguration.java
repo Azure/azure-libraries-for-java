@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.compute;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
  * SSH configuration for Linux based VMs running on Azure.
@@ -22,7 +23,7 @@ public class SshConfiguration {
     private List<SshPublicKey> publicKeys;
 
     /**
-     * Get the publicKeys value.
+     * Get the list of SSH public keys used to authenticate with linux based VMs.
      *
      * @return the publicKeys value
      */
@@ -31,7 +32,7 @@ public class SshConfiguration {
     }
 
     /**
-     * Set the publicKeys value.
+     * Set the list of SSH public keys used to authenticate with linux based VMs.
      *
      * @param publicKeys the publicKeys value to set
      * @return the SshConfiguration object itself.

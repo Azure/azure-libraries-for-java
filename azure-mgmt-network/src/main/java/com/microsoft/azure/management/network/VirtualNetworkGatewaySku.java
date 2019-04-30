@@ -16,14 +16,16 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class VirtualNetworkGatewaySku {
     /**
      * Gateway SKU name. Possible values include: 'Basic', 'HighPerformance',
-     * 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3'.
+     * 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3',
+     * 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
      */
     @JsonProperty(value = "name")
     private VirtualNetworkGatewaySkuName name;
 
     /**
      * Gateway SKU tier. Possible values include: 'Basic', 'HighPerformance',
-     * 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3'.
+     * 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3',
+     * 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
      */
     @JsonProperty(value = "tier")
     private VirtualNetworkGatewaySkuTier tier;

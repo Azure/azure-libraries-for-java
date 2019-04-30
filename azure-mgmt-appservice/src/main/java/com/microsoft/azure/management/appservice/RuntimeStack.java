@@ -46,11 +46,26 @@ public class RuntimeStack {
     /** Ruby 2.3. */
     public static final RuntimeStack RUBY_2_3 = new RuntimeStack("RUBY", "2.3");
 
+    /** Java JRE 8. */
+    public static final RuntimeStack JAVA_8_JRE8 = new RuntimeStack("JAVA", "8-jre8");
+
+    /** Java JAVA 11. */
+    public static final RuntimeStack JAVA_11_JAVA11 = new RuntimeStack("JAVA", "11-java11");
+
     /** Tomcat 8.5-jre8 image with catalina root set to Azure wwwroot. */
     public static final RuntimeStack TOMCAT_8_5_JRE8 = new RuntimeStack("TOMCAT", "8.5-jre8");
 
+    /** Tomcat 8.5-java8 image with catalina root set to Azure wwwroot. */
+    public static final RuntimeStack TOMCAT_8_5_JAVA11 = new RuntimeStack("TOMCAT", "8.5-java11");
+
     /** Tomcat 9.0-jre8 image with catalina root set to Azure wwwroot. */
     public static final RuntimeStack TOMCAT_9_0_JRE8 = new RuntimeStack("TOMCAT", "9.0-jre8");
+
+    /** Tomcat 9.0-java11 image with catalina root set to Azure wwwroot. */
+    public static final RuntimeStack TOMCAT_9_0_JAVA11 = new RuntimeStack("TOMCAT", "9.0-java11");
+
+    /** WildFly 14.0-jre image. */
+    public static final RuntimeStack WILDFLY_14_JRE8 = new RuntimeStack("WILDFLY", "14-jre8");
 
     /** The name of the language runtime stack. */
     private String stack;

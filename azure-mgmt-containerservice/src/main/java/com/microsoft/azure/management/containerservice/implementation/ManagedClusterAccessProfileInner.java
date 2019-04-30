@@ -21,14 +21,14 @@ public class ManagedClusterAccessProfileInner extends Resource {
      * Base64-encoded Kubernetes configuration file.
      */
     @JsonProperty(value = "properties.kubeConfig")
-    private String kubeConfig;
+    private byte[] kubeConfig;
 
     /**
      * Get the kubeConfig value.
      *
      * @return the kubeConfig value
      */
-    public String kubeConfig() {
+    public byte[] kubeConfig() {
         return this.kubeConfig;
     }
 
@@ -38,7 +38,7 @@ public class ManagedClusterAccessProfileInner extends Resource {
      * @param kubeConfig the kubeConfig value to set
      * @return the ManagedClusterAccessProfileInner object itself.
      */
-    public ManagedClusterAccessProfileInner withKubeConfig(String kubeConfig) {
+    public ManagedClusterAccessProfileInner withKubeConfig(byte[] kubeConfig) {
         this.kubeConfig = kubeConfig;
         return this;
     }

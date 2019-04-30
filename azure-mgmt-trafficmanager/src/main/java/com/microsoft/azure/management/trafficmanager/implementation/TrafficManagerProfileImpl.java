@@ -147,6 +147,17 @@ class TrafficManagerProfileImpl
     }
 
     @Override
+    public TrafficManagerProfileImpl withMultiValueBasedRouting(long maxResult) {
+        this.inner().withMaxReturn(maxResult);
+        return this.withTrafficRoutingMethod(TrafficRoutingMethod.MULTI_VALUE);
+    }
+
+    @Override
+    public TrafficManagerProfileImpl withSubnetBasedRouting() {
+        return this.withTrafficRoutingMethod(TrafficRoutingMethod.SUBNET);
+    }
+
+    @Override
     public TrafficManagerProfileImpl withTrafficRoutingMethod(TrafficRoutingMethod routingMethod) {
         this.inner().withTrafficRoutingMethod(routingMethod);
         return this;
@@ -258,6 +269,7 @@ class TrafficManagerProfileImpl
         return self.endpoints.commitAndGetAllAsync()
                 .flatMap(new Func1<List<TrafficManagerEndpointImpl>, Observable<? extends TrafficManagerProfile>>() {
                     public Observable<? extends TrafficManagerProfile> call(List<TrafficManagerEndpointImpl> endpoints) {
+                        inner().withEndpoints(self.endpoints.allEndpointsInners());
                         return innerCollection.createOrUpdateAsync(resourceGroupName(), name(), inner())
                             .map(new Func1<ProfileInner, TrafficManagerProfile>() {
                                     @Override

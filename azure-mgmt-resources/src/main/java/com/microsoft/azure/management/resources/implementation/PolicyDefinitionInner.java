@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.management.resources.PolicyType;
+import com.microsoft.azure.management.resources.PolicyMode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -24,6 +25,13 @@ public class PolicyDefinitionInner {
      */
     @JsonProperty(value = "properties.policyType")
     private PolicyType policyType;
+
+    /**
+     * The policy definition mode. Possible values are NotSpecified, Indexed,
+     * and All. Possible values include: 'NotSpecified', 'Indexed', 'All'.
+     */
+    @JsonProperty(value = "properties.mode")
+    private PolicyMode mode;
 
     /**
      * The display name of the policy definition.
@@ -44,16 +52,27 @@ public class PolicyDefinitionInner {
     private Object policyRule;
 
     /**
+     * The policy definition metadata.
+     */
+    @JsonProperty(value = "properties.metadata")
+    private Object metadata;
+
+    /**
+     * Required if a parameter is used in policy rule.
+     */
+    @JsonProperty(value = "properties.parameters")
+    private Object parameters;
+
+    /**
      * The ID of the policy definition.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
     private String id;
 
     /**
-     * The name of the policy definition. If you do not specify a value for
-     * name, the value is inferred from the name value in the request URI.
+     * The name of the policy definition.
      */
-    @JsonProperty(value = "name")
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
 
     /**
@@ -73,6 +92,26 @@ public class PolicyDefinitionInner {
      */
     public PolicyDefinitionInner withPolicyType(PolicyType policyType) {
         this.policyType = policyType;
+        return this;
+    }
+
+    /**
+     * Get the mode value.
+     *
+     * @return the mode value
+     */
+    public PolicyMode mode() {
+        return this.mode;
+    }
+
+    /**
+     * Set the mode value.
+     *
+     * @param mode the mode value to set
+     * @return the PolicyDefinitionInner object itself.
+     */
+    public PolicyDefinitionInner withMode(PolicyMode mode) {
+        this.mode = mode;
         return this;
     }
 
@@ -137,6 +176,46 @@ public class PolicyDefinitionInner {
     }
 
     /**
+     * Get the metadata value.
+     *
+     * @return the metadata value
+     */
+    public Object metadata() {
+        return this.metadata;
+    }
+
+    /**
+     * Set the metadata value.
+     *
+     * @param metadata the metadata value to set
+     * @return the PolicyDefinitionInner object itself.
+     */
+    public PolicyDefinitionInner withMetadata(Object metadata) {
+        this.metadata = metadata;
+        return this;
+    }
+
+    /**
+     * Get the parameters value.
+     *
+     * @return the parameters value
+     */
+    public Object parameters() {
+        return this.parameters;
+    }
+
+    /**
+     * Set the parameters value.
+     *
+     * @param parameters the parameters value to set
+     * @return the PolicyDefinitionInner object itself.
+     */
+    public PolicyDefinitionInner withParameters(Object parameters) {
+        this.parameters = parameters;
+        return this;
+    }
+
+    /**
      * Get the id value.
      *
      * @return the id value
@@ -146,34 +225,12 @@ public class PolicyDefinitionInner {
     }
 
     /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the PolicyDefinitionInner object itself.
-     */
-    public PolicyDefinitionInner withId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    /**
      * Get the name value.
      *
      * @return the name value
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the PolicyDefinitionInner object itself.
-     */
-    public PolicyDefinitionInner withName(String name) {
-        this.name = name;
-        return this;
     }
 
 }

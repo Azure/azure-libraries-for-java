@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.appservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.MSDeployCore;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebDeployment;
@@ -30,12 +31,12 @@ public class WebDeploymentImpl<
         extends ExecutableImpl<WebDeployment>
         implements WebDeployment, WebDeployment.Definition {
     private final WebAppBaseImpl<FluentT, FluentImplT> parent;
-    private MSDeployInner request;
+    private MSDeploy request;
     private MSDeployStatusInner result;
 
     WebDeploymentImpl(WebAppBaseImpl<FluentT, FluentImplT> parent) {
         this.parent = parent;
-        this.request = new MSDeployInner();
+        this.request = new MSDeploy();
     }
 
     @Override

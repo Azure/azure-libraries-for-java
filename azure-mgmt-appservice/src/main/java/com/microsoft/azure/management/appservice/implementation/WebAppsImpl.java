@@ -12,9 +12,9 @@ import com.microsoft.azure.management.appservice.WebApp;
 import com.microsoft.azure.management.appservice.WebApps;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.functions.Func1;
+import rx.functions.Func2;
 
 import java.util.Arrays;
 
@@ -43,12 +43,13 @@ class WebAppsImpl
 
             @Override
             public Observable<WebApp> typeConvertAsync(final SiteInner siteInner) {
-                return manager.inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name())
-                        .subscribeOn(SdkContext.getRxScheduler())
-                        .map(new Func1<SiteConfigResourceInner, WebApp>() {
+                return Observable.zip(
+                        manager().inner().webApps().getConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
+                        manager().inner().webApps().getDiagnosticLogsConfigurationAsync(siteInner.resourceGroup(), siteInner.name()),
+                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, WebApp>() {
                             @Override
-                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner) {
-                                return wrapModel(siteInner, siteConfigResourceInner);
+                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
                             }
                         });
             }
@@ -64,12 +65,15 @@ class WebAppsImpl
                 if (siteInner == null) {
                     return null;
                 }
-                return self.inner().getConfigurationAsync(groupName, name).map(new Func1<SiteConfigResourceInner, WebApp>() {
-                    @Override
-                    public WebApp call(SiteConfigResourceInner siteConfigInner) {
-                        return wrapModel(siteInner, siteConfigInner);
-                    }
-                });
+                return Observable.zip(
+                        self.inner().getConfigurationAsync(groupName, name),
+                        self.inner().getDiagnosticLogsConfigurationAsync(groupName, name),
+                        new Func2<SiteConfigResourceInner, SiteLogsConfigInner, WebApp>() {
+                            @Override
+                            public WebApp call(SiteConfigResourceInner siteConfigResourceInner, SiteLogsConfigInner logsConfigInner) {
+                                return wrapModel(siteInner, siteConfigResourceInner, logsConfigInner);
+                            }
+                        });
             }
         });
 
@@ -77,19 +81,19 @@ class WebAppsImpl
 
     @Override
     protected WebAppImpl wrapModel(String name) {
-        return new WebAppImpl(name, new SiteInner().withKind("app"), null, this.manager());
+        return new WebAppImpl(name, new SiteInner().withKind("app"), null, null, this.manager());
     }
 
-    protected WebAppImpl wrapModel(SiteInner inner, SiteConfigResourceInner configResourceInner) {
+    protected WebAppImpl wrapModel(SiteInner inner, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig) {
         if (inner == null) {
             return null;
         }
-        return new WebAppImpl(inner.name(), inner, configResourceInner, this.manager());
+        return new WebAppImpl(inner.name(), inner, siteConfig, logConfig, this.manager());
     }
 
     @Override
     protected WebAppImpl wrapModel(SiteInner inner) {
-        return wrapModel(inner, null);
+        return wrapModel(inner, null, null);
     }
 
     protected PagedList<WebApp> wrapList(PagedList<SiteInner> pagedList) {

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.monitor.implementation;
 
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.monitor.EventData;
 import com.microsoft.azure.management.monitor.EventLevel;
 import com.microsoft.azure.management.monitor.HttpRequestInfo;
@@ -19,6 +20,7 @@ import java.util.Map;
 /**
  * The Azure {@link EventData} wrapper class implementation.
  */
+@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Monitor.Fluent.Models")
 class EventDataImpl
         extends WrapperImpl<EventDataInner> implements EventData {
     private LocalizableString eventName;

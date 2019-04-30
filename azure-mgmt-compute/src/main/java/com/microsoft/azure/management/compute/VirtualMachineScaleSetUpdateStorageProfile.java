@@ -8,9 +8,9 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.management.compute.implementation.ImageReferenceInner;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
  * Describes a virtual machine scale set storage profile.
@@ -20,7 +20,7 @@ public class VirtualMachineScaleSetUpdateStorageProfile {
      * The image reference.
      */
     @JsonProperty(value = "imageReference")
-    private ImageReferenceInner imageReference;
+    private ImageReference imageReference;
 
     /**
      * The OS disk.
@@ -35,27 +35,27 @@ public class VirtualMachineScaleSetUpdateStorageProfile {
     private List<VirtualMachineScaleSetDataDisk> dataDisks;
 
     /**
-     * Get the imageReference value.
+     * Get the image reference.
      *
      * @return the imageReference value
      */
-    public ImageReferenceInner imageReference() {
+    public ImageReference imageReference() {
         return this.imageReference;
     }
 
     /**
-     * Set the imageReference value.
+     * Set the image reference.
      *
      * @param imageReference the imageReference value to set
      * @return the VirtualMachineScaleSetUpdateStorageProfile object itself.
      */
-    public VirtualMachineScaleSetUpdateStorageProfile withImageReference(ImageReferenceInner imageReference) {
+    public VirtualMachineScaleSetUpdateStorageProfile withImageReference(ImageReference imageReference) {
         this.imageReference = imageReference;
         return this;
     }
 
     /**
-     * Get the osDisk value.
+     * Get the OS disk.
      *
      * @return the osDisk value
      */
@@ -64,7 +64,7 @@ public class VirtualMachineScaleSetUpdateStorageProfile {
     }
 
     /**
-     * Set the osDisk value.
+     * Set the OS disk.
      *
      * @param osDisk the osDisk value to set
      * @return the VirtualMachineScaleSetUpdateStorageProfile object itself.
@@ -75,7 +75,7 @@ public class VirtualMachineScaleSetUpdateStorageProfile {
     }
 
     /**
-     * Get the dataDisks value.
+     * Get the data disks.
      *
      * @return the dataDisks value
      */
@@ -84,7 +84,7 @@ public class VirtualMachineScaleSetUpdateStorageProfile {
     }
 
     /**
-     * Set the dataDisks value.
+     * Set the data disks.
      *
      * @param dataDisks the dataDisks value to set
      * @return the VirtualMachineScaleSetUpdateStorageProfile object itself.

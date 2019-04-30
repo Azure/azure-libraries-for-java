@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for TransparentDataEncryptionStates.
+ * Defines values for TransparentDataEncryptionStatus.
  */
 public enum TransparentDataEncryptionStates {
     /** Enum value Enabled. */
@@ -21,7 +21,7 @@ public enum TransparentDataEncryptionStates {
     /** Enum value Disabled. */
     DISABLED("Disabled");
 
-    /** The actual serialized value for a TransparentDataEncryptionStates instance. */
+    /** The actual serialized value for a TransparentDataEncryptionStatus instance. */
     private String value;
 
     TransparentDataEncryptionStates(String value) {
@@ -29,10 +29,10 @@ public enum TransparentDataEncryptionStates {
     }
 
     /**
-     * Parses a serialized value to a TransparentDataEncryptionStates instance.
+     * Parses a serialized value to a TransparentDataEncryptionStatus instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed TransparentDataEncryptionStates object, or null if unable to parse.
+     * @return the parsed TransparentDataEncryptionStatus object, or null if unable to parse.
      */
     @JsonCreator
     public static TransparentDataEncryptionStates fromString(String value) {

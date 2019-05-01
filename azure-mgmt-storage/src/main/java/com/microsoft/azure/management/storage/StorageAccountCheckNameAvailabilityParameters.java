@@ -11,7 +11,7 @@ package com.microsoft.azure.management.storage;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The parameters used to check the availabity of the storage account name.
+ * The parameters used to check the availability of the storage account name.
  */
 public class StorageAccountCheckNameAvailabilityParameters {
     /**
@@ -34,7 +34,7 @@ public class StorageAccountCheckNameAvailabilityParameters {
     }
 
     /**
-     * Get the name value.
+     * Get the storage account name.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class StorageAccountCheckNameAvailabilityParameters {
     }
 
     /**
-     * Set the name value.
+     * Set the storage account name.
      *
      * @param name the name value to set
      * @return the StorageAccountCheckNameAvailabilityParameters object itself.
@@ -54,7 +54,7 @@ public class StorageAccountCheckNameAvailabilityParameters {
     }
 
     /**
-     * Get the type value.
+     * Get the type of resource, Microsoft.Storage/storageAccounts.
      *
      * @return the type value
      */
@@ -63,7 +63,7 @@ public class StorageAccountCheckNameAvailabilityParameters {
     }
 
     /**
-     * Set the type value.
+     * Set the type of resource, Microsoft.Storage/storageAccounts.
      *
      * @param type the type value to set
      * @return the StorageAccountCheckNameAvailabilityParameters object itself.

@@ -8,10 +8,12 @@ package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.storage.AccessTier;
 import com.microsoft.azure.management.storage.CustomDomain;
 import com.microsoft.azure.management.storage.Encryption;
 import com.microsoft.azure.management.storage.Identity;
+import com.microsoft.azure.management.storage.StorageAccountCreateParameters;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionKeySource;
 import com.microsoft.azure.management.storage.StorageAccountEncryptionStatus;
 import com.microsoft.azure.management.storage.Kind;
@@ -22,6 +24,7 @@ import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.management.storage.StorageAccountSkuType;
+import com.microsoft.azure.management.storage.StorageAccountUpdateParameters;
 import com.microsoft.azure.management.storage.StorageService;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -50,8 +53,8 @@ class StorageAccountImpl
 
     private PublicEndpoints publicEndpoints;
     private AccountStatuses accountStatuses;
-    private StorageAccountCreateParametersInner createParameters;
-    private StorageAccountUpdateParametersInner updateParameters;
+    private StorageAccountCreateParameters createParameters;
+    private StorageAccountUpdateParameters updateParameters;
     private StorageNetworkRulesHelper networkRulesHelper;
     private StorageEncryptionHelper encryptionHelper;
 
@@ -59,7 +62,7 @@ class StorageAccountImpl
                               StorageAccountInner innerModel,
                               final StorageManager storageManager) {
         super(name, innerModel, storageManager);
-        this.createParameters = new StorageAccountCreateParametersInner();
+        this.createParameters = new StorageAccountCreateParameters();
         this.networkRulesHelper = new StorageNetworkRulesHelper(this.createParameters);
         this.encryptionHelper = new StorageEncryptionHelper(this.createParameters);
     }
@@ -191,6 +194,16 @@ class StorageAccountImpl
     @Override
     public boolean canAccessFromAzureServices() {
         return StorageNetworkRulesHelper.canAccessFromAzureServices(this.inner());
+    }
+
+    @Override
+    public boolean isAzureFilesAadIntegrationEnabled() {
+        return Utils.toPrimitiveBoolean(this.inner().enableAzureFilesAadIntegration());
+    }
+
+    @Override
+    public boolean isHnsEnabled() {
+        return Utils.toPrimitiveBoolean(this.inner().isHnsEnabled());
     }
 
     @Override
@@ -336,7 +349,7 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl update() {
         createParameters = null;
-        updateParameters = new StorageAccountUpdateParametersInner();
+        updateParameters = new StorageAccountUpdateParameters();
         this.networkRulesHelper = new StorageNetworkRulesHelper(this.updateParameters, this.inner());
         this.encryptionHelper = new StorageEncryptionHelper(this.updateParameters, this.inner());
         return super.update();
@@ -359,7 +372,7 @@ class StorageAccountImpl
 
     @Override
     public StorageAccountImpl withCustomDomain(String name, boolean useSubDomain) {
-        return withCustomDomain(new CustomDomain().withName(name).withUseSubDomain(useSubDomain));
+        return withCustomDomain(new CustomDomain().withName(name).withUseSubDomainName(useSubDomain));
     }
 
     @Override
@@ -531,5 +544,21 @@ class StorageAccountImpl
                         clearWrapperProperties();
                     }
                 });
+    }
+
+    @Override
+    public StorageAccountImpl withAzureFilesAadIntegrationEnabled(boolean enabled) {
+        if (isInCreateMode()) {
+            this.createParameters.withEnableAzureFilesAadIntegration(enabled);
+        } else {
+            this.updateParameters.withEnableAzureFilesAadIntegration(enabled);
+        }
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withHnsEnabled(boolean enabled) {
+        this.createParameters.withIsHnsEnabled(enabled);
+        return this;
     }
 }

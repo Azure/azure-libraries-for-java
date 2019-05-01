@@ -28,11 +28,11 @@ public class StorageManagementClientImpl extends AzureServiceClient {
         return this.azureClient;
     }
 
-    /** Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
+    /** The ID of the target subscription. */
     private String subscriptionId;
 
     /**
-     * Gets Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+     * Gets The ID of the target subscription.
      *
      * @return the subscriptionId value.
      */
@@ -41,7 +41,7 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+     * Sets The ID of the target subscription.
      *
      * @param subscriptionId the subscriptionId value.
      * @return the service client itself
@@ -51,11 +51,11 @@ public class StorageManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Client Api Version. */
+    /** The API version to use for this operation. */
     private String apiVersion;
 
     /**
-     * Gets Client Api Version.
+     * Gets The API version to use for this operation.
      *
      * @return the apiVersion value.
      */
@@ -63,11 +63,11 @@ public class StorageManagementClientImpl extends AzureServiceClient {
         return this.apiVersion;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /** The preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -76,7 +76,7 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -86,11 +86,11 @@ public class StorageManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -99,7 +99,7 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -109,11 +109,11 @@ public class StorageManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -122,7 +122,7 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -185,6 +185,45 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The ManagementPoliciesInner object to access its operations.
+     */
+    private ManagementPoliciesInner managementPolicies;
+
+    /**
+     * Gets the ManagementPoliciesInner object to access its operations.
+     * @return the ManagementPoliciesInner object.
+     */
+    public ManagementPoliciesInner managementPolicies() {
+        return this.managementPolicies;
+    }
+
+    /**
+     * The BlobServicesInner object to access its operations.
+     */
+    private BlobServicesInner blobServices;
+
+    /**
+     * Gets the BlobServicesInner object to access its operations.
+     * @return the BlobServicesInner object.
+     */
+    public BlobServicesInner blobServices() {
+        return this.blobServices;
+    }
+
+    /**
+     * The BlobContainersInner object to access its operations.
+     */
+    private BlobContainersInner blobContainers;
+
+    /**
+     * Gets the BlobContainersInner object to access its operations.
+     * @return the BlobContainersInner object.
+     */
+    public BlobContainersInner blobContainers() {
+        return this.blobContainers;
+    }
+
+    /**
      * Initializes an instance of StorageManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -215,7 +254,7 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2017-10-01";
+        this.apiVersion = "2018-11-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -223,6 +262,9 @@ public class StorageManagementClientImpl extends AzureServiceClient {
         this.skus = new SkusInner(restClient().retrofit(), this);
         this.storageAccounts = new StorageAccountsInner(restClient().retrofit(), this);
         this.usages = new UsagesInner(restClient().retrofit(), this);
+        this.managementPolicies = new ManagementPoliciesInner(restClient().retrofit(), this);
+        this.blobServices = new BlobServicesInner(restClient().retrofit(), this);
+        this.blobContainers = new BlobContainersInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -233,6 +275,6 @@ public class StorageManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "StorageManagementClient", "2017-10-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "StorageManagementClient", "2018-11-01");
     }
 }

@@ -67,9 +67,11 @@ public interface PointToSiteConfiguration extends
 
             /**
              * Specifies that Azure certificate authentication type will be used and certificate to use for Azure authentication.
+             *
              * @param name name of certificate
              * @param certificateFile public Base64-encoded certificate file
              * @return the next stage of the definition
+             * @throws IOException
              */
             WithAttachAndAzureCertificate<ParentT> withAzureCertificateFromFile(String name, File certificateFile) throws IOException;
         }
@@ -178,6 +180,7 @@ public interface PointToSiteConfiguration extends
              * @param name name of certificate
              * @param certificateFile public Base64-encoded certificate file
              * @return the next stage of the update
+             * @throws IOException
              */
             Update withAzureCertificateFromFile(String name, File certificateFile) throws IOException;
 
@@ -197,7 +200,7 @@ public interface PointToSiteConfiguration extends
              * Specifies revoked certificate.
              * @param name certificate name
              * @param thumbprint certificate thumbprint
-             * @return
+             * @return the next stage of the update
              */
             Update withRevokedCertificate(String name, String thumbprint);
         }
@@ -209,13 +212,13 @@ public interface PointToSiteConfiguration extends
         interface WithTunnelType<ParentT> {
             /**
              * Specifies that only SSTP tunnel type will be used.
-             * @return the next stage of the definition
+             * @return the next stage of the update
              */
             Update withSstpOnly();
 
             /**
              * Specifies that only IKEv2 VPN tunnel type will be used.
-             * @return the next stage of the definition
+             * @return the next stage of the update
              */
             Update withIkeV2Only();
         }

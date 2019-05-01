@@ -183,6 +183,22 @@ public interface StorageAccount extends
     boolean canAccessFromAzureServices();
 
     /**
+     * Checks whether Aad Integration is enabled for files on this storage account.
+     *
+     * @return true if Aad integration is enabled, false otherwise
+     */
+    @Beta()
+    boolean isAzureFilesAadIntegrationEnabled();
+
+    /**
+     * Checks whether Hns is enabled on this storage account.
+     *
+     * @return true if Hns is enabled, false otherwise
+     */
+    @Beta()
+    boolean isHnsEnabled();
+
+    /**
      * Fetch the up-to-date access keys from Azure for this storage account.
      *
      * @return the access keys for this storage account
@@ -523,6 +539,36 @@ public interface StorageAccount extends
         }
 
         /**
+         * The stage of storage account definition allowing to specify whether azure files aad integration will be enabled.
+         */
+        interface WithAzureFilesAadIntegration {
+            /**
+             * Specifies whether Azure files aad integration will be enabled or not.
+             *
+             * @param enabled whether Azure files aad integration will be enabled or not
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
+            WithCreate withAzureFilesAadIntegrationEnabled(boolean enabled);
+        }
+
+        /**
+         * The stage of the storage account definition allowing to specify whether Hns is enabled.
+         */
+        interface WithHns {
+            /**
+             * Specifies whether Hns will be enabled or not.
+             *
+             * @param enabled whether Hns will be enabled or not
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_5_0)
+            @Method
+            WithCreate withHnsEnabled(boolean enabled);
+        }
+
+        /**
          * A storage account definition with sufficient inputs to create a new
          * storage account in the cloud, but exposing additional optional inputs to
          * specify.
@@ -537,6 +583,8 @@ public interface StorageAccount extends
                 DefinitionStages.WithManagedServiceIdentity,
                 DefinitionStages.WithAccessTraffic,
                 DefinitionStages.WithNetworkAccess,
+                DefinitionStages.WithAzureFilesAadIntegration,
+                DefinitionStages.WithHns,
                 Resource.DefinitionWithTags<WithCreate> {
         }
 
@@ -885,6 +933,8 @@ public interface StorageAccount extends
             @Beta(Beta.SinceVersion.V1_5_0)
             @Method
             Update withoutAccessFromAzureServices();
+
+            Update withAzureFilesAadIntegrationEnabled(boolean enabled);
         }
 
         @Beta(Beta.SinceVersion.V1_5_1)

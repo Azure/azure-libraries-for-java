@@ -27,12 +27,12 @@ class UsagesImpl extends ReadableWrappersImpl<StorageUsage, UsageImpl, UsageInne
 
     @Override
     public PagedList<StorageUsage> list() {
-        return wrapList(inner().list());
+        throw new RuntimeException("Storage is no longer supporting usages listing anymore");
     }
 
     @Override
     public Observable<StorageUsage> listAsync() {
-        return wrapPageAsync(inner().listAsync());
+        throw new RuntimeException("Storage is no longer supporting usages listing anymore");
     }
 
     @Override

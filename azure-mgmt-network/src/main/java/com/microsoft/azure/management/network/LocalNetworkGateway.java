@@ -100,6 +100,7 @@ public interface LocalNetworkGateway extends
              * Adds address space.
              * Note: this method's effect is additive, i.e. each time it is used, a new address space is added to the network.
              * @param cidr the CIDR representation of the local network site address space
+             * @return the next stage of the definition
              */
             WithCreate withAddressSpace(String cidr);
         }

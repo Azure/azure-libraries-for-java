@@ -2,7 +2,7 @@
 
 # Azure Management Libraries for Java
 
-This README is based on the released stable version (1.21.0). If you are looking for other releases, see [More Information](#more-information).
+This README is based on the released stable version (1.22.0). If you are looking for other releases, see [More Information](#more-information).
 
 The Azure Management Libraries for Java is a higher-level, object-oriented API for *managing* Azure resources, that is optimized for ease of use, succinctness and consistency.
 
@@ -24,7 +24,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [More information](#more-information)
 
 ## Feature Availability and Road Map
-:triangular_flag_on_post: *as of Version 1.21.0*
+:triangular_flag_on_post: *as of Version 1.22.0*
 
 <table>
   <tr>
@@ -80,7 +80,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 
 The `Azure` class is the simplest entry point for creating and interacting with Azure resources.
 
-`Azure azure = Azure.authenticate(credFile).withDefaultSubscription();` 
+`Azure azure = Azure.authenticate(credFile).withDefaultSubscription();`
 
 To learn more about authentication in the Azure Libraries for Java, see [AUTH.md](AUTH.md).
 
@@ -104,7 +104,7 @@ VirtualMachine linuxVM = azure.virtualMachines().define("myLinuxVM")
 	.withSsh(sshKey)
 	.withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
 	.create();
-	
+
 System.out.println("Created a Linux VM: " + linuxVM.id());
 ```
 
@@ -194,7 +194,7 @@ You can create a virtual machine scale set instance by using a `define() … cre
   </tr>
 </table>
 
-### Networking 
+### Networking
 
 #### Create a virtual network
 
@@ -589,7 +589,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/search-java-manage-search-service">Manage Azure search</a></li>
 </ul></td>
   </tr>
-  
+
   <tr>
     <td>Event Hub</td>
     <td><ul style="list-style-type:circle">
@@ -598,7 +598,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/eventhub-java-manage-event-hub-events">Stream Azure Service Logs and Metrics for consumption through Event Hub</a></li>
 </ul></td>
   </tr>
-  
+
 
 </table>
 
@@ -606,13 +606,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 
 ### Latest stable release
 
-If you are using released builds from 1.21.0, add the following to your POM file:
+If you are using released builds from 1.22.0, add the following to your POM file:
 
 ```xml
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.21.0</version>
+    <version>1.22.0</version>
 </dependency>
 ```
 
@@ -639,7 +639,7 @@ If you are using snapshots builds for this repo, add the following repository an
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.21.1-SNAPSHOT</version>
+    <version>1.22.1-SNAPSHOT</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.azure</groupId>
@@ -666,7 +666,7 @@ If you are using snapshots builds for this repo, add the following repository an
 
 ## Upgrading from older versions
 
-If you are migrating your code from 1.20.x to 1.21.0, you can use these release notes for [preparing your code for 1.21.0 from 1.20.x](./notes/prepare-for-1.21.0.md).
+If you are migrating your code from 1.21.0 to 1.22.0, you can use these release notes for [preparing your code for 1.22.0 from 1.21.0](./notes/prepare-for-1.22.0.md).
 
 In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 
@@ -700,6 +700,7 @@ If you would like to become an active contributor to this project please follow 
 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| 1.21.0       | [1.21.0](https://github.com/Azure/azure-libraries-for-java/tree/1.21.0)               | Tagged release for 1.21.0 version of Azure management libraries |
 | 1.20.1       | [1.20.1](https://github.com/Azure/azure-libraries-for-java/tree/v1.20.1)               | Tagged release for 1.20.1 version of Azure management libraries |
 | 1.20.0       | [1.20.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.20.0)               | Tagged release for 1.20.0 version of Azure management libraries |
 | 1.19.0       | [1.19.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.19.0)               | Tagged release for 1.19.0 version of Azure management libraries |

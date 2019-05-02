@@ -17,7 +17,7 @@ public class CreationData {
     /**
      * This enumerates the possible sources of a disk's creation. Possible
      * values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy',
-     * 'Restore'.
+     * 'Restore', 'Upload'.
      */
     @JsonProperty(value = "createOption", required = true)
     private DiskCreateOption createOption;
@@ -51,7 +51,7 @@ public class CreationData {
     private String sourceResourceId;
 
     /**
-     * Get this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore'.
+     * Get this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'.
      *
      * @return the createOption value
      */
@@ -60,7 +60,7 @@ public class CreationData {
     }
 
     /**
-     * Set this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore'.
+     * Set this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'.
      *
      * @param createOption the createOption value to set
      * @return the CreationData object itself.

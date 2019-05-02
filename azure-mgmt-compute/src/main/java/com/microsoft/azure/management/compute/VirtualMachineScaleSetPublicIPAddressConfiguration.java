@@ -8,11 +8,10 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
-import com.microsoft.rest.serializer.JsonFlatten;
-
 import java.util.List;
+import com.microsoft.azure.SubResource;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * Describes a virtual machines scale set IP Configuration's PublicIPAddress

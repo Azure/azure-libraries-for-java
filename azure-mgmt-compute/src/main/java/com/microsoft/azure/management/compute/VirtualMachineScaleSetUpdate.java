@@ -56,6 +56,15 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
     private Boolean singlePlacementGroup;
 
     /**
+     * Specifies additional capabilities enabled or disabled on the Virtual
+     * Machines in the Virtual Machine Scale Set. For instance: whether the
+     * Virtual Machines have the capability to support attaching managed data
+     * disks with UltraSSD_LRS storage account type.
+     */
+    @JsonProperty(value = "properties.additionalCapabilities")
+    private AdditionalCapabilities additionalCapabilities;
+
+    /**
      * The identity of the virtual machine scale set, if configured.
      */
     @JsonProperty(value = "identity")
@@ -178,6 +187,26 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
      */
     public VirtualMachineScaleSetUpdate withSinglePlacementGroup(Boolean singlePlacementGroup) {
         this.singlePlacementGroup = singlePlacementGroup;
+        return this;
+    }
+
+    /**
+     * Get specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type.
+     *
+     * @return the additionalCapabilities value
+     */
+    public AdditionalCapabilities additionalCapabilities() {
+        return this.additionalCapabilities;
+    }
+
+    /**
+     * Set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type.
+     *
+     * @param additionalCapabilities the additionalCapabilities value to set
+     * @return the VirtualMachineScaleSetUpdate object itself.
+     */
+    public VirtualMachineScaleSetUpdate withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
+        this.additionalCapabilities = additionalCapabilities;
         return this;
     }
 

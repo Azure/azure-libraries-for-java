@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.compute;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-
-import java.util.Map;
 
 /**
  * Snapshot update resource.
@@ -35,10 +34,11 @@ public class SnapshotUpdate {
     private Integer diskSizeGB;
 
     /**
-     * Encryption settings for disk or snapshot.
+     * Encryption settings collection used be Azure Disk Encryption, can
+     * contain multiple encryption settings per disk or snapshot.
      */
-    @JsonProperty(value = "properties.encryptionSettings")
-    private EncryptionSettings encryptionSettings;
+    @JsonProperty(value = "properties.encryptionSettingsCollection")
+    private EncryptionSettingsCollection encryptionSettingsCollection;
 
     /**
      * Resource tags.
@@ -93,22 +93,22 @@ public class SnapshotUpdate {
     }
 
     /**
-     * Get encryption settings for disk or snapshot.
+     * Get encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
      *
-     * @return the encryptionSettings value
+     * @return the encryptionSettingsCollection value
      */
-    public EncryptionSettings encryptionSettings() {
-        return this.encryptionSettings;
+    public EncryptionSettingsCollection encryptionSettingsCollection() {
+        return this.encryptionSettingsCollection;
     }
 
     /**
-     * Set encryption settings for disk or snapshot.
+     * Set encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @param encryptionSettingsCollection the encryptionSettingsCollection value to set
      * @return the SnapshotUpdate object itself.
      */
-    public SnapshotUpdate withEncryptionSettings(EncryptionSettings encryptionSettings) {
-        this.encryptionSettings = encryptionSettings;
+    public SnapshotUpdate withEncryptionSettingsCollection(EncryptionSettingsCollection encryptionSettingsCollection) {
+        this.encryptionSettingsCollection = encryptionSettingsCollection;
         return this;
     }
 

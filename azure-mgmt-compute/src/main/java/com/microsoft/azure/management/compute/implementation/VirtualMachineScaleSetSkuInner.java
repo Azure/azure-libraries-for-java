@@ -8,9 +8,9 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.management.compute.Sku;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetSkuCapacity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Describes an available virtual machine scale set sku.

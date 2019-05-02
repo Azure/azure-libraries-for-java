@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.SubResource;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Describes a reference to Key Vault Secret.

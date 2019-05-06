@@ -78,7 +78,7 @@ public interface Disk extends
      * @return the disk encryption settings
      */
     @Beta(Beta.SinceVersion.V1_19_0)
-    EncryptionSettings encryptionSettings();
+    EncryptionSettingsCollection encryptionSettings();
 
     /**
      * Grants access to the disk.

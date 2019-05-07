@@ -55,7 +55,7 @@ class VirtualMachineCustomImageImpl
 
     @Override
     public HyperVGenerationTypes hyperVGeneration() {
-        return this.hyperVGeneration();
+        return this.inner().hyperVGeneration();
     }
 
     @Override

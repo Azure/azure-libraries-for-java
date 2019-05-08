@@ -46,7 +46,7 @@ public class Volume {
     private GitRepoVolume gitRepo;
 
     /**
-     * Get the name value.
+     * Get the name of the volume.
      *
      * @return the name value
      */
@@ -55,7 +55,7 @@ public class Volume {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the volume.
      *
      * @param name the name value to set
      * @return the Volume object itself.
@@ -66,7 +66,7 @@ public class Volume {
     }
 
     /**
-     * Get the azureFile value.
+     * Get the Azure File volume.
      *
      * @return the azureFile value
      */
@@ -75,7 +75,7 @@ public class Volume {
     }
 
     /**
-     * Set the azureFile value.
+     * Set the Azure File volume.
      *
      * @param azureFile the azureFile value to set
      * @return the Volume object itself.
@@ -86,7 +86,7 @@ public class Volume {
     }
 
     /**
-     * Get the emptyDir value.
+     * Get the empty directory volume.
      *
      * @return the emptyDir value
      */
@@ -95,7 +95,7 @@ public class Volume {
     }
 
     /**
-     * Set the emptyDir value.
+     * Set the empty directory volume.
      *
      * @param emptyDir the emptyDir value to set
      * @return the Volume object itself.
@@ -106,7 +106,7 @@ public class Volume {
     }
 
     /**
-     * Get the secret value.
+     * Get the secret volume.
      *
      * @return the secret value
      */
@@ -115,7 +115,7 @@ public class Volume {
     }
 
     /**
-     * Set the secret value.
+     * Set the secret volume.
      *
      * @param secret the secret value to set
      * @return the Volume object itself.
@@ -126,7 +126,7 @@ public class Volume {
     }
 
     /**
-     * Get the gitRepo value.
+     * Get the git repo volume.
      *
      * @return the gitRepo value
      */
@@ -135,7 +135,7 @@ public class Volume {
     }
 
     /**
-     * Set the gitRepo value.
+     * Set the git repo volume.
      *
      * @param gitRepo the gitRepo value to set
      * @return the Volume object itself.

@@ -1,5 +1,6 @@
 package com.microsoft.azure.management;
 
+import com.microsoft.azure.management.containerinstance.ResourceIdentityType;
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
@@ -9,6 +10,7 @@ import com.microsoft.azure.management.containerinstance.EnvironmentVariable;
 import com.microsoft.azure.management.containerinstance.Operation;
 import com.microsoft.azure.management.containerinstance.Volume;
 import com.microsoft.azure.management.containerinstance.VolumeMount;
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
@@ -39,6 +41,8 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
                 .withExternalTcpPort(80)
                 .withEnvironmentVariableWithSecuredValue("ENV2", "securedValue1")
                 .attach()
+            .withSystemAssignedManagedServiceIdentity()
+            .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
             .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
             .withDnsPrefix(cgName)
             .withTag("tag1", "value1")
@@ -83,6 +87,8 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertEquals(1, nginxContainer.environmentVariables().size());
         Assert.assertTrue(containerGroup.tags().containsKey("tag1"));
         Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
+        Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
+        Assert.assertEquals(ResourceIdentityType.SYSTEM_ASSIGNED, containerGroup.managedServiceIdentityType());
         Assert.assertEquals(cgName, containerGroup.dnsPrefix());
 
         ContainerGroup containerGroup2 = containerGroups.getByResourceGroup(rgName, cgName);

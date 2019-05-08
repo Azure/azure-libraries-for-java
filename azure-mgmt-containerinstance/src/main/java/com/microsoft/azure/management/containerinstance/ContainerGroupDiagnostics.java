@@ -21,7 +21,7 @@ public class ContainerGroupDiagnostics {
     private LogAnalytics logAnalytics;
 
     /**
-     * Get the logAnalytics value.
+     * Get container group log analytics information.
      *
      * @return the logAnalytics value
      */
@@ -30,7 +30,7 @@ public class ContainerGroupDiagnostics {
     }
 
     /**
-     * Set the logAnalytics value.
+     * Set container group log analytics information.
      *
      * @param logAnalytics the logAnalytics value to set
      * @return the ContainerGroupDiagnostics object itself.

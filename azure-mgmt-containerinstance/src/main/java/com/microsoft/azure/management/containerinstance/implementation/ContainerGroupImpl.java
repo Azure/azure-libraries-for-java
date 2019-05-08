@@ -9,17 +9,27 @@ package com.microsoft.azure.management.containerinstance.implementation;
 import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.Container;
+import com.microsoft.azure.management.containerinstance.ContainerExecRequest;
 import com.microsoft.azure.management.containerinstance.ContainerExecRequestTerminalSize;
 import com.microsoft.azure.management.containerinstance.ContainerExecResponse;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
+import com.microsoft.azure.management.containerinstance.ContainerGroupIdentity;
+import com.microsoft.azure.management.containerinstance.ContainerGroupIpAddressType;
+import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProfile;
 import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProtocol;
 import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
+import com.microsoft.azure.management.containerinstance.DnsConfiguration;
 import com.microsoft.azure.management.containerinstance.Event;
 import com.microsoft.azure.management.containerinstance.ImageRegistryCredential;
 import com.microsoft.azure.management.containerinstance.IpAddress;
 import com.microsoft.azure.management.containerinstance.OperatingSystemTypes;
 import com.microsoft.azure.management.containerinstance.Port;
+import com.microsoft.azure.management.containerinstance.ResourceIdentityType;
 import com.microsoft.azure.management.containerinstance.Volume;
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -54,15 +64,15 @@ import java.util.concurrent.Callable;
  */
 @LangDefinition
 public class ContainerGroupImpl
-    extends
-    GroupableParentResourceImpl<
+        extends
+        GroupableParentResourceImpl<
                 ContainerGroup,
                 ContainerGroupInner,
                 ContainerGroupImpl,
                 ContainerInstanceManager>
-    implements ContainerGroup,
-    ContainerGroup.Definition,
-    ContainerGroup.Update {
+        implements ContainerGroup,
+        ContainerGroup.Definition,
+        ContainerGroup.Update {
 
     private final StorageManager storageManager;
     private String creatableStorageAccountKey;
@@ -73,10 +83,12 @@ public class ContainerGroupImpl
     private List<String> imageRegistryServers;
     private int[] externalTcpPorts;
     private int[] externalUdpPorts;
+    private ContainerInstanceMsiHandler containerInstanceMsiHandler;
 
-    protected ContainerGroupImpl(String name, ContainerGroupInner innerObject, ContainerInstanceManager manager, final StorageManager storageManager) {
+    protected ContainerGroupImpl(String name, ContainerGroupInner innerObject, ContainerInstanceManager manager, final StorageManager storageManager, final GraphRbacManager rbacManager) {
         super(name, innerObject, manager);
         this.storageManager = storageManager;
+        this.containerInstanceMsiHandler = new ContainerInstanceMsiHandler(rbacManager, this);
     }
 
     @Override
@@ -92,77 +104,77 @@ public class ContainerGroupImpl
             resource.withLocation(self.regionName());
             resource.withTags(self.tags());
             return self.manager().inner().containerGroups()
-                .updateAsync(self.resourceGroupName(), self.name(), resource)
-                .flatMap(new Func1<ContainerGroupInner, Observable<ContainerGroupInner>>() {
-                    @Override
-                    public Observable<ContainerGroupInner> call(ContainerGroupInner containerGroupInner) {
-                        return self.manager().inner().containerGroups()
-                            .getByResourceGroupAsync(self.resourceGroupName(), self.name());
-                    }
-                });
+                    .updateAsync(self.resourceGroupName(), self.name(), resource)
+                    .flatMap(new Func1<ContainerGroupInner, Observable<ContainerGroupInner>>() {
+                        @Override
+                        public Observable<ContainerGroupInner> call(ContainerGroupInner containerGroupInner) {
+                            return self.manager().inner().containerGroups()
+                                    .getByResourceGroupAsync(self.resourceGroupName(), self.name());
+                        }
+                    });
         } else if (newFileShares == null || creatableStorageAccountKey == null) {
             return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner());
         } else {
             final StorageAccount storageAccount = this.<StorageAccount>taskResult(this.creatableStorageAccountKey);
             return createFileShareAsync(storageAccount)
-                .collect(new Func0<List<Triple<String, String, String>>>() {
-                    @Override
-                    public List<Triple<String, String, String>> call() {
-                        return new ArrayList<>();
-                    }
-                }, new Action2<List<Triple<String, String, String>>, Triple<String, String, String>>() {
-                    @Override
-                    public void call(List<Triple<String, String, String>> cloudFileShares, Triple<String, String, String> fileShare) {
-                        cloudFileShares.add(fileShare);
-                    }
-                })
-                .flatMap(new Func1<List<Triple<String, String, String>>, Observable<? extends ContainerGroupInner>>() {
-                    @Override
-                    public Observable<? extends ContainerGroupInner> call(List<Triple<String, String, String>> fileShares) {
-                        for (Triple<String, String, String> fileShareEntry : fileShares) {
-                            self.defineVolume(fileShareEntry.getLeft())
-                                .withExistingReadWriteAzureFileShare(fileShareEntry.getMiddle())
-                                .withStorageAccountName(storageAccount.name())
-                                .withStorageAccountKey(fileShareEntry.getRight())
-                                .attach();
+                    .collect(new Func0<List<Triple<String, String, String>>>() {
+                        @Override
+                        public List<Triple<String, String, String>> call() {
+                            return new ArrayList<>();
                         }
-                        return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner());
-                    }
-                });
+                    }, new Action2<List<Triple<String, String, String>>, Triple<String, String, String>>() {
+                        @Override
+                        public void call(List<Triple<String, String, String>> cloudFileShares, Triple<String, String, String> fileShare) {
+                            cloudFileShares.add(fileShare);
+                        }
+                    })
+                    .flatMap(new Func1<List<Triple<String, String, String>>, Observable<? extends ContainerGroupInner>>() {
+                        @Override
+                        public Observable<? extends ContainerGroupInner> call(List<Triple<String, String, String>> fileShares) {
+                            for (Triple<String, String, String> fileShareEntry : fileShares) {
+                                self.defineVolume(fileShareEntry.getLeft())
+                                        .withExistingReadWriteAzureFileShare(fileShareEntry.getMiddle())
+                                        .withStorageAccountName(storageAccount.name())
+                                        .withStorageAccountKey(fileShareEntry.getRight())
+                                        .attach();
+                            }
+                            return self.manager().inner().containerGroups().createOrUpdateAsync(self.resourceGroupName(), self.name(), self.inner());
+                        }
+                    });
         }
     }
 
     private Observable<Triple<String, String, String>> createFileShareAsync(final StorageAccount storageAccount) {
         return storageAccount.getKeysAsync()
-            .map(new Func1<List<StorageAccountKey>, String>() {
-                @Override
-                public String call(List<StorageAccountKey> storageAccountKeys) {
-                    return storageAccountKeys.get(0).value();
-                }
-            })
-        .flatMap(new Func1<String, Observable<Triple<String, String, String>>>() {
-            CloudFileClient cloudFileClient;
-            @Override
-            public Observable<Triple<String, String, String>> call(final String storageAccountKey) {
-                try {
-                    cloudFileClient = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
-                        storageAccount.name(),
-                        storageAccountKey))
-                        .createCloudFileClient();
-                } catch (URISyntaxException syntaxException) {
-                    throw Exceptions.propagate(syntaxException);
-                } catch (InvalidKeyException keyException) {
-                    throw Exceptions.propagate(keyException);
-                }
-                return Observable.from(newFileShares.entrySet())
-                    .flatMap(new Func1<Map.Entry<String, String>, Observable<Triple<String, String, String>>>() {
-                        @Override
-                        public Observable<Triple<String, String, String>> call(Map.Entry<String, String> fileShareEntry) {
-                            return createSingleFileShareAsync(cloudFileClient, fileShareEntry.getKey(), fileShareEntry.getValue(), storageAccountKey);
+                .map(new Func1<List<StorageAccountKey>, String>() {
+                    @Override
+                    public String call(List<StorageAccountKey> storageAccountKeys) {
+                        return storageAccountKeys.get(0).value();
+                    }
+                })
+                .flatMap(new Func1<String, Observable<Triple<String, String, String>>>() {
+                    CloudFileClient cloudFileClient;
+                    @Override
+                    public Observable<Triple<String, String, String>> call(final String storageAccountKey) {
+                        try {
+                            cloudFileClient = CloudStorageAccount.parse(String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s;EndpointSuffix=core.windows.net",
+                                    storageAccount.name(),
+                                    storageAccountKey))
+                                    .createCloudFileClient();
+                        } catch (URISyntaxException syntaxException) {
+                            throw Exceptions.propagate(syntaxException);
+                        } catch (InvalidKeyException keyException) {
+                            throw Exceptions.propagate(keyException);
                         }
-                    });
-            }
-        });
+                        return Observable.from(newFileShares.entrySet())
+                                .flatMap(new Func1<Map.Entry<String, String>, Observable<Triple<String, String, String>>>() {
+                                    @Override
+                                    public Observable<Triple<String, String, String>> call(Map.Entry<String, String> fileShareEntry) {
+                                        return createSingleFileShareAsync(cloudFileClient, fileShareEntry.getKey(), fileShareEntry.getValue(), storageAccountKey);
+                                    }
+                                });
+                    }
+                });
     }
 
     private Observable<Triple<String, String, String>> createSingleFileShareAsync(final CloudFileClient client, final String volumeName, final String fileShareName, final String storageAccountKey) {
@@ -267,6 +279,48 @@ public class ContainerGroupImpl
     }
 
     @Override
+    public ContainerGroupImpl withSystemAssignedManagedServiceIdentity() {
+        this.containerInstanceMsiHandler.withLocalManagedServiceIdentity();
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
+        this.containerInstanceMsiHandler.withAccessTo(resourceId, role);
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role) {
+        this.containerInstanceMsiHandler.withAccessToCurrentResourceGroup(role);
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId) {
+        this.containerInstanceMsiHandler.withAccessTo(resourceId, roleDefinitionId);
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
+        this.containerInstanceMsiHandler.withAccessToCurrentResourceGroup(roleDefinitionId);
+        return this;
+    }
+
+    @Override
+    public ContainerGroup.DefinitionStages.WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
+        this.containerInstanceMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
+        return this;
+    }
+
+    @Override
+    public ContainerGroup.DefinitionStages.WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity) {
+        this.containerInstanceMsiHandler.withExistingExternalManagedServiceIdentity(identity);
+        return this;
+    }
+
+    @Override
     public ContainerGroupImpl withPublicImageRegistryOnly() {
         this.inner().withImageRegistryCredentials(null);
 
@@ -279,9 +333,9 @@ public class ContainerGroupImpl
             this.inner().withImageRegistryCredentials(new ArrayList<ImageRegistryCredential>());
         }
         this.inner().imageRegistryCredentials().add(new ImageRegistryCredential()
-            .withServer(server)
-            .withUsername(username)
-            .withPassword(password));
+                .withServer(server)
+                .withUsername(username)
+                .withPassword(password));
 
         return this;
     }
@@ -290,9 +344,9 @@ public class ContainerGroupImpl
     public ContainerGroupImpl withNewAzureFileShareVolume(String volumeName, String shareName) {
         if (this.newFileShares == null || this.creatableStorageAccountKey == null) {
             StorageAccount.DefinitionStages.WithGroup definitionWithGroup = this.storageManager
-                .storageAccounts()
-                .define(SdkContext.randomResourceName("fs", 24))
-                .withRegion(this.regionName());
+                    .storageAccounts()
+                    .define(SdkContext.randomResourceName("fs", 24))
+                    .withRegion(this.regionName());
             Creatable<StorageAccount> creatable;
             if (this.creatableGroup != null) {
                 creatable = definitionWithGroup.withNewResourceGroup(this.creatableGroup);
@@ -313,8 +367,8 @@ public class ContainerGroupImpl
             this.inner().withVolumes(new ArrayList<Volume>());
         }
         this.inner().volumes().add(new Volume()
-            .withName(volumeName)
-            .withEmptyDir(new Object()));
+                .withName(volumeName)
+                .withEmptyDir(new Object()));
 
         return this;
     }
@@ -339,21 +393,21 @@ public class ContainerGroupImpl
     @Override
     public ContainerGroupImpl withContainerInstance(String imageName) {
         return this.defineContainerInstance(this.name())
-            .withImage(imageName)
-            .withoutPorts()
-            .withCpuCoreCount(1)
-            .withMemorySizeInGB(1.5)
-            .attach();
+                .withImage(imageName)
+                .withoutPorts()
+                .withCpuCoreCount(1)
+                .withMemorySizeInGB(1.5)
+                .attach();
     }
 
     @Override
     public ContainerGroupImpl withContainerInstance(String imageName, int port) {
         return this.defineContainerInstance(this.name())
-            .withImage(imageName)
-            .withExternalTcpPort(port)
-            .withCpuCoreCount(1)
-            .withMemorySizeInGB(1.5)
-            .attach();
+                .withImage(imageName)
+                .withExternalTcpPort(port)
+                .withCpuCoreCount(1)
+                .withMemorySizeInGB(1.5)
+                .attach();
     }
 
     @Override
@@ -374,6 +428,24 @@ public class ContainerGroupImpl
     }
 
     @Override
+    public ContainerGroupImpl withNetworkProfileId(String networkProfileId) {
+        this.inner().withNetworkProfile(new ContainerGroupNetworkProfile().withId(networkProfileId));
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withDnsServerNames(List<String> dnsServerNames) {
+        this.inner().withDnsConfig(new DnsConfiguration().withNameServers(dnsServerNames));
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withDnsConfiguration(List<String> dnsServerNames, String dnsSearchDomains, String dnsOptions) {
+        this.inner().withDnsConfig(new DnsConfiguration().withNameServers(dnsServerNames).withSearchDomains(dnsSearchDomains).withOptions(dnsOptions));
+        return this;
+    }
+
+    @Override
     public Map<String, Container> containers() {
         return Collections.unmodifiableMap(this.containers);
     }
@@ -381,8 +453,8 @@ public class ContainerGroupImpl
     @Override
     public Set<Port> externalPorts() {
         return Collections.unmodifiableSet(this.inner().ipAddress() != null && this.inner().ipAddress().ports() != null
-            ? new HashSet<Port>(this.inner().ipAddress().ports())
-            : new HashSet<Port>());
+                ? new HashSet<Port>(this.inner().ipAddress().ports())
+                : new HashSet<Port>());
     }
 
     @Override
@@ -439,7 +511,7 @@ public class ContainerGroupImpl
 
     @Override
     public boolean isIPAddressPublic() {
-        return this.inner().ipAddress() != null && this.inner().ipAddress().type() != null && this.inner().ipAddress().type().toLowerCase().equals("public");
+        return this.inner().ipAddress() != null && this.inner().ipAddress().type() != null && this.inner().ipAddress().type() == ContainerGroupIpAddressType.PUBLIC;
     }
 
     @Override
@@ -468,8 +540,46 @@ public class ContainerGroupImpl
     @Override
     public Set<Event> events() {
         return Collections.unmodifiableSet(this.inner().instanceView() != null && this.inner().instanceView().events() != null
-            ? new HashSet<Event>(this.inner().instanceView().events())
-            : new HashSet<Event>());
+                ? new HashSet<Event>(this.inner().instanceView().events())
+                : new HashSet<Event>());
+    }
+
+    @Override
+    public boolean isManagedServiceIdentityEnabled() {
+        ResourceIdentityType type = this.managedServiceIdentityType();
+        return type != null && !type.equals(ResourceIdentityType.NONE);
+    }
+
+    @Override
+    public String systemAssignedManagedServiceIdentityTenantId() {
+        if (this.inner().identity() != null) {
+            return this.inner().identity().tenantId();
+        }
+        return null;
+    }
+
+    @Override
+    public String systemAssignedManagedServiceIdentityPrincipalId() {
+        if (this.inner().identity() != null) {
+            return this.inner().identity().principalId();
+        }
+        return null;
+    }
+
+    @Override
+    public ResourceIdentityType managedServiceIdentityType() {
+        if (this.inner().identity() != null) {
+            return this.inner().identity().type();
+        }
+        return null;
+    }
+
+    @Override
+    public Set<String> userAssignedManagedServiceIdentityIds() {
+        if (this.inner().identity() != null && this.inner().identity().userAssignedIdentities() != null) {
+            return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().userAssignedIdentities().keySet()));
+        }
+        return Collections.unmodifiableSet(new HashSet<String>());
     }
 
     @Override
@@ -515,28 +625,50 @@ public class ContainerGroupImpl
     @Override
     public ContainerExecResponse executeCommand(String containerName, String command, int row, int column) {
         return new ContainerExecResponseImpl(this.manager().inner().containers()
-            .executeCommand(this.resourceGroupName(), this.name(), containerName,
-            new ContainerExecRequestInner()
-                .withCommand(command)
-                .withTerminalSize(new ContainerExecRequestTerminalSize()
-                    .withRows(row)
-                    .withCols(column))));
+                .executeCommand(this.resourceGroupName(), this.name(), containerName,
+                        new ContainerExecRequest()
+                                .withCommand(command)
+                                .withTerminalSize(new ContainerExecRequestTerminalSize()
+                                        .withRows(row)
+                                        .withCols(column))));
     }
 
     @Override
     public Observable<ContainerExecResponse> executeCommandAsync(String containerName, String command, int row, int column) {
         return this.manager().inner().containers()
-            .executeCommandAsync(this.resourceGroupName(), this.name(), containerName,
-                new ContainerExecRequestInner()
-                    .withCommand(command)
-                    .withTerminalSize(new ContainerExecRequestTerminalSize()
-                        .withRows(row)
-                        .withCols(column)))
-            .map(new Func1<ContainerExecResponseInner, ContainerExecResponse>() {
-                @Override
-                public ContainerExecResponse call(ContainerExecResponseInner containerExecResponseInner) {
-                    return new ContainerExecResponseImpl(containerExecResponseInner);
+                .executeCommandAsync(this.resourceGroupName(), this.name(), containerName,
+                        new ContainerExecRequest()
+                                .withCommand(command)
+                                .withTerminalSize(new ContainerExecRequestTerminalSize()
+                                        .withRows(row)
+                                        .withCols(column)))
+                .map(new Func1<ContainerExecResponseInner, ContainerExecResponse>() {
+                    @Override
+                    public ContainerExecResponse call(ContainerExecResponseInner containerExecResponseInner) {
+                        return new ContainerExecResponseImpl(containerExecResponseInner);
+                    }
+                });
+    }
+
+    RoleAssignmentHelper.IdProvider idProvider() {
+        return new RoleAssignmentHelper.IdProvider() {
+            @Override
+            public String principalId() {
+                if (inner() != null && inner().identity() != null) {
+                    return inner().identity().principalId();
+                } else {
+                    return null;
                 }
-            });
+            }
+
+            @Override
+            public String resourceId() {
+                if (inner() != null) {
+                    return inner().id();
+                } else {
+                    return null;
+                }
+            }
+        };
     }
 }

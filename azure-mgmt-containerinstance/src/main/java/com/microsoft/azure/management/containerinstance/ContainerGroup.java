@@ -10,6 +10,8 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerGroupInner;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerInstanceManager;
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -21,6 +23,7 @@ import rx.Completable;
 import rx.Observable;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,9 +33,9 @@ import java.util.Set;
 @Fluent
 @Beta(Beta.SinceVersion.V1_3_0)
 public interface ContainerGroup extends
-    GroupableResource<ContainerInstanceManager, ContainerGroupInner>,
-    Refreshable<ContainerGroup>,
-    Updatable<ContainerGroup.Update> {
+        GroupableResource<ContainerInstanceManager, ContainerGroupInner>,
+        Refreshable<ContainerGroup>,
+        Updatable<ContainerGroup.Update> {
 
     /***********************************************************
      * Getters
@@ -119,6 +122,20 @@ public interface ContainerGroup extends
     @Beta(Beta.SinceVersion.V1_5_0)
     Set<Event> events();
 
+    @Beta(Beta.SinceVersion.V1_23_0)
+    public boolean isManagedServiceIdentityEnabled();
+
+    @Beta(Beta.SinceVersion.V1_23_0)
+    public String systemAssignedManagedServiceIdentityTenantId();
+
+    @Beta(Beta.SinceVersion.V1_23_0)
+    public String systemAssignedManagedServiceIdentityPrincipalId();
+
+    @Beta(Beta.SinceVersion.V1_23_0)
+    ResourceIdentityType managedServiceIdentityType();
+
+    @Beta(Beta.SinceVersion.V1_23_0)
+    Set<String> userAssignedManagedServiceIdentityIds();
 
     /***********************************************************
      * Actions
@@ -225,15 +242,17 @@ public interface ContainerGroup extends
      * Starts the exec command for a specific container instance within the current group asynchronously.
      */
     interface Definition extends
-        DefinitionStages.Blank,
-        DefinitionStages.WithGroup,
-        DefinitionStages.WithOsType,
-        DefinitionStages.WithPublicOrPrivateImageRegistry,
-        DefinitionStages.WithPrivateImageRegistryOrVolume,
-        DefinitionStages.WithVolume,
-        DefinitionStages.WithFirstContainerInstance,
-        DefinitionStages.WithNextContainerInstance,
-        DefinitionStages.WithCreate {
+            DefinitionStages.Blank,
+            DefinitionStages.WithGroup,
+            DefinitionStages.WithOsType,
+            DefinitionStages.WithPublicOrPrivateImageRegistry,
+            DefinitionStages.WithPrivateImageRegistryOrVolume,
+            DefinitionStages.WithVolume,
+            DefinitionStages.WithFirstContainerInstance,
+            DefinitionStages.WithSystemAssignedManagedServiceIdentity,
+            DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
+            DefinitionStages.WithNextContainerInstance,
+            DefinitionStages.WithCreate {
     }
 
     /**
@@ -244,14 +263,14 @@ public interface ContainerGroup extends
          * The first stage of the container group definition.
          */
         interface Blank
-            extends GroupableResource.DefinitionWithRegion<WithGroup> {
+                extends GroupableResource.DefinitionWithRegion<WithGroup> {
         }
 
         /**
          * The stage of the container group definition allowing to specify the resource group.
          */
         interface WithGroup
-            extends GroupableResource.DefinitionStages.WithGroup<DefinitionStages.WithOsType> {
+                extends GroupableResource.DefinitionStages.WithGroup<DefinitionStages.WithOsType> {
         }
 
         /**
@@ -505,7 +524,7 @@ public interface ContainerGroup extends
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithVolumeAttach<ParentT> extends
-                Attachable.InDefinition<ParentT> {
+                    Attachable.InDefinition<ParentT> {
             }
 
             /**
@@ -600,8 +619,8 @@ public interface ContainerGroup extends
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithOrWithoutPorts<ParentT> extends
-                WithPorts<ParentT>,
-                WithoutPorts<ParentT> {
+                    WithPorts<ParentT>,
+                    WithoutPorts<ParentT> {
             }
 
             /**
@@ -624,7 +643,7 @@ public interface ContainerGroup extends
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithPortsOrContainerInstanceAttach<ParentT> extends
-                WithPorts<ParentT>,
+                    WithPorts<ParentT>,
                     WithContainerInstanceAttach<ParentT> {
             }
 
@@ -752,6 +771,10 @@ public interface ContainerGroup extends
                  * @return the next stage of the definition
                  */
                 WithContainerInstanceAttach<ParentT> withCpuCoreCount(double cpuCoreCount);
+            }
+
+            interface WithGpuResource<ParentT> {
+                WithContainerInstanceAttach<ParentT> withGpuResource(int gpuCoreCount, GpuSku gpuSku);
             }
 
             /**
@@ -908,12 +931,13 @@ public interface ContainerGroup extends
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithContainerInstanceAttach<ParentT> extends
-                WithCpuCoreCount<ParentT>,
-                WithMemorySize<ParentT>,
-                WithStartingCommandLine<ParentT>,
-                WithEnvironmentVariables<ParentT>,
-                WithVolumeMountSetting<ParentT>,
-                Attachable.InDefinition<ParentT> {
+                    WithCpuCoreCount<ParentT>,
+                    WithGpuResource<ParentT>,
+                    WithMemorySize<ParentT>,
+                    WithStartingCommandLine<ParentT>,
+                    WithEnvironmentVariables<ParentT>,
+                    WithVolumeMountSetting<ParentT>,
+                    Attachable.InDefinition<ParentT> {
             }
 
             /**
@@ -926,6 +950,22 @@ public interface ContainerGroup extends
                     WithPortsOrContainerInstanceAttach<ParentT>,
                     WithContainerInstanceAttach<ParentT> {
             }
+        }
+
+        interface WithSystemAssignedManagedServiceIdentity {
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
+        }
+
+        interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate{
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
+
+        interface WithUserAssignedManagedServiceIdentity {
+            WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+            WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
         /**
@@ -955,15 +995,28 @@ public interface ContainerGroup extends
             WithCreate withDnsPrefix(String dnsPrefix);
         }
 
+        interface WithNetworkProfile {
+            WithCreate withNetworkProfileId(String networkProfileId);
+        }
+
+        interface WithDnsConfig {
+            WithCreate withDnsServerNames(List<String> dnsServerNames);
+            WithCreate withDnsConfiguration(List<String> dnsServerNames, String dnsSearchDomains, String dnsOptions);
+        }
+
         /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          *   (via {@link WithCreate#create()}), but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
-            WithRestartPolicy,
-            WithDnsPrefix,
-            Creatable<ContainerGroup>,
-            Resource.DefinitionWithTags<WithCreate> {
+                WithRestartPolicy,
+                WithDnsPrefix,
+                WithNetworkProfile,
+                WithDnsConfig,
+                WithSystemAssignedManagedServiceIdentity,
+                WithUserAssignedManagedServiceIdentity,
+                Creatable<ContainerGroup>,
+                Resource.DefinitionWithTags<WithCreate> {
         }
     }
 
@@ -971,8 +1024,8 @@ public interface ContainerGroup extends
      * The template for an update operation, containing all the settings that can be modified.
      */
     interface Update extends
-        Resource.UpdateWithTags<Update>,
-        Appliable<ContainerGroup> {
+            Resource.UpdateWithTags<Update>,
+            Appliable<ContainerGroup> {
     }
 
 }

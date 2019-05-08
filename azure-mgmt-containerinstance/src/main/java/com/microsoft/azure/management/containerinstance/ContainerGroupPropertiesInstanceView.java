@@ -28,7 +28,7 @@ public class ContainerGroupPropertiesInstanceView {
     private String state;
 
     /**
-     * Get the events value.
+     * Get the events of this container group.
      *
      * @return the events value
      */
@@ -37,7 +37,7 @@ public class ContainerGroupPropertiesInstanceView {
     }
 
     /**
-     * Get the state value.
+     * Get the state of the container group. Only valid in response.
      *
      * @return the state value
      */

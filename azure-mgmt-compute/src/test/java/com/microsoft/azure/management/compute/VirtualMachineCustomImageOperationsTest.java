@@ -44,7 +44,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .define(vhdBasedImageName)
                 .withRegion(region)
                 .withNewResourceGroup(RG_NAME)
-                .withHyperVGeneration(HyperVGenerationTypes.V1)
+                .withHyperVGeneration(HyperVGenerationTypes.V2)
                 .withLinuxFromVhd(linuxVM.osUnmanagedDiskVhdUri(), OperatingSystemStateTypes.GENERALIZED)
                 .withOSDiskCaching(linuxVM.osDiskCachingType());
         for (VirtualMachineUnmanagedDataDisk disk : linuxVM.unmanagedDataDisks().values()) {
@@ -67,7 +67,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
         Assert.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
         Assert.assertNotNull(customImage.dataDiskImages());
         Assert.assertEquals(customImage.dataDiskImages().size(), linuxVM.unmanagedDataDisks().size());
-        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
+        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V2));
         for (ImageDataDisk diskImage : customImage.dataDiskImages().values()) {
             VirtualMachineUnmanagedDataDisk matchedDisk = null;
             for (VirtualMachineUnmanagedDataDisk vmDisk : linuxVM.unmanagedDataDisks().values()) {
@@ -122,7 +122,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .define(imageName)
                 .withRegion(region)
                 .withNewResourceGroup(RG_NAME)
-                .withHyperVGeneration(HyperVGenerationTypes.V2)
+                .withHyperVGeneration(HyperVGenerationTypes.V1)
                 .fromVirtualMachine(vm.id())
                 .create();
 
@@ -134,7 +134,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
         Assert.assertEquals(customImage.dataDiskImages().size(), 2);
         Assert.assertNotNull(customImage.sourceVirtualMachineId());
         Assert.assertTrue(customImage.sourceVirtualMachineId().equalsIgnoreCase(vm.id()));
-        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V2));
+        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
 
         for (VirtualMachineUnmanagedDataDisk vmDisk : vm.unmanagedDataDisks().values()) {
             Assert.assertTrue(customImage.dataDiskImages().containsKey(vmDisk.lun()));

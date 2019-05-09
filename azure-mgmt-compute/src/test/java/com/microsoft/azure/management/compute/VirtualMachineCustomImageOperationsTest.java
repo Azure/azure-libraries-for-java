@@ -44,7 +44,6 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .define(vhdBasedImageName)
                 .withRegion(region)
                 .withNewResourceGroup(RG_NAME)
-                .withHyperVGeneration(HyperVGenerationTypes.V2)
                 .withLinuxFromVhd(linuxVM.osUnmanagedDiskVhdUri(), OperatingSystemStateTypes.GENERALIZED)
                 .withOSDiskCaching(linuxVM.osDiskCachingType());
         for (VirtualMachineUnmanagedDataDisk disk : linuxVM.unmanagedDataDisks().values()) {
@@ -67,7 +66,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
         Assert.assertEquals(customImage.osDiskImage().osType(), OperatingSystemTypes.LINUX);
         Assert.assertNotNull(customImage.dataDiskImages());
         Assert.assertEquals(customImage.dataDiskImages().size(), linuxVM.unmanagedDataDisks().size());
-        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V2));
+        Assert.assertTrue(customImage.hyperVGeneration().equals(HyperVGenerationTypes.V1));
         for (ImageDataDisk diskImage : customImage.dataDiskImages().values()) {
             VirtualMachineUnmanagedDataDisk matchedDisk = null;
             for (VirtualMachineUnmanagedDataDisk vmDisk : linuxVM.unmanagedDataDisks().values()) {
@@ -109,6 +108,38 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
         Map<Integer, VirtualMachineDataDisk> dataDisks = virtualMachine.dataDisks();
         Assert.assertNotNull(dataDisks);
         Assert.assertEquals(dataDisks.size(), image.dataDiskImages().size());
+
+        //Create a hyperv Gen2 image
+        VirtualMachineCustomImage.DefinitionStages.WithCreateAndDataDiskImageOSDiskSettings
+                creatableDiskGen2 = computeManager
+                .virtualMachineCustomImages()
+                .define(vhdBasedImageName + "Gen2")
+                .withRegion(region)
+                .withNewResourceGroup(RG_NAME)
+                .withHyperVGeneration(HyperVGenerationTypes.V2)
+                .withLinuxFromVhd(linuxVM.osUnmanagedDiskVhdUri(), OperatingSystemStateTypes.GENERALIZED)
+                .withOSDiskCaching(linuxVM.osDiskCachingType());
+        for (VirtualMachineUnmanagedDataDisk disk : linuxVM.unmanagedDataDisks().values()) {
+            creatableDisk.defineDataDiskImage()
+                    .withLun(disk.lun())
+                    .fromVhd(disk.vhdUri())
+                    .withDiskCaching(disk.cachingType())
+                    .withDiskSizeInGB(disk.size() + 10) // Resize each data disk image by +10GB
+                    .attach();
+        }
+        VirtualMachineCustomImage customImageGen2 = creatableDiskGen2.create();
+        Assert.assertNotNull(customImageGen2.id());
+        Assert.assertEquals(customImageGen2.name(), vhdBasedImageName + "Gen2");
+        Assert.assertFalse(customImageGen2.isCreatedFromVirtualMachine());
+        Assert.assertNull(customImageGen2.sourceVirtualMachineId());
+        Assert.assertNotNull(customImageGen2.osDiskImage());
+        Assert.assertNotNull(customImageGen2.osDiskImage().blobUri());
+        Assert.assertEquals(customImageGen2.osDiskImage().caching(), CachingTypes.READ_WRITE);
+        Assert.assertEquals(customImageGen2.osDiskImage().osState(), OperatingSystemStateTypes.GENERALIZED);
+        Assert.assertEquals(customImageGen2.osDiskImage().osType(), OperatingSystemTypes.LINUX);
+        Assert.assertNotNull(customImageGen2.dataDiskImages());
+        Assert.assertEquals(customImageGen2.dataDiskImages().size(), 0);
+        Assert.assertTrue(customImageGen2.hyperVGeneration().equals(HyperVGenerationTypes.V2));
     }
 
     @Test

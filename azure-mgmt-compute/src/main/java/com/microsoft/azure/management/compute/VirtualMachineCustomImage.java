@@ -93,8 +93,8 @@ public interface VirtualMachineCustomImage extends
         }
 
         /**
-         * The stage of the image definition that allows us to choose a hyper V generation
-         * Default, if this stage is not added will be hyperV gen 1
+         * The stage of the image definition that allows us to choose a hyper V generation.
+         * Default, if this stage is not added will be hyperV gen 1.
          */
         interface WithHyperVGeneration extends WithOSDiskImageSourceAltVirtualMachineSource {
             WithOSDiskImageSourceAltVirtualMachineSource withHyperVGeneration(HyperVGenerationTypes hyperVGeneration);

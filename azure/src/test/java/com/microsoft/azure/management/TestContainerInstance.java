@@ -1,5 +1,7 @@
 package com.microsoft.azure.management;
 
+import com.microsoft.azure.management.containerinstance.DnsConfiguration;
+import com.microsoft.azure.management.containerinstance.LogAnalytics;
 import com.microsoft.azure.management.containerinstance.ResourceIdentityType;
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
@@ -14,6 +16,7 @@ import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,6 +27,10 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
     public ContainerGroup createResource(ContainerGroups containerGroups) throws Exception {
         final String cgName = "aci" + this.testId;
         final String rgName = "rgaci" + this.testId;
+
+
+        List<String> dnsServers = new ArrayList<String>();
+        dnsServers.add("dnsServer1");
         ContainerGroup containerGroup = containerGroups.define(cgName)
             .withRegion(Region.US_EAST2)
             .withNewResourceGroup(rgName)
@@ -45,6 +52,8 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
             .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
             .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
             .withDnsPrefix(cgName)
+            .withLogAnalytics("50d41d82-7b64-4e0b-bc1e-3b3fe38d1012", "isabellaTest")
+            .withNetworkProfileId("/providers/Microsoft.ContainerInstance/containerGroups/")
             .withTag("tag1", "value1")
             .create();
 
@@ -90,6 +99,9 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
         Assert.assertEquals(ResourceIdentityType.SYSTEM_ASSIGNED, containerGroup.managedServiceIdentityType());
         Assert.assertEquals(cgName, containerGroup.dnsPrefix());
+        Assert.assertEquals("50d41d82-7b64-4e0b-bc1e-3b3fe38d1012", containerGroup.logAnalytics().workspaceId());
+
+        //TODO: add network and dns testing when questions have been answered
 
         ContainerGroup containerGroup2 = containerGroups.getByResourceGroup(rgName, cgName);
 

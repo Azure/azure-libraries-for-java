@@ -102,6 +102,11 @@ public interface ContainerGroup extends
     boolean isIPAddressPublic();
 
     /**
+     * @return true if IP address is private
+     */
+    boolean isIPAddressPrivate();
+
+    /**
      * @return the base level OS type required by the containers in the group
      */
     OperatingSystemTypes osType();
@@ -122,20 +127,55 @@ public interface ContainerGroup extends
     @Beta(Beta.SinceVersion.V1_5_0)
     Set<Event> events();
 
+    /**
+     * @return the DNS configuration for the container group
+     */
     @Beta(Beta.SinceVersion.V1_23_0)
-    public boolean isManagedServiceIdentityEnabled();
+    DnsConfiguration dnsConfig();
 
+    /**
+     * @return the id of the network profile for the container group
+     */
     @Beta(Beta.SinceVersion.V1_23_0)
-    public String systemAssignedManagedServiceIdentityTenantId();
+    String networkProfileId();
 
+    /**
+     * @return whether managed service identity is enabled for the container group
+     */
     @Beta(Beta.SinceVersion.V1_23_0)
-    public String systemAssignedManagedServiceIdentityPrincipalId();
+    boolean isManagedServiceIdentityEnabled();
 
+    /**
+     * @return the tenant id of the system assigned managed service identity. Null if managed
+     * service identity is not configured.
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    String systemAssignedManagedServiceIdentityTenantId();
+
+    /**
+     * @return the principal id of the system assigned managed service identity. Null if managed
+     * service identity is not configured.
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return whether managed service identity is system assigned, user assigned, both, or neither
+     */
     @Beta(Beta.SinceVersion.V1_23_0)
     ResourceIdentityType managedServiceIdentityType();
 
+    /**
+     * @return the ids of the user assigned managed service identities. Returns an empty set if no
+     * MSIs are set.
+     */
     @Beta(Beta.SinceVersion.V1_23_0)
     Set<String> userAssignedManagedServiceIdentityIds();
+
+    /**
+     * @return the log analytics information of the container group.
+     */
+    LogAnalytics logAnalytics();
 
     /***********************************************************
      * Actions
@@ -952,19 +992,83 @@ public interface ContainerGroup extends
             }
         }
 
+        /**
+         * The stage of the container instance definition allowing to specify having system assigned managed service identity.
+         */
         interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Specifies a system assigned managed service identity for the container group.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
         }
 
-        interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate{
+        /**
+         * The stage of the container instance definition allowing to specify system assigned managed service identity with specific
+         * role based access.
+         */
+        interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
+            /**
+             * Specifies a system assigned managed service identity with access to a specific resource with a specified role.
+             *
+             * @param resourceId the id of the resource you are setting up access to
+             * @param role access role to be assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
+
+            /**
+             * Specifies a system assigned managed service identity with access to the current resource group and with the specified role.
+             *
+             * @param role access role to be assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
+
+            /**
+             * Specifies a system assigned managed service identity with access to a specific resource with a specified role from the id.
+             *
+             * @param resourceId the id of the resource you are setting up access to
+             * @param roleDefinitionId id of the access role to be assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
+
+            /**
+             * Specifies a system assigned managed service identity with access to the current resource group and with the specified role from the id.
+             *
+             * @param roleDefinitionId id of the access role to be assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
         }
 
+        /**
+         * The stage of the container instance definition allowing to specify user assigned managed service identity.
+         */
         interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associate with the container group.
+             *
+             * @param identity the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
@@ -995,13 +1099,70 @@ public interface ContainerGroup extends
             WithCreate withDnsPrefix(String dnsPrefix);
         }
 
+        /**
+         * The stage of the container group definition allowing to specify the network profile id.
+         */
         interface WithNetworkProfile {
+            /**
+             * Specifies the network profile information for a container group.
+             *
+             * @param networkProfileId the id of the network profile
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithCreate withNetworkProfileId(String networkProfileId);
         }
 
+        /**
+         * The stage of the container group definition allowing to specify the DNS configuration of the container group.
+         */
         interface WithDnsConfig {
+            /**
+             * Specifies the DNS servers for the container group.
+             *
+             * @param dnsServerNames the names of the DNS servers
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithCreate withDnsServerNames(List<String> dnsServerNames);
+
+            /**
+             * Specifies the DNS configuration for the container group.
+             *
+             * @param dnsServerNames the names of the DNS servers for the container group
+             * @param dnsSearchDomains the DNS search domains for hostname lookup in the container group
+             * @param dnsOptions the DNS options for the container group
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
             WithCreate withDnsConfiguration(List<String> dnsServerNames, String dnsSearchDomains, String dnsOptions);
+        }
+
+        /**
+         * The stage of the container group definition allowing to specify the log analytics platform for the container group.
+         */
+        interface WithLogAnalytics {
+            /**
+             * Specifies the log analytics workspace to use for the container group.
+             *
+             * @param workspaceId the id of the previously-created log analytics workspace
+             * @param workspaceKey the key of the previously-created log analytics workspace
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCreate withLogAnalytics(String workspaceId, String workspaceKey);
+
+            /**
+             * Specifies the log analytics workspace with optional add-ons for the container group.
+             *
+             * @param workspaceId the id of the previously-created log analytics workspace
+             * @param workspaceKey the key of the previously-created log analytics workspace
+             * @param logType the log type to be used. Possible values include: 'ContainerInsights', 'ContainerInstanceLogs'.
+             * @param metadata the metadata for log analytics
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCreate withLogAnalytics(String workspaceId, String workspaceKey, LogAnalyticsLogType logType, Map<String, String> metadata);
         }
 
         /**
@@ -1015,6 +1176,7 @@ public interface ContainerGroup extends
                 WithDnsConfig,
                 WithSystemAssignedManagedServiceIdentity,
                 WithUserAssignedManagedServiceIdentity,
+                WithLogAnalytics,
                 Creatable<ContainerGroup>,
                 Resource.DefinitionWithTags<WithCreate> {
         }

@@ -13,7 +13,7 @@ import com.microsoft.azure.management.containerinstance.ContainerExecRequest;
 import com.microsoft.azure.management.containerinstance.ContainerExecRequestTerminalSize;
 import com.microsoft.azure.management.containerinstance.ContainerExecResponse;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
-import com.microsoft.azure.management.containerinstance.ContainerGroupIdentity;
+import com.microsoft.azure.management.containerinstance.ContainerGroupDiagnostics;
 import com.microsoft.azure.management.containerinstance.ContainerGroupIpAddressType;
 import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProfile;
 import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProtocol;
@@ -22,6 +22,8 @@ import com.microsoft.azure.management.containerinstance.DnsConfiguration;
 import com.microsoft.azure.management.containerinstance.Event;
 import com.microsoft.azure.management.containerinstance.ImageRegistryCredential;
 import com.microsoft.azure.management.containerinstance.IpAddress;
+import com.microsoft.azure.management.containerinstance.LogAnalytics;
+import com.microsoft.azure.management.containerinstance.LogAnalyticsLogType;
 import com.microsoft.azure.management.containerinstance.OperatingSystemTypes;
 import com.microsoft.azure.management.containerinstance.Port;
 import com.microsoft.azure.management.containerinstance.ResourceIdentityType;
@@ -446,6 +448,18 @@ public class ContainerGroupImpl
     }
 
     @Override
+    public ContainerGroupImpl withLogAnalytics(String workspaceId, String workspaceKey) {
+        this.inner().withDiagnostics(new ContainerGroupDiagnostics().withLogAnalytics(new LogAnalytics().withWorkspaceId(workspaceId).withWorkspaceKey(workspaceKey)));
+        return this;
+    }
+
+    @Override
+    public ContainerGroupImpl withLogAnalytics(String workspaceId, String workspaceKey, LogAnalyticsLogType logType, Map<String, String> metadata) {
+        this.inner().withDiagnostics(new ContainerGroupDiagnostics().withLogAnalytics(new LogAnalytics().withWorkspaceId(workspaceId).withWorkspaceKey(workspaceKey).withLogType(logType).withMetadata(metadata)));
+        return this;
+    }
+
+    @Override
     public Map<String, Container> containers() {
         return Collections.unmodifiableMap(this.containers);
     }
@@ -515,6 +529,11 @@ public class ContainerGroupImpl
     }
 
     @Override
+    public boolean isIPAddressPrivate() {
+        return this.inner().ipAddress() != null && this.inner().ipAddress().type() != null && this.inner().ipAddress().type() == ContainerGroupIpAddressType.PRIVATE;
+    }
+
+    @Override
     public OperatingSystemTypes osType() {
         return this.inner().osType();
     }
@@ -542,6 +561,16 @@ public class ContainerGroupImpl
         return Collections.unmodifiableSet(this.inner().instanceView() != null && this.inner().instanceView().events() != null
                 ? new HashSet<Event>(this.inner().instanceView().events())
                 : new HashSet<Event>());
+    }
+
+    @Override
+    public DnsConfiguration dnsConfig() {
+        return this.inner().dnsConfig();
+    }
+
+    @Override
+    public String networkProfileId() {
+        return this.inner().networkProfile().id();
     }
 
     @Override
@@ -580,6 +609,11 @@ public class ContainerGroupImpl
             return Collections.unmodifiableSet(new HashSet<String>(this.inner().identity().userAssignedIdentities().keySet()));
         }
         return Collections.unmodifiableSet(new HashSet<String>());
+    }
+
+    @Override
+    public LogAnalytics logAnalytics() {
+        return this.inner().diagnostics().logAnalytics();
     }
 
     @Override

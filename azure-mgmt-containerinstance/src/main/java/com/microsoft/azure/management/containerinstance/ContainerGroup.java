@@ -292,6 +292,7 @@ public interface ContainerGroup extends
             DefinitionStages.WithSystemAssignedManagedServiceIdentity,
             DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
             DefinitionStages.WithNextContainerInstance,
+            DefinitionStages.DnsConfigFork,
             DefinitionStages.WithCreate {
     }
 
@@ -1110,7 +1111,11 @@ public interface ContainerGroup extends
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_23_0)
-            WithCreate withNetworkProfileId(String networkProfileId);
+            DnsConfigFork withNetworkProfileId(String networkProfileId);
+        }
+
+        interface DnsConfigFork extends WithDnsConfig, WithCreate {
+
         }
 
         /**
@@ -1173,7 +1178,6 @@ public interface ContainerGroup extends
                 WithRestartPolicy,
                 WithDnsPrefix,
                 WithNetworkProfile,
-                WithDnsConfig,
                 WithSystemAssignedManagedServiceIdentity,
                 WithUserAssignedManagedServiceIdentity,
                 WithLogAnalytics,

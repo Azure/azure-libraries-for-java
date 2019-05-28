@@ -89,7 +89,11 @@ class ContainerImpl implements
         if (parent.inner().ipAddress() == null) {
             parent.inner().withIpAddress(new IpAddress());
         }
-        parent.inner().ipAddress().withType(ContainerGroupIpAddressType.PUBLIC);
+        if (parent.inner().ipAddress().type() == null && parent.inner().ipAddress().dnsNameLabel() == null) {
+            parent.inner().ipAddress().withType(ContainerGroupIpAddressType.PRIVATE);
+        } else {
+            parent.inner().ipAddress().withType(ContainerGroupIpAddressType.PUBLIC);
+        }
         if (parent.inner().ipAddress().ports() == null) {
             parent.inner().ipAddress().withPorts(new ArrayList<Port>());
         }

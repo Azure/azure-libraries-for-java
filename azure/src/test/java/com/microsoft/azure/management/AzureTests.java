@@ -1090,9 +1090,18 @@ public class AzureTests extends TestBase {
     }
 
     @Test
-    public void testContainerInstance() throws Exception {
-       new TestContainerInstance()
+    public void testContainerInstanceWithPublicIpAddress() throws Exception {
+       new TestContainerInstanceWithPublicIpAddress()
             .runTest(azure.containerGroups(), azure.resourceGroups(), azure.subscriptionId());
+    }
+
+    @Test
+    public void testContainerInstanceWithPrivateIpAddress() throws Exception {
+        //LIVE ONLY TEST BECAUSE IT REQUIRES SUBSCRIPTION ID
+        if (!isPlaybackMode()) {
+            new TestContainerInstanceWithPrivateIpAddress()
+                    .runTest(azure.containerGroups(), azure.resourceGroups(), azure.subscriptionId());
+        }
     }
 
     @Test

@@ -1,8 +1,5 @@
 package com.microsoft.azure.management;
 
-import com.microsoft.azure.management.containerinstance.DnsConfiguration;
-import com.microsoft.azure.management.containerinstance.LogAnalytics;
-import com.microsoft.azure.management.containerinstance.ResourceIdentityType;
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
 import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
@@ -10,9 +7,11 @@ import com.microsoft.azure.management.containerinstance.ContainerGroups;
 import com.microsoft.azure.management.containerinstance.ContainerPort;
 import com.microsoft.azure.management.containerinstance.EnvironmentVariable;
 import com.microsoft.azure.management.containerinstance.Operation;
+import com.microsoft.azure.management.containerinstance.ResourceIdentityType;
 import com.microsoft.azure.management.containerinstance.Volume;
 import com.microsoft.azure.management.containerinstance.VolumeMount;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
@@ -21,41 +20,49 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class TestContainerInstance extends TestTemplate<ContainerGroup, ContainerGroups> {
+public class TestContainerInstanceWithPrivateIpAddress extends TestTemplate<ContainerGroup, ContainerGroups> {
 
     @Override
     public ContainerGroup createResource(ContainerGroups containerGroups) throws Exception {
         final String cgName = "aci" + this.testId;
         final String rgName = "rgaci" + this.testId;
 
+        final String logAnalyticsWorkspaceId = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE ID";
+        final String logAnalyticsWorkspaceKey = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE KEY";
+        final String networkProfileSubscriptionId = "REPLACE WITH YOUR NETWORK PROFILE SUBSCRIPTION ID";
+        final String networkProfileResourceGroupName = "REPLACE WITH YOUR NETWORK PROFILE RESOURCE GROUP NAME";
+        final String networkProfileName = "REPLEACE WITH YOUR NETWORK PROFILE NAME";
+        final List<String> dnsServerNames = new ArrayList<String>();
+        dnsServerNames.add("dnsServer1");
+
 
         List<String> dnsServers = new ArrayList<String>();
         dnsServers.add("dnsServer1");
         ContainerGroup containerGroup = containerGroups.define(cgName)
-            .withRegion(Region.US_EAST2)
-            .withNewResourceGroup(rgName)
-            .withLinux()
-            .withPublicImageRegistryOnly()
-            .withEmptyDirectoryVolume("emptydir1")
-            .defineContainerInstance("tomcat")
-                .withImage("tomcat")
-                .withExternalTcpPort(8080)
-                .withCpuCoreCount(1)
-                .withEnvironmentVariable("ENV1", "value1")
-                .attach()
-            .defineContainerInstance("nginx")
-                .withImage("nginx")
-                .withExternalTcpPort(80)
-                .withEnvironmentVariableWithSecuredValue("ENV2", "securedValue1")
-                .attach()
-            .withSystemAssignedManagedServiceIdentity()
-            .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
-            .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
-            .withDnsPrefix(cgName)
-            .withLogAnalytics("50d41d82-7b64-4e0b-bc1e-3b3fe38d1012", "isabellaTest")
-            .withNetworkProfileId("/providers/Microsoft.ContainerInstance/containerGroups/")
-            .withTag("tag1", "value1")
-            .create();
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup(rgName)
+                .withLinux()
+                .withPublicImageRegistryOnly()
+                .withEmptyDirectoryVolume("emptydir1")
+                .defineContainerInstance("tomcat")
+                    .withImage("tomcat")
+                    .withExternalTcpPort(8080)
+                    .withCpuCoreCount(1)
+                    .withEnvironmentVariable("ENV1", "value1")
+                    .attach()
+                .defineContainerInstance("nginx")
+                    .withImage("nginx")
+                    .withExternalTcpPort(80)
+                    .withEnvironmentVariableWithSecuredValue("ENV2", "securedValue1")
+                    .attach()
+                .withSystemAssignedManagedServiceIdentity()
+                .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
+                .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
+                .withLogAnalytics(logAnalyticsWorkspaceId, logAnalyticsWorkspaceKey)
+                .withNetworkProfileId(networkProfileSubscriptionId, networkProfileResourceGroupName, networkProfileName)
+                .withDnsConfiguration(dnsServerNames, "dnsSearchDomains", "dnsOptions")
+                .withTag("tag1", "value1")
+                .create();
 
         Assert.assertEquals(cgName, containerGroup.name());
         Assert.assertEquals("Linux", containerGroup.osType().toString());
@@ -63,7 +70,7 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertEquals(1, containerGroup.volumes().size());
         Assert.assertNotNull(containerGroup.volumes().get("emptydir1"));
         Assert.assertNotNull(containerGroup.ipAddress());
-        Assert.assertTrue(containerGroup.isIPAddressPublic());
+        Assert.assertTrue(containerGroup.isIPAddressPrivate());
         Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
         Assert.assertEquals(2, containerGroup.externalPorts().size());
         Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
@@ -98,8 +105,11 @@ public class TestContainerInstance extends TestTemplate<ContainerGroup, Containe
         Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
         Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
         Assert.assertEquals(ResourceIdentityType.SYSTEM_ASSIGNED, containerGroup.managedServiceIdentityType());
-        Assert.assertEquals(cgName, containerGroup.dnsPrefix());
-        Assert.assertEquals("50d41d82-7b64-4e0b-bc1e-3b3fe38d1012", containerGroup.logAnalytics().workspaceId());
+        Assert.assertEquals(logAnalyticsWorkspaceId, containerGroup.logAnalytics().workspaceId());
+        Assert.assertEquals("/subscriptions/" + networkProfileSubscriptionId + "/resourceGroups/" + networkProfileResourceGroupName + "/providers/Microsoft.Network/networkProfiles/" + networkProfileName, containerGroup.networkProfileId());
+        Assert.assertEquals("dnsServer1", containerGroup.dnsConfig().nameServers().get(0));
+        Assert.assertEquals("dnsSearchDomains", containerGroup.dnsConfig().searchDomains());
+        Assert.assertEquals("dnsOptions", containerGroup.dnsConfig().options());
 
         //TODO: add network and dns testing when questions have been answered
 

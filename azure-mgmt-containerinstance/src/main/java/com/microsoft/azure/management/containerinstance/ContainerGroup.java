@@ -1107,11 +1107,12 @@ public interface ContainerGroup extends
             /**
              * Specifies the network profile information for a container group.
              *
-             * @param networkProfileId the id of the network profile
+             * @param networkProfileId the id of the network profile. Should be of format /subscriptions/{subscription.id}/
+             *                         resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_23_0)
-            DnsConfigFork withNetworkProfileId(String networkProfileId);
+            DnsConfigFork withNetworkProfileId(String subscriptionId, String resourceGroupName, String networkProfileName);
         }
 
         interface DnsConfigFork extends WithDnsConfig, WithCreate {
@@ -1176,10 +1177,10 @@ public interface ContainerGroup extends
          */
         interface WithCreate extends
                 WithRestartPolicy,
-                WithDnsPrefix,
-                WithNetworkProfile,
                 WithSystemAssignedManagedServiceIdentity,
                 WithUserAssignedManagedServiceIdentity,
+                WithDnsPrefix,
+                WithNetworkProfile,
                 WithLogAnalytics,
                 Creatable<ContainerGroup>,
                 Resource.DefinitionWithTags<WithCreate> {

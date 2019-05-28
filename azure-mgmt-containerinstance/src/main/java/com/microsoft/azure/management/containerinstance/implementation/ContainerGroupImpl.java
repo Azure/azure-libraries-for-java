@@ -424,14 +424,19 @@ public class ContainerGroupImpl
         if (this.inner().ipAddress() == null) {
             this.inner().withIpAddress(new IpAddress());
         }
-        this.inner().ipAddress().withDnsNameLabel(dnsPrefix);
+        this.inner().ipAddress().withDnsNameLabel(dnsPrefix).withType(ContainerGroupIpAddressType.PUBLIC);
 
         return this;
     }
 
     @Override
-    public ContainerGroupImpl withNetworkProfileId(String networkProfileId) {
+    public ContainerGroupImpl withNetworkProfileId(String subscriptionId, String resourceGroupName, String networkProfileName) {
+        String networkProfileId = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroupName + "/providers/Microsoft.Network/networkProfiles/" + networkProfileName;
         this.inner().withNetworkProfile(new ContainerGroupNetworkProfile().withId(networkProfileId));
+        if (this.inner().ipAddress() == null) {
+            this.inner().withIpAddress(new IpAddress().withPorts(new ArrayList<Port>()));
+        }
+        this.inner().ipAddress().withType(ContainerGroupIpAddressType.PRIVATE);
         return this;
     }
 

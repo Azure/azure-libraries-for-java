@@ -1107,8 +1107,9 @@ public interface ContainerGroup extends
             /**
              * Specifies the network profile information for a container group.
              *
-             * @param networkProfileId the id of the network profile. Should be of format /subscriptions/{subscription.id}/
-             *                         resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkProfiles/{networkProfileName}
+             * @param subscriptionId the ID of the subscription of the network profile
+             * @param resourceGroupName the name of the resource group of the network profile
+             * @param networkProfileName the name of the network profile
              * @return the next stage of the definition
              */
             @Beta(Beta.SinceVersion.V1_23_0)

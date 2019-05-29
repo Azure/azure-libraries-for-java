@@ -26,20 +26,7 @@ jobs:
           JavaVersion: '1.7'
           
     
-    steps:   
-
-      - task: Maven@3
-        displayName: 'Start Jetty'
-        inputs:
-          mavenPomFile: pom.xml
-          options: '$(DefaultOptions) $(ProfileFlag)'
-          mavenOptions: '$(LoggingOptions)'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: $(JavaVersion)
-          jdkArchitectureOption: 'x64'
-          publishJUnitResults: false
-          goals: 'jetty:run-forked'
-          
+    steps:             
       - task: Maven@3
         displayName: 'Run StyleCheck'
         inputs:
@@ -65,6 +52,18 @@ jobs:
           goals: 'package'
           
       - task: Maven@3
+        displayName: 'Start Jetty'
+        inputs:
+          mavenPomFile: pom.xml
+          options: '$(DefaultOptions) $(ProfileFlag)'
+          mavenOptions: '$(LoggingOptions)'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: $(JavaVersion)
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: false
+          goals: 'jetty:run-forked'
+          
+      - task: Maven@3
         displayName: 'Run Tests'
         inputs:
           mavenPomFile: pom.xml
@@ -75,6 +74,13 @@ jobs:
           jdkArchitectureOption: 'x64'
           publishJUnitResults: false
           goals: 'test'
+          
+
+      - task: PublishTestResults@2
+        condition: succeededOrFailed()
+        inputs:
+          mergeTestResults: true
+          testRunTitle: 'On Java $(JavaVersion)'
           
 
         

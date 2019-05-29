@@ -10,7 +10,8 @@ function title {
     echo -e ${LGREEN}$1${CLEAR}
 }
 
-cd $(Build.SourcesDirectory)
+CURR_DIR=$(pwd)
+echo "==> executing in path : ${CURR_DIR} ===" ;
 
 JAVA_VER=$(java -version 2>&1 | sed -n ';s/.* version "\(.*\)\.\(.*\)\..*"/\1\2/p;')
 echo "==> java version : ${JAVA_VER} ===" ;

@@ -10,6 +10,7 @@ function title {
     echo -e ${LGREEN}$1${CLEAR}
 }
 
+cd ..
 CURR_DIR=$(pwd)
 echo "==> executing in path : ${CURR_DIR} ===" ;
 

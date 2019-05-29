@@ -11,13 +11,15 @@ function title {
 }
 
 JAVA_VER=$(java -version 2>&1 | sed -n ';s/.* version "\(.*\)\.\(.*\)\..*"/\1\2/p;')
-echo '==> java version : ${JAVA_VER}==='  ;
+echo '==> java version : ${JAVA_VER} ===' ;
 
 #############################################
 #run jetty
 echo '==> Starting mvn jetty:run ===' ;
 mvn jetty:run &
 JETTY_PID=$!
+
+echo '==> jetty pid : ${JETTY_PID} ===' ;
 
 #############################################
 #wait for jetty to start
@@ -37,5 +39,5 @@ mvn test -Dsurefire.rerunFailingTestsCount=3 $LOG_PARAMS -Dparallel=classes -Dth
 
 #############################################
 #kill jetty
-echo '==> kill the jetty process ===' ;
+echo '==> kill the jetty process with PID : ${JETTY_PID} ===' ;
 kill $JETTY_PID

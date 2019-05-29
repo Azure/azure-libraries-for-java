@@ -31,4 +31,5 @@ jobs:
         displayName: 'Run tests'
         inputs:
           scriptPath: ci/run_tests_ADO.sh
+          workingDirectory: $(build.sourcesDirectory)
         

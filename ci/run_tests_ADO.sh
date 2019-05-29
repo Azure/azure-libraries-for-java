@@ -10,16 +10,20 @@ function title {
     echo -e ${LGREEN}$1${CLEAR}
 }
 
+cd $(Build.SourcesDirectory)
+
 JAVA_VER=$(java -version 2>&1 | sed -n ';s/.* version "\(.*\)\.\(.*\)\..*"/\1\2/p;')
-echo '==> java version : ${JAVA_VER} ===' ;
+echo "==> java version : ${JAVA_VER} ===" ;
+
+LOG_PARAMS='-Dorg.slf4j.simpleLogger.defaultLogLevel=error -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode' ;
 
 #############################################
 #run jetty
 echo '==> Starting mvn jetty:run ===' ;
-mvn jetty:run &
+mvn jetty:run $LOG_PARAMS &
 JETTY_PID=$!
 
-echo '==> jetty pid : ${JETTY_PID} ===' ;
+echo "==> jetty pid : ${JETTY_PID} ===" ;
 
 #############################################
 #wait for jetty to start
@@ -27,7 +31,6 @@ echo '==> Waiting for jetty to start ===' ;
 sleep 10
 
 #############################################
-LOG_PARAMS='-Dorg.slf4j.simpleLogger.defaultLogLevel=error -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode' ;
 if [ ${JAVA_VER} -eq 18 ]; then
     title 'Running checkstyle:check under java 1.8'
     mvn checkstyle:check ;
@@ -39,5 +42,5 @@ mvn test -Dsurefire.rerunFailingTestsCount=3 $LOG_PARAMS -Dparallel=classes -Dth
 
 #############################################
 #kill jetty
-echo '==> kill the jetty process with PID : ${JETTY_PID} ===' ;
+echo "==> kill the jetty process with PID : ${JETTY_PID} ===" ;
 kill $JETTY_PID

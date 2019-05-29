@@ -10,6 +10,9 @@ function title {
     echo -e ${LGREEN}$1${CLEAR}
 }
 
+JAVA_VER=$(java -version 2>&1 | sed -n ';s/.* version "\(.*\)\.\(.*\)\..*"/\1\2/p;')
+echo '==> java version : ${JAVA_VER}==='  ;
+
 #############################################
 #run jetty
 echo '==> Starting mvn jetty:run ===' ;
@@ -23,8 +26,8 @@ sleep 10
 
 #############################################
 LOG_PARAMS='-Dorg.slf4j.simpleLogger.defaultLogLevel=error -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --batch-mode' ;
-if [ ${TRAVIS_JDK_VERSION} = "oraclejdk8" ]; then
-    title 'Running checkstyle:check'
+if [ ${JAVA_VER} -eq 18 ]; then
+    title 'Running checkstyle:check under java 1.8'
     mvn checkstyle:check ;
 fi
 title 'Running mvn -pl !azure-samples package javadoc:aggregate -DskipTests=true $LOG_PARAMS'

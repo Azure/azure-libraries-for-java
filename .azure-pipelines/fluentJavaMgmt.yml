@@ -26,22 +26,9 @@ jobs:
           JavaVersion: '1.7'
           
     
-    steps:
-      - task: Maven@3
-        displayName: 'Run jetty'
-        inputs:
-          mavenPomFile: $(pomFile)
-          goals: 'jetty:run'
-          mavenOptions: '$(LoggingOptions)'
-          javaHomeOption: 'JDKVersion'
-          jdkVersionOption: $(JavaVersion)
-          jdkArchitectureOption: 'x64'
-          
-      - script: sleep 15
-        displayName: 'Wait for jetty to start up'
-      
+    steps:     
       - task: ShellScript@2
         displayName: 'Run tests'
         inputs:
-          scriptPath: ci/run_tests.sh
+          scriptPath: ci/run_tests_ADO.sh
         

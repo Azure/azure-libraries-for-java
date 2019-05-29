@@ -32,7 +32,6 @@ jobs:
         inputs:
           mavenPomFile: $(pomFile)
           goals: 'jetty:run'
-          options: '$(DefaultOptions)'
           mavenOptions: '$(LoggingOptions)'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: $(JavaVersion)

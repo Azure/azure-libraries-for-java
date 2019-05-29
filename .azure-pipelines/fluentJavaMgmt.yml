@@ -26,9 +26,9 @@ jobs:
           JavaVersion: '1.7'
           
     
-    steps:                      
+    steps:      
       - task: Maven@3
-        displayName: 'Package'
+        displayName: 'install'
         inputs:
           mavenPomFile: pom.xml
           options: '$(DefaultOptions) $(ProfileFlag) -pl !azure-samples javadoc:aggregate -DskipTests=true -DpackageOutputDirectory=$(Build.ArtifactStagingDirectory)"'
@@ -37,7 +37,19 @@ jobs:
           jdkVersionOption: $(JavaVersion)
           jdkArchitectureOption: 'x64'
           publishJUnitResults: false
-          goals: 'package'
+          goals: 'install'
+          
+      # - task: Maven@3
+      #  displayName: 'Package'
+      #  inputs:
+      #    mavenPomFile: pom.xml
+      #    options: '$(DefaultOptions) $(ProfileFlag) -pl !azure-samples javadoc:aggregate -DskipTests=true -DpackageOutputDirectory=$(Build.ArtifactStagingDirectory)"'
+      #    mavenOptions: '$(LoggingOptions)'
+      #    javaHomeOption: 'JDKVersion'
+      #    jdkVersionOption: $(JavaVersion)
+      #    jdkArchitectureOption: 'x64'
+      #    publishJUnitResults: false
+      #    goals: 'package'
           
       - task: Maven@3
         displayName: 'Run StyleCheck'

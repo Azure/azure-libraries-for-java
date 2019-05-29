@@ -6,6 +6,7 @@ trigger:
 
 variables:
   LoggingOptions: '-Dorg.slf4j.simpleLogger.defaultLogLevel=error -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
+  pomFile: 'pom.xml'
 
 jobs:
   - job: 'Build'

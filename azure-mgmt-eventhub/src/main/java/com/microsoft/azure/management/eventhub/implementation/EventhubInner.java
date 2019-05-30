@@ -20,7 +20,7 @@ import com.microsoft.azure.ProxyResource;
  * Single item in List or Get Event Hub operation.
  */
 @JsonFlatten
-public class EventhubInner extends ProxyResource {
+public class EventhubInner extends NestedResourceInner {
     /**
      * Current number of shards on the Event Hub.
      */

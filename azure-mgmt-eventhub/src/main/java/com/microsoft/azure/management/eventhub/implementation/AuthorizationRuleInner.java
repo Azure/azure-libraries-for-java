@@ -18,7 +18,7 @@ import com.microsoft.azure.ProxyResource;
  * Single item in a List or Get AuthorizationRule operation.
  */
 @JsonFlatten
-public class AuthorizationRuleInner extends ProxyResource {
+public class AuthorizationRuleInner extends NestedResourceInner {
     /**
      * The rights associated with the rule.
      */

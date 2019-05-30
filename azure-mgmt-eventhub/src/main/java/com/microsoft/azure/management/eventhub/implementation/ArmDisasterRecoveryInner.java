@@ -18,7 +18,7 @@ import com.microsoft.azure.ProxyResource;
  * Single item in List or Get Alias(Disaster Recovery configuration) operation.
  */
 @JsonFlatten
-public class ArmDisasterRecoveryInner extends ProxyResource {
+public class ArmDisasterRecoveryInner extends NestedResourceInner {
     /**
      * Provisioning state of the Alias(Disaster Recovery configuration) -
      * possible values 'Accepted' or 'Succeeded' or 'Failed'. Possible values

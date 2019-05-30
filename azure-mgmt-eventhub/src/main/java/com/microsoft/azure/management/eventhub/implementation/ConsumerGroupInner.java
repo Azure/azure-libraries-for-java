@@ -17,7 +17,7 @@ import com.microsoft.azure.ProxyResource;
  * Single item in List or Get Consumer group operation.
  */
 @JsonFlatten
-public class ConsumerGroupInner extends ProxyResource {
+public class ConsumerGroupInner extends NestedResourceInner {
     /**
      * Exact time the message was created.
      */

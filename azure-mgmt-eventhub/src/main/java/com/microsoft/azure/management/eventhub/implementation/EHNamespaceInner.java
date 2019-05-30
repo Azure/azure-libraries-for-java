@@ -8,16 +8,18 @@
 
 package com.microsoft.azure.management.eventhub.implementation;
 
-import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.eventhub.Sku;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.rest.SkipParentValidation;
+import com.microsoft.azure.Resource;
 
 /**
  * Single Namespace item in List or Get Operation.
  */
 @JsonFlatten
+@SkipParentValidation
 public class EHNamespaceInner extends Resource {
     /**
      * Properties of sku resource.
@@ -63,7 +65,7 @@ public class EHNamespaceInner extends Resource {
     private Boolean isAutoInflateEnabled;
 
     /**
-     * Upper limit of throughput units when AutoInflate is enabled, vaule
+     * Upper limit of throughput units when AutoInflate is enabled, value
      * should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled =
      * true).
      */
@@ -71,7 +73,13 @@ public class EHNamespaceInner extends Resource {
     private Integer maximumThroughputUnits;
 
     /**
-     * Get the sku value.
+     * Value that indicates whether Kafka is enabled for eventhub namespace.
+     */
+    @JsonProperty(value = "properties.kafkaEnabled")
+    private Boolean kafkaEnabled;
+
+    /**
+     * Get properties of sku resource.
      *
      * @return the sku value
      */
@@ -80,7 +88,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Set the sku value.
+     * Set properties of sku resource.
      *
      * @param sku the sku value to set
      * @return the EHNamespaceInner object itself.
@@ -91,7 +99,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning state of the Namespace.
      *
      * @return the provisioningState value
      */
@@ -100,7 +108,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Get the createdAt value.
+     * Get the time the Namespace was created.
      *
      * @return the createdAt value
      */
@@ -109,7 +117,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Get the updatedAt value.
+     * Get the time the Namespace was updated.
      *
      * @return the updatedAt value
      */
@@ -118,7 +126,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Get the serviceBusEndpoint value.
+     * Get endpoint you can use to perform Service Bus operations.
      *
      * @return the serviceBusEndpoint value
      */
@@ -127,7 +135,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Get the metricId value.
+     * Get identifier for Azure Insights metrics.
      *
      * @return the metricId value
      */
@@ -136,7 +144,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Get the isAutoInflateEnabled value.
+     * Get value that indicates whether AutoInflate is enabled for eventhub namespace.
      *
      * @return the isAutoInflateEnabled value
      */
@@ -145,7 +153,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Set the isAutoInflateEnabled value.
+     * Set value that indicates whether AutoInflate is enabled for eventhub namespace.
      *
      * @param isAutoInflateEnabled the isAutoInflateEnabled value to set
      * @return the EHNamespaceInner object itself.
@@ -156,7 +164,7 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Get the maximumThroughputUnits value.
+     * Get upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true).
      *
      * @return the maximumThroughputUnits value
      */
@@ -165,13 +173,33 @@ public class EHNamespaceInner extends Resource {
     }
 
     /**
-     * Set the maximumThroughputUnits value.
+     * Set upper limit of throughput units when AutoInflate is enabled, value should be within 0 to 20 throughput units. ( '0' if AutoInflateEnabled = true).
      *
      * @param maximumThroughputUnits the maximumThroughputUnits value to set
      * @return the EHNamespaceInner object itself.
      */
     public EHNamespaceInner withMaximumThroughputUnits(Integer maximumThroughputUnits) {
         this.maximumThroughputUnits = maximumThroughputUnits;
+        return this;
+    }
+
+    /**
+     * Get value that indicates whether Kafka is enabled for eventhub namespace.
+     *
+     * @return the kafkaEnabled value
+     */
+    public Boolean kafkaEnabled() {
+        return this.kafkaEnabled;
+    }
+
+    /**
+     * Set value that indicates whether Kafka is enabled for eventhub namespace.
+     *
+     * @param kafkaEnabled the kafkaEnabled value to set
+     * @return the EHNamespaceInner object itself.
+     */
+    public EHNamespaceInner withKafkaEnabled(Boolean kafkaEnabled) {
+        this.kafkaEnabled = kafkaEnabled;
         return this;
     }
 

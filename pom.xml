@@ -162,7 +162,7 @@
           <stopPort>11079</stopPort>
           <stopKey>STOP</stopKey>
           <waitForChild>false</waitForChild>
-          <jettyXml>./jetty.xml</jettyXml>
+          <jettyXml>${project.basedir}/jetty.xml</jettyXml>
         </configuration>
       </plugin>
       <plugin>
@@ -305,6 +305,7 @@
             <environmentVariables>
               <test.mode>${testMode}</test.mode>
             </environmentVariables>
+            <argLine>-Xmx1024m -XX:MaxPermSize=256m</argLine>
           </configuration>
         </plugin>
 

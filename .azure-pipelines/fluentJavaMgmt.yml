@@ -51,6 +51,11 @@ jobs:
           publishJUnitResults: false
           goals: 'checkstyle:check'
           
+      - task: ShellScript@2 
+        displayName: 'Set Ulimits' 
+        inputs: 
+          scriptPath: ci/setUlimits.sh 
+
       - task: Maven@3
         displayName: 'Start Jetty'
         inputs:

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
 echo "Current limits :"
+ulimit -a
+
 ulimit -n
 
 ulimit
@@ -15,3 +17,5 @@ echo "updated limits"
 ulimit
 
 ulimit -n
+
+ulimit -a

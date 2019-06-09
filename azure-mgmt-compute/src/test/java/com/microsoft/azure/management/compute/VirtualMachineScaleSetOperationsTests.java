@@ -932,6 +932,96 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertTrue("Storage account should have a role assignment with virtual machine scale set MSI principal", found);
     }
 
+    @Test
+    public void canGetSingleVMSSInstance() throws Exception {
+
+        final String vmss_name = generateRandomResourceName("vmss", 10);
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        Network network = this.networkManager
+                .networks()
+                .define("vmssvnet")
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+
+        LoadBalancer publicLoadBalancer = createInternetFacingLoadBalancer(REGION,
+                resourceGroup,
+                "1",
+                LoadBalancerSkuType.BASIC);
+
+        List<String> backends = new ArrayList<>();
+        for (String backend : publicLoadBalancer.backends().keySet()) {
+            backends.add(backend);
+        }
+        Assert.assertTrue(backends.size() == 2);
+
+        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
+                .define(vmss_name)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_A0)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withExistingPrimaryInternetFacingLoadBalancer(publicLoadBalancer)
+                .withPrimaryInternetFacingLoadBalancerBackends(backends.get(0), backends.get(1))
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("jvuser")
+                .withRootPassword("123OData!@#123")
+                .withNewStorageAccount(generateRandomResourceName("stg", 15))
+                .withNewStorageAccount(generateRandomResourceName("stg3", 15))
+                .withUpgradeMode(UpgradeMode.MANUAL)
+                .create();
+
+        virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets().getByResourceGroup(RG_NAME, vmss_name);
+        VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = virtualMachineScaleSet.virtualMachines();
+        VirtualMachineScaleSetVM firstVm = virtualMachineScaleSetVMs.list().get(0);
+        VirtualMachineScaleSetVM fetchedVm = virtualMachineScaleSetVMs.getInstance(firstVm.instanceId());
+        this.checkVmsEqual(firstVm, fetchedVm);
+        VirtualMachineScaleSetVM fetchedAsyncVm = virtualMachineScaleSetVMs.getInstanceAsync(firstVm.instanceId()).toBlocking().single();
+        this.checkVmsEqual(firstVm, fetchedAsyncVm);
+    }
+
+    private void checkVmsEqual(VirtualMachineScaleSetVM original, VirtualMachineScaleSetVM fetched)
+    {
+        Assert.assertEquals(original.administratorUserName(), fetched.administratorUserName());
+        Assert.assertEquals(original.availabilitySetId(), fetched.availabilitySetId());
+        Assert.assertEquals(original.bootDiagnosticEnabled(), fetched.bootDiagnosticEnabled());
+        Assert.assertEquals(original.bootDiagnosticStorageAccountUri(), fetched.bootDiagnosticStorageAccountUri());
+        Assert.assertEquals(original.computerName(), fetched.computerName());
+        Assert.assertEquals(original.dataDisks().size(), fetched.dataDisks().size());
+        Assert.assertEquals(original.extensions().size(), fetched.extensions().size());
+        Assert.assertEquals(original.instanceId(), fetched.instanceId());
+        Assert.assertEquals(original.isLatestScaleSetUpdateApplied(), fetched.isLatestScaleSetUpdateApplied());
+        Assert.assertEquals(original.isLinuxPasswordAuthenticationEnabled(), fetched.isLatestScaleSetUpdateApplied());
+        Assert.assertEquals(original.isManagedDiskEnabled(), fetched.isManagedDiskEnabled());
+        Assert.assertEquals(original.isOSBasedOnCustomImage(), fetched.isOSBasedOnCustomImage());
+        Assert.assertEquals(original.isOSBasedOnPlatformImage(), fetched.isOSBasedOnPlatformImage());
+        Assert.assertEquals(original.isOSBasedOnStoredImage(), fetched.isOSBasedOnStoredImage());
+        Assert.assertEquals(original.isWindowsAutoUpdateEnabled(), fetched.isWindowsAutoUpdateEnabled());
+        Assert.assertEquals(original.isWindowsVMAgentProvisioned(), original.isWindowsVMAgentProvisioned());
+        Assert.assertEquals(original.networkInterfaceIds().size(), fetched.networkInterfaceIds().size());
+        Assert.assertEquals(original.osDiskCachingType(), fetched.osDiskCachingType());
+        Assert.assertEquals(original.osDiskId(), fetched.osDiskId());
+        Assert.assertEquals(original.osDiskName(), fetched.osDiskName());
+        Assert.assertEquals(original.osDiskSizeInGB(), fetched.osDiskSizeInGB());
+        Assert.assertEquals(original.osType(), fetched.osType());
+        Assert.assertEquals(original.osUnmanagedDiskVhdUri(), fetched.osUnmanagedDiskVhdUri());
+        Assert.assertEquals(original.powerState(), fetched.powerState());
+        Assert.assertEquals(original.primaryNetworkInterfaceId(), fetched.primaryNetworkInterfaceId());
+        Assert.assertEquals(original.size(), fetched.size());
+        Assert.assertEquals(original.sku().name(), fetched.sku().name());
+        Assert.assertEquals(original.storedImageUnmanagedVhdUri(), fetched.storedImageUnmanagedVhdUri());
+        Assert.assertEquals(original.unmanagedDataDisks().size(), fetched.unmanagedDataDisks().size());
+        Assert.assertEquals(original.windowsTimeZone(), fetched.windowsTimeZone());
+    }
+
 
     private void checkVMInstances(VirtualMachineScaleSet vmScaleSet) {
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = vmScaleSet.virtualMachines();

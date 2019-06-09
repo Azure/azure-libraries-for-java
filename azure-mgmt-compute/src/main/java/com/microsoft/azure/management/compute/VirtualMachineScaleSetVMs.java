@@ -12,6 +12,7 @@ import com.microsoft.azure.management.compute.implementation.VirtualMachineScale
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import rx.Completable;
+import rx.Observable;
 
 import java.util.Collection;
 
@@ -47,6 +48,20 @@ public interface VirtualMachineScaleSetVMs extends
      */
     @Beta(Beta.SinceVersion.V1_4_0)
     void deleteInstances(String... instanceIds);
+
+    /**
+     * Get the specified virtual machine instance from the scale set.
+     * @param instanceId instance ID of the virtual machine scale set instance to be fetched
+     * @return the virtual machine scale set instance.
+     */
+    VirtualMachineScaleSetVM getInstance(String instanceId);
+
+    /**
+     * Get the specified virtual machine instance from the scale set.
+     * @param instanceId instance ID of the virtual machine scale set instance to be fetched.
+     * @return the virtual machine scale set instance.
+     */
+    Observable<VirtualMachineScaleSetVM> getInstanceAsync(String instanceId);
 
     /**
      * Updates the specified virtual machine instances from the scale set.

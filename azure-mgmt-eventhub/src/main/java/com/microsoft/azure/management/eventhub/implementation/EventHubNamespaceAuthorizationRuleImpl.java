@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.eventhub.EventHubNamespace;
 import com.microsoft.azure.management.eventhub.EventHubNamespaceAuthorizationRule;
 import com.microsoft.azure.management.eventhub.KeyType;
+import com.microsoft.azure.management.eventhub.RegenerateAccessKeyParameters;
 import rx.Observable;
 
 import java.util.Objects;
@@ -92,7 +93,7 @@ class EventHubNamespaceAuthorizationRuleImpl extends AuthorizationRuleBaseImpl<E
 
     @Override
     protected Observable<AccessKeysInner> regenerateKeysInnerAsync(KeyType keyType) {
-        final RegenerateAccessKeyParametersInner regenKeyInner = new RegenerateAccessKeyParametersInner()
+        final RegenerateAccessKeyParameters regenKeyInner = new RegenerateAccessKeyParameters().withKeyType(keyType)
                 .withKeyType(keyType);
         return this.manager.inner().namespaces()
                 .regenerateKeysAsync(this.ancestor().resourceGroupName(),

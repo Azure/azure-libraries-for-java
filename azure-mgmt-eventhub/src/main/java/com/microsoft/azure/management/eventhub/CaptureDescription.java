@@ -51,7 +51,13 @@ public class CaptureDescription {
     private Destination destination;
 
     /**
-     * Get the enabled value.
+     * A value that indicates whether to Skip Empty Archives.
+     */
+    @JsonProperty(value = "skipEmptyArchives")
+    private Boolean skipEmptyArchives;
+
+    /**
+     * Get a value that indicates whether capture description is enabled.
      *
      * @return the enabled value
      */
@@ -60,7 +66,7 @@ public class CaptureDescription {
     }
 
     /**
-     * Set the enabled value.
+     * Set a value that indicates whether capture description is enabled.
      *
      * @param enabled the enabled value to set
      * @return the CaptureDescription object itself.
@@ -71,7 +77,7 @@ public class CaptureDescription {
     }
 
     /**
-     * Get the encoding value.
+     * Get enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be deprecated in New API Version. Possible values include: 'Avro', 'AvroDeflate'.
      *
      * @return the encoding value
      */
@@ -80,7 +86,7 @@ public class CaptureDescription {
     }
 
     /**
-     * Set the encoding value.
+     * Set enumerates the possible values for the encoding format of capture description. Note: 'AvroDeflate' will be deprecated in New API Version. Possible values include: 'Avro', 'AvroDeflate'.
      *
      * @param encoding the encoding value to set
      * @return the CaptureDescription object itself.
@@ -91,7 +97,7 @@ public class CaptureDescription {
     }
 
     /**
-     * Get the intervalInSeconds value.
+     * Get the time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds.
      *
      * @return the intervalInSeconds value
      */
@@ -100,7 +106,7 @@ public class CaptureDescription {
     }
 
     /**
-     * Set the intervalInSeconds value.
+     * Set the time window allows you to set the frequency with which the capture to Azure Blobs will happen, value should between 60 to 900 seconds.
      *
      * @param intervalInSeconds the intervalInSeconds value to set
      * @return the CaptureDescription object itself.
@@ -111,7 +117,7 @@ public class CaptureDescription {
     }
 
     /**
-     * Get the sizeLimitInBytes value.
+     * Get the size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes.
      *
      * @return the sizeLimitInBytes value
      */
@@ -120,7 +126,7 @@ public class CaptureDescription {
     }
 
     /**
-     * Set the sizeLimitInBytes value.
+     * Set the size window defines the amount of data built up in your Event Hub before an capture operation, value should be between 10485760 to 524288000 bytes.
      *
      * @param sizeLimitInBytes the sizeLimitInBytes value to set
      * @return the CaptureDescription object itself.
@@ -131,7 +137,7 @@ public class CaptureDescription {
     }
 
     /**
-     * Get the destination value.
+     * Get properties of Destination where capture will be stored. (Storage Account, Blob Names).
      *
      * @return the destination value
      */
@@ -140,13 +146,33 @@ public class CaptureDescription {
     }
 
     /**
-     * Set the destination value.
+     * Set properties of Destination where capture will be stored. (Storage Account, Blob Names).
      *
      * @param destination the destination value to set
      * @return the CaptureDescription object itself.
      */
     public CaptureDescription withDestination(Destination destination) {
         this.destination = destination;
+        return this;
+    }
+
+    /**
+     * Get a value that indicates whether to Skip Empty Archives.
+     *
+     * @return the skipEmptyArchives value
+     */
+    public Boolean skipEmptyArchives() {
+        return this.skipEmptyArchives;
+    }
+
+    /**
+     * Set a value that indicates whether to Skip Empty Archives.
+     *
+     * @param skipEmptyArchives the skipEmptyArchives value to set
+     * @return the CaptureDescription object itself.
+     */
+    public CaptureDescription withSkipEmptyArchives(Boolean skipEmptyArchives) {
+        this.skipEmptyArchives = skipEmptyArchives;
         return this;
     }
 

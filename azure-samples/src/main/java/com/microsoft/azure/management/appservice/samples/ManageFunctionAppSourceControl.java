@@ -239,7 +239,7 @@ public final class ManageFunctionAppSourceControl {
 
             System.out.println("Deploying square-function-app.zip to " + app6Name + " through ZIP deploy...");
 
-            app6.zipDeploy(new File(ManageWebAppSourceControl.class.getResource("/square-function-app.zip").getPath()));
+            app6.zipDeploy(new File(ManageFunctionAppSourceControl.class.getResource("/square-function-app.zip").getPath()));
 
             // warm up
             System.out.println("Warming up " + app6Url + "/api/square...");

@@ -22,8 +22,16 @@ import com.microsoft.azure.management.compute.VirtualMachineOffer;
 import com.microsoft.azure.management.compute.VirtualMachinePublisher;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSku;
+import com.microsoft.azure.management.containerinstance.Container;
+import com.microsoft.azure.management.containerinstance.ContainerGroup;
+import com.microsoft.azure.management.containerinstance.ContainerGroupRestartPolicy;
+import com.microsoft.azure.management.containerinstance.Operation;
+import com.microsoft.azure.management.containerinstance.ResourceIdentityType;
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.locks.LockLevel;
 import com.microsoft.azure.management.locks.ManagementLock;
+import com.microsoft.azure.management.msi.Identity;
+import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.Access;
 import com.microsoft.azure.management.network.ConnectionMonitor;
 import com.microsoft.azure.management.network.ConnectionMonitorQueryResult;
@@ -67,20 +75,24 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class AzureTests extends TestBase {
     private Azure azure;
+    private MSIManager msiManager;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         Azure.Authenticated azureAuthed = Azure.authenticate(restClient, defaultSubscription, domain);
         azure = azureAuthed.withSubscription(defaultSubscription);
+        this.msiManager = MSIManager.authenticate(restClient, defaultSubscription);
     }
 
     @Override
@@ -1090,9 +1102,122 @@ public class AzureTests extends TestBase {
     }
 
     @Test
-    public void testContainerInstanceWithPublicIpAddress() throws Exception {
-       new TestContainerInstanceWithPublicIpAddress()
-            .runTest(azure.containerGroups(), azure.resourceGroups(), azure.subscriptionId());
+    public void testContainerInstanceWithPublicIpAddressWithSystemAssignedMsi() throws Exception {
+        new TestContainerInstanceWithPublicIpAddressWithSystemAssignedMSI().runTest(azure.containerGroups(), azure.resourceGroups(), azure.subscriptionId());
+    }
+
+    @Test
+    public void testContainerInstanceWithPublicIpAddressWithUserAssignedMsi() throws Exception {
+        final String cgName = SdkContext.randomResourceName("aci", 10);
+        final String rgName = SdkContext.randomResourceName("rgaci", 10);
+        final String logAnalyticsWorkspaceId = "50d41d82-7b64-4e0b-bc1e-3b3fe38d1012";
+        String identityName1 = generateRandomResourceName("msi-id", 15);
+        String identityName2 = generateRandomResourceName("msi-id", 15);
+
+        final Identity createdIdentity = msiManager.identities()
+                .define(identityName1)
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup(rgName)
+                .withAccessToCurrentResourceGroup(BuiltInRole.READER)
+                .create();
+
+        Creatable<Identity> creatableIdentity = msiManager.identities()
+                .define(identityName2)
+                .withRegion(Region.US_WEST)
+                .withExistingResourceGroup(rgName)
+                .withAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR);
+
+
+        List<String> dnsServers = new ArrayList<String>();
+        dnsServers.add("dnsServer1");
+        ContainerGroup containerGroup = azure.containerGroups().define(cgName)
+                .withRegion(Region.US_EAST2)
+                .withExistingResourceGroup(rgName)
+                .withLinux()
+                .withPublicImageRegistryOnly()
+                .withEmptyDirectoryVolume("emptydir1")
+                .defineContainerInstance("tomcat")
+                    .withImage("tomcat")
+                    .withExternalTcpPort(8080)
+                    .withCpuCoreCount(1)
+                    .withEnvironmentVariable("ENV1", "value1")
+                    .attach()
+                .defineContainerInstance("nginx")
+                    .withImage("nginx")
+                    .withExternalTcpPort(80)
+                    .withEnvironmentVariableWithSecuredValue("ENV2", "securedValue1")
+                    .attach()
+                .withExistingUserAssignedManagedServiceIdentity(createdIdentity)
+                .withNewUserAssignedManagedServiceIdentity(creatableIdentity)
+                .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
+                .withLogAnalytics(logAnalyticsWorkspaceId, "isabellaTest")
+                .withDnsPrefix(cgName)
+                .withTag("tag1", "value1")
+                .create();
+
+        Assert.assertEquals(cgName, containerGroup.name());
+        Assert.assertEquals("Linux", containerGroup.osType().toString());
+        Assert.assertEquals(0, containerGroup.imageRegistryServers().size());
+        Assert.assertEquals(1, containerGroup.volumes().size());
+        Assert.assertNotNull(containerGroup.volumes().get("emptydir1"));
+        Assert.assertNotNull(containerGroup.ipAddress());
+        Assert.assertTrue(containerGroup.isIPAddressPublic());
+        Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
+        Assert.assertEquals(2, containerGroup.externalPorts().size());
+        Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
+        Assert.assertEquals(8080, containerGroup.externalTcpPorts()[0]);
+        Assert.assertEquals(80, containerGroup.externalTcpPorts()[1]);
+        Assert.assertEquals(2, containerGroup.containers().size());
+        Container tomcatContainer = containerGroup.containers().get("tomcat");
+        Assert.assertNotNull(tomcatContainer);
+        Container nginxContainer = containerGroup.containers().get("nginx");
+        Assert.assertNotNull(nginxContainer);
+        Assert.assertEquals("tomcat", tomcatContainer.name());
+        Assert.assertEquals("tomcat", tomcatContainer.image());
+        Assert.assertEquals(1.0, tomcatContainer.resources().requests().cpu(), .1);
+        Assert.assertEquals(1.5, tomcatContainer.resources().requests().memoryInGB(), .1);
+        Assert.assertEquals(1, tomcatContainer.ports().size());
+        Assert.assertEquals(8080, tomcatContainer.ports().get(0).port());
+        Assert.assertNull(tomcatContainer.volumeMounts());
+        Assert.assertNull(tomcatContainer.command());
+        Assert.assertNotNull(tomcatContainer.environmentVariables());
+        Assert.assertEquals(1, tomcatContainer.environmentVariables().size());
+        Assert.assertEquals("nginx", nginxContainer.name());
+        Assert.assertEquals("nginx", nginxContainer.image());
+        Assert.assertEquals(1.0, nginxContainer.resources().requests().cpu(), .1);
+        Assert.assertEquals(1.5, nginxContainer.resources().requests().memoryInGB(), .1);
+        Assert.assertEquals(1, nginxContainer.ports().size());
+        Assert.assertEquals(80, nginxContainer.ports().get(0).port());
+        Assert.assertNull(nginxContainer.volumeMounts());
+        Assert.assertNull(nginxContainer.command());
+        Assert.assertNotNull(nginxContainer.environmentVariables());
+        Assert.assertEquals(1, nginxContainer.environmentVariables().size());
+        Assert.assertTrue(containerGroup.tags().containsKey("tag1"));
+        Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
+        Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
+        Assert.assertNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
+
+        // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
+        //
+        Set<String> emsiIds = containerGroup.userAssignedManagedServiceIdentityIds();
+        Assert.assertNotNull(emsiIds);
+        Assert.assertEquals(2, emsiIds.size());
+        Assert.assertEquals(cgName, containerGroup.dnsPrefix());
+        Assert.assertEquals(logAnalyticsWorkspaceId, containerGroup.logAnalytics().workspaceId());
+
+        //TODO: add network and dns testing when questions have been answered
+
+        ContainerGroup containerGroup2 = azure.containerGroups().getByResourceGroup(rgName, cgName);
+
+        List<ContainerGroup> containerGroupList = azure.containerGroups().listByResourceGroup(rgName);
+        Assert.assertTrue(containerGroupList.size() > 0);
+        Assert.assertNotNull(containerGroupList.get(0).state());
+
+        containerGroup.refresh();
+
+        Set<Operation> containerGroupOperations = azure.containerGroups().listOperations();
+        // Number of supported operation can change hence don't assert with a predefined number.
+        Assert.assertTrue(containerGroupOperations.size() > 0);
     }
 
     @Test

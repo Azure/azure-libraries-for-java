@@ -31,7 +31,7 @@ public class TestContainerInstanceWithPrivateIpAddress extends TestTemplate<Cont
         final String logAnalyticsWorkspaceKey = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE KEY";
         final String networkProfileSubscriptionId = "REPLACE WITH YOUR NETWORK PROFILE SUBSCRIPTION ID";
         final String networkProfileResourceGroupName = "REPLACE WITH YOUR NETWORK PROFILE RESOURCE GROUP NAME";
-        final String networkProfileName = "REPLEACE WITH YOUR NETWORK PROFILE NAME";
+        final String networkProfileName = "REPLACE WITH YOUR NETWORK PROFILE NAME";
         final List<String> dnsServerNames = new ArrayList<String>();
         dnsServerNames.add("dnsServer1");
 
@@ -51,10 +51,10 @@ public class TestContainerInstanceWithPrivateIpAddress extends TestTemplate<Cont
                 .withEnvironmentVariable("ENV1", "value1")
                 .attach()
                 .defineContainerInstance("nginx")
-                .withImage("nginx")
-                .withExternalTcpPort(80)
-                .withEnvironmentVariableWithSecuredValue("ENV2", "securedValue1")
-                .attach()
+                    .withImage("nginx")
+                    .withExternalTcpPort(80)
+                    .withEnvironmentVariableWithSecuredValue("ENV2", "securedValue1")
+                    .attach()
                 .withSystemAssignedManagedServiceIdentity()
                 .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
                 .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
@@ -110,8 +110,6 @@ public class TestContainerInstanceWithPrivateIpAddress extends TestTemplate<Cont
         Assert.assertEquals("dnsServer1", containerGroup.dnsConfig().nameServers().get(0));
         Assert.assertEquals("dnsSearchDomains", containerGroup.dnsConfig().searchDomains());
         Assert.assertEquals("dnsOptions", containerGroup.dnsConfig().options());
-
-        //TODO: add network and dns testing when questions have been answered
 
         ContainerGroup containerGroup2 = containerGroups.getByResourceGroup(rgName, cgName);
 

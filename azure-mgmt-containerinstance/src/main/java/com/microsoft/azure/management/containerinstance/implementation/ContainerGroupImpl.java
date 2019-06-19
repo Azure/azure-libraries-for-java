@@ -85,12 +85,12 @@ public class ContainerGroupImpl
     private List<String> imageRegistryServers;
     private int[] externalTcpPorts;
     private int[] externalUdpPorts;
-    private ContainerInstanceMsiHandler containerInstanceMsiHandler;
+    private ContainerGroupMsiHandler containerGroupMsiHandler;
 
     protected ContainerGroupImpl(String name, ContainerGroupInner innerObject, ContainerInstanceManager manager, final StorageManager storageManager, final GraphRbacManager rbacManager) {
         super(name, innerObject, manager);
         this.storageManager = storageManager;
-        this.containerInstanceMsiHandler = new ContainerInstanceMsiHandler(rbacManager, this);
+        this.containerGroupMsiHandler = new ContainerGroupMsiHandler(rbacManager, this);
     }
 
     @Override
@@ -99,6 +99,8 @@ public class ContainerGroupImpl
 
     @Override
     protected Observable<ContainerGroupInner> createInner() {
+        this.containerGroupMsiHandler.processCreatedExternalIdentities();
+        this.containerGroupMsiHandler.handleExternalIdentities();
         final ContainerGroupImpl self = this;
 
         if (!isInCreateMode()) {
@@ -282,43 +284,43 @@ public class ContainerGroupImpl
 
     @Override
     public ContainerGroupImpl withSystemAssignedManagedServiceIdentity() {
-        this.containerInstanceMsiHandler.withLocalManagedServiceIdentity();
+        this.containerGroupMsiHandler.withLocalManagedServiceIdentity();
         return this;
     }
 
     @Override
     public ContainerGroupImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role) {
-        this.containerInstanceMsiHandler.withAccessTo(resourceId, role);
+        this.containerGroupMsiHandler.withAccessTo(resourceId, role);
         return this;
     }
 
     @Override
     public ContainerGroupImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role) {
-        this.containerInstanceMsiHandler.withAccessToCurrentResourceGroup(role);
+        this.containerGroupMsiHandler.withAccessToCurrentResourceGroup(role);
         return this;
     }
 
     @Override
     public ContainerGroupImpl withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId) {
-        this.containerInstanceMsiHandler.withAccessTo(resourceId, roleDefinitionId);
+        this.containerGroupMsiHandler.withAccessTo(resourceId, roleDefinitionId);
         return this;
     }
 
     @Override
     public ContainerGroupImpl withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId) {
-        this.containerInstanceMsiHandler.withAccessToCurrentResourceGroup(roleDefinitionId);
+        this.containerGroupMsiHandler.withAccessToCurrentResourceGroup(roleDefinitionId);
         return this;
     }
 
     @Override
-    public ContainerGroup.DefinitionStages.WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
-        this.containerInstanceMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
+    public ContainerGroupImpl withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
+        this.containerGroupMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
         return this;
     }
 
     @Override
-    public ContainerGroup.DefinitionStages.WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity) {
-        this.containerInstanceMsiHandler.withExistingExternalManagedServiceIdentity(identity);
+    public ContainerGroupImpl withExistingUserAssignedManagedServiceIdentity(Identity identity) {
+        this.containerGroupMsiHandler.withExistingExternalManagedServiceIdentity(identity);
         return this;
     }
 
@@ -434,7 +436,7 @@ public class ContainerGroupImpl
         String networkProfileId = "/subscriptions/" + subscriptionId + "/resourceGroups/" + resourceGroupName + "/providers/Microsoft.Network/networkProfiles/" + networkProfileName;
         this.inner().withNetworkProfile(new ContainerGroupNetworkProfile().withId(networkProfileId));
         if (this.inner().ipAddress() == null) {
-            this.inner().withIpAddress(new IpAddress().withPorts(new ArrayList<Port>()));
+            this.inner().withIpAddress(new IpAddress());
         }
         this.inner().ipAddress().withType(ContainerGroupIpAddressType.PRIVATE);
         return this;

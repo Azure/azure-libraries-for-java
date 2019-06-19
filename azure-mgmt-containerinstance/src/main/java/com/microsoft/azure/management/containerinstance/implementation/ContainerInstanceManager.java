@@ -11,6 +11,7 @@ import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.ContainerGroups;
 import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
@@ -25,6 +26,7 @@ import com.microsoft.rest.RestClient;
 /**
  * Entry point to Azure container instance management.
  */
+@LangDefinition
 @Beta(SinceVersion.V1_3_0)
 public final class ContainerInstanceManager extends Manager<ContainerInstanceManager, ContainerInstanceManagementClientImpl> {
 

@@ -31,7 +31,7 @@ import java.util.Set;
  * An immutable client-side representation of an Azure Container Group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_3_0)
+@Beta(Beta.SinceVersion.V1_23_0)
 public interface ContainerGroup extends
         GroupableResource<ContainerInstanceManager, ContainerGroupInner>,
         Refreshable<ContainerGroup>,

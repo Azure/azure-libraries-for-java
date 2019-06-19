@@ -167,7 +167,7 @@ class ContainerImpl implements
     @Override
     public ContainerImpl withGpuResource(int gpuCoreCount, GpuSku gpuSku) {
         innerContainer.resources().requests().withGpu(new GpuResource().withCount(gpuCoreCount).withSku(gpuSku));
-        return null;
+        return this;
     }
 
     @Override

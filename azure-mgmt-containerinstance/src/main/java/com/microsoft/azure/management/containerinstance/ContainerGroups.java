@@ -30,7 +30,7 @@ import java.util.Set;
  * Entry point to the container instance management API.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_3_0)
+@Beta(Beta.SinceVersion.V1_23_0)
 public interface ContainerGroups extends
         SupportsCreating<ContainerGroup.DefinitionStages.Blank>,
         HasManager<ContainerInstanceManager>,

@@ -27,7 +27,8 @@ public class TestContainerInstanceWithPublicIpAddressWithSystemAssignedMSI exten
     public ContainerGroup createResource(ContainerGroups containerGroups) throws Exception {
         final String cgName = "aci" + this.testId;
         final String rgName = "rgaci" + this.testId;
-        final String logAnalyticsWorkspaceId = "50d41d82-7b64-4e0b-bc1e-3b3fe38d1012";
+        final String logAnalyticsWorkspaceId = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE ID";
+        final String logAnalyticsWorkspaceKey = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE KEY";
 
 
         List<String> dnsServers = new ArrayList<String>();
@@ -52,7 +53,7 @@ public class TestContainerInstanceWithPublicIpAddressWithSystemAssignedMSI exten
             .withSystemAssignedManagedServiceIdentity()
             .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
             .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
-            .withLogAnalytics(logAnalyticsWorkspaceId, "isabellaTest")
+            .withLogAnalytics(logAnalyticsWorkspaceId, logAnalyticsWorkspaceKey)
             .withDnsPrefix(cgName)
             .withTag("tag1", "value1")
             .create();

@@ -1110,7 +1110,8 @@ public class AzureTests extends TestBase {
     public void testContainerInstanceWithPublicIpAddressWithUserAssignedMsi() throws Exception {
         final String cgName = SdkContext.randomResourceName("aci", 10);
         final String rgName = SdkContext.randomResourceName("rgaci", 10);
-        final String logAnalyticsWorkspaceId = "50d41d82-7b64-4e0b-bc1e-3b3fe38d1012";
+        final String logAnalyticsWorkspaceId = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE ID";
+        final String logAnalyticsWorkspaceKey = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE KEY";
         String identityName1 = generateRandomResourceName("msi-id", 15);
         String identityName2 = generateRandomResourceName("msi-id", 15);
 
@@ -1150,7 +1151,7 @@ public class AzureTests extends TestBase {
                 .withExistingUserAssignedManagedServiceIdentity(createdIdentity)
                 .withNewUserAssignedManagedServiceIdentity(creatableIdentity)
                 .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
-                .withLogAnalytics(logAnalyticsWorkspaceId, "isabellaTest")
+                .withLogAnalytics(logAnalyticsWorkspaceId, logAnalyticsWorkspaceKey)
                 .withDnsPrefix(cgName)
                 .withTag("tag1", "value1")
                 .create();

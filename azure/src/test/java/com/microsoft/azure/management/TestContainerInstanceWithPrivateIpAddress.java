@@ -31,7 +31,7 @@ public class TestContainerInstanceWithPrivateIpAddress extends TestTemplate<Cont
         final String logAnalyticsWorkspaceKey = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE KEY";
         final String networkProfileSubscriptionId = "REPLACE WITH YOUR NETWORK PROFILE SUBSCRIPTION ID";
         final String networkProfileResourceGroupName = "REPLACE WITH YOUR NETWORK PROFILE RESOURCE GROUP NAME";
-        final String networkProfileName = "REPLACE WITH YOUR NETWORK PROFILE NAME";
+        final String networkProfileName = "REPLEACE WITH YOUR NETWORK PROFILE NAME";
         final List<String> dnsServerNames = new ArrayList<String>();
         dnsServerNames.add("dnsServer1");
 
@@ -45,11 +45,11 @@ public class TestContainerInstanceWithPrivateIpAddress extends TestTemplate<Cont
                 .withPublicImageRegistryOnly()
                 .withEmptyDirectoryVolume("emptydir1")
                 .defineContainerInstance("tomcat")
-                .withImage("tomcat")
-                .withExternalTcpPort(8080)
-                .withCpuCoreCount(1)
-                .withEnvironmentVariable("ENV1", "value1")
-                .attach()
+                    .withImage("tomcat")
+                    .withExternalTcpPort(8080)
+                    .withCpuCoreCount(1)
+                    .withEnvironmentVariable("ENV1", "value1")
+                    .attach()
                 .defineContainerInstance("nginx")
                     .withImage("nginx")
                     .withExternalTcpPort(80)

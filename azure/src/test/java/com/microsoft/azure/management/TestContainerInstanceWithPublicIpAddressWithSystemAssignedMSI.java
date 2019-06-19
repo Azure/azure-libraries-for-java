@@ -27,8 +27,6 @@ public class TestContainerInstanceWithPublicIpAddressWithSystemAssignedMSI exten
     public ContainerGroup createResource(ContainerGroups containerGroups) throws Exception {
         final String cgName = "aci" + this.testId;
         final String rgName = "rgaci" + this.testId;
-        final String logAnalyticsWorkspaceId = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE ID";
-        final String logAnalyticsWorkspaceKey = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE KEY";
 
 
         List<String> dnsServers = new ArrayList<String>();
@@ -53,7 +51,6 @@ public class TestContainerInstanceWithPublicIpAddressWithSystemAssignedMSI exten
             .withSystemAssignedManagedServiceIdentity()
             .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
             .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
-            .withLogAnalytics(logAnalyticsWorkspaceId, logAnalyticsWorkspaceKey)
             .withDnsPrefix(cgName)
             .withTag("tag1", "value1")
             .create();
@@ -100,7 +97,6 @@ public class TestContainerInstanceWithPublicIpAddressWithSystemAssignedMSI exten
         Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
         Assert.assertEquals(ResourceIdentityType.SYSTEM_ASSIGNED, containerGroup.managedServiceIdentityType());
         Assert.assertEquals(cgName, containerGroup.dnsPrefix());
-        Assert.assertEquals(logAnalyticsWorkspaceId, containerGroup.logAnalytics().workspaceId());
         ContainerGroup containerGroup2 = containerGroups.getByResourceGroup(rgName, cgName);
 
         List<ContainerGroup> containerGroupList = containerGroups.listByResourceGroup(rgName);

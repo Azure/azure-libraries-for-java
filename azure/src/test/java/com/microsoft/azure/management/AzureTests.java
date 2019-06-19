@@ -1110,8 +1110,6 @@ public class AzureTests extends TestBase {
     public void testContainerInstanceWithPublicIpAddressWithUserAssignedMsi() throws Exception {
         final String cgName = SdkContext.randomResourceName("aci", 10);
         final String rgName = SdkContext.randomResourceName("rgaci", 10);
-        final String logAnalyticsWorkspaceId = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE ID";
-        final String logAnalyticsWorkspaceKey = "REPLACE WITH YOUR LOG ANALYTICS WORKSPACE KEY";
         String identityName1 = generateRandomResourceName("msi-id", 15);
         String identityName2 = generateRandomResourceName("msi-id", 15);
 
@@ -1151,7 +1149,6 @@ public class AzureTests extends TestBase {
                 .withExistingUserAssignedManagedServiceIdentity(createdIdentity)
                 .withNewUserAssignedManagedServiceIdentity(creatableIdentity)
                 .withRestartPolicy(ContainerGroupRestartPolicy.NEVER)
-                .withLogAnalytics(logAnalyticsWorkspaceId, logAnalyticsWorkspaceKey)
                 .withDnsPrefix(cgName)
                 .withTag("tag1", "value1")
                 .create();
@@ -1196,6 +1193,7 @@ public class AzureTests extends TestBase {
         Assert.assertTrue(containerGroup.tags().containsKey("tag1"));
         Assert.assertEquals(ContainerGroupRestartPolicy.NEVER, containerGroup.restartPolicy());
         Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
+        Assert.assertEquals(ResourceIdentityType.USER_ASSIGNED, containerGroup.managedServiceIdentityType());
         Assert.assertNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
 
         // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
@@ -1204,7 +1202,6 @@ public class AzureTests extends TestBase {
         Assert.assertNotNull(emsiIds);
         Assert.assertEquals(2, emsiIds.size());
         Assert.assertEquals(cgName, containerGroup.dnsPrefix());
-        Assert.assertEquals(logAnalyticsWorkspaceId, containerGroup.logAnalytics().workspaceId());
 
         //TODO: add network and dns testing when questions have been answered
 

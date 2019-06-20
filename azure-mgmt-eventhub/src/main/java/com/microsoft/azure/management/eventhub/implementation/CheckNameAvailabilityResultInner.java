@@ -37,7 +37,7 @@ public class CheckNameAvailabilityResultInner {
     private UnavailableReason reason;
 
     /**
-     * Get the message value.
+     * Get the detailed info regarding the reason associated with the Namespace.
      *
      * @return the message value
      */
@@ -46,7 +46,7 @@ public class CheckNameAvailabilityResultInner {
     }
 
     /**
-     * Get the nameAvailable value.
+     * Get value indicating Namespace is availability, true if the Namespace is available; otherwise, false.
      *
      * @return the nameAvailable value
      */
@@ -55,7 +55,7 @@ public class CheckNameAvailabilityResultInner {
     }
 
     /**
-     * Set the nameAvailable value.
+     * Set value indicating Namespace is availability, true if the Namespace is available; otherwise, false.
      *
      * @param nameAvailable the nameAvailable value to set
      * @return the CheckNameAvailabilityResultInner object itself.
@@ -66,7 +66,7 @@ public class CheckNameAvailabilityResultInner {
     }
 
     /**
-     * Get the reason value.
+     * Get the reason for unavailability of a Namespace. Possible values include: 'None', 'InvalidName', 'SubscriptionIsDisabled', 'NameInUse', 'NameInLockdown', 'TooManyNamespaceInCurrentSubscription'.
      *
      * @return the reason value
      */
@@ -75,7 +75,7 @@ public class CheckNameAvailabilityResultInner {
     }
 
     /**
-     * Set the reason value.
+     * Set the reason for unavailability of a Namespace. Possible values include: 'None', 'InvalidName', 'SubscriptionIsDisabled', 'NameInUse', 'NameInLockdown', 'TooManyNamespaceInCurrentSubscription'.
      *
      * @param reason the reason value to set
      * @return the CheckNameAvailabilityResultInner object itself.

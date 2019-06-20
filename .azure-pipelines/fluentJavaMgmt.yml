@@ -11,21 +11,23 @@ variables:
 jobs:
   - job: 'Build'
 
-    pool:
-      vmImage: 'win1803'
-
     strategy:
       matrix:
-        Java 8:
-          ArtifactName: 'packages'
-          ProfileFlag: ''
+
+        Windows - Java 8:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
           JavaVersion: '1.8'
-        Java 7:
-          ArtifactName: 'packages'
           ProfileFlag: ''
+        Windows - Java 7:
+          OSName: 'Windows'
+          OSVmImage: 'vs2017-win2016'
           JavaVersion: '1.7'
-          
+          ProfileFlag: ''
     
+    pool:
+      vmImage: $(OSVmImage)
+      
     steps:      
       - task: Maven@3
         displayName: 'install'

@@ -158,4 +158,58 @@ public abstract class TestTemplate<
         Assert.assertFalse(message, failedUpdate);
         Assert.assertFalse(message,  failedDelete);
     }
+
+    /**
+     * Runs the test.
+     * @param collection collection of resources to test
+     * @param resourceGroups the resource groups collection
+     * @throws Exception if anything goes wrong
+     */
+    public void runTest(CollectionT collection, ResourceGroups resourceGroups, String subscription) throws Exception {
+        this.collection = collection;
+        this.resourceGroups = resourceGroups;
+
+        // Initial listing
+        verifyListing();
+
+        // Verify creation
+        this.resource = createResource(collection);
+        System.out.println("\n------------\nAfter creation:\n");
+        print(this.resource);
+
+        // Verify listing
+        verifyListing();
+
+        // Verify getting
+        this.resource = verifyGetting();
+        Assert.assertTrue(this.resource != null);
+        System.out.println("\n------------\nRetrieved resource:\n");
+        print(this.resource);
+
+        boolean failedUpdate = false;
+        String message = "Update Failed";
+        // Verify update
+        try {
+            this.resource = updateResource(this.resource);
+            Assert.assertTrue(this.resource != null);
+            System.out.println("\n------------\nUpdated resource:\n");
+            message = "Print failed";
+            print(this.resource);
+        } catch (Exception e) {
+            e.printStackTrace();
+            failedUpdate = true;
+        }
+
+        // Verify deletion
+        boolean failedDelete = false;
+        try {
+            message = "Delete failed";
+            verifyDeleting();
+        } catch (Exception e) {
+            e.printStackTrace();
+            failedDelete = true;
+        }
+        Assert.assertFalse(message, failedUpdate);
+        Assert.assertFalse(message,  failedDelete);
+    }
 }

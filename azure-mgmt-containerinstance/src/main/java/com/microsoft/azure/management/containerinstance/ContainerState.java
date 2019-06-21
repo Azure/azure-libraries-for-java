@@ -47,7 +47,7 @@ public class ContainerState {
     private String detailStatus;
 
     /**
-     * Get the state value.
+     * Get the state of the container instance.
      *
      * @return the state value
      */
@@ -56,7 +56,7 @@ public class ContainerState {
     }
 
     /**
-     * Set the state value.
+     * Set the state of the container instance.
      *
      * @param state the state value to set
      * @return the ContainerState object itself.
@@ -67,7 +67,7 @@ public class ContainerState {
     }
 
     /**
-     * Get the startTime value.
+     * Get the date-time when the container instance state started.
      *
      * @return the startTime value
      */
@@ -76,7 +76,7 @@ public class ContainerState {
     }
 
     /**
-     * Set the startTime value.
+     * Set the date-time when the container instance state started.
      *
      * @param startTime the startTime value to set
      * @return the ContainerState object itself.
@@ -87,7 +87,7 @@ public class ContainerState {
     }
 
     /**
-     * Get the exitCode value.
+     * Get the container instance exit codes correspond to those from the `docker run` command.
      *
      * @return the exitCode value
      */
@@ -96,7 +96,7 @@ public class ContainerState {
     }
 
     /**
-     * Set the exitCode value.
+     * Set the container instance exit codes correspond to those from the `docker run` command.
      *
      * @param exitCode the exitCode value to set
      * @return the ContainerState object itself.
@@ -107,7 +107,7 @@ public class ContainerState {
     }
 
     /**
-     * Get the finishTime value.
+     * Get the date-time when the container instance state finished.
      *
      * @return the finishTime value
      */
@@ -116,7 +116,7 @@ public class ContainerState {
     }
 
     /**
-     * Set the finishTime value.
+     * Set the date-time when the container instance state finished.
      *
      * @param finishTime the finishTime value to set
      * @return the ContainerState object itself.
@@ -127,7 +127,7 @@ public class ContainerState {
     }
 
     /**
-     * Get the detailStatus value.
+     * Get the human-readable status of the container instance state.
      *
      * @return the detailStatus value
      */
@@ -136,7 +136,7 @@ public class ContainerState {
     }
 
     /**
-     * Set the detailStatus value.
+     * Set the human-readable status of the container instance state.
      *
      * @param detailStatus the detailStatus value to set
      * @return the ContainerState object itself.

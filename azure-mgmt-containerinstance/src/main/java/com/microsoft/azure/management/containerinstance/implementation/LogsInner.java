@@ -21,7 +21,7 @@ public class LogsInner {
     private String content;
 
     /**
-     * Get the content value.
+     * Get the content of the log.
      *
      * @return the content value
      */
@@ -30,7 +30,7 @@ public class LogsInner {
     }
 
     /**
-     * Set the content value.
+     * Set the content of the log.
      *
      * @param content the content value to set
      * @return the LogsInner object itself.

@@ -36,7 +36,7 @@ public class GitRepoVolume {
     private String revision;
 
     /**
-     * Get the directory value.
+     * Get target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name.
      *
      * @return the directory value
      */
@@ -45,7 +45,7 @@ public class GitRepoVolume {
     }
 
     /**
-     * Set the directory value.
+     * Set target directory name. Must not contain or start with '..'.  If '.' is supplied, the volume directory will be the git repository.  Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name.
      *
      * @param directory the directory value to set
      * @return the GitRepoVolume object itself.
@@ -56,7 +56,7 @@ public class GitRepoVolume {
     }
 
     /**
-     * Get the repository value.
+     * Get repository URL.
      *
      * @return the repository value
      */
@@ -65,7 +65,7 @@ public class GitRepoVolume {
     }
 
     /**
-     * Set the repository value.
+     * Set repository URL.
      *
      * @param repository the repository value to set
      * @return the GitRepoVolume object itself.
@@ -76,7 +76,7 @@ public class GitRepoVolume {
     }
 
     /**
-     * Get the revision value.
+     * Get commit hash for the specified revision.
      *
      * @return the revision value
      */
@@ -85,7 +85,7 @@ public class GitRepoVolume {
     }
 
     /**
-     * Set the revision value.
+     * Set commit hash for the specified revision.
      *
      * @param revision the revision value to set
      * @return the GitRepoVolume object itself.

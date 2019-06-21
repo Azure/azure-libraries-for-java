@@ -20,27 +20,29 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCr
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import rx.Completable;
 import rx.Observable;
 
+import java.util.List;
 import java.util.Set;
 
 /**
  * Entry point to the container instance management API.
  */
 @Fluent()
-@Beta(Beta.SinceVersion.V1_3_0)
+@Beta(Beta.SinceVersion.V1_23_0)
 public interface ContainerGroups extends
-    SupportsCreating<ContainerGroup.DefinitionStages.Blank>,
-    HasManager<ContainerInstanceManager>,
-    HasInner<ContainerGroupsInner>,
-    SupportsBatchCreation<ContainerGroup>,
-    SupportsGettingByResourceGroup<ContainerGroup>,
-    SupportsGettingById<ContainerGroup>,
-    SupportsDeletingByResourceGroup,
-    SupportsDeletingById,
-    SupportsBatchDeletion,
-    SupportsListingByResourceGroup<ContainerGroup>,
-    SupportsListing<ContainerGroup> {
+        SupportsCreating<ContainerGroup.DefinitionStages.Blank>,
+        HasManager<ContainerInstanceManager>,
+        HasInner<ContainerGroupsInner>,
+        SupportsBatchCreation<ContainerGroup>,
+        SupportsGettingByResourceGroup<ContainerGroup>,
+        SupportsGettingById<ContainerGroup>,
+        SupportsDeletingByResourceGroup,
+        SupportsDeletingById,
+        SupportsBatchDeletion,
+        SupportsListingByResourceGroup<ContainerGroup>,
+        SupportsListing<ContainerGroup> {
 
     /**
      * Get the log content for the specified container instance within a container group.
@@ -105,6 +107,61 @@ public interface ContainerGroups extends
      *
      * @return a representation of the future computation of this call
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
+    @Beta(Beta.SinceVersion.V1_23_0)
     Observable<Set<Operation>> listOperationsAsync();
+
+    /**
+     * Lists cached images for a subscription in a region.
+     *
+     * @param location the identifier for the physical azure location.
+     * @return all cached images from the specified location
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    List<CachedImages> listCachedImages(String location);
+
+    /**
+     * Lists cached images for a subscription in a region.
+     *
+     * @param location the identifier for the physical azure location.
+     * @return a representation of the future computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    Observable<CachedImages> listCachedImagesAsync(String location);
+
+    /**
+     * Lists the capabilities of a location.
+     *
+     * @param location the identifier for the physical azure location
+     * @return a list of all of the capabilities of the given location
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    List<Capabilities> listCapabilities(String location);
+
+    /**
+     * Lists the capabilities of a location.
+     *
+     * @param location the identifier for the physical azure location
+     * @return a representation of the future computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    Observable<Capabilities> listCapabilitiesAsync(String location);
+
+    /**
+     * Starts all containers in a container group.
+     *
+     * @param resourceGroupName the name of the resource group of the container group
+     * @param containerGroupName the name of the container group
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    void start(String resourceGroupName, String containerGroupName);
+
+    /**
+     * Starts all containers in a container group.
+     *
+     * @param resourceGroupName the name of the resource group of the container group
+     * @param containerGroupName the name of the container group
+     * @return a representation of the future computation of this call
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    Completable startAsync(String resourceGroupName, String containerGroupName);
 }

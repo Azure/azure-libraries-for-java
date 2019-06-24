@@ -41,7 +41,7 @@ public class AzureFileVolume {
     private String storageAccountKey;
 
     /**
-     * Get the shareName value.
+     * Get the name of the Azure File share to be mounted as a volume.
      *
      * @return the shareName value
      */
@@ -50,7 +50,7 @@ public class AzureFileVolume {
     }
 
     /**
-     * Set the shareName value.
+     * Set the name of the Azure File share to be mounted as a volume.
      *
      * @param shareName the shareName value to set
      * @return the AzureFileVolume object itself.
@@ -61,7 +61,7 @@ public class AzureFileVolume {
     }
 
     /**
-     * Get the readOnly value.
+     * Get the flag indicating whether the Azure File shared mounted as a volume is read-only.
      *
      * @return the readOnly value
      */
@@ -70,7 +70,7 @@ public class AzureFileVolume {
     }
 
     /**
-     * Set the readOnly value.
+     * Set the flag indicating whether the Azure File shared mounted as a volume is read-only.
      *
      * @param readOnly the readOnly value to set
      * @return the AzureFileVolume object itself.
@@ -81,7 +81,7 @@ public class AzureFileVolume {
     }
 
     /**
-     * Get the storageAccountName value.
+     * Get the name of the storage account that contains the Azure File share.
      *
      * @return the storageAccountName value
      */
@@ -90,7 +90,7 @@ public class AzureFileVolume {
     }
 
     /**
-     * Set the storageAccountName value.
+     * Set the name of the storage account that contains the Azure File share.
      *
      * @param storageAccountName the storageAccountName value to set
      * @return the AzureFileVolume object itself.
@@ -101,7 +101,7 @@ public class AzureFileVolume {
     }
 
     /**
-     * Get the storageAccountKey value.
+     * Get the storage account access key used to access the Azure File share.
      *
      * @return the storageAccountKey value
      */
@@ -110,7 +110,7 @@ public class AzureFileVolume {
     }
 
     /**
-     * Set the storageAccountKey value.
+     * Set the storage account access key used to access the Azure File share.
      *
      * @param storageAccountKey the storageAccountKey value to set
      * @return the AzureFileVolume object itself.

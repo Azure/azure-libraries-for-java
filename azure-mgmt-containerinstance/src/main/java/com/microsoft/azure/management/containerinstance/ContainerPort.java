@@ -28,7 +28,7 @@ public class ContainerPort {
     private int port;
 
     /**
-     * Get the protocol value.
+     * Get the protocol associated with the port. Possible values include: 'TCP', 'UDP'.
      *
      * @return the protocol value
      */
@@ -37,7 +37,7 @@ public class ContainerPort {
     }
 
     /**
-     * Set the protocol value.
+     * Set the protocol associated with the port. Possible values include: 'TCP', 'UDP'.
      *
      * @param protocol the protocol value to set
      * @return the ContainerPort object itself.
@@ -48,7 +48,7 @@ public class ContainerPort {
     }
 
     /**
-     * Get the port value.
+     * Get the port number exposed within the container group.
      *
      * @return the port value
      */
@@ -57,7 +57,7 @@ public class ContainerPort {
     }
 
     /**
-     * Set the port value.
+     * Set the port number exposed within the container group.
      *
      * @param port the port value to set
      * @return the ContainerPort object itself.

@@ -34,7 +34,7 @@ public class VolumeMount {
     private Boolean readOnly;
 
     /**
-     * Get the name value.
+     * Get the name of the volume mount.
      *
      * @return the name value
      */
@@ -43,7 +43,7 @@ public class VolumeMount {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the volume mount.
      *
      * @param name the name value to set
      * @return the VolumeMount object itself.
@@ -54,7 +54,7 @@ public class VolumeMount {
     }
 
     /**
-     * Get the mountPath value.
+     * Get the path within the container where the volume should be mounted. Must not contain colon (:).
      *
      * @return the mountPath value
      */
@@ -63,7 +63,7 @@ public class VolumeMount {
     }
 
     /**
-     * Set the mountPath value.
+     * Set the path within the container where the volume should be mounted. Must not contain colon (:).
      *
      * @param mountPath the mountPath value to set
      * @return the VolumeMount object itself.
@@ -74,7 +74,7 @@ public class VolumeMount {
     }
 
     /**
-     * Get the readOnly value.
+     * Get the flag indicating whether the volume mount is read-only.
      *
      * @return the readOnly value
      */
@@ -83,7 +83,7 @@ public class VolumeMount {
     }
 
     /**
-     * Set the readOnly value.
+     * Set the flag indicating whether the volume mount is read-only.
      *
      * @param readOnly the readOnly value to set
      * @return the VolumeMount object itself.

@@ -39,7 +39,7 @@ public class Usage {
     private UsageName name;
 
     /**
-     * Get the unit value.
+     * Get unit of the usage result.
      *
      * @return the unit value
      */
@@ -48,7 +48,7 @@ public class Usage {
     }
 
     /**
-     * Get the currentValue value.
+     * Get the current usage of the resource.
      *
      * @return the currentValue value
      */
@@ -57,7 +57,7 @@ public class Usage {
     }
 
     /**
-     * Get the limit value.
+     * Get the maximum permitted usage of the resource.
      *
      * @return the limit value
      */
@@ -66,7 +66,7 @@ public class Usage {
     }
 
     /**
-     * Get the name value.
+     * Get the name object of the resource.
      *
      * @return the name value
      */

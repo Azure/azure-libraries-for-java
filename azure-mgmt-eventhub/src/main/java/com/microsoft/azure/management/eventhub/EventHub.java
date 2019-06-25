@@ -59,6 +59,13 @@ public interface EventHub
      */
     @Beta(Beta.SinceVersion.V1_7_0)
     int dataCaptureWindowSizeInMB();
+
+    /**
+     * @return whether to skip empty archives when capturing is enabled
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    boolean dataCaptureSkipEmptyArchives();
+
     /**
      * @return the format file name that stores captured data when capturing is enabled
      */
@@ -234,6 +241,15 @@ public interface EventHub
              */
             @Beta(Beta.SinceVersion.V1_7_0)
             WithCaptureOptionalSettingsOrCreate withDataCaptureWindowSizeInSeconds(int sizeInSeconds);
+
+            /**
+             * Set a value that indicates whether to Skip Empty Archives.
+             *
+             * @param skipEmptyArchives the skipEmptyArchives value to set
+             * @return next stage of the event hub definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCaptureOptionalSettingsOrCreate withDataCaptureSkipEmptyArchives(Boolean skipEmptyArchives);
             /**
              * Specifies the capture window size in MB.
              *
@@ -485,6 +501,16 @@ public interface EventHub
              */
             @Beta(Beta.SinceVersion.V1_7_0)
             Update withDataCaptureWindowSizeInSeconds(int sizeInSeconds);
+
+           /**
+             * Specified the capture whether to Skip Empty Archives.
+             *
+             * @param skipEmptyArchives the skipEmptyArchives value to set
+             * @return next stage of the event hub update
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            Update withDataCaptureSkipEmptyArchives(Boolean skipEmptyArchives);
+
             /**
              * Specifies the capture window size in MB.
              *

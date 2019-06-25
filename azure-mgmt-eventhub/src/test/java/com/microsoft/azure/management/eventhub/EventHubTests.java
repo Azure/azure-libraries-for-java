@@ -362,6 +362,7 @@ public class EventHubTests extends TestBase {
                     //
                     .withDataCaptureWindowSizeInSeconds(120)
                     .withDataCaptureWindowSizeInMB(300)
+                    .withDataCaptureSkipEmptyArchives(true)
                     .create();
 
         Assert.assertNotNull(eventHub1);
@@ -377,6 +378,7 @@ public class EventHubTests extends TestBase {
         Assert.assertTrue(eventHub1.captureDestination().storageAccountResourceId().contains("/storageAccounts/"));
         Assert.assertTrue(eventHub1.captureDestination().storageAccountResourceId().contains(stgName));
         Assert.assertTrue(eventHub1.captureDestination().blobContainer().equalsIgnoreCase(containerName1));
+        Assert.assertTrue(eventHub1.dataCaptureSkipEmptyArchives());
 
         // Create another event Hub in the same namespace with data capture uses the same storage account
         //

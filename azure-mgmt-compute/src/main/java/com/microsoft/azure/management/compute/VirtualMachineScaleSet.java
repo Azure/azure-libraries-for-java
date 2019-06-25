@@ -485,6 +485,29 @@ public interface VirtualMachineScaleSet extends
     List<String> applicationSecurityGroupIds();
 
     /**
+     * @return When Overprovision is enabled, extensions are launched only on the
+     * requested number of VMs which are finally kept. This property will hence
+     * ensure that the extensions do not run on the extra overprovisioned VMs.
+     */
+    Boolean doNotRunExtensionsOnOverprovisionedVMs();
+
+    /**
+     * Get specifies information about the proximity placement group that the virtual machine scale set should be
+     * assigned to.
+     * @return the proximityPlacementGroupId.
+     */
+    String proximityPlacementGroupId();
+
+    /**
+     * Get specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale
+     * Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with
+     * UltraSSD_LRS storage account type.
+     *
+     * @return the additionalCapabilities value
+     */
+    public AdditionalCapabilities additionalCapabilities();
+
+    /**
      * The virtual machine scale set stages shared between managed and unmanaged based
      * virtual machine scale set definitions.
      */
@@ -492,6 +515,7 @@ public interface VirtualMachineScaleSet extends
             DefinitionStages.Blank,
             DefinitionStages.WithGroup,
             DefinitionStages.WithSku,
+            DefinitionStages.WithProximityPlacementGroup,
             DefinitionStages.WithNetworkSubnet,
             DefinitionStages.WithPrimaryInternetFacingLoadBalancer,
             DefinitionStages.WithPrimaryInternalLoadBalancer,
@@ -577,7 +601,7 @@ public interface VirtualMachineScaleSet extends
              * @param skuType the SKU type
              * @return the next stage of the definition
              */
-            WithNetworkSubnet withSku(VirtualMachineScaleSetSkuTypes skuType);
+            WithProximityPlacementGroup withSku(VirtualMachineScaleSetSkuTypes skuType);
 
             /**
              * Specifies the SKU for the virtual machines in the scale set.
@@ -585,7 +609,55 @@ public interface VirtualMachineScaleSet extends
              * @param sku a SKU from the list of available sizes for the virtual machines in this scale set
              * @return the next stage of the definition
              */
-            WithNetworkSubnet withSku(VirtualMachineScaleSetSku sku);
+            WithProximityPlacementGroup withSku(VirtualMachineScaleSetSku sku);
+        }
+
+        /**
+         * The stage of a virtual machine scale set definition allowing to
+         * set information about the proximity placement group that the virtual machine scale set should
+         * be assigned to.
+         */
+        interface WithProximityPlacementGroup extends WithDoNotRunExtensionsOnOverprovisionedVms {
+            /**
+             * Set information about the proximity placement group that the virtual machine scale set should
+             * be assigned to.
+             * @param promixityPlacementGroupId  The Id of the proximity placement group subResource.
+             *
+             * @return the next stage of the definition.
+             */
+            WithDoNotRunExtensionsOnOverprovisionedVms withProximityPlacementGroup(String promixityPlacementGroupId);
+        }
+
+        /**
+         * The stage of a virtual machine scale set definition allowing to
+         * set when Overprovision is enabled, extensions are launched only on the requested number of VMs
+         * which are finally kept.
+         */
+        interface WithDoNotRunExtensionsOnOverprovisionedVms extends WithAdditionalCapabilities {
+            /**
+             * Set when Overprovision is enabled, extensions are launched only on the requested number of VMs which are
+             * finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned
+             * VMs.
+             * @param doNotRunExtensionsOnOverprovisionedVMs the doNotRunExtensionsOnOverprovisionedVMs value to set
+             * @return the next stage of the definition.
+             */
+            WithAdditionalCapabilities withDoNotRunExtensionsOnOverprovisionedVMs(Boolean doNotRunExtensionsOnOverprovisionedVMs);
+        }
+
+        /**
+         * The stage of a virtual machine scale set definition allowing to
+         * set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine
+         * Scale Set.
+         */
+        interface WithAdditionalCapabilities extends WithNetworkSubnet {
+            /**
+             * Set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine
+             * Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed
+             * data disks with UltraSSD_LRS storage account type.
+             * @param additionalCapabilities the additionalCapabilities value to set
+             * @return the next stage of the definition.
+             */
+            WithNetworkSubnet withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities);
         }
 
         /**

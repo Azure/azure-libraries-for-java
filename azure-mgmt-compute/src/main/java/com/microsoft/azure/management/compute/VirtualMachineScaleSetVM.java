@@ -330,4 +330,20 @@ public interface VirtualMachineScaleSetVM extends
      * @return the network interfaces associated with this virtual machine instance.
      */
     PagedList<VirtualMachineScaleSetNetworkInterface> listNetworkInterfaces();
+
+    /**
+     * @return Get specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine.
+     */
+    String modelDefinitionApplied();
+
+    /**
+     * @return The specific protection policy for the vm.
+     */
+    VirtualMachineScaleSetVMProtectionPolicy protectionPolicy();
+
+    /**
+     * @return The network profile config for the vm.
+     */
+    VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration();
+
 }

@@ -9,6 +9,7 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.compute.AdditionalCapabilities;
 import com.microsoft.azure.management.compute.ApiEntityReference;
 import com.microsoft.azure.management.compute.BootDiagnostics;
 import com.microsoft.azure.management.compute.CachingTypes;
@@ -532,6 +533,25 @@ public class VirtualMachineScaleSetImpl
             }
         }
         return asgIds;
+    }
+
+    @Override
+    public Boolean doNotRunExtensionsOnOverprovisionedVMs() {
+        return this.inner().doNotRunExtensionsOnOverprovisionedVMs();
+    }
+
+    @Override
+    public String proximityPlacementGroupId() {
+        if (this.inner().proximityPlacementGroup() != null) {
+            return this.inner().proximityPlacementGroup().id();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public AdditionalCapabilities additionalCapabilities() {
+        return this.inner().additionalCapabilities();
     }
 
     @Override
@@ -2518,6 +2538,24 @@ public class VirtualMachineScaleSetImpl
             }
             return this;
         }
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withProximityPlacementGroup(String promixityPlacementGroupId) {
+        this.inner().withProximityPlacementGroup(new SubResource().withId(promixityPlacementGroupId));
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withDoNotRunExtensionsOnOverprovisionedVMs(Boolean doNotRunExtensionsOnOverprovisionedVMs) {
+        this.inner().withDoNotRunExtensionsOnOverprovisionedVMs(doNotRunExtensionsOnOverprovisionedVMs);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
+        this.inner().withAdditionalCapabilities(additionalCapabilities);
+        return this;
     }
 
     /**

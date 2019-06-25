@@ -65,6 +65,11 @@ public interface EventHubNamespace extends
     @Beta(Beta.SinceVersion.V1_7_0)
     boolean isAutoScaleEnabled();
     /**
+     * @return true if kafka enabled for the namespace, false otherwise
+     */
+    @Beta(Beta.SinceVersion.V1_7_0)
+    boolean isKafkaEnabled();
+    /**
      * @return current throughput units set for the namespace
      */
     @Beta(Beta.SinceVersion.V1_7_0)
@@ -136,6 +141,19 @@ public interface EventHubNamespace extends
              * @return next stage of the event hub namespace definition
              */
             WithCreate withSku(EventHubNamespaceSkuType namespaceSku);
+        }
+
+        /**
+         * The stage of the event hub namespace definition enabling kafka.
+         */
+        @Beta(Beta.SinceVersion.V1_7_0)
+        interface WithKafka {
+            /**
+             * Enables kafka.
+             *
+             * @return next stage of the event hub namespace definition
+             */
+            WithCreate withKafka();
         }
 
         /**
@@ -247,7 +265,8 @@ public interface EventHubNamespace extends
                 EventHubNamespace.DefinitionStages.WithSku,
                 EventHubNamespace.DefinitionStages.WithEventHub,
                 EventHubNamespace.DefinitionStages.WithAuthorizationRule,
-                EventHubNamespace.DefinitionStages.WithThroughputConfiguration {
+                EventHubNamespace.DefinitionStages.WithThroughputConfiguration,
+                EventHubNamespace.DefinitionStages.WithKafka {
         }
     }
 

@@ -72,6 +72,17 @@ class EventHubNamespaceImpl
     }
 
     @Override
+    public boolean isKafkaEnabled() {
+        return this.inner().kafkaEnabled();
+    }
+
+    @Override
+    public EventHubNamespaceImpl withKafka() {
+        this.inner().withKafkaEnabled(true);
+        return this;
+    }
+
+    @Override
     public int currentThroughputUnits() {
         return Utils.toPrimitiveInt(this.inner().sku().capacity());
     }

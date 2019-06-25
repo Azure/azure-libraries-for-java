@@ -505,7 +505,7 @@ public interface VirtualMachineScaleSet extends
      *
      * @return the additionalCapabilities value
      */
-    public AdditionalCapabilities additionalCapabilities();
+    AdditionalCapabilities additionalCapabilities();
 
     /**
      * The virtual machine scale set stages shared between managed and unmanaged based

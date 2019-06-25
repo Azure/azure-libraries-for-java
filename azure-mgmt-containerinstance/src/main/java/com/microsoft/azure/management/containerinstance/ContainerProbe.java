@@ -57,7 +57,7 @@ public class ContainerProbe {
     private Integer timeoutSeconds;
 
     /**
-     * Get the exec value.
+     * Get the execution command to probe.
      *
      * @return the exec value
      */
@@ -66,7 +66,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Set the exec value.
+     * Set the execution command to probe.
      *
      * @param exec the exec value to set
      * @return the ContainerProbe object itself.
@@ -77,7 +77,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Get the httpGet value.
+     * Get the Http Get settings to probe.
      *
      * @return the httpGet value
      */
@@ -86,7 +86,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Set the httpGet value.
+     * Set the Http Get settings to probe.
      *
      * @param httpGet the httpGet value to set
      * @return the ContainerProbe object itself.
@@ -97,7 +97,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Get the initialDelaySeconds value.
+     * Get the initial delay seconds.
      *
      * @return the initialDelaySeconds value
      */
@@ -106,7 +106,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Set the initialDelaySeconds value.
+     * Set the initial delay seconds.
      *
      * @param initialDelaySeconds the initialDelaySeconds value to set
      * @return the ContainerProbe object itself.
@@ -117,7 +117,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Get the periodSeconds value.
+     * Get the period seconds.
      *
      * @return the periodSeconds value
      */
@@ -126,7 +126,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Set the periodSeconds value.
+     * Set the period seconds.
      *
      * @param periodSeconds the periodSeconds value to set
      * @return the ContainerProbe object itself.
@@ -137,7 +137,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Get the failureThreshold value.
+     * Get the failure threshold.
      *
      * @return the failureThreshold value
      */
@@ -146,7 +146,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Set the failureThreshold value.
+     * Set the failure threshold.
      *
      * @param failureThreshold the failureThreshold value to set
      * @return the ContainerProbe object itself.
@@ -157,7 +157,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Get the successThreshold value.
+     * Get the success threshold.
      *
      * @return the successThreshold value
      */
@@ -166,7 +166,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Set the successThreshold value.
+     * Set the success threshold.
      *
      * @param successThreshold the successThreshold value to set
      * @return the ContainerProbe object itself.
@@ -177,7 +177,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Get the timeoutSeconds value.
+     * Get the timeout seconds.
      *
      * @return the timeoutSeconds value
      */
@@ -186,7 +186,7 @@ public class ContainerProbe {
     }
 
     /**
-     * Set the timeoutSeconds value.
+     * Set the timeout seconds.
      *
      * @param timeoutSeconds the timeoutSeconds value to set
      * @return the ContainerProbe object itself.

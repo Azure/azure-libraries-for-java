@@ -9,8 +9,8 @@
 package com.microsoft.azure.management.containerinstance.implementation;
 
 import java.util.List;
-import com.microsoft.azure.management.containerinstance.Operation;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.management.containerinstance.Operation;
 
 /**
  * The operation list response that contains all operations for Azure Container
@@ -30,7 +30,7 @@ public class OperationListResultInner {
     private String nextLink;
 
     /**
-     * Get the value value.
+     * Get the list of operations.
      *
      * @return the value value
      */
@@ -39,7 +39,7 @@ public class OperationListResultInner {
     }
 
     /**
-     * Set the value value.
+     * Set the list of operations.
      *
      * @param value the value value to set
      * @return the OperationListResultInner object itself.
@@ -50,7 +50,7 @@ public class OperationListResultInner {
     }
 
     /**
-     * Get the nextLink value.
+     * Get the URI to fetch the next page of operations.
      *
      * @return the nextLink value
      */
@@ -59,7 +59,7 @@ public class OperationListResultInner {
     }
 
     /**
-     * Set the nextLink value.
+     * Set the URI to fetch the next page of operations.
      *
      * @param nextLink the nextLink value to set
      * @return the OperationListResultInner object itself.

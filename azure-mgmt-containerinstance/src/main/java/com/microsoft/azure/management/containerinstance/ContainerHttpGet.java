@@ -33,7 +33,7 @@ public class ContainerHttpGet {
     private String scheme;
 
     /**
-     * Get the path value.
+     * Get the path to probe.
      *
      * @return the path value
      */
@@ -42,7 +42,7 @@ public class ContainerHttpGet {
     }
 
     /**
-     * Set the path value.
+     * Set the path to probe.
      *
      * @param path the path value to set
      * @return the ContainerHttpGet object itself.
@@ -53,7 +53,7 @@ public class ContainerHttpGet {
     }
 
     /**
-     * Get the port value.
+     * Get the port number to probe.
      *
      * @return the port value
      */
@@ -62,7 +62,7 @@ public class ContainerHttpGet {
     }
 
     /**
-     * Set the port value.
+     * Set the port number to probe.
      *
      * @param port the port value to set
      * @return the ContainerHttpGet object itself.
@@ -73,7 +73,7 @@ public class ContainerHttpGet {
     }
 
     /**
-     * Get the scheme value.
+     * Get the scheme. Possible values include: 'http', 'https'.
      *
      * @return the scheme value
      */
@@ -82,7 +82,7 @@ public class ContainerHttpGet {
     }
 
     /**
-     * Set the scheme value.
+     * Set the scheme. Possible values include: 'http', 'https'.
      *
      * @param scheme the scheme value to set
      * @return the ContainerHttpGet object itself.

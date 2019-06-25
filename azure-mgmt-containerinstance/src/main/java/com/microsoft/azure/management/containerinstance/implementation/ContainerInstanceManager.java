@@ -11,7 +11,9 @@ import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.ContainerGroups;
+import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
@@ -24,12 +26,14 @@ import com.microsoft.rest.RestClient;
 /**
  * Entry point to Azure container instance management.
  */
+@LangDefinition
 @Beta(SinceVersion.V1_3_0)
 public final class ContainerInstanceManager extends Manager<ContainerInstanceManager, ContainerInstanceManagementClientImpl> {
 
     // The service managers
     private ContainerGroupsImpl containerGroups;
     private StorageManager storageManager;
+    private GraphRbacManager rbacManager;
 
     /**
      * Get a Configurable instance that can be used to create ContainerInstanceManager with optional configuration.
@@ -100,16 +104,17 @@ public final class ContainerInstanceManager extends Manager<ContainerInstanceMan
             new ContainerInstanceManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
 
         this.storageManager = StorageManager.authenticate(restClient, subscriptionId);
+        this.rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredentials) (restClient.credentials())).domain());
     }
 
     /**
      * @return the resource management API entry point
      */
     public ContainerGroups containerGroups() {
-        if (containerGroups == null) {
-            containerGroups = new ContainerGroupsImpl(this, this.storageManager);
+        if (this.containerGroups == null) {
+            this.containerGroups = new ContainerGroupsImpl(this, this.storageManager, this.rbacManager);
         }
 
-        return containerGroups;
+        return this.containerGroups;
     }
 }

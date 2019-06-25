@@ -12,6 +12,7 @@ import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMs;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import rx.Completable;
 import rx.Observable;
+import rx.functions.Func1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,6 +86,22 @@ class VirtualMachineScaleSetVMsImpl
     @Override
     public void deleteInstances(String... instanceIds) {
         this.deleteInstancesAsync(instanceIds).await();
+    }
+
+    @Override
+    public VirtualMachineScaleSetVM getInstance(String instanceId) {
+        return this.wrapModel(client.get(this.scaleSet.resourceGroupName(), this.scaleSet.name(), instanceId));
+    }
+
+    @Override
+    public Observable<VirtualMachineScaleSetVM> getInstanceAsync(String instanceId) {
+        return this.client.getAsync(this.scaleSet.resourceGroupName(), this.scaleSet.name(), instanceId)
+                .map(new Func1<VirtualMachineScaleSetVMInner, VirtualMachineScaleSetVM>() {
+                    @Override
+                    public VirtualMachineScaleSetVM call(VirtualMachineScaleSetVMInner inner) {
+                        return wrapModel(inner);
+                    }
+                });
     }
 
     @Override

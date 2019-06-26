@@ -21,7 +21,7 @@ public class CheckNameAvailabilityParameter {
     private String name;
 
     /**
-     * Get the name value.
+     * Get name to check the namespace name availability.
      *
      * @return the name value
      */
@@ -30,7 +30,7 @@ public class CheckNameAvailabilityParameter {
     }
 
     /**
-     * Set the name value.
+     * Set name to check the namespace name availability.
      *
      * @param name the name value to set
      * @return the CheckNameAvailabilityParameter object itself.

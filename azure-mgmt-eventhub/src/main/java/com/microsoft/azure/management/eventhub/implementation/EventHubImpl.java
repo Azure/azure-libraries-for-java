@@ -107,6 +107,14 @@ class EventHubImpl
     }
 
     @Override
+    public boolean dataCaptureSkipEmptyArchives() {
+        if (this.inner().captureDescription() == null) {
+            return false;
+        }
+        return this.inner().captureDescription().skipEmptyArchives();
+    }
+
+    @Override
     public String dataCaptureFileNameFormat() {
         if (this.inner().captureDescription() == null) {
             return null;
@@ -200,6 +208,12 @@ class EventHubImpl
     @Override
     public EventHubImpl withDataCaptureWindowSizeInSeconds(int sizeInSeconds) {
         this.captureSettings.withDataCaptureWindowSizeInSeconds(sizeInSeconds);
+        return this;
+    }
+
+    @Override
+    public EventHubImpl withDataCaptureSkipEmptyArchives(Boolean skipEmptyArchives) {
+        this.captureSettings.withDataCaptureSkipEmptyArchives(skipEmptyArchives);
         return this;
     }
 
@@ -490,6 +504,11 @@ class EventHubImpl
             return this;
         }
 
+        public CaptureSettings withDataCaptureSkipEmptyArchives(Boolean skipEmptyArchives) {
+            this.ensureSettings().withSkipEmptyArchives(skipEmptyArchives);
+            return this;
+        }
+
         public CaptureSettings withDataCaptureWindowSizeInSeconds(int sizeInSeconds) {
             this.ensureSettings().withIntervalInSeconds(sizeInSeconds);
             return this;
@@ -586,6 +605,7 @@ class EventHubImpl
             Objects.requireNonNull(this.currentSettings);
             CaptureDescription clone = new CaptureDescription();
             clone.withSizeLimitInBytes(this.currentSettings.sizeLimitInBytes());
+            clone.withSkipEmptyArchives(this.currentSettings.skipEmptyArchives());
             clone.withIntervalInSeconds(this.currentSettings.intervalInSeconds());
             clone.withEnabled(this.currentSettings.enabled());
             clone.withEncoding(this.currentSettings.encoding());

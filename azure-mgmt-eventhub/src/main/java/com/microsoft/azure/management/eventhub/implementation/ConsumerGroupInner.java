@@ -11,12 +11,13 @@ package com.microsoft.azure.management.eventhub.implementation;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Single item in List or Get Consumer group operation.
  */
 @JsonFlatten
-public class ConsumerGroupInner extends NestedResourceInner {
+public class ConsumerGroupInner extends ProxyResource {
     /**
      * Exact time the message was created.
      */
@@ -30,7 +31,7 @@ public class ConsumerGroupInner extends NestedResourceInner {
     private DateTime updatedAt;
 
     /**
-     * Usermetadata is a placeholder to store user-defined string data with
+     * User Metadata is a placeholder to store user-defined string data with
      * maximum length 1024. e.g. it can be used to store descriptive data, such
      * as list of teams and their contact information also user-defined
      * configuration settings can be stored.
@@ -39,7 +40,7 @@ public class ConsumerGroupInner extends NestedResourceInner {
     private String userMetadata;
 
     /**
-     * Get the createdAt value.
+     * Get exact time the message was created.
      *
      * @return the createdAt value
      */
@@ -48,7 +49,7 @@ public class ConsumerGroupInner extends NestedResourceInner {
     }
 
     /**
-     * Get the updatedAt value.
+     * Get the exact time the message was updated.
      *
      * @return the updatedAt value
      */
@@ -57,7 +58,7 @@ public class ConsumerGroupInner extends NestedResourceInner {
     }
 
     /**
-     * Get the userMetadata value.
+     * Get user Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
      *
      * @return the userMetadata value
      */
@@ -66,7 +67,7 @@ public class ConsumerGroupInner extends NestedResourceInner {
     }
 
     /**
-     * Set the userMetadata value.
+     * Set user Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
      *
      * @param userMetadata the userMetadata value to set
      * @return the ConsumerGroupInner object itself.

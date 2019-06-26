@@ -87,6 +87,18 @@ jobs:
           publishJUnitResults: false
           goals: 'test'
           
+      - task: Maven@3
+        displayName: 'Run Tests on Java 7'
+        inputs:
+          mavenPomFile: pom.xml
+          options: '$(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
+          mavenOptions: '$(LoggingOptions)'
+          javaHomeOption: 'JDKVersion'
+          jdkVersionOption: '1.7'
+          jdkArchitectureOption: 'x64'
+          publishJUnitResults: false
+          goals: 'test'
+          
 
       - task: PublishTestResults@2
         condition: succeededOrFailed()

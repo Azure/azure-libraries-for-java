@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.eventhub.implementation;
 
+import com.microsoft.azure.ProxyResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.eventhub.NestedResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
@@ -23,7 +24,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  * @param <FluentModelImplT> the fluent model implementation of the nested resource
  */
 @LangDefinition
-public abstract class NestedResourceImpl<FluentModelT extends Indexable, InnerModelT extends NestedResourceInner, FluentModelImplT extends IndexableRefreshableWrapperImpl<FluentModelT, InnerModelT>>
+public abstract class NestedResourceImpl<FluentModelT extends Indexable, InnerModelT extends ProxyResource, FluentModelImplT extends IndexableRefreshableWrapperImpl<FluentModelT, InnerModelT>>
         extends CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>
         implements
         HasInner<InnerModelT>,

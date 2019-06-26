@@ -59,7 +59,7 @@ public class AccessKeysInner {
     private String keyName;
 
     /**
-     * Get the primaryConnectionString value.
+     * Get primary connection string of the created namespace AuthorizationRule.
      *
      * @return the primaryConnectionString value
      */
@@ -68,7 +68,7 @@ public class AccessKeysInner {
     }
 
     /**
-     * Get the secondaryConnectionString value.
+     * Get secondary connection string of the created namespace AuthorizationRule.
      *
      * @return the secondaryConnectionString value
      */
@@ -77,7 +77,7 @@ public class AccessKeysInner {
     }
 
     /**
-     * Get the aliasPrimaryConnectionString value.
+     * Get primary connection string of the alias if GEO DR is enabled.
      *
      * @return the aliasPrimaryConnectionString value
      */
@@ -86,7 +86,7 @@ public class AccessKeysInner {
     }
 
     /**
-     * Get the aliasSecondaryConnectionString value.
+     * Get secondary  connection string of the alias if GEO DR is enabled.
      *
      * @return the aliasSecondaryConnectionString value
      */
@@ -95,7 +95,7 @@ public class AccessKeysInner {
     }
 
     /**
-     * Get the primaryKey value.
+     * Get a base64-encoded 256-bit primary key for signing and validating the SAS token.
      *
      * @return the primaryKey value
      */
@@ -104,7 +104,7 @@ public class AccessKeysInner {
     }
 
     /**
-     * Get the secondaryKey value.
+     * Get a base64-encoded 256-bit primary key for signing and validating the SAS token.
      *
      * @return the secondaryKey value
      */
@@ -113,7 +113,7 @@ public class AccessKeysInner {
     }
 
     /**
-     * Get the keyName value.
+     * Get a string that describes the AuthorizationRule.
      *
      * @return the keyName value
      */

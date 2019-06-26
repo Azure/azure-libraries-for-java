@@ -74,7 +74,7 @@ public class ConsumerGroupsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.ConsumerGroups listByEventHub" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/consumergroups")
-        Observable<Response<ResponseBody>> listByEventHub(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listByEventHub(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("eventHubName") String eventHubName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$skip") Integer skip, @Query("$top") Integer top, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.ConsumerGroups listByEventHubNext" })
         @GET
@@ -185,7 +185,7 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
-     * @param userMetadata Usermetadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
+     * @param userMetadata User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws ErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -202,7 +202,7 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
-     * @param userMetadata Usermetadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
+     * @param userMetadata User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -218,7 +218,7 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
-     * @param userMetadata Usermetadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
+     * @param userMetadata User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ConsumerGroupInner object
      */
@@ -238,7 +238,7 @@ public class ConsumerGroupsInner {
      * @param namespaceName The Namespace name
      * @param eventHubName The Event Hub name
      * @param consumerGroupName The consumer group name
-     * @param userMetadata Usermetadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
+     * @param userMetadata User Metadata is a placeholder to store user-defined string data with maximum length 1024. e.g. it can be used to store descriptive data, such as list of teams and their contact information also user-defined configuration settings can be stored.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ConsumerGroupInner object
      */
@@ -572,9 +572,9 @@ public class ConsumerGroupsInner {
     /**
      * Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
      *
-    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param resourceGroupName Name of the resource group within the azure subscription.
-    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param namespaceName The Namespace name
-    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param eventHubName The Event Hub name
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ConsumerGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
@@ -594,7 +594,143 @@ public class ConsumerGroupsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listByEventHub(resourceGroupName, namespaceName, eventHubName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final Integer skip = null;
+        final Integer top = null;
+        return service.listByEventHub(resourceGroupName, namespaceName, eventHubName, this.client.subscriptionId(), this.client.apiVersion(), skip, top, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ConsumerGroupInner>> result = listByEventHubDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ConsumerGroupInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
+     * @param skip Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
+     * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ConsumerGroupInner&gt; object if successful.
+     */
+    public PagedList<ConsumerGroupInner> listByEventHub(final String resourceGroupName, final String namespaceName, final String eventHubName, final Integer skip, final Integer top) {
+        ServiceResponse<Page<ConsumerGroupInner>> response = listByEventHubSinglePageAsync(resourceGroupName, namespaceName, eventHubName, skip, top).toBlocking().single();
+        return new PagedList<ConsumerGroupInner>(response.body()) {
+            @Override
+            public Page<ConsumerGroupInner> nextPage(String nextPageLink) {
+                return listByEventHubNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
+     * @param skip Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
+     * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ConsumerGroupInner>> listByEventHubAsync(final String resourceGroupName, final String namespaceName, final String eventHubName, final Integer skip, final Integer top, final ListOperationCallback<ConsumerGroupInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listByEventHubSinglePageAsync(resourceGroupName, namespaceName, eventHubName, skip, top),
+            new Func1<String, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(String nextPageLink) {
+                    return listByEventHubNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
+     * @param skip Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
+     * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ConsumerGroupInner&gt; object
+     */
+    public Observable<Page<ConsumerGroupInner>> listByEventHubAsync(final String resourceGroupName, final String namespaceName, final String eventHubName, final Integer skip, final Integer top) {
+        return listByEventHubWithServiceResponseAsync(resourceGroupName, namespaceName, eventHubName, skip, top)
+            .map(new Func1<ServiceResponse<Page<ConsumerGroupInner>>, Page<ConsumerGroupInner>>() {
+                @Override
+                public Page<ConsumerGroupInner> call(ServiceResponse<Page<ConsumerGroupInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param eventHubName The Event Hub name
+     * @param skip Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
+     * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ConsumerGroupInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ConsumerGroupInner>>> listByEventHubWithServiceResponseAsync(final String resourceGroupName, final String namespaceName, final String eventHubName, final Integer skip, final Integer top) {
+        return listByEventHubSinglePageAsync(resourceGroupName, namespaceName, eventHubName, skip, top)
+            .concatMap(new Func1<ServiceResponse<Page<ConsumerGroupInner>>, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(ServiceResponse<Page<ConsumerGroupInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listByEventHubNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets all the consumer groups in a Namespace. An empty feed is returned if no consumer group exists in the Namespace.
+     *
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param resourceGroupName Name of the resource group within the azure subscription.
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param namespaceName The Namespace name
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param eventHubName The Event Hub name
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param skip Skip is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skip parameter that specifies a starting point to use for subsequent calls.
+    ServiceResponse<PageImpl<ConsumerGroupInner>> * @param top May be used to limit the number of results to the most recent N usageDetails.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ConsumerGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ConsumerGroupInner>>> listByEventHubSinglePageAsync(final String resourceGroupName, final String namespaceName, final String eventHubName, final Integer skip, final Integer top) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (namespaceName == null) {
+            throw new IllegalArgumentException("Parameter namespaceName is required and cannot be null.");
+        }
+        if (eventHubName == null) {
+            throw new IllegalArgumentException("Parameter eventHubName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listByEventHub(resourceGroupName, namespaceName, eventHubName, this.client.subscriptionId(), this.client.apiVersion(), skip, top, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ConsumerGroupInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ConsumerGroupInner>>> call(Response<ResponseBody> response) {

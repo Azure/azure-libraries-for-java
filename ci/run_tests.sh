@@ -17,6 +17,6 @@ if [ ${TRAVIS_JDK_VERSION} = "oraclejdk8" ]; then
     mvn checkstyle:check ;
 fi
 title 'Running mvn -pl !azure-samples package javadoc:aggregate -DskipTests=true $LOG_PARAMS'
-mvn -pl !azure-samples package javadoc:aggregate -DskipTests=true $LOG_PARAMS ;
+mvn -q -pl !azure-samples package javadoc:aggregate -DskipTests=true $LOG_PARAMS ;
 echo '==> Starting mvn test ===' ;
-mvn test -Dsurefire.rerunFailingTestsCount=3 $LOG_PARAMS -Dparallel=classes -DthreadCount=2 -DforkCount=1C ;
+mvn test -q -Dsurefire.rerunFailingTestsCount=3 $LOG_PARAMS -Dparallel=classes -DthreadCount=2 -DforkCount=1C ;

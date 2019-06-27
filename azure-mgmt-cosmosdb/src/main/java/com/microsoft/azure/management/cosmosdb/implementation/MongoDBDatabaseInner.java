@@ -14,34 +14,34 @@ import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
- * An Azure Cosmos DB Mongo database.
+ * An Azure Cosmos DB MongoDB database.
  */
 @JsonFlatten
 @SkipParentValidation
-public class MongoDatabaseInner extends Resource {
+public class MongoDBDatabaseInner extends Resource {
     /**
-     * Name of the Cosmos DB Mongo database.
+     * Name of the Cosmos DB MongoDB database.
      */
     @JsonProperty(value = "properties.id", required = true)
-    private String mongoDatabaseId;
+    private String mongoDBDatabaseId;
 
     /**
-     * Get name of the Cosmos DB Mongo database.
+     * Get name of the Cosmos DB MongoDB database.
      *
-     * @return the mongoDatabaseId value
+     * @return the mongoDBDatabaseId value
      */
-    public String mongoDatabaseId() {
-        return this.mongoDatabaseId;
+    public String mongoDBDatabaseId() {
+        return this.mongoDBDatabaseId;
     }
 
     /**
-     * Set name of the Cosmos DB Mongo database.
+     * Set name of the Cosmos DB MongoDB database.
      *
-     * @param mongoDatabaseId the mongoDatabaseId value to set
-     * @return the MongoDatabaseInner object itself.
+     * @param mongoDBDatabaseId the mongoDBDatabaseId value to set
+     * @return the MongoDBDatabaseInner object itself.
      */
-    public MongoDatabaseInner withMongoDatabaseId(String mongoDatabaseId) {
-        this.mongoDatabaseId = mongoDatabaseId;
+    public MongoDBDatabaseInner withMongoDBDatabaseId(String mongoDBDatabaseId) {
+        this.mongoDBDatabaseId = mongoDBDatabaseId;
         return this;
     }
 

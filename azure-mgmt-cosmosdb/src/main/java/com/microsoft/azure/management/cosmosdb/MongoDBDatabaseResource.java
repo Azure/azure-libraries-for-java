@@ -11,17 +11,17 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Cosmos DB Mongo database id object.
+ * Cosmos DB MongoDB database id object.
  */
-public class MongoDatabaseResource {
+public class MongoDBDatabaseResource {
     /**
-     * Name of the Cosmos DB Mongo database.
+     * Name of the Cosmos DB MongoDB database.
      */
     @JsonProperty(value = "id", required = true)
     private String id;
 
     /**
-     * Get name of the Cosmos DB Mongo database.
+     * Get name of the Cosmos DB MongoDB database.
      *
      * @return the id value
      */
@@ -30,12 +30,12 @@ public class MongoDatabaseResource {
     }
 
     /**
-     * Set name of the Cosmos DB Mongo database.
+     * Set name of the Cosmos DB MongoDB database.
      *
      * @param id the id value to set
-     * @return the MongoDatabaseResource object itself.
+     * @return the MongoDBDatabaseResource object itself.
      */
-    public MongoDatabaseResource withId(String id) {
+    public MongoDBDatabaseResource withId(String id) {
         this.id = id;
         return this;
     }

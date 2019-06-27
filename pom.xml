@@ -161,9 +161,8 @@
           <scanIntervalSeconds>0</scanIntervalSeconds>
           <stopPort>11079</stopPort>
           <stopKey>STOP</stopKey>
-          <httpConnector>
-            <port>${playbackServerPort}</port>
-          </httpConnector>
+          <waitForChild>false</waitForChild>
+          <jettyXml>${project.basedir}/jetty.xml</jettyXml>
         </configuration>
       </plugin>
       <plugin>

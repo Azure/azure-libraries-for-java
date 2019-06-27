@@ -18,20 +18,20 @@ import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
- * An Azure Cosmos DB container.
+ * An Azure Cosmos DB Gremlin graph.
  */
 @JsonFlatten
 @SkipParentValidation
-public class ContainerInner extends Resource {
+public class GremlinGraphInner extends Resource {
     /**
-     * Name of the Cosmos DB container.
+     * Name of the Cosmos DB Gremlin graph.
      */
     @JsonProperty(value = "properties.id", required = true)
-    private String containerId;
+    private String gremlinGraphId;
 
     /**
      * The configuration of the indexing policy. By default, the indexing is
-     * automatic for all document paths within the container.
+     * automatic for all document paths within the graph.
      */
     @JsonProperty(value = "properties.indexingPolicy")
     private IndexingPolicy indexingPolicy;
@@ -58,7 +58,7 @@ public class ContainerInner extends Resource {
     private UniqueKeyPolicy uniqueKeyPolicy;
 
     /**
-     * The conflict resolution policy for the container.
+     * The conflict resolution policy for the graph.
      */
     @JsonProperty(value = "properties.conflictResolutionPolicy")
     private ConflictResolutionPolicy conflictResolutionPolicy;
@@ -66,45 +66,45 @@ public class ContainerInner extends Resource {
     /**
      * A system generated property. A unique identifier.
      */
-    @JsonProperty(value = "properties.rid")
-    private String rid;
+    @JsonProperty(value = "properties._rid")
+    private String _rid;
 
     /**
      * A system generated property that denotes the last updated timestamp of
      * the resource.
      */
-    @JsonProperty(value = "properties.ts")
-    private Object ts;
+    @JsonProperty(value = "properties._ts")
+    private Object _ts;
 
     /**
      * A system generated property representing the resource etag required for
      * optimistic concurrency control.
      */
-    @JsonProperty(value = "properties.etag")
-    private String etag;
+    @JsonProperty(value = "properties._etag")
+    private String _etag;
 
     /**
-     * Get name of the Cosmos DB container.
+     * Get name of the Cosmos DB Gremlin graph.
      *
-     * @return the containerId value
+     * @return the gremlinGraphId value
      */
-    public String containerId() {
-        return this.containerId;
+    public String gremlinGraphId() {
+        return this.gremlinGraphId;
     }
 
     /**
-     * Set name of the Cosmos DB container.
+     * Set name of the Cosmos DB Gremlin graph.
      *
-     * @param containerId the containerId value to set
-     * @return the ContainerInner object itself.
+     * @param gremlinGraphId the gremlinGraphId value to set
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withContainerId(String containerId) {
-        this.containerId = containerId;
+    public GremlinGraphInner withGremlinGraphId(String gremlinGraphId) {
+        this.gremlinGraphId = gremlinGraphId;
         return this;
     }
 
     /**
-     * Get the configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container.
+     * Get the configuration of the indexing policy. By default, the indexing is automatic for all document paths within the graph.
      *
      * @return the indexingPolicy value
      */
@@ -113,12 +113,12 @@ public class ContainerInner extends Resource {
     }
 
     /**
-     * Set the configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container.
+     * Set the configuration of the indexing policy. By default, the indexing is automatic for all document paths within the graph.
      *
      * @param indexingPolicy the indexingPolicy value to set
-     * @return the ContainerInner object itself.
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withIndexingPolicy(IndexingPolicy indexingPolicy) {
+    public GremlinGraphInner withIndexingPolicy(IndexingPolicy indexingPolicy) {
         this.indexingPolicy = indexingPolicy;
         return this;
     }
@@ -136,9 +136,9 @@ public class ContainerInner extends Resource {
      * Set the configuration of the partition key to be used for partitioning data into multiple partitions.
      *
      * @param partitionKey the partitionKey value to set
-     * @return the ContainerInner object itself.
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withPartitionKey(ContainerPartitionKey partitionKey) {
+    public GremlinGraphInner withPartitionKey(ContainerPartitionKey partitionKey) {
         this.partitionKey = partitionKey;
         return this;
     }
@@ -156,9 +156,9 @@ public class ContainerInner extends Resource {
      * Set default time to live.
      *
      * @param defaultTtl the defaultTtl value to set
-     * @return the ContainerInner object itself.
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withDefaultTtl(Integer defaultTtl) {
+    public GremlinGraphInner withDefaultTtl(Integer defaultTtl) {
         this.defaultTtl = defaultTtl;
         return this;
     }
@@ -176,15 +176,15 @@ public class ContainerInner extends Resource {
      * Set the unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service.
      *
      * @param uniqueKeyPolicy the uniqueKeyPolicy value to set
-     * @return the ContainerInner object itself.
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withUniqueKeyPolicy(UniqueKeyPolicy uniqueKeyPolicy) {
+    public GremlinGraphInner withUniqueKeyPolicy(UniqueKeyPolicy uniqueKeyPolicy) {
         this.uniqueKeyPolicy = uniqueKeyPolicy;
         return this;
     }
 
     /**
-     * Get the conflict resolution policy for the container.
+     * Get the conflict resolution policy for the graph.
      *
      * @return the conflictResolutionPolicy value
      */
@@ -193,12 +193,12 @@ public class ContainerInner extends Resource {
     }
 
     /**
-     * Set the conflict resolution policy for the container.
+     * Set the conflict resolution policy for the graph.
      *
      * @param conflictResolutionPolicy the conflictResolutionPolicy value to set
-     * @return the ContainerInner object itself.
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withConflictResolutionPolicy(ConflictResolutionPolicy conflictResolutionPolicy) {
+    public GremlinGraphInner withConflictResolutionPolicy(ConflictResolutionPolicy conflictResolutionPolicy) {
         this.conflictResolutionPolicy = conflictResolutionPolicy;
         return this;
     }
@@ -206,60 +206,60 @@ public class ContainerInner extends Resource {
     /**
      * Get a system generated property. A unique identifier.
      *
-     * @return the rid value
+     * @return the _rid value
      */
-    public String rid() {
-        return this.rid;
+    public String _rid() {
+        return this._rid;
     }
 
     /**
      * Set a system generated property. A unique identifier.
      *
-     * @param rid the rid value to set
-     * @return the ContainerInner object itself.
+     * @param _rid the _rid value to set
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withRid(String rid) {
-        this.rid = rid;
+    public GremlinGraphInner with_rid(String _rid) {
+        this._rid = _rid;
         return this;
     }
 
     /**
      * Get a system generated property that denotes the last updated timestamp of the resource.
      *
-     * @return the ts value
+     * @return the _ts value
      */
-    public Object ts() {
-        return this.ts;
+    public Object _ts() {
+        return this._ts;
     }
 
     /**
      * Set a system generated property that denotes the last updated timestamp of the resource.
      *
-     * @param ts the ts value to set
-     * @return the ContainerInner object itself.
+     * @param _ts the _ts value to set
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withTs(Object ts) {
-        this.ts = ts;
+    public GremlinGraphInner with_ts(Object _ts) {
+        this._ts = _ts;
         return this;
     }
 
     /**
      * Get a system generated property representing the resource etag required for optimistic concurrency control.
      *
-     * @return the etag value
+     * @return the _etag value
      */
-    public String etag() {
-        return this.etag;
+    public String _etag() {
+        return this._etag;
     }
 
     /**
      * Set a system generated property representing the resource etag required for optimistic concurrency control.
      *
-     * @param etag the etag value to set
-     * @return the ContainerInner object itself.
+     * @param _etag the _etag value to set
+     * @return the GremlinGraphInner object itself.
      */
-    public ContainerInner withEtag(String etag) {
-        this.etag = etag;
+    public GremlinGraphInner with_etag(String _etag) {
+        this._etag = _etag;
         return this;
     }
 

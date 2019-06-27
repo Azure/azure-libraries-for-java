@@ -11,7 +11,7 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Cosmos DB Mongo collection index options.
+ * Cosmos DB MongoDB collection index options.
  */
 public class MongoIndexOptions {
     /**

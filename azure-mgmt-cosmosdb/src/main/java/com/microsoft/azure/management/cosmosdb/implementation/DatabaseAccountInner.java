@@ -14,6 +14,7 @@ import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import java.util.List;
 import com.microsoft.azure.management.cosmosdb.Capability;
 import com.microsoft.azure.management.cosmosdb.Location;
+import com.microsoft.azure.management.cosmosdb.FailoverPolicy;
 import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -106,7 +107,7 @@ public class DatabaseAccountInner extends Resource {
      * An array that contains the regions ordered by their failover priorities.
      */
     @JsonProperty(value = "properties.failoverPolicies", access = JsonProperty.Access.WRITE_ONLY)
-    private List<FailoverPolicyInner> failoverPolicies;
+    private List<FailoverPolicy> failoverPolicies;
 
     /**
      * List of Virtual Network ACL rules configured for the Cosmos DB account.
@@ -301,7 +302,7 @@ public class DatabaseAccountInner extends Resource {
      *
      * @return the failoverPolicies value
      */
-    public List<FailoverPolicyInner> failoverPolicies() {
+    public List<FailoverPolicy> failoverPolicies() {
         return this.failoverPolicies;
     }
 

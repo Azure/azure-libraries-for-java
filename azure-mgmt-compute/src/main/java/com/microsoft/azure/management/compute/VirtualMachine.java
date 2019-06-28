@@ -1823,7 +1823,7 @@ public interface VirtualMachine extends
             Update withProximityPlacementGroup(String promixityPlacementGroupId);
 
             /**
-             * Removes the Proximity placement group from the VM
+             * Removes the Proximity placement group from the VM.
              * @return the next stage of the definition.
              */
             Update withoutProximityPlacementGroup();

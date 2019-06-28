@@ -1202,6 +1202,20 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
+        this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withoutProximityPlacementGroup() {
+        this.inner().withProximityPlacementGroup(null);
+
+        return this;
+    }
+
+
+    @Override
     public VirtualMachineImpl withNewAvailabilitySet(String name) {
         AvailabilitySet.DefinitionStages.WithGroup definitionWithGroup = super.myManager
                 .availabilitySets()
@@ -1578,6 +1592,11 @@ class VirtualMachineImpl
     }
 
     @Override
+    public String proximityPlacementGroupId() {
+        return inner().proximityPlacementGroup().id();
+    }
+
+    @Override
     public Observable<VirtualMachineExtension> listExtensionsAsync() {
         return this.virtualMachineExtensions.listAsync();
     }
@@ -1773,6 +1792,7 @@ class VirtualMachineImpl
         updateParameter.withLicenseType(this.inner().licenseType());
         updateParameter.withZones(this.inner().zones());
         updateParameter.withTags(this.inner().getTags());
+        updateParameter.withProximityPlacementGroup(this.inner().proximityPlacementGroup());
         //
         this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
         //

@@ -390,6 +390,13 @@ public interface VirtualMachine extends
     String licenseType();
 
     /**
+     * Get specifies information about the proximity placement group that the virtual machine scale set should be
+     * assigned to.
+     * @return the proximityPlacementGroupId.
+     */
+    String proximityPlacementGroupId();
+
+    /**
      * @return a representation of the deferred computation of this call, returning extensions attached to the virtual machine
      */
     Observable<VirtualMachineExtension> listExtensionsAsync();
@@ -499,6 +506,7 @@ public interface VirtualMachine extends
             DefinitionStages.WithPublicIPAddress,
             DefinitionStages.WithPrimaryNetworkInterface,
             DefinitionStages.WithOS,
+            DefinitionStages.WithProximityPlacementGroup,
             DefinitionStages.WithCreate {
     }
 
@@ -650,7 +658,7 @@ public interface VirtualMachine extends
              * @param creatable a creatable definition for a new public IP
              * @return the next stage of the definition
              */
-            WithOS withNewPrimaryPublicIPAddress(Creatable<PublicIPAddress> creatable);
+            WithProximityPlacementGroup withNewPrimaryPublicIPAddress(Creatable<PublicIPAddress> creatable);
 
             /**
              * Creates a new public IP address in the same region and resource group as the resource, with the specified DNS label
@@ -661,7 +669,7 @@ public interface VirtualMachine extends
              * @param leafDnsLabel a leaf domain label
              * @return the next stage of the definition
              */
-            WithOS withNewPrimaryPublicIPAddress(String leafDnsLabel);
+            WithProximityPlacementGroup withNewPrimaryPublicIPAddress(String leafDnsLabel);
 
             /**
              * Associates an existing public IP address with the VM's primary network interface.
@@ -669,14 +677,14 @@ public interface VirtualMachine extends
              * @param publicIPAddress an existing public IP address
              * @return the next stage of the definition
              */
-            WithOS withExistingPrimaryPublicIPAddress(PublicIPAddress publicIPAddress);
+            WithProximityPlacementGroup withExistingPrimaryPublicIPAddress(PublicIPAddress publicIPAddress);
 
             /**
              * Specifies that the VM should not have a public IP address.
              *
              * @return the next stage of the definition
              */
-            WithOS withoutPrimaryPublicIPAddress();
+            WithProximityPlacementGroup withoutPrimaryPublicIPAddress();
         }
 
         /**
@@ -690,7 +698,7 @@ public interface VirtualMachine extends
              * @param creatable a creatable definition for a new network interface
              * @return the next stage of the definition
              */
-            WithOS withNewPrimaryNetworkInterface(Creatable<NetworkInterface> creatable);
+            WithProximityPlacementGroup withNewPrimaryNetworkInterface(Creatable<NetworkInterface> creatable);
 
             /**
              * Associates an existing network interface with the virtual machine as its primary network interface.
@@ -698,7 +706,23 @@ public interface VirtualMachine extends
              * @param networkInterface an existing network interface
              * @return the next stage of the definition
              */
-            WithOS withExistingPrimaryNetworkInterface(NetworkInterface networkInterface);
+            WithProximityPlacementGroup withExistingPrimaryNetworkInterface(NetworkInterface networkInterface);
+        }
+
+        /**
+         * The stage of a virtual machine definition allowing to
+         * set information about the proximity placement group that the virtual machine scale set should
+         * be assigned to.
+         */
+        interface WithProximityPlacementGroup extends WithOS {
+            /**
+             * Set information about the proximity placement group that the virtual machine scale set should
+             * be assigned to.
+             * @param promixityPlacementGroupId  The Id of the proximity placement group subResource.
+             *
+             * @return the next stage of the definition.
+             */
+            WithOS withProximityPlacementGroup(String promixityPlacementGroupId);
         }
 
         /**
@@ -1784,6 +1808,28 @@ public interface VirtualMachine extends
      */
     interface UpdateStages {
         /**
+         * The stage of a virtual machine update allowing to
+         * set/remove information about the proximity placement group that the virtual machine scale set should
+         * be assigned to.
+         */
+        interface WithProximityPlacementGroup {
+            /**
+             * Set information about the proximity placement group that the virtual machineshould
+             * be assigned to.
+             * @param promixityPlacementGroupId  The Id of the proximity placement group subResource.
+             *
+             * @return the next stage of the definition.
+             */
+            Update withProximityPlacementGroup(String promixityPlacementGroupId);
+
+            /**
+             * Removes the Proximity placement group from the VM
+             * @return the next stage of the definition.
+             */
+            Update withoutProximityPlacementGroup();
+        }
+
+        /**
          * The stage of a virtual machine definition allowing to specify unmanaged data disk configuration.
          */
         interface WithUnmanagedDataDisk {
@@ -2214,6 +2260,7 @@ public interface VirtualMachine extends
     interface Update extends
             Appliable<VirtualMachine>,
             Resource.UpdateWithTags<Update>,
+            UpdateStages.WithProximityPlacementGroup,
             UpdateStages.WithUnmanagedDataDisk,
             UpdateStages.WithManagedDataDisk,
             UpdateStages.WithSecondaryNetworkInterface,

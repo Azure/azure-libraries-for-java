@@ -2004,6 +2004,22 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of a virtual machine scale set update allowing to
+         * set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine
+         * Scale Set.
+         */
+        interface WithAdditionalCapabilities {
+            /**
+             * Set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine
+             * Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed
+             * data disks with UltraSSD_LRS storage account type.
+             * @param additionalCapabilities the additionalCapabilities value to set
+             * @return the next stage of the definition.
+             */
+            WithApply withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities);
+        }
+
+        /**
          * The stage of a virtual machine scale set update allowing to change the SKU for the virtual machines
          * in the scale set.
          */
@@ -2615,6 +2631,7 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithManagedDataDisk,
                 UpdateStages.WithUnmanagedDataDisk,
                 UpdateStages.WithSku,
+                UpdateStages.WithAdditionalCapabilities,
                 UpdateStages.WithCapacity,
                 UpdateStages.WithExtension,
                 UpdateStages.WithoutPrimaryLoadBalancer,

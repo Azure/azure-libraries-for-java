@@ -2541,8 +2541,8 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public VirtualMachineScaleSetImpl withProximityPlacementGroup(String promixityPlacementGroupId) {
-        this.inner().withProximityPlacementGroup(new SubResource().withId(promixityPlacementGroupId));
+    public VirtualMachineScaleSetImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
+        this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
         return this;
     }
 

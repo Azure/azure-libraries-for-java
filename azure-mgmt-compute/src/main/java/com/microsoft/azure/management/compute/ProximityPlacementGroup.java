@@ -6,18 +6,11 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.compute.implementation.ProximityPlacementGroupInner;
-import com.microsoft.azure.management.compute.implementation.ResourceSkuInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Type representing Proximity Placement Group for an Azure compute resource.

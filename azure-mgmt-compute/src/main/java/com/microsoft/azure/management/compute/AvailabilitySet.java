@@ -133,7 +133,7 @@ public interface AvailabilitySet extends
         /**
          * The stage of the availability set definition setting ProximityPlacementGroup.
          */
-        interface WithProximityPlacementGroup{
+        interface WithProximityPlacementGroup {
             /**
              * Set information about the proximity placement group that the availability set should
              * be assigned to.
@@ -179,7 +179,7 @@ public interface AvailabilitySet extends
         /**
          * The stage of the availability set definition setting ProximityPlacementGroup.
          */
-        interface WithProximityPlacementGroup{
+        interface WithProximityPlacementGroup {
             /**
              * Set information about the proximity placement group that the availability set should
              * be assigned to.

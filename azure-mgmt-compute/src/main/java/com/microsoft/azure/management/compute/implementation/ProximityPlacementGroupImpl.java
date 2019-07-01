@@ -8,32 +8,13 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
-import com.microsoft.azure.management.compute.ComputeResourceType;
 import com.microsoft.azure.management.compute.ComputeSku;
-import com.microsoft.azure.management.compute.ComputeSkuName;
-import com.microsoft.azure.management.compute.ComputeSkuTier;
-import com.microsoft.azure.management.compute.DiskSkuTypes;
-import com.microsoft.azure.management.compute.DiskStorageAccountTypes;
 import com.microsoft.azure.management.compute.ProximityPlacementGroup;
 import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
-import com.microsoft.azure.management.compute.ResourceSkuCapabilities;
-import com.microsoft.azure.management.compute.ResourceSkuCapacity;
-import com.microsoft.azure.management.compute.ResourceSkuCosts;
-import com.microsoft.azure.management.compute.ResourceSkuLocationInfo;
-import com.microsoft.azure.management.compute.ResourceSkuRestrictions;
-import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * The implementation for {@link ComputeSku}.

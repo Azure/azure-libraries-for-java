@@ -142,6 +142,15 @@ public interface AvailabilitySet extends
              * @return the next stage of the definition.
              */
             WithCreate withProximityPlacementGroup(String promixityPlacementGroupId);
+
+            /**
+             * Creates a new proximity placement gruup witht he specified name and then adds it to the availability set.
+             * @param proximityPlacementGroupName The name of the group to be created.
+             * @param type the type of the group
+             * @return the next stage of the definition.
+             */
+            WithCreate withNewProximityPlacementGroup(String proximityPlacementGroupName,
+                                                      ProximityPlacementGroupType type);
         }
 
         /**

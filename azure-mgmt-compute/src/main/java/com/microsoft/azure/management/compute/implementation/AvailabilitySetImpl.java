@@ -12,6 +12,7 @@ import com.microsoft.azure.management.compute.AvailabilitySet;
 import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.ProximityPlacementGroup;
+import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
 import com.microsoft.azure.management.compute.Sku;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
@@ -148,6 +149,17 @@ class AvailabilitySetImpl
     @Override
     public AvailabilitySetImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
         this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        return this;
+    }
+
+    @Override
+    public AvailabilitySetImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
+        ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
+        plgInner.withProximityPlacementGroupType(type);
+        plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(), proximityPlacementGroupName, plgInner);
+
+        this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+
         return this;
     }
 

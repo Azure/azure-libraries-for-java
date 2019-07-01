@@ -21,6 +21,7 @@ import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.LinuxConfiguration;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.ProximityPlacementGroup;
+import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.RunCommandInputParameter;
@@ -2547,6 +2548,17 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
         this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
+        ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
+        plgInner.withProximityPlacementGroupType(type);
+        plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(), proximityPlacementGroupName, plgInner);
+
+        this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+
         return this;
     }
 

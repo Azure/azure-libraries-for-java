@@ -20,6 +20,7 @@ import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.LinuxConfiguration;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.ProximityPlacementGroup;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.RunCommandInputParameter;
@@ -66,6 +67,7 @@ import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -541,11 +543,13 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
-    public String proximityPlacementGroupId() {
-        if (this.inner().proximityPlacementGroup() != null) {
-            return this.inner().proximityPlacementGroup().id();
-        } else {
+    public ProximityPlacementGroup proximityPlacementGroup() {
+        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+        ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
+        if (plgInner == null) {
             return null;
+        } else {
+            return new ProximityPlacementGroupImpl(plgInner);
         }
     }
 

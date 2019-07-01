@@ -494,9 +494,9 @@ public interface VirtualMachineScaleSet extends
     /**
      * Get specifies information about the proximity placement group that the virtual machine scale set should be
      * assigned to.
-     * @return the proximityPlacementGroupId.
+     * @return the proximityPlacementGroup.
      */
-    String proximityPlacementGroupId();
+    ProximityPlacementGroup proximityPlacementGroup();
 
     /**
      * Get specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale
@@ -621,11 +621,11 @@ public interface VirtualMachineScaleSet extends
             /**
              * Set information about the proximity placement group that the virtual machine scale set should
              * be assigned to.
-             * @param promixityPlacementGroupId  The Id of the proximity placement group subResource.
+             * @param proximityPlacementGroupId  The Id of the proximity placement group subResource.
              *
              * @return the next stage of the definition.
              */
-            WithDoNotRunExtensionsOnOverprovisionedVms withProximityPlacementGroup(String promixityPlacementGroupId);
+            WithDoNotRunExtensionsOnOverprovisionedVms withProximityPlacementGroup(String proximityPlacementGroupId);
         }
 
         /**

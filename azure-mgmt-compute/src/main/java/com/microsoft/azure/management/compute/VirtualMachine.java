@@ -392,9 +392,9 @@ public interface VirtualMachine extends
     /**
      * Get specifies information about the proximity placement group that the virtual machine scale set should be
      * assigned to.
-     * @return the proximityPlacementGroupId.
+     * @return the proximityPlacementGroup.
      */
-    String proximityPlacementGroupId();
+    ProximityPlacementGroup proximityPlacementGroup();
 
     /**
      * @return a representation of the deferred computation of this call, returning extensions attached to the virtual machine
@@ -1816,11 +1816,11 @@ public interface VirtualMachine extends
             /**
              * Set information about the proximity placement group that the virtual machineshould
              * be assigned to.
-             * @param promixityPlacementGroupId  The Id of the proximity placement group subResource.
+             * @param proximityPlacementGroupId  The Id of the proximity placement group subResource.
              *
              * @return the next stage of the definition.
              */
-            Update withProximityPlacementGroup(String promixityPlacementGroupId);
+            Update withProximityPlacementGroup(String proximityPlacementGroupId);
 
             /**
              * Removes the Proximity placement group from the VM.

@@ -11,8 +11,10 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AvailabilitySet;
 import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
+import com.microsoft.azure.management.compute.ProximityPlacementGroup;
 import com.microsoft.azure.management.compute.Sku;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
@@ -75,6 +77,17 @@ class AvailabilitySetImpl
     }
 
     @Override
+    public ProximityPlacementGroup proximityPlacementGroup() {
+        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+        ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
+        if (plgInner == null) {
+            return null;
+        } else {
+            return new ProximityPlacementGroupImpl(plgInner);
+        }
+    }
+
+    @Override
     public List<InstanceViewStatus> statuses() {
         return Collections.unmodifiableList(this.inner().statuses());
     }
@@ -128,6 +141,19 @@ class AvailabilitySetImpl
             this.inner().withSku(new Sku());
         }
         this.inner().sku().withName(skuType.toString());
+        return this;
+    }
+
+
+    @Override
+    public AvailabilitySetImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
+        this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        return this;
+    }
+
+    @Override
+    public AvailabilitySetImpl withoutProximityPlacementGroup() {
+        this.inner().withProximityPlacementGroup(null);
         return this;
     }
 

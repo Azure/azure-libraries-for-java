@@ -49,6 +49,13 @@ public interface AvailabilitySet extends
     Set<String> virtualMachineIds();
 
     /**
+     * Get specifies information about the proximity placement group that the virtual machine scale set should be
+     * assigned to.
+     * @return the proximityPlacementGroup.
+     */
+    ProximityPlacementGroup proximityPlacementGroup();
+
+    /**
      * @return the statuses of the existing virtual machines in the availability set
      */
     List<InstanceViewStatus> statuses();
@@ -124,6 +131,20 @@ public interface AvailabilitySet extends
         }
 
         /**
+         * The stage of the availability set definition setting ProximityPlacementGroup.
+         */
+        interface WithProximityPlacementGroup{
+            /**
+             * Set information about the proximity placement group that the availability set should
+             * be assigned to.
+             * @param promixityPlacementGroupId  The Id of the proximity placement group subResource.
+             *
+             * @return the next stage of the definition.
+             */
+            WithCreate withProximityPlacementGroup(String promixityPlacementGroupId);
+        }
+
+        /**
          * The stage of an availability set definition which contains all the minimum required inputs for
          * the resource to be created but also allows
          * for any other optional settings to be specified.
@@ -133,7 +154,8 @@ public interface AvailabilitySet extends
                 Resource.DefinitionWithTags<WithCreate>,
                 WithUpdateDomainCount,
                 WithFaultDomainCount,
-                WithSku {
+                WithSku,
+                WithProximityPlacementGroup {
         }
     }
 
@@ -153,6 +175,27 @@ public interface AvailabilitySet extends
              */
             Update withSku(AvailabilitySetSkuTypes skuType);
         }
+
+        /**
+         * The stage of the availability set definition setting ProximityPlacementGroup.
+         */
+        interface WithProximityPlacementGroup{
+            /**
+             * Set information about the proximity placement group that the availability set should
+             * be assigned to.
+             * @param promixityPlacementGroupId  The Id of the proximity placement group subResource.
+             *
+             * @return the next stage of the definition.
+             */
+            Update withProximityPlacementGroup(String promixityPlacementGroupId);
+
+            /**
+             * Remove the proximity placement group from the availability set.
+             *
+             * @return the next stage of the definition.
+             */
+            Update withoutProximityPlacementGroup();
+        }
     }
     /**
      * The template for an availability set update operation, containing all the settings that
@@ -161,6 +204,7 @@ public interface AvailabilitySet extends
     interface Update extends
             Appliable<AvailabilitySet>,
             Resource.UpdateWithTags<Update>,
-            UpdateStages.WithSku {
+            UpdateStages.WithSku,
+            UpdateStages.WithProximityPlacementGroup {
     }
 }

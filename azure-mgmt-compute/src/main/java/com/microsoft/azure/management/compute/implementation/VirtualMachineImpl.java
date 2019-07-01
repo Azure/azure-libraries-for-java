@@ -34,6 +34,7 @@ import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.PowerState;
+import com.microsoft.azure.management.compute.ProximityPlacementGroup;
 import com.microsoft.azure.management.compute.PurchasePlan;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.RunCommandInput;
@@ -66,6 +67,7 @@ import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -1592,8 +1594,14 @@ class VirtualMachineImpl
     }
 
     @Override
-    public String proximityPlacementGroupId() {
-        return inner().proximityPlacementGroup().id();
+    public ProximityPlacementGroup proximityPlacementGroup() {
+        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+        ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
+       if (plgInner == null) {
+           return null;
+       } else {
+           return new ProximityPlacementGroupImpl(plgInner);
+       }
     }
 
     @Override

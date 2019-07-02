@@ -157,6 +157,11 @@ public class VirtualMachineScaleSetImpl
     VirtualMachineScaleSetMsiHandler virtualMachineScaleSetMsiHandler;
     // To manage boot diagnostics specific operations
     private final BootDiagnosticsHandler bootDiagnosticsHandler;
+    // Name of the new proximity placement group
+    private String newProximityPlacementGroupName;
+    // Type fo the new proximity placement group
+    private ProximityPlacementGroupType newProximityPlacementGroupType;
+
 
     VirtualMachineScaleSetImpl(
             String name,
@@ -178,6 +183,8 @@ public class VirtualMachineScaleSetImpl
         this.managedDataDisks = new ManagedDataDiskCollection(this);
         this.virtualMachineScaleSetMsiHandler = new VirtualMachineScaleSetMsiHandler(rbacManager, this);
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
+        this.newProximityPlacementGroupName = null;
+        this.newProximityPlacementGroupType = null;
     }
 
     @Override
@@ -1500,6 +1507,7 @@ public class VirtualMachineScaleSetImpl
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
         this.virtualMachineScaleSetMsiHandler.handleExternalIdentities();
+        this.createNewProximityPlacementGroup();
         return this.manager().inner().virtualMachineScaleSets()
                 .createOrUpdateAsync(resourceGroupName(), name(), inner());
     }
@@ -2548,16 +2556,16 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
         this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        this.newProximityPlacementGroupName = null;
         return this;
     }
 
     @Override
     public VirtualMachineScaleSetImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
-        ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
-        plgInner.withProximityPlacementGroupType(type);
-        plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(), proximityPlacementGroupName, plgInner);
+        this.newProximityPlacementGroupName = proximityPlacementGroupName;
+        this.newProximityPlacementGroupType = type;
 
-        this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+        this.inner().withProximityPlacementGroup(null);
 
         return this;
     }
@@ -2572,6 +2580,20 @@ public class VirtualMachineScaleSetImpl
     public VirtualMachineScaleSetImpl withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
         this.inner().withAdditionalCapabilities(additionalCapabilities);
         return this;
+    }
+
+    private void createNewProximityPlacementGroup() {
+        if (isInCreateMode()) {
+            if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
+                ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
+                plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
+                plgInner.withLocation(this.inner().location());
+                plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
+                        this.newProximityPlacementGroupName, plgInner);
+
+                this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+            }
+        }
     }
 
     /**

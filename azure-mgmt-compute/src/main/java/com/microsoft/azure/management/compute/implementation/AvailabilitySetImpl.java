@@ -43,9 +43,16 @@ class AvailabilitySetImpl
         AvailabilitySet.Update {
 
     private Set<String> idOfVMsInSet;
+    // Name of the new proximity placement group
+    private String newProximityPlacementGroupName;
+    // Type fo the new proximity placement group
+    private ProximityPlacementGroupType newProximityPlacementGroupType;
 
     AvailabilitySetImpl(String name, AvailabilitySetInner innerModel, final ComputeManager computeManager) {
         super(name, innerModel, computeManager);
+        newProximityPlacementGroupName = null;
+        newProximityPlacementGroupType = null;
+        newProximityPlacementGroupType = null;
     }
 
     @Override
@@ -149,16 +156,17 @@ class AvailabilitySetImpl
     @Override
     public AvailabilitySetImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
         this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        this.newProximityPlacementGroupType = null;
+        this.newProximityPlacementGroupName = null;
         return this;
     }
 
     @Override
     public AvailabilitySetImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
-        ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
-        plgInner.withProximityPlacementGroupType(type);
-        plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(), proximityPlacementGroupName, plgInner);
+        this.newProximityPlacementGroupName = proximityPlacementGroupName;
+        this.newProximityPlacementGroupType = type;
 
-        this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+        this.inner().withProximityPlacementGroup(null);
 
         return this;
     }
@@ -180,6 +188,7 @@ class AvailabilitySetImpl
         if (this.inner().platformUpdateDomainCount() == null) {
             this.inner().withPlatformUpdateDomainCount(5);
         }
+        this.createNewProximityPlacementGroup();
         return this.manager().inner().availabilitySets().createOrUpdateAsync(resourceGroupName(), name(), inner())
                 .map(new Func1<AvailabilitySetInner, AvailabilitySet>() {
                     @Override
@@ -189,5 +198,19 @@ class AvailabilitySetImpl
                         return self;
                     }
                 });
+    }
+
+    private void createNewProximityPlacementGroup() {
+        if (isInCreateMode()) {
+            if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
+                ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
+                plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
+                plgInner.withLocation(this.inner().location());
+                plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
+                        this.newProximityPlacementGroupName, plgInner);
+
+                this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+            }
+        }
     }
 }

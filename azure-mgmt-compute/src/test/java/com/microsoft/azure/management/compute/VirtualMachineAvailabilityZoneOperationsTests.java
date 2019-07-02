@@ -48,6 +48,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
     @Test
     public void canCreateZonedVirtualMachineWithImplicitZoneForRelatedResources() throws Exception {
         final String pipDnsLabel = generateRandomResourceName("pip", 10);
+        final String proxyGroupName = "plg1Test";
         // Create a zoned virtual machine
         //
         VirtualMachine virtualMachine = computeManager.virtualMachines()
@@ -57,6 +58,7 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
                 .withNewPrimaryNetwork("10.0.0.0/28")
                 .withPrimaryPrivateIPAddressDynamic()
                 .withNewPrimaryPublicIPAddress(pipDnsLabel)
+                .withNewProximityPlacementGroup(proxyGroupName, ProximityPlacementGroupType.STANDARD)
                 .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                 .withRootUsername("Foo12")
                 .withRootPassword("abc!@#F0orL")
@@ -72,6 +74,13 @@ public class VirtualMachineAvailabilityZoneOperationsTests extends ComputeManage
         Assert.assertNotNull(virtualMachine.availabilityZones());
         Assert.assertFalse(virtualMachine.availabilityZones().isEmpty());
         Assert.assertTrue(virtualMachine.availabilityZones().contains(AvailabilityZoneId.ZONE_1));
+
+        //Check the proximity placement group information
+        Assert.assertNotNull(virtualMachine.proximityPlacementGroup());
+        Assert.assertEquals(ProximityPlacementGroupType.STANDARD, virtualMachine.proximityPlacementGroup().proximityPlacementGroupType());
+        Assert.assertNotNull(virtualMachine.proximityPlacementGroup().virtualMachineIds());
+        Assert.assertTrue(virtualMachine.id().equalsIgnoreCase(virtualMachine.proximityPlacementGroup().virtualMachineIds().get(0)));
+
         // Checks the zone assigned to the implicitly created public IP address.
         // Implicitly created PIP will be BASIC
         //

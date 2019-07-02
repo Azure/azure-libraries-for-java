@@ -49,7 +49,7 @@ final class ProximityPlacementGroupImpl implements ProximityPlacementGroup {
 
     @Override
     public ProximityPlacementGroupInner inner() {
-        return this.inner();
+        return inner;
     }
 
     private List<String> getStringListFromSubResourceList(List<SubResource> subList) {

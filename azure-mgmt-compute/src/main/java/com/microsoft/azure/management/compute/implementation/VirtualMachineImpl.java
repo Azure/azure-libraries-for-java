@@ -166,6 +166,10 @@ class VirtualMachineImpl
     private VirtualMachineMsiHandler virtualMachineMsiHandler;
     // Reference to the PublicIp creatable that is implicitly created
     private  PublicIPAddress.DefinitionStages.WithCreate implicitPipCreatable;
+    // Name of the new proximity placement group
+    private String newProximityPlacementGroupName;
+    // Type fo the new proximity placement group
+    private ProximityPlacementGroupType newProximityPlacementGroupType;
 
     VirtualMachineImpl(String name,
                        VirtualMachineInner innerModel,
@@ -193,6 +197,8 @@ class VirtualMachineImpl
         initializeDataDisks();
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
         this.virtualMachineMsiHandler = new VirtualMachineMsiHandler(rbacManager, this);
+        this.newProximityPlacementGroupName = null;
+        this.newProximityPlacementGroupType = null;
     }
 
     // Verbs
@@ -1207,16 +1213,17 @@ class VirtualMachineImpl
     @Override
     public VirtualMachineImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
         this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        //clear the new setting
+        newProximityPlacementGroupName = null;
         return this;
     }
 
     @Override
     public VirtualMachineImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
-        ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
-        plgInner.withProximityPlacementGroupType(type);
-        plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(), proximityPlacementGroupName, plgInner);
+        this.newProximityPlacementGroupName = proximityPlacementGroupName;
+        this.newProximityPlacementGroupType = type;
 
-        this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+        this.inner().withProximityPlacementGroup(null);
 
         return this;
     }
@@ -1771,6 +1778,7 @@ class VirtualMachineImpl
         this.handleUnManagedOSAndDataDisksStorageSettings();
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.handleNetworkSettings();
+        this.createNewProximityPlacementGroup();
         this.handleAvailabilitySettings();
         this.virtualMachineMsiHandler.processCreatedExternalIdentities();
         this.virtualMachineMsiHandler.handleExternalIdentities();
@@ -2058,6 +2066,20 @@ class VirtualMachineImpl
                 UnmanagedDataDiskImpl.ensureDisksVhdUri(unmanagedDataDisks, storageAccount, vmName);
             } else {
                 UnmanagedDataDiskImpl.ensureDisksVhdUri(unmanagedDataDisks, vmName);
+            }
+        }
+    }
+
+    private void createNewProximityPlacementGroup() {
+        if (isInCreateMode()) {
+            if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
+                ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
+                plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
+                plgInner.withLocation(this.inner().location());
+                plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
+                        this.newProximityPlacementGroupName, plgInner);
+
+                this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
             }
         }
     }

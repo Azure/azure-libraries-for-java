@@ -44,4 +44,25 @@ public interface ProximityPlacementGroup extends HasInner<ProximityPlacementGrou
      * @return the availabilitySets value
      */
     List<String> availabilitySetIds();
+
+    /**
+     * Gets the location of the proximity placement group.
+     *
+     * @return the location
+     */
+    String location();
+
+    /**
+     * Gets the name of the resource group for the proximity placement group.
+     *
+     * @return the resource group name
+     */
+    String resourceGroupName();
+
+    /**
+     * The rsource ID of the placement group.
+     *
+     * @return the resource Id.
+     */
+    String id();
 }

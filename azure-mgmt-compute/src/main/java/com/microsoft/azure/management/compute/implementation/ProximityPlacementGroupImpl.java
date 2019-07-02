@@ -11,6 +11,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.ComputeSku;
 import com.microsoft.azure.management.compute.ProximityPlacementGroup;
 import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -48,9 +49,25 @@ final class ProximityPlacementGroupImpl implements ProximityPlacementGroup {
     }
 
     @Override
+    public String location() {
+        return this.inner().location();
+    }
+
+    @Override
+    public String resourceGroupName() {
+        return ResourceId.fromString(this.id()).resourceGroupName();
+    }
+
+    @Override
+    public String id() {
+        return this.inner().id();
+    }
+
+    @Override
     public ProximityPlacementGroupInner inner() {
         return inner;
     }
+
 
     private List<String> getStringListFromSubResourceList(List<SubResource> subList) {
         List<String> stringList = null;

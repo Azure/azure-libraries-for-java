@@ -30,7 +30,7 @@ jobs:
       
     steps:      
       - script: mvn -U clean
-         displayName:  'mvn clean'
+        displayName:  'mvn clean'
       - task: Maven@3
         displayName: 'install'
         inputs:

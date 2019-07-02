@@ -12,12 +12,13 @@ import com.microsoft.azure.management.eventhub.ProvisioningStateDR;
 import com.microsoft.azure.management.eventhub.RoleDisasterRecovery;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Single item in List or Get Alias(Disaster Recovery configuration) operation.
  */
 @JsonFlatten
-public class ArmDisasterRecoveryInner extends NestedResourceInner {
+public class ArmDisasterRecoveryInner extends ProxyResource {
     /**
      * Provisioning state of the Alias(Disaster Recovery configuration) -
      * possible values 'Accepted' or 'Succeeded' or 'Failed'. Possible values
@@ -28,7 +29,7 @@ public class ArmDisasterRecoveryInner extends NestedResourceInner {
 
     /**
      * ARM Id of the Primary/Secondary eventhub namespace name, which is part
-     * of GEO DR pairning.
+     * of GEO DR pairing.
      */
     @JsonProperty(value = "properties.partnerNamespace")
     private String partnerNamespace;
@@ -48,7 +49,13 @@ public class ArmDisasterRecoveryInner extends NestedResourceInner {
     private RoleDisasterRecovery role;
 
     /**
-     * Get the provisioningState value.
+     * Number of entities pending to be replicated.
+     */
+    @JsonProperty(value = "properties.pendingReplicationOperationsCount", access = JsonProperty.Access.WRITE_ONLY)
+    private Long pendingReplicationOperationsCount;
+
+    /**
+     * Get provisioning state of the Alias(Disaster Recovery configuration) - possible values 'Accepted' or 'Succeeded' or 'Failed'. Possible values include: 'Accepted', 'Succeeded', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -57,7 +64,7 @@ public class ArmDisasterRecoveryInner extends NestedResourceInner {
     }
 
     /**
-     * Get the partnerNamespace value.
+     * Get aRM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.
      *
      * @return the partnerNamespace value
      */
@@ -66,7 +73,7 @@ public class ArmDisasterRecoveryInner extends NestedResourceInner {
     }
 
     /**
-     * Set the partnerNamespace value.
+     * Set aRM Id of the Primary/Secondary eventhub namespace name, which is part of GEO DR pairing.
      *
      * @param partnerNamespace the partnerNamespace value to set
      * @return the ArmDisasterRecoveryInner object itself.
@@ -77,7 +84,7 @@ public class ArmDisasterRecoveryInner extends NestedResourceInner {
     }
 
     /**
-     * Get the alternateName value.
+     * Get alternate name specified when alias and namespace names are same.
      *
      * @return the alternateName value
      */
@@ -86,7 +93,7 @@ public class ArmDisasterRecoveryInner extends NestedResourceInner {
     }
 
     /**
-     * Set the alternateName value.
+     * Set alternate name specified when alias and namespace names are same.
      *
      * @param alternateName the alternateName value to set
      * @return the ArmDisasterRecoveryInner object itself.
@@ -97,12 +104,21 @@ public class ArmDisasterRecoveryInner extends NestedResourceInner {
     }
 
     /**
-     * Get the role value.
+     * Get role of namespace in GEO DR - possible values 'Primary' or 'PrimaryNotReplicating' or 'Secondary'. Possible values include: 'Primary', 'PrimaryNotReplicating', 'Secondary'.
      *
      * @return the role value
      */
     public RoleDisasterRecovery role() {
         return this.role;
+    }
+
+    /**
+     * Get number of entities pending to be replicated.
+     *
+     * @return the pendingReplicationOperationsCount value
+     */
+    public Long pendingReplicationOperationsCount() {
+        return this.pendingReplicationOperationsCount;
     }
 
 }

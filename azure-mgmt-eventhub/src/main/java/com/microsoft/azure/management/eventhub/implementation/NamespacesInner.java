@@ -18,6 +18,7 @@ import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.eventhub.AccessRights;
 import com.microsoft.azure.management.eventhub.CheckNameAvailabilityParameter;
 import com.microsoft.azure.management.eventhub.ErrorResponseException;
+import com.microsoft.azure.management.eventhub.RegenerateAccessKeyParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -104,6 +105,10 @@ public class NamespacesInner implements InnerSupportsGet<EHNamespaceInner>, Inne
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}")
         Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("subscriptionId") String subscriptionId, @Body EHNamespaceInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.Namespaces getMessagingPlan" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/messagingplan")
+        Observable<Response<ResponseBody>> getMessagingPlan(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.Namespaces listAuthorizationRules" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules")
         Observable<Response<ResponseBody>> listAuthorizationRules(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -126,7 +131,15 @@ public class NamespacesInner implements InnerSupportsGet<EHNamespaceInner>, Inne
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.Namespaces regenerateKeys" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys")
-        Observable<Response<ResponseBody>> regenerateKeys(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("authorizationRuleName") String authorizationRuleName, @Path("subscriptionId") String subscriptionId, @Body RegenerateAccessKeyParametersInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> regenerateKeys(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("authorizationRuleName") String authorizationRuleName, @Path("subscriptionId") String subscriptionId, @Body RegenerateAccessKeyParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.Namespaces createOrUpdateNetworkRuleSet" })
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default")
+        Observable<Response<ResponseBody>> createOrUpdateNetworkRuleSet(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Body NetworkRuleSetInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.Namespaces getNetworkRuleSet" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkRuleSets/default")
+        Observable<Response<ResponseBody>> getNetworkRuleSet(@Path("resourceGroupName") String resourceGroupName, @Path("namespaceName") String namespaceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.eventhub.Namespaces listNext" })
         @GET
@@ -957,6 +970,92 @@ public class NamespacesInner implements InnerSupportsGet<EHNamespaceInner>, Inne
     }
 
     /**
+     * Gets messaging plan for specified namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the MessagingPlanInner object if successful.
+     */
+    public MessagingPlanInner getMessagingPlan(String resourceGroupName, String namespaceName) {
+        return getMessagingPlanWithServiceResponseAsync(resourceGroupName, namespaceName).toBlocking().single().body();
+    }
+
+    /**
+     * Gets messaging plan for specified namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<MessagingPlanInner> getMessagingPlanAsync(String resourceGroupName, String namespaceName, final ServiceCallback<MessagingPlanInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getMessagingPlanWithServiceResponseAsync(resourceGroupName, namespaceName), serviceCallback);
+    }
+
+    /**
+     * Gets messaging plan for specified namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the MessagingPlanInner object
+     */
+    public Observable<MessagingPlanInner> getMessagingPlanAsync(String resourceGroupName, String namespaceName) {
+        return getMessagingPlanWithServiceResponseAsync(resourceGroupName, namespaceName).map(new Func1<ServiceResponse<MessagingPlanInner>, MessagingPlanInner>() {
+            @Override
+            public MessagingPlanInner call(ServiceResponse<MessagingPlanInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets messaging plan for specified namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the MessagingPlanInner object
+     */
+    public Observable<ServiceResponse<MessagingPlanInner>> getMessagingPlanWithServiceResponseAsync(String resourceGroupName, String namespaceName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (namespaceName == null) {
+            throw new IllegalArgumentException("Parameter namespaceName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getMessagingPlan(resourceGroupName, namespaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<MessagingPlanInner>>>() {
+                @Override
+                public Observable<ServiceResponse<MessagingPlanInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<MessagingPlanInner> clientResponse = getMessagingPlanDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<MessagingPlanInner> getMessagingPlanDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<MessagingPlanInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<MessagingPlanInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
      * Gets a list of authorization rules for a Namespace.
      *
      * @param resourceGroupName Name of the resource group within the azure subscription.
@@ -1473,7 +1572,7 @@ public class NamespacesInner implements InnerSupportsGet<EHNamespaceInner>, Inne
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AccessKeysInner object if successful.
      */
-    public AccessKeysInner regenerateKeys(String resourceGroupName, String namespaceName, String authorizationRuleName, RegenerateAccessKeyParametersInner parameters) {
+    public AccessKeysInner regenerateKeys(String resourceGroupName, String namespaceName, String authorizationRuleName, RegenerateAccessKeyParameters parameters) {
         return regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, authorizationRuleName, parameters).toBlocking().single().body();
     }
 
@@ -1488,7 +1587,7 @@ public class NamespacesInner implements InnerSupportsGet<EHNamespaceInner>, Inne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AccessKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String authorizationRuleName, RegenerateAccessKeyParametersInner parameters, final ServiceCallback<AccessKeysInner> serviceCallback) {
+    public ServiceFuture<AccessKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String authorizationRuleName, RegenerateAccessKeyParameters parameters, final ServiceCallback<AccessKeysInner> serviceCallback) {
         return ServiceFuture.fromResponse(regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, authorizationRuleName, parameters), serviceCallback);
     }
 
@@ -1502,7 +1601,7 @@ public class NamespacesInner implements InnerSupportsGet<EHNamespaceInner>, Inne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AccessKeysInner object
      */
-    public Observable<AccessKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String authorizationRuleName, RegenerateAccessKeyParametersInner parameters) {
+    public Observable<AccessKeysInner> regenerateKeysAsync(String resourceGroupName, String namespaceName, String authorizationRuleName, RegenerateAccessKeyParameters parameters) {
         return regenerateKeysWithServiceResponseAsync(resourceGroupName, namespaceName, authorizationRuleName, parameters).map(new Func1<ServiceResponse<AccessKeysInner>, AccessKeysInner>() {
             @Override
             public AccessKeysInner call(ServiceResponse<AccessKeysInner> response) {
@@ -1521,7 +1620,7 @@ public class NamespacesInner implements InnerSupportsGet<EHNamespaceInner>, Inne
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AccessKeysInner object
      */
-    public Observable<ServiceResponse<AccessKeysInner>> regenerateKeysWithServiceResponseAsync(String resourceGroupName, String namespaceName, String authorizationRuleName, RegenerateAccessKeyParametersInner parameters) {
+    public Observable<ServiceResponse<AccessKeysInner>> regenerateKeysWithServiceResponseAsync(String resourceGroupName, String namespaceName, String authorizationRuleName, RegenerateAccessKeyParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1558,6 +1657,186 @@ public class NamespacesInner implements InnerSupportsGet<EHNamespaceInner>, Inne
     private ServiceResponse<AccessKeysInner> regenerateKeysDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<AccessKeysInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AccessKeysInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Create or update NetworkRuleSet for a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param parameters The Namespace IpFilterRule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NetworkRuleSetInner object if successful.
+     */
+    public NetworkRuleSetInner createOrUpdateNetworkRuleSet(String resourceGroupName, String namespaceName, NetworkRuleSetInner parameters) {
+        return createOrUpdateNetworkRuleSetWithServiceResponseAsync(resourceGroupName, namespaceName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Create or update NetworkRuleSet for a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param parameters The Namespace IpFilterRule.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NetworkRuleSetInner> createOrUpdateNetworkRuleSetAsync(String resourceGroupName, String namespaceName, NetworkRuleSetInner parameters, final ServiceCallback<NetworkRuleSetInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createOrUpdateNetworkRuleSetWithServiceResponseAsync(resourceGroupName, namespaceName, parameters), serviceCallback);
+    }
+
+    /**
+     * Create or update NetworkRuleSet for a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param parameters The Namespace IpFilterRule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkRuleSetInner object
+     */
+    public Observable<NetworkRuleSetInner> createOrUpdateNetworkRuleSetAsync(String resourceGroupName, String namespaceName, NetworkRuleSetInner parameters) {
+        return createOrUpdateNetworkRuleSetWithServiceResponseAsync(resourceGroupName, namespaceName, parameters).map(new Func1<ServiceResponse<NetworkRuleSetInner>, NetworkRuleSetInner>() {
+            @Override
+            public NetworkRuleSetInner call(ServiceResponse<NetworkRuleSetInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Create or update NetworkRuleSet for a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param parameters The Namespace IpFilterRule.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkRuleSetInner object
+     */
+    public Observable<ServiceResponse<NetworkRuleSetInner>> createOrUpdateNetworkRuleSetWithServiceResponseAsync(String resourceGroupName, String namespaceName, NetworkRuleSetInner parameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (namespaceName == null) {
+            throw new IllegalArgumentException("Parameter namespaceName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.createOrUpdateNetworkRuleSet(resourceGroupName, namespaceName, this.client.subscriptionId(), this.client.apiVersion(), parameters, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkRuleSetInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NetworkRuleSetInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NetworkRuleSetInner> clientResponse = createOrUpdateNetworkRuleSetDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<NetworkRuleSetInner> createOrUpdateNetworkRuleSetDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<NetworkRuleSetInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<NetworkRuleSetInner>() { }.getType())
+                .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets NetworkRuleSet for a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorResponseException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the NetworkRuleSetInner object if successful.
+     */
+    public NetworkRuleSetInner getNetworkRuleSet(String resourceGroupName, String namespaceName) {
+        return getNetworkRuleSetWithServiceResponseAsync(resourceGroupName, namespaceName).toBlocking().single().body();
+    }
+
+    /**
+     * Gets NetworkRuleSet for a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<NetworkRuleSetInner> getNetworkRuleSetAsync(String resourceGroupName, String namespaceName, final ServiceCallback<NetworkRuleSetInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getNetworkRuleSetWithServiceResponseAsync(resourceGroupName, namespaceName), serviceCallback);
+    }
+
+    /**
+     * Gets NetworkRuleSet for a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkRuleSetInner object
+     */
+    public Observable<NetworkRuleSetInner> getNetworkRuleSetAsync(String resourceGroupName, String namespaceName) {
+        return getNetworkRuleSetWithServiceResponseAsync(resourceGroupName, namespaceName).map(new Func1<ServiceResponse<NetworkRuleSetInner>, NetworkRuleSetInner>() {
+            @Override
+            public NetworkRuleSetInner call(ServiceResponse<NetworkRuleSetInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets NetworkRuleSet for a Namespace.
+     *
+     * @param resourceGroupName Name of the resource group within the azure subscription.
+     * @param namespaceName The Namespace name
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the NetworkRuleSetInner object
+     */
+    public Observable<ServiceResponse<NetworkRuleSetInner>> getNetworkRuleSetWithServiceResponseAsync(String resourceGroupName, String namespaceName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (namespaceName == null) {
+            throw new IllegalArgumentException("Parameter namespaceName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getNetworkRuleSet(resourceGroupName, namespaceName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<NetworkRuleSetInner>>>() {
+                @Override
+                public Observable<ServiceResponse<NetworkRuleSetInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<NetworkRuleSetInner> clientResponse = getNetworkRuleSetDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<NetworkRuleSetInner> getNetworkRuleSetDelegate(Response<ResponseBody> response) throws ErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<NetworkRuleSetInner, ErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<NetworkRuleSetInner>() { }.getType())
                 .registerError(ErrorResponseException.class)
                 .build(response);
     }

@@ -14,12 +14,13 @@ import com.microsoft.azure.management.eventhub.EntityStatus;
 import com.microsoft.azure.management.eventhub.CaptureDescription;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Single item in List or Get Event Hub operation.
  */
 @JsonFlatten
-public class EventhubInner extends NestedResourceInner {
+public class EventhubInner extends ProxyResource {
     /**
      * Current number of shards on the Event Hub.
      */
@@ -67,7 +68,7 @@ public class EventhubInner extends NestedResourceInner {
     private CaptureDescription captureDescription;
 
     /**
-     * Get the partitionIds value.
+     * Get current number of shards on the Event Hub.
      *
      * @return the partitionIds value
      */
@@ -76,7 +77,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Get the createdAt value.
+     * Get exact time the Event Hub was created.
      *
      * @return the createdAt value
      */
@@ -85,7 +86,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Get the updatedAt value.
+     * Get the exact time the message was updated.
      *
      * @return the updatedAt value
      */
@@ -94,7 +95,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Get the messageRetentionInDays value.
+     * Get number of days to retain the events for this Event Hub, value should be 1 to 7 days.
      *
      * @return the messageRetentionInDays value
      */
@@ -103,7 +104,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Set the messageRetentionInDays value.
+     * Set number of days to retain the events for this Event Hub, value should be 1 to 7 days.
      *
      * @param messageRetentionInDays the messageRetentionInDays value to set
      * @return the EventhubInner object itself.
@@ -114,7 +115,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Get the partitionCount value.
+     * Get number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
      *
      * @return the partitionCount value
      */
@@ -123,7 +124,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Set the partitionCount value.
+     * Set number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
      *
      * @param partitionCount the partitionCount value to set
      * @return the EventhubInner object itself.
@@ -134,7 +135,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Get the status value.
+     * Get enumerates the possible values for the status of the Event Hub. Possible values include: 'Active', 'Disabled', 'Restoring', 'SendDisabled', 'ReceiveDisabled', 'Creating', 'Deleting', 'Renaming', 'Unknown'.
      *
      * @return the status value
      */
@@ -143,7 +144,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Set the status value.
+     * Set enumerates the possible values for the status of the Event Hub. Possible values include: 'Active', 'Disabled', 'Restoring', 'SendDisabled', 'ReceiveDisabled', 'Creating', 'Deleting', 'Renaming', 'Unknown'.
      *
      * @param status the status value to set
      * @return the EventhubInner object itself.
@@ -154,7 +155,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Get the captureDescription value.
+     * Get properties of capture description.
      *
      * @return the captureDescription value
      */
@@ -163,7 +164,7 @@ public class EventhubInner extends NestedResourceInner {
     }
 
     /**
-     * Set the captureDescription value.
+     * Set properties of capture description.
      *
      * @param captureDescription the captureDescription value to set
      * @return the EventhubInner object itself.

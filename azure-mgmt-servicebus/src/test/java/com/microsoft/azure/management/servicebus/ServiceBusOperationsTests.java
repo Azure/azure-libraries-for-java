@@ -89,7 +89,7 @@ public class ServiceBusOperationsTests extends TestBase {
         Assert.assertNotNull(namespace.fqdn());
         Assert.assertTrue(namespace.fqdn().contains(namespaceDNSLabel));
         Assert.assertNotNull(namespace.sku());
-        Assert.assertTrue(namespace.sku().equals(NamespaceSku.BASIC));
+        Assert.assertTrue(namespace.sku().name().equals(NamespaceSku.BASIC.name()));
         Assert.assertNotNull(namespace.region());
         Assert.assertTrue(namespace.region().equals(region));
         Assert.assertNotNull(namespace.resourceGroupName());
@@ -112,10 +112,8 @@ public class ServiceBusOperationsTests extends TestBase {
         namespace.update()
                 .withSku(NamespaceSku.STANDARD)
                 .apply();
-        Assert.assertTrue(namespace.sku().equals(NamespaceSku.STANDARD));
-        // TODO: There is a bug in LRO implementation of ServiceBusNamespace DELETE operation (Last poll returns 404, reported this to RP]
-        //
-        // serviceBusManager.namespaces().deleteByGroup(RG_NAME, namespace.name());
+        Assert.assertTrue(namespace.sku().name().equals(NamespaceSku.STANDARD.name()));
+        serviceBusManager.namespaces().deleteByResourceGroup(RG_NAME, namespace.name());
     }
 
     @Test
@@ -393,7 +391,7 @@ public class ServiceBusOperationsTests extends TestBase {
         Assert.assertNotNull(nsRuleKeys.secondaryKey());
         Assert.assertNotNull(nsRuleKeys.primaryConnectionString());
         Assert.assertNotNull(nsRuleKeys.secondaryConnectionString());
-        nsRuleKeys = foundNsRule.regenerateKey(Policykey.SECONDARY_KEY);
+        nsRuleKeys = foundNsRule.regenerateKey(Policykey.PRIMARY_KEY);
         Assert.assertNotEquals(nsRuleKeys.primaryKey(), primaryKey);
         // Lookup queue & operate on auth rules
         //

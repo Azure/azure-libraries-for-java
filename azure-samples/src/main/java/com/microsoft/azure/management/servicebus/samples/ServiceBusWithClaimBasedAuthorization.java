@@ -63,7 +63,7 @@ public final class ServiceBusWithClaimBasedAuthorization {
                     .define(namespaceName)
                     .withRegion(Region.US_WEST)
                     .withNewResourceGroup(rgName)
-                    .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                    .withSku(NamespaceSku.STANDARD)
                     .withNewQueue(queueName, 1024)
                     .withNewTopic(topicName, 1024)
                     .create();

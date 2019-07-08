@@ -1270,131 +1270,131 @@ public class AzureTests extends TestBase {
                 .create();
 
         Assert.assertEquals(cgName, containerGroup.name());
-//        Assert.assertEquals("Linux", containerGroup.osType().toString());
-//        Assert.assertEquals(0, containerGroup.imageRegistryServers().size());
-//        Assert.assertEquals(1, containerGroup.volumes().size());
-//        Assert.assertNotNull(containerGroup.volumes().get("emptydir1"));
-//        Assert.assertNotNull(containerGroup.ipAddress());
-//        Assert.assertTrue(containerGroup.isIPAddressPublic());
-//        Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
-//        Assert.assertEquals(2, containerGroup.externalPorts().size());
-//        Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
-//        Assert.assertEquals(8080, containerGroup.externalTcpPorts()[0]);
-//        Assert.assertEquals(80, containerGroup.externalTcpPorts()[1]);
-//        Assert.assertEquals(2, containerGroup.containers().size());
-//        Container tomcatContainer = containerGroup.containers().get("tomcat");
-//        Assert.assertNotNull(tomcatContainer);
-//        Container nginxContainer = containerGroup.containers().get("nginx");
-//        Assert.assertNotNull(nginxContainer);
-//        Assert.assertEquals("tomcat", tomcatContainer.name());
-//        Assert.assertEquals("tomcat", tomcatContainer.image());
-//        Assert.assertEquals(1.0, tomcatContainer.resources().requests().cpu(), .1);
-//        Assert.assertEquals(1.5, tomcatContainer.resources().requests().memoryInGB(), .1);
-//        Assert.assertEquals(1, tomcatContainer.ports().size());
-//        Assert.assertEquals(8080, tomcatContainer.ports().get(0).port());
-//        Assert.assertNull(tomcatContainer.volumeMounts());
-//        Assert.assertNull(tomcatContainer.command());
-//        Assert.assertNotNull(tomcatContainer.environmentVariables());
-//        Assert.assertEquals(1, tomcatContainer.environmentVariables().size());
-//        Assert.assertEquals("nginx", nginxContainer.name());
-//        Assert.assertEquals("nginx", nginxContainer.image());
-//        Assert.assertEquals(1.0, nginxContainer.resources().requests().cpu(), .1);
-//        Assert.assertEquals(1.5, nginxContainer.resources().requests().memoryInGB(), .1);
-//        Assert.assertEquals(1, nginxContainer.ports().size());
-//        Assert.assertEquals(80, nginxContainer.ports().get(0).port());
-//        Assert.assertNull(nginxContainer.volumeMounts());
-//        Assert.assertNull(nginxContainer.command());
-//        Assert.assertNotNull(nginxContainer.environmentVariables());
-//        Assert.assertEquals(1, nginxContainer.environmentVariables().size());
-//        Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
-//        Assert.assertEquals(ResourceIdentityType.USER_ASSIGNED, containerGroup.managedServiceIdentityType());
-//        Assert.assertNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
-//
-//        // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
-//        //
-//        Set<String> emsiIds = containerGroup.userAssignedManagedServiceIdentityIds();
-//        Assert.assertNotNull(emsiIds);
-//        Assert.assertEquals(2, emsiIds.size());
-//        ContainerGroup containerGroup2 = azure.containerGroups().getByResourceGroup(rgName, cgName);
-//
-//        List<ContainerGroup> containerGroupList = azure.containerGroups().listByResourceGroup(rgName);
-//        Assert.assertTrue(containerGroupList.size() > 0);
-//        Assert.assertNotNull(containerGroupList.get(0).state());
-//
-//        containerGroup.refresh();
-//
-//        Set<Operation> containerGroupOperations = azure.containerGroups().listOperations();
-//
-//        // Number of supported operation can change hence don't assert with a predefined number.
-//        Assert.assertTrue(containerGroupOperations.size() > 0);
-//
-//        //Updating by getting rid of the two user assigned identities
-//        Iterator<String> itr = emsiIds.iterator();
-//        containerGroup.update()
-//                .withoutUserAssignedManagedServiceIdentity(itr.next().replace("\\.", "."))
-//                .withoutUserAssignedManagedServiceIdentity(itr.next().replace("\\.", "."))
-//                .apply();
-//        Assert.assertEquals(0, containerGroup.userAssignedManagedServiceIdentityIds().size());
-//        if (containerGroup.managedServiceIdentityType() != null) {
-//            Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.NONE));
-//        }
-//        // fetch container group again and validate
-//        containerGroup.refresh();
-//        //
-//        Assert.assertEquals(0, containerGroup.userAssignedManagedServiceIdentityIds().size());
-//        if (containerGroup.managedServiceIdentityType() != null) {
-//            Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.NONE));
-//        }
-//
-//        itr = emsiIds.iterator();
-//        Identity identity1 = msiManager.identities().getById(itr.next());
-//        Identity identity2 = msiManager.identities().getById(itr.next());
-//
-//        // Update container group by enabled system MSI and adding two identities
-//        containerGroup.update()
-//                .withSystemAssignedManagedServiceIdentity()
-//                .withExistingUserAssignedManagedServiceIdentity(identity1)
-//                .withExistingUserAssignedManagedServiceIdentity(identity2)
-//                .apply();
-//
-//        Assert.assertNotNull(containerGroup.userAssignedManagedServiceIdentityIds());
-//        Assert.assertEquals(2, containerGroup.userAssignedManagedServiceIdentityIds().size());
-//        Assert.assertNotNull(containerGroup.managedServiceIdentityType());
-//        Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
-//        //
-//        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId());
-//        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityTenantId());
-//        //
-//        containerGroup.refresh();
-//        Assert.assertNotNull(containerGroup.userAssignedManagedServiceIdentityIds());
-//        Assert.assertEquals(2, containerGroup.userAssignedManagedServiceIdentityIds().size());
-//        Assert.assertNotNull(containerGroup.managedServiceIdentityType());
-//        Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
-//        //
-//        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId());
-//        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityTenantId());
-//        //
-//        itr = emsiIds.iterator();
-//        // Remove identities one by one (first one)
-//        containerGroup.update()
-//                .withoutUserAssignedManagedServiceIdentity(itr.next())
-//                .apply();
-//        //
-//        Assert.assertNotNull(containerGroup.userAssignedManagedServiceIdentityIds());
-//        Assert.assertEquals(1, containerGroup.userAssignedManagedServiceIdentityIds().size());
-//        Assert.assertNotNull(containerGroup.managedServiceIdentityType());
-//        Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
-//        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId());
-//        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityTenantId());
-//        // Remove identities one by one (second one)
-//        containerGroup.update()
-//                .withoutUserAssignedManagedServiceIdentity(itr.next())
-//                .apply();
-//        //
-//        Assert.assertEquals(0, containerGroup.userAssignedManagedServiceIdentityIds().size());
-//        Assert.assertNotNull(containerGroup.managedServiceIdentityType());
-//        Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED));
-//        //
+        Assert.assertEquals("Linux", containerGroup.osType().toString());
+        Assert.assertEquals(0, containerGroup.imageRegistryServers().size());
+        Assert.assertEquals(1, containerGroup.volumes().size());
+        Assert.assertNotNull(containerGroup.volumes().get("emptydir1"));
+        Assert.assertNotNull(containerGroup.ipAddress());
+        Assert.assertTrue(containerGroup.isIPAddressPublic());
+        Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
+        Assert.assertEquals(2, containerGroup.externalPorts().size());
+        Assert.assertEquals(2, containerGroup.externalTcpPorts().length);
+        Assert.assertEquals(8080, containerGroup.externalTcpPorts()[0]);
+        Assert.assertEquals(80, containerGroup.externalTcpPorts()[1]);
+        Assert.assertEquals(2, containerGroup.containers().size());
+        Container tomcatContainer = containerGroup.containers().get("tomcat");
+        Assert.assertNotNull(tomcatContainer);
+        Container nginxContainer = containerGroup.containers().get("nginx");
+        Assert.assertNotNull(nginxContainer);
+        Assert.assertEquals("tomcat", tomcatContainer.name());
+        Assert.assertEquals("tomcat", tomcatContainer.image());
+        Assert.assertEquals(1.0, tomcatContainer.resources().requests().cpu(), .1);
+        Assert.assertEquals(1.5, tomcatContainer.resources().requests().memoryInGB(), .1);
+        Assert.assertEquals(1, tomcatContainer.ports().size());
+        Assert.assertEquals(8080, tomcatContainer.ports().get(0).port());
+        Assert.assertNull(tomcatContainer.volumeMounts());
+        Assert.assertNull(tomcatContainer.command());
+        Assert.assertNotNull(tomcatContainer.environmentVariables());
+        Assert.assertEquals(1, tomcatContainer.environmentVariables().size());
+        Assert.assertEquals("nginx", nginxContainer.name());
+        Assert.assertEquals("nginx", nginxContainer.image());
+        Assert.assertEquals(1.0, nginxContainer.resources().requests().cpu(), .1);
+        Assert.assertEquals(1.5, nginxContainer.resources().requests().memoryInGB(), .1);
+        Assert.assertEquals(1, nginxContainer.ports().size());
+        Assert.assertEquals(80, nginxContainer.ports().get(0).port());
+        Assert.assertNull(nginxContainer.volumeMounts());
+        Assert.assertNull(nginxContainer.command());
+        Assert.assertNotNull(nginxContainer.environmentVariables());
+        Assert.assertEquals(1, nginxContainer.environmentVariables().size());
+        Assert.assertTrue(containerGroup.isManagedServiceIdentityEnabled());
+        Assert.assertEquals(ResourceIdentityType.USER_ASSIGNED, containerGroup.managedServiceIdentityType());
+        Assert.assertNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId()); // No Local MSI enabled
+
+        // Ensure the "User Assigned (External) MSI" id can be retrieved from the virtual machine
+        //
+        Set<String> emsiIds = containerGroup.userAssignedManagedServiceIdentityIds();
+        Assert.assertNotNull(emsiIds);
+        Assert.assertEquals(2, emsiIds.size());
+        ContainerGroup containerGroup2 = azure.containerGroups().getByResourceGroup(rgName, cgName);
+
+        List<ContainerGroup> containerGroupList = azure.containerGroups().listByResourceGroup(rgName);
+        Assert.assertTrue(containerGroupList.size() > 0);
+        Assert.assertNotNull(containerGroupList.get(0).state());
+
+        containerGroup.refresh();
+
+        Set<Operation> containerGroupOperations = azure.containerGroups().listOperations();
+
+        // Number of supported operation can change hence don't assert with a predefined number.
+        Assert.assertTrue(containerGroupOperations.size() > 0);
+
+        //Updating by getting rid of the two user assigned identities
+        Iterator<String> itr = emsiIds.iterator();
+        containerGroup.update()
+                .withoutUserAssignedManagedServiceIdentity(itr.next().replace("\\.", "."))
+                .withoutUserAssignedManagedServiceIdentity(itr.next().replace("\\.", "."))
+                .apply();
+        Assert.assertEquals(0, containerGroup.userAssignedManagedServiceIdentityIds().size());
+        if (containerGroup.managedServiceIdentityType() != null) {
+            Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.NONE));
+        }
+        // fetch container group again and validate
+        containerGroup.refresh();
+        //
+        Assert.assertEquals(0, containerGroup.userAssignedManagedServiceIdentityIds().size());
+        if (containerGroup.managedServiceIdentityType() != null) {
+            Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.NONE));
+        }
+
+        itr = emsiIds.iterator();
+        Identity identity1 = msiManager.identities().getById(itr.next());
+        Identity identity2 = msiManager.identities().getById(itr.next());
+
+        // Update container group by enabled system MSI and adding two identities
+        containerGroup.update()
+                .withSystemAssignedManagedServiceIdentity()
+                .withExistingUserAssignedManagedServiceIdentity(identity1)
+                .withExistingUserAssignedManagedServiceIdentity(identity2)
+                .apply();
+
+        Assert.assertNotNull(containerGroup.userAssignedManagedServiceIdentityIds());
+        Assert.assertEquals(2, containerGroup.userAssignedManagedServiceIdentityIds().size());
+        Assert.assertNotNull(containerGroup.managedServiceIdentityType());
+        Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        //
+        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityTenantId());
+        //
+        containerGroup.refresh();
+        Assert.assertNotNull(containerGroup.userAssignedManagedServiceIdentityIds());
+        Assert.assertEquals(2, containerGroup.userAssignedManagedServiceIdentityIds().size());
+        Assert.assertNotNull(containerGroup.managedServiceIdentityType());
+        Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        //
+        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityTenantId());
+        //
+        itr = emsiIds.iterator();
+        // Remove identities one by one (first one)
+        containerGroup.update()
+                .withoutUserAssignedManagedServiceIdentity(itr.next())
+                .apply();
+        //
+        Assert.assertNotNull(containerGroup.userAssignedManagedServiceIdentityIds());
+        Assert.assertEquals(1, containerGroup.userAssignedManagedServiceIdentityIds().size());
+        Assert.assertNotNull(containerGroup.managedServiceIdentityType());
+        Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED));
+        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityPrincipalId());
+        Assert.assertNotNull(containerGroup.systemAssignedManagedServiceIdentityTenantId());
+        // Remove identities one by one (second one)
+        containerGroup.update()
+                .withoutUserAssignedManagedServiceIdentity(itr.next())
+                .apply();
+        //
+        Assert.assertEquals(0, containerGroup.userAssignedManagedServiceIdentityIds().size());
+        Assert.assertNotNull(containerGroup.managedServiceIdentityType());
+        Assert.assertTrue(containerGroup.managedServiceIdentityType().equals(ResourceIdentityType.SYSTEM_ASSIGNED));
+        //
 
     }
 

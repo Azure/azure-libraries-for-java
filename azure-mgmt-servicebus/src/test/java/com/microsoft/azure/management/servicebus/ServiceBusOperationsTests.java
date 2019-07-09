@@ -64,7 +64,7 @@ public class ServiceBusOperationsTests extends TestBase {
                 .define(namespaceDNSLabel)
                 .withRegion(region)
                 .withNewResourceGroup(rgCreatable)
-                .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                .withSku(NamespaceSku.BASIC)
                 .create();
 
         ServiceBusNamespace namespace = serviceBusManager.namespaces()
@@ -89,7 +89,7 @@ public class ServiceBusOperationsTests extends TestBase {
         Assert.assertNotNull(namespace.fqdn());
         Assert.assertTrue(namespace.fqdn().contains(namespaceDNSLabel));
         Assert.assertNotNull(namespace.sku());
-        Assert.assertTrue(namespace.sku().equals(NamespaceSku.PREMIUM_CAPACITY1));
+        Assert.assertTrue(namespace.sku().name().equals(NamespaceSku.BASIC.name()));
         Assert.assertNotNull(namespace.region());
         Assert.assertTrue(namespace.region().equals(region));
         Assert.assertNotNull(namespace.resourceGroupName());
@@ -110,12 +110,10 @@ public class ServiceBusOperationsTests extends TestBase {
         Assert.assertNotNull(defaultNsRule.resourceGroupName());
         Assert.assertTrue(defaultNsRule.resourceGroupName().equalsIgnoreCase(RG_NAME));
         namespace.update()
-                .withSku(NamespaceSku.PREMIUM_CAPACITY2)
+                .withSku(NamespaceSku.STANDARD)
                 .apply();
-        Assert.assertTrue(namespace.sku().equals(NamespaceSku.PREMIUM_CAPACITY2));
-        // TODO: There is a bug in LRO implementation of ServiceBusNamespace DELETE operation (Last poll returns 404, reported this to RP]
-        //
-        // serviceBusManager.namespaces().deleteByGroup(RG_NAME, namespace.name());
+        Assert.assertTrue(namespace.sku().name().equals(NamespaceSku.STANDARD.name()));
+        serviceBusManager.namespaces().deleteByResourceGroup(RG_NAME, namespace.name());
     }
 
     @Test
@@ -130,7 +128,7 @@ public class ServiceBusOperationsTests extends TestBase {
                 .define(namespaceDNSLabel)
                 .withRegion(region)
                 .withNewResourceGroup(rgCreatable)
-                .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                .withSku(NamespaceSku.STANDARD)
                 .create();
         Assert.assertNotNull(namespace);
         Assert.assertNotNull(namespace.inner());
@@ -207,7 +205,7 @@ public class ServiceBusOperationsTests extends TestBase {
                 .define(namespaceDNSLabel)
                 .withRegion(region)
                 .withNewResourceGroup(rgCreatable)
-                .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                .withSku(NamespaceSku.STANDARD)
                 .withNewQueue(queueName, 1024)
                 .create();
         Assert.assertNotNull(namespace);
@@ -321,7 +319,7 @@ public class ServiceBusOperationsTests extends TestBase {
                 .define(namespaceDNSLabel)
                 .withRegion(region)
                 .withNewResourceGroup(rgCreatable)
-                .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                .withSku(NamespaceSku.STANDARD)
                 .withNewTopic(topicName, 1024)
                 .create();
         Assert.assertNotNull(namespace);
@@ -366,7 +364,7 @@ public class ServiceBusOperationsTests extends TestBase {
                 .define(namespaceDNSLabel)
                 .withRegion(region)
                 .withNewResourceGroup(rgCreatable)
-                .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                .withSku(NamespaceSku.STANDARD)
                 .withNewQueue(queueName, 1024)
                 .withNewTopic(topicName, 1024)
                 .withNewManageRule(nsRuleName)
@@ -486,7 +484,7 @@ public class ServiceBusOperationsTests extends TestBase {
                 .define(namespaceDNSLabel)
                 .withRegion(region)
                 .withNewResourceGroup(rgCreatable)
-                .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                .withSku(NamespaceSku.STANDARD)
                 .withNewTopic(topicName, 1024)
                 .create();
         // Create Topic subscriptions and list it

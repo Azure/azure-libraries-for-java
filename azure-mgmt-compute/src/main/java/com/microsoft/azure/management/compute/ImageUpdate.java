@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.SubResource;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
@@ -34,6 +34,13 @@ public class ImageUpdate extends UpdateResource {
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
+
+    /**
+     * Gets the HyperVGenerationType of the VirtualMachine created from the
+     * image. Possible values include: 'V1', 'V2'.
+     */
+    @JsonProperty(value = "properties.hyperVGeneration")
+    private HyperVGenerationTypes hyperVGeneration;
 
     /**
      * Get the source virtual machine from which Image is created.
@@ -82,6 +89,26 @@ public class ImageUpdate extends UpdateResource {
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values include: 'V1', 'V2'.
+     *
+     * @return the hyperVGeneration value
+     */
+    public HyperVGenerationTypes hyperVGeneration() {
+        return this.hyperVGeneration;
+    }
+
+    /**
+     * Set gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values include: 'V1', 'V2'.
+     *
+     * @param hyperVGeneration the hyperVGeneration value to set
+     * @return the ImageUpdate object itself.
+     */
+    public ImageUpdate withHyperVGeneration(HyperVGenerationTypes hyperVGeneration) {
+        this.hyperVGeneration = hyperVGeneration;
+        return this;
     }
 
 }

@@ -10,8 +10,8 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.rest.RestClient;
 import com.microsoft.rest.credentials.ServiceClientCredentials;
+import com.microsoft.rest.RestClient;
 
 /**
  * Initializes a new instance of the ComputeManagementClientImpl class.
@@ -144,6 +144,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      */
     public AvailabilitySetsInner availabilitySets() {
         return this.availabilitySets;
+    }
+
+    /**
+     * The ProximityPlacementGroupsInner object to access its operations.
+     */
+    private ProximityPlacementGroupsInner proximityPlacementGroups;
+
+    /**
+     * Gets the ProximityPlacementGroupsInner object to access its operations.
+     * @return the ProximityPlacementGroupsInner object.
+     */
+    public ProximityPlacementGroupsInner proximityPlacementGroups() {
+        return this.proximityPlacementGroups;
     }
 
     /**
@@ -442,6 +455,7 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.generateClientRequestId = true;
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.availabilitySets = new AvailabilitySetsInner(restClient().retrofit(), this);
+        this.proximityPlacementGroups = new ProximityPlacementGroupsInner(restClient().retrofit(), this);
         this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesInner(restClient().retrofit(), this);
         this.virtualMachineExtensions = new VirtualMachineExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineImages = new VirtualMachineImagesInner(restClient().retrofit(), this);

@@ -15,9 +15,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class AutomaticOSUpgradePolicy {
     /**
-     * Whether OS upgrades should automatically be applied to scale set
-     * instances in a rolling fashion when a newer version of the image becomes
-     * available. Default value is false.
+     * Indicates whether OS upgrades should automatically be applied to scale
+     * set instances in a rolling fashion when a newer version of the OS image
+     * becomes available. Default value is false. If this is set to true for
+     * Windows based scale sets, recommendation is to set
+     * [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet)
+     * to false.
      */
     @JsonProperty(value = "enableAutomaticOSUpgrade")
     private Boolean enableAutomaticOSUpgrade;
@@ -30,7 +33,7 @@ public class AutomaticOSUpgradePolicy {
     private Boolean disableAutomaticRollback;
 
     /**
-     * Get whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the image becomes available. Default value is false.
+     * Get indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. Default value is false. If this is set to true for Windows based scale sets, recommendation is to set [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet) to false.
      *
      * @return the enableAutomaticOSUpgrade value
      */
@@ -39,7 +42,7 @@ public class AutomaticOSUpgradePolicy {
     }
 
     /**
-     * Set whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the image becomes available. Default value is false.
+     * Set indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. Default value is false. If this is set to true for Windows based scale sets, recommendation is to set [enableAutomaticUpdates](https://docs.microsoft.com/dotnet/api/microsoft.azure.management.compute.models.windowsconfiguration.enableautomaticupdates?view=azure-dotnet) to false.
      *
      * @param enableAutomaticOSUpgrade the enableAutomaticOSUpgrade value to set
      * @return the AutomaticOSUpgradePolicy object itself.

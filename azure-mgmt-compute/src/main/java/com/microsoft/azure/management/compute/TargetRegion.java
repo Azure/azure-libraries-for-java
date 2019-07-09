@@ -28,6 +28,14 @@ public class TargetRegion {
     private Integer regionalReplicaCount;
 
     /**
+     * Specifies the storage account type to be used to store the image. This
+     * property is not updatable. Possible values include: 'Standard_LRS',
+     * 'Standard_ZRS'.
+     */
+    @JsonProperty(value = "storageAccountType")
+    private StorageAccountType storageAccountType;
+
+    /**
      * Get the name of the region.
      *
      * @return the name value
@@ -64,6 +72,26 @@ public class TargetRegion {
      */
     public TargetRegion withRegionalReplicaCount(Integer regionalReplicaCount) {
         this.regionalReplicaCount = regionalReplicaCount;
+        return this;
+    }
+
+    /**
+     * Get specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'.
+     *
+     * @return the storageAccountType value
+     */
+    public StorageAccountType storageAccountType() {
+        return this.storageAccountType;
+    }
+
+    /**
+     * Set specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'.
+     *
+     * @param storageAccountType the storageAccountType value to set
+     * @return the TargetRegion object itself.
+     */
+    public TargetRegion withStorageAccountType(StorageAccountType storageAccountType) {
+        this.storageAccountType = storageAccountType;
         return this;
     }
 

@@ -15,7 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GrantAccessData {
     /**
-     * Possible values include: 'None', 'Read'.
+     * Possible values include: 'None', 'Read', 'Write'.
      */
     @JsonProperty(value = "access", required = true)
     private AccessLevel access;
@@ -27,7 +27,7 @@ public class GrantAccessData {
     private int durationInSeconds;
 
     /**
-     * Get possible values include: 'None', 'Read'.
+     * Get possible values include: 'None', 'Read', 'Write'.
      *
      * @return the access value
      */
@@ -36,7 +36,7 @@ public class GrantAccessData {
     }
 
     /**
-     * Set possible values include: 'None', 'Read'.
+     * Set possible values include: 'None', 'Read', 'Write'.
      *
      * @param access the access value to set
      * @return the GrantAccessData object itself.

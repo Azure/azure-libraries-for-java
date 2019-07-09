@@ -8,11 +8,11 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.SubResource;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import com.microsoft.azure.management.compute.implementation.VirtualMachineInstanceViewInner;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * Describes a Virtual Machine Update.
@@ -87,6 +87,14 @@ public class VirtualMachineUpdate extends UpdateResource {
     private SubResource availabilitySet;
 
     /**
+     * Specifies information about the proximity placement group that the
+     * virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum
+     * api-version: 2018-04-01.
+     */
+    @JsonProperty(value = "properties.proximityPlacementGroup")
+    private SubResource proximityPlacementGroup;
+
+    /**
      * The provisioning state, which only appears in the response.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
@@ -96,7 +104,7 @@ public class VirtualMachineUpdate extends UpdateResource {
      * The virtual machine instance view.
      */
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
-    private VirtualMachineInstanceView instanceView;
+    private VirtualMachineInstanceViewInner instanceView;
 
     /**
      * Specifies that the image or disk that is being used was licensed
@@ -294,6 +302,26 @@ public class VirtualMachineUpdate extends UpdateResource {
     }
 
     /**
+     * Get specifies information about the proximity placement group that the virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @return the proximityPlacementGroup value
+     */
+    public SubResource proximityPlacementGroup() {
+        return this.proximityPlacementGroup;
+    }
+
+    /**
+     * Set specifies information about the proximity placement group that the virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @param proximityPlacementGroup the proximityPlacementGroup value to set
+     * @return the VirtualMachineUpdate object itself.
+     */
+    public VirtualMachineUpdate withProximityPlacementGroup(SubResource proximityPlacementGroup) {
+        this.proximityPlacementGroup = proximityPlacementGroup;
+        return this;
+    }
+
+    /**
      * Get the provisioning state, which only appears in the response.
      *
      * @return the provisioningState value
@@ -307,7 +335,7 @@ public class VirtualMachineUpdate extends UpdateResource {
      *
      * @return the instanceView value
      */
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineInstanceViewInner instanceView() {
         return this.instanceView;
     }
 

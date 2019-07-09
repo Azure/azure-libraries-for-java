@@ -33,6 +33,7 @@ class VMSSPatchPayload {
         updateParameter.withSku(scaleSet.inner().sku());
         updateParameter.withTags(scaleSet.inner().getTags());
         updateParameter.withUpgradePolicy(scaleSet.inner().upgradePolicy());
+        updateParameter.withAdditionalCapabilities(scaleSet.inner().additionalCapabilities());
         //
         if (scaleSet.inner().virtualMachineProfile() != null) {
             // --

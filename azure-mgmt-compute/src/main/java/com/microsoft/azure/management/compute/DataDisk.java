@@ -88,6 +88,13 @@ public class DataDisk {
     private ManagedDiskParameters managedDisk;
 
     /**
+     * Specifies whether the datadisk is in process of detachment from the
+     * VirtualMachine/VirtualMachineScaleset.
+     */
+    @JsonProperty(value = "toBeDetached")
+    private Boolean toBeDetached;
+
+    /**
      * Get specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
      *
      * @return the lun value
@@ -264,6 +271,26 @@ public class DataDisk {
      */
     public DataDisk withManagedDisk(ManagedDiskParameters managedDisk) {
         this.managedDisk = managedDisk;
+        return this;
+    }
+
+    /**
+     * Get specifies whether the datadisk is in process of detachment from the VirtualMachine/VirtualMachineScaleset.
+     *
+     * @return the toBeDetached value
+     */
+    public Boolean toBeDetached() {
+        return this.toBeDetached;
+    }
+
+    /**
+     * Set specifies whether the datadisk is in process of detachment from the VirtualMachine/VirtualMachineScaleset.
+     *
+     * @param toBeDetached the toBeDetached value to set
+     * @return the DataDisk object itself.
+     */
+    public DataDisk withToBeDetached(Boolean toBeDetached) {
+        this.toBeDetached = toBeDetached;
         return this;
     }
 

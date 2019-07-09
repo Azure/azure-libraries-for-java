@@ -8,12 +8,12 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
 import com.microsoft.azure.management.compute.GalleryImageVersionPublishingProfile;
 import com.microsoft.azure.management.compute.GalleryImageVersionStorageProfile;
 import com.microsoft.azure.management.compute.ReplicationStatus;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Specifies information about the gallery Image Version that you want to

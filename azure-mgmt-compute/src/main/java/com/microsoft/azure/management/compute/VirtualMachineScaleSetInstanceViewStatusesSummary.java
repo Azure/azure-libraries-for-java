@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Instance view statuses summary for virtual machines of a virtual machine

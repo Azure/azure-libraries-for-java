@@ -8,20 +8,21 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.compute.AdditionalCapabilities;
-import com.microsoft.azure.management.compute.DiagnosticsProfile;
-import com.microsoft.azure.management.compute.HardwareProfile;
-import com.microsoft.azure.management.compute.NetworkProfile;
-import com.microsoft.azure.management.compute.OSProfile;
-import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.Sku;
+import com.microsoft.azure.management.compute.HardwareProfile;
 import com.microsoft.azure.management.compute.StorageProfile;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import com.microsoft.azure.management.compute.AdditionalCapabilities;
+import com.microsoft.azure.management.compute.OSProfile;
+import com.microsoft.azure.management.compute.NetworkProfile;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMNetworkProfileConfiguration;
+import com.microsoft.azure.management.compute.DiagnosticsProfile;
+import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMProtectionPolicy;
+import com.microsoft.azure.management.compute.Plan;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Describes a virtual machine scale set virtual machine.
@@ -46,13 +47,6 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     @JsonProperty(value = "properties.latestModelApplied", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean latestModelApplied;
-
-    /**
-     * Specifies whether the virtual machine instance shouldn't be considered
-     * for deletion during a scale-in operation.
-     */
-    @JsonProperty(value = "properties.protectFromScaleIn")
-    private Boolean protectFromScaleIn;
 
     /**
      * Azure VM unique ID.
@@ -100,6 +94,12 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     private NetworkProfile networkProfile;
 
     /**
+     * Specifies the network profile configuration of the virtual machine.
+     */
+    @JsonProperty(value = "properties.networkProfileConfiguration")
+    private VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration;
+
+    /**
      * Specifies the boot diagnostic settings state.
      * &lt;br&gt;&lt;br&gt;Minimum api-version: 2015-06-15.
      */
@@ -143,6 +143,20 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     @JsonProperty(value = "properties.licenseType")
     private String licenseType;
+
+    /**
+     * Specifies whether the model applied to the virtual machine is the model
+     * of the virtual machine scale set or the customized model for the virtual
+     * machine.
+     */
+    @JsonProperty(value = "properties.modelDefinitionApplied", access = JsonProperty.Access.WRITE_ONLY)
+    private String modelDefinitionApplied;
+
+    /**
+     * Specifies the protection policy of the virtual machine.
+     */
+    @JsonProperty(value = "properties.protectionPolicy")
+    private VirtualMachineScaleSetVMProtectionPolicy protectionPolicy;
 
     /**
      * Specifies information about the marketplace image used to create the
@@ -193,26 +207,6 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     public Boolean latestModelApplied() {
         return this.latestModelApplied;
-    }
-
-    /**
-     * Get specifies whether the virtual machine instance shouldn't be considered for deletion during a scale-in operation.
-     *
-     * @return the protectFromScaleIn value
-     */
-    public Boolean protectFromScaleIn() {
-        return this.protectFromScaleIn;
-    }
-
-    /**
-     * Set specifies whether the virtual machine instance shouldn't be considered for deletion during a scale-in operation.
-     *
-     * @param protectFromScaleIn the protectFromScaleIn value to set
-     * @return the VirtualMachineScaleSetVMInner object itself.
-     */
-    public VirtualMachineScaleSetVMInner withProtectFromScaleIn(Boolean protectFromScaleIn) {
-        this.protectFromScaleIn = protectFromScaleIn;
-        return this;
     }
 
     /**
@@ -334,6 +328,26 @@ public class VirtualMachineScaleSetVMInner extends Resource {
     }
 
     /**
+     * Get specifies the network profile configuration of the virtual machine.
+     *
+     * @return the networkProfileConfiguration value
+     */
+    public VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration() {
+        return this.networkProfileConfiguration;
+    }
+
+    /**
+     * Set specifies the network profile configuration of the virtual machine.
+     *
+     * @param networkProfileConfiguration the networkProfileConfiguration value to set
+     * @return the VirtualMachineScaleSetVMInner object itself.
+     */
+    public VirtualMachineScaleSetVMInner withNetworkProfileConfiguration(VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration) {
+        this.networkProfileConfiguration = networkProfileConfiguration;
+        return this;
+    }
+
+    /**
      * Get specifies the boot diagnostic settings state. &lt;br&gt;&lt;br&gt;Minimum api-version: 2015-06-15.
      *
      * @return the diagnosticsProfile value
@@ -399,6 +413,35 @@ public class VirtualMachineScaleSetVMInner extends Resource {
      */
     public VirtualMachineScaleSetVMInner withLicenseType(String licenseType) {
         this.licenseType = licenseType;
+        return this;
+    }
+
+    /**
+     * Get specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine.
+     *
+     * @return the modelDefinitionApplied value
+     */
+    public String modelDefinitionApplied() {
+        return this.modelDefinitionApplied;
+    }
+
+    /**
+     * Get specifies the protection policy of the virtual machine.
+     *
+     * @return the protectionPolicy value
+     */
+    public VirtualMachineScaleSetVMProtectionPolicy protectionPolicy() {
+        return this.protectionPolicy;
+    }
+
+    /**
+     * Set specifies the protection policy of the virtual machine.
+     *
+     * @param protectionPolicy the protectionPolicy value to set
+     * @return the VirtualMachineScaleSetVMInner object itself.
+     */
+    public VirtualMachineScaleSetVMInner withProtectionPolicy(VirtualMachineScaleSetVMProtectionPolicy protectionPolicy) {
+        this.protectionPolicy = protectionPolicy;
         return this;
     }
 

@@ -10,6 +10,7 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.Disk;
+import com.microsoft.azure.management.compute.HyperVGenerationTypes;
 import com.microsoft.azure.management.compute.ImageDataDisk;
 import com.microsoft.azure.management.compute.ImageOSDisk;
 import com.microsoft.azure.management.compute.ImageStorageProfile;
@@ -43,11 +44,18 @@ class VirtualMachineCustomImageImpl
 
     VirtualMachineCustomImageImpl(final String name, ImageInner innerModel, final ComputeManager computeManager) {
         super(name, innerModel, computeManager);
+        //set the default value for the hyper-v generation
+        this.inner().withHyperVGeneration(HyperVGenerationTypes.V1);
     }
 
     @Override
     public boolean isCreatedFromVirtualMachine() {
         return this.sourceVirtualMachineId() != null;
+    }
+
+    @Override
+    public HyperVGenerationTypes hyperVGeneration() {
+        return this.inner().hyperVGeneration();
     }
 
     @Override
@@ -123,6 +131,7 @@ class VirtualMachineCustomImageImpl
                 .withOsState(osState)
                 .withOsType(OperatingSystemTypes.LINUX)
                 .withSnapshot(new SubResource().withId(sourceSnapshotId));
+
         return this;
     }
 
@@ -281,6 +290,12 @@ class VirtualMachineCustomImageImpl
             this.inner().storageProfile().withDataDisks(new ArrayList<ImageDataDisk>());
         }
         this.inner().storageProfile().dataDisks().add(customImageDataDisk.inner());
+        return this;
+    }
+
+    @Override
+    public VirtualMachineCustomImage.DefinitionStages.WithOSDiskImageSourceAltVirtualMachineSource withHyperVGeneration(HyperVGenerationTypes hyperVGeneration) {
+        this.inner().withHyperVGeneration(hyperVGeneration);
         return this;
     }
 }

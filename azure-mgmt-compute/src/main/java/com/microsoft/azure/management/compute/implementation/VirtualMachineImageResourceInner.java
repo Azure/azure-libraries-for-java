@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.azure.SubResource;
-
-import java.util.Map;
 
 /**
  * Virtual machine image resource information.

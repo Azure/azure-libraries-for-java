@@ -8,10 +8,9 @@
 
 package com.microsoft.azure.management.compute;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.microsoft.rest.ExpandableStringEnum;
-
-import java.util.Collection;
 
 /**
  * Defines values for AccessLevel.
@@ -22,6 +21,9 @@ public final class AccessLevel extends ExpandableStringEnum<AccessLevel> {
 
     /** Static value Read for AccessLevel. */
     public static final AccessLevel READ = fromString("Read");
+
+    /** Static value Write for AccessLevel. */
+    public static final AccessLevel WRITE = fromString("Write");
 
     /**
      * Creates or finds a AccessLevel from its string representation.

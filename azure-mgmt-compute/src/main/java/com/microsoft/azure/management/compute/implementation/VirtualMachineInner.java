@@ -8,20 +8,19 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.compute.AdditionalCapabilities;
-import com.microsoft.azure.management.compute.DiagnosticsProfile;
-import com.microsoft.azure.management.compute.HardwareProfile;
-import com.microsoft.azure.management.compute.NetworkProfile;
-import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.Plan;
+import com.microsoft.azure.management.compute.HardwareProfile;
 import com.microsoft.azure.management.compute.StorageProfile;
-import com.microsoft.azure.management.compute.VirtualMachineIdentity;
-import com.microsoft.rest.serializer.JsonFlatten;
-
+import com.microsoft.azure.management.compute.AdditionalCapabilities;
+import com.microsoft.azure.management.compute.OSProfile;
+import com.microsoft.azure.management.compute.NetworkProfile;
+import com.microsoft.azure.management.compute.DiagnosticsProfile;
+import com.microsoft.azure.SubResource;
 import java.util.List;
+import com.microsoft.azure.management.compute.VirtualMachineIdentity;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Describes a Virtual Machine.
@@ -94,6 +93,14 @@ public class VirtualMachineInner extends Resource {
      */
     @JsonProperty(value = "properties.availabilitySet")
     private SubResource availabilitySet;
+
+    /**
+     * Specifies information about the proximity placement group that the
+     * virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum
+     * api-version: 2018-04-01.
+     */
+    @JsonProperty(value = "properties.proximityPlacementGroup")
+    private SubResource proximityPlacementGroup;
 
     /**
      * The provisioning state, which only appears in the response.
@@ -305,6 +312,26 @@ public class VirtualMachineInner extends Resource {
      */
     public VirtualMachineInner withAvailabilitySet(SubResource availabilitySet) {
         this.availabilitySet = availabilitySet;
+        return this;
+    }
+
+    /**
+     * Get specifies information about the proximity placement group that the virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @return the proximityPlacementGroup value
+     */
+    public SubResource proximityPlacementGroup() {
+        return this.proximityPlacementGroup;
+    }
+
+    /**
+     * Set specifies information about the proximity placement group that the virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @param proximityPlacementGroup the proximityPlacementGroup value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withProximityPlacementGroup(SubResource proximityPlacementGroup) {
+        this.proximityPlacementGroup = proximityPlacementGroup;
         return this;
     }
 

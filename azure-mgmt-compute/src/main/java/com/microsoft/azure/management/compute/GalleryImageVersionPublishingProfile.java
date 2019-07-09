@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.joda.time.DateTime;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The publishing profile of a gallery Image Version.
@@ -42,6 +42,14 @@ public class GalleryImageVersionPublishingProfile extends GalleryArtifactPublish
      */
     @JsonProperty(value = "endOfLifeDate")
     private DateTime endOfLifeDate;
+
+    /**
+     * Specifies the storage account type to be used to store the image. This
+     * property is not updatable. Possible values include: 'Standard_LRS',
+     * 'Standard_ZRS'.
+     */
+    @JsonProperty(value = "storageAccountType")
+    private StorageAccountType storageAccountType;
 
     /**
      * Get the number of replicas of the Image Version to be created per region. This property would take effect for a region when regionalReplicaCount is not specified. This property is updatable.
@@ -109,6 +117,26 @@ public class GalleryImageVersionPublishingProfile extends GalleryArtifactPublish
      */
     public GalleryImageVersionPublishingProfile withEndOfLifeDate(DateTime endOfLifeDate) {
         this.endOfLifeDate = endOfLifeDate;
+        return this;
+    }
+
+    /**
+     * Get specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'.
+     *
+     * @return the storageAccountType value
+     */
+    public StorageAccountType storageAccountType() {
+        return this.storageAccountType;
+    }
+
+    /**
+     * Set specifies the storage account type to be used to store the image. This property is not updatable. Possible values include: 'Standard_LRS', 'Standard_ZRS'.
+     *
+     * @param storageAccountType the storageAccountType value to set
+     * @return the GalleryImageVersionPublishingProfile object itself.
+     */
+    public GalleryImageVersionPublishingProfile withStorageAccountType(StorageAccountType storageAccountType) {
+        this.storageAccountType = storageAccountType;
         return this;
     }
 

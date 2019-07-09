@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The ResourceSkuLocationInfo model.
@@ -29,6 +28,12 @@ public class ResourceSkuLocationInfo {
     private List<String> zones;
 
     /**
+     * Details of capabilities available to a SKU in specific zones.
+     */
+    @JsonProperty(value = "zoneDetails", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ResourceSkuZoneDetails> zoneDetails;
+
+    /**
      * Get location of the SKU.
      *
      * @return the location value
@@ -44,6 +49,15 @@ public class ResourceSkuLocationInfo {
      */
     public List<String> zones() {
         return this.zones;
+    }
+
+    /**
+     * Get details of capabilities available to a SKU in specific zones.
+     *
+     * @return the zoneDetails value
+     */
+    public List<ResourceSkuZoneDetails> zoneDetails() {
+        return this.zoneDetails;
     }
 
 }

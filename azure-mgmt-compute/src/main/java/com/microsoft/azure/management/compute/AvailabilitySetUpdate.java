@@ -8,11 +8,10 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.SubResource;
-import com.microsoft.rest.serializer.JsonFlatten;
-
 import java.util.List;
+import com.microsoft.azure.SubResource;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * Specifies information about the availability set that the virtual machine
@@ -37,6 +36,14 @@ public class AvailabilitySetUpdate extends UpdateResource {
      */
     @JsonProperty(value = "properties.virtualMachines")
     private List<SubResource> virtualMachines;
+
+    /**
+     * Specifies information about the proximity placement group that the
+     * availability set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum
+     * api-version: 2018-04-01.
+     */
+    @JsonProperty(value = "properties.proximityPlacementGroup")
+    private SubResource proximityPlacementGroup;
 
     /**
      * The resource status information.
@@ -107,6 +114,26 @@ public class AvailabilitySetUpdate extends UpdateResource {
      */
     public AvailabilitySetUpdate withVirtualMachines(List<SubResource> virtualMachines) {
         this.virtualMachines = virtualMachines;
+        return this;
+    }
+
+    /**
+     * Get specifies information about the proximity placement group that the availability set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @return the proximityPlacementGroup value
+     */
+    public SubResource proximityPlacementGroup() {
+        return this.proximityPlacementGroup;
+    }
+
+    /**
+     * Set specifies information about the proximity placement group that the availability set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @param proximityPlacementGroup the proximityPlacementGroup value to set
+     * @return the AvailabilitySetUpdate object itself.
+     */
+    public AvailabilitySetUpdate withProximityPlacementGroup(SubResource proximityPlacementGroup) {
+        this.proximityPlacementGroup = proximityPlacementGroup;
         return this;
     }
 

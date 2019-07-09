@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.management.compute.CreationData;
 import com.microsoft.azure.management.compute.DiskSku;
-import com.microsoft.azure.management.compute.EncryptionSettings;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
-import com.microsoft.rest.serializer.JsonFlatten;
-import org.joda.time.DateTime;
-
 import java.util.List;
+import org.joda.time.DateTime;
+import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.HyperVGeneration;
+import com.microsoft.azure.management.compute.CreationData;
+import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
+import com.microsoft.azure.management.compute.DiskState;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Disk resource.
@@ -55,6 +56,13 @@ public class DiskInner extends Resource {
     private OperatingSystemTypes osType;
 
     /**
+     * The hypervisor generation of the Virtual Machine. Applicable to OS disks
+     * only. Possible values include: 'V1', 'V2'.
+     */
+    @JsonProperty(value = "properties.hyperVGeneration")
+    private HyperVGeneration hyperVGeneration;
+
+    /**
      * Disk source information. CreationData information cannot be changed
      * after the disk has been created.
      */
@@ -72,10 +80,11 @@ public class DiskInner extends Resource {
     private Integer diskSizeGB;
 
     /**
-     * Encryption settings for disk or snapshot.
+     * Encryption settings collection used for Azure Disk Encryption, can
+     * contain multiple encryption settings per disk or snapshot.
      */
-    @JsonProperty(value = "properties.encryptionSettings")
-    private EncryptionSettings encryptionSettings;
+    @JsonProperty(value = "properties.encryptionSettingsCollection")
+    private EncryptionSettingsCollection encryptionSettingsCollection;
 
     /**
      * The disk provisioning state.
@@ -85,10 +94,7 @@ public class DiskInner extends Resource {
 
     /**
      * The number of IOPS allowed for this disk; only settable for UltraSSD
-     * disks. One operation can transfer between 4k and 256k bytes. For a
-     * description of the range of values you can set, see [Ultra SSD Managed
-     * Disk
-     * Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     * disks. One operation can transfer between 4k and 256k bytes.
      */
     @JsonProperty(value = "properties.diskIOPSReadWrite")
     private Long diskIOPSReadWrite;
@@ -96,12 +102,17 @@ public class DiskInner extends Resource {
     /**
      * The bandwidth allowed for this disk; only settable for UltraSSD disks.
      * MBps means millions of bytes per second - MB here uses the ISO notation,
-     * of powers of 10. For a description of the range of values you can set,
-     * see [Ultra SSD Managed Disk
-     * Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     * of powers of 10.
      */
     @JsonProperty(value = "properties.diskMBpsReadWrite")
     private Integer diskMBpsReadWrite;
+
+    /**
+     * The state of the disk. Possible values include: 'Unattached',
+     * 'Attached', 'Reserved', 'ActiveSAS', 'ReadyToUpload', 'ActiveUpload'.
+     */
+    @JsonProperty(value = "properties.diskState", access = JsonProperty.Access.WRITE_ONLY)
+    private DiskState diskState;
 
     /**
      * Get a relative URI containing the ID of the VM that has the disk attached.
@@ -182,6 +193,26 @@ public class DiskInner extends Resource {
     }
 
     /**
+     * Get the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @return the hyperVGeneration value
+     */
+    public HyperVGeneration hyperVGeneration() {
+        return this.hyperVGeneration;
+    }
+
+    /**
+     * Set the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @param hyperVGeneration the hyperVGeneration value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withHyperVGeneration(HyperVGeneration hyperVGeneration) {
+        this.hyperVGeneration = hyperVGeneration;
+        return this;
+    }
+
+    /**
      * Get disk source information. CreationData information cannot be changed after the disk has been created.
      *
      * @return the creationData value
@@ -222,22 +253,22 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get encryption settings for disk or snapshot.
+     * Get encryption settings collection used for Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
      *
-     * @return the encryptionSettings value
+     * @return the encryptionSettingsCollection value
      */
-    public EncryptionSettings encryptionSettings() {
-        return this.encryptionSettings;
+    public EncryptionSettingsCollection encryptionSettingsCollection() {
+        return this.encryptionSettingsCollection;
     }
 
     /**
-     * Set encryption settings for disk or snapshot.
+     * Set encryption settings collection used for Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @param encryptionSettingsCollection the encryptionSettingsCollection value to set
      * @return the DiskInner object itself.
      */
-    public DiskInner withEncryptionSettings(EncryptionSettings encryptionSettings) {
-        this.encryptionSettings = encryptionSettings;
+    public DiskInner withEncryptionSettingsCollection(EncryptionSettingsCollection encryptionSettingsCollection) {
+        this.encryptionSettingsCollection = encryptionSettingsCollection;
         return this;
     }
 
@@ -251,7 +282,7 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get the number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     * Get the number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
      *
      * @return the diskIOPSReadWrite value
      */
@@ -260,7 +291,7 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Set the number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     * Set the number of IOPS allowed for this disk; only settable for UltraSSD disks. One operation can transfer between 4k and 256k bytes.
      *
      * @param diskIOPSReadWrite the diskIOPSReadWrite value to set
      * @return the DiskInner object itself.
@@ -271,7 +302,7 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get the bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     * Get the bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
      *
      * @return the diskMBpsReadWrite value
      */
@@ -280,7 +311,7 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Set the bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10. For a description of the range of values you can set, see [Ultra SSD Managed Disk Offerings](https://docs.microsoft.com/azure/virtual-machines/windows/disks-ultra-ssd#ultra-ssd-managed-disk-offerings).
+     * Set the bandwidth allowed for this disk; only settable for UltraSSD disks. MBps means millions of bytes per second - MB here uses the ISO notation, of powers of 10.
      *
      * @param diskMBpsReadWrite the diskMBpsReadWrite value to set
      * @return the DiskInner object itself.
@@ -288,6 +319,15 @@ public class DiskInner extends Resource {
     public DiskInner withDiskMBpsReadWrite(Integer diskMBpsReadWrite) {
         this.diskMBpsReadWrite = diskMBpsReadWrite;
         return this;
+    }
+
+    /**
+     * Get the state of the disk. Possible values include: 'Unattached', 'Attached', 'Reserved', 'ActiveSAS', 'ReadyToUpload', 'ActiveUpload'.
+     *
+     * @return the diskState value
+     */
+    public DiskState diskState() {
+        return this.diskState;
     }
 
 }

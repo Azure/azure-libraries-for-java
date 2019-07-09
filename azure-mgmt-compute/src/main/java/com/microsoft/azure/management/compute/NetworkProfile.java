@@ -8,9 +8,8 @@
 
 package com.microsoft.azure.management.compute;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Specifies the network interfaces of the virtual machine.

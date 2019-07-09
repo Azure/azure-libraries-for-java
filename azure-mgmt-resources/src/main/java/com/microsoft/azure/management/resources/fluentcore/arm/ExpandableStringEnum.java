@@ -90,7 +90,9 @@ public abstract class ExpandableStringEnum<T extends ExpandableStringEnum<T>> {
     @SuppressWarnings("unchecked")
     @Override
     public boolean equals(Object obj) {
-        if (!clazz.isAssignableFrom(obj.getClass())) {
+        if (obj == null) {
+            return false;
+        } else if (!clazz.isAssignableFrom(obj.getClass())) {
             return false;
         } else if (obj == this) {
             return true;

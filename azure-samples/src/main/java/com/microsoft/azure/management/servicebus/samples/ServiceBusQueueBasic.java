@@ -65,7 +65,7 @@ public final class ServiceBusQueueBasic {
                     .define(namespaceName)
                     .withRegion(Region.US_WEST)
                     .withNewResourceGroup(rgName)
-                    .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                    .withSku(NamespaceSku.BASIC)
                     .withNewQueue(queue1Name, 1024)
                     .create();
 
@@ -106,7 +106,7 @@ public final class ServiceBusQueueBasic {
 
             serviceBusNamespace = serviceBusNamespace
                     .update()
-                    .withSku(NamespaceSku.PREMIUM_CAPACITY2)
+                    .withSku(NamespaceSku.STANDARD)
                     .apply();
             System.out.println("Updated sku of namespace " + serviceBusNamespace.name());
 

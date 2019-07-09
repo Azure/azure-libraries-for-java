@@ -24,6 +24,8 @@ import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSet;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVM;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMInstanceExtension;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMNetworkProfileConfiguration;
+import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMProtectionPolicy;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
@@ -526,6 +528,21 @@ class VirtualMachineScaleSetVMImpl
     @Override
     public PagedList<VirtualMachineScaleSetNetworkInterface> listNetworkInterfaces() {
         return this.parent().listNetworkInterfacesByInstanceId(this.instanceId());
+    }
+
+    @Override
+    public String modelDefinitionApplied() {
+        return this.inner().modelDefinitionApplied();
+    }
+
+    @Override
+    public VirtualMachineScaleSetVMProtectionPolicy protectionPolicy() {
+        return this.inner().protectionPolicy();
+    }
+
+    @Override
+    public VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration() {
+        return this.inner().networkProfileConfiguration();
     }
 
     private void clearCachedRelatedResources() {

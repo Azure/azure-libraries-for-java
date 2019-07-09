@@ -69,7 +69,7 @@ public final class ServiceBusPublishSubscribeAdvanceFeatures {
                     .define(namespaceName)
                     .withRegion(Region.US_WEST)
                     .withNewResourceGroup(rgName)
-                    .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                    .withSku(NamespaceSku.STANDARD)
                     .withNewTopic(topic1Name, 1024)
                     .create();
 

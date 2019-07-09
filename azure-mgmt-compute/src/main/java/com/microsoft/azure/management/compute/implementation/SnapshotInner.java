@@ -8,14 +8,15 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Resource;
-import com.microsoft.azure.management.compute.CreationData;
-import com.microsoft.azure.management.compute.EncryptionSettings;
-import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.SnapshotSku;
-import com.microsoft.rest.serializer.JsonFlatten;
 import org.joda.time.DateTime;
+import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.HyperVGeneration;
+import com.microsoft.azure.management.compute.CreationData;
+import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Snapshot resource.
@@ -47,6 +48,13 @@ public class SnapshotInner extends Resource {
     private OperatingSystemTypes osType;
 
     /**
+     * The hypervisor generation of the Virtual Machine. Applicable to OS disks
+     * only. Possible values include: 'V1', 'V2'.
+     */
+    @JsonProperty(value = "properties.hyperVGeneration")
+    private HyperVGeneration hyperVGeneration;
+
+    /**
      * Disk source information. CreationData information cannot be changed
      * after the disk has been created.
      */
@@ -64,10 +72,11 @@ public class SnapshotInner extends Resource {
     private Integer diskSizeGB;
 
     /**
-     * Encryption settings for disk or snapshot.
+     * Encryption settings collection used be Azure Disk Encryption, can
+     * contain multiple encryption settings per disk or snapshot.
      */
-    @JsonProperty(value = "properties.encryptionSettings")
-    private EncryptionSettings encryptionSettings;
+    @JsonProperty(value = "properties.encryptionSettingsCollection")
+    private EncryptionSettingsCollection encryptionSettingsCollection;
 
     /**
      * The disk provisioning state.
@@ -134,6 +143,26 @@ public class SnapshotInner extends Resource {
     }
 
     /**
+     * Get the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @return the hyperVGeneration value
+     */
+    public HyperVGeneration hyperVGeneration() {
+        return this.hyperVGeneration;
+    }
+
+    /**
+     * Set the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @param hyperVGeneration the hyperVGeneration value to set
+     * @return the SnapshotInner object itself.
+     */
+    public SnapshotInner withHyperVGeneration(HyperVGeneration hyperVGeneration) {
+        this.hyperVGeneration = hyperVGeneration;
+        return this;
+    }
+
+    /**
      * Get disk source information. CreationData information cannot be changed after the disk has been created.
      *
      * @return the creationData value
@@ -174,22 +203,22 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get encryption settings for disk or snapshot.
+     * Get encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
      *
-     * @return the encryptionSettings value
+     * @return the encryptionSettingsCollection value
      */
-    public EncryptionSettings encryptionSettings() {
-        return this.encryptionSettings;
+    public EncryptionSettingsCollection encryptionSettingsCollection() {
+        return this.encryptionSettingsCollection;
     }
 
     /**
-     * Set encryption settings for disk or snapshot.
+     * Set encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @param encryptionSettingsCollection the encryptionSettingsCollection value to set
      * @return the SnapshotInner object itself.
      */
-    public SnapshotInner withEncryptionSettings(EncryptionSettings encryptionSettings) {
-        this.encryptionSettings = encryptionSettings;
+    public SnapshotInner withEncryptionSettingsCollection(EncryptionSettingsCollection encryptionSettingsCollection) {
+        this.encryptionSettingsCollection = encryptionSettingsCollection;
         return this;
     }
 

@@ -34,6 +34,8 @@ import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.PowerState;
+import com.microsoft.azure.management.compute.ProximityPlacementGroup;
+import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
 import com.microsoft.azure.management.compute.PurchasePlan;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.RunCommandInput;
@@ -66,6 +68,7 @@ import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -163,6 +166,10 @@ class VirtualMachineImpl
     private VirtualMachineMsiHandler virtualMachineMsiHandler;
     // Reference to the PublicIp creatable that is implicitly created
     private  PublicIPAddress.DefinitionStages.WithCreate implicitPipCreatable;
+    // Name of the new proximity placement group
+    private String newProximityPlacementGroupName;
+    // Type fo the new proximity placement group
+    private ProximityPlacementGroupType newProximityPlacementGroupType;
 
     VirtualMachineImpl(String name,
                        VirtualMachineInner innerModel,
@@ -190,6 +197,8 @@ class VirtualMachineImpl
         initializeDataDisks();
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
         this.virtualMachineMsiHandler = new VirtualMachineMsiHandler(rbacManager, this);
+        this.newProximityPlacementGroupName = null;
+        this.newProximityPlacementGroupType = null;
     }
 
     // Verbs
@@ -1202,6 +1211,32 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
+        this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        //clear the new setting
+        newProximityPlacementGroupName = null;
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
+        this.newProximityPlacementGroupName = proximityPlacementGroupName;
+        this.newProximityPlacementGroupType = type;
+
+        this.inner().withProximityPlacementGroup(null);
+
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withoutProximityPlacementGroup() {
+        this.inner().withProximityPlacementGroup(null);
+
+        return this;
+    }
+
+
+    @Override
     public VirtualMachineImpl withNewAvailabilitySet(String name) {
         AvailabilitySet.DefinitionStages.WithGroup definitionWithGroup = super.myManager
                 .availabilitySets()
@@ -1578,6 +1613,17 @@ class VirtualMachineImpl
     }
 
     @Override
+    public ProximityPlacementGroup proximityPlacementGroup() {
+        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+        ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
+       if (plgInner == null) {
+           return null;
+       } else {
+           return new ProximityPlacementGroupImpl(plgInner);
+       }
+    }
+
+    @Override
     public Observable<VirtualMachineExtension> listExtensionsAsync() {
         return this.virtualMachineExtensions.listAsync();
     }
@@ -1732,6 +1778,7 @@ class VirtualMachineImpl
         this.handleUnManagedOSAndDataDisksStorageSettings();
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.handleNetworkSettings();
+        this.createNewProximityPlacementGroup();
         this.handleAvailabilitySettings();
         this.virtualMachineMsiHandler.processCreatedExternalIdentities();
         this.virtualMachineMsiHandler.handleExternalIdentities();
@@ -1773,6 +1820,7 @@ class VirtualMachineImpl
         updateParameter.withLicenseType(this.inner().licenseType());
         updateParameter.withZones(this.inner().zones());
         updateParameter.withTags(this.inner().getTags());
+        updateParameter.withProximityPlacementGroup(this.inner().proximityPlacementGroup());
         //
         this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
         //
@@ -2018,6 +2066,20 @@ class VirtualMachineImpl
                 UnmanagedDataDiskImpl.ensureDisksVhdUri(unmanagedDataDisks, storageAccount, vmName);
             } else {
                 UnmanagedDataDiskImpl.ensureDisksVhdUri(unmanagedDataDisks, vmName);
+            }
+        }
+    }
+
+    private void createNewProximityPlacementGroup() {
+        if (isInCreateMode()) {
+            if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
+                ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
+                plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
+                plgInner.withLocation(this.inner().location());
+                plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
+                        this.newProximityPlacementGroupName, plgInner);
+
+                this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
             }
         }
     }

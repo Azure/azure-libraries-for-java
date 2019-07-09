@@ -11,8 +11,11 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AvailabilitySet;
 import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
 import com.microsoft.azure.management.compute.InstanceViewStatus;
+import com.microsoft.azure.management.compute.ProximityPlacementGroup;
+import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
 import com.microsoft.azure.management.compute.Sku;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
@@ -40,9 +43,16 @@ class AvailabilitySetImpl
         AvailabilitySet.Update {
 
     private Set<String> idOfVMsInSet;
+    // Name of the new proximity placement group
+    private String newProximityPlacementGroupName;
+    // Type fo the new proximity placement group
+    private ProximityPlacementGroupType newProximityPlacementGroupType;
 
     AvailabilitySetImpl(String name, AvailabilitySetInner innerModel, final ComputeManager computeManager) {
         super(name, innerModel, computeManager);
+        newProximityPlacementGroupName = null;
+        newProximityPlacementGroupType = null;
+        newProximityPlacementGroupType = null;
     }
 
     @Override
@@ -72,6 +82,17 @@ class AvailabilitySetImpl
             }
         }
         return Collections.unmodifiableSet(idOfVMsInSet);
+    }
+
+    @Override
+    public ProximityPlacementGroup proximityPlacementGroup() {
+        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+        ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
+        if (plgInner == null) {
+            return null;
+        } else {
+            return new ProximityPlacementGroupImpl(plgInner);
+        }
     }
 
     @Override
@@ -131,6 +152,31 @@ class AvailabilitySetImpl
         return this;
     }
 
+
+    @Override
+    public AvailabilitySetImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
+        this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        this.newProximityPlacementGroupType = null;
+        this.newProximityPlacementGroupName = null;
+        return this;
+    }
+
+    @Override
+    public AvailabilitySetImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
+        this.newProximityPlacementGroupName = proximityPlacementGroupName;
+        this.newProximityPlacementGroupType = type;
+
+        this.inner().withProximityPlacementGroup(null);
+
+        return this;
+    }
+
+    @Override
+    public AvailabilitySetImpl withoutProximityPlacementGroup() {
+        this.inner().withProximityPlacementGroup(null);
+        return this;
+    }
+
     // CreateUpdateTaskGroup.ResourceCreator.createResourceAsync implementation
 
     @Override
@@ -142,6 +188,7 @@ class AvailabilitySetImpl
         if (this.inner().platformUpdateDomainCount() == null) {
             this.inner().withPlatformUpdateDomainCount(5);
         }
+        this.createNewProximityPlacementGroup();
         return this.manager().inner().availabilitySets().createOrUpdateAsync(resourceGroupName(), name(), inner())
                 .map(new Func1<AvailabilitySetInner, AvailabilitySet>() {
                     @Override
@@ -151,5 +198,19 @@ class AvailabilitySetImpl
                         return self;
                     }
                 });
+    }
+
+    private void createNewProximityPlacementGroup() {
+        if (isInCreateMode()) {
+            if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
+                ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
+                plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
+                plgInner.withLocation(this.inner().location());
+                plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
+                        this.newProximityPlacementGroupName, plgInner);
+
+                this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+            }
+        }
     }
 }

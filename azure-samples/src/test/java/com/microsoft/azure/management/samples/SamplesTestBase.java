@@ -12,6 +12,7 @@ import com.microsoft.rest.RestClient;
 
 public class SamplesTestBase extends TestBase {
     protected Azure azure;
+    protected RestClient restClient;
 
     public SamplesTestBase() {
         super(RunCondition.BOTH);
@@ -23,7 +24,8 @@ public class SamplesTestBase extends TestBase {
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
-        azure = Azure
+        this.restClient = restClient;
+        this.azure = Azure
                 .authenticate(restClient, domain, defaultSubscription).withSubscription(defaultSubscription);
     }
 

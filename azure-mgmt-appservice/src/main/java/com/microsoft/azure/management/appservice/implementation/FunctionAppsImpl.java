@@ -10,6 +10,7 @@ import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.FunctionApp;
 import com.microsoft.azure.management.appservice.FunctionApps;
+import com.microsoft.azure.management.appservice.FunctionEnvelope;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import rx.Completable;
@@ -85,6 +86,17 @@ class FunctionAppsImpl
             }
         });
     }
+
+    @Override
+    public PagedList<FunctionEnvelope> listFunctions(String resourceGroupName, String name) {
+        return new PagedListConverter<FunctionEnvelopeInner, FunctionEnvelope>() {
+            @Override
+            public Observable<FunctionEnvelope> typeConvertAsync(FunctionEnvelopeInner functionEnvelopeInner) {
+                return Observable.just((FunctionEnvelope) new FunctionEnvelopeImpl(functionEnvelopeInner));
+            }
+        }.convert(this.manager().webApps().inner().listFunctions(resourceGroupName, name));
+    }
+
 
     @Override
     protected Completable deleteInnerAsync(String resourceGroupName, String name) {

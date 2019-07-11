@@ -10,11 +10,16 @@ import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.privatedns.v2018_09_01.implementation.privatednsManager;
+import com.microsoft.azure.management.privatedns.v2018_09_01.implementation.RecordSetInner;
+import com.microsoft.azure.management.privatedns.v2018_09_01.ARecord;
+import com.microsoft.azure.management.privatedns.v2018_09_01.RecordType;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ManagePrivateDns {
     /**
@@ -27,6 +32,8 @@ public class ManagePrivateDns {
         final Region region = Region.US_EAST;
         final String rgName = SdkContext.randomResourceName("rg", 24);
         final String nwName = SdkContext.randomResourceName("nw", 24);
+        final String regionDNS = "global";                      // location always 'global' for privateDNS
+        final String privateDNSName = "private.contoso.com";    // private DNS name 
 
         try {
             Network network = azure.networks().define(nwName)
@@ -38,6 +45,34 @@ public class ManagePrivateDns {
             //
             // Private DNS hybrid sample
             //
+            prDnsManager.privateZones().define(privateDNSName)
+                .withRegion(regionDNS)
+                .withExistingResourceGroup(rgName)
+                .withIfMatch(null)
+                .withIfNoneMatch(null)
+                .create();
+            prDnsManager.virtualNetworkLinks().define("linkToVnet")
+                    .withExistingPrivateDnsZone(rgName, privateDNSName)
+                    .withIfMatch(null)
+                    .withIfNoneMatch(null)
+                    .withLocation(regionDNS)
+                    .withRegistrationEnabled(true)
+                    .withVirtualNetwork(new SubResource().withId(network.id()))
+                    .create();
+            RecordSetInner recordSetInner = new RecordSetInner();
+            ARecord arecord = new ARecord();
+            arecord.withIpv4Address("10.0.0.10"); // IP Address for record 
+            List<ARecord> list = new ArrayList<ARecord>();
+            list.add(arecord);
+            recordSetInner.withARecords(list);
+            recordSetInner.withTtl(1L);
+            String alias = "db"; //alias for IP 
+            prDnsManager.recordSets().inner().createOrUpdate(
+                rgName, 
+                privateDNSName, 
+                RecordType.A, 
+                alias, 
+                recordSetInner);
             return true;
         } catch (Exception e) {
             System.err.println(e.getMessage());

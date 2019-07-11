@@ -15,6 +15,7 @@ import com.microsoft.azure.management.privatedns.v2018_09_01.ARecord;
 import com.microsoft.azure.management.privatedns.v2018_09_01.RecordType;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.microsoft.azure.SubResource;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;

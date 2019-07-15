@@ -7,16 +7,18 @@ package com.microsoft.azure.management.cosmosdb.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.cosmosdb.Capability;
+import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountOfferType;
-import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountCreateUpdateParameters;
 import com.microsoft.azure.management.cosmosdb.DefaultConsistencyLevel;
-import com.microsoft.azure.management.cosmosdb.Location;
+import com.microsoft.azure.management.cosmosdb.FailoverPolicy;
 import com.microsoft.azure.management.cosmosdb.KeyKind;
+import com.microsoft.azure.management.cosmosdb.Location;
 import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -47,14 +49,14 @@ class CosmosDBAccountImpl
         implements CosmosDBAccount,
         CosmosDBAccount.Definition,
         CosmosDBAccount.Update {
-    private List<FailoverPolicyInner> failoverPolicies;
+    private List<FailoverPolicy> failoverPolicies;
     private boolean hasFailoverPolicyChanges;
     private final int maxDelayDueToMissingFailovers = 60 * 10;
     private Map<String, VirtualNetworkRule> virtualNetworkRulesMap;
 
     CosmosDBAccountImpl(String name, DatabaseAccountInner innerObject, CosmosDBManager manager) {
         super(fixDBName(name), innerObject, manager);
-        this.failoverPolicies = new ArrayList<FailoverPolicyInner>();
+        this.failoverPolicies = new ArrayList<FailoverPolicy>();
     }
 
     @Override
@@ -272,7 +274,7 @@ class CosmosDBAccountImpl
 
     @Override
     public CosmosDBAccountImpl withWriteReplication(Region region) {
-        FailoverPolicyInner failoverPolicyInner = new FailoverPolicyInner();
+        FailoverPolicy failoverPolicyInner = new FailoverPolicy();
         failoverPolicyInner.withLocationName(region.name());
         this.hasFailoverPolicyChanges = true;
         this.failoverPolicies.add(failoverPolicyInner);
@@ -282,7 +284,7 @@ class CosmosDBAccountImpl
     @Override
     public CosmosDBAccountImpl withReadReplication(Region region) {
         this.ensureFailoverIsInitialized();
-        FailoverPolicyInner failoverPolicyInner = new FailoverPolicyInner();
+        FailoverPolicy failoverPolicyInner = new FailoverPolicy();
         failoverPolicyInner.withLocationName(region.name());
         failoverPolicyInner.withFailoverPriority(this.failoverPolicies.size());
         this.hasFailoverPolicyChanges = true;
@@ -337,10 +339,10 @@ class CosmosDBAccountImpl
         return this.doDatabaseUpdateCreate();
     }
 
-    private DatabaseAccountCreateUpdateParametersInner createUpdateParametersInner(DatabaseAccountInner inner) {
+    private DatabaseAccountCreateUpdateParameters createUpdateParametersInner(DatabaseAccountInner inner) {
         this.ensureFailoverIsInitialized();
-        DatabaseAccountCreateUpdateParametersInner createUpdateParametersInner =
-                new DatabaseAccountCreateUpdateParametersInner();
+        DatabaseAccountCreateUpdateParameters createUpdateParametersInner =
+                new DatabaseAccountCreateUpdateParameters();
         createUpdateParametersInner.withLocation(this.regionName().toLowerCase());
         createUpdateParametersInner.withConsistencyPolicy(inner.consistencyPolicy());
         createUpdateParametersInner.withDatabaseAccountOfferType(
@@ -378,13 +380,13 @@ class CosmosDBAccountImpl
     }
 
     private void addLocationsForCreateUpdateParameters(
-            DatabaseAccountCreateUpdateParametersInner createUpdateParametersInner,
-            List<FailoverPolicyInner> failoverPolicies) {
+            DatabaseAccountCreateUpdateParameters createUpdateParametersInner,
+            List<FailoverPolicy> failoverPolicies) {
         List<Location> locations = new ArrayList<Location>();
 
         if (failoverPolicies.size() > 0) {
             for (int i = 0; i < failoverPolicies.size(); i++) {
-                FailoverPolicyInner policyInner = failoverPolicies.get(i);
+                FailoverPolicy policyInner = failoverPolicies.get(i);
                 Location location = new Location();
                 location.withFailoverPriority(i);
                 location.withLocationName(policyInner.locationName());
@@ -420,7 +422,7 @@ class CosmosDBAccountImpl
         final CosmosDBAccountImpl self = this;
         final List<Integer> data = new ArrayList<Integer>();
         data.add(0);
-        final DatabaseAccountCreateUpdateParametersInner createUpdateParametersInner =
+        final DatabaseAccountCreateUpdateParameters createUpdateParametersInner =
                 this.createUpdateParametersInner(this.inner());
         return this.manager().inner().databaseAccounts().createOrUpdateAsync(
                 resourceGroupName(),
@@ -481,11 +483,11 @@ class CosmosDBAccountImpl
 
         if (!this.hasFailoverPolicyChanges) {
             this.failoverPolicies.clear();
-            FailoverPolicyInner[] policyInners = new FailoverPolicyInner[this.inner().failoverPolicies().size()];
+            FailoverPolicy[] policyInners = new FailoverPolicy[this.inner().failoverPolicies().size()];
             this.inner().failoverPolicies().toArray(policyInners);
-            Arrays.sort(policyInners, new Comparator<FailoverPolicyInner>() {
+            Arrays.sort(policyInners, new Comparator<FailoverPolicy>() {
                 @Override
-                public int compare(FailoverPolicyInner o1, FailoverPolicyInner o2) {
+                public int compare(FailoverPolicy o1, FailoverPolicy o2) {
                     return o1.failoverPriority().compareTo(o2.failoverPriority());
                 }
             });

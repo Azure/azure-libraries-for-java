@@ -5,7 +5,7 @@ trigger:
   - master
 
 variables:
-  DefaultOptions: '--batch-mode -Dmaven.wagon.http.pool=false'
+  DefaultOptions: '-Dmaven.wagon.http.pool=false'
   LoggingOptions: '-Dorg.slf4j.simpleLogger.defaultLogLevel=error -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn'
 
 jobs:
@@ -33,7 +33,7 @@ jobs:
         displayName: 'install'
         inputs:
           mavenPomFile: pom.xml
-          options: '$(DefaultOptions) $(ProfileFlag) -pl !azure-samples javadoc:aggregate -DskipTests=true -DpackageOutputDirectory=$(Build.ArtifactStagingDirectory)" -am'
+          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -pl !azure-samples javadoc:aggregate -DskipTests=true -DpackageOutputDirectory=$(Build.ArtifactStagingDirectory)" -am'
           mavenOptions: '$(LoggingOptions)'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: $(JavaVersion)
@@ -79,7 +79,7 @@ jobs:
         displayName: 'Run Tests on Java 8'
         inputs:
           mavenPomFile: pom.xml
-          options: '$(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
+          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
           mavenOptions: '$(LoggingOptions)'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: $(JavaVersion)
@@ -91,7 +91,7 @@ jobs:
         displayName: 'Run Tests on Java 7'
         inputs:
           mavenPomFile: pom.xml
-          options: '$(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
+          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -Dsurefire.rerunFailingTestsCount=3 -Dparallel=classes -DthreadCount=2 -DforkCount=1C'
           mavenOptions: '$(LoggingOptions)'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: '1.7'

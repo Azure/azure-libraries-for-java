@@ -28,22 +28,22 @@ public class GremlinDatabaseInner extends Resource {
     /**
      * A system generated property. A unique identifier.
      */
-    @JsonProperty(value = "properties.rid")
-    private String rid;
+    @JsonProperty(value = "properties._rid")
+    private String _rid;
 
     /**
      * A system generated property that denotes the last updated timestamp of
      * the resource.
      */
-    @JsonProperty(value = "properties.ts")
-    private Object ts;
+    @JsonProperty(value = "properties._ts")
+    private Object _ts;
 
     /**
      * A system generated property representing the resource etag required for
      * optimistic concurrency control.
      */
-    @JsonProperty(value = "properties.etag")
-    private String etag;
+    @JsonProperty(value = "properties._etag")
+    private String _etag;
 
     /**
      * Get name of the Cosmos DB Gremlin database.
@@ -68,60 +68,60 @@ public class GremlinDatabaseInner extends Resource {
     /**
      * Get a system generated property. A unique identifier.
      *
-     * @return the rid value
+     * @return the _rid value
      */
-    public String rid() {
-        return this.rid;
+    public String _rid() {
+        return this._rid;
     }
 
     /**
      * Set a system generated property. A unique identifier.
      *
-     * @param rid the rid value to set
+     * @param _rid the _rid value to set
      * @return the GremlinDatabaseInner object itself.
      */
-    public GremlinDatabaseInner withRid(String rid) {
-        this.rid = rid;
+    public GremlinDatabaseInner with_rid(String _rid) {
+        this._rid = _rid;
         return this;
     }
 
     /**
      * Get a system generated property that denotes the last updated timestamp of the resource.
      *
-     * @return the ts value
+     * @return the _ts value
      */
-    public Object ts() {
-        return this.ts;
+    public Object _ts() {
+        return this._ts;
     }
 
     /**
      * Set a system generated property that denotes the last updated timestamp of the resource.
      *
-     * @param ts the ts value to set
+     * @param _ts the _ts value to set
      * @return the GremlinDatabaseInner object itself.
      */
-    public GremlinDatabaseInner withTs(Object ts) {
-        this.ts = ts;
+    public GremlinDatabaseInner with_ts(Object _ts) {
+        this._ts = _ts;
         return this;
     }
 
     /**
      * Get a system generated property representing the resource etag required for optimistic concurrency control.
      *
-     * @return the etag value
+     * @return the _etag value
      */
-    public String etag() {
-        return this.etag;
+    public String _etag() {
+        return this._etag;
     }
 
     /**
      * Set a system generated property representing the resource etag required for optimistic concurrency control.
      *
-     * @param etag the etag value to set
+     * @param _etag the _etag value to set
      * @return the GremlinDatabaseInner object itself.
      */
-    public GremlinDatabaseInner withEtag(String etag) {
-        this.etag = etag;
+    public GremlinDatabaseInner with_etag(String _etag) {
+        this._etag = _etag;
         return this;
     }
 

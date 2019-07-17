@@ -27,6 +27,15 @@ public class WindowsVMDiskEncryptionConfiguration
         super(keyVaultId, aadClientId, aadSecret);
     }
 
+    /**
+     * Creates WindowsVMDiskEncryptionConfiguration.
+     *
+     * @param keyVaultId the resource ID of the key vault to store the disk encryption key
+     */
+    public WindowsVMDiskEncryptionConfiguration(String keyVaultId) {
+        super(keyVaultId);
+    }
+
     @Override
     public OperatingSystemTypes osType() {
         return OperatingSystemTypes.WINDOWS;

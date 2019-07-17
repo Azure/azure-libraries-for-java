@@ -8,6 +8,8 @@ package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 
+import java.util.Objects;
+
 /**
  * Type representing encryption configuration to be applied to a virtual machine.
  *
@@ -26,16 +28,28 @@ public abstract class VirtualMachineEncryptionConfiguration<T extends VirtualMac
     /**
      * Creates VirtualMachineEncryptionConfiguration.
      *
-     * @param keyVaultId resource ID of the key vault to store the disk encryption key
-     * @param aadClientId AAD application client ID to access the key vault
-     * @param aadSecret AAD application client secret to access the key vault
+     * @param keyVaultId resource ID of the KeyVault to store the disk encryption key
+     * @param aadClientId AAD application client ID to access the KeyVault
+     * @param aadSecret AAD application client secret to access the KeyVault
      */
     protected VirtualMachineEncryptionConfiguration(String keyVaultId,
                                                     String aadClientId,
                                                     String aadSecret) {
+        this.keyVaultId = Objects.requireNonNull(keyVaultId, "KeyVaultId parameter holding resource id of the KeyVault to store disk encryption key is required.");
+        this.aadClientId = Objects.requireNonNull(aadClientId, "aadClientId parameter holding AAD client id to access the KeyVault is required.");
+        this.aadSecret = Objects.requireNonNull(aadSecret, "aadSecret parameter holding AAD secret to access the KeyVault is required.");
+    }
+
+    /**
+     * Creates VirtualMachineEncryptionConfiguration.
+     *
+     * @param keyVaultId resource ID of the KeyVault to store the disk encryption key
+     */
+    protected VirtualMachineEncryptionConfiguration(String keyVaultId) {
+        Objects.requireNonNull(keyVaultId, "KeyVaultId parameter holding resource id of the keyVault to store disk encryption key is required.");
         this.keyVaultId = keyVaultId;
-        this.aadClientId = aadClientId;
-        this.aadSecret = aadSecret;
+        this.aadClientId = null;
+        this.aadSecret = null;
     }
 
     /**

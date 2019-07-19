@@ -1139,6 +1139,15 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public VirtualMachineScaleSetImpl withoutSecrets() {
+        this.inner()
+                .virtualMachineProfile()
+                .osProfile()
+                .withSecrets(new ArrayList<VaultSecretGroup>());
+        return this;
+    }
+
+    @Override
     public VirtualMachineScaleSetExtensionImpl defineNewExtension(String name) {
         return new VirtualMachineScaleSetExtensionImpl(new VirtualMachineScaleSetExtensionInner().withName(name), this);
     }

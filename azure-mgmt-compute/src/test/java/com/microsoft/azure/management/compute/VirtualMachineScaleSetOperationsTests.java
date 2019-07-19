@@ -7,9 +7,13 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.SubResource;
+import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
+import com.microsoft.azure.management.keyvault.Secret;
+import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.network.ApplicationSecurityGroup;
 import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
@@ -35,10 +39,13 @@ import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -394,7 +401,93 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertNull(virtualMachineScaleSet.networkSecurityGroupId());
     }
 
+
     @Test
+    @Ignore("Mock framework doesn't support data plane")
+    public void canCreateVirtualMachineScaleSetWithSecret() throws Exception {
+        final String vmss_name = generateRandomResourceName("vmss", 10);
+        final String vaultName = generateRandomResourceName("vlt", 10);
+        final String secretName = generateRandomResourceName("srt", 10);
+
+
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        Network network = this.networkManager
+                .networks()
+                .define("vmssvnet")
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+
+        LoadBalancer publicLoadBalancer = createInternetFacingLoadBalancer(REGION,
+                resourceGroup,
+                "1",
+                LoadBalancerSkuType.BASIC);
+
+        List<String> backends = new ArrayList<>();
+        for (String backend : publicLoadBalancer.backends().keySet()) {
+            backends.add(backend);
+        }
+        Assert.assertTrue(backends.size() == 2);
+
+        ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
+        Vault vault = this.keyVaultManager.vaults().define(vaultName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .defineAccessPolicy()
+                .forServicePrincipal(credentials.clientId())
+                .allowSecretAllPermissions()
+                .attach()
+                .withDeploymentEnabled()
+                .create();
+        final InputStream embeddedJsonConfig = VirtualMachineExtensionOperationsTests.class.getResourceAsStream("/myTest.txt");
+        String secretValue = IOUtils.toString(embeddedJsonConfig);
+        Secret secret = vault.secrets().define(secretName)
+                .withValue(secretValue)
+                .create();
+        List<VaultCertificate> certs = new ArrayList<>();
+        certs.add(new VaultCertificate().withCertificateUrl(secret.id()));
+        List<VaultSecretGroup> group = new ArrayList<>();
+        group.add(new VaultSecretGroup().withSourceVault(new SubResource().withId(vault.id()))
+                .withVaultCertificates(certs));
+
+        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
+                .define(vmss_name)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_A0)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withExistingPrimaryInternetFacingLoadBalancer(publicLoadBalancer)
+                .withPrimaryInternetFacingLoadBalancerBackends(backends.get(0), backends.get(1))
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("jvuser")
+                .withRootPassword("123OData!@#123")
+                .withSecrets(group)
+                .withNewStorageAccount(generateRandomResourceName("stg", 15))
+                .withNewStorageAccount(generateRandomResourceName("stg3", 15))
+                .withUpgradeMode(UpgradeMode.MANUAL)
+                .create();
+
+        for (VirtualMachineScaleSetVM vm : virtualMachineScaleSet.virtualMachines().list()) {
+            Assert.assertTrue(vm.osProfile().secrets().size() > 0);
+        }
+
+        virtualMachineScaleSet
+                .update()
+                .withoutSecrets()
+                .apply();
+
+        for (VirtualMachineScaleSetVM vm : virtualMachineScaleSet.virtualMachines().list()) {
+            Assert.assertTrue(vm.osProfile().secrets().size() == 0);
+        }
+    }
     public void canCreateVirtualMachineScaleSet() throws Exception {
         final String vmss_name = generateRandomResourceName("vmss", 10);
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()

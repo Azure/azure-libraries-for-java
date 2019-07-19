@@ -1527,13 +1527,13 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
-         * The stage of the virtual machine scale set definition allowing to specify the custom data.
+         * The stage of the virtual machine scale set definition allowing to specify the secrets.
          */
         interface WithSecrets {
             /**
              *  Specifies set of certificates that should be installed onto the virtual machine.
              *
-             * @param secrets the base64 encoded custom data
+             * @param secrets the secrets value to set
              * @return the next stage in the definition he secrets value to set
              */
             WithCreate withSecrets(List<VaultSecretGroup> secrets);
@@ -2083,13 +2083,21 @@ public interface VirtualMachineScaleSet extends
          */
         interface WithSecrets {
             /**
-             * The stage of a virtual machine scale set definition allowing to specify the number of
+             * The stage of a virtual machine scale set definition allowing to update secrets from
              * virtual machines in the scale set.
              *
-             * @param secrets the reference name for the extension
+             * @param secrets the list of secrets
              * @return the next stage of update
              */
             WithApply withSecrets(List<VaultSecretGroup> secrets);
+
+            /**
+             * The stage of a virtual machine scale set definition allowing to remove secrets from
+             * virtual machines in the scale set.
+             *
+             * @return the next stage of update
+             */
+            WithApply withoutSecrets();
         }
 
         /**

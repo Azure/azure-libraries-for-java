@@ -58,11 +58,7 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
 
     @Override
     public Observable<DiskVolumeEncryptionMonitor> getMonitorAsync() {
-        if (this.virtualMachine.osType() == OperatingSystemTypes.LINUX) {
-            return new LinuxDiskVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
-        } else {
-            return new WindowsVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
-        }
+        return new ProxyEncryptionMonitorImpl(this.virtualMachine).refreshAsync();
     }
 
     @Override

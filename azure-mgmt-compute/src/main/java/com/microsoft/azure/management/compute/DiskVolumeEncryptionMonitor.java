@@ -6,10 +6,13 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import rx.Observable;
+
+import java.util.Map;
 
 /**
  * Type that can be used to monitor encryption enable and disable status of a virtual machine.
@@ -33,6 +36,13 @@ public interface DiskVolumeEncryptionMonitor
      * @return data disks encryption status
      */
     EncryptionStatus dataDiskStatus();
+
+    /**
+     * @return disks encryption status from instance view level.
+     */
+    @Beta
+     Map<String, InstanceViewStatus> diskInstanceViewEncryptionStatuses();
+
     /**
      * @return a representation of the deferred computation of this call returning the encryption status once the refresh is done
      */

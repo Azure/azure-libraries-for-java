@@ -14,18 +14,26 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 @LangDefinition
 public class LinuxVMDiskEncryptionConfiguration
         extends VirtualMachineEncryptionConfiguration<LinuxVMDiskEncryptionConfiguration> {
-
     /**
      * Creates LinuxVMDiskEncryptionSettings.
      *
-     * @param keyVaultId the resource ID of the Key Vault to store the disk encryption key
-     * @param aadClientId  client ID of an AAD application which has permission to the key vault
+     * @param keyVaultId the resource ID of the KeyVault to store the disk encryption key
+     * @param aadClientId  client ID of an AAD application which has permission to the KeyVault
      * @param aadSecret client secret corresponding to the client ID
      */
     public LinuxVMDiskEncryptionConfiguration(String keyVaultId,
                                               String aadClientId,
                                               String aadSecret) {
         super(keyVaultId, aadClientId, aadSecret);
+    }
+
+    /**
+     * Creates LinuxVMDiskEncryptionSettings.
+     *
+     * @param keyVaultId the resource ID of the KeyVault to store the disk encryption key
+     */
+    public LinuxVMDiskEncryptionConfiguration(String keyVaultId) {
+        super(keyVaultId);
     }
 
     @Override

@@ -31,6 +31,7 @@ import com.microsoft.azure.management.compute.SshPublicKey;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.UpgradeMode;
 import com.microsoft.azure.management.compute.UpgradePolicy;
+import com.microsoft.azure.management.compute.VaultSecretGroup;
 import com.microsoft.azure.management.compute.VirtualHardDisk;
 import com.microsoft.azure.management.compute.VirtualMachineEvictionPolicyTypes;
 import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
@@ -1125,6 +1126,24 @@ public class VirtualMachineScaleSetImpl
                 .virtualMachineProfile()
                 .osProfile()
                 .withCustomData(base64EncodedCustomData);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withSecrets(List<VaultSecretGroup> secrets) {
+        this.inner()
+                .virtualMachineProfile()
+                .osProfile()
+                .withSecrets(secrets);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutSecrets() {
+        this.inner()
+                .virtualMachineProfile()
+                .osProfile()
+                .withSecrets(new ArrayList<VaultSecretGroup>());
         return this;
     }
 

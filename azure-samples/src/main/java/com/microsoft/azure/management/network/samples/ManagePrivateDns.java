@@ -22,7 +22,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManagePrivateDns {
+public final class ManagePrivateDns {
     /**
      * Main function which runs the actual sample.
      * @param azure instance of the azure client

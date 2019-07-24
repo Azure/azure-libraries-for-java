@@ -23,10 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Azure Network sample for managing private DNS  -
+ * Azure Network sample for managing private DNS -
  *  - Create a private DNS zone
- *  - Update a virtual network
- *  
+ *  - Update a virtual network.
  * */
 
 public final class ManagePrivateDns {

@@ -10,12 +10,13 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Represents a database service objective.
  */
 @JsonFlatten
-public class ServiceObjectiveInner extends ProxyResourceInner {
+public class ServiceObjectiveInner extends ProxyResource {
     /**
      * The name for the service objective.
      */
@@ -48,7 +49,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     private boolean enabled;
 
     /**
-     * Get the serviceObjectiveName value.
+     * Get the name for the service objective.
      *
      * @return the serviceObjectiveName value
      */
@@ -57,7 +58,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the isDefault value.
+     * Get gets whether the service level objective is the default service objective.
      *
      * @return the isDefault value
      */
@@ -66,7 +67,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the isSystem value.
+     * Get gets whether the service level objective is a system service objective.
      *
      * @return the isSystem value
      */
@@ -75,7 +76,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the description value.
+     * Get the description for the service level objective.
      *
      * @return the description value
      */
@@ -84,7 +85,7 @@ public class ServiceObjectiveInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the enabled value.
+     * Get gets whether the service level objective is enabled.
      *
      * @return the enabled value
      */

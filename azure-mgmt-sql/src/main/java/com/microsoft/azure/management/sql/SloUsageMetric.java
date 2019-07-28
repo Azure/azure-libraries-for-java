@@ -43,7 +43,7 @@ public class SloUsageMetric {
     private double inRangeTimeRatio;
 
     /**
-     * Get the serviceLevelObjective value.
+     * Get the serviceLevelObjective for SLO usage metric. Possible values include: 'System', 'System0', 'System1', 'System2', 'System3', 'System4', 'System2L', 'System3L', 'System4L', 'Free', 'Basic', 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7', 'S9', 'S12', 'P1', 'P2', 'P3', 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6', 'DW100', 'DW200', 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c', 'DW1500', 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c', 'DW3000c', 'DW6000', 'DW5000c', 'DW6000c', 'DW7500c', 'DW10000c', 'DW15000c', 'DW30000c', 'DS100', 'DS200', 'DS300', 'DS400', 'DS500', 'DS600', 'DS1000', 'DS1200', 'DS1500', 'DS2000', 'ElasticPool'.
      *
      * @return the serviceLevelObjective value
      */
@@ -52,7 +52,7 @@ public class SloUsageMetric {
     }
 
     /**
-     * Get the serviceLevelObjectiveId value.
+     * Get the serviceLevelObjectiveId for SLO usage metric.
      *
      * @return the serviceLevelObjectiveId value
      */
@@ -61,7 +61,7 @@ public class SloUsageMetric {
     }
 
     /**
-     * Get the inRangeTimeRatio value.
+     * Get gets or sets inRangeTimeRatio for SLO usage metric.
      *
      * @return the inRangeTimeRatio value
      */

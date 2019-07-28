@@ -10,12 +10,13 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A backup long term retention vault.
  */
 @JsonFlatten
-public class BackupLongTermRetentionVaultInner extends ProxyResourceInner {
+public class BackupLongTermRetentionVaultInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -29,7 +30,7 @@ public class BackupLongTermRetentionVaultInner extends ProxyResourceInner {
     private String recoveryServicesVaultResourceId;
 
     /**
-     * Get the location value.
+     * Get the geo-location where the resource lives.
      *
      * @return the location value
      */
@@ -38,7 +39,7 @@ public class BackupLongTermRetentionVaultInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the recoveryServicesVaultResourceId value.
+     * Get the azure recovery services vault resource id.
      *
      * @return the recoveryServicesVaultResourceId value
      */
@@ -47,7 +48,7 @@ public class BackupLongTermRetentionVaultInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the recoveryServicesVaultResourceId value.
+     * Set the azure recovery services vault resource id.
      *
      * @param recoveryServicesVaultResourceId the recoveryServicesVaultResourceId value to set
      * @return the BackupLongTermRetentionVaultInner object itself.

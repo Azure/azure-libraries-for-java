@@ -15,12 +15,12 @@ import com.microsoft.rest.ExpandableStringEnum;
 /**
  * Defines values for TransparentDataEncryptionActivityStatus.
  */
-public final class TransparentDataEncryptionActivityStates extends ExpandableStringEnum<TransparentDataEncryptionActivityStates> {
+public final class TransparentDataEncryptionActivityStatus extends ExpandableStringEnum<TransparentDataEncryptionActivityStatus> {
     /** Static value Encrypting for TransparentDataEncryptionActivityStatus. */
-    public static final TransparentDataEncryptionActivityStates ENCRYPTING = fromString("Encrypting");
+    public static final TransparentDataEncryptionActivityStatus ENCRYPTING = fromString("Encrypting");
 
     /** Static value Decrypting for TransparentDataEncryptionActivityStatus. */
-    public static final TransparentDataEncryptionActivityStates DECRYPTING = fromString("Decrypting");
+    public static final TransparentDataEncryptionActivityStatus DECRYPTING = fromString("Decrypting");
 
     /**
      * Creates or finds a TransparentDataEncryptionActivityStatus from its string representation.
@@ -28,14 +28,14 @@ public final class TransparentDataEncryptionActivityStates extends ExpandableStr
      * @return the corresponding TransparentDataEncryptionActivityStatus
      */
     @JsonCreator
-    public static TransparentDataEncryptionActivityStates fromString(String name) {
-        return fromString(name, TransparentDataEncryptionActivityStates.class);
+    public static TransparentDataEncryptionActivityStatus fromString(String name) {
+        return fromString(name, TransparentDataEncryptionActivityStatus.class);
     }
 
     /**
      * @return known TransparentDataEncryptionActivityStatus values
      */
-    public static Collection<TransparentDataEncryptionActivityStates> values() {
-        return values(TransparentDataEncryptionActivityStates.class);
+    public static Collection<TransparentDataEncryptionActivityStatus> values() {
+        return values(TransparentDataEncryptionActivityStatus.class);
     }
 }

@@ -29,13 +29,14 @@ public class CheckNameAvailabilityRequest {
 
     /**
      * Creates an instance of CheckNameAvailabilityRequest class.
+     * @param name the name whose availability is to be checked.
      */
     public CheckNameAvailabilityRequest() {
         type = "Microsoft.Sql/servers";
     }
 
     /**
-     * Get the name value.
+     * Get the name whose availability is to be checked.
      *
      * @return the name value
      */
@@ -44,7 +45,7 @@ public class CheckNameAvailabilityRequest {
     }
 
     /**
-     * Set the name value.
+     * Set the name whose availability is to be checked.
      *
      * @param name the name value to set
      * @return the CheckNameAvailabilityRequest object itself.
@@ -55,7 +56,7 @@ public class CheckNameAvailabilityRequest {
     }
 
     /**
-     * Get the type value.
+     * Get the type of resource that is used as the scope of the availability check.
      *
      * @return the type value
      */
@@ -64,7 +65,7 @@ public class CheckNameAvailabilityRequest {
     }
 
     /**
-     * Set the type value.
+     * Set the type of resource that is used as the scope of the availability check.
      *
      * @param type the type value to set
      * @return the CheckNameAvailabilityRequest object itself.

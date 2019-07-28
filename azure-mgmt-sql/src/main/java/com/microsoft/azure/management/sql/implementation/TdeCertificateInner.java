@@ -10,12 +10,13 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A TDE certificate that can be uploaded into a server.
  */
 @JsonFlatten
-public class TdeCertificateInner extends ProxyResourceInner {
+public class TdeCertificateInner extends ProxyResource {
     /**
      * The base64 encoded certificate private blob.
      */
@@ -29,7 +30,7 @@ public class TdeCertificateInner extends ProxyResourceInner {
     private String certPassword;
 
     /**
-     * Get the privateBlob value.
+     * Get the base64 encoded certificate private blob.
      *
      * @return the privateBlob value
      */
@@ -38,7 +39,7 @@ public class TdeCertificateInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the privateBlob value.
+     * Set the base64 encoded certificate private blob.
      *
      * @param privateBlob the privateBlob value to set
      * @return the TdeCertificateInner object itself.
@@ -49,7 +50,7 @@ public class TdeCertificateInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the certPassword value.
+     * Get the certificate password.
      *
      * @return the certPassword value
      */
@@ -58,7 +59,7 @@ public class TdeCertificateInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the certPassword value.
+     * Set the certificate password.
      *
      * @param certPassword the certPassword value to set
      * @return the TdeCertificateInner object itself.

@@ -15,15 +15,21 @@ import com.microsoft.rest.ExpandableStringEnum;
 /**
  * Defines values for ElasticPoolEdition.
  */
-public final class ElasticPoolEditions extends ExpandableStringEnum<ElasticPoolEditions> {
+public final class ElasticPoolEdition extends ExpandableStringEnum<ElasticPoolEdition> {
     /** Static value Basic for ElasticPoolEdition. */
-    public static final ElasticPoolEditions BASIC = fromString("Basic");
+    public static final ElasticPoolEdition BASIC = fromString("Basic");
 
     /** Static value Standard for ElasticPoolEdition. */
-    public static final ElasticPoolEditions STANDARD = fromString("Standard");
+    public static final ElasticPoolEdition STANDARD = fromString("Standard");
 
     /** Static value Premium for ElasticPoolEdition. */
-    public static final ElasticPoolEditions PREMIUM = fromString("Premium");
+    public static final ElasticPoolEdition PREMIUM = fromString("Premium");
+
+    /** Static value GeneralPurpose for ElasticPoolEdition. */
+    public static final ElasticPoolEdition GENERAL_PURPOSE = fromString("GeneralPurpose");
+
+    /** Static value BusinessCritical for ElasticPoolEdition. */
+    public static final ElasticPoolEdition BUSINESS_CRITICAL = fromString("BusinessCritical");
 
     /**
      * Creates or finds a ElasticPoolEdition from its string representation.
@@ -31,14 +37,14 @@ public final class ElasticPoolEditions extends ExpandableStringEnum<ElasticPoolE
      * @return the corresponding ElasticPoolEdition
      */
     @JsonCreator
-    public static ElasticPoolEditions fromString(String name) {
-        return fromString(name, ElasticPoolEditions.class);
+    public static ElasticPoolEdition fromString(String name) {
+        return fromString(name, ElasticPoolEdition.class);
     }
 
     /**
      * @return known ElasticPoolEdition values
      */
-    public static Collection<ElasticPoolEditions> values() {
-        return values(ElasticPoolEditions.class);
+    public static Collection<ElasticPoolEdition> values() {
+        return values(ElasticPoolEdition.class);
     }
 }

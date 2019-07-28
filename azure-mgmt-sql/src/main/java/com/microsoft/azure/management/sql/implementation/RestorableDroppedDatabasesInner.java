@@ -222,7 +222,11 @@ public class RestorableDroppedDatabasesInner {
                 public Observable<ServiceResponse<List<RestorableDroppedDatabaseInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<RestorableDroppedDatabaseInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<RestorableDroppedDatabaseInner>> clientResponse = new ServiceResponse<List<RestorableDroppedDatabaseInner>>(result.body().items(), result.response());
+                        List<RestorableDroppedDatabaseInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<RestorableDroppedDatabaseInner>> clientResponse = new ServiceResponse<List<RestorableDroppedDatabaseInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

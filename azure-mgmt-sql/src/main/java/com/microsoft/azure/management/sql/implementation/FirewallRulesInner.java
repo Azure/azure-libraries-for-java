@@ -425,7 +425,11 @@ public class FirewallRulesInner {
                 public Observable<ServiceResponse<List<FirewallRuleInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<FirewallRuleInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<FirewallRuleInner>> clientResponse = new ServiceResponse<List<FirewallRuleInner>>(result.body().items(), result.response());
+                        List<FirewallRuleInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<FirewallRuleInner>> clientResponse = new ServiceResponse<List<FirewallRuleInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

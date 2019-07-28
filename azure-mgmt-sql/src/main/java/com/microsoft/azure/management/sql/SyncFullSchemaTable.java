@@ -46,7 +46,7 @@ public class SyncFullSchemaTable {
     private String quotedName;
 
     /**
-     * Get the columns value.
+     * Get list of columns in the table of database full schema.
      *
      * @return the columns value
      */
@@ -55,7 +55,7 @@ public class SyncFullSchemaTable {
     }
 
     /**
-     * Get the errorId value.
+     * Get error id of the table.
      *
      * @return the errorId value
      */
@@ -64,7 +64,7 @@ public class SyncFullSchemaTable {
     }
 
     /**
-     * Get the hasError value.
+     * Get if there is error in the table.
      *
      * @return the hasError value
      */
@@ -73,7 +73,7 @@ public class SyncFullSchemaTable {
     }
 
     /**
-     * Get the name value.
+     * Get name of the table.
      *
      * @return the name value
      */
@@ -82,7 +82,7 @@ public class SyncFullSchemaTable {
     }
 
     /**
-     * Get the quotedName value.
+     * Get quoted name of the table.
      *
      * @return the quotedName value
      */

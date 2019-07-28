@@ -34,7 +34,7 @@ public class JobStepAction {
     private String value;
 
     /**
-     * Get the type value.
+     * Get type of action being executed by the job step. Possible values include: 'TSql'.
      *
      * @return the type value
      */
@@ -43,7 +43,7 @@ public class JobStepAction {
     }
 
     /**
-     * Set the type value.
+     * Set type of action being executed by the job step. Possible values include: 'TSql'.
      *
      * @param type the type value to set
      * @return the JobStepAction object itself.
@@ -54,7 +54,7 @@ public class JobStepAction {
     }
 
     /**
-     * Get the source value.
+     * Get the source of the action to execute. Possible values include: 'Inline'.
      *
      * @return the source value
      */
@@ -63,7 +63,7 @@ public class JobStepAction {
     }
 
     /**
-     * Set the source value.
+     * Set the source of the action to execute. Possible values include: 'Inline'.
      *
      * @param source the source value to set
      * @return the JobStepAction object itself.
@@ -74,7 +74,7 @@ public class JobStepAction {
     }
 
     /**
-     * Get the value value.
+     * Get the action value, for example the text of the T-SQL script to execute.
      *
      * @return the value value
      */
@@ -83,7 +83,7 @@ public class JobStepAction {
     }
 
     /**
-     * Set the value value.
+     * Set the action value, for example the text of the T-SQL script to execute.
      *
      * @param value the value value to set
      * @return the JobStepAction object itself.

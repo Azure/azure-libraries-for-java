@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
+import java.util.Map;
 import com.microsoft.azure.management.sql.FailoverGroupReadWriteEndpoint;
 import com.microsoft.azure.management.sql.FailoverGroupReadOnlyEndpoint;
 import com.microsoft.azure.management.sql.FailoverGroupReplicationRole;
@@ -15,12 +16,25 @@ import java.util.List;
 import com.microsoft.azure.management.sql.PartnerInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A failover group.
  */
 @JsonFlatten
-public class FailoverGroupInner extends TrackedResourceInner {
+public class FailoverGroupInner extends ProxyResource {
+    /**
+     * Resource location.
+     */
+    @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
+    private String location;
+
+    /**
+     * Resource tags.
+     */
+    @JsonProperty(value = "tags")
+    private Map<String, String> tags;
+
     /**
      * Read-write endpoint of the failover group instance.
      */
@@ -59,7 +73,36 @@ public class FailoverGroupInner extends TrackedResourceInner {
     private List<String> databases;
 
     /**
-     * Get the readWriteEndpoint value.
+     * Get resource location.
+     *
+     * @return the location value
+     */
+    public String location() {
+        return this.location;
+    }
+
+    /**
+     * Get resource tags.
+     *
+     * @return the tags value
+     */
+    public Map<String, String> tags() {
+        return this.tags;
+    }
+
+    /**
+     * Set resource tags.
+     *
+     * @param tags the tags value to set
+     * @return the FailoverGroupInner object itself.
+     */
+    public FailoverGroupInner withTags(Map<String, String> tags) {
+        this.tags = tags;
+        return this;
+    }
+
+    /**
+     * Get read-write endpoint of the failover group instance.
      *
      * @return the readWriteEndpoint value
      */
@@ -68,7 +111,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the readWriteEndpoint value.
+     * Set read-write endpoint of the failover group instance.
      *
      * @param readWriteEndpoint the readWriteEndpoint value to set
      * @return the FailoverGroupInner object itself.
@@ -79,7 +122,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the readOnlyEndpoint value.
+     * Get read-only endpoint of the failover group instance.
      *
      * @return the readOnlyEndpoint value
      */
@@ -88,7 +131,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the readOnlyEndpoint value.
+     * Set read-only endpoint of the failover group instance.
      *
      * @param readOnlyEndpoint the readOnlyEndpoint value to set
      * @return the FailoverGroupInner object itself.
@@ -99,7 +142,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the replicationRole value.
+     * Get local replication role of the failover group instance. Possible values include: 'Primary', 'Secondary'.
      *
      * @return the replicationRole value
      */
@@ -108,7 +151,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the replicationState value.
+     * Get replication state of the failover group instance.
      *
      * @return the replicationState value
      */
@@ -117,7 +160,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the partnerServers value.
+     * Get list of partner server information for the failover group.
      *
      * @return the partnerServers value
      */
@@ -126,7 +169,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the partnerServers value.
+     * Set list of partner server information for the failover group.
      *
      * @param partnerServers the partnerServers value to set
      * @return the FailoverGroupInner object itself.
@@ -137,7 +180,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the databases value.
+     * Get list of databases in the failover group.
      *
      * @return the databases value
      */
@@ -146,7 +189,7 @@ public class FailoverGroupInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the databases value.
+     * Set list of databases in the failover group.
      *
      * @param databases the databases value to set
      * @return the FailoverGroupInner object itself.

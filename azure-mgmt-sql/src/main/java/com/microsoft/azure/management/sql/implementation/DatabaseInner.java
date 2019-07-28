@@ -11,7 +11,7 @@ package com.microsoft.azure.management.sql.implementation;
 import org.joda.time.DateTime;
 import java.util.UUID;
 import com.microsoft.azure.management.sql.CreateMode;
-import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.ServiceObjectiveName;
 import java.util.List;
 import com.microsoft.azure.management.sql.RecommendedIndex;
@@ -19,12 +19,13 @@ import com.microsoft.azure.management.sql.ReadScale;
 import com.microsoft.azure.management.sql.SampleName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Represents a database.
  */
 @JsonFlatten
-public class DatabaseInner extends TrackedResourceInner {
+public class DatabaseInner extends Resource {
     /**
      * Kind of database.  This is metadata used for the Azure portal
      * experience.
@@ -155,17 +156,26 @@ public class DatabaseInner extends TrackedResourceInner {
     /**
      * The edition of the database. The DatabaseEditions enumeration contains
      * all the valid editions. If createMode is NonReadableSecondary or
-     * OnlineSecondary, this value is ignored. To see possible values, query
-     * the capabilities API
-     * (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities)
-     * referred to by operationId: "Capabilities_ListByLocation." or use the
-     * Azure CLI command `az sql db list-editions -l westus --query [].name`.
-     * Possible values include: 'Web', 'Business', 'Basic', 'Standard',
+     * OnlineSecondary, this value is ignored.
+     *
+     * The list of SKUs may vary by region and support offer. To determine the
+     * SKUs (including the SKU name, tier/edition, family, and capacity) that
+     * are available to your subscription in an Azure region, use the
+     * `Capabilities_ListByLocation` REST API or one of the following commands:
+     *
+     * ```azurecli
+     * az sql db list-editions -l &lt;location&gt; -o table
+     * ````
+     *
+     * ```powershell
+     * Get-AzSqlServerServiceObjective -Location &lt;location&gt;
+     * ````
+     * . Possible values include: 'Web', 'Business', 'Basic', 'Standard',
      * 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System',
-     * 'System2'.
+     * 'System2', 'GeneralPurpose', 'BusinessCritical', 'Hyperscale'.
      */
     @JsonProperty(value = "properties.edition")
-    private DatabaseEditions edition;
+    private DatabaseEdition edition;
 
     /**
      * The max size of the database expressed in bytes. If createMode is not
@@ -184,12 +194,11 @@ public class DatabaseInner extends TrackedResourceInner {
      * currentServiceObjectiveId property. If requestedServiceObjectiveId and
      * requestedServiceObjectiveName are both updated, the value of
      * requestedServiceObjectiveId overrides the value of
-     * requestedServiceObjectiveName. To see possible values, query the
-     * capabilities API
-     * (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities)
-     * referred to by operationId: "Capabilities_ListByLocation." or use the
-     * Azure CLI command `az sql db list-editions --location &lt;location&gt;
-     * --query [].supportedServiceLevelObjectives[].name` .
+     * requestedServiceObjectiveName.
+     *
+     * The list of SKUs may vary by region and support offer. To determine the
+     * service objective ids that are available to your subscription in an
+     * Azure region, use the `Capabilities_ListByLocation` REST API.
      */
     @JsonProperty(value = "properties.requestedServiceObjectiveId")
     private UUID requestedServiceObjectiveId;
@@ -198,21 +207,29 @@ public class DatabaseInner extends TrackedResourceInner {
      * The name of the configured service level objective of the database. This
      * is the service level objective that is in the process of being applied
      * to the database. Once successfully updated, it will match the value of
-     * serviceLevelObjective property. To see possible values, query the
-     * capabilities API
-     * (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities)
-     * referred to by operationId: "Capabilities_ListByLocation." or use the
-     * Azure CLI command `az sql db list-editions --location &lt;location&gt;
-     * --query [].supportedServiceLevelObjectives[].name`. Possible values
-     * include: 'System', 'System0', 'System1', 'System2', 'System3',
-     * 'System4', 'System2L', 'System3L', 'System4L', 'Free', 'Basic', 'S0',
-     * 'S1', 'S2', 'S3', 'S4', 'S6', 'S7', 'S9', 'S12', 'P1', 'P2', 'P3', 'P4',
-     * 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6', 'DW100', 'DW200',
-     * 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c',
-     * 'DW1500', 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c',
-     * 'DW3000c', 'DW6000', 'DW5000c', 'DW6000c', 'DW7500c', 'DW10000c',
-     * 'DW15000c', 'DW30000c', 'DS100', 'DS200', 'DS300', 'DS400', 'DS500',
-     * 'DS600', 'DS1000', 'DS1200', 'DS1500', 'DS2000', 'ElasticPool'.
+     * serviceLevelObjective property.
+     *
+     * The list of SKUs may vary by region and support offer. To determine the
+     * SKUs (including the SKU name, tier/edition, family, and capacity) that
+     * are available to your subscription in an Azure region, use the
+     * `Capabilities_ListByLocation` REST API or one of the following commands:
+     *
+     * ```azurecli
+     * az sql db list-editions -l &lt;location&gt; -o table
+     * ````
+     *
+     * ```powershell
+     * Get-AzSqlServerServiceObjective -Location &lt;location&gt;
+     * ````
+     * . Possible values include: 'System', 'System0', 'System1', 'System2',
+     * 'System3', 'System4', 'System2L', 'System3L', 'System4L', 'Free',
+     * 'Basic', 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7', 'S9', 'S12', 'P1',
+     * 'P2', 'P3', 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6',
+     * 'DW100', 'DW200', 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000',
+     * 'DW1200', 'DW1000c', 'DW1500', 'DW1500c', 'DW2000', 'DW2000c', 'DW3000',
+     * 'DW2500c', 'DW3000c', 'DW6000', 'DW5000c', 'DW6000c', 'DW7500c',
+     * 'DW10000c', 'DW15000c', 'DW30000c', 'DS100', 'DS200', 'DS300', 'DS400',
+     * 'DS500', 'DS600', 'DS1000', 'DS1200', 'DS1500', 'DS2000', 'ElasticPool'.
      */
     @JsonProperty(value = "properties.requestedServiceObjectiveName")
     private ServiceObjectiveName requestedServiceObjectiveName;
@@ -303,7 +320,7 @@ public class DatabaseInner extends TrackedResourceInner {
     private Boolean zoneRedundant;
 
     /**
-     * Get the kind value.
+     * Get kind of database.  This is metadata used for the Azure portal experience.
      *
      * @return the kind value
      */
@@ -312,7 +329,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the collation value.
+     * Get the collation of the database. If createMode is not Default, this value is ignored.
      *
      * @return the collation value
      */
@@ -321,7 +338,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the collation value.
+     * Set the collation of the database. If createMode is not Default, this value is ignored.
      *
      * @param collation the collation value to set
      * @return the DatabaseInner object itself.
@@ -332,7 +349,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the creationDate value.
+     * Get the creation date of the database (ISO8601 format).
      *
      * @return the creationDate value
      */
@@ -341,7 +358,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the containmentState value.
+     * Get the containment state of the database.
      *
      * @return the containmentState value
      */
@@ -350,7 +367,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the currentServiceObjectiveId value.
+     * Get the current service level objective ID of the database. This is the ID of the service level objective that is currently active.
      *
      * @return the currentServiceObjectiveId value
      */
@@ -359,7 +376,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the databaseId value.
+     * Get the ID of the database.
      *
      * @return the databaseId value
      */
@@ -368,7 +385,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the earliestRestoreDate value.
+     * Get this records the earliest start date and time that restore is available for this database (ISO8601 format).
      *
      * @return the earliestRestoreDate value
      */
@@ -377,7 +394,15 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the createMode value.
+     * Get specifies the mode of database creation.
+     Default: regular database creation.
+     Copy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.
+     OnlineSecondary/NonReadableSecondary: creates a database as a (readable or nonreadable) secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
+     PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.
+     Recovery: Creates a database by restoring a geo-replicated backup. sourceDatabaseId must be specified as the recoverable database resource ID to restore.
+     Restore: Creates a database by restoring a backup of a deleted database. sourceDatabaseId must be specified. If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified. Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime may also be specified to restore from an earlier point in time.
+     RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
+     Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition. Possible values include: 'Copy', 'Default', 'NonReadableSecondary', 'OnlineSecondary', 'PointInTimeRestore', 'Recovery', 'Restore', 'RestoreLongTermRetentionBackup'.
      *
      * @return the createMode value
      */
@@ -386,7 +411,15 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the createMode value.
+     * Set specifies the mode of database creation.
+     Default: regular database creation.
+     Copy: creates a database as a copy of an existing database. sourceDatabaseId must be specified as the resource ID of the source database.
+     OnlineSecondary/NonReadableSecondary: creates a database as a (readable or nonreadable) secondary replica of an existing database. sourceDatabaseId must be specified as the resource ID of the existing primary database.
+     PointInTimeRestore: Creates a database by restoring a point in time backup of an existing database. sourceDatabaseId must be specified as the resource ID of the existing database, and restorePointInTime must be specified.
+     Recovery: Creates a database by restoring a geo-replicated backup. sourceDatabaseId must be specified as the recoverable database resource ID to restore.
+     Restore: Creates a database by restoring a backup of a deleted database. sourceDatabaseId must be specified. If sourceDatabaseId is the database's original resource ID, then sourceDatabaseDeletionDate must be specified. Otherwise sourceDatabaseId must be the restorable dropped database resource ID and sourceDatabaseDeletionDate is ignored. restorePointInTime may also be specified to restore from an earlier point in time.
+     RestoreLongTermRetentionBackup: Creates a database by restoring from a long term retention vault. recoveryServicesRecoveryPointResourceId must be specified as the recovery point resource ID.
+     Copy, NonReadableSecondary, OnlineSecondary and RestoreLongTermRetentionBackup are not supported for DataWarehouse edition. Possible values include: 'Copy', 'Default', 'NonReadableSecondary', 'OnlineSecondary', 'PointInTimeRestore', 'Recovery', 'Restore', 'RestoreLongTermRetentionBackup'.
      *
      * @param createMode the createMode value to set
      * @return the DatabaseInner object itself.
@@ -397,7 +430,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the sourceDatabaseId value.
+     * Get conditional. If createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore, then this value is required. Specifies the resource ID of the source database. If createMode is NonReadableSecondary or OnlineSecondary, the name of the source database must be the same as the new database being created.
      *
      * @return the sourceDatabaseId value
      */
@@ -406,7 +439,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the sourceDatabaseId value.
+     * Set conditional. If createMode is Copy, NonReadableSecondary, OnlineSecondary, PointInTimeRestore, Recovery, or Restore, then this value is required. Specifies the resource ID of the source database. If createMode is NonReadableSecondary or OnlineSecondary, the name of the source database must be the same as the new database being created.
      *
      * @param sourceDatabaseId the sourceDatabaseId value to set
      * @return the DatabaseInner object itself.
@@ -417,7 +450,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the sourceDatabaseDeletionDate value.
+     * Get conditional. If createMode is Restore and sourceDatabaseId is the deleted database's original resource id when it existed (as opposed to its current restorable dropped database id), then this value is required. Specifies the time that the database was deleted.
      *
      * @return the sourceDatabaseDeletionDate value
      */
@@ -426,7 +459,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the sourceDatabaseDeletionDate value.
+     * Set conditional. If createMode is Restore and sourceDatabaseId is the deleted database's original resource id when it existed (as opposed to its current restorable dropped database id), then this value is required. Specifies the time that the database was deleted.
      *
      * @param sourceDatabaseDeletionDate the sourceDatabaseDeletionDate value to set
      * @return the DatabaseInner object itself.
@@ -437,7 +470,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the restorePointInTime value.
+     * Get conditional. If createMode is PointInTimeRestore, this value is required. If createMode is Restore, this value is optional. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value.
      *
      * @return the restorePointInTime value
      */
@@ -446,7 +479,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the restorePointInTime value.
+     * Set conditional. If createMode is PointInTimeRestore, this value is required. If createMode is Restore, this value is optional. Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database. Must be greater than or equal to the source database's earliestRestoreDate value.
      *
      * @param restorePointInTime the restorePointInTime value to set
      * @return the DatabaseInner object itself.
@@ -457,7 +490,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the recoveryServicesRecoveryPointResourceId value.
+     * Get conditional. If createMode is RestoreLongTermRetentionBackup, then this value is required. Specifies the resource ID of the recovery point to restore from.
      *
      * @return the recoveryServicesRecoveryPointResourceId value
      */
@@ -466,7 +499,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the recoveryServicesRecoveryPointResourceId value.
+     * Set conditional. If createMode is RestoreLongTermRetentionBackup, then this value is required. Specifies the resource ID of the recovery point to restore from.
      *
      * @param recoveryServicesRecoveryPointResourceId the recoveryServicesRecoveryPointResourceId value to set
      * @return the DatabaseInner object itself.
@@ -477,27 +510,43 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the edition value.
+     * Get the edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored.
+     The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
+     ```azurecli
+     az sql db list-editions -l &lt;location&gt; -o table
+     ````
+     ```powershell
+     Get-AzSqlServerServiceObjective -Location &lt;location&gt;
+     ````
+     . Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System', 'System2', 'GeneralPurpose', 'BusinessCritical', 'Hyperscale'.
      *
      * @return the edition value
      */
-    public DatabaseEditions edition() {
+    public DatabaseEdition edition() {
         return this.edition;
     }
 
     /**
-     * Set the edition value.
+     * Set the edition of the database. The DatabaseEditions enumeration contains all the valid editions. If createMode is NonReadableSecondary or OnlineSecondary, this value is ignored.
+     The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
+     ```azurecli
+     az sql db list-editions -l &lt;location&gt; -o table
+     ````
+     ```powershell
+     Get-AzSqlServerServiceObjective -Location &lt;location&gt;
+     ````
+     . Possible values include: 'Web', 'Business', 'Basic', 'Standard', 'Premium', 'PremiumRS', 'Free', 'Stretch', 'DataWarehouse', 'System', 'System2', 'GeneralPurpose', 'BusinessCritical', 'Hyperscale'.
      *
      * @param edition the edition value to set
      * @return the DatabaseInner object itself.
      */
-    public DatabaseInner withEdition(DatabaseEditions edition) {
+    public DatabaseInner withEdition(DatabaseEdition edition) {
         this.edition = edition;
         return this;
     }
 
     /**
-     * Get the maxSizeBytes value.
+     * Get the max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation.".
      *
      * @return the maxSizeBytes value
      */
@@ -506,7 +555,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the maxSizeBytes value.
+     * Set the max size of the database expressed in bytes. If createMode is not Default, this value is ignored. To see possible values, query the capabilities API (/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationID}/capabilities) referred to by operationId: "Capabilities_ListByLocation.".
      *
      * @param maxSizeBytes the maxSizeBytes value to set
      * @return the DatabaseInner object itself.
@@ -517,7 +566,8 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the requestedServiceObjectiveId value.
+     * Get the configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName.
+     The list of SKUs may vary by region and support offer. To determine the service objective ids that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API.
      *
      * @return the requestedServiceObjectiveId value
      */
@@ -526,7 +576,8 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the requestedServiceObjectiveId value.
+     * Set the configured service level objective ID of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of currentServiceObjectiveId property. If requestedServiceObjectiveId and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveId overrides the value of requestedServiceObjectiveName.
+     The list of SKUs may vary by region and support offer. To determine the service objective ids that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API.
      *
      * @param requestedServiceObjectiveId the requestedServiceObjectiveId value to set
      * @return the DatabaseInner object itself.
@@ -537,7 +588,15 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the requestedServiceObjectiveName value.
+     * Get the name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property.
+     The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
+     ```azurecli
+     az sql db list-editions -l &lt;location&gt; -o table
+     ````
+     ```powershell
+     Get-AzSqlServerServiceObjective -Location &lt;location&gt;
+     ````
+     . Possible values include: 'System', 'System0', 'System1', 'System2', 'System3', 'System4', 'System2L', 'System3L', 'System4L', 'Free', 'Basic', 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7', 'S9', 'S12', 'P1', 'P2', 'P3', 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6', 'DW100', 'DW200', 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c', 'DW1500', 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c', 'DW3000c', 'DW6000', 'DW5000c', 'DW6000c', 'DW7500c', 'DW10000c', 'DW15000c', 'DW30000c', 'DS100', 'DS200', 'DS300', 'DS400', 'DS500', 'DS600', 'DS1000', 'DS1200', 'DS1500', 'DS2000', 'ElasticPool'.
      *
      * @return the requestedServiceObjectiveName value
      */
@@ -546,7 +605,15 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the requestedServiceObjectiveName value.
+     * Set the name of the configured service level objective of the database. This is the service level objective that is in the process of being applied to the database. Once successfully updated, it will match the value of serviceLevelObjective property.
+     The list of SKUs may vary by region and support offer. To determine the SKUs (including the SKU name, tier/edition, family, and capacity) that are available to your subscription in an Azure region, use the `Capabilities_ListByLocation` REST API or one of the following commands:
+     ```azurecli
+     az sql db list-editions -l &lt;location&gt; -o table
+     ````
+     ```powershell
+     Get-AzSqlServerServiceObjective -Location &lt;location&gt;
+     ````
+     . Possible values include: 'System', 'System0', 'System1', 'System2', 'System3', 'System4', 'System2L', 'System3L', 'System4L', 'Free', 'Basic', 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7', 'S9', 'S12', 'P1', 'P2', 'P3', 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6', 'DW100', 'DW200', 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c', 'DW1500', 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c', 'DW3000c', 'DW6000', 'DW5000c', 'DW6000c', 'DW7500c', 'DW10000c', 'DW15000c', 'DW30000c', 'DS100', 'DS200', 'DS300', 'DS400', 'DS500', 'DS600', 'DS1000', 'DS1200', 'DS1500', 'DS2000', 'ElasticPool'.
      *
      * @param requestedServiceObjectiveName the requestedServiceObjectiveName value to set
      * @return the DatabaseInner object itself.
@@ -557,7 +624,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the serviceLevelObjective value.
+     * Get the current service level objective of the database. Possible values include: 'System', 'System0', 'System1', 'System2', 'System3', 'System4', 'System2L', 'System3L', 'System4L', 'Free', 'Basic', 'S0', 'S1', 'S2', 'S3', 'S4', 'S6', 'S7', 'S9', 'S12', 'P1', 'P2', 'P3', 'P4', 'P6', 'P11', 'P15', 'PRS1', 'PRS2', 'PRS4', 'PRS6', 'DW100', 'DW200', 'DW300', 'DW400', 'DW500', 'DW600', 'DW1000', 'DW1200', 'DW1000c', 'DW1500', 'DW1500c', 'DW2000', 'DW2000c', 'DW3000', 'DW2500c', 'DW3000c', 'DW6000', 'DW5000c', 'DW6000c', 'DW7500c', 'DW10000c', 'DW15000c', 'DW30000c', 'DS100', 'DS200', 'DS300', 'DS400', 'DS500', 'DS600', 'DS1000', 'DS1200', 'DS1500', 'DS2000', 'ElasticPool'.
      *
      * @return the serviceLevelObjective value
      */
@@ -566,7 +633,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the database.
      *
      * @return the status value
      */
@@ -575,7 +642,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the elasticPoolName value.
+     * Get the name of the elastic pool the database is in. If elasticPoolName and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveName is ignored. Not supported for DataWarehouse edition.
      *
      * @return the elasticPoolName value
      */
@@ -584,7 +651,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the elasticPoolName value.
+     * Set the name of the elastic pool the database is in. If elasticPoolName and requestedServiceObjectiveName are both updated, the value of requestedServiceObjectiveName is ignored. Not supported for DataWarehouse edition.
      *
      * @param elasticPoolName the elasticPoolName value to set
      * @return the DatabaseInner object itself.
@@ -595,7 +662,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the defaultSecondaryLocation value.
+     * Get the default secondary region for this database.
      *
      * @return the defaultSecondaryLocation value
      */
@@ -604,7 +671,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the serviceTierAdvisors value.
+     * Get the list of service tier advisors for this database. Expanded property.
      *
      * @return the serviceTierAdvisors value
      */
@@ -613,7 +680,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the transparentDataEncryption value.
+     * Get the transparent data encryption info for this database.
      *
      * @return the transparentDataEncryption value
      */
@@ -622,7 +689,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the recommendedIndex value.
+     * Get the recommended indices for this database.
      *
      * @return the recommendedIndex value
      */
@@ -631,7 +698,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the failoverGroupId value.
+     * Get the resource identifier of the failover group containing this database.
      *
      * @return the failoverGroupId value
      */
@@ -640,7 +707,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the readScale value.
+     * Get conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the readScale value
      */
@@ -649,7 +716,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the readScale value.
+     * Set conditional. If the database is a geo-secondary, readScale indicates whether read-only connections are allowed to this database or not. Not supported for DataWarehouse edition. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param readScale the readScale value to set
      * @return the DatabaseInner object itself.
@@ -660,7 +727,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the sampleName value.
+     * Get indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition. Possible values include: 'AdventureWorksLT'.
      *
      * @return the sampleName value
      */
@@ -669,7 +736,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the sampleName value.
+     * Set indicates the name of the sample schema to apply when creating this database. If createMode is not Default, this value is ignored. Not supported for DataWarehouse edition. Possible values include: 'AdventureWorksLT'.
      *
      * @param sampleName the sampleName value to set
      * @return the DatabaseInner object itself.
@@ -680,7 +747,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the zoneRedundant value.
+     * Get whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
      *
      * @return the zoneRedundant value
      */
@@ -689,7 +756,7 @@ public class DatabaseInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the zoneRedundant value.
+     * Set whether or not this database is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
      *
      * @param zoneRedundant the zoneRedundant value to set
      * @return the DatabaseInner object itself.

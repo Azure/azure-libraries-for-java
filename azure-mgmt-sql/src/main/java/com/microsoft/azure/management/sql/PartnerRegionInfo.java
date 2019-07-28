@@ -28,7 +28,7 @@ public class PartnerRegionInfo {
     private InstanceFailoverGroupReplicationRole replicationRole;
 
     /**
-     * Get the location value.
+     * Get geo location of the partner managed instances.
      *
      * @return the location value
      */
@@ -37,7 +37,7 @@ public class PartnerRegionInfo {
     }
 
     /**
-     * Set the location value.
+     * Set geo location of the partner managed instances.
      *
      * @param location the location value to set
      * @return the PartnerRegionInfo object itself.
@@ -48,7 +48,7 @@ public class PartnerRegionInfo {
     }
 
     /**
-     * Get the replicationRole value.
+     * Get replication role of the partner managed instances. Possible values include: 'Primary', 'Secondary'.
      *
      * @return the replicationRole value
      */

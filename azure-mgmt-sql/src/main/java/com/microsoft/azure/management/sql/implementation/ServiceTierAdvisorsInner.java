@@ -236,7 +236,11 @@ public class ServiceTierAdvisorsInner {
                 public Observable<ServiceResponse<List<ServiceTierAdvisorInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<ServiceTierAdvisorInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<ServiceTierAdvisorInner>> clientResponse = new ServiceResponse<List<ServiceTierAdvisorInner>>(result.body().items(), result.response());
+                        List<ServiceTierAdvisorInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ServiceTierAdvisorInner>> clientResponse = new ServiceResponse<List<ServiceTierAdvisorInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

@@ -21,7 +21,7 @@ public class SyncDatabaseIdPropertiesInner {
     private String id;
 
     /**
-     * Get the id value.
+     * Get aRM resource id of sync database.
      *
      * @return the id value
      */

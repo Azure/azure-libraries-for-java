@@ -28,7 +28,7 @@ public class SyncGroupSchemaTable {
     private String quotedName;
 
     /**
-     * Get the columns value.
+     * Get list of columns in sync group schema.
      *
      * @return the columns value
      */
@@ -37,7 +37,7 @@ public class SyncGroupSchemaTable {
     }
 
     /**
-     * Set the columns value.
+     * Set list of columns in sync group schema.
      *
      * @param columns the columns value to set
      * @return the SyncGroupSchemaTable object itself.
@@ -48,7 +48,7 @@ public class SyncGroupSchemaTable {
     }
 
     /**
-     * Get the quotedName value.
+     * Get quoted name of sync group schema table.
      *
      * @return the quotedName value
      */
@@ -57,7 +57,7 @@ public class SyncGroupSchemaTable {
     }
 
     /**
-     * Set the quotedName value.
+     * Set quoted name of sync group schema table.
      *
      * @param quotedName the quotedName value to set
      * @return the SyncGroupSchemaTable object itself.

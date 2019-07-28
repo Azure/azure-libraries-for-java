@@ -59,7 +59,7 @@ public class ElasticPoolDtuCapability {
     private List<ElasticPoolPerDatabaseMaxDtuCapability> supportedPerDatabaseMaxDtus;
 
     /**
-     * Get the limit value.
+     * Get the maximum size of the database (see 'unit' for the units).
      *
      * @return the limit value
      */
@@ -68,7 +68,7 @@ public class ElasticPoolDtuCapability {
     }
 
     /**
-     * Get the maxDatabaseCount value.
+     * Get the maximum number of databases supported.
      *
      * @return the maxDatabaseCount value
      */
@@ -77,7 +77,7 @@ public class ElasticPoolDtuCapability {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the capability. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */
@@ -86,7 +86,7 @@ public class ElasticPoolDtuCapability {
     }
 
     /**
-     * Get the supportedMaxSizes value.
+     * Get the list of supported max sizes.
      *
      * @return the supportedMaxSizes value
      */
@@ -95,7 +95,7 @@ public class ElasticPoolDtuCapability {
     }
 
     /**
-     * Get the includedMaxSize value.
+     * Get the included (free) max size for this service level objective.
      *
      * @return the includedMaxSize value
      */
@@ -104,7 +104,7 @@ public class ElasticPoolDtuCapability {
     }
 
     /**
-     * Get the supportedPerDatabaseMaxSizes value.
+     * Get the list of supported max database sizes.
      *
      * @return the supportedPerDatabaseMaxSizes value
      */
@@ -113,7 +113,7 @@ public class ElasticPoolDtuCapability {
     }
 
     /**
-     * Get the supportedPerDatabaseMaxDtus value.
+     * Get the list of supported max database DTUs.
      *
      * @return the supportedPerDatabaseMaxDtus value
      */

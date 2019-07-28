@@ -13,12 +13,13 @@ import com.microsoft.azure.management.sql.SecurityAlertPolicyEmailAccountAdmins;
 import com.microsoft.azure.management.sql.SecurityAlertPolicyUseServerDefault;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Contains information about a database Threat Detection policy.
  */
 @JsonFlatten
-public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
+public class DatabaseSecurityAlertPolicyInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -42,7 +43,8 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     /**
      * Specifies the semicolon-separated list of alerts that are disabled, or
      * empty string to disable no alerts. Possible values: Sql_Injection;
-     * Sql_Injection_Vulnerability; Access_Anomaly; Usage_Anomaly.
+     * Sql_Injection_Vulnerability; Access_Anomaly; Data_Exfiltration;
+     * Unsafe_Action.
      */
     @JsonProperty(value = "properties.disabledAlerts")
     private String disabledAlerts;
@@ -91,7 +93,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     private SecurityAlertPolicyUseServerDefault useServerDefault;
 
     /**
-     * Get the location value.
+     * Get the geo-location where the resource lives.
      *
      * @return the location value
      */
@@ -100,7 +102,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the location value.
+     * Set the geo-location where the resource lives.
      *
      * @param location the location value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.
@@ -111,7 +113,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the kind value.
+     * Get resource kind.
      *
      * @return the kind value
      */
@@ -120,7 +122,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the state value.
+     * Get specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required. Possible values include: 'New', 'Enabled', 'Disabled'.
      *
      * @return the state value
      */
@@ -129,7 +131,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the state value.
+     * Set specifies the state of the policy. If state is Enabled, storageEndpoint and storageAccountAccessKey are required. Possible values include: 'New', 'Enabled', 'Disabled'.
      *
      * @param state the state value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.
@@ -140,7 +142,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the disabledAlerts value.
+     * Get specifies the semicolon-separated list of alerts that are disabled, or empty string to disable no alerts. Possible values: Sql_Injection; Sql_Injection_Vulnerability; Access_Anomaly; Data_Exfiltration; Unsafe_Action.
      *
      * @return the disabledAlerts value
      */
@@ -149,7 +151,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the disabledAlerts value.
+     * Set specifies the semicolon-separated list of alerts that are disabled, or empty string to disable no alerts. Possible values: Sql_Injection; Sql_Injection_Vulnerability; Access_Anomaly; Data_Exfiltration; Unsafe_Action.
      *
      * @param disabledAlerts the disabledAlerts value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.
@@ -160,7 +162,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the emailAddresses value.
+     * Get specifies the semicolon-separated list of e-mail addresses to which the alert is sent.
      *
      * @return the emailAddresses value
      */
@@ -169,7 +171,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the emailAddresses value.
+     * Set specifies the semicolon-separated list of e-mail addresses to which the alert is sent.
      *
      * @param emailAddresses the emailAddresses value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.
@@ -180,7 +182,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the emailAccountAdmins value.
+     * Get specifies that the alert is sent to the account administrators. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the emailAccountAdmins value
      */
@@ -189,7 +191,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the emailAccountAdmins value.
+     * Set specifies that the alert is sent to the account administrators. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param emailAccountAdmins the emailAccountAdmins value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.
@@ -200,7 +202,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the storageEndpoint value.
+     * Get specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. If state is Enabled, storageEndpoint is required.
      *
      * @return the storageEndpoint value
      */
@@ -209,7 +211,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the storageEndpoint value.
+     * Set specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs. If state is Enabled, storageEndpoint is required.
      *
      * @param storageEndpoint the storageEndpoint value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.
@@ -220,7 +222,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the storageAccountAccessKey value.
+     * Get specifies the identifier key of the Threat Detection audit storage account. If state is Enabled, storageAccountAccessKey is required.
      *
      * @return the storageAccountAccessKey value
      */
@@ -229,7 +231,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the storageAccountAccessKey value.
+     * Set specifies the identifier key of the Threat Detection audit storage account. If state is Enabled, storageAccountAccessKey is required.
      *
      * @param storageAccountAccessKey the storageAccountAccessKey value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.
@@ -240,7 +242,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the retentionDays value.
+     * Get specifies the number of days to keep in the Threat Detection audit logs.
      *
      * @return the retentionDays value
      */
@@ -249,7 +251,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the retentionDays value.
+     * Set specifies the number of days to keep in the Threat Detection audit logs.
      *
      * @param retentionDays the retentionDays value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.
@@ -260,7 +262,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the useServerDefault value.
+     * Get specifies whether to use the default server policy. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the useServerDefault value
      */
@@ -269,7 +271,7 @@ public class DatabaseSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the useServerDefault value.
+     * Set specifies whether to use the default server policy. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param useServerDefault the useServerDefault value to set
      * @return the DatabaseSecurityAlertPolicyInner object itself.

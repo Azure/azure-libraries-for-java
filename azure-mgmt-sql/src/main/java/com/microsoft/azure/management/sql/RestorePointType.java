@@ -12,32 +12,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for TransparentDataEncryptionStatus.
+ * Defines values for RestorePointType.
  */
-public enum TransparentDataEncryptionStates {
-    /** Enum value Enabled. */
-    ENABLED("Enabled"),
+public enum RestorePointType {
+    /** Enum value CONTINUOUS. */
+    CONTINUOUS("CONTINUOUS"),
 
-    /** Enum value Disabled. */
-    DISABLED("Disabled");
+    /** Enum value DISCRETE. */
+    DISCRETE("DISCRETE");
 
-    /** The actual serialized value for a TransparentDataEncryptionStatus instance. */
+    /** The actual serialized value for a RestorePointType instance. */
     private String value;
 
-    TransparentDataEncryptionStates(String value) {
+    RestorePointType(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a TransparentDataEncryptionStatus instance.
+     * Parses a serialized value to a RestorePointType instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed TransparentDataEncryptionStatus object, or null if unable to parse.
+     * @return the parsed RestorePointType object, or null if unable to parse.
      */
     @JsonCreator
-    public static TransparentDataEncryptionStates fromString(String value) {
-        TransparentDataEncryptionStates[] items = TransparentDataEncryptionStates.values();
-        for (TransparentDataEncryptionStates item : items) {
+    public static RestorePointType fromString(String value) {
+        RestorePointType[] items = RestorePointType.values();
+        for (RestorePointType item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

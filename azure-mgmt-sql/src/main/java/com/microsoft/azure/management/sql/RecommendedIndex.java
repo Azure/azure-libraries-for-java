@@ -12,13 +12,13 @@ import org.joda.time.DateTime;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.management.sql.implementation.ProxyResourceInner;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Represents a database recommended index.
  */
 @JsonFlatten
-public class RecommendedIndex extends ProxyResourceInner {
+public class RecommendedIndex extends ProxyResource {
     /**
      * The proposed index action. You can create a missing index, drop an
      * unused index, or rebuild an existing index to improve its performance.
@@ -100,7 +100,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     private List<OperationImpact> reportedImpact;
 
     /**
-     * Get the action value.
+     * Get the proposed index action. You can create a missing index, drop an unused index, or rebuild an existing index to improve its performance. Possible values include: 'Create', 'Drop', 'Rebuild'.
      *
      * @return the action value
      */
@@ -109,7 +109,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the state value.
+     * Get the current recommendation state. Possible values include: 'Active', 'Pending', 'Executing', 'Verifying', 'Pending Revert', 'Reverting', 'Reverted', 'Ignored', 'Expired', 'Blocked', 'Success'.
      *
      * @return the state value
      */
@@ -118,7 +118,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the created value.
+     * Get the UTC datetime showing when this resource was created (ISO8601 format).
      *
      * @return the created value
      */
@@ -127,7 +127,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the lastModified value.
+     * Get the UTC datetime of when was this resource last changed (ISO8601 format).
      *
      * @return the lastModified value
      */
@@ -136,7 +136,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the indexType value.
+     * Get the type of index (CLUSTERED, NONCLUSTERED, COLUMNSTORE, CLUSTERED COLUMNSTORE). Possible values include: 'CLUSTERED', 'NONCLUSTERED', 'COLUMNSTORE', 'CLUSTERED COLUMNSTORE'.
      *
      * @return the indexType value
      */
@@ -145,7 +145,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the schema value.
+     * Get the schema where table to build index over resides.
      *
      * @return the schema value
      */
@@ -154,7 +154,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the table value.
+     * Get the table on which to build index.
      *
      * @return the table value
      */
@@ -163,7 +163,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the columns value.
+     * Get columns over which to build index.
      *
      * @return the columns value
      */
@@ -172,7 +172,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the includedColumns value.
+     * Get the list of column names to be included in the index.
      *
      * @return the includedColumns value
      */
@@ -181,7 +181,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the indexScript value.
+     * Get the full build index script.
      *
      * @return the indexScript value
      */
@@ -190,7 +190,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the estimatedImpact value.
+     * Get the estimated impact of doing recommended index action.
      *
      * @return the estimatedImpact value
      */
@@ -199,7 +199,7 @@ public class RecommendedIndex extends ProxyResourceInner {
     }
 
     /**
-     * Get the reportedImpact value.
+     * Get the values reported after index action is complete.
      *
      * @return the reportedImpact value
      */

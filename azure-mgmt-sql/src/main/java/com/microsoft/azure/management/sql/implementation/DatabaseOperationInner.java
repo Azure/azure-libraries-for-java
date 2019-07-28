@@ -12,12 +12,13 @@ import org.joda.time.DateTime;
 import com.microsoft.azure.management.sql.ManagementOperationState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A database operation.
  */
 @JsonFlatten
-public class DatabaseOperationInner extends ProxyResourceInner {
+public class DatabaseOperationInner extends ProxyResource {
     /**
      * The name of the database the operation is being performed on.
      */
@@ -104,7 +105,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     private Boolean isCancellable;
 
     /**
-     * Get the databaseName value.
+     * Get the name of the database the operation is being performed on.
      *
      * @return the databaseName value
      */
@@ -113,7 +114,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the operation value.
+     * Get the name of operation.
      *
      * @return the operation value
      */
@@ -122,7 +123,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the operationFriendlyName value.
+     * Get the friendly name of operation.
      *
      * @return the operationFriendlyName value
      */
@@ -131,7 +132,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the percentComplete value.
+     * Get the percentage of the operation completed.
      *
      * @return the percentComplete value
      */
@@ -140,7 +141,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the serverName value.
+     * Get the name of the server.
      *
      * @return the serverName value
      */
@@ -149,7 +150,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the startTime value.
+     * Get the operation start time.
      *
      * @return the startTime value
      */
@@ -158,7 +159,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the state value.
+     * Get the operation state. Possible values include: 'Pending', 'InProgress', 'Succeeded', 'Failed', 'CancelInProgress', 'Cancelled'.
      *
      * @return the state value
      */
@@ -167,7 +168,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the errorCode value.
+     * Get the operation error code.
      *
      * @return the errorCode value
      */
@@ -176,7 +177,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the errorDescription value.
+     * Get the operation error description.
      *
      * @return the errorDescription value
      */
@@ -185,7 +186,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the errorSeverity value.
+     * Get the operation error severity.
      *
      * @return the errorSeverity value
      */
@@ -194,7 +195,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the isUserError value.
+     * Get whether or not the error is a user error.
      *
      * @return the isUserError value
      */
@@ -203,7 +204,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the estimatedCompletionTime value.
+     * Get the estimated completion time of the operation.
      *
      * @return the estimatedCompletionTime value
      */
@@ -212,7 +213,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the description value.
+     * Get the operation description.
      *
      * @return the description value
      */
@@ -221,7 +222,7 @@ public class DatabaseOperationInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the isCancellable value.
+     * Get whether the operation can be cancelled.
      *
      * @return the isCancellable value
      */

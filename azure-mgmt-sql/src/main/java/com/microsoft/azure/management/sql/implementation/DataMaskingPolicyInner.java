@@ -11,12 +11,13 @@ package com.microsoft.azure.management.sql.implementation;
 import com.microsoft.azure.management.sql.DataMaskingState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Represents a database data masking policy.
  */
 @JsonFlatten
-public class DataMaskingPolicyInner extends ProxyResourceInner {
+public class DataMaskingPolicyInner extends ProxyResource {
     /**
      * The state of the data masking policy. Possible values include:
      * 'Disabled', 'Enabled'.
@@ -59,7 +60,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     private String kind;
 
     /**
-     * Get the dataMaskingState value.
+     * Get the state of the data masking policy. Possible values include: 'Disabled', 'Enabled'.
      *
      * @return the dataMaskingState value
      */
@@ -68,7 +69,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the dataMaskingState value.
+     * Set the state of the data masking policy. Possible values include: 'Disabled', 'Enabled'.
      *
      * @param dataMaskingState the dataMaskingState value to set
      * @return the DataMaskingPolicyInner object itself.
@@ -79,7 +80,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the exemptPrincipals value.
+     * Get the list of the exempt principals. Specifies the semicolon-separated list of database users for which the data masking policy does not apply. The specified users receive data results without masking for all of the database queries.
      *
      * @return the exemptPrincipals value
      */
@@ -88,7 +89,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the exemptPrincipals value.
+     * Set the list of the exempt principals. Specifies the semicolon-separated list of database users for which the data masking policy does not apply. The specified users receive data results without masking for all of the database queries.
      *
      * @param exemptPrincipals the exemptPrincipals value to set
      * @return the DataMaskingPolicyInner object itself.
@@ -99,7 +100,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the applicationPrincipals value.
+     * Get the list of the application principals. This is a legacy parameter and is no longer used.
      *
      * @return the applicationPrincipals value
      */
@@ -108,7 +109,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the maskingLevel value.
+     * Get the masking level. This is a legacy parameter and is no longer used.
      *
      * @return the maskingLevel value
      */
@@ -117,7 +118,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the location value.
+     * Get the location of the data masking policy.
      *
      * @return the location value
      */
@@ -126,7 +127,7 @@ public class DataMaskingPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the kind value.
+     * Get the kind of data masking policy. Metadata, used for Azure portal.
      *
      * @return the kind value
      */

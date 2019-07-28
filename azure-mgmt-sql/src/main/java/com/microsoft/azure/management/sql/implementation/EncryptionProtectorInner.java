@@ -11,12 +11,13 @@ package com.microsoft.azure.management.sql.implementation;
 import com.microsoft.azure.management.sql.ServerKeyType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * The server encryption protector.
  */
 @JsonFlatten
-public class EncryptionProtectorInner extends ProxyResourceInner {
+public class EncryptionProtectorInner extends ProxyResource {
     /**
      * Kind of encryption protector. This is metadata used for the Azure portal
      * experience.
@@ -62,7 +63,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     private String thumbprint;
 
     /**
-     * Get the kind value.
+     * Get kind of encryption protector. This is metadata used for the Azure portal experience.
      *
      * @return the kind value
      */
@@ -71,7 +72,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the kind value.
+     * Set kind of encryption protector. This is metadata used for the Azure portal experience.
      *
      * @param kind the kind value to set
      * @return the EncryptionProtectorInner object itself.
@@ -82,7 +83,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the location value.
+     * Get resource location.
      *
      * @return the location value
      */
@@ -91,7 +92,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the subregion value.
+     * Get subregion of the encryption protector.
      *
      * @return the subregion value
      */
@@ -100,7 +101,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the serverKeyName value.
+     * Get the name of the server key.
      *
      * @return the serverKeyName value
      */
@@ -109,7 +110,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the serverKeyName value.
+     * Set the name of the server key.
      *
      * @param serverKeyName the serverKeyName value to set
      * @return the EncryptionProtectorInner object itself.
@@ -120,7 +121,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the serverKeyType value.
+     * Get the encryption protector type like 'ServiceManaged', 'AzureKeyVault'. Possible values include: 'ServiceManaged', 'AzureKeyVault'.
      *
      * @return the serverKeyType value
      */
@@ -129,7 +130,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the serverKeyType value.
+     * Set the encryption protector type like 'ServiceManaged', 'AzureKeyVault'. Possible values include: 'ServiceManaged', 'AzureKeyVault'.
      *
      * @param serverKeyType the serverKeyType value to set
      * @return the EncryptionProtectorInner object itself.
@@ -140,7 +141,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the uri value.
+     * Get the URI of the server key.
      *
      * @return the uri value
      */
@@ -149,7 +150,7 @@ public class EncryptionProtectorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the thumbprint value.
+     * Get thumbprint of the server key.
      *
      * @return the thumbprint value
      */

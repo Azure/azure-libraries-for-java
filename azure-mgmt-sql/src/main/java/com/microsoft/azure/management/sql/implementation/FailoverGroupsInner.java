@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.sql.FailoverGroupUpdate;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -85,11 +86,11 @@ public class FailoverGroupsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.FailoverGroups update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Body FailoverGroupUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Body FailoverGroupUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.FailoverGroups beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups/{failoverGroupName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Body FailoverGroupUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("failoverGroupName") String failoverGroupName, @Path("subscriptionId") String subscriptionId, @Body FailoverGroupUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.FailoverGroups listByServer" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/failoverGroups")
@@ -568,7 +569,7 @@ public class FailoverGroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner update(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
+    public FailoverGroupInner update(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdate parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).toBlocking().last().body();
     }
 
@@ -583,7 +584,7 @@ public class FailoverGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<FailoverGroupInner> updateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters, final ServiceCallback<FailoverGroupInner> serviceCallback) {
+    public ServiceFuture<FailoverGroupInner> updateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdate parameters, final ServiceCallback<FailoverGroupInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
     }
 
@@ -597,7 +598,7 @@ public class FailoverGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<FailoverGroupInner> updateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
+    public Observable<FailoverGroupInner> updateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdate parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
             @Override
             public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
@@ -616,7 +617,7 @@ public class FailoverGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<FailoverGroupInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
+    public Observable<ServiceResponse<FailoverGroupInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -650,7 +651,7 @@ public class FailoverGroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the FailoverGroupInner object if successful.
      */
-    public FailoverGroupInner beginUpdate(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
+    public FailoverGroupInner beginUpdate(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdate parameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).toBlocking().single().body();
     }
 
@@ -665,7 +666,7 @@ public class FailoverGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<FailoverGroupInner> beginUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters, final ServiceCallback<FailoverGroupInner> serviceCallback) {
+    public ServiceFuture<FailoverGroupInner> beginUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdate parameters, final ServiceCallback<FailoverGroupInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters), serviceCallback);
     }
 
@@ -679,7 +680,7 @@ public class FailoverGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FailoverGroupInner object
      */
-    public Observable<FailoverGroupInner> beginUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
+    public Observable<FailoverGroupInner> beginUpdateAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdate parameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, failoverGroupName, parameters).map(new Func1<ServiceResponse<FailoverGroupInner>, FailoverGroupInner>() {
             @Override
             public FailoverGroupInner call(ServiceResponse<FailoverGroupInner> response) {
@@ -698,7 +699,7 @@ public class FailoverGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the FailoverGroupInner object
      */
-    public Observable<ServiceResponse<FailoverGroupInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdateInner parameters) {
+    public Observable<ServiceResponse<FailoverGroupInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String failoverGroupName, FailoverGroupUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

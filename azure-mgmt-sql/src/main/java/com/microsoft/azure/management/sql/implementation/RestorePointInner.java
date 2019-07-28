@@ -8,16 +8,17 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.RestorePointTypes;
+import com.microsoft.azure.management.sql.RestorePointType;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Database restore points.
  */
 @JsonFlatten
-public class RestorePointInner extends ProxyResourceInner {
+public class RestorePointInner extends ProxyResource {
     /**
      * Resource location.
      */
@@ -29,7 +30,7 @@ public class RestorePointInner extends ProxyResourceInner {
      * 'DISCRETE'.
      */
     @JsonProperty(value = "properties.restorePointType", access = JsonProperty.Access.WRITE_ONLY)
-    private RestorePointTypes restorePointType;
+    private RestorePointType restorePointType;
 
     /**
      * The earliest time to which this database can be restored.
@@ -50,7 +51,7 @@ public class RestorePointInner extends ProxyResourceInner {
     private String restorePointLabel;
 
     /**
-     * Get the location value.
+     * Get resource location.
      *
      * @return the location value
      */
@@ -59,16 +60,16 @@ public class RestorePointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the restorePointType value.
+     * Get the type of restore point. Possible values include: 'CONTINUOUS', 'DISCRETE'.
      *
      * @return the restorePointType value
      */
-    public RestorePointTypes restorePointType() {
+    public RestorePointType restorePointType() {
         return this.restorePointType;
     }
 
     /**
-     * Get the earliestRestoreDate value.
+     * Get the earliest time to which this database can be restored.
      *
      * @return the earliestRestoreDate value
      */
@@ -77,7 +78,7 @@ public class RestorePointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the restorePointCreationDate value.
+     * Get the time the backup was taken.
      *
      * @return the restorePointCreationDate value
      */
@@ -86,7 +87,7 @@ public class RestorePointInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the restorePointLabel value.
+     * Get the label of restore point for backup request by user.
      *
      * @return the restorePointLabel value
      */

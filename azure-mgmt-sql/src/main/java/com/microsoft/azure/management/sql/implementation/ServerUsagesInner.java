@@ -127,7 +127,11 @@ public class ServerUsagesInner {
                 public Observable<ServiceResponse<List<ServerUsageInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<ServerUsageInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<ServerUsageInner>> clientResponse = new ServiceResponse<List<ServerUsageInner>>(result.body().items(), result.response());
+                        List<ServerUsageInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ServerUsageInner>> clientResponse = new ServiceResponse<List<ServerUsageInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

@@ -15,12 +15,13 @@ import org.joda.time.DateTime;
 import com.microsoft.azure.management.sql.JobExecutionTarget;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * An execution of a job.
  */
 @JsonFlatten
-public class JobExecutionInner extends ProxyResourceInner {
+public class JobExecutionInner extends ProxyResource {
     /**
      * The job version number.
      */
@@ -104,7 +105,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     private JobExecutionTarget target;
 
     /**
-     * Get the jobVersion value.
+     * Get the job version number.
      *
      * @return the jobVersion value
      */
@@ -113,7 +114,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the stepName value.
+     * Get the job step name.
      *
      * @return the stepName value
      */
@@ -122,7 +123,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the stepId value.
+     * Get the job step id.
      *
      * @return the stepId value
      */
@@ -131,7 +132,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the jobExecutionId value.
+     * Get the unique identifier of the job execution.
      *
      * @return the jobExecutionId value
      */
@@ -140,7 +141,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the lifecycle value.
+     * Get the detailed state of the job execution. Possible values include: 'Created', 'InProgress', 'WaitingForChildJobExecutions', 'WaitingForRetry', 'Succeeded', 'SucceededWithSkipped', 'Failed', 'TimedOut', 'Canceled', 'Skipped'.
      *
      * @return the lifecycle value
      */
@@ -149,7 +150,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the ARM provisioning state of the job execution. Possible values include: 'Created', 'InProgress', 'Succeeded', 'Failed', 'Canceled'.
      *
      * @return the provisioningState value
      */
@@ -158,7 +159,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the createTime value.
+     * Get the time that the job execution was created.
      *
      * @return the createTime value
      */
@@ -167,7 +168,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the startTime value.
+     * Get the time that the job execution started.
      *
      * @return the startTime value
      */
@@ -176,7 +177,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the endTime value.
+     * Get the time that the job execution completed.
      *
      * @return the endTime value
      */
@@ -185,7 +186,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the currentAttempts value.
+     * Get number of times the job execution has been attempted.
      *
      * @return the currentAttempts value
      */
@@ -194,7 +195,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the currentAttempts value.
+     * Set number of times the job execution has been attempted.
      *
      * @param currentAttempts the currentAttempts value to set
      * @return the JobExecutionInner object itself.
@@ -205,7 +206,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the currentAttemptStartTime value.
+     * Get start time of the current attempt.
      *
      * @return the currentAttemptStartTime value
      */
@@ -214,7 +215,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the lastMessage value.
+     * Get the last status or error message.
      *
      * @return the lastMessage value
      */
@@ -223,7 +224,7 @@ public class JobExecutionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the target value.
+     * Get the target that this execution is executed on.
      *
      * @return the target value
      */

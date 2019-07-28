@@ -29,6 +29,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
 import retrofit2.http.Path;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
@@ -62,9 +63,21 @@ public class SensitivityLabelsInner {
      * used by Retrofit to perform actually REST calls.
      */
     interface SensitivityLabelsService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels listByDatabase" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/sensitivityLabels")
-        Observable<Response<ResponseBody>> listByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels listCurrentByDatabase" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/currentSensitivityLabels")
+        Observable<Response<ResponseBody>> listCurrentByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels listRecommendedByDatabase" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/recommendedSensitivityLabels")
+        Observable<Response<ResponseBody>> listRecommendedByDatabase(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("includeDisabledRecommendations") Boolean includeDisabledRecommendations, @Query("$skipToken") String skipToken, @Query("$filter") String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels enableRecommendation" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/enable")
+        Observable<Response<ResponseBody>> enableRecommendation(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Path("columnName") String columnName, @Path("sensitivityLabelSource") String sensitivityLabelSource, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels disableRecommendation" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}/disable")
+        Observable<Response<ResponseBody>> disableRecommendation(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Path("columnName") String columnName, @Path("sensitivityLabelSource") String sensitivityLabelSource, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}")
@@ -78,9 +91,13 @@ public class SensitivityLabelsInner {
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/{sensitivityLabelSource}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("schemaName") String schemaName, @Path("tableName") String tableName, @Path("columnName") String columnName, @Path("sensitivityLabelSource") String sensitivityLabelSource, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels listByDatabaseNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels listCurrentByDatabaseNext" })
         @GET
-        Observable<Response<ResponseBody>> listByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listCurrentByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.SensitivityLabels listRecommendedByDatabaseNext" })
+        @GET
+        Observable<Response<ResponseBody>> listRecommendedByDatabaseNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -95,12 +112,12 @@ public class SensitivityLabelsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SensitivityLabelInner&gt; object if successful.
      */
-    public PagedList<SensitivityLabelInner> listByDatabase(final String resourceGroupName, final String serverName, final String databaseName) {
-        ServiceResponse<Page<SensitivityLabelInner>> response = listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).toBlocking().single();
+    public PagedList<SensitivityLabelInner> listCurrentByDatabase(final String resourceGroupName, final String serverName, final String databaseName) {
+        ServiceResponse<Page<SensitivityLabelInner>> response = listCurrentByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).toBlocking().single();
         return new PagedList<SensitivityLabelInner>(response.body()) {
             @Override
             public Page<SensitivityLabelInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listCurrentByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -115,13 +132,13 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<SensitivityLabelInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
+    public ServiceFuture<List<SensitivityLabelInner>> listCurrentByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName),
+            listCurrentByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName),
             new Func1<String, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
+                    return listCurrentByDatabaseNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -136,8 +153,8 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
      */
-    public Observable<Page<SensitivityLabelInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName)
+    public Observable<Page<SensitivityLabelInner>> listCurrentByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+        return listCurrentByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName)
             .map(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Page<SensitivityLabelInner>>() {
                 @Override
                 public Page<SensitivityLabelInner> call(ServiceResponse<Page<SensitivityLabelInner>> response) {
@@ -155,8 +172,8 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
      */
-    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
-        return listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName)
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listCurrentByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+        return listCurrentByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName)
             .concatMap(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(ServiceResponse<Page<SensitivityLabelInner>> page) {
@@ -164,7 +181,7 @@ public class SensitivityLabelsInner {
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listCurrentByDatabaseNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -178,7 +195,7 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SensitivityLabelInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listCurrentByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -193,12 +210,12 @@ public class SensitivityLabelsInner {
         }
         final String apiVersion = "2017-03-01-preview";
         final String filter = null;
-        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listCurrentByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listByDatabaseDelegate(response);
+                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listCurrentByDatabaseDelegate(response);
                         return Observable.just(new ServiceResponse<Page<SensitivityLabelInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -219,12 +236,12 @@ public class SensitivityLabelsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SensitivityLabelInner&gt; object if successful.
      */
-    public PagedList<SensitivityLabelInner> listByDatabase(final String resourceGroupName, final String serverName, final String databaseName, final String filter) {
-        ServiceResponse<Page<SensitivityLabelInner>> response = listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, filter).toBlocking().single();
+    public PagedList<SensitivityLabelInner> listCurrentByDatabase(final String resourceGroupName, final String serverName, final String databaseName, final String filter) {
+        ServiceResponse<Page<SensitivityLabelInner>> response = listCurrentByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, filter).toBlocking().single();
         return new PagedList<SensitivityLabelInner>(response.body()) {
             @Override
             public Page<SensitivityLabelInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listCurrentByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -240,13 +257,13 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<SensitivityLabelInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String filter, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
+    public ServiceFuture<List<SensitivityLabelInner>> listCurrentByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String filter, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, filter),
+            listCurrentByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, filter),
             new Func1<String, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
+                    return listCurrentByDatabaseNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -262,8 +279,8 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
      */
-    public Observable<Page<SensitivityLabelInner>> listByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String filter) {
-        return listByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName, filter)
+    public Observable<Page<SensitivityLabelInner>> listCurrentByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String filter) {
+        return listCurrentByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName, filter)
             .map(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Page<SensitivityLabelInner>>() {
                 @Override
                 public Page<SensitivityLabelInner> call(ServiceResponse<Page<SensitivityLabelInner>> response) {
@@ -282,8 +299,8 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
      */
-    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String filter) {
-        return listByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, filter)
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listCurrentByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName, final String filter) {
+        return listCurrentByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, filter)
             .concatMap(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(ServiceResponse<Page<SensitivityLabelInner>> page) {
@@ -291,7 +308,7 @@ public class SensitivityLabelsInner {
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listCurrentByDatabaseNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -306,7 +323,7 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SensitivityLabelInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName, final String filter) {
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listCurrentByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName, final String filter) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -320,12 +337,12 @@ public class SensitivityLabelsInner {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2017-03-01-preview";
-        return service.listByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listCurrentByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listByDatabaseDelegate(response);
+                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listCurrentByDatabaseDelegate(response);
                         return Observable.just(new ServiceResponse<Page<SensitivityLabelInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -334,9 +351,502 @@ public class SensitivityLabelsInner {
             });
     }
 
-    private ServiceResponse<PageImpl1<SensitivityLabelInner>> listByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl1<SensitivityLabelInner>> listCurrentByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl1<SensitivityLabelInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl1<SensitivityLabelInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SensitivityLabelInner&gt; object if successful.
+     */
+    public PagedList<SensitivityLabelInner> listRecommendedByDatabase(final String resourceGroupName, final String serverName, final String databaseName) {
+        ServiceResponse<Page<SensitivityLabelInner>> response = listRecommendedByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName).toBlocking().single();
+        return new PagedList<SensitivityLabelInner>(response.body()) {
+            @Override
+            public Page<SensitivityLabelInner> nextPage(String nextPageLink) {
+                return listRecommendedByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SensitivityLabelInner>> listRecommendedByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listRecommendedByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName),
+            new Func1<String, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(String nextPageLink) {
+                    return listRecommendedByDatabaseNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
+     */
+    public Observable<Page<SensitivityLabelInner>> listRecommendedByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+        return listRecommendedByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName)
+            .map(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Page<SensitivityLabelInner>>() {
+                @Override
+                public Page<SensitivityLabelInner> call(ServiceResponse<Page<SensitivityLabelInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listRecommendedByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+        return listRecommendedByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName)
+            .concatMap(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(ServiceResponse<Page<SensitivityLabelInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listRecommendedByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SensitivityLabelInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listRecommendedByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-03-01-preview";
+        final Boolean includeDisabledRecommendations = null;
+        final String skipToken = null;
+        final String filter = null;
+        return service.listRecommendedByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), includeDisabledRecommendations, skipToken, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listRecommendedByDatabaseDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SensitivityLabelInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param includeDisabledRecommendations Specifies whether to include disabled recommendations or not.
+     * @param skipToken the String value
+     * @param filter An OData filter expression that filters elements in the collection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SensitivityLabelInner&gt; object if successful.
+     */
+    public PagedList<SensitivityLabelInner> listRecommendedByDatabase(final String resourceGroupName, final String serverName, final String databaseName, final Boolean includeDisabledRecommendations, final String skipToken, final String filter) {
+        ServiceResponse<Page<SensitivityLabelInner>> response = listRecommendedByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, includeDisabledRecommendations, skipToken, filter).toBlocking().single();
+        return new PagedList<SensitivityLabelInner>(response.body()) {
+            @Override
+            public Page<SensitivityLabelInner> nextPage(String nextPageLink) {
+                return listRecommendedByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param includeDisabledRecommendations Specifies whether to include disabled recommendations or not.
+     * @param skipToken the String value
+     * @param filter An OData filter expression that filters elements in the collection.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SensitivityLabelInner>> listRecommendedByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final Boolean includeDisabledRecommendations, final String skipToken, final String filter, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listRecommendedByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, includeDisabledRecommendations, skipToken, filter),
+            new Func1<String, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(String nextPageLink) {
+                    return listRecommendedByDatabaseNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param includeDisabledRecommendations Specifies whether to include disabled recommendations or not.
+     * @param skipToken the String value
+     * @param filter An OData filter expression that filters elements in the collection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
+     */
+    public Observable<Page<SensitivityLabelInner>> listRecommendedByDatabaseAsync(final String resourceGroupName, final String serverName, final String databaseName, final Boolean includeDisabledRecommendations, final String skipToken, final String filter) {
+        return listRecommendedByDatabaseWithServiceResponseAsync(resourceGroupName, serverName, databaseName, includeDisabledRecommendations, skipToken, filter)
+            .map(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Page<SensitivityLabelInner>>() {
+                @Override
+                public Page<SensitivityLabelInner> call(ServiceResponse<Page<SensitivityLabelInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param includeDisabledRecommendations Specifies whether to include disabled recommendations or not.
+     * @param skipToken the String value
+     * @param filter An OData filter expression that filters elements in the collection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listRecommendedByDatabaseWithServiceResponseAsync(final String resourceGroupName, final String serverName, final String databaseName, final Boolean includeDisabledRecommendations, final String skipToken, final String filter) {
+        return listRecommendedByDatabaseSinglePageAsync(resourceGroupName, serverName, databaseName, includeDisabledRecommendations, skipToken, filter)
+            .concatMap(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(ServiceResponse<Page<SensitivityLabelInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listRecommendedByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+    ServiceResponse<PageImpl1<SensitivityLabelInner>> * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+    ServiceResponse<PageImpl1<SensitivityLabelInner>> * @param serverName The name of the server.
+    ServiceResponse<PageImpl1<SensitivityLabelInner>> * @param databaseName The name of the database.
+    ServiceResponse<PageImpl1<SensitivityLabelInner>> * @param includeDisabledRecommendations Specifies whether to include disabled recommendations or not.
+    ServiceResponse<PageImpl1<SensitivityLabelInner>> * @param skipToken the String value
+    ServiceResponse<PageImpl1<SensitivityLabelInner>> * @param filter An OData filter expression that filters elements in the collection.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SensitivityLabelInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listRecommendedByDatabaseSinglePageAsync(final String resourceGroupName, final String serverName, final String databaseName, final Boolean includeDisabledRecommendations, final String skipToken, final String filter) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2017-03-01-preview";
+        return service.listRecommendedByDatabase(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), includeDisabledRecommendations, skipToken, filter, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listRecommendedByDatabaseDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SensitivityLabelInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl1<SensitivityLabelInner>> listRecommendedByDatabaseDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<SensitivityLabelInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<SensitivityLabelInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns).
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void enableRecommendation(String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName, String columnName) {
+        enableRecommendationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, schemaName, tableName, columnName).toBlocking().single().body();
+    }
+
+    /**
+     * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns).
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> enableRecommendationAsync(String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName, String columnName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(enableRecommendationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, schemaName, tableName, columnName), serviceCallback);
+    }
+
+    /**
+     * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns).
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> enableRecommendationAsync(String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName, String columnName) {
+        return enableRecommendationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, schemaName, tableName, columnName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Enables sensitivity recommendations on a given column (recommendations are enabled by default on all columns).
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> enableRecommendationWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName, String columnName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (columnName == null) {
+            throw new IllegalArgumentException("Parameter columnName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String sensitivityLabelSource = "recommended";
+        final String apiVersion = "2017-03-01-preview";
+        return service.enableRecommendation(resourceGroupName, serverName, databaseName, schemaName, tableName, columnName, sensitivityLabelSource, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = enableRecommendationDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> enableRecommendationDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Disables sensitivity recommendations on a given column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void disableRecommendation(String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName, String columnName) {
+        disableRecommendationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, schemaName, tableName, columnName).toBlocking().single().body();
+    }
+
+    /**
+     * Disables sensitivity recommendations on a given column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> disableRecommendationAsync(String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName, String columnName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(disableRecommendationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, schemaName, tableName, columnName), serviceCallback);
+    }
+
+    /**
+     * Disables sensitivity recommendations on a given column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> disableRecommendationAsync(String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName, String columnName) {
+        return disableRecommendationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, schemaName, tableName, columnName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Disables sensitivity recommendations on a given column.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database.
+     * @param schemaName The name of the schema.
+     * @param tableName The name of the table.
+     * @param columnName The name of the column.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> disableRecommendationWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, String schemaName, String tableName, String columnName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (schemaName == null) {
+            throw new IllegalArgumentException("Parameter schemaName is required and cannot be null.");
+        }
+        if (tableName == null) {
+            throw new IllegalArgumentException("Parameter tableName is required and cannot be null.");
+        }
+        if (columnName == null) {
+            throw new IllegalArgumentException("Parameter columnName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String sensitivityLabelSource = "recommended";
+        final String apiVersion = "2017-03-01-preview";
+        return service.disableRecommendation(resourceGroupName, serverName, databaseName, schemaName, tableName, columnName, sensitivityLabelSource, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = disableRecommendationDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> disableRecommendationDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -703,12 +1213,12 @@ public class SensitivityLabelsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SensitivityLabelInner&gt; object if successful.
      */
-    public PagedList<SensitivityLabelInner> listByDatabaseNext(final String nextPageLink) {
-        ServiceResponse<Page<SensitivityLabelInner>> response = listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single();
+    public PagedList<SensitivityLabelInner> listCurrentByDatabaseNext(final String nextPageLink) {
+        ServiceResponse<Page<SensitivityLabelInner>> response = listCurrentByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single();
         return new PagedList<SensitivityLabelInner>(response.body()) {
             @Override
             public Page<SensitivityLabelInner> nextPage(String nextPageLink) {
-                return listByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listCurrentByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -722,13 +1232,13 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<SensitivityLabelInner>> listByDatabaseNextAsync(final String nextPageLink, final ServiceFuture<List<SensitivityLabelInner>> serviceFuture, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
+    public ServiceFuture<List<SensitivityLabelInner>> listCurrentByDatabaseNextAsync(final String nextPageLink, final ServiceFuture<List<SensitivityLabelInner>> serviceFuture, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listByDatabaseNextSinglePageAsync(nextPageLink),
+            listCurrentByDatabaseNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(String nextPageLink) {
-                    return listByDatabaseNextSinglePageAsync(nextPageLink);
+                    return listCurrentByDatabaseNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -741,8 +1251,8 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
      */
-    public Observable<Page<SensitivityLabelInner>> listByDatabaseNextAsync(final String nextPageLink) {
-        return listByDatabaseNextWithServiceResponseAsync(nextPageLink)
+    public Observable<Page<SensitivityLabelInner>> listCurrentByDatabaseNextAsync(final String nextPageLink) {
+        return listCurrentByDatabaseNextWithServiceResponseAsync(nextPageLink)
             .map(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Page<SensitivityLabelInner>>() {
                 @Override
                 public Page<SensitivityLabelInner> call(ServiceResponse<Page<SensitivityLabelInner>> response) {
@@ -758,8 +1268,8 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
      */
-    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listByDatabaseNextWithServiceResponseAsync(final String nextPageLink) {
-        return listByDatabaseNextSinglePageAsync(nextPageLink)
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listCurrentByDatabaseNextWithServiceResponseAsync(final String nextPageLink) {
+        return listCurrentByDatabaseNextSinglePageAsync(nextPageLink)
             .concatMap(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(ServiceResponse<Page<SensitivityLabelInner>> page) {
@@ -767,7 +1277,7 @@ public class SensitivityLabelsInner {
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listCurrentByDatabaseNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -779,17 +1289,17 @@ public class SensitivityLabelsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SensitivityLabelInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listByDatabaseNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listCurrentByDatabaseNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listByDatabaseNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listCurrentByDatabaseNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listByDatabaseNextDelegate(response);
+                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listCurrentByDatabaseNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<SensitivityLabelInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -798,7 +1308,118 @@ public class SensitivityLabelsInner {
             });
     }
 
-    private ServiceResponse<PageImpl1<SensitivityLabelInner>> listByDatabaseNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl1<SensitivityLabelInner>> listCurrentByDatabaseNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl1<SensitivityLabelInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl1<SensitivityLabelInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;SensitivityLabelInner&gt; object if successful.
+     */
+    public PagedList<SensitivityLabelInner> listRecommendedByDatabaseNext(final String nextPageLink) {
+        ServiceResponse<Page<SensitivityLabelInner>> response = listRecommendedByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<SensitivityLabelInner>(response.body()) {
+            @Override
+            public Page<SensitivityLabelInner> nextPage(String nextPageLink) {
+                return listRecommendedByDatabaseNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<SensitivityLabelInner>> listRecommendedByDatabaseNextAsync(final String nextPageLink, final ServiceFuture<List<SensitivityLabelInner>> serviceFuture, final ListOperationCallback<SensitivityLabelInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listRecommendedByDatabaseNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(String nextPageLink) {
+                    return listRecommendedByDatabaseNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
+     */
+    public Observable<Page<SensitivityLabelInner>> listRecommendedByDatabaseNextAsync(final String nextPageLink) {
+        return listRecommendedByDatabaseNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Page<SensitivityLabelInner>>() {
+                @Override
+                public Page<SensitivityLabelInner> call(ServiceResponse<Page<SensitivityLabelInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;SensitivityLabelInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listRecommendedByDatabaseNextWithServiceResponseAsync(final String nextPageLink) {
+        return listRecommendedByDatabaseNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<SensitivityLabelInner>>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(ServiceResponse<Page<SensitivityLabelInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listRecommendedByDatabaseNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets the sensitivity labels of a given database.
+     *
+    ServiceResponse<PageImpl1<SensitivityLabelInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;SensitivityLabelInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<SensitivityLabelInner>>> listRecommendedByDatabaseNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listRecommendedByDatabaseNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SensitivityLabelInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<SensitivityLabelInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<SensitivityLabelInner>> result = listRecommendedByDatabaseNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<SensitivityLabelInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl1<SensitivityLabelInner>> listRecommendedByDatabaseNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl1<SensitivityLabelInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl1<SensitivityLabelInner>>() { }.getType())
                 .registerError(CloudException.class)

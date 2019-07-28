@@ -28,7 +28,7 @@ public class ElasticPoolPerDatabaseMinDtuCapability {
     private CapabilityStatus status;
 
     /**
-     * Get the limit value.
+     * Get the maximum DTUs per database.
      *
      * @return the limit value
      */
@@ -37,7 +37,7 @@ public class ElasticPoolPerDatabaseMinDtuCapability {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the capability. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */

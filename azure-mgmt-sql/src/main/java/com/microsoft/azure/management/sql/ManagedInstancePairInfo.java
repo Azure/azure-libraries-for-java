@@ -27,7 +27,7 @@ public class ManagedInstancePairInfo {
     private String partnerManagedInstanceId;
 
     /**
-     * Get the primaryManagedInstanceId value.
+     * Get id of Primary Managed Instance in pair.
      *
      * @return the primaryManagedInstanceId value
      */
@@ -36,7 +36,7 @@ public class ManagedInstancePairInfo {
     }
 
     /**
-     * Set the primaryManagedInstanceId value.
+     * Set id of Primary Managed Instance in pair.
      *
      * @param primaryManagedInstanceId the primaryManagedInstanceId value to set
      * @return the ManagedInstancePairInfo object itself.
@@ -47,7 +47,7 @@ public class ManagedInstancePairInfo {
     }
 
     /**
-     * Get the partnerManagedInstanceId value.
+     * Get id of Partner Managed Instance in pair.
      *
      * @return the partnerManagedInstanceId value
      */
@@ -56,7 +56,7 @@ public class ManagedInstancePairInfo {
     }
 
     /**
-     * Set the partnerManagedInstanceId value.
+     * Set id of Partner Managed Instance in pair.
      *
      * @param partnerManagedInstanceId the partnerManagedInstanceId value to set
      * @return the ManagedInstancePairInfo object itself.

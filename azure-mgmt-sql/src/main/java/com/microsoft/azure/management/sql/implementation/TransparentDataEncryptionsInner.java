@@ -11,7 +11,7 @@ package com.microsoft.azure.management.sql.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
-import com.microsoft.azure.management.sql.TransparentDataEncryptionStates;
+import com.microsoft.azure.management.sql.TransparentDataEncryptionStatus;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
@@ -135,7 +135,7 @@ public class TransparentDataEncryptionsInner {
         }
         final String transparentDataEncryptionName = "current";
         final String apiVersion = "2014-04-01";
-        final TransparentDataEncryptionStates status = null;
+        final TransparentDataEncryptionStatus status = null;
         TransparentDataEncryptionInner parameters = new TransparentDataEncryptionInner();
         parameters.withStatus(null);
         return service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, serverName, databaseName, transparentDataEncryptionName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -164,7 +164,7 @@ public class TransparentDataEncryptionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the TransparentDataEncryptionInner object if successful.
      */
-    public TransparentDataEncryptionInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStates status) {
+    public TransparentDataEncryptionInner createOrUpdate(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStatus status) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, status).toBlocking().single().body();
     }
 
@@ -179,7 +179,7 @@ public class TransparentDataEncryptionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<TransparentDataEncryptionInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStates status, final ServiceCallback<TransparentDataEncryptionInner> serviceCallback) {
+    public ServiceFuture<TransparentDataEncryptionInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStatus status, final ServiceCallback<TransparentDataEncryptionInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, status), serviceCallback);
     }
 
@@ -193,7 +193,7 @@ public class TransparentDataEncryptionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TransparentDataEncryptionInner object
      */
-    public Observable<TransparentDataEncryptionInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStates status) {
+    public Observable<TransparentDataEncryptionInner> createOrUpdateAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStatus status) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, status).map(new Func1<ServiceResponse<TransparentDataEncryptionInner>, TransparentDataEncryptionInner>() {
             @Override
             public TransparentDataEncryptionInner call(ServiceResponse<TransparentDataEncryptionInner> response) {
@@ -212,7 +212,7 @@ public class TransparentDataEncryptionsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the TransparentDataEncryptionInner object
      */
-    public Observable<ServiceResponse<TransparentDataEncryptionInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStates status) {
+    public Observable<ServiceResponse<TransparentDataEncryptionInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, TransparentDataEncryptionStatus status) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }

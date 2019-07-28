@@ -11,12 +11,13 @@ package com.microsoft.azure.management.sql.implementation;
 import com.microsoft.azure.management.sql.ServerConnectionType;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A server secure connection policy.
  */
 @JsonFlatten
-public class ServerConnectionPolicyInner extends ProxyResourceInner {
+public class ServerConnectionPolicyInner extends ProxyResource {
     /**
      * Metadata used for the Azure portal experience.
      */
@@ -37,7 +38,7 @@ public class ServerConnectionPolicyInner extends ProxyResourceInner {
     private ServerConnectionType connectionType;
 
     /**
-     * Get the kind value.
+     * Get metadata used for the Azure portal experience.
      *
      * @return the kind value
      */
@@ -46,7 +47,7 @@ public class ServerConnectionPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the location value.
+     * Get resource location.
      *
      * @return the location value
      */
@@ -55,7 +56,7 @@ public class ServerConnectionPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the connectionType value.
+     * Get the server connection type. Possible values include: 'Default', 'Proxy', 'Redirect'.
      *
      * @return the connectionType value
      */
@@ -64,7 +65,7 @@ public class ServerConnectionPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the connectionType value.
+     * Set the server connection type. Possible values include: 'Default', 'Proxy', 'Redirect'.
      *
      * @param connectionType the connectionType value to set
      * @return the ServerConnectionPolicyInner object itself.

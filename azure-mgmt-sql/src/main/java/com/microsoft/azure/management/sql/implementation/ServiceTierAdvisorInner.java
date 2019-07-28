@@ -14,12 +14,13 @@ import com.microsoft.azure.management.sql.SloUsageMetric;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Represents a Service Tier Advisor.
  */
 @JsonFlatten
-public class ServiceTierAdvisorInner extends ProxyResourceInner {
+public class ServiceTierAdvisorInner extends ProxyResource {
     /**
      * The observation period start (ISO8601 format).
      */
@@ -144,7 +145,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     private double confidence;
 
     /**
-     * Get the observationPeriodStart value.
+     * Get the observation period start (ISO8601 format).
      *
      * @return the observationPeriodStart value
      */
@@ -153,7 +154,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the observationPeriodEnd value.
+     * Get the observation period start (ISO8601 format).
      *
      * @return the observationPeriodEnd value
      */
@@ -162,7 +163,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the activeTimeRatio value.
+     * Get the activeTimeRatio for service tier advisor.
      *
      * @return the activeTimeRatio value
      */
@@ -171,7 +172,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the minDtu value.
+     * Get gets or sets minDtu for service tier advisor.
      *
      * @return the minDtu value
      */
@@ -180,7 +181,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the avgDtu value.
+     * Get gets or sets avgDtu for service tier advisor.
      *
      * @return the avgDtu value
      */
@@ -189,7 +190,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the maxDtu value.
+     * Get gets or sets maxDtu for service tier advisor.
      *
      * @return the maxDtu value
      */
@@ -198,7 +199,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the maxSizeInGB value.
+     * Get gets or sets maxSizeInGB for service tier advisor.
      *
      * @return the maxSizeInGB value
      */
@@ -207,7 +208,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the serviceLevelObjectiveUsageMetrics value.
+     * Get gets or sets serviceLevelObjectiveUsageMetrics for the service tier advisor.
      *
      * @return the serviceLevelObjectiveUsageMetrics value
      */
@@ -216,7 +217,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the currentServiceLevelObjective value.
+     * Get gets or sets currentServiceLevelObjective for service tier advisor.
      *
      * @return the currentServiceLevelObjective value
      */
@@ -225,7 +226,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the currentServiceLevelObjectiveId value.
+     * Get gets or sets currentServiceLevelObjectiveId for service tier advisor.
      *
      * @return the currentServiceLevelObjectiveId value
      */
@@ -234,7 +235,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the usageBasedRecommendationServiceLevelObjective value.
+     * Get gets or sets usageBasedRecommendationServiceLevelObjective for service tier advisor.
      *
      * @return the usageBasedRecommendationServiceLevelObjective value
      */
@@ -243,7 +244,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the usageBasedRecommendationServiceLevelObjectiveId value.
+     * Get gets or sets usageBasedRecommendationServiceLevelObjectiveId for service tier advisor.
      *
      * @return the usageBasedRecommendationServiceLevelObjectiveId value
      */
@@ -252,7 +253,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the databaseSizeBasedRecommendationServiceLevelObjective value.
+     * Get gets or sets databaseSizeBasedRecommendationServiceLevelObjective for service tier advisor.
      *
      * @return the databaseSizeBasedRecommendationServiceLevelObjective value
      */
@@ -261,7 +262,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the databaseSizeBasedRecommendationServiceLevelObjectiveId value.
+     * Get gets or sets databaseSizeBasedRecommendationServiceLevelObjectiveId for service tier advisor.
      *
      * @return the databaseSizeBasedRecommendationServiceLevelObjectiveId value
      */
@@ -270,7 +271,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the disasterPlanBasedRecommendationServiceLevelObjective value.
+     * Get gets or sets disasterPlanBasedRecommendationServiceLevelObjective for service tier advisor.
      *
      * @return the disasterPlanBasedRecommendationServiceLevelObjective value
      */
@@ -279,7 +280,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the disasterPlanBasedRecommendationServiceLevelObjectiveId value.
+     * Get gets or sets disasterPlanBasedRecommendationServiceLevelObjectiveId for service tier advisor.
      *
      * @return the disasterPlanBasedRecommendationServiceLevelObjectiveId value
      */
@@ -288,7 +289,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the overallRecommendationServiceLevelObjective value.
+     * Get gets or sets overallRecommendationServiceLevelObjective for service tier advisor.
      *
      * @return the overallRecommendationServiceLevelObjective value
      */
@@ -297,7 +298,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the overallRecommendationServiceLevelObjectiveId value.
+     * Get gets or sets overallRecommendationServiceLevelObjectiveId for service tier advisor.
      *
      * @return the overallRecommendationServiceLevelObjectiveId value
      */
@@ -306,7 +307,7 @@ public class ServiceTierAdvisorInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the confidence value.
+     * Get gets or sets confidence for service tier advisor.
      *
      * @return the confidence value
      */

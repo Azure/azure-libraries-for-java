@@ -11,12 +11,13 @@ package com.microsoft.azure.management.sql.implementation;
 import com.microsoft.azure.management.sql.JobSchedule;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A job.
  */
 @JsonFlatten
-public class JobInner extends ProxyResourceInner {
+public class JobInner extends ProxyResource {
     /**
      * User-defined description of the job.
      */
@@ -36,7 +37,7 @@ public class JobInner extends ProxyResourceInner {
     private JobSchedule schedule;
 
     /**
-     * Get the description value.
+     * Get user-defined description of the job.
      *
      * @return the description value
      */
@@ -45,7 +46,7 @@ public class JobInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the description value.
+     * Set user-defined description of the job.
      *
      * @param description the description value to set
      * @return the JobInner object itself.
@@ -56,7 +57,7 @@ public class JobInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the version value.
+     * Get the job version number.
      *
      * @return the version value
      */
@@ -65,7 +66,7 @@ public class JobInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the schedule value.
+     * Get schedule properties of the job.
      *
      * @return the schedule value
      */
@@ -74,7 +75,7 @@ public class JobInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the schedule value.
+     * Set schedule properties of the job.
      *
      * @param schedule the schedule value to set
      * @return the JobInner object itself.

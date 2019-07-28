@@ -511,7 +511,11 @@ public class ServerCommunicationLinksInner {
                 public Observable<ServiceResponse<List<ServerCommunicationLinkInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<ServerCommunicationLinkInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<ServerCommunicationLinkInner>> clientResponse = new ServiceResponse<List<ServerCommunicationLinkInner>>(result.body().items(), result.response());
+                        List<ServerCommunicationLinkInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ServerCommunicationLinkInner>> clientResponse = new ServiceResponse<List<ServerCommunicationLinkInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

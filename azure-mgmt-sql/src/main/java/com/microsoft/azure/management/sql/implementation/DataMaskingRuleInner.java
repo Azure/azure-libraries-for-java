@@ -12,12 +12,13 @@ import com.microsoft.azure.management.sql.DataMaskingRuleState;
 import com.microsoft.azure.management.sql.DataMaskingFunction;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Represents a database data masking rule.
  */
 @JsonFlatten
-public class DataMaskingRuleInner extends ProxyResourceInner {
+public class DataMaskingRuleInner extends ProxyResource {
     /**
      * The rule Id.
      */
@@ -117,7 +118,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     private String kind;
 
     /**
-     * Get the dataMaskingRuleId value.
+     * Get the rule Id.
      *
      * @return the dataMaskingRuleId value
      */
@@ -126,7 +127,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the aliasName value.
+     * Get the alias name. This is a legacy parameter and is no longer used.
      *
      * @return the aliasName value
      */
@@ -135,7 +136,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the aliasName value.
+     * Set the alias name. This is a legacy parameter and is no longer used.
      *
      * @param aliasName the aliasName value to set
      * @return the DataMaskingRuleInner object itself.
@@ -146,7 +147,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the ruleState value.
+     * Get the rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState. Possible values include: 'Disabled', 'Enabled'.
      *
      * @return the ruleState value
      */
@@ -155,7 +156,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the ruleState value.
+     * Set the rule state. Used to delete a rule. To delete an existing rule, specify the schemaName, tableName, columnName, maskingFunction, and specify ruleState as disabled. However, if the rule doesn't already exist, the rule will be created with ruleState set to enabled, regardless of the provided value of ruleState. Possible values include: 'Disabled', 'Enabled'.
      *
      * @param ruleState the ruleState value to set
      * @return the DataMaskingRuleInner object itself.
@@ -166,7 +167,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the schemaName value.
+     * Get the schema name on which the data masking rule is applied.
      *
      * @return the schemaName value
      */
@@ -175,7 +176,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the schemaName value.
+     * Set the schema name on which the data masking rule is applied.
      *
      * @param schemaName the schemaName value to set
      * @return the DataMaskingRuleInner object itself.
@@ -186,7 +187,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the tableName value.
+     * Get the table name on which the data masking rule is applied.
      *
      * @return the tableName value
      */
@@ -195,7 +196,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the tableName value.
+     * Set the table name on which the data masking rule is applied.
      *
      * @param tableName the tableName value to set
      * @return the DataMaskingRuleInner object itself.
@@ -206,7 +207,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the columnName value.
+     * Get the column name on which the data masking rule is applied.
      *
      * @return the columnName value
      */
@@ -215,7 +216,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the columnName value.
+     * Set the column name on which the data masking rule is applied.
      *
      * @param columnName the columnName value to set
      * @return the DataMaskingRuleInner object itself.
@@ -226,7 +227,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the maskingFunction value.
+     * Get the masking function that is used for the data masking rule. Possible values include: 'Default', 'CCN', 'Email', 'Number', 'SSN', 'Text'.
      *
      * @return the maskingFunction value
      */
@@ -235,7 +236,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the maskingFunction value.
+     * Set the masking function that is used for the data masking rule. Possible values include: 'Default', 'CCN', 'Email', 'Number', 'SSN', 'Text'.
      *
      * @param maskingFunction the maskingFunction value to set
      * @return the DataMaskingRuleInner object itself.
@@ -246,7 +247,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the numberFrom value.
+     * Get the numberFrom property of the masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored.
      *
      * @return the numberFrom value
      */
@@ -255,7 +256,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the numberFrom value.
+     * Set the numberFrom property of the masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored.
      *
      * @param numberFrom the numberFrom value to set
      * @return the DataMaskingRuleInner object itself.
@@ -266,7 +267,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the numberTo value.
+     * Get the numberTo property of the data masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored.
      *
      * @return the numberTo value
      */
@@ -275,7 +276,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the numberTo value.
+     * Set the numberTo property of the data masking rule. Required if maskingFunction is set to Number, otherwise this parameter will be ignored.
      *
      * @param numberTo the numberTo value to set
      * @return the DataMaskingRuleInner object itself.
@@ -286,7 +287,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the prefixSize value.
+     * Get if maskingFunction is set to Text, the number of characters to show unmasked in the beginning of the string. Otherwise, this parameter will be ignored.
      *
      * @return the prefixSize value
      */
@@ -295,7 +296,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the prefixSize value.
+     * Set if maskingFunction is set to Text, the number of characters to show unmasked in the beginning of the string. Otherwise, this parameter will be ignored.
      *
      * @param prefixSize the prefixSize value to set
      * @return the DataMaskingRuleInner object itself.
@@ -306,7 +307,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the suffixSize value.
+     * Get if maskingFunction is set to Text, the number of characters to show unmasked at the end of the string. Otherwise, this parameter will be ignored.
      *
      * @return the suffixSize value
      */
@@ -315,7 +316,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the suffixSize value.
+     * Set if maskingFunction is set to Text, the number of characters to show unmasked at the end of the string. Otherwise, this parameter will be ignored.
      *
      * @param suffixSize the suffixSize value to set
      * @return the DataMaskingRuleInner object itself.
@@ -326,7 +327,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the replacementString value.
+     * Get if maskingFunction is set to Text, the character to use for masking the unexposed part of the string. Otherwise, this parameter will be ignored.
      *
      * @return the replacementString value
      */
@@ -335,7 +336,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the replacementString value.
+     * Set if maskingFunction is set to Text, the character to use for masking the unexposed part of the string. Otherwise, this parameter will be ignored.
      *
      * @param replacementString the replacementString value to set
      * @return the DataMaskingRuleInner object itself.
@@ -346,7 +347,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the location value.
+     * Get the location of the data masking rule.
      *
      * @return the location value
      */
@@ -355,7 +356,7 @@ public class DataMaskingRuleInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the kind value.
+     * Get the kind of Data Masking Rule. Metadata, used for Azure portal.
      *
      * @return the kind value
      */

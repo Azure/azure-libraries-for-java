@@ -10,24 +10,28 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.sql.SecurityAlertPolicyState;
 import java.util.List;
+import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A server security alert policy.
  */
 @JsonFlatten
-public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
+public class ServerSecurityAlertPolicyInner extends ProxyResource {
     /**
-     * Specifies the state of the policy, whether it is enabled or disabled.
-     * Possible values include: 'New', 'Enabled', 'Disabled'.
+     * Specifies the state of the policy, whether it is enabled or disabled or
+     * a policy has not been applied yet on the specific database. Possible
+     * values include: 'New', 'Enabled', 'Disabled'.
      */
     @JsonProperty(value = "properties.state", required = true)
     private SecurityAlertPolicyState state;
 
     /**
      * Specifies an array of alerts that are disabled. Allowed values are:
-     * Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly.
+     * Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly,
+     * Data_Exfiltration, Unsafe_Action.
      */
     @JsonProperty(value = "properties.disabledAlerts")
     private List<String> disabledAlerts;
@@ -66,7 +70,13 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     private Integer retentionDays;
 
     /**
-     * Get the state value.
+     * Specifies the UTC creation time of the policy.
+     */
+    @JsonProperty(value = "properties.creationTime", access = JsonProperty.Access.WRITE_ONLY)
+    private DateTime creationTime;
+
+    /**
+     * Get specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database. Possible values include: 'New', 'Enabled', 'Disabled'.
      *
      * @return the state value
      */
@@ -75,7 +85,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the state value.
+     * Set specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database. Possible values include: 'New', 'Enabled', 'Disabled'.
      *
      * @param state the state value to set
      * @return the ServerSecurityAlertPolicyInner object itself.
@@ -86,7 +96,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the disabledAlerts value.
+     * Get specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action.
      *
      * @return the disabledAlerts value
      */
@@ -95,7 +105,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the disabledAlerts value.
+     * Set specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action.
      *
      * @param disabledAlerts the disabledAlerts value to set
      * @return the ServerSecurityAlertPolicyInner object itself.
@@ -106,7 +116,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the emailAddresses value.
+     * Get specifies an array of e-mail addresses to which the alert is sent.
      *
      * @return the emailAddresses value
      */
@@ -115,7 +125,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the emailAddresses value.
+     * Set specifies an array of e-mail addresses to which the alert is sent.
      *
      * @param emailAddresses the emailAddresses value to set
      * @return the ServerSecurityAlertPolicyInner object itself.
@@ -126,7 +136,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the emailAccountAdmins value.
+     * Get specifies that the alert is sent to the account administrators.
      *
      * @return the emailAccountAdmins value
      */
@@ -135,7 +145,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the emailAccountAdmins value.
+     * Set specifies that the alert is sent to the account administrators.
      *
      * @param emailAccountAdmins the emailAccountAdmins value to set
      * @return the ServerSecurityAlertPolicyInner object itself.
@@ -146,7 +156,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the storageEndpoint value.
+     * Get specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs.
      *
      * @return the storageEndpoint value
      */
@@ -155,7 +165,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the storageEndpoint value.
+     * Set specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs.
      *
      * @param storageEndpoint the storageEndpoint value to set
      * @return the ServerSecurityAlertPolicyInner object itself.
@@ -166,7 +176,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the storageAccountAccessKey value.
+     * Get specifies the identifier key of the Threat Detection audit storage account.
      *
      * @return the storageAccountAccessKey value
      */
@@ -175,7 +185,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the storageAccountAccessKey value.
+     * Set specifies the identifier key of the Threat Detection audit storage account.
      *
      * @param storageAccountAccessKey the storageAccountAccessKey value to set
      * @return the ServerSecurityAlertPolicyInner object itself.
@@ -186,7 +196,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the retentionDays value.
+     * Get specifies the number of days to keep in the Threat Detection audit logs.
      *
      * @return the retentionDays value
      */
@@ -195,7 +205,7 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the retentionDays value.
+     * Set specifies the number of days to keep in the Threat Detection audit logs.
      *
      * @param retentionDays the retentionDays value to set
      * @return the ServerSecurityAlertPolicyInner object itself.
@@ -203,6 +213,15 @@ public class ServerSecurityAlertPolicyInner extends ProxyResourceInner {
     public ServerSecurityAlertPolicyInner withRetentionDays(Integer retentionDays) {
         this.retentionDays = retentionDays;
         return this;
+    }
+
+    /**
+     * Get specifies the UTC creation time of the policy.
+     *
+     * @return the creationTime value
+     */
+    public DateTime creationTime() {
+        return this.creationTime;
     }
 
 }

@@ -37,7 +37,7 @@ public class LocationCapabilitiesInner {
     private List<ServerVersionCapability> supportedServerVersions;
 
     /**
-     * Get the name value.
+     * Get the location name.
      *
      * @return the name value
      */
@@ -46,7 +46,7 @@ public class LocationCapabilitiesInner {
     }
 
     /**
-     * Get the status value.
+     * Get azure SQL Database's status for the location. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */
@@ -55,7 +55,7 @@ public class LocationCapabilitiesInner {
     }
 
     /**
-     * Get the supportedServerVersions value.
+     * Get the list of supported server versions.
      *
      * @return the supportedServerVersions value
      */

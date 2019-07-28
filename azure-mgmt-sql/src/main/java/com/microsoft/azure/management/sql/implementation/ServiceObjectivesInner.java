@@ -222,7 +222,11 @@ public class ServiceObjectivesInner {
                 public Observable<ServiceResponse<List<ServiceObjectiveInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<ServiceObjectiveInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<ServiceObjectiveInner>> clientResponse = new ServiceResponse<List<ServiceObjectiveInner>>(result.body().items(), result.response());
+                        List<ServiceObjectiveInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ServiceObjectiveInner>> clientResponse = new ServiceResponse<List<ServiceObjectiveInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

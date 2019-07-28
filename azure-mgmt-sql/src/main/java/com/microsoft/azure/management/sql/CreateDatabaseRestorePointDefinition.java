@@ -22,7 +22,7 @@ public class CreateDatabaseRestorePointDefinition {
     private String restorePointLabel;
 
     /**
-     * Get the restorePointLabel value.
+     * Get the restore point label to apply.
      *
      * @return the restorePointLabel value
      */
@@ -31,7 +31,7 @@ public class CreateDatabaseRestorePointDefinition {
     }
 
     /**
-     * Set the restorePointLabel value.
+     * Set the restore point label to apply.
      *
      * @param restorePointLabel the restorePointLabel value to set
      * @return the CreateDatabaseRestorePointDefinition object itself.

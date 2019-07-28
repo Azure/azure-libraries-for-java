@@ -563,7 +563,11 @@ public class ServerAzureADAdministratorsInner implements InnerSupportsDelete<Ser
                 public Observable<ServiceResponse<List<ServerAzureADAdministratorInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<ServerAzureADAdministratorInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<ServerAzureADAdministratorInner>> clientResponse = new ServiceResponse<List<ServerAzureADAdministratorInner>>(result.body().items(), result.response());
+                        List<ServerAzureADAdministratorInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ServerAzureADAdministratorInner>> clientResponse = new ServiceResponse<List<ServerAzureADAdministratorInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

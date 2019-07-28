@@ -39,7 +39,7 @@ public class OperationImpact {
     private Double changeValueRelative;
 
     /**
-     * Get the name value.
+     * Get the name of the impact dimension.
      *
      * @return the name value
      */
@@ -48,7 +48,7 @@ public class OperationImpact {
     }
 
     /**
-     * Get the unit value.
+     * Get the unit in which estimated impact to dimension is measured.
      *
      * @return the unit value
      */
@@ -57,7 +57,7 @@ public class OperationImpact {
     }
 
     /**
-     * Get the changeValueAbsolute value.
+     * Get the absolute impact to dimension.
      *
      * @return the changeValueAbsolute value
      */
@@ -66,7 +66,7 @@ public class OperationImpact {
     }
 
     /**
-     * Get the changeValueRelative value.
+     * Get the relative impact to dimension (null if not applicable).
      *
      * @return the changeValueRelative value
      */

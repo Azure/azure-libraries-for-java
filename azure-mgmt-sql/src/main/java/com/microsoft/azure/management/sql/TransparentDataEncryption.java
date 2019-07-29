@@ -44,7 +44,7 @@ public interface TransparentDataEncryption extends
     /**
      * @return the status of the Azure SQL Database Transparent Data Encryption
      */
-    TransparentDataEncryptionStates status();
+    TransparentDataEncryptionStatus status();
 
     /**
      * Updates the state of the transparent data encryption status.
@@ -53,7 +53,7 @@ public interface TransparentDataEncryption extends
      * @return the new encryption settings after the update operation
      */
     @Beta(Beta.SinceVersion.V1_7_0)
-    TransparentDataEncryption updateStatus(TransparentDataEncryptionStates transparentDataEncryptionState);
+    TransparentDataEncryption updateStatus(TransparentDataEncryptionStatus transparentDataEncryptionState);
 
     /**
      * Updates the state of the transparent data encryption status.
@@ -62,7 +62,7 @@ public interface TransparentDataEncryption extends
      * @return a representation of the deferred computation of the new encryption settings after the update operation
      */
     @Beta(Beta.SinceVersion.V1_7_0)
-    Observable<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStates transparentDataEncryptionState);
+    Observable<TransparentDataEncryption> updateStatusAsync(TransparentDataEncryptionStatus transparentDataEncryptionState);
 
     /**
      * @return an Azure SQL Database Transparent Data Encryption Activities

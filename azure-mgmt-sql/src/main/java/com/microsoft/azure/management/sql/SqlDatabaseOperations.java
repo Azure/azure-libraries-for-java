@@ -453,7 +453,7 @@ public interface SqlDatabaseOperations extends
              * @param edition edition to be set for database
              * @return The next stage of the definition
              */
-            SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions withEdition(DatabaseEditions edition);
+            SqlDatabaseOperations.DefinitionStages.WithCreateAllOptions withEdition(DatabaseEdition edition);
         }
 
         /**

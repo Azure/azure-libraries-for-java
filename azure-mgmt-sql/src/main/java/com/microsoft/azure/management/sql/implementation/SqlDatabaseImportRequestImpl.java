@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskIte
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import com.microsoft.azure.management.sql.AuthenticationType;
+import com.microsoft.azure.management.sql.ImportExtensionRequest;
 import com.microsoft.azure.management.sql.SqlDatabaseImportExportResponse;
 import com.microsoft.azure.management.sql.SqlDatabaseImportRequest;
 import com.microsoft.azure.management.sql.SqlDatabase;
@@ -33,12 +34,12 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
 
     private final SqlDatabaseImpl sqlDatabase;
     private final SqlServerManager sqlServerManager;
-    private ImportExtensionRequestInner inner;
+    private ImportExtensionRequest inner;
 
     SqlDatabaseImportRequestImpl(SqlDatabaseImpl sqlDatabase, SqlServerManager sqlServerManager) {
         this.sqlDatabase = sqlDatabase;
         this.sqlServerManager = sqlServerManager;
-        this.inner = new ImportExtensionRequestInner();
+        this.inner = new ImportExtensionRequest();
     }
 
     @Override
@@ -47,7 +48,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     }
 
     @Override
-    public ImportExtensionRequestInner inner() {
+    public ImportExtensionRequest inner() {
         return this.inner;
     }
 
@@ -94,7 +95,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     @Override
     public SqlDatabaseImportRequestImpl importFrom(String storageUri) {
         if (this.inner == null) {
-            this.inner = new ImportExtensionRequestInner();
+            this.inner = new ImportExtensionRequest();
         }
         this.inner.withStorageUri(storageUri);
         return this;
@@ -106,7 +107,7 @@ public class SqlDatabaseImportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         Objects.requireNonNull(containerName);
         Objects.requireNonNull(fileName);
         if (this.inner == null) {
-            this.inner = new ImportExtensionRequestInner();
+            this.inner = new ImportExtensionRequest();
         }
         final SqlDatabaseImportRequestImpl self = this;
         this.addDependency(new FunctionalTaskItem() {

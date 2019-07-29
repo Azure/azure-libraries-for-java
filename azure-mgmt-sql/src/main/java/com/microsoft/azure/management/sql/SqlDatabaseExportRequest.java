@@ -11,7 +11,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.ExportRequestInner;
 import com.microsoft.azure.management.storage.StorageAccount;
 
 /**
@@ -20,7 +19,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 @Fluent
 @Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlDatabaseExportRequest extends
-    HasInner<ExportRequestInner>,
+    HasInner<ExportRequest>,
     Executable<SqlDatabaseImportExportResponse>,
     HasParent<SqlDatabase> {
 

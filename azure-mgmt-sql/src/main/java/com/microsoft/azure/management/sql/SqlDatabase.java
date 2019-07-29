@@ -78,7 +78,7 @@ public interface SqlDatabase
     /**
      * @return the edition of the Azure SQL Database
      */
-    DatabaseEditions edition();
+    DatabaseEdition edition();
 
     /**
      *
@@ -134,12 +134,6 @@ public interface SqlDatabase
      * @return the region the resource is in
      */
     Region region();
-
-    /**
-     * @return the upgradeHint value
-     */
-    @Deprecated
-    UpgradeHintInterface getUpgradeHint();
 
     /**
      * @return true if this Database is SqlWarehouse
@@ -830,7 +824,7 @@ public interface SqlDatabase
              * @return The next stage of the definition
              */
             @Deprecated
-            SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> withEdition(DatabaseEditions edition);
+            SqlDatabase.DefinitionStages.WithAttachAllOptions<ParentT> withEdition(DatabaseEdition edition);
         }
 
         /**
@@ -1014,7 +1008,7 @@ public interface SqlDatabase
              * @return The next stage of the update.
              */
             @Deprecated
-            Update withEdition(DatabaseEditions edition);
+            Update withEdition(DatabaseEdition edition);
             /**
              * Sets a "Basic" edition for the SQL Database.
              *

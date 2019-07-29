@@ -45,7 +45,7 @@ public interface RestorePoint extends
     /**
      * @return the restore point type of the Azure SQL Database restore point.
      */
-    RestorePointTypes restorePointType();
+    RestorePointType restorePointType();
 
     /**
      * @return restore point creation time (ISO8601 format). Populated when

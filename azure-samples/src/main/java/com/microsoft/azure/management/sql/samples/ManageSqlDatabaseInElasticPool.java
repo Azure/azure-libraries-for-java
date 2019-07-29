@@ -12,10 +12,10 @@ import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.ElasticPoolActivity;
 import com.microsoft.azure.management.sql.ElasticPoolDatabaseActivity;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlServer;
@@ -56,7 +56,7 @@ public final class ManageSqlDatabaseInElasticPool {
         final String database1Name = "myDatabase1";
         final String database2Name = "myDatabase2";
         final String anotherDatabaseName = "myAnotherDatabase";
-        final ElasticPoolEditions elasticPoolEdition = ElasticPoolEditions.STANDARD;
+        final ElasticPoolEdition elasticPoolEdition = ElasticPoolEdition.STANDARD;
 
         try {
             // ============================================================
@@ -145,7 +145,7 @@ public final class ManageSqlDatabaseInElasticPool {
             System.out.println("Remove the database from the pool.");
             anotherDatabase = anotherDatabase.update()
                     .withoutElasticPool()
-                    .withEdition(DatabaseEditions.STANDARD)
+                    .withEdition(DatabaseEdition.STANDARD)
                     .apply();
             Utils.print(anotherDatabase);
 

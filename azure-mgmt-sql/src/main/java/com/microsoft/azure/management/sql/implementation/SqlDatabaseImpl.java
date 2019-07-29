@@ -17,8 +17,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.sql.AuthenticationType;
 import com.microsoft.azure.management.sql.CreateMode;
-import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.DatabaseMetric;
+import com.microsoft.azure.management.sql.ImportRequest;
 import com.microsoft.azure.management.sql.ReplicationLink;
 import com.microsoft.azure.management.sql.RestorePoint;
 import com.microsoft.azure.management.sql.SampleName;
@@ -42,8 +43,8 @@ import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlSyncGroupOperations;
 import com.microsoft.azure.management.sql.SqlWarehouse;
 import com.microsoft.azure.management.sql.StorageKeyType;
+import com.microsoft.azure.management.sql.DatabaseUpdate;
 import com.microsoft.azure.management.sql.TransparentDataEncryption;
-import com.microsoft.azure.management.sql.UpgradeHintInterface;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import org.joda.time.DateTime;
@@ -88,7 +89,7 @@ class SqlDatabaseImpl
     protected String sqlServerName;
     protected String sqlServerLocation;
     private boolean isPatchUpdate;
-    private ImportRequestInner importRequestInner;
+    private ImportRequest importRequestInner;
 
     private SqlSyncGroupOperationsImpl syncGroups;
 
@@ -199,7 +200,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public DatabaseEditions edition() {
+    public DatabaseEdition edition() {
         return this.inner().edition();
     }
 
@@ -240,7 +241,7 @@ class SqlDatabaseImpl
 
     @Override
     public boolean isDataWarehouse() {
-        return this.inner().edition().toString().equalsIgnoreCase(DatabaseEditions.DATA_WAREHOUSE.toString());
+        return this.inner().edition().toString().equalsIgnoreCase(DatabaseEdition.DATA_WAREHOUSE.toString());
     }
 
     @Override
@@ -567,11 +568,6 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public UpgradeHintInterface getUpgradeHint() {
-        return null;
-    }
-
-    @Override
     public SqlSyncGroupOperations.SqlSyncGroupActionsDefinition syncGroups() {
         if (this.syncGroups == null) {
             this.syncGroups = new SqlSyncGroupOperationsImpl(this, this.sqlServerManager);
@@ -663,7 +659,7 @@ class SqlDatabaseImpl
     public Observable<SqlDatabase> updateResourceAsync() {
         if (this.isPatchUpdate) {
             final SqlDatabaseImpl self = this;
-            DatabaseUpdateInner databaseUpdateInner = new DatabaseUpdateInner()
+            DatabaseUpdate databaseUpdateInner = new DatabaseUpdate()
                 .withTags(self.inner().getTags())
                 .withCollation(self.inner().collation())
                 .withSourceDatabaseId(self.inner().sourceDatabaseId())
@@ -672,7 +668,6 @@ class SqlDatabaseImpl
                 .withRequestedServiceObjectiveName(this.inner().requestedServiceObjectiveName())
                 .withMaxSizeBytes(this.inner().maxSizeBytes())
                 .withElasticPoolName(this.inner().elasticPoolName());
-            databaseUpdateInner.withLocation(self.inner().location());
             return this.sqlServerManager.inner().databases()
                 .updateAsync(this.resourceGroupName, this.sqlServerName, this.name(), databaseUpdateInner)
                 .map(new Func1<DatabaseInner, SqlDatabase>() {
@@ -808,9 +803,9 @@ class SqlDatabaseImpl
     }
 
     private void initializeImportRequestInner() {
-        this.importRequestInner = new ImportRequestInner();
+        this.importRequestInner = new ImportRequest();
         if (this.elasticPoolName() != null) {
-            this.importRequestInner.withEdition(DatabaseEditions.BASIC);
+            this.importRequestInner.withEdition(DatabaseEdition.BASIC);
             this.importRequestInner.withServiceObjectiveName(ServiceObjectiveName.BASIC);
             this.importRequestInner.withMaxSizeBytes(Long.toString(SqlDatabaseBasicStorage.MAX_2_GB.capacity()));
         } else {
@@ -931,7 +926,7 @@ class SqlDatabaseImpl
     }
 
     @Override
-    public SqlDatabaseImpl withEdition(DatabaseEditions edition) {
+    public SqlDatabaseImpl withEdition(DatabaseEdition edition) {
         this.inner().withElasticPoolName(null);
         this.inner().withRequestedServiceObjectiveId(null);
         this.inner().withEdition(edition);
@@ -946,7 +941,7 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withBasicEdition(SqlDatabaseBasicStorage maxStorageCapacity) {
-        this.inner().withEdition(DatabaseEditions.BASIC);
+        this.inner().withEdition(DatabaseEdition.BASIC);
         this.withServiceObjective(ServiceObjectiveName.BASIC);
         this.inner().withMaxSizeBytes(Long.toString(maxStorageCapacity.capacity()));
         return this;
@@ -959,7 +954,7 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withStandardEdition(SqlDatabaseStandardServiceObjective serviceObjective, SqlDatabaseStandardStorage maxStorageCapacity) {
-        this.inner().withEdition(DatabaseEditions.STANDARD);
+        this.inner().withEdition(DatabaseEdition.STANDARD);
         this.withServiceObjective(ServiceObjectiveName.fromString(serviceObjective.toString()));
         this.inner().withMaxSizeBytes(Long.toString(maxStorageCapacity.capacity()));
         return this;
@@ -972,7 +967,7 @@ class SqlDatabaseImpl
 
     @Override
     public SqlDatabaseImpl withPremiumEdition(SqlDatabasePremiumServiceObjective serviceObjective, SqlDatabasePremiumStorage maxStorageCapacity) {
-        this.inner().withEdition(DatabaseEditions.PREMIUM);
+        this.inner().withEdition(DatabaseEdition.PREMIUM);
         this.withServiceObjective(ServiceObjectiveName.fromString(serviceObjective.toString()));
         this.inner().withMaxSizeBytes(Long.toString(maxStorageCapacity.capacity()));
         return this;

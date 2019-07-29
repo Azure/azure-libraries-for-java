@@ -29,7 +29,6 @@ public class CheckNameAvailabilityRequest {
 
     /**
      * Creates an instance of CheckNameAvailabilityRequest class.
-     * @param name the name whose availability is to be checked.
      */
     public CheckNameAvailabilityRequest() {
         type = "Microsoft.Sql/servers";

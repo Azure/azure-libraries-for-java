@@ -74,11 +74,6 @@ public class ImportExtensionRequest {
 
     /**
      * Creates an instance of ImportExtensionRequest class.
-     * @param storageKeyType the type of the storage key to use. Possible values include: 'StorageAccessKey', 'SharedAccessKey'.
-     * @param storageKey the storage key to use.  If storage key type is SharedAccessKey, it must be preceded with a "?.".
-     * @param storageUri the storage uri to use.
-     * @param administratorLogin the name of the SQL administrator.
-     * @param administratorLoginPassword the password of the SQL administrator.
      */
     public ImportExtensionRequest() {
         operationMode = "Import";

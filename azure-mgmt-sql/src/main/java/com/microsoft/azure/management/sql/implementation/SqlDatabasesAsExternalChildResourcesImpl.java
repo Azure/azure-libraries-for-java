@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.collection.implem
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.sql.SqlDatabase;
+import com.microsoft.azure.management.sql.SqlDatabaseStandardServiceObjective;
 import com.microsoft.azure.management.sql.SqlServer;
 
 import java.util.ArrayList;
@@ -79,7 +80,10 @@ public class SqlDatabasesAsExternalChildResourcesImpl
             // resource group and server name will be set by the next method in the Fluent flow
             return prepareInlineDefine(new SqlDatabaseImpl(null, null, null, name, new DatabaseInner(), this.sqlServerManager));
         } else {
-            return prepareInlineDefine(new SqlDatabaseImpl(name, this.parent(), new DatabaseInner(), this.parent().manager()));
+            return prepareInlineDefine(
+                    new SqlDatabaseImpl(name, this.parent(), new DatabaseInner(), this.parent().manager())
+                            .withStandardEdition(SqlDatabaseStandardServiceObjective.S0)
+            );
         }
     }
 

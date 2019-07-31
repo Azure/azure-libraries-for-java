@@ -113,7 +113,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlServerName)
-            .withRegion(Region.US_WEST2)
+            .withRegion(Region.US_EAST)
             .withNewResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
@@ -144,7 +144,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .withConflictResolutionPolicyMemberWins()
             .apply();
 
-        Assert.assertFalse(sqlServerManager.sqlServers().syncGroups().listSyncDatabaseIds(Region.US_WEST2).isEmpty());
+        Assert.assertFalse(sqlServerManager.sqlServers().syncGroups().listSyncDatabaseIds(Region.US_EAST).isEmpty());
         Assert.assertFalse(dbSync.syncGroups().list().isEmpty());
 
         sqlSyncGroup = sqlServerManager.sqlServers().syncGroups().getBySqlServer(rgName, sqlServerName, dbSyncName, syncGroupName);
@@ -166,7 +166,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlPrimaryServerName)
-            .withRegion(Region.US_WEST2)
+            .withRegion(Region.US_EAST2)
             .withNewResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
@@ -180,7 +180,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .create();
 
         SqlServer sqlSecondaryServer = sqlServerManager.sqlServers().define(sqlSecondaryServerName)
-            .withRegion(Region.US_WEST)
+            .withRegion(Region.US_EAST)
             .withExistingResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
@@ -224,14 +224,14 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .create();
 
         SqlServer sqlSecondaryServer = sqlServerManager.sqlServers().define(sqlSecondaryServerName)
-            .withRegion(Region.US_WEST)
+            .withRegion(Region.US_EAST2)
             .withExistingResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
             .create();
 
         SqlServer sqlOtherServer = sqlServerManager.sqlServers().define(sqlOtherServerName)
-            .withRegion(Region.US_CENTRAL)
+            .withRegion(Region.US_SOUTH_CENTRAL)
             .withExistingResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
@@ -570,7 +570,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         SqlServer sqlServer = sqlServerManager
             .sqlServers()
                 .define(SQL_SERVER_NAME)
-                    .withRegion(Region.US_CENTRAL)
+                    .withRegion(Region.US_EAST)
                     .withNewResourceGroup(RG_NAME)
                     .withAdministratorLogin(sqlServerAdminName)
                     .withAdministratorPassword("N0t@P@ssw0rd!")
@@ -715,7 +715,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         // Create
         SqlServer sqlServer = sqlServerManager.sqlServers().define(SQL_SERVER_NAME)
-                .withRegion(Region.US_CENTRAL)
+                .withRegion(Region.US_EAST)
                 .withNewResourceGroup(RG_NAME)
                 .withAdministratorLogin("userName")
                 .withAdministratorPassword("Password~1")
@@ -779,6 +779,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         SqlServer sqlServer = createSqlServer();
         Observable<Indexable> resourceStream = sqlServer.databases()
                 .define(SQL_DATABASE_NAME)
+                .withEdition(DatabaseEdition.STANDARD)
                 .createAsync();
 
         SqlDatabase sqlDatabase = Utils.<SqlDatabase>rootResource(resourceStream)
@@ -946,6 +947,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Observable<Indexable> resourceStream = sqlServer.databases()
                 .define(SQL_DATABASE_NAME)
                 .withEdition(DatabaseEdition.DATA_WAREHOUSE)
+                .withServiceObjective(ServiceObjectiveName.fromString("DW100C"))
                 .withCollation(COLLATION)
                 .createAsync();
 
@@ -1346,7 +1348,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
     private static SqlServer createSqlServer(String SQL_SERVER_NAME) {
         return sqlServerManager.sqlServers()
                 .define(SQL_SERVER_NAME)
-                .withRegion(Region.US_CENTRAL)
+                .withRegion(Region.US_EAST)
                 .withNewResourceGroup(RG_NAME)
                 .withAdministratorLogin("userName")
                 .withAdministratorPassword("P@ssword~1")
@@ -1371,7 +1373,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
         Assert.assertEquals(END_IPADDRESS, sqlFirewallRule.endIPAddress());
         Assert.assertEquals(RG_NAME, sqlFirewallRule.resourceGroupName());
         Assert.assertEquals(SQL_SERVER_NAME, sqlFirewallRule.sqlServerName());
-        Assert.assertEquals(Region.US_CENTRAL, sqlFirewallRule.region());
+        Assert.assertEquals(Region.US_EAST, sqlFirewallRule.region());
     }
 
     private static void validateListSqlElasticPool(List<SqlElasticPool> sqlElasticPools) {

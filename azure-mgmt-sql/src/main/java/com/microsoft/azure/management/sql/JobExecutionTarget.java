@@ -34,7 +34,7 @@ public class JobExecutionTarget {
     private String databaseName;
 
     /**
-     * Get the type value.
+     * Get the type of the target. Possible values include: 'TargetGroup', 'SqlDatabase', 'SqlElasticPool', 'SqlShardMap', 'SqlServer'.
      *
      * @return the type value
      */
@@ -43,7 +43,7 @@ public class JobExecutionTarget {
     }
 
     /**
-     * Get the serverName value.
+     * Get the server name.
      *
      * @return the serverName value
      */
@@ -52,7 +52,7 @@ public class JobExecutionTarget {
     }
 
     /**
-     * Get the databaseName value.
+     * Get the database name.
      *
      * @return the databaseName value
      */

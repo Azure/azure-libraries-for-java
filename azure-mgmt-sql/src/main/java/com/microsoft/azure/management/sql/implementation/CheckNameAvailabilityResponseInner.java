@@ -44,7 +44,7 @@ public class CheckNameAvailabilityResponseInner {
     private CheckNameAvailabilityReason reason;
 
     /**
-     * Get the available value.
+     * Get true if the name is available, otherwise false.
      *
      * @return the available value
      */
@@ -53,7 +53,7 @@ public class CheckNameAvailabilityResponseInner {
     }
 
     /**
-     * Get the message value.
+     * Get a message explaining why the name is unavailable. Will be null if the name is available.
      *
      * @return the message value
      */
@@ -62,7 +62,7 @@ public class CheckNameAvailabilityResponseInner {
     }
 
     /**
-     * Get the name value.
+     * Get the name whose availability was checked.
      *
      * @return the name value
      */
@@ -71,7 +71,7 @@ public class CheckNameAvailabilityResponseInner {
     }
 
     /**
-     * Get the reason value.
+     * Get the reason code explaining why the name is unavailable. Will be null if the name is available. Possible values include: 'Invalid', 'AlreadyExists'.
      *
      * @return the reason value
      */

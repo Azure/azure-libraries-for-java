@@ -339,7 +339,11 @@ public class GeoBackupPoliciesInner {
                 public Observable<ServiceResponse<List<GeoBackupPolicyInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<GeoBackupPolicyInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<GeoBackupPolicyInner>> clientResponse = new ServiceResponse<List<GeoBackupPolicyInner>>(result.body().items(), result.response());
+                        List<GeoBackupPolicyInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<GeoBackupPolicyInner>> clientResponse = new ServiceResponse<List<GeoBackupPolicyInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

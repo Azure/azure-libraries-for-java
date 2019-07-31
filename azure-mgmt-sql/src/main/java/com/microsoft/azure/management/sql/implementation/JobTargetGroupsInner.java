@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.sql.JobTarget;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -323,7 +324,7 @@ public class JobTargetGroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the JobTargetGroupInner object if successful.
      */
-    public JobTargetGroupInner createOrUpdate(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTargetInner> members) {
+    public JobTargetGroupInner createOrUpdate(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTarget> members) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members).toBlocking().single().body();
     }
 
@@ -339,7 +340,7 @@ public class JobTargetGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<JobTargetGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTargetInner> members, final ServiceCallback<JobTargetGroupInner> serviceCallback) {
+    public ServiceFuture<JobTargetGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTarget> members, final ServiceCallback<JobTargetGroupInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members), serviceCallback);
     }
 
@@ -354,7 +355,7 @@ public class JobTargetGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the JobTargetGroupInner object
      */
-    public Observable<JobTargetGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTargetInner> members) {
+    public Observable<JobTargetGroupInner> createOrUpdateAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTarget> members) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, serverName, jobAgentName, targetGroupName, members).map(new Func1<ServiceResponse<JobTargetGroupInner>, JobTargetGroupInner>() {
             @Override
             public JobTargetGroupInner call(ServiceResponse<JobTargetGroupInner> response) {
@@ -374,7 +375,7 @@ public class JobTargetGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the JobTargetGroupInner object
      */
-    public Observable<ServiceResponse<JobTargetGroupInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTargetInner> members) {
+    public Observable<ServiceResponse<JobTargetGroupInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String jobAgentName, String targetGroupName, List<JobTarget> members) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

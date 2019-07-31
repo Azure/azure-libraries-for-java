@@ -19,7 +19,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.azure.management.sql.CreateMode;
-import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlFirewallRule;
 import com.microsoft.azure.management.sql.SqlServer;
@@ -82,7 +82,7 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
             System.out.println("Creating a database");
 
             SqlDatabase masterDatabase = masterSqlServer.databases().define(databaseName)
-                    .withEdition(DatabaseEditions.BASIC)
+                    .withEdition(DatabaseEdition.BASIC)
                     .create();
             Utils.print(masterDatabase);
 

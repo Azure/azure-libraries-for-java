@@ -63,7 +63,7 @@ public class ServiceObjectiveCapability {
     private MaxSizeCapability includedMaxSize;
 
     /**
-     * Get the name value.
+     * Get the service objective name.
      *
      * @return the name value
      */
@@ -72,7 +72,7 @@ public class ServiceObjectiveCapability {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the service objective. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */
@@ -81,7 +81,7 @@ public class ServiceObjectiveCapability {
     }
 
     /**
-     * Get the unit value.
+     * Get unit type used to measure service objective performance level. Possible values include: 'DTU'.
      *
      * @return the unit value
      */
@@ -90,7 +90,7 @@ public class ServiceObjectiveCapability {
     }
 
     /**
-     * Get the value value.
+     * Get performance level value.
      *
      * @return the value value
      */
@@ -99,7 +99,7 @@ public class ServiceObjectiveCapability {
     }
 
     /**
-     * Get the id value.
+     * Get the unique ID of the service objective.
      *
      * @return the id value
      */
@@ -108,7 +108,7 @@ public class ServiceObjectiveCapability {
     }
 
     /**
-     * Get the supportedMaxSizes value.
+     * Get the list of supported maximum database sizes for this service objective.
      *
      * @return the supportedMaxSizes value
      */
@@ -117,7 +117,7 @@ public class ServiceObjectiveCapability {
     }
 
     /**
-     * Get the includedMaxSize value.
+     * Get the included (free) max size for this service level objective.
      *
      * @return the includedMaxSize value
      */

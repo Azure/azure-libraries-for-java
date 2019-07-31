@@ -10,14 +10,19 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.sql.ResourceIdentity;
 import com.microsoft.azure.management.sql.Sku;
+import com.microsoft.azure.management.sql.ManagedServerCreateMode;
+import com.microsoft.azure.management.sql.ManagedInstanceLicenseType;
+import org.joda.time.DateTime;
+import com.microsoft.azure.management.sql.ManagedInstanceProxyOverride;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * An Azure SQL managed instance.
  */
 @JsonFlatten
-public class ManagedInstanceInner extends TrackedResourceInner {
+public class ManagedInstanceInner extends Resource {
     /**
      * The Azure Active Directory identity of the managed instance.
      */
@@ -25,10 +30,23 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     private ResourceIdentity identity;
 
     /**
-     * Managed instance sku.
+     * Managed instance SKU. Allowed values for sku.name: GP_Gen4, GP_Gen5,
+     * BC_Gen4, BC_Gen5.
      */
     @JsonProperty(value = "sku")
     private Sku sku;
+
+    /**
+     * Specifies the mode of database creation.
+     *
+     * Default: Regular instance creation.
+     *
+     * Restore: Creates an instance by restoring a set of backups to specific
+     * point in time. RestorePointInTime and SourceManagedInstanceId must be
+     * specified. Possible values include: 'Default', 'PointInTimeRestore'.
+     */
+    @JsonProperty(value = "properties.managedInstanceCreateMode")
+    private ManagedServerCreateMode managedInstanceCreateMode;
 
     /**
      * The fully qualified domain name of the managed instance.
@@ -64,25 +82,97 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     private String state;
 
     /**
-     * The license type. Possible values are 'LicenseIncluded' and 'BasePrice'.
+     * The license type. Possible values are 'LicenseIncluded' (regular price
+     * inclusive of a new SQL license) and 'BasePrice' (discounted AHB price
+     * for bringing your own SQL licenses). Possible values include:
+     * 'LicenseIncluded', 'BasePrice'.
      */
     @JsonProperty(value = "properties.licenseType")
-    private String licenseType;
+    private ManagedInstanceLicenseType licenseType;
 
     /**
-     * The number of VCores.
+     * The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
      */
     @JsonProperty(value = "properties.vCores")
     private Integer vCores;
 
     /**
-     * The maximum storage size in GB.
+     * Storage size in GB. Minimum value: 32. Maximum value: 8192. Increments
+     * of 32 GB allowed only.
      */
     @JsonProperty(value = "properties.storageSizeInGB")
     private Integer storageSizeInGB;
 
     /**
-     * Get the identity value.
+     * Collation of the managed instance.
+     */
+    @JsonProperty(value = "properties.collation")
+    private String collation;
+
+    /**
+     * The Dns Zone that the managed instance is in.
+     */
+    @JsonProperty(value = "properties.dnsZone", access = JsonProperty.Access.WRITE_ONLY)
+    private String dnsZone;
+
+    /**
+     * The resource id of another managed instance whose DNS zone this managed
+     * instance will share after creation.
+     */
+    @JsonProperty(value = "properties.dnsZonePartner")
+    private String dnsZonePartner;
+
+    /**
+     * Whether or not the public data endpoint is enabled.
+     */
+    @JsonProperty(value = "properties.publicDataEndpointEnabled")
+    private Boolean publicDataEndpointEnabled;
+
+    /**
+     * The resource identifier of the source managed instance associated with
+     * create operation of this instance.
+     */
+    @JsonProperty(value = "properties.sourceManagedInstanceId")
+    private String sourceManagedInstanceId;
+
+    /**
+     * Specifies the point in time (ISO8601 format) of the source database that
+     * will be restored to create the new database.
+     */
+    @JsonProperty(value = "properties.restorePointInTime")
+    private DateTime restorePointInTime;
+
+    /**
+     * Connection type used for connecting to the instance. Possible values
+     * include: 'Proxy', 'Redirect', 'Default'.
+     */
+    @JsonProperty(value = "properties.proxyOverride")
+    private ManagedInstanceProxyOverride proxyOverride;
+
+    /**
+     * Id of the timezone. Allowed values are timezones supported by Windows.
+     * Windows keeps details on supported timezones, including the id, in
+     * registry under
+     * KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time
+     * Zones.
+     * You can get those registry values via SQL Server by querying SELECT name
+     * AS timezone_id FROM sys.time_zone_info.
+     * List of Ids can also be obtained by executing
+     * [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell.
+     * An example of valid timezone id is "Pacific Standard Time" or "W. Europe
+     * Standard Time".
+     */
+    @JsonProperty(value = "properties.timezoneId")
+    private String timezoneId;
+
+    /**
+     * The Id of the instance pool this managed server belongs to.
+     */
+    @JsonProperty(value = "properties.instancePoolId")
+    private String instancePoolId;
+
+    /**
+     * Get the Azure Active Directory identity of the managed instance.
      *
      * @return the identity value
      */
@@ -91,7 +181,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the identity value.
+     * Set the Azure Active Directory identity of the managed instance.
      *
      * @param identity the identity value to set
      * @return the ManagedInstanceInner object itself.
@@ -102,7 +192,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the sku value.
+     * Get managed instance SKU. Allowed values for sku.name: GP_Gen4, GP_Gen5, BC_Gen4, BC_Gen5.
      *
      * @return the sku value
      */
@@ -111,7 +201,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the sku value.
+     * Set managed instance SKU. Allowed values for sku.name: GP_Gen4, GP_Gen5, BC_Gen4, BC_Gen5.
      *
      * @param sku the sku value to set
      * @return the ManagedInstanceInner object itself.
@@ -122,7 +212,31 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the fullyQualifiedDomainName value.
+     * Get specifies the mode of database creation.
+     Default: Regular instance creation.
+     Restore: Creates an instance by restoring a set of backups to specific point in time. RestorePointInTime and SourceManagedInstanceId must be specified. Possible values include: 'Default', 'PointInTimeRestore'.
+     *
+     * @return the managedInstanceCreateMode value
+     */
+    public ManagedServerCreateMode managedInstanceCreateMode() {
+        return this.managedInstanceCreateMode;
+    }
+
+    /**
+     * Set specifies the mode of database creation.
+     Default: Regular instance creation.
+     Restore: Creates an instance by restoring a set of backups to specific point in time. RestorePointInTime and SourceManagedInstanceId must be specified. Possible values include: 'Default', 'PointInTimeRestore'.
+     *
+     * @param managedInstanceCreateMode the managedInstanceCreateMode value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withManagedInstanceCreateMode(ManagedServerCreateMode managedInstanceCreateMode) {
+        this.managedInstanceCreateMode = managedInstanceCreateMode;
+        return this;
+    }
+
+    /**
+     * Get the fully qualified domain name of the managed instance.
      *
      * @return the fullyQualifiedDomainName value
      */
@@ -131,7 +245,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the administratorLogin value.
+     * Get administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation).
      *
      * @return the administratorLogin value
      */
@@ -140,7 +254,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the administratorLogin value.
+     * Set administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation).
      *
      * @param administratorLogin the administratorLogin value to set
      * @return the ManagedInstanceInner object itself.
@@ -151,7 +265,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the administratorLoginPassword value.
+     * Get the administrator login password (required for managed instance creation).
      *
      * @return the administratorLoginPassword value
      */
@@ -160,7 +274,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the administratorLoginPassword value.
+     * Set the administrator login password (required for managed instance creation).
      *
      * @param administratorLoginPassword the administratorLoginPassword value to set
      * @return the ManagedInstanceInner object itself.
@@ -171,7 +285,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the subnetId value.
+     * Get subnet resource ID for the managed instance.
      *
      * @return the subnetId value
      */
@@ -180,7 +294,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the subnetId value.
+     * Set subnet resource ID for the managed instance.
      *
      * @param subnetId the subnetId value to set
      * @return the ManagedInstanceInner object itself.
@@ -191,7 +305,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the state value.
+     * Get the state of the managed instance.
      *
      * @return the state value
      */
@@ -200,27 +314,27 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the licenseType value.
+     * Get the license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses). Possible values include: 'LicenseIncluded', 'BasePrice'.
      *
      * @return the licenseType value
      */
-    public String licenseType() {
+    public ManagedInstanceLicenseType licenseType() {
         return this.licenseType;
     }
 
     /**
-     * Set the licenseType value.
+     * Set the license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses). Possible values include: 'LicenseIncluded', 'BasePrice'.
      *
      * @param licenseType the licenseType value to set
      * @return the ManagedInstanceInner object itself.
      */
-    public ManagedInstanceInner withLicenseType(String licenseType) {
+    public ManagedInstanceInner withLicenseType(ManagedInstanceLicenseType licenseType) {
         this.licenseType = licenseType;
         return this;
     }
 
     /**
-     * Get the vCores value.
+     * Get the number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
      *
      * @return the vCores value
      */
@@ -229,7 +343,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the vCores value.
+     * Set the number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.
      *
      * @param vCores the vCores value to set
      * @return the ManagedInstanceInner object itself.
@@ -240,7 +354,7 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the storageSizeInGB value.
+     * Get storage size in GB. Minimum value: 32. Maximum value: 8192. Increments of 32 GB allowed only.
      *
      * @return the storageSizeInGB value
      */
@@ -249,13 +363,192 @@ public class ManagedInstanceInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the storageSizeInGB value.
+     * Set storage size in GB. Minimum value: 32. Maximum value: 8192. Increments of 32 GB allowed only.
      *
      * @param storageSizeInGB the storageSizeInGB value to set
      * @return the ManagedInstanceInner object itself.
      */
     public ManagedInstanceInner withStorageSizeInGB(Integer storageSizeInGB) {
         this.storageSizeInGB = storageSizeInGB;
+        return this;
+    }
+
+    /**
+     * Get collation of the managed instance.
+     *
+     * @return the collation value
+     */
+    public String collation() {
+        return this.collation;
+    }
+
+    /**
+     * Set collation of the managed instance.
+     *
+     * @param collation the collation value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withCollation(String collation) {
+        this.collation = collation;
+        return this;
+    }
+
+    /**
+     * Get the Dns Zone that the managed instance is in.
+     *
+     * @return the dnsZone value
+     */
+    public String dnsZone() {
+        return this.dnsZone;
+    }
+
+    /**
+     * Get the resource id of another managed instance whose DNS zone this managed instance will share after creation.
+     *
+     * @return the dnsZonePartner value
+     */
+    public String dnsZonePartner() {
+        return this.dnsZonePartner;
+    }
+
+    /**
+     * Set the resource id of another managed instance whose DNS zone this managed instance will share after creation.
+     *
+     * @param dnsZonePartner the dnsZonePartner value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withDnsZonePartner(String dnsZonePartner) {
+        this.dnsZonePartner = dnsZonePartner;
+        return this;
+    }
+
+    /**
+     * Get whether or not the public data endpoint is enabled.
+     *
+     * @return the publicDataEndpointEnabled value
+     */
+    public Boolean publicDataEndpointEnabled() {
+        return this.publicDataEndpointEnabled;
+    }
+
+    /**
+     * Set whether or not the public data endpoint is enabled.
+     *
+     * @param publicDataEndpointEnabled the publicDataEndpointEnabled value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withPublicDataEndpointEnabled(Boolean publicDataEndpointEnabled) {
+        this.publicDataEndpointEnabled = publicDataEndpointEnabled;
+        return this;
+    }
+
+    /**
+     * Get the resource identifier of the source managed instance associated with create operation of this instance.
+     *
+     * @return the sourceManagedInstanceId value
+     */
+    public String sourceManagedInstanceId() {
+        return this.sourceManagedInstanceId;
+    }
+
+    /**
+     * Set the resource identifier of the source managed instance associated with create operation of this instance.
+     *
+     * @param sourceManagedInstanceId the sourceManagedInstanceId value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withSourceManagedInstanceId(String sourceManagedInstanceId) {
+        this.sourceManagedInstanceId = sourceManagedInstanceId;
+        return this;
+    }
+
+    /**
+     * Get specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database.
+     *
+     * @return the restorePointInTime value
+     */
+    public DateTime restorePointInTime() {
+        return this.restorePointInTime;
+    }
+
+    /**
+     * Set specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database.
+     *
+     * @param restorePointInTime the restorePointInTime value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withRestorePointInTime(DateTime restorePointInTime) {
+        this.restorePointInTime = restorePointInTime;
+        return this;
+    }
+
+    /**
+     * Get connection type used for connecting to the instance. Possible values include: 'Proxy', 'Redirect', 'Default'.
+     *
+     * @return the proxyOverride value
+     */
+    public ManagedInstanceProxyOverride proxyOverride() {
+        return this.proxyOverride;
+    }
+
+    /**
+     * Set connection type used for connecting to the instance. Possible values include: 'Proxy', 'Redirect', 'Default'.
+     *
+     * @param proxyOverride the proxyOverride value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withProxyOverride(ManagedInstanceProxyOverride proxyOverride) {
+        this.proxyOverride = proxyOverride;
+        return this;
+    }
+
+    /**
+     * Get id of the timezone. Allowed values are timezones supported by Windows.
+     Windows keeps details on supported timezones, including the id, in registry under
+     KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+     You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM sys.time_zone_info.
+     List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell.
+     An example of valid timezone id is "Pacific Standard Time" or "W. Europe Standard Time".
+     *
+     * @return the timezoneId value
+     */
+    public String timezoneId() {
+        return this.timezoneId;
+    }
+
+    /**
+     * Set id of the timezone. Allowed values are timezones supported by Windows.
+     Windows keeps details on supported timezones, including the id, in registry under
+     KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+     You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM sys.time_zone_info.
+     List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell.
+     An example of valid timezone id is "Pacific Standard Time" or "W. Europe Standard Time".
+     *
+     * @param timezoneId the timezoneId value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withTimezoneId(String timezoneId) {
+        this.timezoneId = timezoneId;
+        return this;
+    }
+
+    /**
+     * Get the Id of the instance pool this managed server belongs to.
+     *
+     * @return the instancePoolId value
+     */
+    public String instancePoolId() {
+        return this.instancePoolId;
+    }
+
+    /**
+     * Set the Id of the instance pool this managed server belongs to.
+     *
+     * @param instancePoolId the instancePoolId value to set
+     * @return the ManagedInstanceInner object itself.
+     */
+    public ManagedInstanceInner withInstancePoolId(String instancePoolId) {
+        this.instancePoolId = instancePoolId;
         return this;
     }
 

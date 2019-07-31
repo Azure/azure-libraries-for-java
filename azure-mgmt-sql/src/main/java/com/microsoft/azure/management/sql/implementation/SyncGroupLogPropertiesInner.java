@@ -55,7 +55,7 @@ public class SyncGroupLogPropertiesInner {
     private String operationStatus;
 
     /**
-     * Get the timestamp value.
+     * Get timestamp of the sync group log.
      *
      * @return the timestamp value
      */
@@ -64,7 +64,7 @@ public class SyncGroupLogPropertiesInner {
     }
 
     /**
-     * Get the type value.
+     * Get type of the sync group log. Possible values include: 'All', 'Error', 'Warning', 'Success'.
      *
      * @return the type value
      */
@@ -73,7 +73,7 @@ public class SyncGroupLogPropertiesInner {
     }
 
     /**
-     * Get the source value.
+     * Get source of the sync group log.
      *
      * @return the source value
      */
@@ -82,7 +82,7 @@ public class SyncGroupLogPropertiesInner {
     }
 
     /**
-     * Get the details value.
+     * Get details of the sync group log.
      *
      * @return the details value
      */
@@ -91,7 +91,7 @@ public class SyncGroupLogPropertiesInner {
     }
 
     /**
-     * Get the tracingId value.
+     * Get tracingId of the sync group log.
      *
      * @return the tracingId value
      */
@@ -100,7 +100,7 @@ public class SyncGroupLogPropertiesInner {
     }
 
     /**
-     * Get the operationStatus value.
+     * Get operationStatus of the sync group log.
      *
      * @return the operationStatus value
      */

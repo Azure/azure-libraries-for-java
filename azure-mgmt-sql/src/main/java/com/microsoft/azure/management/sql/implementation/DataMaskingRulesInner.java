@@ -250,7 +250,11 @@ public class DataMaskingRulesInner {
                 public Observable<ServiceResponse<List<DataMaskingRuleInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<DataMaskingRuleInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<DataMaskingRuleInner>> clientResponse = new ServiceResponse<List<DataMaskingRuleInner>>(result.body().items(), result.response());
+                        List<DataMaskingRuleInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DataMaskingRuleInner>> clientResponse = new ServiceResponse<List<DataMaskingRuleInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

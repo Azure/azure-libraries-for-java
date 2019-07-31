@@ -426,7 +426,11 @@ public class BackupLongTermRetentionPoliciesInner {
                 public Observable<ServiceResponse<List<BackupLongTermRetentionPolicyInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<BackupLongTermRetentionPolicyInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<BackupLongTermRetentionPolicyInner>> clientResponse = new ServiceResponse<List<BackupLongTermRetentionPolicyInner>>(result.body().items(), result.response());
+                        List<BackupLongTermRetentionPolicyInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<BackupLongTermRetentionPolicyInner>> clientResponse = new ServiceResponse<List<BackupLongTermRetentionPolicyInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

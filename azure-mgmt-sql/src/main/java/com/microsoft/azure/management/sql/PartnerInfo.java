@@ -34,7 +34,7 @@ public class PartnerInfo {
     private FailoverGroupReplicationRole replicationRole;
 
     /**
-     * Get the id value.
+     * Get resource identifier of the partner server.
      *
      * @return the id value
      */
@@ -43,7 +43,7 @@ public class PartnerInfo {
     }
 
     /**
-     * Set the id value.
+     * Set resource identifier of the partner server.
      *
      * @param id the id value to set
      * @return the PartnerInfo object itself.
@@ -54,7 +54,7 @@ public class PartnerInfo {
     }
 
     /**
-     * Get the location value.
+     * Get geo location of the partner server.
      *
      * @return the location value
      */
@@ -63,7 +63,7 @@ public class PartnerInfo {
     }
 
     /**
-     * Get the replicationRole value.
+     * Get replication role of the partner server. Possible values include: 'Primary', 'Secondary'.
      *
      * @return the replicationRole value
      */

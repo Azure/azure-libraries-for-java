@@ -10,12 +10,13 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Usage Metric of a Subscription in a Location.
  */
 @JsonFlatten
-public class SubscriptionUsageInner extends ProxyResourceInner {
+public class SubscriptionUsageInner extends ProxyResource {
     /**
      * User-readable name of the metric.
      */
@@ -41,7 +42,7 @@ public class SubscriptionUsageInner extends ProxyResourceInner {
     private String unit;
 
     /**
-     * Get the displayName value.
+     * Get user-readable name of the metric.
      *
      * @return the displayName value
      */
@@ -50,7 +51,7 @@ public class SubscriptionUsageInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the currentValue value.
+     * Get current value of the metric.
      *
      * @return the currentValue value
      */
@@ -59,7 +60,7 @@ public class SubscriptionUsageInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the limit value.
+     * Get boundary value of the metric.
      *
      * @return the limit value
      */
@@ -68,7 +69,7 @@ public class SubscriptionUsageInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the unit value.
+     * Get unit of the metric.
      *
      * @return the unit value
      */

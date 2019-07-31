@@ -65,7 +65,7 @@ public class JobStepOutput {
     private String credential;
 
     /**
-     * Get the type value.
+     * Get the output destination type. Possible values include: 'SqlDatabase'.
      *
      * @return the type value
      */
@@ -74,7 +74,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Set the type value.
+     * Set the output destination type. Possible values include: 'SqlDatabase'.
      *
      * @param type the type value to set
      * @return the JobStepOutput object itself.
@@ -85,7 +85,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Get the subscriptionId value.
+     * Get the output destination subscription id.
      *
      * @return the subscriptionId value
      */
@@ -94,7 +94,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Set the subscriptionId value.
+     * Set the output destination subscription id.
      *
      * @param subscriptionId the subscriptionId value to set
      * @return the JobStepOutput object itself.
@@ -105,7 +105,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Get the resourceGroupName value.
+     * Get the output destination resource group.
      *
      * @return the resourceGroupName value
      */
@@ -114,7 +114,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Set the resourceGroupName value.
+     * Set the output destination resource group.
      *
      * @param resourceGroupName the resourceGroupName value to set
      * @return the JobStepOutput object itself.
@@ -125,7 +125,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Get the serverName value.
+     * Get the output destination server name.
      *
      * @return the serverName value
      */
@@ -134,7 +134,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Set the serverName value.
+     * Set the output destination server name.
      *
      * @param serverName the serverName value to set
      * @return the JobStepOutput object itself.
@@ -145,7 +145,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Get the databaseName value.
+     * Get the output destination database.
      *
      * @return the databaseName value
      */
@@ -154,7 +154,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Set the databaseName value.
+     * Set the output destination database.
      *
      * @param databaseName the databaseName value to set
      * @return the JobStepOutput object itself.
@@ -165,7 +165,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Get the schemaName value.
+     * Get the output destination schema.
      *
      * @return the schemaName value
      */
@@ -174,7 +174,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Set the schemaName value.
+     * Set the output destination schema.
      *
      * @param schemaName the schemaName value to set
      * @return the JobStepOutput object itself.
@@ -185,7 +185,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Get the tableName value.
+     * Get the output destination table.
      *
      * @return the tableName value
      */
@@ -194,7 +194,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Set the tableName value.
+     * Set the output destination table.
      *
      * @param tableName the tableName value to set
      * @return the JobStepOutput object itself.
@@ -205,7 +205,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Get the credential value.
+     * Get the resource ID of the credential to use to connect to the output destination.
      *
      * @return the credential value
      */
@@ -214,7 +214,7 @@ public class JobStepOutput {
     }
 
     /**
-     * Set the credential value.
+     * Set the resource ID of the credential to use to connect to the output destination.
      *
      * @param credential the credential value to set
      * @return the JobStepOutput object itself.

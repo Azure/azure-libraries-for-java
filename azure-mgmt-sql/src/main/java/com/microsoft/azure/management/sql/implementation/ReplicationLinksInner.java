@@ -712,7 +712,11 @@ public class ReplicationLinksInner {
                 public Observable<ServiceResponse<List<ReplicationLinkInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<ReplicationLinkInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<ReplicationLinkInner>> clientResponse = new ServiceResponse<List<ReplicationLinkInner>>(result.body().items(), result.response());
+                        List<ReplicationLinkInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ReplicationLinkInner>> clientResponse = new ServiceResponse<List<ReplicationLinkInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

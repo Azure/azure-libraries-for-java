@@ -17,6 +17,7 @@ import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.sql.CheckNameAvailabilityRequest;
+import com.microsoft.azure.management.sql.ServerUpdate;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -101,11 +102,11 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Servers update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Body ServerUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Body ServerUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Servers beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Body ServerUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("subscriptionId") String subscriptionId, @Body ServerUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Servers listNext" })
         @GET
@@ -829,7 +830,7 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ServerInner object if successful.
      */
-    public ServerInner update(String resourceGroupName, String serverName, ServerUpdateInner parameters) {
+    public ServerInner update(String resourceGroupName, String serverName, ServerUpdate parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().last().body();
     }
 
@@ -843,7 +844,7 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ServerInner> updateAsync(String resourceGroupName, String serverName, ServerUpdateInner parameters, final ServiceCallback<ServerInner> serviceCallback) {
+    public ServiceFuture<ServerInner> updateAsync(String resourceGroupName, String serverName, ServerUpdate parameters, final ServiceCallback<ServerInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
@@ -856,7 +857,7 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServerInner> updateAsync(String resourceGroupName, String serverName, ServerUpdateInner parameters) {
+    public Observable<ServerInner> updateAsync(String resourceGroupName, String serverName, ServerUpdate parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ServerInner>, ServerInner>() {
             @Override
             public ServerInner call(ServiceResponse<ServerInner> response) {
@@ -874,7 +875,7 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ServerInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerUpdateInner parameters) {
+    public Observable<ServiceResponse<ServerInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -904,7 +905,7 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ServerInner object if successful.
      */
-    public ServerInner beginUpdate(String resourceGroupName, String serverName, ServerUpdateInner parameters) {
+    public ServerInner beginUpdate(String resourceGroupName, String serverName, ServerUpdate parameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().single().body();
     }
 
@@ -918,7 +919,7 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ServerInner> beginUpdateAsync(String resourceGroupName, String serverName, ServerUpdateInner parameters, final ServiceCallback<ServerInner> serviceCallback) {
+    public ServiceFuture<ServerInner> beginUpdateAsync(String resourceGroupName, String serverName, ServerUpdate parameters, final ServiceCallback<ServerInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
@@ -931,7 +932,7 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ServerInner object
      */
-    public Observable<ServerInner> beginUpdateAsync(String resourceGroupName, String serverName, ServerUpdateInner parameters) {
+    public Observable<ServerInner> beginUpdateAsync(String resourceGroupName, String serverName, ServerUpdate parameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ServerInner>, ServerInner>() {
             @Override
             public ServerInner call(ServiceResponse<ServerInner> response) {
@@ -949,7 +950,7 @@ public class ServersInner implements InnerSupportsGet<ServerInner>, InnerSupport
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ServerInner object
      */
-    public Observable<ServiceResponse<ServerInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerUpdateInner parameters) {
+    public Observable<ServiceResponse<ServerInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, ServerUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

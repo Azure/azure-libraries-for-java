@@ -11,12 +11,13 @@ package com.microsoft.azure.management.sql.implementation;
 import com.microsoft.azure.management.sql.BackupLongTermRetentionPolicyState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A backup long term retention policy.
  */
 @JsonFlatten
-public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
+public class BackupLongTermRetentionPolicyInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -37,7 +38,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     private String recoveryServicesBackupPolicyResourceId;
 
     /**
-     * Get the location value.
+     * Get the geo-location where the resource lives.
      *
      * @return the location value
      */
@@ -46,7 +47,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the state value.
+     * Get the status of the backup long term retention policy. Possible values include: 'Disabled', 'Enabled'.
      *
      * @return the state value
      */
@@ -55,7 +56,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the state value.
+     * Set the status of the backup long term retention policy. Possible values include: 'Disabled', 'Enabled'.
      *
      * @param state the state value to set
      * @return the BackupLongTermRetentionPolicyInner object itself.
@@ -66,7 +67,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the recoveryServicesBackupPolicyResourceId value.
+     * Get the azure recovery services backup protection policy resource id.
      *
      * @return the recoveryServicesBackupPolicyResourceId value
      */
@@ -75,7 +76,7 @@ public class BackupLongTermRetentionPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the recoveryServicesBackupPolicyResourceId value.
+     * Set the azure recovery services backup protection policy resource id.
      *
      * @param recoveryServicesBackupPolicyResourceId the recoveryServicesBackupPolicyResourceId value to set
      * @return the BackupLongTermRetentionPolicyInner object itself.

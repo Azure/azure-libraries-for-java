@@ -40,7 +40,7 @@ public class OperationDisplay {
     private String description;
 
     /**
-     * Get the provider value.
+     * Get the localized friendly form of the resource provider name.
      *
      * @return the provider value
      */
@@ -49,7 +49,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the resource value.
+     * Get the localized friendly form of the resource type related to this action/operation.
      *
      * @return the resource value
      */
@@ -58,7 +58,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the operation value.
+     * Get the localized friendly name for the operation.
      *
      * @return the operation value
      */
@@ -67,7 +67,7 @@ public class OperationDisplay {
     }
 
     /**
-     * Get the description value.
+     * Get the localized friendly description for the operation.
      *
      * @return the description value
      */

@@ -11,12 +11,13 @@ package com.microsoft.azure.management.sql.implementation;
 import com.microsoft.azure.management.sql.GeoBackupPolicyState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A database geo backup policy.
  */
 @JsonFlatten
-public class GeoBackupPolicyInner extends ProxyResourceInner {
+public class GeoBackupPolicyInner extends ProxyResource {
     /**
      * The state of the geo backup policy. Possible values include: 'Disabled',
      * 'Enabled'.
@@ -44,7 +45,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     private String location;
 
     /**
-     * Get the state value.
+     * Get the state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'.
      *
      * @return the state value
      */
@@ -53,7 +54,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the state value.
+     * Set the state of the geo backup policy. Possible values include: 'Disabled', 'Enabled'.
      *
      * @param state the state value to set
      * @return the GeoBackupPolicyInner object itself.
@@ -64,7 +65,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the storageType value.
+     * Get the storage type of the geo backup policy.
      *
      * @return the storageType value
      */
@@ -73,7 +74,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the kind value.
+     * Get kind of geo backup policy.  This is metadata used for the Azure portal experience.
      *
      * @return the kind value
      */
@@ -82,7 +83,7 @@ public class GeoBackupPolicyInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the location value.
+     * Get backup policy location.
      *
      * @return the location value
      */

@@ -21,7 +21,7 @@ public class SyncAgentKeyPropertiesInner {
     private String syncAgentKey;
 
     /**
-     * Get the syncAgentKey value.
+     * Get key of sync agent.
      *
      * @return the syncAgentKey value
      */

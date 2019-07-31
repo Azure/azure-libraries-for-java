@@ -10,7 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.sql.TransparentDataEncryptionActivity;
-import com.microsoft.azure.management.sql.TransparentDataEncryptionActivityStates;
+import com.microsoft.azure.management.sql.TransparentDataEncryptionActivityStatus;
 
 /**
  * Implementation for TransparentDataEncryptionActivity.
@@ -53,7 +53,7 @@ class TransparentDataEncryptionActivityImpl
     }
 
     @Override
-    public TransparentDataEncryptionActivityStates status() {
+    public TransparentDataEncryptionActivityStatus status() {
         return this.inner().status();
     }
 

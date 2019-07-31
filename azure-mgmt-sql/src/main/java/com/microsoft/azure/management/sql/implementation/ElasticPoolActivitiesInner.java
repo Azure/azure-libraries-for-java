@@ -134,7 +134,11 @@ public class ElasticPoolActivitiesInner {
                 public Observable<ServiceResponse<List<ElasticPoolActivityInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<ElasticPoolActivityInner>> result = listByElasticPoolDelegate(response);
-                        ServiceResponse<List<ElasticPoolActivityInner>> clientResponse = new ServiceResponse<List<ElasticPoolActivityInner>>(result.body().items(), result.response());
+                        List<ElasticPoolActivityInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<ElasticPoolActivityInner>> clientResponse = new ServiceResponse<List<ElasticPoolActivityInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

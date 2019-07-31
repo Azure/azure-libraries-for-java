@@ -36,7 +36,7 @@ public class ResourceIdentity {
     private UUID tenantId;
 
     /**
-     * Get the principalId value.
+     * Get the Azure Active Directory principal id.
      *
      * @return the principalId value
      */
@@ -45,7 +45,7 @@ public class ResourceIdentity {
     }
 
     /**
-     * Get the type value.
+     * Get the identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource. Possible values include: 'SystemAssigned'.
      *
      * @return the type value
      */
@@ -54,7 +54,7 @@ public class ResourceIdentity {
     }
 
     /**
-     * Set the type value.
+     * Set the identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource. Possible values include: 'SystemAssigned'.
      *
      * @param type the type value to set
      * @return the ResourceIdentity object itself.
@@ -65,7 +65,7 @@ public class ResourceIdentity {
     }
 
     /**
-     * Get the tenantId value.
+     * Get the Azure Active Directory tenant id.
      *
      * @return the tenantId value
      */

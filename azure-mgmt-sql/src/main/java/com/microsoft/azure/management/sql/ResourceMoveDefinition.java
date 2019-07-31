@@ -21,7 +21,7 @@ public class ResourceMoveDefinition {
     private String id;
 
     /**
-     * Get the id value.
+     * Get the target ID for the resource.
      *
      * @return the id value
      */
@@ -30,7 +30,7 @@ public class ResourceMoveDefinition {
     }
 
     /**
-     * Set the id value.
+     * Set the target ID for the resource.
      *
      * @param id the id value to set
      * @return the ResourceMoveDefinition object itself.

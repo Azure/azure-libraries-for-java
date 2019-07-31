@@ -41,7 +41,7 @@ public class ServerVersionCapability {
     private List<ElasticPoolEditionCapability> supportedElasticPoolEditions;
 
     /**
-     * Get the name value.
+     * Get the server version name.
      *
      * @return the name value
      */
@@ -50,7 +50,7 @@ public class ServerVersionCapability {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the server version. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */
@@ -59,7 +59,7 @@ public class ServerVersionCapability {
     }
 
     /**
-     * Get the supportedEditions value.
+     * Get the list of supported database editions.
      *
      * @return the supportedEditions value
      */
@@ -68,7 +68,7 @@ public class ServerVersionCapability {
     }
 
     /**
-     * Get the supportedElasticPoolEditions value.
+     * Get the list of supported elastic pool editions.
      *
      * @return the supportedElasticPoolEditions value
      */

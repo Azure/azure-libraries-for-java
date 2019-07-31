@@ -28,7 +28,7 @@ public class SyncGroupSchema {
     private String masterSyncMemberName;
 
     /**
-     * Get the tables value.
+     * Get list of tables in sync group schema.
      *
      * @return the tables value
      */
@@ -37,7 +37,7 @@ public class SyncGroupSchema {
     }
 
     /**
-     * Set the tables value.
+     * Set list of tables in sync group schema.
      *
      * @param tables the tables value to set
      * @return the SyncGroupSchema object itself.
@@ -48,7 +48,7 @@ public class SyncGroupSchema {
     }
 
     /**
-     * Get the masterSyncMemberName value.
+     * Get name of master sync member where the schema is from.
      *
      * @return the masterSyncMemberName value
      */
@@ -57,7 +57,7 @@ public class SyncGroupSchema {
     }
 
     /**
-     * Set the masterSyncMemberName value.
+     * Set name of master sync member where the schema is from.
      *
      * @param masterSyncMemberName the masterSyncMemberName value to set
      * @return the SyncGroupSchema object itself.

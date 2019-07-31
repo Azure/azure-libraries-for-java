@@ -16,12 +16,13 @@ import com.microsoft.azure.management.sql.PartnerRegionInfo;
 import com.microsoft.azure.management.sql.ManagedInstancePairInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * An instance failover group.
  */
 @JsonFlatten
-public class InstanceFailoverGroupInner extends ProxyResourceInner {
+public class InstanceFailoverGroupInner extends ProxyResource {
     /**
      * Read-write endpoint of the failover group instance.
      */
@@ -60,7 +61,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     private List<ManagedInstancePairInfo> managedInstancePairs;
 
     /**
-     * Get the readWriteEndpoint value.
+     * Get read-write endpoint of the failover group instance.
      *
      * @return the readWriteEndpoint value
      */
@@ -69,7 +70,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the readWriteEndpoint value.
+     * Set read-write endpoint of the failover group instance.
      *
      * @param readWriteEndpoint the readWriteEndpoint value to set
      * @return the InstanceFailoverGroupInner object itself.
@@ -80,7 +81,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the readOnlyEndpoint value.
+     * Get read-only endpoint of the failover group instance.
      *
      * @return the readOnlyEndpoint value
      */
@@ -89,7 +90,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the readOnlyEndpoint value.
+     * Set read-only endpoint of the failover group instance.
      *
      * @param readOnlyEndpoint the readOnlyEndpoint value to set
      * @return the InstanceFailoverGroupInner object itself.
@@ -100,7 +101,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the replicationRole value.
+     * Get local replication role of the failover group instance. Possible values include: 'Primary', 'Secondary'.
      *
      * @return the replicationRole value
      */
@@ -109,7 +110,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the replicationState value.
+     * Get replication state of the failover group instance.
      *
      * @return the replicationState value
      */
@@ -118,7 +119,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the partnerRegions value.
+     * Get partner region information for the failover group.
      *
      * @return the partnerRegions value
      */
@@ -127,7 +128,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the partnerRegions value.
+     * Set partner region information for the failover group.
      *
      * @param partnerRegions the partnerRegions value to set
      * @return the InstanceFailoverGroupInner object itself.
@@ -138,7 +139,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the managedInstancePairs value.
+     * Get list of managed instance pairs in the failover group.
      *
      * @return the managedInstancePairs value
      */
@@ -147,7 +148,7 @@ public class InstanceFailoverGroupInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the managedInstancePairs value.
+     * Set list of managed instance pairs in the failover group.
      *
      * @param managedInstancePairs the managedInstancePairs value to set
      * @return the InstanceFailoverGroupInner object itself.

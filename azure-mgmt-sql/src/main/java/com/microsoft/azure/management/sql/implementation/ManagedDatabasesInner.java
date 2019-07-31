@@ -14,6 +14,7 @@ import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.sql.CompleteDatabaseRestoreDefinition;
+import com.microsoft.azure.management.sql.ManagedDatabaseUpdate;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -99,11 +100,11 @@ public class ManagedDatabasesInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseUpdateInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases listByInstanceNext" })
         @GET
@@ -675,7 +676,7 @@ public class ManagedDatabasesInner {
     }
 
     /**
-     * Deletes the managed database.
+     * Deletes a managed database.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
@@ -689,7 +690,7 @@ public class ManagedDatabasesInner {
     }
 
     /**
-     * Deletes the managed database.
+     * Deletes a managed database.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
@@ -703,7 +704,7 @@ public class ManagedDatabasesInner {
     }
 
     /**
-     * Deletes the managed database.
+     * Deletes a managed database.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
@@ -721,7 +722,7 @@ public class ManagedDatabasesInner {
     }
 
     /**
-     * Deletes the managed database.
+     * Deletes a managed database.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
@@ -748,7 +749,7 @@ public class ManagedDatabasesInner {
     }
 
     /**
-     * Deletes the managed database.
+     * Deletes a managed database.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
@@ -762,7 +763,7 @@ public class ManagedDatabasesInner {
     }
 
     /**
-     * Deletes the managed database.
+     * Deletes a managed database.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
@@ -776,7 +777,7 @@ public class ManagedDatabasesInner {
     }
 
     /**
-     * Deletes the managed database.
+     * Deletes a managed database.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
@@ -794,7 +795,7 @@ public class ManagedDatabasesInner {
     }
 
     /**
-     * Deletes the managed database.
+     * Deletes a managed database.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param managedInstanceName The name of the managed instance.
@@ -851,7 +852,7 @@ public class ManagedDatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ManagedDatabaseInner object if successful.
      */
-    public ManagedDatabaseInner update(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
+    public ManagedDatabaseInner update(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdate parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).toBlocking().last().body();
     }
 
@@ -866,7 +867,7 @@ public class ManagedDatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ManagedDatabaseInner> updateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
+    public ServiceFuture<ManagedDatabaseInner> updateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdate parameters, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
     }
 
@@ -880,7 +881,7 @@ public class ManagedDatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ManagedDatabaseInner> updateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
+    public Observable<ManagedDatabaseInner> updateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdate parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).map(new Func1<ServiceResponse<ManagedDatabaseInner>, ManagedDatabaseInner>() {
             @Override
             public ManagedDatabaseInner call(ServiceResponse<ManagedDatabaseInner> response) {
@@ -899,7 +900,7 @@ public class ManagedDatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ManagedDatabaseInner>> updateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
+    public Observable<ServiceResponse<ManagedDatabaseInner>> updateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -933,7 +934,7 @@ public class ManagedDatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ManagedDatabaseInner object if successful.
      */
-    public ManagedDatabaseInner beginUpdate(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
+    public ManagedDatabaseInner beginUpdate(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdate parameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).toBlocking().single().body();
     }
 
@@ -948,7 +949,7 @@ public class ManagedDatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ManagedDatabaseInner> beginUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
+    public ServiceFuture<ManagedDatabaseInner> beginUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdate parameters, final ServiceCallback<ManagedDatabaseInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters), serviceCallback);
     }
 
@@ -962,7 +963,7 @@ public class ManagedDatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ManagedDatabaseInner object
      */
-    public Observable<ManagedDatabaseInner> beginUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
+    public Observable<ManagedDatabaseInner> beginUpdateAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdate parameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, parameters).map(new Func1<ServiceResponse<ManagedDatabaseInner>, ManagedDatabaseInner>() {
             @Override
             public ManagedDatabaseInner call(ServiceResponse<ManagedDatabaseInner> response) {
@@ -981,7 +982,7 @@ public class ManagedDatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ManagedDatabaseInner object
      */
-    public Observable<ServiceResponse<ManagedDatabaseInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdateInner parameters) {
+    public Observable<ServiceResponse<ManagedDatabaseInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, ManagedDatabaseUpdate parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

@@ -8,15 +8,16 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.TransparentDataEncryptionStates;
+import com.microsoft.azure.management.sql.TransparentDataEncryptionStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Represents a database transparent data encryption configuration.
  */
 @JsonFlatten
-public class TransparentDataEncryptionInner extends ProxyResourceInner {
+public class TransparentDataEncryptionInner extends ProxyResource {
     /**
      * Resource location.
      */
@@ -28,10 +29,10 @@ public class TransparentDataEncryptionInner extends ProxyResourceInner {
      * include: 'Enabled', 'Disabled'.
      */
     @JsonProperty(value = "properties.status")
-    private TransparentDataEncryptionStates status;
+    private TransparentDataEncryptionStatus status;
 
     /**
-     * Get the location value.
+     * Get resource location.
      *
      * @return the location value
      */
@@ -40,21 +41,21 @@ public class TransparentDataEncryptionInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the status value
      */
-    public TransparentDataEncryptionStates status() {
+    public TransparentDataEncryptionStatus status() {
         return this.status;
     }
 
     /**
-     * Set the status value.
+     * Set the status of the database transparent data encryption. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param status the status value to set
      * @return the TransparentDataEncryptionInner object itself.
      */
-    public TransparentDataEncryptionInner withStatus(TransparentDataEncryptionStates status) {
+    public TransparentDataEncryptionInner withStatus(TransparentDataEncryptionStatus status) {
         this.status = status;
         return this;
     }

@@ -30,7 +30,7 @@ public class SyncFullSchemaPropertiesInner {
     private DateTime lastUpdateTime;
 
     /**
-     * Get the tables value.
+     * Get list of tables in the database full schema.
      *
      * @return the tables value
      */
@@ -39,7 +39,7 @@ public class SyncFullSchemaPropertiesInner {
     }
 
     /**
-     * Get the lastUpdateTime value.
+     * Get last update time of the database schema.
      *
      * @return the lastUpdateTime value
      */

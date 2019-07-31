@@ -7,7 +7,7 @@
 package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.management.sql.SqlDatabaseOperations;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlElasticPoolBasicEDTUs;
@@ -45,7 +45,7 @@ public class SqlElasticPoolForDatabaseImpl
     }
 
     @Override
-    public SqlElasticPoolForDatabaseImpl withEdition(ElasticPoolEditions edition) {
+    public SqlElasticPoolForDatabaseImpl withEdition(ElasticPoolEdition edition) {
         this.sqlElasticPool.withEdition(edition);
         return this;
     }

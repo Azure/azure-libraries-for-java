@@ -22,7 +22,7 @@ public class ServerDnsAliasAcquisition {
     private String oldServerDnsAliasId;
 
     /**
-     * Get the oldServerDnsAliasId value.
+     * Get the id of the server alias that will be acquired to point to this server instead.
      *
      * @return the oldServerDnsAliasId value
      */
@@ -31,7 +31,7 @@ public class ServerDnsAliasAcquisition {
     }
 
     /**
-     * Set the oldServerDnsAliasId value.
+     * Set the id of the server alias that will be acquired to point to this server instead.
      *
      * @param oldServerDnsAliasId the oldServerDnsAliasId value to set
      * @return the ServerDnsAliasAcquisition object itself.

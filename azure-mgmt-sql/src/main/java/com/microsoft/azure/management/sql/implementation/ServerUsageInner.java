@@ -58,7 +58,7 @@ public class ServerUsageInner {
     private DateTime nextResetTime;
 
     /**
-     * Get the name value.
+     * Get name of the server usage metric.
      *
      * @return the name value
      */
@@ -67,7 +67,7 @@ public class ServerUsageInner {
     }
 
     /**
-     * Get the resourceName value.
+     * Get the name of the resource.
      *
      * @return the resourceName value
      */
@@ -76,7 +76,7 @@ public class ServerUsageInner {
     }
 
     /**
-     * Get the displayName value.
+     * Get the metric display name.
      *
      * @return the displayName value
      */
@@ -85,7 +85,7 @@ public class ServerUsageInner {
     }
 
     /**
-     * Get the currentValue value.
+     * Get the current value of the metric.
      *
      * @return the currentValue value
      */
@@ -94,7 +94,7 @@ public class ServerUsageInner {
     }
 
     /**
-     * Get the limit value.
+     * Get the current limit of the metric.
      *
      * @return the limit value
      */
@@ -103,7 +103,7 @@ public class ServerUsageInner {
     }
 
     /**
-     * Get the unit value.
+     * Get the units of the metric.
      *
      * @return the unit value
      */
@@ -112,7 +112,7 @@ public class ServerUsageInner {
     }
 
     /**
-     * Get the nextResetTime value.
+     * Get the next reset time for the metric (ISO8601 format).
      *
      * @return the nextResetTime value
      */

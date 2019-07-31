@@ -12,12 +12,13 @@ import org.joda.time.DateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Represents the activity on an elastic pool.
  */
 @JsonFlatten
-public class ElasticPoolActivityInner extends ProxyResourceInner {
+public class ElasticPoolActivityInner extends ProxyResource {
     /**
      * The geo-location where the resource lives.
      */
@@ -145,7 +146,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     private Integer requestedDtuGuarantee;
 
     /**
-     * Get the location value.
+     * Get the geo-location where the resource lives.
      *
      * @return the location value
      */
@@ -154,7 +155,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the location value.
+     * Set the geo-location where the resource lives.
      *
      * @param location the location value to set
      * @return the ElasticPoolActivityInner object itself.
@@ -165,7 +166,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the endTime value.
+     * Get the time the operation finished (ISO8601 format).
      *
      * @return the endTime value
      */
@@ -174,7 +175,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the errorCode value.
+     * Get the error code if available.
      *
      * @return the errorCode value
      */
@@ -183,7 +184,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the errorMessage value.
+     * Get the error message if available.
      *
      * @return the errorMessage value
      */
@@ -192,7 +193,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the errorSeverity value.
+     * Get the error severity if available.
      *
      * @return the errorSeverity value
      */
@@ -201,7 +202,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the operation value.
+     * Get the operation name.
      *
      * @return the operation value
      */
@@ -210,7 +211,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the operationId value.
+     * Get the unique operation ID.
      *
      * @return the operationId value
      */
@@ -219,7 +220,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the percentComplete value.
+     * Get the percentage complete if available.
      *
      * @return the percentComplete value
      */
@@ -228,7 +229,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedDatabaseDtuMax value.
+     * Get the requested max DTU per database if available.
      *
      * @return the requestedDatabaseDtuMax value
      */
@@ -237,7 +238,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedDatabaseDtuMin value.
+     * Get the requested min DTU per database if available.
      *
      * @return the requestedDatabaseDtuMin value
      */
@@ -246,7 +247,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedDtu value.
+     * Get the requested DTU for the pool if available.
      *
      * @return the requestedDtu value
      */
@@ -255,7 +256,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedElasticPoolName value.
+     * Get the requested name for the elastic pool if available.
      *
      * @return the requestedElasticPoolName value
      */
@@ -264,7 +265,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedStorageLimitInGB value.
+     * Get the requested storage limit for the pool in GB if available.
      *
      * @return the requestedStorageLimitInGB value
      */
@@ -273,7 +274,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the elasticPoolName value.
+     * Get the name of the elastic pool.
      *
      * @return the elasticPoolName value
      */
@@ -282,7 +283,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the serverName value.
+     * Get the name of the server the elastic pool is in.
      *
      * @return the serverName value
      */
@@ -291,7 +292,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the startTime value.
+     * Get the time the operation started (ISO8601 format).
      *
      * @return the startTime value
      */
@@ -300,7 +301,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the state value.
+     * Get the current state of the operation.
      *
      * @return the state value
      */
@@ -309,7 +310,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedStorageLimitInMB value.
+     * Get the requested storage limit in MB.
      *
      * @return the requestedStorageLimitInMB value
      */
@@ -318,7 +319,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedDatabaseDtuGuarantee value.
+     * Get the requested per database DTU guarantee.
      *
      * @return the requestedDatabaseDtuGuarantee value
      */
@@ -327,7 +328,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedDatabaseDtuCap value.
+     * Get the requested per database DTU cap.
      *
      * @return the requestedDatabaseDtuCap value
      */
@@ -336,7 +337,7 @@ public class ElasticPoolActivityInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the requestedDtuGuarantee value.
+     * Get the requested DTU guarantee.
      *
      * @return the requestedDtuGuarantee value
      */

@@ -20,14 +20,13 @@ import com.microsoft.azure.SubResource;
 @JsonFlatten
 public class RouteFilterRuleInner extends SubResource {
     /**
-     * The access type of the rule. Valid values are: 'Allow', 'Deny'. Possible
-     * values include: 'Allow', 'Deny'.
+     * The access type of the rule. Possible values include: 'Allow', 'Deny'.
      */
     @JsonProperty(value = "properties.access", required = true)
     private Access access;
 
     /**
-     * The rule type of the rule. Valid value is: 'Community'.
+     * The rule type of the rule.
      */
     @JsonProperty(value = "properties.routeFilterRuleType", required = true)
     private String routeFilterRuleType;
@@ -67,13 +66,15 @@ public class RouteFilterRuleInner extends SubResource {
 
     /**
      * Creates an instance of RouteFilterRuleInner class.
+     * @param access the access type of the rule. Possible values include: 'Allow', 'Deny'.
+     * @param communities the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
      */
     public RouteFilterRuleInner() {
         routeFilterRuleType = "Community";
     }
 
     /**
-     * Get the access value.
+     * Get the access type of the rule. Possible values include: 'Allow', 'Deny'.
      *
      * @return the access value
      */
@@ -82,7 +83,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Set the access value.
+     * Set the access type of the rule. Possible values include: 'Allow', 'Deny'.
      *
      * @param access the access value to set
      * @return the RouteFilterRuleInner object itself.
@@ -93,7 +94,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the routeFilterRuleType value.
+     * Get the rule type of the rule.
      *
      * @return the routeFilterRuleType value
      */
@@ -102,7 +103,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Set the routeFilterRuleType value.
+     * Set the rule type of the rule.
      *
      * @param routeFilterRuleType the routeFilterRuleType value to set
      * @return the RouteFilterRuleInner object itself.
@@ -113,7 +114,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the communities value.
+     * Get the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
      *
      * @return the communities value
      */
@@ -122,7 +123,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Set the communities value.
+     * Set the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
      *
      * @param communities the communities value to set
      * @return the RouteFilterRuleInner object itself.
@@ -133,7 +134,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -142,7 +143,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -151,7 +152,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the RouteFilterRuleInner object itself.
@@ -162,7 +163,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the location value.
+     * Get resource location.
      *
      * @return the location value
      */
@@ -171,7 +172,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Set the location value.
+     * Set resource location.
      *
      * @param location the location value to set
      * @return the RouteFilterRuleInner object itself.
@@ -182,7 +183,7 @@ public class RouteFilterRuleInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

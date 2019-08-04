@@ -38,6 +38,13 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     private String publicCertData;
 
     /**
+     * Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate'
+     * object stored in KeyVault.
+     */
+    @JsonProperty(value = "properties.keyVaultSecretId")
+    private String keyVaultSecretId;
+
+    /**
      * Provisioning state of the SSL certificate resource Possible values are:
      * 'Updating', 'Deleting', and 'Failed'.
      */
@@ -64,7 +71,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     private String type;
 
     /**
-     * Get the data value.
+     * Get base-64 encoded pfx certificate. Only applicable in PUT Request.
      *
      * @return the data value
      */
@@ -73,7 +80,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Set the data value.
+     * Set base-64 encoded pfx certificate. Only applicable in PUT Request.
      *
      * @param data the data value to set
      * @return the ApplicationGatewaySslCertificateInner object itself.
@@ -84,7 +91,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Get the password value.
+     * Get password for the pfx file specified in data. Only applicable in PUT request.
      *
      * @return the password value
      */
@@ -93,7 +100,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Set the password value.
+     * Set password for the pfx file specified in data. Only applicable in PUT request.
      *
      * @param password the password value to set
      * @return the ApplicationGatewaySslCertificateInner object itself.
@@ -104,7 +111,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Get the publicCertData value.
+     * Get base-64 encoded Public cert data corresponding to pfx specified in data. Only applicable in GET request.
      *
      * @return the publicCertData value
      */
@@ -113,7 +120,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Set the publicCertData value.
+     * Set base-64 encoded Public cert data corresponding to pfx specified in data. Only applicable in GET request.
      *
      * @param publicCertData the publicCertData value to set
      * @return the ApplicationGatewaySslCertificateInner object itself.
@@ -124,7 +131,27 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
+     *
+     * @return the keyVaultSecretId value
+     */
+    public String keyVaultSecretId() {
+        return this.keyVaultSecretId;
+    }
+
+    /**
+     * Set secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
+     *
+     * @param keyVaultSecretId the keyVaultSecretId value to set
+     * @return the ApplicationGatewaySslCertificateInner object itself.
+     */
+    public ApplicationGatewaySslCertificateInner withKeyVaultSecretId(String keyVaultSecretId) {
+        this.keyVaultSecretId = keyVaultSecretId;
+        return this;
+    }
+
+    /**
+     * Get provisioning state of the SSL certificate resource Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -133,7 +160,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set provisioning state of the SSL certificate resource Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the ApplicationGatewaySslCertificateInner object itself.
@@ -144,7 +171,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get name of the SSL certificate that is unique within an Application Gateway.
      *
      * @return the name value
      */
@@ -153,7 +180,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set name of the SSL certificate that is unique within an Application Gateway.
      *
      * @param name the name value to set
      * @return the ApplicationGatewaySslCertificateInner object itself.
@@ -164,7 +191,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -173,7 +200,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the ApplicationGatewaySslCertificateInner object itself.
@@ -184,7 +211,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Get the type value.
+     * Get type of the resource.
      *
      * @return the type value
      */
@@ -193,7 +220,7 @@ public class ApplicationGatewaySslCertificateInner extends SubResource {
     }
 
     /**
-     * Set the type value.
+     * Set type of the resource.
      *
      * @param type the type value to set
      * @return the ApplicationGatewaySslCertificateInner object itself.

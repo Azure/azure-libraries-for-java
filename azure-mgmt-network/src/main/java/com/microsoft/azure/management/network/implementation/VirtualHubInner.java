@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.SubResource;
 import java.util.List;
+import com.microsoft.azure.management.network.VirtualHubRouteTable;
 import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -29,16 +30,40 @@ public class VirtualHubInner extends Resource {
     private SubResource virtualWan;
 
     /**
-     * list of all vnet connections with this VirtualHub.
+     * The VpnGateway associated with this VirtualHub.
      */
-    @JsonProperty(value = "properties.hubVirtualNetworkConnections")
-    private List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnections;
+    @JsonProperty(value = "properties.vpnGateway")
+    private SubResource vpnGateway;
+
+    /**
+     * The P2SVpnGateway associated with this VirtualHub.
+     */
+    @JsonProperty(value = "properties.p2SVpnGateway")
+    private SubResource p2SVpnGateway;
+
+    /**
+     * The expressRouteGateway associated with this VirtualHub.
+     */
+    @JsonProperty(value = "properties.expressRouteGateway")
+    private SubResource expressRouteGateway;
+
+    /**
+     * List of all vnet connections with this VirtualHub.
+     */
+    @JsonProperty(value = "properties.virtualNetworkConnections")
+    private List<HubVirtualNetworkConnectionInner> virtualNetworkConnections;
 
     /**
      * Address-prefix for this VirtualHub.
      */
     @JsonProperty(value = "properties.addressPrefix")
     private String addressPrefix;
+
+    /**
+     * The routeTable associated with this virtual hub.
+     */
+    @JsonProperty(value = "properties.routeTable")
+    private VirtualHubRouteTable routeTable;
 
     /**
      * The provisioning state of the resource. Possible values include:
@@ -61,7 +86,7 @@ public class VirtualHubInner extends Resource {
     private String id;
 
     /**
-     * Get the virtualWan value.
+     * Get the VirtualWAN to which the VirtualHub belongs.
      *
      * @return the virtualWan value
      */
@@ -70,7 +95,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the virtualWan value.
+     * Set the VirtualWAN to which the VirtualHub belongs.
      *
      * @param virtualWan the virtualWan value to set
      * @return the VirtualHubInner object itself.
@@ -81,27 +106,87 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the hubVirtualNetworkConnections value.
+     * Get the VpnGateway associated with this VirtualHub.
      *
-     * @return the hubVirtualNetworkConnections value
+     * @return the vpnGateway value
      */
-    public List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnections() {
-        return this.hubVirtualNetworkConnections;
+    public SubResource vpnGateway() {
+        return this.vpnGateway;
     }
 
     /**
-     * Set the hubVirtualNetworkConnections value.
+     * Set the VpnGateway associated with this VirtualHub.
      *
-     * @param hubVirtualNetworkConnections the hubVirtualNetworkConnections value to set
+     * @param vpnGateway the vpnGateway value to set
      * @return the VirtualHubInner object itself.
      */
-    public VirtualHubInner withHubVirtualNetworkConnections(List<HubVirtualNetworkConnectionInner> hubVirtualNetworkConnections) {
-        this.hubVirtualNetworkConnections = hubVirtualNetworkConnections;
+    public VirtualHubInner withVpnGateway(SubResource vpnGateway) {
+        this.vpnGateway = vpnGateway;
         return this;
     }
 
     /**
-     * Get the addressPrefix value.
+     * Get the P2SVpnGateway associated with this VirtualHub.
+     *
+     * @return the p2SVpnGateway value
+     */
+    public SubResource p2SVpnGateway() {
+        return this.p2SVpnGateway;
+    }
+
+    /**
+     * Set the P2SVpnGateway associated with this VirtualHub.
+     *
+     * @param p2SVpnGateway the p2SVpnGateway value to set
+     * @return the VirtualHubInner object itself.
+     */
+    public VirtualHubInner withP2SVpnGateway(SubResource p2SVpnGateway) {
+        this.p2SVpnGateway = p2SVpnGateway;
+        return this;
+    }
+
+    /**
+     * Get the expressRouteGateway associated with this VirtualHub.
+     *
+     * @return the expressRouteGateway value
+     */
+    public SubResource expressRouteGateway() {
+        return this.expressRouteGateway;
+    }
+
+    /**
+     * Set the expressRouteGateway associated with this VirtualHub.
+     *
+     * @param expressRouteGateway the expressRouteGateway value to set
+     * @return the VirtualHubInner object itself.
+     */
+    public VirtualHubInner withExpressRouteGateway(SubResource expressRouteGateway) {
+        this.expressRouteGateway = expressRouteGateway;
+        return this;
+    }
+
+    /**
+     * Get list of all vnet connections with this VirtualHub.
+     *
+     * @return the virtualNetworkConnections value
+     */
+    public List<HubVirtualNetworkConnectionInner> virtualNetworkConnections() {
+        return this.virtualNetworkConnections;
+    }
+
+    /**
+     * Set list of all vnet connections with this VirtualHub.
+     *
+     * @param virtualNetworkConnections the virtualNetworkConnections value to set
+     * @return the VirtualHubInner object itself.
+     */
+    public VirtualHubInner withVirtualNetworkConnections(List<HubVirtualNetworkConnectionInner> virtualNetworkConnections) {
+        this.virtualNetworkConnections = virtualNetworkConnections;
+        return this;
+    }
+
+    /**
+     * Get address-prefix for this VirtualHub.
      *
      * @return the addressPrefix value
      */
@@ -110,7 +195,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the addressPrefix value.
+     * Set address-prefix for this VirtualHub.
      *
      * @param addressPrefix the addressPrefix value to set
      * @return the VirtualHubInner object itself.
@@ -121,7 +206,27 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the routeTable associated with this virtual hub.
+     *
+     * @return the routeTable value
+     */
+    public VirtualHubRouteTable routeTable() {
+        return this.routeTable;
+    }
+
+    /**
+     * Set the routeTable associated with this virtual hub.
+     *
+     * @param routeTable the routeTable value to set
+     * @return the VirtualHubInner object itself.
+     */
+    public VirtualHubInner withRouteTable(VirtualHubRouteTable routeTable) {
+        this.routeTable = routeTable;
+        return this;
+    }
+
+    /**
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -130,7 +235,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the VirtualHubInner object itself.
@@ -141,7 +246,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -150,7 +255,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -159,7 +264,7 @@ public class VirtualHubInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the VirtualHubInner object itself.

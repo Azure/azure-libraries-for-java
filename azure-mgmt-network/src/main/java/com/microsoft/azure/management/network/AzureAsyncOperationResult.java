@@ -22,21 +22,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class AzureAsyncOperationResult {
     /**
-     * Status of the Azure async operation. Possible values are: 'InProgress',
-     * 'Succeeded', and 'Failed'. Possible values include: 'InProgress',
-     * 'Succeeded', 'Failed'.
+     * Status of the Azure async operation. Possible values include:
+     * 'InProgress', 'Succeeded', 'Failed'.
      */
     @JsonProperty(value = "status")
     private NetworkOperationStatus status;
 
     /**
-     * The error property.
+     * Details of the error occurred during specified asynchronous operation.
      */
     @JsonProperty(value = "error")
     private Error error;
 
     /**
-     * Get the status value.
+     * Get status of the Azure async operation. Possible values include: 'InProgress', 'Succeeded', 'Failed'.
      *
      * @return the status value
      */
@@ -45,7 +44,7 @@ public class AzureAsyncOperationResult {
     }
 
     /**
-     * Set the status value.
+     * Set status of the Azure async operation. Possible values include: 'InProgress', 'Succeeded', 'Failed'.
      *
      * @param status the status value to set
      * @return the AzureAsyncOperationResult object itself.
@@ -56,7 +55,7 @@ public class AzureAsyncOperationResult {
     }
 
     /**
-     * Get the error value.
+     * Get details of the error occurred during specified asynchronous operation.
      *
      * @return the error value
      */
@@ -65,7 +64,7 @@ public class AzureAsyncOperationResult {
     }
 
     /**
-     * Set the error value.
+     * Set details of the error occurred during specified asynchronous operation.
      *
      * @param error the error value to set
      * @return the AzureAsyncOperationResult object itself.

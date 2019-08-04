@@ -35,7 +35,13 @@ public class ApplicationGatewayBackendHealthServer {
     private ApplicationGatewayBackendHealthServerHealth health;
 
     /**
-     * Get the address value.
+     * Health Probe Log.
+     */
+    @JsonProperty(value = "healthProbeLog")
+    private String healthProbeLog;
+
+    /**
+     * Get iP address or FQDN of backend server.
      *
      * @return the address value
      */
@@ -44,7 +50,7 @@ public class ApplicationGatewayBackendHealthServer {
     }
 
     /**
-     * Set the address value.
+     * Set iP address or FQDN of backend server.
      *
      * @param address the address value to set
      * @return the ApplicationGatewayBackendHealthServer object itself.
@@ -55,7 +61,7 @@ public class ApplicationGatewayBackendHealthServer {
     }
 
     /**
-     * Get the ipConfiguration value.
+     * Get reference of IP configuration of backend server.
      *
      * @return the ipConfiguration value
      */
@@ -64,7 +70,7 @@ public class ApplicationGatewayBackendHealthServer {
     }
 
     /**
-     * Set the ipConfiguration value.
+     * Set reference of IP configuration of backend server.
      *
      * @param ipConfiguration the ipConfiguration value to set
      * @return the ApplicationGatewayBackendHealthServer object itself.
@@ -75,7 +81,7 @@ public class ApplicationGatewayBackendHealthServer {
     }
 
     /**
-     * Get the health value.
+     * Get health of backend server. Possible values include: 'Unknown', 'Up', 'Down', 'Partial', 'Draining'.
      *
      * @return the health value
      */
@@ -84,13 +90,33 @@ public class ApplicationGatewayBackendHealthServer {
     }
 
     /**
-     * Set the health value.
+     * Set health of backend server. Possible values include: 'Unknown', 'Up', 'Down', 'Partial', 'Draining'.
      *
      * @param health the health value to set
      * @return the ApplicationGatewayBackendHealthServer object itself.
      */
     public ApplicationGatewayBackendHealthServer withHealth(ApplicationGatewayBackendHealthServerHealth health) {
         this.health = health;
+        return this;
+    }
+
+    /**
+     * Get health Probe Log.
+     *
+     * @return the healthProbeLog value
+     */
+    public String healthProbeLog() {
+        return this.healthProbeLog;
+    }
+
+    /**
+     * Set health Probe Log.
+     *
+     * @param healthProbeLog the healthProbeLog value to set
+     * @return the ApplicationGatewayBackendHealthServer object itself.
+     */
+    public ApplicationGatewayBackendHealthServer withHealthProbeLog(String healthProbeLog) {
+        this.healthProbeLog = healthProbeLog;
         return this;
     }
 

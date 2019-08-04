@@ -52,7 +52,7 @@ public class AzureFirewallNetworkRule {
     private List<String> destinationPorts;
 
     /**
-     * Get the name value.
+     * Get name of the network rule.
      *
      * @return the name value
      */
@@ -61,7 +61,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Set the name value.
+     * Set name of the network rule.
      *
      * @param name the name value to set
      * @return the AzureFirewallNetworkRule object itself.
@@ -72,7 +72,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Get the description value.
+     * Get description of the rule.
      *
      * @return the description value
      */
@@ -81,7 +81,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Set the description value.
+     * Set description of the rule.
      *
      * @param description the description value to set
      * @return the AzureFirewallNetworkRule object itself.
@@ -92,7 +92,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Get the protocols value.
+     * Get array of AzureFirewallNetworkRuleProtocols.
      *
      * @return the protocols value
      */
@@ -101,7 +101,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Set the protocols value.
+     * Set array of AzureFirewallNetworkRuleProtocols.
      *
      * @param protocols the protocols value to set
      * @return the AzureFirewallNetworkRule object itself.
@@ -112,7 +112,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Get the sourceAddresses value.
+     * Get list of source IP addresses for this rule.
      *
      * @return the sourceAddresses value
      */
@@ -121,7 +121,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Set the sourceAddresses value.
+     * Set list of source IP addresses for this rule.
      *
      * @param sourceAddresses the sourceAddresses value to set
      * @return the AzureFirewallNetworkRule object itself.
@@ -132,7 +132,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Get the destinationAddresses value.
+     * Get list of destination IP addresses.
      *
      * @return the destinationAddresses value
      */
@@ -141,7 +141,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Set the destinationAddresses value.
+     * Set list of destination IP addresses.
      *
      * @param destinationAddresses the destinationAddresses value to set
      * @return the AzureFirewallNetworkRule object itself.
@@ -152,7 +152,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Get the destinationPorts value.
+     * Get list of destination ports.
      *
      * @return the destinationPorts value
      */
@@ -161,7 +161,7 @@ public class AzureFirewallNetworkRule {
     }
 
     /**
-     * Set the destinationPorts value.
+     * Set list of destination ports.
      *
      * @param destinationPorts the destinationPorts value to set
      * @return the AzureFirewallNetworkRule object itself.

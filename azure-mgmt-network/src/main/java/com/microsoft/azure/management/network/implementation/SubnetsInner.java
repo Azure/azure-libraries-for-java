@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.network.PrepareNetworkPoliciesRequest;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -28,12 +29,17 @@ import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
 import retrofit2.http.Path;
+import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
 import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -80,6 +86,14 @@ public class SubnetsInner {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.Subnets beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}")
         Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("virtualNetworkName") String virtualNetworkName, @Path("subnetName") String subnetName, @Path("subscriptionId") String subscriptionId, @Body SubnetInner subnetParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.Subnets prepareNetworkPolicies" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies")
+        Observable<Response<ResponseBody>> prepareNetworkPolicies(@Path("resourceGroupName") String resourceGroupName, @Path("virtualNetworkName") String virtualNetworkName, @Path("subnetName") String subnetName, @Path("subscriptionId") String subscriptionId, @Body PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.Subnets beginPrepareNetworkPolicies" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies")
+        Observable<Response<ResponseBody>> beginPrepareNetworkPolicies(@Path("resourceGroupName") String resourceGroupName, @Path("virtualNetworkName") String virtualNetworkName, @Path("subnetName") String subnetName, @Path("subscriptionId") String subscriptionId, @Body PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.Subnets list" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets")
@@ -159,7 +173,7 @@ public class SubnetsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, virtualNetworkName, subnetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -232,7 +246,7 @@ public class SubnetsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginDelete(resourceGroupName, virtualNetworkName, subnetName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -325,7 +339,7 @@ public class SubnetsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         final String expand = null;
         return service.get(resourceGroupName, virtualNetworkName, subnetName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SubnetInner>>>() {
@@ -414,7 +428,7 @@ public class SubnetsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.get(resourceGroupName, virtualNetworkName, subnetName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SubnetInner>>>() {
                 @Override
@@ -513,7 +527,7 @@ public class SubnetsInner {
             throw new IllegalArgumentException("Parameter subnetParameters is required and cannot be null.");
         }
         Validator.validate(subnetParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, virtualNetworkName, subnetName, this.client.subscriptionId(), subnetParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<SubnetInner>() { }.getType());
     }
@@ -595,7 +609,7 @@ public class SubnetsInner {
             throw new IllegalArgumentException("Parameter subnetParameters is required and cannot be null.");
         }
         Validator.validate(subnetParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginCreateOrUpdate(resourceGroupName, virtualNetworkName, subnetName, this.client.subscriptionId(), subnetParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SubnetInner>>>() {
                 @Override
@@ -614,6 +628,186 @@ public class SubnetsInner {
         return this.client.restClient().responseBuilderFactory().<SubnetInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<SubnetInner>() { }.getType())
                 .register(201, new TypeToken<SubnetInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Prepares a subnet by applying network intent policies.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkName The name of the virtual network.
+     * @param subnetName The name of the subnet.
+     * @param prepareNetworkPoliciesRequestParameters Parameters supplied to prepare subnet by applying network intent policies.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void prepareNetworkPolicies(String resourceGroupName, String virtualNetworkName, String subnetName, PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters) {
+        prepareNetworkPoliciesWithServiceResponseAsync(resourceGroupName, virtualNetworkName, subnetName, prepareNetworkPoliciesRequestParameters).toBlocking().last().body();
+    }
+
+    /**
+     * Prepares a subnet by applying network intent policies.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkName The name of the virtual network.
+     * @param subnetName The name of the subnet.
+     * @param prepareNetworkPoliciesRequestParameters Parameters supplied to prepare subnet by applying network intent policies.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> prepareNetworkPoliciesAsync(String resourceGroupName, String virtualNetworkName, String subnetName, PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(prepareNetworkPoliciesWithServiceResponseAsync(resourceGroupName, virtualNetworkName, subnetName, prepareNetworkPoliciesRequestParameters), serviceCallback);
+    }
+
+    /**
+     * Prepares a subnet by applying network intent policies.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkName The name of the virtual network.
+     * @param subnetName The name of the subnet.
+     * @param prepareNetworkPoliciesRequestParameters Parameters supplied to prepare subnet by applying network intent policies.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> prepareNetworkPoliciesAsync(String resourceGroupName, String virtualNetworkName, String subnetName, PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters) {
+        return prepareNetworkPoliciesWithServiceResponseAsync(resourceGroupName, virtualNetworkName, subnetName, prepareNetworkPoliciesRequestParameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Prepares a subnet by applying network intent policies.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkName The name of the virtual network.
+     * @param subnetName The name of the subnet.
+     * @param prepareNetworkPoliciesRequestParameters Parameters supplied to prepare subnet by applying network intent policies.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> prepareNetworkPoliciesWithServiceResponseAsync(String resourceGroupName, String virtualNetworkName, String subnetName, PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkName is required and cannot be null.");
+        }
+        if (subnetName == null) {
+            throw new IllegalArgumentException("Parameter subnetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (prepareNetworkPoliciesRequestParameters == null) {
+            throw new IllegalArgumentException("Parameter prepareNetworkPoliciesRequestParameters is required and cannot be null.");
+        }
+        Validator.validate(prepareNetworkPoliciesRequestParameters);
+        final String apiVersion = "2019-06-01";
+        Observable<Response<ResponseBody>> observable = service.prepareNetworkPolicies(resourceGroupName, virtualNetworkName, subnetName, this.client.subscriptionId(), prepareNetworkPoliciesRequestParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Prepares a subnet by applying network intent policies.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkName The name of the virtual network.
+     * @param subnetName The name of the subnet.
+     * @param prepareNetworkPoliciesRequestParameters Parameters supplied to prepare subnet by applying network intent policies.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginPrepareNetworkPolicies(String resourceGroupName, String virtualNetworkName, String subnetName, PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters) {
+        beginPrepareNetworkPoliciesWithServiceResponseAsync(resourceGroupName, virtualNetworkName, subnetName, prepareNetworkPoliciesRequestParameters).toBlocking().single().body();
+    }
+
+    /**
+     * Prepares a subnet by applying network intent policies.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkName The name of the virtual network.
+     * @param subnetName The name of the subnet.
+     * @param prepareNetworkPoliciesRequestParameters Parameters supplied to prepare subnet by applying network intent policies.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginPrepareNetworkPoliciesAsync(String resourceGroupName, String virtualNetworkName, String subnetName, PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginPrepareNetworkPoliciesWithServiceResponseAsync(resourceGroupName, virtualNetworkName, subnetName, prepareNetworkPoliciesRequestParameters), serviceCallback);
+    }
+
+    /**
+     * Prepares a subnet by applying network intent policies.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkName The name of the virtual network.
+     * @param subnetName The name of the subnet.
+     * @param prepareNetworkPoliciesRequestParameters Parameters supplied to prepare subnet by applying network intent policies.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginPrepareNetworkPoliciesAsync(String resourceGroupName, String virtualNetworkName, String subnetName, PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters) {
+        return beginPrepareNetworkPoliciesWithServiceResponseAsync(resourceGroupName, virtualNetworkName, subnetName, prepareNetworkPoliciesRequestParameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Prepares a subnet by applying network intent policies.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param virtualNetworkName The name of the virtual network.
+     * @param subnetName The name of the subnet.
+     * @param prepareNetworkPoliciesRequestParameters Parameters supplied to prepare subnet by applying network intent policies.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginPrepareNetworkPoliciesWithServiceResponseAsync(String resourceGroupName, String virtualNetworkName, String subnetName, PrepareNetworkPoliciesRequest prepareNetworkPoliciesRequestParameters) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (virtualNetworkName == null) {
+            throw new IllegalArgumentException("Parameter virtualNetworkName is required and cannot be null.");
+        }
+        if (subnetName == null) {
+            throw new IllegalArgumentException("Parameter subnetName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (prepareNetworkPoliciesRequestParameters == null) {
+            throw new IllegalArgumentException("Parameter prepareNetworkPoliciesRequestParameters is required and cannot be null.");
+        }
+        Validator.validate(prepareNetworkPoliciesRequestParameters);
+        final String apiVersion = "2019-06-01";
+        return service.beginPrepareNetworkPolicies(resourceGroupName, virtualNetworkName, subnetName, this.client.subscriptionId(), prepareNetworkPoliciesRequestParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginPrepareNetworkPoliciesDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginPrepareNetworkPoliciesDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -717,7 +911,7 @@ public class SubnetsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.list(resourceGroupName, virtualNetworkName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SubnetInner>>>>() {
                 @Override

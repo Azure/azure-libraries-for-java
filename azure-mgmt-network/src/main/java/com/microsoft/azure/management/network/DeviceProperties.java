@@ -33,7 +33,7 @@ public class DeviceProperties {
     private Integer linkSpeedInMbps;
 
     /**
-     * Get the deviceVendor value.
+     * Get name of the device Vendor.
      *
      * @return the deviceVendor value
      */
@@ -42,7 +42,7 @@ public class DeviceProperties {
     }
 
     /**
-     * Set the deviceVendor value.
+     * Set name of the device Vendor.
      *
      * @param deviceVendor the deviceVendor value to set
      * @return the DeviceProperties object itself.
@@ -53,7 +53,7 @@ public class DeviceProperties {
     }
 
     /**
-     * Get the deviceModel value.
+     * Get model of the device.
      *
      * @return the deviceModel value
      */
@@ -62,7 +62,7 @@ public class DeviceProperties {
     }
 
     /**
-     * Set the deviceModel value.
+     * Set model of the device.
      *
      * @param deviceModel the deviceModel value to set
      * @return the DeviceProperties object itself.
@@ -73,7 +73,7 @@ public class DeviceProperties {
     }
 
     /**
-     * Get the linkSpeedInMbps value.
+     * Get link speed.
      *
      * @return the linkSpeedInMbps value
      */
@@ -82,7 +82,7 @@ public class DeviceProperties {
     }
 
     /**
-     * Set the linkSpeedInMbps value.
+     * Set link speed.
      *
      * @param linkSpeedInMbps the linkSpeedInMbps value to set
      * @return the DeviceProperties object itself.

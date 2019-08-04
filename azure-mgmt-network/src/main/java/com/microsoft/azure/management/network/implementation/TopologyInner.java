@@ -37,13 +37,13 @@ public class TopologyInner {
     private DateTime lastModified;
 
     /**
-     * The resources property.
+     * A list of topology resources.
      */
     @JsonProperty(value = "resources")
     private List<TopologyResource> resources;
 
     /**
-     * Get the id value.
+     * Get gUID representing the operation id.
      *
      * @return the id value
      */
@@ -52,7 +52,7 @@ public class TopologyInner {
     }
 
     /**
-     * Get the createdDateTime value.
+     * Get the datetime when the topology was initially created for the resource group.
      *
      * @return the createdDateTime value
      */
@@ -61,7 +61,7 @@ public class TopologyInner {
     }
 
     /**
-     * Get the lastModified value.
+     * Get the datetime when the topology was last modified.
      *
      * @return the lastModified value
      */
@@ -70,7 +70,7 @@ public class TopologyInner {
     }
 
     /**
-     * Get the resources value.
+     * Get a list of topology resources.
      *
      * @return the resources value
      */
@@ -79,7 +79,7 @@ public class TopologyInner {
     }
 
     /**
-     * Set the resources value.
+     * Set a list of topology resources.
      *
      * @param resources the resources value to set
      * @return the TopologyInner object itself.

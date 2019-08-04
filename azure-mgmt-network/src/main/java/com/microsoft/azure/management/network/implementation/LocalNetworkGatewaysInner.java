@@ -174,7 +174,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<LocalNetworkGatewayInner>() { }.getType());
     }
@@ -249,7 +249,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginCreateOrUpdate(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LocalNetworkGatewayInner>>>() {
                 @Override
@@ -334,7 +334,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.getByResourceGroup(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<LocalNetworkGatewayInner>>>() {
                 @Override
@@ -417,7 +417,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -483,7 +483,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginDelete(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -569,7 +569,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -643,7 +643,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -712,7 +712,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -797,7 +797,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(resourceGroupName, localNetworkGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -912,7 +912,7 @@ public class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkG
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<LocalNetworkGatewayInner>>>>() {
                 @Override

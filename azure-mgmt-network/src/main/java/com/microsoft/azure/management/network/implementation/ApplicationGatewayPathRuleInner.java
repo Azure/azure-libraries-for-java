@@ -43,6 +43,12 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     private SubResource redirectConfiguration;
 
     /**
+     * Rewrite rule set resource of URL path map path rule.
+     */
+    @JsonProperty(value = "properties.rewriteRuleSet")
+    private SubResource rewriteRuleSet;
+
+    /**
      * Path rule of URL path map resource. Possible values are: 'Updating',
      * 'Deleting', and 'Failed'.
      */
@@ -68,7 +74,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     private String type;
 
     /**
-     * Get the paths value.
+     * Get path rules of URL path map.
      *
      * @return the paths value
      */
@@ -77,7 +83,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Set the paths value.
+     * Set path rules of URL path map.
      *
      * @param paths the paths value to set
      * @return the ApplicationGatewayPathRuleInner object itself.
@@ -88,7 +94,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Get the backendAddressPool value.
+     * Get backend address pool resource of URL path map path rule.
      *
      * @return the backendAddressPool value
      */
@@ -97,7 +103,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Set the backendAddressPool value.
+     * Set backend address pool resource of URL path map path rule.
      *
      * @param backendAddressPool the backendAddressPool value to set
      * @return the ApplicationGatewayPathRuleInner object itself.
@@ -108,7 +114,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Get the backendHttpSettings value.
+     * Get backend http settings resource of URL path map path rule.
      *
      * @return the backendHttpSettings value
      */
@@ -117,7 +123,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Set the backendHttpSettings value.
+     * Set backend http settings resource of URL path map path rule.
      *
      * @param backendHttpSettings the backendHttpSettings value to set
      * @return the ApplicationGatewayPathRuleInner object itself.
@@ -128,7 +134,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Get the redirectConfiguration value.
+     * Get redirect configuration resource of URL path map path rule.
      *
      * @return the redirectConfiguration value
      */
@@ -137,7 +143,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Set the redirectConfiguration value.
+     * Set redirect configuration resource of URL path map path rule.
      *
      * @param redirectConfiguration the redirectConfiguration value to set
      * @return the ApplicationGatewayPathRuleInner object itself.
@@ -148,7 +154,27 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get rewrite rule set resource of URL path map path rule.
+     *
+     * @return the rewriteRuleSet value
+     */
+    public SubResource rewriteRuleSet() {
+        return this.rewriteRuleSet;
+    }
+
+    /**
+     * Set rewrite rule set resource of URL path map path rule.
+     *
+     * @param rewriteRuleSet the rewriteRuleSet value to set
+     * @return the ApplicationGatewayPathRuleInner object itself.
+     */
+    public ApplicationGatewayPathRuleInner withRewriteRuleSet(SubResource rewriteRuleSet) {
+        this.rewriteRuleSet = rewriteRuleSet;
+        return this;
+    }
+
+    /**
+     * Get path rule of URL path map resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -157,7 +183,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set path rule of URL path map resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the ApplicationGatewayPathRuleInner object itself.
@@ -168,7 +194,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get name of the path rule that is unique within an Application Gateway.
      *
      * @return the name value
      */
@@ -177,7 +203,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set name of the path rule that is unique within an Application Gateway.
      *
      * @param name the name value to set
      * @return the ApplicationGatewayPathRuleInner object itself.
@@ -188,7 +214,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -197,7 +223,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the ApplicationGatewayPathRuleInner object itself.
@@ -208,7 +234,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Get the type value.
+     * Get type of the resource.
      *
      * @return the type value
      */
@@ -217,7 +243,7 @@ public class ApplicationGatewayPathRuleInner extends SubResource {
     }
 
     /**
-     * Set the type value.
+     * Set type of the resource.
      *
      * @param type the type value to set
      * @return the ApplicationGatewayPathRuleInner object itself.

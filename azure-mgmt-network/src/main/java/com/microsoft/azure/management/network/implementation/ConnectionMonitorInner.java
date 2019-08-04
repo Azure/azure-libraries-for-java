@@ -32,13 +32,13 @@ public class ConnectionMonitorInner {
     private Map<String, String> tags;
 
     /**
-     * The source property.
+     * Describes the source of connection monitor.
      */
     @JsonProperty(value = "properties.source", required = true)
     private ConnectionMonitorSource source;
 
     /**
-     * The destination property.
+     * Describes the destination of connection monitor.
      */
     @JsonProperty(value = "properties.destination", required = true)
     private ConnectionMonitorDestination destination;
@@ -57,7 +57,7 @@ public class ConnectionMonitorInner {
     private Integer monitoringIntervalInSeconds;
 
     /**
-     * Get the location value.
+     * Get connection monitor location.
      *
      * @return the location value
      */
@@ -66,7 +66,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Set the location value.
+     * Set connection monitor location.
      *
      * @param location the location value to set
      * @return the ConnectionMonitorInner object itself.
@@ -77,7 +77,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Get the tags value.
+     * Get connection monitor tags.
      *
      * @return the tags value
      */
@@ -86,7 +86,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Set the tags value.
+     * Set connection monitor tags.
      *
      * @param tags the tags value to set
      * @return the ConnectionMonitorInner object itself.
@@ -97,7 +97,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Get the source value.
+     * Get describes the source of connection monitor.
      *
      * @return the source value
      */
@@ -106,7 +106,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Set the source value.
+     * Set describes the source of connection monitor.
      *
      * @param source the source value to set
      * @return the ConnectionMonitorInner object itself.
@@ -117,7 +117,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Get the destination value.
+     * Get describes the destination of connection monitor.
      *
      * @return the destination value
      */
@@ -126,7 +126,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Set the destination value.
+     * Set describes the destination of connection monitor.
      *
      * @param destination the destination value to set
      * @return the ConnectionMonitorInner object itself.
@@ -137,7 +137,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Get the autoStart value.
+     * Get determines if the connection monitor will start automatically once created.
      *
      * @return the autoStart value
      */
@@ -146,7 +146,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Set the autoStart value.
+     * Set determines if the connection monitor will start automatically once created.
      *
      * @param autoStart the autoStart value to set
      * @return the ConnectionMonitorInner object itself.
@@ -157,7 +157,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Get the monitoringIntervalInSeconds value.
+     * Get monitoring interval in seconds.
      *
      * @return the monitoringIntervalInSeconds value
      */
@@ -166,7 +166,7 @@ public class ConnectionMonitorInner {
     }
 
     /**
-     * Set the monitoringIntervalInSeconds value.
+     * Set monitoring interval in seconds.
      *
      * @param monitoringIntervalInSeconds the monitoringIntervalInSeconds value to set
      * @return the ConnectionMonitorInner object itself.

@@ -27,6 +27,10 @@ import retrofit2.http.Query;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -133,9 +137,9 @@ public class VpnSitesConfigurationsInner {
             throw new IllegalArgumentException("Parameter request is required and cannot be null.");
         }
         Validator.validate(request);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.download(this.client.subscriptionId(), resourceGroupName, virtualWANName, request, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
     }
 
     /**
@@ -207,7 +211,7 @@ public class VpnSitesConfigurationsInner {
             throw new IllegalArgumentException("Parameter request is required and cannot be null.");
         }
         Validator.validate(request);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginDownload(this.client.subscriptionId(), resourceGroupName, virtualWANName, request, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override

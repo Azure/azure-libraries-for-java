@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ConnectivityParameters {
     /**
-     * The source property.
+     * Describes the source of the connection.
      */
     @JsonProperty(value = "source", required = true)
     private ConnectivitySource source;
 
     /**
-     * The destination property.
+     * Describes the destination of connection.
      */
     @JsonProperty(value = "destination", required = true)
     private ConnectivityDestination destination;
@@ -34,13 +34,13 @@ public class ConnectivityParameters {
     private Protocol protocol;
 
     /**
-     * The protocolConfiguration property.
+     * Configuration of the protocol.
      */
     @JsonProperty(value = "protocolConfiguration")
     private ProtocolConfiguration protocolConfiguration;
 
     /**
-     * Get the source value.
+     * Get describes the source of the connection.
      *
      * @return the source value
      */
@@ -49,7 +49,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Set the source value.
+     * Set describes the source of the connection.
      *
      * @param source the source value to set
      * @return the ConnectivityParameters object itself.
@@ -60,7 +60,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Get the destination value.
+     * Get describes the destination of connection.
      *
      * @return the destination value
      */
@@ -69,7 +69,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Set the destination value.
+     * Set describes the destination of connection.
      *
      * @param destination the destination value to set
      * @return the ConnectivityParameters object itself.
@@ -80,7 +80,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Get the protocol value.
+     * Get network protocol. Possible values include: 'Tcp', 'Http', 'Https', 'Icmp'.
      *
      * @return the protocol value
      */
@@ -89,7 +89,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Set the protocol value.
+     * Set network protocol. Possible values include: 'Tcp', 'Http', 'Https', 'Icmp'.
      *
      * @param protocol the protocol value to set
      * @return the ConnectivityParameters object itself.
@@ -100,7 +100,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Get the protocolConfiguration value.
+     * Get configuration of the protocol.
      *
      * @return the protocolConfiguration value
      */
@@ -109,7 +109,7 @@ public class ConnectivityParameters {
     }
 
     /**
-     * Set the protocolConfiguration value.
+     * Set configuration of the protocol.
      *
      * @param protocolConfiguration the protocolConfiguration value to set
      * @return the ConnectivityParameters object itself.

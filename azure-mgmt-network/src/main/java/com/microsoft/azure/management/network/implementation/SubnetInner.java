@@ -9,10 +9,13 @@
 package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
+import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.ServiceEndpointPropertiesFormat;
+import com.microsoft.azure.management.network.IPConfiguration;
+import com.microsoft.azure.management.network.IPConfigurationProfile;
+import com.microsoft.azure.management.network.Delegation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.SubResource;
 
 /**
  * Subnet in a virtual network resource.
@@ -24,6 +27,12 @@ public class SubnetInner extends SubResource {
      */
     @JsonProperty(value = "properties.addressPrefix")
     private String addressPrefix;
+
+    /**
+     * List of address prefixes for the subnet.
+     */
+    @JsonProperty(value = "properties.addressPrefixes")
+    private List<String> addressPrefixes;
 
     /**
      * The reference of the NetworkSecurityGroup resource.
@@ -38,17 +47,41 @@ public class SubnetInner extends SubResource {
     private RouteTableInner routeTable;
 
     /**
+     * Nat gateway associated with this subnet.
+     */
+    @JsonProperty(value = "properties.natGateway")
+    private SubResource natGateway;
+
+    /**
      * An array of service endpoints.
      */
     @JsonProperty(value = "properties.serviceEndpoints")
     private List<ServiceEndpointPropertiesFormat> serviceEndpoints;
 
     /**
+     * An array of service endpoint policies.
+     */
+    @JsonProperty(value = "properties.serviceEndpointPolicies")
+    private List<ServiceEndpointPolicyInner> serviceEndpointPolicies;
+
+    /**
+     * An array of references to private endpoints.
+     */
+    @JsonProperty(value = "properties.privateEndpoints", access = JsonProperty.Access.WRITE_ONLY)
+    private List<PrivateEndpointInner> privateEndpoints;
+
+    /**
      * Gets an array of references to the network interface IP configurations
      * using subnet.
      */
     @JsonProperty(value = "properties.ipConfigurations", access = JsonProperty.Access.WRITE_ONLY)
-    private List<IPConfigurationInner> ipConfigurations;
+    private List<IPConfiguration> ipConfigurations;
+
+    /**
+     * Array of IP configuration profiles which reference this subnet.
+     */
+    @JsonProperty(value = "properties.ipConfigurationProfiles", access = JsonProperty.Access.WRITE_ONLY)
+    private List<IPConfigurationProfile> ipConfigurationProfiles;
 
     /**
      * Gets an array of references to the external resources using subnet.
@@ -57,10 +90,43 @@ public class SubnetInner extends SubResource {
     private List<ResourceNavigationLinkInner> resourceNavigationLinks;
 
     /**
+     * Gets an array of references to services injecting into this subnet.
+     */
+    @JsonProperty(value = "properties.serviceAssociationLinks")
+    private List<ServiceAssociationLinkInner> serviceAssociationLinks;
+
+    /**
+     * Gets an array of references to the delegations on the subnet.
+     */
+    @JsonProperty(value = "properties.delegations")
+    private List<Delegation> delegations;
+
+    /**
+     * A read-only string identifying the intention of use for this subnet
+     * based on delegations and other user-defined properties.
+     */
+    @JsonProperty(value = "properties.purpose", access = JsonProperty.Access.WRITE_ONLY)
+    private String purpose;
+
+    /**
      * The provisioning state of the resource.
      */
     @JsonProperty(value = "properties.provisioningState")
     private String provisioningState;
+
+    /**
+     * Enable or Disable apply network policies on private end point in the
+     * subnet.
+     */
+    @JsonProperty(value = "properties.privateEndpointNetworkPolicies")
+    private String privateEndpointNetworkPolicies;
+
+    /**
+     * Enable or Disable apply network policies on private link service in the
+     * subnet.
+     */
+    @JsonProperty(value = "properties.privateLinkServiceNetworkPolicies")
+    private String privateLinkServiceNetworkPolicies;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -76,7 +142,7 @@ public class SubnetInner extends SubResource {
     private String etag;
 
     /**
-     * Get the addressPrefix value.
+     * Get the address prefix for the subnet.
      *
      * @return the addressPrefix value
      */
@@ -85,7 +151,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Set the addressPrefix value.
+     * Set the address prefix for the subnet.
      *
      * @param addressPrefix the addressPrefix value to set
      * @return the SubnetInner object itself.
@@ -96,7 +162,27 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Get the networkSecurityGroup value.
+     * Get list of address prefixes for the subnet.
+     *
+     * @return the addressPrefixes value
+     */
+    public List<String> addressPrefixes() {
+        return this.addressPrefixes;
+    }
+
+    /**
+     * Set list of address prefixes for the subnet.
+     *
+     * @param addressPrefixes the addressPrefixes value to set
+     * @return the SubnetInner object itself.
+     */
+    public SubnetInner withAddressPrefixes(List<String> addressPrefixes) {
+        this.addressPrefixes = addressPrefixes;
+        return this;
+    }
+
+    /**
+     * Get the reference of the NetworkSecurityGroup resource.
      *
      * @return the networkSecurityGroup value
      */
@@ -105,7 +191,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Set the networkSecurityGroup value.
+     * Set the reference of the NetworkSecurityGroup resource.
      *
      * @param networkSecurityGroup the networkSecurityGroup value to set
      * @return the SubnetInner object itself.
@@ -116,7 +202,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Get the routeTable value.
+     * Get the reference of the RouteTable resource.
      *
      * @return the routeTable value
      */
@@ -125,7 +211,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Set the routeTable value.
+     * Set the reference of the RouteTable resource.
      *
      * @param routeTable the routeTable value to set
      * @return the SubnetInner object itself.
@@ -136,7 +222,27 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Get the serviceEndpoints value.
+     * Get nat gateway associated with this subnet.
+     *
+     * @return the natGateway value
+     */
+    public SubResource natGateway() {
+        return this.natGateway;
+    }
+
+    /**
+     * Set nat gateway associated with this subnet.
+     *
+     * @param natGateway the natGateway value to set
+     * @return the SubnetInner object itself.
+     */
+    public SubnetInner withNatGateway(SubResource natGateway) {
+        this.natGateway = natGateway;
+        return this;
+    }
+
+    /**
+     * Get an array of service endpoints.
      *
      * @return the serviceEndpoints value
      */
@@ -145,7 +251,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Set the serviceEndpoints value.
+     * Set an array of service endpoints.
      *
      * @param serviceEndpoints the serviceEndpoints value to set
      * @return the SubnetInner object itself.
@@ -156,16 +262,54 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Get the ipConfigurations value.
+     * Get an array of service endpoint policies.
+     *
+     * @return the serviceEndpointPolicies value
+     */
+    public List<ServiceEndpointPolicyInner> serviceEndpointPolicies() {
+        return this.serviceEndpointPolicies;
+    }
+
+    /**
+     * Set an array of service endpoint policies.
+     *
+     * @param serviceEndpointPolicies the serviceEndpointPolicies value to set
+     * @return the SubnetInner object itself.
+     */
+    public SubnetInner withServiceEndpointPolicies(List<ServiceEndpointPolicyInner> serviceEndpointPolicies) {
+        this.serviceEndpointPolicies = serviceEndpointPolicies;
+        return this;
+    }
+
+    /**
+     * Get an array of references to private endpoints.
+     *
+     * @return the privateEndpoints value
+     */
+    public List<PrivateEndpointInner> privateEndpoints() {
+        return this.privateEndpoints;
+    }
+
+    /**
+     * Get gets an array of references to the network interface IP configurations using subnet.
      *
      * @return the ipConfigurations value
      */
-    public List<IPConfigurationInner> ipConfigurations() {
+    public List<IPConfiguration> ipConfigurations() {
         return this.ipConfigurations;
     }
 
     /**
-     * Get the resourceNavigationLinks value.
+     * Get array of IP configuration profiles which reference this subnet.
+     *
+     * @return the ipConfigurationProfiles value
+     */
+    public List<IPConfigurationProfile> ipConfigurationProfiles() {
+        return this.ipConfigurationProfiles;
+    }
+
+    /**
+     * Get gets an array of references to the external resources using subnet.
      *
      * @return the resourceNavigationLinks value
      */
@@ -174,7 +318,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Set the resourceNavigationLinks value.
+     * Set gets an array of references to the external resources using subnet.
      *
      * @param resourceNavigationLinks the resourceNavigationLinks value to set
      * @return the SubnetInner object itself.
@@ -185,7 +329,56 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get gets an array of references to services injecting into this subnet.
+     *
+     * @return the serviceAssociationLinks value
+     */
+    public List<ServiceAssociationLinkInner> serviceAssociationLinks() {
+        return this.serviceAssociationLinks;
+    }
+
+    /**
+     * Set gets an array of references to services injecting into this subnet.
+     *
+     * @param serviceAssociationLinks the serviceAssociationLinks value to set
+     * @return the SubnetInner object itself.
+     */
+    public SubnetInner withServiceAssociationLinks(List<ServiceAssociationLinkInner> serviceAssociationLinks) {
+        this.serviceAssociationLinks = serviceAssociationLinks;
+        return this;
+    }
+
+    /**
+     * Get gets an array of references to the delegations on the subnet.
+     *
+     * @return the delegations value
+     */
+    public List<Delegation> delegations() {
+        return this.delegations;
+    }
+
+    /**
+     * Set gets an array of references to the delegations on the subnet.
+     *
+     * @param delegations the delegations value to set
+     * @return the SubnetInner object itself.
+     */
+    public SubnetInner withDelegations(List<Delegation> delegations) {
+        this.delegations = delegations;
+        return this;
+    }
+
+    /**
+     * Get a read-only string identifying the intention of use for this subnet based on delegations and other user-defined properties.
+     *
+     * @return the purpose value
+     */
+    public String purpose() {
+        return this.purpose;
+    }
+
+    /**
+     * Get the provisioning state of the resource.
      *
      * @return the provisioningState value
      */
@@ -194,7 +387,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource.
      *
      * @param provisioningState the provisioningState value to set
      * @return the SubnetInner object itself.
@@ -205,7 +398,47 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get enable or Disable apply network policies on private end point in the subnet.
+     *
+     * @return the privateEndpointNetworkPolicies value
+     */
+    public String privateEndpointNetworkPolicies() {
+        return this.privateEndpointNetworkPolicies;
+    }
+
+    /**
+     * Set enable or Disable apply network policies on private end point in the subnet.
+     *
+     * @param privateEndpointNetworkPolicies the privateEndpointNetworkPolicies value to set
+     * @return the SubnetInner object itself.
+     */
+    public SubnetInner withPrivateEndpointNetworkPolicies(String privateEndpointNetworkPolicies) {
+        this.privateEndpointNetworkPolicies = privateEndpointNetworkPolicies;
+        return this;
+    }
+
+    /**
+     * Get enable or Disable apply network policies on private link service in the subnet.
+     *
+     * @return the privateLinkServiceNetworkPolicies value
+     */
+    public String privateLinkServiceNetworkPolicies() {
+        return this.privateLinkServiceNetworkPolicies;
+    }
+
+    /**
+     * Set enable or Disable apply network policies on private link service in the subnet.
+     *
+     * @param privateLinkServiceNetworkPolicies the privateLinkServiceNetworkPolicies value to set
+     * @return the SubnetInner object itself.
+     */
+    public SubnetInner withPrivateLinkServiceNetworkPolicies(String privateLinkServiceNetworkPolicies) {
+        this.privateLinkServiceNetworkPolicies = privateLinkServiceNetworkPolicies;
+        return this;
+    }
+
+    /**
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -214,7 +447,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the SubnetInner object itself.
@@ -225,7 +458,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -234,7 +467,7 @@ public class SubnetInner extends SubResource {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the SubnetInner object itself.

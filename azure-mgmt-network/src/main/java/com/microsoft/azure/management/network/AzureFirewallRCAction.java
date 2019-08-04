@@ -21,7 +21,7 @@ public class AzureFirewallRCAction {
     private AzureFirewallRCActionType type;
 
     /**
-     * Get the type value.
+     * Get the type of action. Possible values include: 'Allow', 'Deny'.
      *
      * @return the type value
      */
@@ -30,7 +30,7 @@ public class AzureFirewallRCAction {
     }
 
     /**
-     * Set the type value.
+     * Set the type of action. Possible values include: 'Allow', 'Deny'.
      *
      * @param type the type value to set
      * @return the AzureFirewallRCAction object itself.

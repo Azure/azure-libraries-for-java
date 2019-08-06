@@ -58,7 +58,7 @@ public class ConnectionMonitorImpl extends
 
     @Override
     public Map<String, String> tags() {
-        Map<String, String> tags = this.inner().tags();
+        Map<String, String> tags = this.inner().getTags();
         if (tags == null) {
             tags = new TreeMap<>();
         }

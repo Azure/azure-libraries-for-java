@@ -13,6 +13,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
+import com.microsoft.azure.management.network.ApplicationGatewayBackendAddressPool;
 import com.microsoft.azure.management.network.ApplicationGateways;
 import com.microsoft.azure.management.network.ApplicationSecurityGroups;
 import com.microsoft.azure.management.network.DdosProtectionPlans;
@@ -354,12 +355,12 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     }
 
     // Internal utility function
-    Collection<ApplicationGatewayBackend> listAssociatedApplicationGatewayBackends(List<ApplicationGatewayBackendAddressPoolInner> backendRefs) {
+    Collection<ApplicationGatewayBackend> listAssociatedApplicationGatewayBackends(List<ApplicationGatewayBackendAddressPool> backendRefs) {
         final Map<String, ApplicationGateway> appGateways = new HashMap<>();
         final List<ApplicationGatewayBackend> backends = new ArrayList<>();
 
         if (backendRefs != null) {
-            for (ApplicationGatewayBackendAddressPoolInner backendRef : backendRefs) {
+            for (ApplicationGatewayBackendAddressPool backendRef : backendRefs) {
                 String appGatewayId = ResourceUtils.parentResourceIdFromResourceId(backendRef.id());
                 ApplicationGateway appGateway = appGateways.get(appGatewayId.toLowerCase());
                 if (appGateway == null) {

@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.network.IPConfiguration;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkInterface;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
@@ -47,7 +48,7 @@ class SubnetImpl
     // Getters
     @Override
     public int networkInterfaceIPConfigurationCount() {
-        List<IPConfigurationInner> ipConfigRefs = this.inner().ipConfigurations();
+        List<IPConfiguration> ipConfigRefs = this.inner().ipConfigurations();
         if (ipConfigRefs != null) {
             return ipConfigRefs.size();
         } else {
@@ -214,12 +215,12 @@ class SubnetImpl
     public Collection<NicIPConfiguration> listNetworkInterfaceIPConfigurations() {
         Collection<NicIPConfiguration> ipConfigs = new ArrayList<>();
         Map<String, NetworkInterface> nics = new TreeMap<>();
-        List<IPConfigurationInner> ipConfigRefs = this.inner().ipConfigurations();
+        List<IPConfiguration> ipConfigRefs = this.inner().ipConfigurations();
         if (ipConfigRefs == null) {
             return ipConfigs;
         }
 
-        for (IPConfigurationInner ipConfigRef : ipConfigRefs) {
+        for (IPConfiguration ipConfigRef : ipConfigRefs) {
             String nicID = ResourceUtils.parentResourceIdFromResourceId(ipConfigRef.id());
             String ipConfigName = ResourceUtils.nameFromResourceId(ipConfigRef.id());
             // Check if NIC already cached

@@ -7,7 +7,6 @@ package com.microsoft.azure.management.network;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.network.implementation.ApplicationGatewayHttpListenerInner;
 import com.microsoft.azure.management.network.model.HasHostName;
 import com.microsoft.azure.management.network.model.HasProtocol;
 import com.microsoft.azure.management.network.model.HasPublicIPAddress;
@@ -24,7 +23,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 @Fluent()
 public interface ApplicationGatewayListener extends
-    HasInner<ApplicationGatewayHttpListenerInner>,
+    HasInner<ApplicationGatewayHttpListener>,
     ChildResource<ApplicationGateway>,
     HasSslCertificate<ApplicationGatewaySslCertificate>,
     HasPublicIPAddress,

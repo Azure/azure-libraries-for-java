@@ -7,14 +7,17 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetVMInner;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import rx.Completable;
 import rx.Observable;
 
@@ -29,6 +32,7 @@ public interface VirtualMachineScaleSetVM extends
         Resource,
         ChildResource<VirtualMachineScaleSet>,
         Refreshable<VirtualMachineScaleSetVM>,
+        Updatable<VirtualMachineScaleSetVM.Update>,
         HasInner<VirtualMachineScaleSetVMInner> {
     /**
      * @return the instance ID assigned to this virtual machine instance
@@ -346,4 +350,25 @@ public interface VirtualMachineScaleSetVM extends
      */
     VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration();
 
+    interface Update extends Appliable<VirtualMachineScaleSetVM> {
+        /**
+         * Attach an existing data disk to this VMSS virtual machine.
+         *
+         * @param dataDisk data disk, need to be in DiskState.UNATTACHED state
+         * @param lun the disk LUN, cannot conflict with existing LUNs
+         * @param cachingTypes the caching type
+         * @return the next stage of the update
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        Update withAttachExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes);
+
+        /**
+         * Detach an existing data disk from this VMSS virtual machine.
+         *
+         * @param lun the disk LUN
+         * @return the next stage of the update
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        Update withDetachExistingDataDisk(int lun);
+    }
 }

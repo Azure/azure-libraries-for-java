@@ -576,7 +576,7 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public Update withAttachExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes) {
+    public Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes) {
         if (dataDisk.inner().diskState() != DiskState.UNATTACHED) {
             throw new RuntimeException("Disk need to be in unattached state");
         }
@@ -588,10 +588,10 @@ class VirtualMachineScaleSetVMImpl
                 .withManagedDisk((ManagedDiskParameters) new ManagedDiskParameters()
                         .withStorageAccountType(StorageAccountTypes.fromString(dataDisk.sku().accountType().toString()))
                         .withId(dataDisk.id()));
-        return this.withAttachExistingDataDisk(attachDataDisk, lun);
+        return this.withExistingDataDisk(attachDataDisk, lun);
     }
 
-    private Update withAttachExistingDataDisk(DataDisk dataDisk, int lun) {
+    private Update withExistingDataDisk(DataDisk dataDisk, int lun) {
         if (this.checkConflictLun(lun)) {
             throw new RuntimeException(String.format("A data disk with lun '%d' already attached", lun));
         }
@@ -604,7 +604,7 @@ class VirtualMachineScaleSetVMImpl
     }
 
     @Override
-    public Update withDetachExistingDataDisk(int lun) {
+    public Update withoutDataDisk(int lun) {
         boolean lunFound = false;
         if (this.inner().storageProfile().dataDisks() != null) {
             Iterator<DataDisk> iterator = this.inner().storageProfile().dataDisks().iterator();

@@ -350,9 +350,12 @@ public interface VirtualMachineScaleSetVM extends
      */
     VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration();
 
+    /**
+     * The template for an update operation, containing all the settings that can be modified.
+     */
     interface Update extends Appliable<VirtualMachineScaleSetVM> {
         /**
-         * Attach an existing data disk to this VMSS virtual machine.
+         * Attaches an existing data disk to this VMSS virtual machine.
          *
          * @param dataDisk data disk, need to be in DiskState.UNATTACHED state
          * @param lun the disk LUN, cannot conflict with existing LUNs
@@ -360,15 +363,15 @@ public interface VirtualMachineScaleSetVM extends
          * @return the next stage of the update
          */
         @Beta(Beta.SinceVersion.V1_25_0)
-        Update withAttachExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes);
+        Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes);
 
         /**
-         * Detach an existing data disk from this VMSS virtual machine.
+         * Detaches an existing data disk from this VMSS virtual machine.
          *
          * @param lun the disk LUN
          * @return the next stage of the update
          */
         @Beta(Beta.SinceVersion.V1_25_0)
-        Update withDetachExistingDataDisk(int lun);
+        Update withoutDataDisk(int lun);
     }
 }

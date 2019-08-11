@@ -513,7 +513,7 @@ public interface ApplicationGateway extends
             WithCreate withInstanceCount(int instanceCount);
 
             /**
-             * Specifies the min and max auto scale bound
+             * Specifies the min and max auto scale bound.
              * @param minCapacity  Lower bound on number of Application Gateway capacity.
              * @param maxCapacity Upper bound on number of Application Gateway capacity.
              * @return
@@ -998,7 +998,7 @@ public interface ApplicationGateway extends
             Update withInstanceCount(int instanceCount);
 
             /**
-             * Specifies the min and max auto scale bound
+             * Specifies the min and max auto scale bound.
              * @param minCapacity  lower bound on number of Application Gateway capacity.
              * @param maxCapacity upper bound on number of Application Gateway capacity.
              * @return

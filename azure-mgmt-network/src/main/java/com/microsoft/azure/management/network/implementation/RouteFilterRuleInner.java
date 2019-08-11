@@ -66,8 +66,6 @@ public class RouteFilterRuleInner extends SubResource {
 
     /**
      * Creates an instance of RouteFilterRuleInner class.
-     * @param access the access type of the rule. Possible values include: 'Allow', 'Deny'.
-     * @param communities the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
      */
     public RouteFilterRuleInner() {
         routeFilterRuleType = "Community";

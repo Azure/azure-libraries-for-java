@@ -45,20 +45,20 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in VirtualWans.
  */
-public class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>, InnerSupportsDelete<Void>, InnerSupportsListing<VirtualWANInner> {
+public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, InnerSupportsDelete<Void>, InnerSupportsListing<VirtualWANInner> {
     /** The Retrofit service to perform REST calls. */
-    private VirtualWansService service;
+    private VirtualWANsService service;
     /** The service client containing this operation class. */
     private NetworkManagementClientImpl client;
 
     /**
-     * Initializes an instance of VirtualWansInner.
+     * Initializes an instance of VirtualWANsInner.
      *
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VirtualWansInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(VirtualWansService.class);
+    public VirtualWANsInner(Retrofit retrofit, NetworkManagementClientImpl client) {
+        this.service = retrofit.create(VirtualWANsService.class);
         this.client = client;
     }
 
@@ -66,7 +66,7 @@ public class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * The interface defining all the services for VirtualWans to be
      * used by Retrofit to perform actually REST calls.
      */
-    interface VirtualWansService {
+    interface VirtualWANsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualWans getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}")
         Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("VirtualWANName") String virtualWANName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);

@@ -1022,15 +1022,15 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * The VirtualWansInner object to access its operations.
+     * The VirtualWANsInner object to access its operations.
      */
-    private VirtualWansInner virtualWans;
+    private VirtualWANsInner virtualWans;
 
     /**
-     * Gets the VirtualWansInner object to access its operations.
-     * @return the VirtualWansInner object.
+     * Gets the VirtualWANsInner object to access its operations.
+     * @return the VirtualWANsInner object.
      */
-    public VirtualWansInner virtualWans() {
+    public VirtualWANsInner virtualWans() {
         return this.virtualWans;
     }
 
@@ -1291,7 +1291,7 @@ public class NetworkManagementClientImpl extends AzureServiceClient {
         this.virtualNetworkGatewayConnections = new VirtualNetworkGatewayConnectionsInner(restClient().retrofit(), this);
         this.localNetworkGateways = new LocalNetworkGatewaysInner(restClient().retrofit(), this);
         this.virtualNetworkTaps = new VirtualNetworkTapsInner(restClient().retrofit(), this);
-        this.virtualWans = new VirtualWansInner(restClient().retrofit(), this);
+        this.virtualWans = new VirtualWANsInner(restClient().retrofit(), this);
         this.vpnSites = new VpnSitesInner(restClient().retrofit(), this);
         this.vpnSiteLinks = new VpnSiteLinksInner(restClient().retrofit(), this);
         this.vpnSitesConfigurations = new VpnSitesConfigurationsInner(restClient().retrofit(), this);

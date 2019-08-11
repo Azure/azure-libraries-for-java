@@ -7,12 +7,14 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayAuthenticationCertificate;
+import com.microsoft.azure.management.network.ApplicationGatewayAutoscaleConfiguration;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendAddressPool;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendHealth;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendHealthPool;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpConfiguration;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpSettings;
+import com.microsoft.azure.management.network.ApplicationGatewayFirewallMode;
 import com.microsoft.azure.management.network.ApplicationGatewayFrontend;
 import com.microsoft.azure.management.network.ApplicationGatewayFrontendPort;
 import com.microsoft.azure.management.network.ApplicationGatewayHttpListener;
@@ -31,6 +33,7 @@ import com.microsoft.azure.management.network.ApplicationGatewaySslPolicy;
 import com.microsoft.azure.management.network.ApplicationGatewaySslProtocol;
 import com.microsoft.azure.management.network.ApplicationGatewayTier;
 import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
+import com.microsoft.azure.management.network.ApplicationGatewayWebApplicationFirewallConfiguration;
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.PublicIPAddress;
@@ -659,6 +662,34 @@ class ApplicationGatewayImpl
         }
 
         this.inner().sku().withCapacity(capacity);
+        this.inner().withAutoscaleConfiguration(null);
+        return this;
+    }
+
+    @Override
+    public ApplicationGatewayImpl withWebApplicationFirewall(boolean enabled, ApplicationGatewayFirewallMode mode) {
+        this.inner().withWebApplicationFirewallConfiguration(
+                new ApplicationGatewayWebApplicationFirewallConfiguration()
+                        .withEnabled(enabled)
+                        .withFirewallMode(mode)
+                        .withRuleSetType("OWASP")
+                        .withRuleSetVersion("3.0"));
+        return this;
+    }
+
+    @Override
+    public ApplicationGatewayImpl withWebApplicationFirewall(ApplicationGatewayWebApplicationFirewallConfiguration config) {
+        this.inner().withWebApplicationFirewallConfiguration(config);
+        return this;
+    }
+
+    @Override
+    public ApplicationGatewayImpl withAutoScale(int minCapacity, int maxCapacity) {
+        this.inner().sku().withCapacity(null);
+        this.inner().withAutoscaleConfiguration(
+                new ApplicationGatewayAutoscaleConfiguration()
+                        .withMinCapacity(minCapacity)
+                        .withMaxCapacity(maxCapacity));
         return this;
     }
 
@@ -745,19 +776,21 @@ class ApplicationGatewayImpl
     }
 
     @Override
-    public ApplicationGatewayImpl withSize(ApplicationGatewaySkuName skuName) {
-        final int count;
-        // Preserve instance count if already set
-        if (this.sku() != null) {
-            count = this.sku().capacity();
-        } else {
-            count = 1; // Default instance count
+    public ApplicationGatewayImpl withTier(ApplicationGatewayTier skuTier) {
+        if (this.inner().sku() == null) {
+            this.inner().withSku(new ApplicationGatewaySku().withCapacity(1));
         }
+        this.inner().sku().withTier(skuTier);
+        return this;
+    }
 
-        ApplicationGatewaySku sku = new ApplicationGatewaySku()
-                .withName(skuName)
-                .withCapacity(count);
-        this.inner().withSku(sku);
+    @Override
+    public ApplicationGatewayImpl withSize(ApplicationGatewaySkuName skuName) {
+        if (this.inner().sku() == null) {
+            // Create with default instance count
+            this.inner().withSku(new ApplicationGatewaySku().withCapacity(1));
+        }
+        this.inner().sku().withName(skuName);
         return this;
     }
 
@@ -1503,6 +1536,16 @@ class ApplicationGatewayImpl
         } else {
             return ApplicationGatewayTier.STANDARD;
         }
+    }
+
+    @Override
+    public ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration() {
+        return this.inner().autoscaleConfiguration();
+    }
+
+    @Override
+    public ApplicationGatewayWebApplicationFirewallConfiguration webApplicationFirewallConfiguration() {
+        return this.inner().webApplicationFirewallConfiguration();
     }
 
     @Override

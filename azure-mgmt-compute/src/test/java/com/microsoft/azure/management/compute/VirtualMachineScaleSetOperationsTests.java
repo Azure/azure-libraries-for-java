@@ -374,7 +374,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                     .withProtocol(SecurityRuleProtocol.TCP)
                     .attach()
                 .create();
-
+        virtualMachineScaleSet.deallocate();
         virtualMachineScaleSet.update()
                 .withIpForwarding()
                 .withAcceleratedNetworking()

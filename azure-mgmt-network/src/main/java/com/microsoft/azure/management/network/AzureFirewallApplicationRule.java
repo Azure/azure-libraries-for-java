@@ -40,13 +40,19 @@ public class AzureFirewallApplicationRule {
     private List<AzureFirewallApplicationRuleProtocol> protocols;
 
     /**
-     * List of URLs for this rule.
+     * List of FQDNs for this rule.
      */
-    @JsonProperty(value = "targetUrls")
-    private List<String> targetUrls;
+    @JsonProperty(value = "targetFqdns")
+    private List<String> targetFqdns;
 
     /**
-     * Get the name value.
+     * List of FQDN Tags for this rule.
+     */
+    @JsonProperty(value = "fqdnTags")
+    private List<String> fqdnTags;
+
+    /**
+     * Get name of the application rule.
      *
      * @return the name value
      */
@@ -55,7 +61,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the name value.
+     * Set name of the application rule.
      *
      * @param name the name value to set
      * @return the AzureFirewallApplicationRule object itself.
@@ -66,7 +72,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Get the description value.
+     * Get description of the rule.
      *
      * @return the description value
      */
@@ -75,7 +81,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the description value.
+     * Set description of the rule.
      *
      * @param description the description value to set
      * @return the AzureFirewallApplicationRule object itself.
@@ -86,7 +92,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Get the sourceAddresses value.
+     * Get list of source IP addresses for this rule.
      *
      * @return the sourceAddresses value
      */
@@ -95,7 +101,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the sourceAddresses value.
+     * Set list of source IP addresses for this rule.
      *
      * @param sourceAddresses the sourceAddresses value to set
      * @return the AzureFirewallApplicationRule object itself.
@@ -106,7 +112,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Get the protocols value.
+     * Get array of ApplicationRuleProtocols.
      *
      * @return the protocols value
      */
@@ -115,7 +121,7 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Set the protocols value.
+     * Set array of ApplicationRuleProtocols.
      *
      * @param protocols the protocols value to set
      * @return the AzureFirewallApplicationRule object itself.
@@ -126,22 +132,42 @@ public class AzureFirewallApplicationRule {
     }
 
     /**
-     * Get the targetUrls value.
+     * Get list of FQDNs for this rule.
      *
-     * @return the targetUrls value
+     * @return the targetFqdns value
      */
-    public List<String> targetUrls() {
-        return this.targetUrls;
+    public List<String> targetFqdns() {
+        return this.targetFqdns;
     }
 
     /**
-     * Set the targetUrls value.
+     * Set list of FQDNs for this rule.
      *
-     * @param targetUrls the targetUrls value to set
+     * @param targetFqdns the targetFqdns value to set
      * @return the AzureFirewallApplicationRule object itself.
      */
-    public AzureFirewallApplicationRule withTargetUrls(List<String> targetUrls) {
-        this.targetUrls = targetUrls;
+    public AzureFirewallApplicationRule withTargetFqdns(List<String> targetFqdns) {
+        this.targetFqdns = targetFqdns;
+        return this;
+    }
+
+    /**
+     * Get list of FQDN Tags for this rule.
+     *
+     * @return the fqdnTags value
+     */
+    public List<String> fqdnTags() {
+        return this.fqdnTags;
+    }
+
+    /**
+     * Set list of FQDN Tags for this rule.
+     *
+     * @param fqdnTags the fqdnTags value to set
+     * @return the AzureFirewallApplicationRule object itself.
+     */
+    public AzureFirewallApplicationRule withFqdnTags(List<String> fqdnTags) {
+        this.fqdnTags = fqdnTags;
         return this;
     }
 

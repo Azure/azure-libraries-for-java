@@ -8,63 +8,33 @@
 
 package com.microsoft.azure.management.network.implementation;
 
-import java.util.Map;
 import com.microsoft.azure.management.network.ConnectionMonitorSource;
 import com.microsoft.azure.management.network.ConnectionMonitorDestination;
 import com.microsoft.azure.management.network.ProvisioningState;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Information about the connection monitor.
  */
 @JsonFlatten
-public class ConnectionMonitorResultInner {
+public class ConnectionMonitorResultInner extends Resource {
     /**
-     * Name of the connection monitor.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /**
-     * ID of the connection monitor.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * The etag property.
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag")
     private String etag;
 
     /**
-     * Connection monitor type.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /**
-     * Connection monitor location.
-     */
-    @JsonProperty(value = "location")
-    private String location;
-
-    /**
-     * Connection monitor tags.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
-
-    /**
-     * The source property.
+     * Describes the source of connection monitor.
      */
     @JsonProperty(value = "properties.source", required = true)
     private ConnectionMonitorSource source;
 
     /**
-     * The destination property.
+     * Describes the destination of connection monitor.
      */
     @JsonProperty(value = "properties.destination", required = true)
     private ConnectionMonitorDestination destination;
@@ -102,25 +72,7 @@ public class ConnectionMonitorResultInner {
     private String monitoringStatus;
 
     /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -129,7 +81,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the ConnectionMonitorResultInner object itself.
@@ -140,56 +92,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public String type() {
-        return this.type;
-    }
-
-    /**
-     * Get the location value.
-     *
-     * @return the location value
-     */
-    public String location() {
-        return this.location;
-    }
-
-    /**
-     * Set the location value.
-     *
-     * @param location the location value to set
-     * @return the ConnectionMonitorResultInner object itself.
-     */
-    public ConnectionMonitorResultInner withLocation(String location) {
-        this.location = location;
-        return this;
-    }
-
-    /**
-     * Get the tags value.
-     *
-     * @return the tags value
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags value.
-     *
-     * @param tags the tags value to set
-     * @return the ConnectionMonitorResultInner object itself.
-     */
-    public ConnectionMonitorResultInner withTags(Map<String, String> tags) {
-        this.tags = tags;
-        return this;
-    }
-
-    /**
-     * Get the source value.
+     * Get describes the source of connection monitor.
      *
      * @return the source value
      */
@@ -198,7 +101,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Set the source value.
+     * Set describes the source of connection monitor.
      *
      * @param source the source value to set
      * @return the ConnectionMonitorResultInner object itself.
@@ -209,7 +112,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Get the destination value.
+     * Get describes the destination of connection monitor.
      *
      * @return the destination value
      */
@@ -218,7 +121,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Set the destination value.
+     * Set describes the destination of connection monitor.
      *
      * @param destination the destination value to set
      * @return the ConnectionMonitorResultInner object itself.
@@ -229,7 +132,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Get the autoStart value.
+     * Get determines if the connection monitor will start automatically once created.
      *
      * @return the autoStart value
      */
@@ -238,7 +141,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Set the autoStart value.
+     * Set determines if the connection monitor will start automatically once created.
      *
      * @param autoStart the autoStart value to set
      * @return the ConnectionMonitorResultInner object itself.
@@ -249,7 +152,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Get the monitoringIntervalInSeconds value.
+     * Get monitoring interval in seconds.
      *
      * @return the monitoringIntervalInSeconds value
      */
@@ -258,7 +161,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Set the monitoringIntervalInSeconds value.
+     * Set monitoring interval in seconds.
      *
      * @param monitoringIntervalInSeconds the monitoringIntervalInSeconds value to set
      * @return the ConnectionMonitorResultInner object itself.
@@ -269,7 +172,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the connection monitor. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -278,7 +181,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the connection monitor. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the ConnectionMonitorResultInner object itself.
@@ -289,7 +192,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Get the startTime value.
+     * Get the date and time when the connection monitor was started.
      *
      * @return the startTime value
      */
@@ -298,7 +201,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Set the startTime value.
+     * Set the date and time when the connection monitor was started.
      *
      * @param startTime the startTime value to set
      * @return the ConnectionMonitorResultInner object itself.
@@ -309,7 +212,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Get the monitoringStatus value.
+     * Get the monitoring status of the connection monitor.
      *
      * @return the monitoringStatus value
      */
@@ -318,7 +221,7 @@ public class ConnectionMonitorResultInner {
     }
 
     /**
-     * Set the monitoringStatus value.
+     * Set the monitoring status of the connection monitor.
      *
      * @param monitoringStatus the monitoringStatus value to set
      * @return the ConnectionMonitorResultInner object itself.

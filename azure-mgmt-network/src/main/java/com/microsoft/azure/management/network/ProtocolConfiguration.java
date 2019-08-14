@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ProtocolConfiguration {
     /**
-     * The hTTPConfiguration property.
+     * HTTP configuration of the connectivity check.
      */
     @JsonProperty(value = "HTTPConfiguration")
     private HTTPConfiguration hTTPConfiguration;
 
     /**
-     * Get the hTTPConfiguration value.
+     * Get hTTP configuration of the connectivity check.
      *
      * @return the hTTPConfiguration value
      */
@@ -30,7 +30,7 @@ public class ProtocolConfiguration {
     }
 
     /**
-     * Set the hTTPConfiguration value.
+     * Set hTTP configuration of the connectivity check.
      *
      * @param hTTPConfiguration the hTTPConfiguration value to set
      * @return the ProtocolConfiguration object itself.

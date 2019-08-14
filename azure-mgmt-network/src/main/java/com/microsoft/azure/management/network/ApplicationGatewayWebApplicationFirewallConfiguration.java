@@ -54,13 +54,31 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     private Boolean requestBodyCheck;
 
     /**
-     * Maxium request body size for WAF.
+     * Maximum request body size for WAF.
      */
     @JsonProperty(value = "maxRequestBodySize")
     private Integer maxRequestBodySize;
 
     /**
-     * Get the enabled value.
+     * Maximum request body size in Kb for WAF.
+     */
+    @JsonProperty(value = "maxRequestBodySizeInKb")
+    private Integer maxRequestBodySizeInKb;
+
+    /**
+     * Maximum file upload size in Mb for WAF.
+     */
+    @JsonProperty(value = "fileUploadLimitInMb")
+    private Integer fileUploadLimitInMb;
+
+    /**
+     * The exclusion list.
+     */
+    @JsonProperty(value = "exclusions")
+    private List<ApplicationGatewayFirewallExclusion> exclusions;
+
+    /**
+     * Get whether the web application firewall is enabled or not.
      *
      * @return the enabled value
      */
@@ -69,7 +87,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Set the enabled value.
+     * Set whether the web application firewall is enabled or not.
      *
      * @param enabled the enabled value to set
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
@@ -80,7 +98,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Get the firewallMode value.
+     * Get web application firewall mode. Possible values include: 'Detection', 'Prevention'.
      *
      * @return the firewallMode value
      */
@@ -89,7 +107,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Set the firewallMode value.
+     * Set web application firewall mode. Possible values include: 'Detection', 'Prevention'.
      *
      * @param firewallMode the firewallMode value to set
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
@@ -100,7 +118,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Get the ruleSetType value.
+     * Get the type of the web application firewall rule set. Possible values are: 'OWASP'.
      *
      * @return the ruleSetType value
      */
@@ -109,7 +127,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Set the ruleSetType value.
+     * Set the type of the web application firewall rule set. Possible values are: 'OWASP'.
      *
      * @param ruleSetType the ruleSetType value to set
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
@@ -120,7 +138,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Get the ruleSetVersion value.
+     * Get the version of the rule set type.
      *
      * @return the ruleSetVersion value
      */
@@ -129,7 +147,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Set the ruleSetVersion value.
+     * Set the version of the rule set type.
      *
      * @param ruleSetVersion the ruleSetVersion value to set
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
@@ -140,7 +158,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Get the disabledRuleGroups value.
+     * Get the disabled rule groups.
      *
      * @return the disabledRuleGroups value
      */
@@ -149,7 +167,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Set the disabledRuleGroups value.
+     * Set the disabled rule groups.
      *
      * @param disabledRuleGroups the disabledRuleGroups value to set
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
@@ -160,7 +178,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Get the requestBodyCheck value.
+     * Get whether allow WAF to check request Body.
      *
      * @return the requestBodyCheck value
      */
@@ -169,7 +187,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Set the requestBodyCheck value.
+     * Set whether allow WAF to check request Body.
      *
      * @param requestBodyCheck the requestBodyCheck value to set
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
@@ -180,7 +198,7 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Get the maxRequestBodySize value.
+     * Get maximum request body size for WAF.
      *
      * @return the maxRequestBodySize value
      */
@@ -189,13 +207,73 @@ public class ApplicationGatewayWebApplicationFirewallConfiguration {
     }
 
     /**
-     * Set the maxRequestBodySize value.
+     * Set maximum request body size for WAF.
      *
      * @param maxRequestBodySize the maxRequestBodySize value to set
      * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
      */
     public ApplicationGatewayWebApplicationFirewallConfiguration withMaxRequestBodySize(Integer maxRequestBodySize) {
         this.maxRequestBodySize = maxRequestBodySize;
+        return this;
+    }
+
+    /**
+     * Get maximum request body size in Kb for WAF.
+     *
+     * @return the maxRequestBodySizeInKb value
+     */
+    public Integer maxRequestBodySizeInKb() {
+        return this.maxRequestBodySizeInKb;
+    }
+
+    /**
+     * Set maximum request body size in Kb for WAF.
+     *
+     * @param maxRequestBodySizeInKb the maxRequestBodySizeInKb value to set
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     */
+    public ApplicationGatewayWebApplicationFirewallConfiguration withMaxRequestBodySizeInKb(Integer maxRequestBodySizeInKb) {
+        this.maxRequestBodySizeInKb = maxRequestBodySizeInKb;
+        return this;
+    }
+
+    /**
+     * Get maximum file upload size in Mb for WAF.
+     *
+     * @return the fileUploadLimitInMb value
+     */
+    public Integer fileUploadLimitInMb() {
+        return this.fileUploadLimitInMb;
+    }
+
+    /**
+     * Set maximum file upload size in Mb for WAF.
+     *
+     * @param fileUploadLimitInMb the fileUploadLimitInMb value to set
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     */
+    public ApplicationGatewayWebApplicationFirewallConfiguration withFileUploadLimitInMb(Integer fileUploadLimitInMb) {
+        this.fileUploadLimitInMb = fileUploadLimitInMb;
+        return this;
+    }
+
+    /**
+     * Get the exclusion list.
+     *
+     * @return the exclusions value
+     */
+    public List<ApplicationGatewayFirewallExclusion> exclusions() {
+        return this.exclusions;
+    }
+
+    /**
+     * Set the exclusion list.
+     *
+     * @param exclusions the exclusions value to set
+     * @return the ApplicationGatewayWebApplicationFirewallConfiguration object itself.
+     */
+    public ApplicationGatewayWebApplicationFirewallConfiguration withExclusions(List<ApplicationGatewayFirewallExclusion> exclusions) {
+        this.exclusions = exclusions;
         return this;
     }
 

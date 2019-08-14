@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ConnectionMonitorParameters {
     /**
-     * The source property.
+     * Describes the source of connection monitor.
      */
     @JsonProperty(value = "source", required = true)
     private ConnectionMonitorSource source;
 
     /**
-     * The destination property.
+     * Describes the destination of connection monitor.
      */
     @JsonProperty(value = "destination", required = true)
     private ConnectionMonitorDestination destination;
@@ -40,7 +40,7 @@ public class ConnectionMonitorParameters {
     private Integer monitoringIntervalInSeconds;
 
     /**
-     * Get the source value.
+     * Get describes the source of connection monitor.
      *
      * @return the source value
      */
@@ -49,7 +49,7 @@ public class ConnectionMonitorParameters {
     }
 
     /**
-     * Set the source value.
+     * Set describes the source of connection monitor.
      *
      * @param source the source value to set
      * @return the ConnectionMonitorParameters object itself.
@@ -60,7 +60,7 @@ public class ConnectionMonitorParameters {
     }
 
     /**
-     * Get the destination value.
+     * Get describes the destination of connection monitor.
      *
      * @return the destination value
      */
@@ -69,7 +69,7 @@ public class ConnectionMonitorParameters {
     }
 
     /**
-     * Set the destination value.
+     * Set describes the destination of connection monitor.
      *
      * @param destination the destination value to set
      * @return the ConnectionMonitorParameters object itself.
@@ -80,7 +80,7 @@ public class ConnectionMonitorParameters {
     }
 
     /**
-     * Get the autoStart value.
+     * Get determines if the connection monitor will start automatically once created.
      *
      * @return the autoStart value
      */
@@ -89,7 +89,7 @@ public class ConnectionMonitorParameters {
     }
 
     /**
-     * Set the autoStart value.
+     * Set determines if the connection monitor will start automatically once created.
      *
      * @param autoStart the autoStart value to set
      * @return the ConnectionMonitorParameters object itself.
@@ -100,7 +100,7 @@ public class ConnectionMonitorParameters {
     }
 
     /**
-     * Get the monitoringIntervalInSeconds value.
+     * Get monitoring interval in seconds.
      *
      * @return the monitoringIntervalInSeconds value
      */
@@ -109,7 +109,7 @@ public class ConnectionMonitorParameters {
     }
 
     /**
-     * Set the monitoringIntervalInSeconds value.
+     * Set monitoring interval in seconds.
      *
      * @param monitoringIntervalInSeconds the monitoringIntervalInSeconds value to set
      * @return the ConnectionMonitorParameters object itself.

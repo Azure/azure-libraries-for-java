@@ -10,20 +10,18 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.VpnConnectionStatus;
+import com.microsoft.azure.management.network.VirtualNetworkGatewayConnectionProtocol;
 import java.util.List;
 import com.microsoft.azure.management.network.IpsecPolicy;
 import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
 
 /**
  * VpnConnection Resource.
  */
 @JsonFlatten
-@SkipParentValidation
-public class VpnConnectionInner extends Resource {
+public class VpnConnectionInner extends SubResource {
     /**
      * Id of the connected vpn site.
      */
@@ -31,7 +29,7 @@ public class VpnConnectionInner extends Resource {
     private SubResource remoteVpnSite;
 
     /**
-     * routing weight for vpn connection.
+     * Routing weight for vpn connection.
      */
     @JsonProperty(value = "properties.routingWeight")
     private Integer routingWeight;
@@ -42,6 +40,13 @@ public class VpnConnectionInner extends Resource {
      */
     @JsonProperty(value = "properties.connectionStatus")
     private VpnConnectionStatus connectionStatus;
+
+    /**
+     * Connection protocol used for this connection. Possible values include:
+     * 'IKEv2', 'IKEv1'.
+     */
+    @JsonProperty(value = "properties.vpnConnectionProtocolType")
+    private VirtualNetworkGatewayConnectionProtocol vpnConnectionProtocolType;
 
     /**
      * Ingress bytes transferred.
@@ -58,8 +63,8 @@ public class VpnConnectionInner extends Resource {
     /**
      * Expected bandwidth in MBPS.
      */
-    @JsonProperty(value = "properties.connectionBandwidthInMbps", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer connectionBandwidthInMbps;
+    @JsonProperty(value = "properties.connectionBandwidth")
+    private Integer connectionBandwidth;
 
     /**
      * SharedKey for the vpn connection.
@@ -74,10 +79,34 @@ public class VpnConnectionInner extends Resource {
     private Boolean enableBgp;
 
     /**
+     * Enable policy-based traffic selectors.
+     */
+    @JsonProperty(value = "properties.usePolicyBasedTrafficSelectors")
+    private Boolean usePolicyBasedTrafficSelectors;
+
+    /**
      * The IPSec Policies to be considered by this connection.
      */
     @JsonProperty(value = "properties.ipsecPolicies")
     private List<IpsecPolicy> ipsecPolicies;
+
+    /**
+     * EnableBgp flag.
+     */
+    @JsonProperty(value = "properties.enableRateLimiting")
+    private Boolean enableRateLimiting;
+
+    /**
+     * Enable internet security.
+     */
+    @JsonProperty(value = "properties.enableInternetSecurity")
+    private Boolean enableInternetSecurity;
+
+    /**
+     * Use local azure ip to initiate connection.
+     */
+    @JsonProperty(value = "properties.useLocalAzureIpAddress")
+    private Boolean useLocalAzureIpAddress;
 
     /**
      * The provisioning state of the resource. Possible values include:
@@ -87,6 +116,19 @@ public class VpnConnectionInner extends Resource {
     private ProvisioningState provisioningState;
 
     /**
+     * List of all vpn site link connections to the gateway.
+     */
+    @JsonProperty(value = "properties.vpnLinkConnections")
+    private List<VpnSiteLinkConnectionInner> vpnLinkConnections;
+
+    /**
+     * The name of the resource that is unique within a resource group. This
+     * name can be used to access the resource.
+     */
+    @JsonProperty(value = "name")
+    private String name;
+
+    /**
      * Gets a unique read-only string that changes whenever the resource is
      * updated.
      */
@@ -94,13 +136,7 @@ public class VpnConnectionInner extends Resource {
     private String etag;
 
     /**
-     * Resource ID.
-     */
-    @JsonProperty(value = "id")
-    private String id;
-
-    /**
-     * Get the remoteVpnSite value.
+     * Get id of the connected vpn site.
      *
      * @return the remoteVpnSite value
      */
@@ -109,7 +145,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the remoteVpnSite value.
+     * Set id of the connected vpn site.
      *
      * @param remoteVpnSite the remoteVpnSite value to set
      * @return the VpnConnectionInner object itself.
@@ -120,7 +156,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the routingWeight value.
+     * Get routing weight for vpn connection.
      *
      * @return the routingWeight value
      */
@@ -129,7 +165,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the routingWeight value.
+     * Set routing weight for vpn connection.
      *
      * @param routingWeight the routingWeight value to set
      * @return the VpnConnectionInner object itself.
@@ -140,7 +176,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the connectionStatus value.
+     * Get the connection status. Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'.
      *
      * @return the connectionStatus value
      */
@@ -149,7 +185,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the connectionStatus value.
+     * Set the connection status. Possible values include: 'Unknown', 'Connecting', 'Connected', 'NotConnected'.
      *
      * @param connectionStatus the connectionStatus value to set
      * @return the VpnConnectionInner object itself.
@@ -160,7 +196,27 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the ingressBytesTransferred value.
+     * Get connection protocol used for this connection. Possible values include: 'IKEv2', 'IKEv1'.
+     *
+     * @return the vpnConnectionProtocolType value
+     */
+    public VirtualNetworkGatewayConnectionProtocol vpnConnectionProtocolType() {
+        return this.vpnConnectionProtocolType;
+    }
+
+    /**
+     * Set connection protocol used for this connection. Possible values include: 'IKEv2', 'IKEv1'.
+     *
+     * @param vpnConnectionProtocolType the vpnConnectionProtocolType value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withVpnConnectionProtocolType(VirtualNetworkGatewayConnectionProtocol vpnConnectionProtocolType) {
+        this.vpnConnectionProtocolType = vpnConnectionProtocolType;
+        return this;
+    }
+
+    /**
+     * Get ingress bytes transferred.
      *
      * @return the ingressBytesTransferred value
      */
@@ -169,7 +225,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the egressBytesTransferred value.
+     * Get egress bytes transferred.
      *
      * @return the egressBytesTransferred value
      */
@@ -178,16 +234,27 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the connectionBandwidthInMbps value.
+     * Get expected bandwidth in MBPS.
      *
-     * @return the connectionBandwidthInMbps value
+     * @return the connectionBandwidth value
      */
-    public Integer connectionBandwidthInMbps() {
-        return this.connectionBandwidthInMbps;
+    public Integer connectionBandwidth() {
+        return this.connectionBandwidth;
     }
 
     /**
-     * Get the sharedKey value.
+     * Set expected bandwidth in MBPS.
+     *
+     * @param connectionBandwidth the connectionBandwidth value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withConnectionBandwidth(Integer connectionBandwidth) {
+        this.connectionBandwidth = connectionBandwidth;
+        return this;
+    }
+
+    /**
+     * Get sharedKey for the vpn connection.
      *
      * @return the sharedKey value
      */
@@ -196,7 +263,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the sharedKey value.
+     * Set sharedKey for the vpn connection.
      *
      * @param sharedKey the sharedKey value to set
      * @return the VpnConnectionInner object itself.
@@ -207,7 +274,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the enableBgp value.
+     * Get enableBgp flag.
      *
      * @return the enableBgp value
      */
@@ -216,7 +283,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the enableBgp value.
+     * Set enableBgp flag.
      *
      * @param enableBgp the enableBgp value to set
      * @return the VpnConnectionInner object itself.
@@ -227,7 +294,27 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the ipsecPolicies value.
+     * Get enable policy-based traffic selectors.
+     *
+     * @return the usePolicyBasedTrafficSelectors value
+     */
+    public Boolean usePolicyBasedTrafficSelectors() {
+        return this.usePolicyBasedTrafficSelectors;
+    }
+
+    /**
+     * Set enable policy-based traffic selectors.
+     *
+     * @param usePolicyBasedTrafficSelectors the usePolicyBasedTrafficSelectors value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withUsePolicyBasedTrafficSelectors(Boolean usePolicyBasedTrafficSelectors) {
+        this.usePolicyBasedTrafficSelectors = usePolicyBasedTrafficSelectors;
+        return this;
+    }
+
+    /**
+     * Get the IPSec Policies to be considered by this connection.
      *
      * @return the ipsecPolicies value
      */
@@ -236,7 +323,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the ipsecPolicies value.
+     * Set the IPSec Policies to be considered by this connection.
      *
      * @param ipsecPolicies the ipsecPolicies value to set
      * @return the VpnConnectionInner object itself.
@@ -247,7 +334,67 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get enableBgp flag.
+     *
+     * @return the enableRateLimiting value
+     */
+    public Boolean enableRateLimiting() {
+        return this.enableRateLimiting;
+    }
+
+    /**
+     * Set enableBgp flag.
+     *
+     * @param enableRateLimiting the enableRateLimiting value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withEnableRateLimiting(Boolean enableRateLimiting) {
+        this.enableRateLimiting = enableRateLimiting;
+        return this;
+    }
+
+    /**
+     * Get enable internet security.
+     *
+     * @return the enableInternetSecurity value
+     */
+    public Boolean enableInternetSecurity() {
+        return this.enableInternetSecurity;
+    }
+
+    /**
+     * Set enable internet security.
+     *
+     * @param enableInternetSecurity the enableInternetSecurity value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withEnableInternetSecurity(Boolean enableInternetSecurity) {
+        this.enableInternetSecurity = enableInternetSecurity;
+        return this;
+    }
+
+    /**
+     * Get use local azure ip to initiate connection.
+     *
+     * @return the useLocalAzureIpAddress value
+     */
+    public Boolean useLocalAzureIpAddress() {
+        return this.useLocalAzureIpAddress;
+    }
+
+    /**
+     * Set use local azure ip to initiate connection.
+     *
+     * @param useLocalAzureIpAddress the useLocalAzureIpAddress value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withUseLocalAzureIpAddress(Boolean useLocalAzureIpAddress) {
+        this.useLocalAzureIpAddress = useLocalAzureIpAddress;
+        return this;
+    }
+
+    /**
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -256,7 +403,7 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the VpnConnectionInner object itself.
@@ -267,32 +414,52 @@ public class VpnConnectionInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get list of all vpn site link connections to the gateway.
+     *
+     * @return the vpnLinkConnections value
+     */
+    public List<VpnSiteLinkConnectionInner> vpnLinkConnections() {
+        return this.vpnLinkConnections;
+    }
+
+    /**
+     * Set list of all vpn site link connections to the gateway.
+     *
+     * @param vpnLinkConnections the vpnLinkConnections value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withVpnLinkConnections(List<VpnSiteLinkConnectionInner> vpnLinkConnections) {
+        this.vpnLinkConnections = vpnLinkConnections;
+        return this;
+    }
+
+    /**
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Set the name of the resource that is unique within a resource group. This name can be used to access the resource.
+     *
+     * @param name the name value to set
+     * @return the VpnConnectionInner object itself.
+     */
+    public VpnConnectionInner withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the VpnConnectionInner object itself.
-     */
-    public VpnConnectionInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
 }

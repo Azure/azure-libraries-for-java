@@ -47,12 +47,12 @@ public class RouteFilterTests extends NetworkManagementTest {
 
         routeFilter.update()
                 .defineRule(ruleName)
-                    .withBgpCommunity("12076:5010")
+                    .withBgpCommunity("12076:51004")
                     .attach()
                 .apply();
         Assert.assertEquals(1, routeFilter.rules().size());
         Assert.assertEquals(1, routeFilter.rules().get(ruleName).communities().size());
-        Assert.assertEquals("12076:5010", routeFilter.rules().get(ruleName).communities().get(0));
+        Assert.assertEquals("12076:51004", routeFilter.rules().get(ruleName).communities().get(0));
 
         routeFilter.update()
                 .updateRule(ruleName)

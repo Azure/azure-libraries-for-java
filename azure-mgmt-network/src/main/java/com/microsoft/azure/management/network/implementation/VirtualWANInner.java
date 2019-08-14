@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.OfficeTrafficCategory;
 import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -35,10 +36,41 @@ public class VirtualWANInner extends Resource {
     private List<SubResource> virtualHubs;
 
     /**
-     * The vpnSites property.
+     * List of VpnSites in the VirtualWAN.
      */
     @JsonProperty(value = "properties.vpnSites", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> vpnSites;
+
+    /**
+     * The Security Provider name.
+     */
+    @JsonProperty(value = "properties.securityProviderName")
+    private String securityProviderName;
+
+    /**
+     * True if branch to branch traffic is allowed.
+     */
+    @JsonProperty(value = "properties.allowBranchToBranchTraffic")
+    private Boolean allowBranchToBranchTraffic;
+
+    /**
+     * True if Vnet to Vnet traffic is allowed.
+     */
+    @JsonProperty(value = "properties.allowVnetToVnetTraffic")
+    private Boolean allowVnetToVnetTraffic;
+
+    /**
+     * The office local breakout category. Possible values include: 'Optimize',
+     * 'OptimizeAndAllow', 'All', 'None'.
+     */
+    @JsonProperty(value = "properties.office365LocalBreakoutCategory")
+    private OfficeTrafficCategory office365LocalBreakoutCategory;
+
+    /**
+     * List of all P2SVpnServerConfigurations associated with the virtual wan.
+     */
+    @JsonProperty(value = "properties.p2SVpnServerConfigurations")
+    private List<P2SVpnServerConfigurationInner> p2SVpnServerConfigurations;
 
     /**
      * The provisioning state of the resource. Possible values include:
@@ -61,7 +93,7 @@ public class VirtualWANInner extends Resource {
     private String id;
 
     /**
-     * Get the disableVpnEncryption value.
+     * Get vpn encryption to be disabled or not.
      *
      * @return the disableVpnEncryption value
      */
@@ -70,7 +102,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Set the disableVpnEncryption value.
+     * Set vpn encryption to be disabled or not.
      *
      * @param disableVpnEncryption the disableVpnEncryption value to set
      * @return the VirtualWANInner object itself.
@@ -81,7 +113,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the virtualHubs value.
+     * Get list of VirtualHubs in the VirtualWAN.
      *
      * @return the virtualHubs value
      */
@@ -90,7 +122,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the vpnSites value.
+     * Get list of VpnSites in the VirtualWAN.
      *
      * @return the vpnSites value
      */
@@ -99,7 +131,107 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the Security Provider name.
+     *
+     * @return the securityProviderName value
+     */
+    public String securityProviderName() {
+        return this.securityProviderName;
+    }
+
+    /**
+     * Set the Security Provider name.
+     *
+     * @param securityProviderName the securityProviderName value to set
+     * @return the VirtualWANInner object itself.
+     */
+    public VirtualWANInner withSecurityProviderName(String securityProviderName) {
+        this.securityProviderName = securityProviderName;
+        return this;
+    }
+
+    /**
+     * Get true if branch to branch traffic is allowed.
+     *
+     * @return the allowBranchToBranchTraffic value
+     */
+    public Boolean allowBranchToBranchTraffic() {
+        return this.allowBranchToBranchTraffic;
+    }
+
+    /**
+     * Set true if branch to branch traffic is allowed.
+     *
+     * @param allowBranchToBranchTraffic the allowBranchToBranchTraffic value to set
+     * @return the VirtualWANInner object itself.
+     */
+    public VirtualWANInner withAllowBranchToBranchTraffic(Boolean allowBranchToBranchTraffic) {
+        this.allowBranchToBranchTraffic = allowBranchToBranchTraffic;
+        return this;
+    }
+
+    /**
+     * Get true if Vnet to Vnet traffic is allowed.
+     *
+     * @return the allowVnetToVnetTraffic value
+     */
+    public Boolean allowVnetToVnetTraffic() {
+        return this.allowVnetToVnetTraffic;
+    }
+
+    /**
+     * Set true if Vnet to Vnet traffic is allowed.
+     *
+     * @param allowVnetToVnetTraffic the allowVnetToVnetTraffic value to set
+     * @return the VirtualWANInner object itself.
+     */
+    public VirtualWANInner withAllowVnetToVnetTraffic(Boolean allowVnetToVnetTraffic) {
+        this.allowVnetToVnetTraffic = allowVnetToVnetTraffic;
+        return this;
+    }
+
+    /**
+     * Get the office local breakout category. Possible values include: 'Optimize', 'OptimizeAndAllow', 'All', 'None'.
+     *
+     * @return the office365LocalBreakoutCategory value
+     */
+    public OfficeTrafficCategory office365LocalBreakoutCategory() {
+        return this.office365LocalBreakoutCategory;
+    }
+
+    /**
+     * Set the office local breakout category. Possible values include: 'Optimize', 'OptimizeAndAllow', 'All', 'None'.
+     *
+     * @param office365LocalBreakoutCategory the office365LocalBreakoutCategory value to set
+     * @return the VirtualWANInner object itself.
+     */
+    public VirtualWANInner withOffice365LocalBreakoutCategory(OfficeTrafficCategory office365LocalBreakoutCategory) {
+        this.office365LocalBreakoutCategory = office365LocalBreakoutCategory;
+        return this;
+    }
+
+    /**
+     * Get list of all P2SVpnServerConfigurations associated with the virtual wan.
+     *
+     * @return the p2SVpnServerConfigurations value
+     */
+    public List<P2SVpnServerConfigurationInner> p2SVpnServerConfigurations() {
+        return this.p2SVpnServerConfigurations;
+    }
+
+    /**
+     * Set list of all P2SVpnServerConfigurations associated with the virtual wan.
+     *
+     * @param p2SVpnServerConfigurations the p2SVpnServerConfigurations value to set
+     * @return the VirtualWANInner object itself.
+     */
+    public VirtualWANInner withP2SVpnServerConfigurations(List<P2SVpnServerConfigurationInner> p2SVpnServerConfigurations) {
+        this.p2SVpnServerConfigurations = p2SVpnServerConfigurations;
+        return this;
+    }
+
+    /**
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -108,7 +240,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the VirtualWANInner object itself.
@@ -119,7 +251,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -128,7 +260,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -137,7 +269,7 @@ public class VirtualWANInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the VirtualWANInner object itself.

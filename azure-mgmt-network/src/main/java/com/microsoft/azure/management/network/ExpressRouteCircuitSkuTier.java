@@ -22,6 +22,12 @@ public final class ExpressRouteCircuitSkuTier extends ExpandableStringEnum<Expre
     /** Static value Premium for ExpressRouteCircuitSkuTier. */
     public static final ExpressRouteCircuitSkuTier PREMIUM = fromString("Premium");
 
+    /** Static value Basic for ExpressRouteCircuitSkuTier. */
+    public static final ExpressRouteCircuitSkuTier BASIC = fromString("Basic");
+
+    /** Static value Local for ExpressRouteCircuitSkuTier. */
+    public static final ExpressRouteCircuitSkuTier LOCAL = fromString("Local");
+
     /**
      * Creates or finds a ExpressRouteCircuitSkuTier from its string representation.
      * @param name a name to look for

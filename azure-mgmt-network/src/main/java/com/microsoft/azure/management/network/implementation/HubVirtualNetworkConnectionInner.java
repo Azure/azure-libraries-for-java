@@ -12,15 +12,12 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
 
 /**
  * HubVirtualNetworkConnection Resource.
  */
 @JsonFlatten
-@SkipParentValidation
-public class HubVirtualNetworkConnectionInner extends Resource {
+public class HubVirtualNetworkConnectionInner extends SubResource {
     /**
      * Reference to the remote virtual network.
      */
@@ -40,11 +37,24 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     private Boolean allowRemoteVnetToUseHubVnetGateways;
 
     /**
+     * Enable internet security.
+     */
+    @JsonProperty(value = "properties.enableInternetSecurity")
+    private Boolean enableInternetSecurity;
+
+    /**
      * The provisioning state of the resource. Possible values include:
      * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState")
     private ProvisioningState provisioningState;
+
+    /**
+     * The name of the resource that is unique within a resource group. This
+     * name can be used to access the resource.
+     */
+    @JsonProperty(value = "name")
+    private String name;
 
     /**
      * Gets a unique read-only string that changes whenever the resource is
@@ -54,13 +64,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     private String etag;
 
     /**
-     * Resource ID.
-     */
-    @JsonProperty(value = "id")
-    private String id;
-
-    /**
-     * Get the remoteVirtualNetwork value.
+     * Get reference to the remote virtual network.
      *
      * @return the remoteVirtualNetwork value
      */
@@ -69,7 +73,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the remoteVirtualNetwork value.
+     * Set reference to the remote virtual network.
      *
      * @param remoteVirtualNetwork the remoteVirtualNetwork value to set
      * @return the HubVirtualNetworkConnectionInner object itself.
@@ -80,7 +84,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the allowHubToRemoteVnetTransit value.
+     * Get virtualHub to RemoteVnet transit to enabled or not.
      *
      * @return the allowHubToRemoteVnetTransit value
      */
@@ -89,7 +93,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the allowHubToRemoteVnetTransit value.
+     * Set virtualHub to RemoteVnet transit to enabled or not.
      *
      * @param allowHubToRemoteVnetTransit the allowHubToRemoteVnetTransit value to set
      * @return the HubVirtualNetworkConnectionInner object itself.
@@ -100,7 +104,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the allowRemoteVnetToUseHubVnetGateways value.
+     * Get allow RemoteVnet to use Virtual Hub's gateways.
      *
      * @return the allowRemoteVnetToUseHubVnetGateways value
      */
@@ -109,7 +113,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the allowRemoteVnetToUseHubVnetGateways value.
+     * Set allow RemoteVnet to use Virtual Hub's gateways.
      *
      * @param allowRemoteVnetToUseHubVnetGateways the allowRemoteVnetToUseHubVnetGateways value to set
      * @return the HubVirtualNetworkConnectionInner object itself.
@@ -120,7 +124,27 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get enable internet security.
+     *
+     * @return the enableInternetSecurity value
+     */
+    public Boolean enableInternetSecurity() {
+        return this.enableInternetSecurity;
+    }
+
+    /**
+     * Set enable internet security.
+     *
+     * @param enableInternetSecurity the enableInternetSecurity value to set
+     * @return the HubVirtualNetworkConnectionInner object itself.
+     */
+    public HubVirtualNetworkConnectionInner withEnableInternetSecurity(Boolean enableInternetSecurity) {
+        this.enableInternetSecurity = enableInternetSecurity;
+        return this;
+    }
+
+    /**
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -129,7 +153,7 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the HubVirtualNetworkConnectionInner object itself.
@@ -140,32 +164,32 @@ public class HubVirtualNetworkConnectionInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Set the name of the resource that is unique within a resource group. This name can be used to access the resource.
+     *
+     * @param name the name value to set
+     * @return the HubVirtualNetworkConnectionInner object itself.
+     */
+    public HubVirtualNetworkConnectionInner withName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    /**
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the HubVirtualNetworkConnectionInner object itself.
-     */
-    public HubVirtualNetworkConnectionInner withId(String id) {
-        this.id = id;
-        return this;
     }
 
 }

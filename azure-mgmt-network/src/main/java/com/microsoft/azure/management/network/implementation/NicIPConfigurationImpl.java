@@ -8,6 +8,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ApplicationGateway;
+import com.microsoft.azure.management.network.ApplicationGatewayBackendAddressPool;
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.management.network.IPVersion;
 import com.microsoft.azure.management.network.LoadBalancer;
@@ -216,7 +217,7 @@ class NicIPConfigurationImpl
     @Override
     public NicIPConfigurationImpl withExistingApplicationGatewayBackend(ApplicationGateway appGateway, String backendName) {
         if (appGateway != null) {
-            for (ApplicationGatewayBackendAddressPoolInner pool : appGateway.inner().backendAddressPools()) {
+            for (ApplicationGatewayBackendAddressPool pool : appGateway.inner().backendAddressPools()) {
                 if (pool.name().equalsIgnoreCase(backendName)) {
                     ensureAppGatewayBackendAddressPools().add(pool);
                     return this;
@@ -241,8 +242,8 @@ class NicIPConfigurationImpl
         return null;
     }
 
-    private List<ApplicationGatewayBackendAddressPoolInner> ensureAppGatewayBackendAddressPools() {
-        List<ApplicationGatewayBackendAddressPoolInner> poolRefs = this.inner().applicationGatewayBackendAddressPools();
+    private List<ApplicationGatewayBackendAddressPool> ensureAppGatewayBackendAddressPools() {
+        List<ApplicationGatewayBackendAddressPool> poolRefs = this.inner().applicationGatewayBackendAddressPools();
         if (poolRefs == null) {
             poolRefs = new ArrayList<>();
             this.inner().withApplicationGatewayBackendAddressPools(poolRefs);

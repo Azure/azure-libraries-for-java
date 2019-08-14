@@ -23,13 +23,13 @@ import com.microsoft.azure.Resource;
 @SkipParentValidation
 public class ExpressRouteCrossConnectionInner extends Resource {
     /**
-     * The name of the primary  port.
+     * The name of the primary port.
      */
     @JsonProperty(value = "properties.primaryAzurePort", access = JsonProperty.Access.WRITE_ONLY)
     private String primaryAzurePort;
 
     /**
-     * The name of the secondary  port.
+     * The name of the secondary port.
      */
     @JsonProperty(value = "properties.secondaryAzurePort", access = JsonProperty.Access.WRITE_ONLY)
     private String secondaryAzurePort;
@@ -60,9 +60,8 @@ public class ExpressRouteCrossConnectionInner extends Resource {
 
     /**
      * The provisioning state of the circuit in the connectivity provider
-     * system. Possible values are 'NotProvisioned', 'Provisioning',
-     * 'Provisioned'. Possible values include: 'NotProvisioned',
-     * 'Provisioning', 'Provisioned', 'Deprovisioning'.
+     * system. Possible values include: 'NotProvisioned', 'Provisioning',
+     * 'Provisioned', 'Deprovisioning'.
      */
     @JsonProperty(value = "properties.serviceProviderProvisioningState")
     private ServiceProviderProvisioningState serviceProviderProvisioningState;
@@ -100,7 +99,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     private String id;
 
     /**
-     * Get the primaryAzurePort value.
+     * Get the name of the primary port.
      *
      * @return the primaryAzurePort value
      */
@@ -109,7 +108,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the secondaryAzurePort value.
+     * Get the name of the secondary port.
      *
      * @return the secondaryAzurePort value
      */
@@ -118,7 +117,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the sTag value.
+     * Get the identifier of the circuit traffic.
      *
      * @return the sTag value
      */
@@ -127,7 +126,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the peeringLocation value.
+     * Get the peering location of the ExpressRoute circuit.
      *
      * @return the peeringLocation value
      */
@@ -136,7 +135,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Set the peeringLocation value.
+     * Set the peering location of the ExpressRoute circuit.
      *
      * @param peeringLocation the peeringLocation value to set
      * @return the ExpressRouteCrossConnectionInner object itself.
@@ -147,7 +146,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the bandwidthInMbps value.
+     * Get the circuit bandwidth In Mbps.
      *
      * @return the bandwidthInMbps value
      */
@@ -156,7 +155,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Set the bandwidthInMbps value.
+     * Set the circuit bandwidth In Mbps.
      *
      * @param bandwidthInMbps the bandwidthInMbps value to set
      * @return the ExpressRouteCrossConnectionInner object itself.
@@ -167,7 +166,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the expressRouteCircuit value.
+     * Get the ExpressRouteCircuit.
      *
      * @return the expressRouteCircuit value
      */
@@ -176,7 +175,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Set the expressRouteCircuit value.
+     * Set the ExpressRouteCircuit.
      *
      * @param expressRouteCircuit the expressRouteCircuit value to set
      * @return the ExpressRouteCrossConnectionInner object itself.
@@ -187,7 +186,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the serviceProviderProvisioningState value.
+     * Get the provisioning state of the circuit in the connectivity provider system. Possible values include: 'NotProvisioned', 'Provisioning', 'Provisioned', 'Deprovisioning'.
      *
      * @return the serviceProviderProvisioningState value
      */
@@ -196,7 +195,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Set the serviceProviderProvisioningState value.
+     * Set the provisioning state of the circuit in the connectivity provider system. Possible values include: 'NotProvisioned', 'Provisioning', 'Provisioned', 'Deprovisioning'.
      *
      * @param serviceProviderProvisioningState the serviceProviderProvisioningState value to set
      * @return the ExpressRouteCrossConnectionInner object itself.
@@ -207,7 +206,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the serviceProviderNotes value.
+     * Get additional read only notes set by the connectivity provider.
      *
      * @return the serviceProviderNotes value
      */
@@ -216,7 +215,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Set the serviceProviderNotes value.
+     * Set additional read only notes set by the connectivity provider.
      *
      * @param serviceProviderNotes the serviceProviderNotes value to set
      * @return the ExpressRouteCrossConnectionInner object itself.
@@ -227,7 +226,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -236,7 +235,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the peerings value.
+     * Get the list of peerings.
      *
      * @return the peerings value
      */
@@ -245,7 +244,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Set the peerings value.
+     * Set the list of peerings.
      *
      * @param peerings the peerings value to set
      * @return the ExpressRouteCrossConnectionInner object itself.
@@ -256,7 +255,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -265,7 +264,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -274,7 +273,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the ExpressRouteCrossConnectionInner object itself.

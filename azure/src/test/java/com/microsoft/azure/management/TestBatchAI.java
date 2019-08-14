@@ -118,7 +118,7 @@ public class TestBatchAI {
                     .withInstrumentationKey("appInsightsKey")
                     .create();
             printBatchAICluster(cluster);
-            Assert.assertEquals("steady", cluster.allocationState().toString());
+            Assert.assertEquals("resizing", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
             Assert.assertEquals(VmPriority.LOWPRIORITY, cluster.vmPriority());
             Assert.assertEquals(1, cluster.nodeSetup().mountVolumes().azureFileShares().size());

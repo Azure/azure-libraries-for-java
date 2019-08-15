@@ -2,7 +2,7 @@
 
 # Azure Management Libraries for Java
 
-This README is based on the released stable version (1.24.1). If you are looking for other releases, see [More Information](#more-information).
+This README is based on the released stable version (1.24.2). If you are looking for other releases, see [More Information](#more-information).
 
 The Azure Management Libraries for Java is a higher-level, object-oriented API for *managing* Azure resources, that is optimized for ease of use, succinctness and consistency.
 
@@ -24,7 +24,7 @@ If you are looking for Java client libraries for *consuming* (rather than *manag
 * [More information](#more-information)
 
 ## Feature Availability and Road Map
-:triangular_flag_on_post: *as of Version 1.24.1*
+:triangular_flag_on_post: *as of Version 1.24.2*
 
 <table>
   <tr>
@@ -606,13 +606,13 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 
 ### Latest stable release
 
-If you are using released builds from 1.24.1, add the following to your POM file:
+If you are using released builds from 1.24.2, add the following to your POM file:
 
 ```xml
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure</artifactId>
-    <version>1.24.1</version>
+    <version>1.24.2</version>
 </dependency>
 ```
 
@@ -666,7 +666,7 @@ If you are using snapshots builds for this repo, add the following repository an
 
 ## Upgrading from older versions
 
-If you are migrating your code from 1.24.0 to 1.24.1, you can use these release notes for [preparing your code for 1.24.1 from 1.24.0](./notes/prepare-for-1.24.1.md).
+If you are migrating your code from 1.24.0 to 1.24.2, you can use these release notes for [preparing your code for 1.24.2 from 1.24.1](./notes/prepare-for-1.24.2.md).
 
 In general, Azure Libraries for Java follow [semantic versioning](http://semver.org/), so user code should continue working in a compatible fashion between minor versions of the same major version release train, with the following caveats:
 
@@ -700,6 +700,7 @@ If you would like to become an active contributor to this project please follow 
 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
+| 1.24.2       | [1.24.2](https://github.com/Azure/azure-libraries-for-java/tree/1.24.2)               | Tagged release for 1.24.2 version of Azure management libraries |
 | 1.24.1       | [1.24.1](https://github.com/Azure/azure-libraries-for-java/tree/1.24.1)               | Tagged release for 1.24.1 version of Azure management libraries |
 | 1.24.0       | [1.24.0](https://github.com/Azure/azure-libraries-for-java/tree/1.24.0)               | Tagged release for 1.24.0 version of Azure management libraries |
 | 1.23.0       | [1.23.0](https://github.com/Azure/azure-libraries-for-java/tree/1.23.0)               | Tagged release for 1.23.0 version of Azure management libraries |

@@ -6,6 +6,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.InboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerFrontend;
 import com.microsoft.azure.management.network.LoadBalancerHttpProbe;
@@ -239,7 +240,7 @@ class LoadBalancerImpl
         }
 
         // Reset and update inbound NAT pools
-        List<InboundNatPoolInner> innerNatPools = innersFromWrappers(this.inboundNatPools.values());
+        List<InboundNatPool> innerNatPools = innersFromWrappers(this.inboundNatPools.values());
         if (null == innerNatPools) {
             innerNatPools = new ArrayList<>();
         }
@@ -372,9 +373,9 @@ class LoadBalancerImpl
 
     private void initializeInboundNatPoolsFromInner() {
         this.inboundNatPools = new TreeMap<>();
-        List<InboundNatPoolInner> inners = this.inner().inboundNatPools();
+        List<InboundNatPool> inners = this.inner().inboundNatPools();
         if (inners != null) {
-            for (InboundNatPoolInner inner : inners) {
+            for (InboundNatPool inner : inners) {
                 LoadBalancerInboundNatPoolImpl wrapper = new LoadBalancerInboundNatPoolImpl(inner, this);
                 this.inboundNatPools.put(wrapper.name(), wrapper);
             }
@@ -559,7 +560,7 @@ class LoadBalancerImpl
     public LoadBalancerInboundNatPoolImpl defineInboundNatPool(String name) {
         LoadBalancerInboundNatPool natPool = this.inboundNatPools.get(name);
         if (natPool == null) {
-            InboundNatPoolInner inner = new InboundNatPoolInner()
+            InboundNatPool inner = new InboundNatPool()
                     .withName(name);
             return new LoadBalancerInboundNatPoolImpl(inner, this);
         } else {

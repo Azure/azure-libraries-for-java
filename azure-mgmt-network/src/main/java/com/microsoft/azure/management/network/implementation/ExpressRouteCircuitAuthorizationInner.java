@@ -25,8 +25,8 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     private String authorizationKey;
 
     /**
-     * AuthorizationUseStatus. Possible values are: 'Available' and 'InUse'.
-     * Possible values include: 'Available', 'InUse'.
+     * The authorization use status. Possible values include: 'Available',
+     * 'InUse'.
      */
     @JsonProperty(value = "properties.authorizationUseStatus")
     private AuthorizationUseStatus authorizationUseStatus;
@@ -52,7 +52,13 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     private String etag;
 
     /**
-     * Get the authorizationKey value.
+     * Type of the resource.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
+     * Get the authorization key.
      *
      * @return the authorizationKey value
      */
@@ -61,7 +67,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     }
 
     /**
-     * Set the authorizationKey value.
+     * Set the authorization key.
      *
      * @param authorizationKey the authorizationKey value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
@@ -72,7 +78,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     }
 
     /**
-     * Get the authorizationUseStatus value.
+     * Get the authorization use status. Possible values include: 'Available', 'InUse'.
      *
      * @return the authorizationUseStatus value
      */
@@ -81,7 +87,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     }
 
     /**
-     * Set the authorizationUseStatus value.
+     * Set the authorization use status. Possible values include: 'Available', 'InUse'.
      *
      * @param authorizationUseStatus the authorizationUseStatus value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
@@ -92,7 +98,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -101,7 +107,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
@@ -112,7 +118,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get gets name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -121,7 +127,7 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set gets name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the ExpressRouteCircuitAuthorizationInner object itself.
@@ -132,12 +138,21 @@ public class ExpressRouteCircuitAuthorizationInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
+    }
+
+    /**
+     * Get type of the resource.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

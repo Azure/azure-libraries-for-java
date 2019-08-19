@@ -15,28 +15,54 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ApplicationGatewayAutoscaleConfiguration {
     /**
-     * Autoscale bounds.
+     * Lower bound on number of Application Gateway capacity.
      */
-    @JsonProperty(value = "bounds", required = true)
-    private ApplicationGatewayAutoscaleBounds bounds;
+    @JsonProperty(value = "minCapacity", required = true)
+    private int minCapacity;
 
     /**
-     * Get the bounds value.
-     *
-     * @return the bounds value
+     * Upper bound on number of Application Gateway capacity.
      */
-    public ApplicationGatewayAutoscaleBounds bounds() {
-        return this.bounds;
+    @JsonProperty(value = "maxCapacity")
+    private Integer maxCapacity;
+
+    /**
+     * Get lower bound on number of Application Gateway capacity.
+     *
+     * @return the minCapacity value
+     */
+    public int minCapacity() {
+        return this.minCapacity;
     }
 
     /**
-     * Set the bounds value.
+     * Set lower bound on number of Application Gateway capacity.
      *
-     * @param bounds the bounds value to set
+     * @param minCapacity the minCapacity value to set
      * @return the ApplicationGatewayAutoscaleConfiguration object itself.
      */
-    public ApplicationGatewayAutoscaleConfiguration withBounds(ApplicationGatewayAutoscaleBounds bounds) {
-        this.bounds = bounds;
+    public ApplicationGatewayAutoscaleConfiguration withMinCapacity(int minCapacity) {
+        this.minCapacity = minCapacity;
+        return this;
+    }
+
+    /**
+     * Get upper bound on number of Application Gateway capacity.
+     *
+     * @return the maxCapacity value
+     */
+    public Integer maxCapacity() {
+        return this.maxCapacity;
+    }
+
+    /**
+     * Set upper bound on number of Application Gateway capacity.
+     *
+     * @param maxCapacity the maxCapacity value to set
+     * @return the ApplicationGatewayAutoscaleConfiguration object itself.
+     */
+    public ApplicationGatewayAutoscaleConfiguration withMaxCapacity(Integer maxCapacity) {
+        this.maxCapacity = maxCapacity;
         return this;
     }
 

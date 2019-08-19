@@ -16,6 +16,8 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.network.ApplicationGatewayOnDemandProbe;
+import com.microsoft.azure.management.network.ErrorException;
 import com.microsoft.azure.management.network.TagsObject;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
@@ -41,6 +43,8 @@ import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -100,9 +104,9 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways")
         Observable<Response<ResponseBody>> listByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways listAll" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGateways")
-        Observable<Response<ResponseBody>> listAll(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways start" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start")
@@ -128,6 +132,26 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendhealth")
         Observable<Response<ResponseBody>> beginBackendHealth(@Path("resourceGroupName") String resourceGroupName, @Path("applicationGatewayName") String applicationGatewayName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$expand") String expand, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways backendHealthOnDemand" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand")
+        Observable<Response<ResponseBody>> backendHealthOnDemand(@Path("resourceGroupName") String resourceGroupName, @Path("applicationGatewayName") String applicationGatewayName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$expand") String expand, @Body ApplicationGatewayOnDemandProbe probeRequest, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways beginBackendHealthOnDemand" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand")
+        Observable<Response<ResponseBody>> beginBackendHealthOnDemand(@Path("resourceGroupName") String resourceGroupName, @Path("applicationGatewayName") String applicationGatewayName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$expand") String expand, @Body ApplicationGatewayOnDemandProbe probeRequest, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways listAvailableServerVariables" })
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableServerVariables")
+        Observable<Response<ResponseBody>> listAvailableServerVariables(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways listAvailableRequestHeaders" })
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableRequestHeaders")
+        Observable<Response<ResponseBody>> listAvailableRequestHeaders(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways listAvailableResponseHeaders" })
+        @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableResponseHeaders")
+        Observable<Response<ResponseBody>> listAvailableResponseHeaders(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways listAvailableWafRuleSets" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets")
         Observable<Response<ResponseBody>> listAvailableWafRuleSets(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -148,9 +172,9 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         @GET
         Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways listAllNext" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways listNext" })
         @GET
-        Observable<Response<ResponseBody>> listAllNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ApplicationGateways listAvailableSslPredefinedPoliciesNext" })
         @GET
@@ -219,7 +243,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -285,7 +309,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginDelete(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -371,7 +395,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.getByResourceGroup(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewayInner>>>() {
                 @Override
@@ -463,7 +487,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ApplicationGatewayInner>() { }.getType());
     }
@@ -538,7 +562,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginCreateOrUpdate(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewayInner>>>() {
                 @Override
@@ -623,7 +647,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -697,7 +721,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -766,7 +790,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -851,7 +875,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -966,7 +990,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
@@ -997,11 +1021,11 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object if successful.
      */
     public PagedList<ApplicationGatewayInner> list() {
-        ServiceResponse<Page<ApplicationGatewayInner>> response = listAllSinglePageAsync().toBlocking().single();
+        ServiceResponse<Page<ApplicationGatewayInner>> response = listSinglePageAsync().toBlocking().single();
         return new PagedList<ApplicationGatewayInner>(response.body()) {
             @Override
             public Page<ApplicationGatewayInner> nextPage(String nextPageLink) {
-                return listAllNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -1015,11 +1039,11 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      */
     public ServiceFuture<List<ApplicationGatewayInner>> listAsync(final ListOperationCallback<ApplicationGatewayInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listAllSinglePageAsync(),
+            listSinglePageAsync(),
             new Func1<String, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(String nextPageLink) {
-                    return listAllNextSinglePageAsync(nextPageLink);
+                    return listNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -1032,7 +1056,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object
      */
     public Observable<Page<ApplicationGatewayInner>> listAsync() {
-        return listAllWithServiceResponseAsync()
+        return listWithServiceResponseAsync()
             .map(new Func1<ServiceResponse<Page<ApplicationGatewayInner>>, Page<ApplicationGatewayInner>>() {
                 @Override
                 public Page<ApplicationGatewayInner> call(ServiceResponse<Page<ApplicationGatewayInner>> response) {
@@ -1047,8 +1071,8 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listAllWithServiceResponseAsync() {
-        return listAllSinglePageAsync()
+    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listWithServiceResponseAsync() {
+        return listSinglePageAsync()
             .concatMap(new Func1<ServiceResponse<Page<ApplicationGatewayInner>>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(ServiceResponse<Page<ApplicationGatewayInner>> page) {
@@ -1056,7 +1080,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listAllNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -1067,17 +1091,17 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listAllSinglePageAsync() {
+    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
-        return service.listAll(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-06-01";
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationGatewayInner>> result = listAllDelegate(response);
+                        ServiceResponse<PageImpl<ApplicationGatewayInner>> result = listDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ApplicationGatewayInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1086,7 +1110,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
             });
     }
 
-    private ServiceResponse<PageImpl<ApplicationGatewayInner>> listAllDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<ApplicationGatewayInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationGatewayInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ApplicationGatewayInner>>() { }.getType())
                 .registerError(CloudException.class)
@@ -1154,9 +1178,9 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.start(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
     }
 
     /**
@@ -1220,7 +1244,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginStart(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -1304,9 +1328,9 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.stop(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
     }
 
     /**
@@ -1370,7 +1394,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginStop(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -1455,10 +1479,10 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         final String expand = null;
         Observable<Response<ResponseBody>> observable = service.backendHealth(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ApplicationGatewayBackendHealthInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<ApplicationGatewayBackendHealthInner>() { }.getType());
     }
     /**
      * Gets the backend health of the specified application gateway in a resource group.
@@ -1526,9 +1550,9 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.backendHealth(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<ApplicationGatewayBackendHealthInner>() { }.getType());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<ApplicationGatewayBackendHealthInner>() { }.getType());
     }
 
     /**
@@ -1593,7 +1617,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         final String expand = null;
         return service.beginBackendHealth(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewayBackendHealthInner>>>() {
@@ -1675,7 +1699,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginBackendHealth(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewayBackendHealthInner>>>() {
                 @Override
@@ -1695,6 +1719,553 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
                 .register(200, new TypeToken<ApplicationGatewayBackendHealthInner>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ApplicationGatewayBackendHealthOnDemandInner object if successful.
+     */
+    public ApplicationGatewayBackendHealthOnDemandInner backendHealthOnDemand(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest) {
+        return backendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest).toBlocking().last().body();
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ApplicationGatewayBackendHealthOnDemandInner> backendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, final ServiceCallback<ApplicationGatewayBackendHealthOnDemandInner> serviceCallback) {
+        return ServiceFuture.fromResponse(backendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest), serviceCallback);
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ApplicationGatewayBackendHealthOnDemandInner> backendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest) {
+        return backendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest).map(new Func1<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>, ApplicationGatewayBackendHealthOnDemandInner>() {
+            @Override
+            public ApplicationGatewayBackendHealthOnDemandInner call(ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>> backendHealthOnDemandWithServiceResponseAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (applicationGatewayName == null) {
+            throw new IllegalArgumentException("Parameter applicationGatewayName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (probeRequest == null) {
+            throw new IllegalArgumentException("Parameter probeRequest is required and cannot be null.");
+        }
+        Validator.validate(probeRequest);
+        final String apiVersion = "2019-06-01";
+        final String expand = null;
+        Observable<Response<ResponseBody>> observable = service.backendHealthOnDemand(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, expand, probeRequest, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<ApplicationGatewayBackendHealthOnDemandInner>() { }.getType());
+    }
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param expand Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ApplicationGatewayBackendHealthOnDemandInner object if successful.
+     */
+    public ApplicationGatewayBackendHealthOnDemandInner backendHealthOnDemand(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        return backendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand).toBlocking().last().body();
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param expand Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ApplicationGatewayBackendHealthOnDemandInner> backendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand, final ServiceCallback<ApplicationGatewayBackendHealthOnDemandInner> serviceCallback) {
+        return ServiceFuture.fromResponse(backendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand), serviceCallback);
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param expand Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ApplicationGatewayBackendHealthOnDemandInner> backendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        return backendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand).map(new Func1<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>, ApplicationGatewayBackendHealthOnDemandInner>() {
+            @Override
+            public ApplicationGatewayBackendHealthOnDemandInner call(ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param expand Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>> backendHealthOnDemandWithServiceResponseAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (applicationGatewayName == null) {
+            throw new IllegalArgumentException("Parameter applicationGatewayName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (probeRequest == null) {
+            throw new IllegalArgumentException("Parameter probeRequest is required and cannot be null.");
+        }
+        Validator.validate(probeRequest);
+        final String apiVersion = "2019-06-01";
+        Observable<Response<ResponseBody>> observable = service.backendHealthOnDemand(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, expand, probeRequest, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<ApplicationGatewayBackendHealthOnDemandInner>() { }.getType());
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ApplicationGatewayBackendHealthOnDemandInner object if successful.
+     */
+    public ApplicationGatewayBackendHealthOnDemandInner beginBackendHealthOnDemand(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest) {
+        return beginBackendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest).toBlocking().single().body();
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ApplicationGatewayBackendHealthOnDemandInner> beginBackendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, final ServiceCallback<ApplicationGatewayBackendHealthOnDemandInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginBackendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest), serviceCallback);
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ApplicationGatewayBackendHealthOnDemandInner object
+     */
+    public Observable<ApplicationGatewayBackendHealthOnDemandInner> beginBackendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest) {
+        return beginBackendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest).map(new Func1<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>, ApplicationGatewayBackendHealthOnDemandInner>() {
+            @Override
+            public ApplicationGatewayBackendHealthOnDemandInner call(ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ApplicationGatewayBackendHealthOnDemandInner object
+     */
+    public Observable<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>> beginBackendHealthOnDemandWithServiceResponseAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (applicationGatewayName == null) {
+            throw new IllegalArgumentException("Parameter applicationGatewayName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (probeRequest == null) {
+            throw new IllegalArgumentException("Parameter probeRequest is required and cannot be null.");
+        }
+        Validator.validate(probeRequest);
+        final String apiVersion = "2019-06-01";
+        final String expand = null;
+        return service.beginBackendHealthOnDemand(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, expand, probeRequest, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner> clientResponse = beginBackendHealthOnDemandDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param expand Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ApplicationGatewayBackendHealthOnDemandInner object if successful.
+     */
+    public ApplicationGatewayBackendHealthOnDemandInner beginBackendHealthOnDemand(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        return beginBackendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand).toBlocking().single().body();
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param expand Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ApplicationGatewayBackendHealthOnDemandInner> beginBackendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand, final ServiceCallback<ApplicationGatewayBackendHealthOnDemandInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginBackendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand), serviceCallback);
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param expand Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ApplicationGatewayBackendHealthOnDemandInner object
+     */
+    public Observable<ApplicationGatewayBackendHealthOnDemandInner> beginBackendHealthOnDemandAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        return beginBackendHealthOnDemandWithServiceResponseAsync(resourceGroupName, applicationGatewayName, probeRequest, expand).map(new Func1<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>, ApplicationGatewayBackendHealthOnDemandInner>() {
+            @Override
+            public ApplicationGatewayBackendHealthOnDemandInner call(ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param applicationGatewayName The name of the application gateway.
+     * @param probeRequest Request body for on-demand test probe operation.
+     * @param expand Expands BackendAddressPool and BackendHttpSettings referenced in backend health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ApplicationGatewayBackendHealthOnDemandInner object
+     */
+    public Observable<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>> beginBackendHealthOnDemandWithServiceResponseAsync(String resourceGroupName, String applicationGatewayName, ApplicationGatewayOnDemandProbe probeRequest, String expand) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (applicationGatewayName == null) {
+            throw new IllegalArgumentException("Parameter applicationGatewayName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (probeRequest == null) {
+            throw new IllegalArgumentException("Parameter probeRequest is required and cannot be null.");
+        }
+        Validator.validate(probeRequest);
+        final String apiVersion = "2019-06-01";
+        return service.beginBackendHealthOnDemand(resourceGroupName, applicationGatewayName, this.client.subscriptionId(), apiVersion, expand, probeRequest, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner> clientResponse = beginBackendHealthOnDemandDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<ApplicationGatewayBackendHealthOnDemandInner> beginBackendHealthOnDemandDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ApplicationGatewayBackendHealthOnDemandInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ApplicationGatewayBackendHealthOnDemandInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists all available server variables.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the List&lt;String&gt; object if successful.
+     */
+    public List<String> listAvailableServerVariables() {
+        return listAvailableServerVariablesWithServiceResponseAsync().toBlocking().single().body();
+    }
+
+    /**
+     * Lists all available server variables.
+     *
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<String>> listAvailableServerVariablesAsync(final ServiceCallback<List<String>> serviceCallback) {
+        return ServiceFuture.fromResponse(listAvailableServerVariablesWithServiceResponseAsync(), serviceCallback);
+    }
+
+    /**
+     * Lists all available server variables.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the List&lt;String&gt; object
+     */
+    public Observable<List<String>> listAvailableServerVariablesAsync() {
+        return listAvailableServerVariablesWithServiceResponseAsync().map(new Func1<ServiceResponse<List<String>>, List<String>>() {
+            @Override
+            public List<String> call(ServiceResponse<List<String>> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Lists all available server variables.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the List&lt;String&gt; object
+     */
+    public Observable<ServiceResponse<List<String>>> listAvailableServerVariablesWithServiceResponseAsync() {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-06-01";
+        return service.listAvailableServerVariables(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<List<String>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<List<String>> clientResponse = listAvailableServerVariablesDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<List<String>> listAvailableServerVariablesDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<List<String>, ErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<List<String>>() { }.getType())
+                .registerError(ErrorException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists all available request headers.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the List&lt;String&gt; object if successful.
+     */
+    public List<String> listAvailableRequestHeaders() {
+        return listAvailableRequestHeadersWithServiceResponseAsync().toBlocking().single().body();
+    }
+
+    /**
+     * Lists all available request headers.
+     *
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<String>> listAvailableRequestHeadersAsync(final ServiceCallback<List<String>> serviceCallback) {
+        return ServiceFuture.fromResponse(listAvailableRequestHeadersWithServiceResponseAsync(), serviceCallback);
+    }
+
+    /**
+     * Lists all available request headers.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the List&lt;String&gt; object
+     */
+    public Observable<List<String>> listAvailableRequestHeadersAsync() {
+        return listAvailableRequestHeadersWithServiceResponseAsync().map(new Func1<ServiceResponse<List<String>>, List<String>>() {
+            @Override
+            public List<String> call(ServiceResponse<List<String>> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Lists all available request headers.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the List&lt;String&gt; object
+     */
+    public Observable<ServiceResponse<List<String>>> listAvailableRequestHeadersWithServiceResponseAsync() {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-06-01";
+        return service.listAvailableRequestHeaders(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<List<String>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<List<String>> clientResponse = listAvailableRequestHeadersDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<List<String>> listAvailableRequestHeadersDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<List<String>, ErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<List<String>>() { }.getType())
+                .registerError(ErrorException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists all available response headers.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws ErrorException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the List&lt;String&gt; object if successful.
+     */
+    public List<String> listAvailableResponseHeaders() {
+        return listAvailableResponseHeadersWithServiceResponseAsync().toBlocking().single().body();
+    }
+
+    /**
+     * Lists all available response headers.
+     *
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<String>> listAvailableResponseHeadersAsync(final ServiceCallback<List<String>> serviceCallback) {
+        return ServiceFuture.fromResponse(listAvailableResponseHeadersWithServiceResponseAsync(), serviceCallback);
+    }
+
+    /**
+     * Lists all available response headers.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the List&lt;String&gt; object
+     */
+    public Observable<List<String>> listAvailableResponseHeadersAsync() {
+        return listAvailableResponseHeadersWithServiceResponseAsync().map(new Func1<ServiceResponse<List<String>>, List<String>>() {
+            @Override
+            public List<String> call(ServiceResponse<List<String>> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Lists all available response headers.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the List&lt;String&gt; object
+     */
+    public Observable<ServiceResponse<List<String>>> listAvailableResponseHeadersWithServiceResponseAsync() {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-06-01";
+        return service.listAvailableResponseHeaders(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<String>>>>() {
+                @Override
+                public Observable<ServiceResponse<List<String>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<List<String>> clientResponse = listAvailableResponseHeadersDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<List<String>> listAvailableResponseHeadersDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<List<String>, ErrorException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<List<String>>() { }.getType())
+                .registerError(ErrorException.class)
                 .build(response);
     }
 
@@ -1746,7 +2317,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.listAvailableWafRuleSets(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewayAvailableWafRuleSetsResultInner>>>() {
                 @Override
@@ -1816,7 +2387,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.listAvailableSslOptions(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewayAvailableSslOptionsInner>>>() {
                 @Override
@@ -1921,7 +2492,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.listAvailableSslPredefinedPolicies(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationGatewaySslPredefinedPolicyInner>>>>() {
                 @Override
@@ -1998,7 +2569,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
         if (predefinedPolicyName == null) {
             throw new IllegalArgumentException("Parameter predefinedPolicyName is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.getSslPredefinedPolicy(this.client.subscriptionId(), predefinedPolicyName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationGatewaySslPredefinedPolicyInner>>>() {
                 @Override
@@ -2140,12 +2711,12 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object if successful.
      */
-    public PagedList<ApplicationGatewayInner> listAllNext(final String nextPageLink) {
-        ServiceResponse<Page<ApplicationGatewayInner>> response = listAllNextSinglePageAsync(nextPageLink).toBlocking().single();
+    public PagedList<ApplicationGatewayInner> listNext(final String nextPageLink) {
+        ServiceResponse<Page<ApplicationGatewayInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
         return new PagedList<ApplicationGatewayInner>(response.body()) {
             @Override
             public Page<ApplicationGatewayInner> nextPage(String nextPageLink) {
-                return listAllNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
     }
@@ -2159,13 +2730,13 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationGatewayInner>> listAllNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationGatewayInner>> serviceFuture, final ListOperationCallback<ApplicationGatewayInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationGatewayInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationGatewayInner>> serviceFuture, final ListOperationCallback<ApplicationGatewayInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
-            listAllNextSinglePageAsync(nextPageLink),
+            listNextSinglePageAsync(nextPageLink),
             new Func1<String, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(String nextPageLink) {
-                    return listAllNextSinglePageAsync(nextPageLink);
+                    return listNextSinglePageAsync(nextPageLink);
                 }
             },
             serviceCallback);
@@ -2178,8 +2749,8 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object
      */
-    public Observable<Page<ApplicationGatewayInner>> listAllNextAsync(final String nextPageLink) {
-        return listAllNextWithServiceResponseAsync(nextPageLink)
+    public Observable<Page<ApplicationGatewayInner>> listNextAsync(final String nextPageLink) {
+        return listNextWithServiceResponseAsync(nextPageLink)
             .map(new Func1<ServiceResponse<Page<ApplicationGatewayInner>>, Page<ApplicationGatewayInner>>() {
                 @Override
                 public Page<ApplicationGatewayInner> call(ServiceResponse<Page<ApplicationGatewayInner>> response) {
@@ -2195,8 +2766,8 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ApplicationGatewayInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listAllNextWithServiceResponseAsync(final String nextPageLink) {
-        return listAllNextSinglePageAsync(nextPageLink)
+    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+        return listNextSinglePageAsync(nextPageLink)
             .concatMap(new Func1<ServiceResponse<Page<ApplicationGatewayInner>>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(ServiceResponse<Page<ApplicationGatewayInner>> page) {
@@ -2204,7 +2775,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
                     if (nextPageLink == null) {
                         return Observable.just(page);
                     }
-                    return Observable.just(page).concatWith(listAllNextWithServiceResponseAsync(nextPageLink));
+                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
                 }
             });
     }
@@ -2216,17 +2787,17 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ApplicationGatewayInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listAllNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> listNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
-        return service.listAllNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationGatewayInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<ApplicationGatewayInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationGatewayInner>> result = listAllNextDelegate(response);
+                        ServiceResponse<PageImpl<ApplicationGatewayInner>> result = listNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ApplicationGatewayInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2235,7 +2806,7 @@ public class ApplicationGatewaysInner implements InnerSupportsGet<ApplicationGat
             });
     }
 
-    private ServiceResponse<PageImpl<ApplicationGatewayInner>> listAllNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<PageImpl<ApplicationGatewayInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationGatewayInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ApplicationGatewayInner>>() { }.getType())
                 .registerError(CloudException.class)

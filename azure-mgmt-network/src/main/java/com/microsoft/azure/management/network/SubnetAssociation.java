@@ -13,7 +13,7 @@ import com.microsoft.azure.management.network.implementation.SecurityRuleInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Network interface and its custom security rules.
+ * Subnet and it's custom security rules.
  */
 public class SubnetAssociation {
     /**
@@ -29,7 +29,7 @@ public class SubnetAssociation {
     private List<SecurityRuleInner> securityRules;
 
     /**
-     * Get the id value.
+     * Get subnet ID.
      *
      * @return the id value
      */
@@ -38,7 +38,7 @@ public class SubnetAssociation {
     }
 
     /**
-     * Get the securityRules value.
+     * Get collection of custom security rules.
      *
      * @return the securityRules value
      */
@@ -47,7 +47,7 @@ public class SubnetAssociation {
     }
 
     /**
-     * Set the securityRules value.
+     * Set collection of custom security rules.
      *
      * @param securityRules the securityRules value to set
      * @return the SubnetAssociation object itself.

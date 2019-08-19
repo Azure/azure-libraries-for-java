@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.network;
 
-import com.microsoft.azure.management.network.implementation.RouteFilterInner;
+import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -37,17 +37,16 @@ public class Ipv6ExpressRouteCircuitPeeringConfig {
      * The reference of the RouteFilter resource.
      */
     @JsonProperty(value = "routeFilter")
-    private RouteFilterInner routeFilter;
+    private SubResource routeFilter;
 
     /**
-     * The state of peering. Possible values are: 'Disabled' and 'Enabled'.
-     * Possible values include: 'Disabled', 'Enabled'.
+     * The state of peering. Possible values include: 'Disabled', 'Enabled'.
      */
     @JsonProperty(value = "state")
     private ExpressRouteCircuitPeeringState state;
 
     /**
-     * Get the primaryPeerAddressPrefix value.
+     * Get the primary address prefix.
      *
      * @return the primaryPeerAddressPrefix value
      */
@@ -56,7 +55,7 @@ public class Ipv6ExpressRouteCircuitPeeringConfig {
     }
 
     /**
-     * Set the primaryPeerAddressPrefix value.
+     * Set the primary address prefix.
      *
      * @param primaryPeerAddressPrefix the primaryPeerAddressPrefix value to set
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
@@ -67,7 +66,7 @@ public class Ipv6ExpressRouteCircuitPeeringConfig {
     }
 
     /**
-     * Get the secondaryPeerAddressPrefix value.
+     * Get the secondary address prefix.
      *
      * @return the secondaryPeerAddressPrefix value
      */
@@ -76,7 +75,7 @@ public class Ipv6ExpressRouteCircuitPeeringConfig {
     }
 
     /**
-     * Set the secondaryPeerAddressPrefix value.
+     * Set the secondary address prefix.
      *
      * @param secondaryPeerAddressPrefix the secondaryPeerAddressPrefix value to set
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
@@ -87,7 +86,7 @@ public class Ipv6ExpressRouteCircuitPeeringConfig {
     }
 
     /**
-     * Get the microsoftPeeringConfig value.
+     * Get the Microsoft peering configuration.
      *
      * @return the microsoftPeeringConfig value
      */
@@ -96,7 +95,7 @@ public class Ipv6ExpressRouteCircuitPeeringConfig {
     }
 
     /**
-     * Set the microsoftPeeringConfig value.
+     * Set the Microsoft peering configuration.
      *
      * @param microsoftPeeringConfig the microsoftPeeringConfig value to set
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
@@ -107,27 +106,27 @@ public class Ipv6ExpressRouteCircuitPeeringConfig {
     }
 
     /**
-     * Get the routeFilter value.
+     * Get the reference of the RouteFilter resource.
      *
      * @return the routeFilter value
      */
-    public RouteFilterInner routeFilter() {
+    public SubResource routeFilter() {
         return this.routeFilter;
     }
 
     /**
-     * Set the routeFilter value.
+     * Set the reference of the RouteFilter resource.
      *
      * @param routeFilter the routeFilter value to set
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.
      */
-    public Ipv6ExpressRouteCircuitPeeringConfig withRouteFilter(RouteFilterInner routeFilter) {
+    public Ipv6ExpressRouteCircuitPeeringConfig withRouteFilter(SubResource routeFilter) {
         this.routeFilter = routeFilter;
         return this;
     }
 
     /**
-     * Get the state value.
+     * Get the state of peering. Possible values include: 'Disabled', 'Enabled'.
      *
      * @return the state value
      */
@@ -136,7 +135,7 @@ public class Ipv6ExpressRouteCircuitPeeringConfig {
     }
 
     /**
-     * Set the state value.
+     * Set the state of peering. Possible values include: 'Disabled', 'Enabled'.
      *
      * @param state the state value to set
      * @return the Ipv6ExpressRouteCircuitPeeringConfig object itself.

@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.network;
 
-import com.microsoft.azure.management.network.implementation.ApplicationGatewayBackendHttpSettingsInner;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,7 +19,7 @@ public class ApplicationGatewayBackendHealthHttpSettings {
      * Reference of an ApplicationGatewayBackendHttpSettings resource.
      */
     @JsonProperty(value = "backendHttpSettings")
-    private ApplicationGatewayBackendHttpSettingsInner backendHttpSettings;
+    private ApplicationGatewayBackendHttpSettings backendHttpSettings;
 
     /**
      * List of ApplicationGatewayBackendHealthServer resources.
@@ -29,27 +28,27 @@ public class ApplicationGatewayBackendHealthHttpSettings {
     private List<ApplicationGatewayBackendHealthServer> servers;
 
     /**
-     * Get the backendHttpSettings value.
+     * Get reference of an ApplicationGatewayBackendHttpSettings resource.
      *
      * @return the backendHttpSettings value
      */
-    public ApplicationGatewayBackendHttpSettingsInner backendHttpSettings() {
+    public ApplicationGatewayBackendHttpSettings backendHttpSettings() {
         return this.backendHttpSettings;
     }
 
     /**
-     * Set the backendHttpSettings value.
+     * Set reference of an ApplicationGatewayBackendHttpSettings resource.
      *
      * @param backendHttpSettings the backendHttpSettings value to set
      * @return the ApplicationGatewayBackendHealthHttpSettings object itself.
      */
-    public ApplicationGatewayBackendHealthHttpSettings withBackendHttpSettings(ApplicationGatewayBackendHttpSettingsInner backendHttpSettings) {
+    public ApplicationGatewayBackendHealthHttpSettings withBackendHttpSettings(ApplicationGatewayBackendHttpSettings backendHttpSettings) {
         this.backendHttpSettings = backendHttpSettings;
         return this;
     }
 
     /**
-     * Get the servers value.
+     * Get list of ApplicationGatewayBackendHealthServer resources.
      *
      * @return the servers value
      */
@@ -58,7 +57,7 @@ public class ApplicationGatewayBackendHealthHttpSettings {
     }
 
     /**
-     * Set the servers value.
+     * Set list of ApplicationGatewayBackendHealthServer resources.
      *
      * @param servers the servers value to set
      * @return the ApplicationGatewayBackendHealthHttpSettings object itself.

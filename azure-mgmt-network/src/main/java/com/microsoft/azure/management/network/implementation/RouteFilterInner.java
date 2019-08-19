@@ -33,6 +33,12 @@ public class RouteFilterInner extends Resource {
     private List<ExpressRouteCircuitPeeringInner> peerings;
 
     /**
+     * A collection of references to express route circuit ipv6 peerings.
+     */
+    @JsonProperty(value = "properties.ipv6Peerings")
+    private List<ExpressRouteCircuitPeeringInner> ipv6Peerings;
+
+    /**
      * The provisioning state of the resource. Possible values are: 'Updating',
      * 'Deleting', 'Succeeded' and 'Failed'.
      */
@@ -53,7 +59,7 @@ public class RouteFilterInner extends Resource {
     private String id;
 
     /**
-     * Get the rules value.
+     * Get collection of RouteFilterRules contained within a route filter.
      *
      * @return the rules value
      */
@@ -62,7 +68,7 @@ public class RouteFilterInner extends Resource {
     }
 
     /**
-     * Set the rules value.
+     * Set collection of RouteFilterRules contained within a route filter.
      *
      * @param rules the rules value to set
      * @return the RouteFilterInner object itself.
@@ -73,7 +79,7 @@ public class RouteFilterInner extends Resource {
     }
 
     /**
-     * Get the peerings value.
+     * Get a collection of references to express route circuit peerings.
      *
      * @return the peerings value
      */
@@ -82,7 +88,7 @@ public class RouteFilterInner extends Resource {
     }
 
     /**
-     * Set the peerings value.
+     * Set a collection of references to express route circuit peerings.
      *
      * @param peerings the peerings value to set
      * @return the RouteFilterInner object itself.
@@ -93,7 +99,27 @@ public class RouteFilterInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get a collection of references to express route circuit ipv6 peerings.
+     *
+     * @return the ipv6Peerings value
+     */
+    public List<ExpressRouteCircuitPeeringInner> ipv6Peerings() {
+        return this.ipv6Peerings;
+    }
+
+    /**
+     * Set a collection of references to express route circuit ipv6 peerings.
+     *
+     * @param ipv6Peerings the ipv6Peerings value to set
+     * @return the RouteFilterInner object itself.
+     */
+    public RouteFilterInner withIpv6Peerings(List<ExpressRouteCircuitPeeringInner> ipv6Peerings) {
+        this.ipv6Peerings = ipv6Peerings;
+        return this;
+    }
+
+    /**
+     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -102,7 +128,7 @@ public class RouteFilterInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -111,7 +137,7 @@ public class RouteFilterInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -120,7 +146,7 @@ public class RouteFilterInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the RouteFilterInner object itself.

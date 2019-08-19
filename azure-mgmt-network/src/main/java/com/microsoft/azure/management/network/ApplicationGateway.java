@@ -134,6 +134,16 @@ public interface ApplicationGateway extends
     ApplicationGatewayTier tier();
 
     /**
+     * @return the autoscaleConfiguration value.
+     */
+    ApplicationGatewayAutoscaleConfiguration autoscaleConfiguration();
+
+    /**
+     * @return the webApplicationFirewallConfiguration value.
+     */
+    ApplicationGatewayWebApplicationFirewallConfiguration webApplicationFirewallConfiguration();
+
+    /**
      * @return the operational state of the application gateway
      */
     ApplicationGatewayOperationalState operationalState();
@@ -440,9 +450,16 @@ public interface ApplicationGateway extends
         }
 
         /**
-         * The stage of an application gateway update allowing to specify the size.
+         * The stage of an application gateway update allowing to specify the sku.
          */
-        interface WithSize {
+        interface WithSku {
+            /**
+             * Set tier of an application gateway. Possible values include: 'Standard', 'WAF', 'Standard_v2', 'WAF_v2'.
+             * @param tier the tier value to set
+             * @return the next stage of the definition
+             */
+            WithCreate withTier(ApplicationGatewayTier tier);
+
             /**
              * Specifies the size of the application gateway to create within the context of the selected tier.
              * <p>
@@ -455,6 +472,28 @@ public interface ApplicationGateway extends
               * while the portal refers to this as the "SKU size"... The documentation naming sounds the most correct, so following that here.
               */
             WithCreate withSize(ApplicationGatewaySkuName size);
+        }
+
+
+        /**
+         * The stage of the applicationgateway update allowing to specify WebApplicationFirewallConfiguration.
+         */
+        interface WithWebApplicationFirewall {
+
+            /**
+             * Specifies webApplicationFirewallConfiguration with default values.
+             * @param enabled enable the firewall when created
+             * @param mode Web application firewall mode.
+             * @return the next stage of the definition
+             */
+            WithCreate withWebApplicationFirewall(boolean enabled, ApplicationGatewayFirewallMode mode);
+
+            /**
+             * Specifies webApplicationFirewallConfiguration.
+             * @param webApplicationFirewallConfiguration Web application firewall configuration
+             * @return the next stage of the definition
+             */
+            WithCreate withWebApplicationFirewall(ApplicationGatewayWebApplicationFirewallConfiguration webApplicationFirewallConfiguration);
         }
 
         /**
@@ -472,6 +511,14 @@ public interface ApplicationGateway extends
              * The API refers to this as "Capacity", but the portal and the docs refer to this as "instance count", so using that naming here
              */
             WithCreate withInstanceCount(int instanceCount);
+
+            /**
+             * Specifies the min and max auto scale bound.
+             * @param minCapacity  Lower bound on number of Application Gateway capacity.
+             * @param maxCapacity Upper bound on number of Application Gateway capacity.
+             * @return
+             */
+            WithCreate withAutoScale(int minCapacity, int maxCapacity);
         }
 
         /**
@@ -577,8 +624,9 @@ public interface ApplicationGateway extends
         interface WithCreate extends
             Creatable<ApplicationGateway>,
             Resource.DefinitionWithTags<WithCreate>,
-            WithSize,
+            WithSku,
             WithInstanceCount,
+            WithWebApplicationFirewall,
             WithSslCert,
             WithFrontendPort,
             WithListener,
@@ -908,15 +956,33 @@ public interface ApplicationGateway extends
         }
 
         /**
-         * The stage of an application gateway update allowing to specify the size.
+         * The stage of an application gateway update allowing to specify the sku.
          */
-        interface WithSize {
+        interface WithSku {
+            /**
+             * Set tier of an application gateway. Possible values include: 'Standard', 'WAF', 'Standard_v2', 'WAF_v2'.
+             * @param tier the tier value to set
+             * @return the next stage of the update
+             */
+            Update withTier(ApplicationGatewayTier tier);
             /**
              * Specifies the size of the application gateway to use within the context of the selected tier.
              * @param size an application gateway size name
              * @return the next stage of the update
              */
             Update withSize(ApplicationGatewaySkuName size);
+        }
+
+        /**
+         * The stage of the applicationgateway update allowing to specify WebApplicationFirewallConfiguration.
+         */
+        interface WithWebApplicationFirewall {
+            /**
+             * Specifies webApplicationFirewallConfiguration.
+             * @param config Web application firewall configuration
+             * @return the next update stage
+             */
+            Update withWebApplicationFirewall(ApplicationGatewayWebApplicationFirewallConfiguration config);
         }
 
         /**
@@ -930,6 +996,14 @@ public interface ApplicationGateway extends
              * @return the next stage of the update
              */
             Update withInstanceCount(int instanceCount);
+
+            /**
+             * Specifies the min and max auto scale bound.
+             * @param minCapacity  lower bound on number of Application Gateway capacity.
+             * @param maxCapacity upper bound on number of Application Gateway capacity.
+             * @return
+             */
+            Update withAutoScale(int minCapacity, int maxCapacity);
         }
 
         /**
@@ -1182,8 +1256,9 @@ public interface ApplicationGateway extends
     interface Update extends
         Appliable<ApplicationGateway>,
         Resource.UpdateWithTags<Update>,
-        UpdateStages.WithSize,
+        UpdateStages.WithSku,
         UpdateStages.WithInstanceCount,
+        UpdateStages.WithWebApplicationFirewall,
         UpdateStages.WithBackend,
         UpdateStages.WithBackendHttpConfig,
         UpdateStages.WithIPConfig,

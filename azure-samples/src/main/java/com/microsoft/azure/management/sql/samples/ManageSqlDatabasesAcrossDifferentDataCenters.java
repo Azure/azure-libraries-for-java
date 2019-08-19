@@ -92,7 +92,7 @@ public final class ManageSqlDatabasesAcrossDifferentDataCenters {
 
             SqlServer sqlServerInSecondaryLocation = azure.sqlServers()
                     .define(Utils.createRandomName(slaveSqlServer1Name))
-                        .withRegion(masterDatabase.defaultSecondaryLocation())
+                        .withRegion(Region.US_EAST2)
                         .withExistingResourceGroup(rgName)
                         .withAdministratorLogin(administratorLogin)
                         .withAdministratorPassword(administratorPassword)

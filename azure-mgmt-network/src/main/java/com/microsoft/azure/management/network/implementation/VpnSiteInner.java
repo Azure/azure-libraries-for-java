@@ -13,6 +13,7 @@ import com.microsoft.azure.management.network.DeviceProperties;
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.BgpSettings;
 import com.microsoft.azure.management.network.ProvisioningState;
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -27,8 +28,8 @@ public class VpnSiteInner extends Resource {
     /**
      * The VirtualWAN to which the vpnSite belongs.
      */
-    @JsonProperty(value = "properties.virtualWAN")
-    private SubResource virtualWAN;
+    @JsonProperty(value = "properties.virtualWan")
+    private SubResource virtualWan;
 
     /**
      * The device properties.
@@ -68,6 +69,18 @@ public class VpnSiteInner extends Resource {
     private ProvisioningState provisioningState;
 
     /**
+     * IsSecuritySite flag.
+     */
+    @JsonProperty(value = "properties.isSecuritySite")
+    private Boolean isSecuritySite;
+
+    /**
+     * List of all vpn site links.
+     */
+    @JsonProperty(value = "properties.vpnSiteLinks")
+    private List<VpnSiteLinkInner> vpnSiteLinks;
+
+    /**
      * Gets a unique read-only string that changes whenever the resource is
      * updated.
      */
@@ -81,27 +94,27 @@ public class VpnSiteInner extends Resource {
     private String id;
 
     /**
-     * Get the virtualWAN value.
+     * Get the VirtualWAN to which the vpnSite belongs.
      *
-     * @return the virtualWAN value
+     * @return the virtualWan value
      */
-    public SubResource virtualWAN() {
-        return this.virtualWAN;
+    public SubResource virtualWan() {
+        return this.virtualWan;
     }
 
     /**
-     * Set the virtualWAN value.
+     * Set the VirtualWAN to which the vpnSite belongs.
      *
-     * @param virtualWAN the virtualWAN value to set
+     * @param virtualWan the virtualWan value to set
      * @return the VpnSiteInner object itself.
      */
-    public VpnSiteInner withVirtualWAN(SubResource virtualWAN) {
-        this.virtualWAN = virtualWAN;
+    public VpnSiteInner withVirtualWan(SubResource virtualWan) {
+        this.virtualWan = virtualWan;
         return this;
     }
 
     /**
-     * Get the deviceProperties value.
+     * Get the device properties.
      *
      * @return the deviceProperties value
      */
@@ -110,7 +123,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Set the deviceProperties value.
+     * Set the device properties.
      *
      * @param deviceProperties the deviceProperties value to set
      * @return the VpnSiteInner object itself.
@@ -121,7 +134,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Get the ipAddress value.
+     * Get the ip-address for the vpn-site.
      *
      * @return the ipAddress value
      */
@@ -130,7 +143,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Set the ipAddress value.
+     * Set the ip-address for the vpn-site.
      *
      * @param ipAddress the ipAddress value to set
      * @return the VpnSiteInner object itself.
@@ -141,7 +154,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Get the siteKey value.
+     * Get the key for vpn-site that can be used for connections.
      *
      * @return the siteKey value
      */
@@ -150,7 +163,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Set the siteKey value.
+     * Set the key for vpn-site that can be used for connections.
      *
      * @param siteKey the siteKey value to set
      * @return the VpnSiteInner object itself.
@@ -161,7 +174,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Get the addressSpace value.
+     * Get the AddressSpace that contains an array of IP address ranges.
      *
      * @return the addressSpace value
      */
@@ -170,7 +183,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Set the addressSpace value.
+     * Set the AddressSpace that contains an array of IP address ranges.
      *
      * @param addressSpace the addressSpace value to set
      * @return the VpnSiteInner object itself.
@@ -181,7 +194,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Get the bgpProperties value.
+     * Get the set of bgp properties.
      *
      * @return the bgpProperties value
      */
@@ -190,7 +203,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Set the bgpProperties value.
+     * Set the set of bgp properties.
      *
      * @param bgpProperties the bgpProperties value to set
      * @return the VpnSiteInner object itself.
@@ -201,7 +214,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -210,7 +223,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the VpnSiteInner object itself.
@@ -221,7 +234,47 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get isSecuritySite flag.
+     *
+     * @return the isSecuritySite value
+     */
+    public Boolean isSecuritySite() {
+        return this.isSecuritySite;
+    }
+
+    /**
+     * Set isSecuritySite flag.
+     *
+     * @param isSecuritySite the isSecuritySite value to set
+     * @return the VpnSiteInner object itself.
+     */
+    public VpnSiteInner withIsSecuritySite(Boolean isSecuritySite) {
+        this.isSecuritySite = isSecuritySite;
+        return this;
+    }
+
+    /**
+     * Get list of all vpn site links.
+     *
+     * @return the vpnSiteLinks value
+     */
+    public List<VpnSiteLinkInner> vpnSiteLinks() {
+        return this.vpnSiteLinks;
+    }
+
+    /**
+     * Set list of all vpn site links.
+     *
+     * @param vpnSiteLinks the vpnSiteLinks value to set
+     * @return the VpnSiteInner object itself.
+     */
+    public VpnSiteInner withVpnSiteLinks(List<VpnSiteLinkInner> vpnSiteLinks) {
+        this.vpnSiteLinks = vpnSiteLinks;
+        return this;
+    }
+
+    /**
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -230,7 +283,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -239,7 +292,7 @@ public class VpnSiteInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the VpnSiteInner object itself.

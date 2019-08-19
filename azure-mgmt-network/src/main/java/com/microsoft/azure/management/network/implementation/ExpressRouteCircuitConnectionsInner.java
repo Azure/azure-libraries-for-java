@@ -10,12 +10,17 @@ package com.microsoft.azure.management.network.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -25,6 +30,7 @@ import retrofit2.http.HTTP;
 import retrofit2.http.Path;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
@@ -74,6 +80,14 @@ public class ExpressRouteCircuitConnectionsInner {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuitConnections beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections/{connectionName}")
         Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("connectionName") String connectionName, @Path("subscriptionId") String subscriptionId, @Body ExpressRouteCircuitConnectionInner expressRouteCircuitConnectionParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuitConnections list" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings/{peeringName}/connections")
+        Observable<Response<ResponseBody>> list(@Path("resourceGroupName") String resourceGroupName, @Path("circuitName") String circuitName, @Path("peeringName") String peeringName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCircuitConnections listNext" })
+        @GET
+        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -152,7 +166,7 @@ public class ExpressRouteCircuitConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, circuitName, peeringName, connectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -232,7 +246,7 @@ public class ExpressRouteCircuitConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginDelete(resourceGroupName, circuitName, peeringName, connectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -332,7 +346,7 @@ public class ExpressRouteCircuitConnectionsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.get(resourceGroupName, circuitName, peeringName, connectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitConnectionInner>>>() {
                 @Override
@@ -361,7 +375,7 @@ public class ExpressRouteCircuitConnectionsInner {
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the express route circuit connection.
-     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit circuit connection operation.
+     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit connection operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -378,7 +392,7 @@ public class ExpressRouteCircuitConnectionsInner {
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the express route circuit connection.
-     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit circuit connection operation.
+     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit connection operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -394,7 +408,7 @@ public class ExpressRouteCircuitConnectionsInner {
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the express route circuit connection.
-     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit circuit connection operation.
+     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit connection operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -414,7 +428,7 @@ public class ExpressRouteCircuitConnectionsInner {
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the express route circuit connection.
-     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit circuit connection operation.
+     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit connection operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -438,7 +452,7 @@ public class ExpressRouteCircuitConnectionsInner {
             throw new IllegalArgumentException("Parameter expressRouteCircuitConnectionParameters is required and cannot be null.");
         }
         Validator.validate(expressRouteCircuitConnectionParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, circuitName, peeringName, connectionName, this.client.subscriptionId(), expressRouteCircuitConnectionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCircuitConnectionInner>() { }.getType());
     }
@@ -450,7 +464,7 @@ public class ExpressRouteCircuitConnectionsInner {
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the express route circuit connection.
-     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit circuit connection operation.
+     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit connection operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -467,7 +481,7 @@ public class ExpressRouteCircuitConnectionsInner {
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the express route circuit connection.
-     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit circuit connection operation.
+     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit connection operation.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -483,7 +497,7 @@ public class ExpressRouteCircuitConnectionsInner {
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the express route circuit connection.
-     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit circuit connection operation.
+     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit connection operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ExpressRouteCircuitConnectionInner object
      */
@@ -503,7 +517,7 @@ public class ExpressRouteCircuitConnectionsInner {
      * @param circuitName The name of the express route circuit.
      * @param peeringName The name of the peering.
      * @param connectionName The name of the express route circuit connection.
-     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit circuit connection operation.
+     * @param expressRouteCircuitConnectionParameters Parameters supplied to the create or update express route circuit connection operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ExpressRouteCircuitConnectionInner object
      */
@@ -527,7 +541,7 @@ public class ExpressRouteCircuitConnectionsInner {
             throw new IllegalArgumentException("Parameter expressRouteCircuitConnectionParameters is required and cannot be null.");
         }
         Validator.validate(expressRouteCircuitConnectionParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginCreateOrUpdate(resourceGroupName, circuitName, peeringName, connectionName, this.client.subscriptionId(), expressRouteCircuitConnectionParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitConnectionInner>>>() {
                 @Override
@@ -546,6 +560,246 @@ public class ExpressRouteCircuitConnectionsInner {
         return this.client.restClient().responseBuilderFactory().<ExpressRouteCircuitConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ExpressRouteCircuitConnectionInner>() { }.getType())
                 .register(201, new TypeToken<ExpressRouteCircuitConnectionInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the circuit.
+     * @param peeringName The name of the peering.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ExpressRouteCircuitConnectionInner&gt; object if successful.
+     */
+    public PagedList<ExpressRouteCircuitConnectionInner> list(final String resourceGroupName, final String circuitName, final String peeringName) {
+        ServiceResponse<Page<ExpressRouteCircuitConnectionInner>> response = listSinglePageAsync(resourceGroupName, circuitName, peeringName).toBlocking().single();
+        return new PagedList<ExpressRouteCircuitConnectionInner>(response.body()) {
+            @Override
+            public Page<ExpressRouteCircuitConnectionInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the circuit.
+     * @param peeringName The name of the peering.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ExpressRouteCircuitConnectionInner>> listAsync(final String resourceGroupName, final String circuitName, final String peeringName, final ListOperationCallback<ExpressRouteCircuitConnectionInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSinglePageAsync(resourceGroupName, circuitName, peeringName),
+            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> call(String nextPageLink) {
+                    return listNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the circuit.
+     * @param peeringName The name of the peering.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ExpressRouteCircuitConnectionInner&gt; object
+     */
+    public Observable<Page<ExpressRouteCircuitConnectionInner>> listAsync(final String resourceGroupName, final String circuitName, final String peeringName) {
+        return listWithServiceResponseAsync(resourceGroupName, circuitName, peeringName)
+            .map(new Func1<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>, Page<ExpressRouteCircuitConnectionInner>>() {
+                @Override
+                public Page<ExpressRouteCircuitConnectionInner> call(ServiceResponse<Page<ExpressRouteCircuitConnectionInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param circuitName The name of the circuit.
+     * @param peeringName The name of the peering.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ExpressRouteCircuitConnectionInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String circuitName, final String peeringName) {
+        return listSinglePageAsync(resourceGroupName, circuitName, peeringName)
+            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>, Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> call(ServiceResponse<Page<ExpressRouteCircuitConnectionInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+    ServiceResponse<PageImpl<ExpressRouteCircuitConnectionInner>> * @param resourceGroupName The name of the resource group.
+    ServiceResponse<PageImpl<ExpressRouteCircuitConnectionInner>> * @param circuitName The name of the circuit.
+    ServiceResponse<PageImpl<ExpressRouteCircuitConnectionInner>> * @param peeringName The name of the peering.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ExpressRouteCircuitConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> listSinglePageAsync(final String resourceGroupName, final String circuitName, final String peeringName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (circuitName == null) {
+            throw new IllegalArgumentException("Parameter circuitName is required and cannot be null.");
+        }
+        if (peeringName == null) {
+            throw new IllegalArgumentException("Parameter peeringName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-06-01";
+        return service.list(resourceGroupName, circuitName, peeringName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ExpressRouteCircuitConnectionInner>> result = listDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ExpressRouteCircuitConnectionInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCircuitConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ExpressRouteCircuitConnectionInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ExpressRouteCircuitConnectionInner&gt; object if successful.
+     */
+    public PagedList<ExpressRouteCircuitConnectionInner> listNext(final String nextPageLink) {
+        ServiceResponse<Page<ExpressRouteCircuitConnectionInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ExpressRouteCircuitConnectionInner>(response.body()) {
+            @Override
+            public Page<ExpressRouteCircuitConnectionInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ExpressRouteCircuitConnectionInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ExpressRouteCircuitConnectionInner>> serviceFuture, final ListOperationCallback<ExpressRouteCircuitConnectionInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> call(String nextPageLink) {
+                    return listNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ExpressRouteCircuitConnectionInner&gt; object
+     */
+    public Observable<Page<ExpressRouteCircuitConnectionInner>> listNextAsync(final String nextPageLink) {
+        return listNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>, Page<ExpressRouteCircuitConnectionInner>>() {
+                @Override
+                public Page<ExpressRouteCircuitConnectionInner> call(ServiceResponse<Page<ExpressRouteCircuitConnectionInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ExpressRouteCircuitConnectionInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+        return listNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>, Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> call(ServiceResponse<Page<ExpressRouteCircuitConnectionInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets all global reach connections associated with a private peering in an express route circuit.
+     *
+    ServiceResponse<PageImpl<ExpressRouteCircuitConnectionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ExpressRouteCircuitConnectionInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> listNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ExpressRouteCircuitConnectionInner>> result = listNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ExpressRouteCircuitConnectionInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ExpressRouteCircuitConnectionInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ExpressRouteCircuitConnectionInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ExpressRouteCircuitConnectionInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

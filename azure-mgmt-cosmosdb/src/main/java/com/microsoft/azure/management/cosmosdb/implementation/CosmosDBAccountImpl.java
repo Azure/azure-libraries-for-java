@@ -20,7 +20,6 @@ import com.microsoft.azure.management.cosmosdb.FailoverPolicy;
 import com.microsoft.azure.management.cosmosdb.KeyKind;
 import com.microsoft.azure.management.cosmosdb.Location;
 import com.microsoft.azure.management.cosmosdb.SqlDatabase;
-import com.microsoft.azure.management.cosmosdb.SqlDatabaseImpl;
 import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;

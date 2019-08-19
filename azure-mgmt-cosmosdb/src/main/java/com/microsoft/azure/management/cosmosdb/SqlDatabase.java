@@ -5,12 +5,14 @@
  */
 package com.microsoft.azure.management.cosmosdb;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.cosmosdb.implementation.SqlDatabaseInner;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * An Azure Cosmos DB SQL database.
  */
+@Beta(Beta.SinceVersion.V1_24_0)
 public interface SqlDatabase
         extends HasInner<SqlDatabaseInner> {
 

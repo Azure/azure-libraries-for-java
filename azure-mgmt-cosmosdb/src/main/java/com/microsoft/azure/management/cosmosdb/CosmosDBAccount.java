@@ -104,6 +104,16 @@ public interface CosmosDBAccount extends
     Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
 
     /**
+     * @return the list of Azure Cosmos DB SQL databases
+     */
+    List<SqlDatabase> listSqlDatabases();
+
+    /**
+     * @return the list of Azure Cosmos DB SQL databases
+     */
+    Observable<List<SqlDatabase>> listSqlDatabasesAsync();
+
+    /**
      * @return whether write is enabled for multiple locations or not
      */
     boolean multipleWriteLocationsEnabled();

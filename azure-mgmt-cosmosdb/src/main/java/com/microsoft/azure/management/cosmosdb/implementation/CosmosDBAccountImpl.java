@@ -9,16 +9,17 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.cosmosdb.Capability;
 import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountOfferType;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
-import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountCreateUpdateParameters;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountOfferType;
 import com.microsoft.azure.management.cosmosdb.DefaultConsistencyLevel;
 import com.microsoft.azure.management.cosmosdb.FailoverPolicy;
 import com.microsoft.azure.management.cosmosdb.KeyKind;
 import com.microsoft.azure.management.cosmosdb.Location;
+import com.microsoft.azure.management.cosmosdb.SqlDatabase;
 import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
@@ -152,6 +153,27 @@ class CosmosDBAccountImpl
                     return new DatabaseAccountListConnectionStringsResultImpl(databaseAccountListConnectionStringsResultInner);
                 }
             });
+    }
+
+    @Override
+    public List<SqlDatabase> listSqlDatabases() {
+        return this.listSqlDatabasesAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<List<SqlDatabase>> listSqlDatabasesAsync() {
+        return this.manager().inner().databaseAccounts()
+                .listSqlDatabasesAsync(this.resourceGroupName(), this.name())
+                .map(new Func1<List<SqlDatabaseInner>, List<SqlDatabase>>() {
+                    @Override
+                    public List<SqlDatabase> call(List<SqlDatabaseInner> sqlDatabaseInners) {
+                        List<SqlDatabase> sqlDatabases = new ArrayList<>();
+                        for (SqlDatabaseInner inner : sqlDatabaseInners) {
+                            sqlDatabases.add(new SqlDatabaseImpl(inner));
+                        }
+                        return Collections.unmodifiableList(sqlDatabases);
+                    }
+                });
     }
 
     @Override

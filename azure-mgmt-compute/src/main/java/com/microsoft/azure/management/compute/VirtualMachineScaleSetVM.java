@@ -362,8 +362,20 @@ public interface VirtualMachineScaleSetVM extends
          * @param cachingTypes the caching type
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_25_0)
+        @Beta(Beta.SinceVersion.V1_24_0)
         Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes);
+
+        /**
+         * Attaches an existing data disk to this VMSS virtual machine.
+         *
+         * @param dataDisk data disk, need to be in DiskState.UNATTACHED state
+         * @param lun the disk LUN, cannot conflict with existing LUNs
+         * @param cachingTypes the caching type
+         * @param storageAccountTypes the storage account type
+         * @return the next stage of the update
+         */
+        @Beta(Beta.SinceVersion.V1_24_0)
+        Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes, StorageAccountTypes storageAccountTypes);
 
         /**
          * Detaches an existing data disk from this VMSS virtual machine.
@@ -371,7 +383,7 @@ public interface VirtualMachineScaleSetVM extends
          * @param lun the disk LUN
          * @return the next stage of the update
          */
-        @Beta(Beta.SinceVersion.V1_25_0)
+        @Beta(Beta.SinceVersion.V1_24_0)
         Update withoutDataDisk(int lun);
     }
 }

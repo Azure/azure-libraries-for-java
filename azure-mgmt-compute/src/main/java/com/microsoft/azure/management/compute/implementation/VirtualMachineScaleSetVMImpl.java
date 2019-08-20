@@ -66,6 +66,9 @@ class VirtualMachineScaleSetVMImpl
     private final VirtualMachineScaleSetVMsInner client;
     private final ComputeManager computeManager;
 
+    // To track the managed data disks
+    private final ManagedDataDiskCollection managedDataDisks = new ManagedDataDiskCollection();
+
     VirtualMachineScaleSetVMImpl(VirtualMachineScaleSetVMInner inner,
                                  final VirtualMachineScaleSetImpl parent,
                                  final VirtualMachineScaleSetVMsInner client,
@@ -524,6 +527,7 @@ class VirtualMachineScaleSetVMImpl
             public VirtualMachineScaleSetVM call(VirtualMachineScaleSetVMInner virtualMachineScaleSetVMInner) {
                 self.setInner(virtualMachineScaleSetVMInner);
                 self.clearCachedRelatedResources();
+                self.initializeDataDisks();
                 return self;
             }
         });
@@ -577,8 +581,16 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes) {
+        return this.withExistingDataDisk(dataDisk, lun, cachingTypes, StorageAccountTypes.fromString(dataDisk.sku().accountType().toString()));
+    }
+
+    @Override
+    public Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes, StorageAccountTypes storageAccountTypes) {
+        if (!this.isManagedDiskEnabled()) {
+            throw new IllegalStateException(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
+        }
         if (dataDisk.inner().diskState() != DiskState.UNATTACHED) {
-            throw new RuntimeException("Disk need to be in unattached state");
+            throw new IllegalStateException("Disk need to be in unattached state");
         }
 
         DataDisk attachDataDisk = new DataDisk()
@@ -586,54 +598,32 @@ class VirtualMachineScaleSetVMImpl
                 .withLun(lun)
                 .withCaching(cachingTypes)
                 .withManagedDisk((ManagedDiskParameters) new ManagedDiskParameters()
-                        .withStorageAccountType(StorageAccountTypes.fromString(dataDisk.sku().accountType().toString()))
+                        .withStorageAccountType(storageAccountTypes)
                         .withId(dataDisk.id()));
         return this.withExistingDataDisk(attachDataDisk, lun);
     }
 
     private Update withExistingDataDisk(DataDisk dataDisk, int lun) {
-        if (this.checkConflictLun(lun)) {
-            throw new RuntimeException(String.format("A data disk with lun '%d' already attached", lun));
+        if (this.tryFindDataDisk(lun, this.inner().storageProfile().dataDisks()) != null) {
+            throw new IllegalStateException(String.format("A data disk with lun '%d' already attached", lun));
+        } else if (this.tryFindDataDisk(lun, this.managedDataDisks.existingDisksToAttach) != null) {
+            throw new IllegalStateException(String.format("A data disk with lun '%d' already scheduled to be attached", lun));
         }
-
-        if (this.inner().storageProfile().dataDisks() == null) {
-            this.inner().storageProfile().withDataDisks(new ArrayList<DataDisk>());
-        }
-        this.inner().storageProfile().dataDisks().add(dataDisk);
+        this.managedDataDisks.existingDisksToAttach.add(dataDisk);
         return this;
     }
 
     @Override
     public Update withoutDataDisk(int lun) {
-        boolean lunFound = false;
-        if (this.inner().storageProfile().dataDisks() != null) {
-            Iterator<DataDisk> iterator = this.inner().storageProfile().dataDisks().iterator();
-            DataDisk dataDisk;
-            while ((dataDisk = iterator.next()) != null) {
-                if (dataDisk.lun() == lun) {
-                    lunFound = true;
-                    iterator.remove();
-                    break;
-                }
-            }
+        DataDisk dataDisk = this.tryFindDataDisk(lun, this.inner().storageProfile().dataDisks());
+        if (dataDisk == null) {
+            throw new IllegalStateException(String.format("A data disk with lun '%d' not found", lun));
         }
-        if (!lunFound) {
-            throw new RuntimeException(String.format("A data disk with lun '%d' not found", lun));
+        if (dataDisk.createOption() != DiskCreateOptionTypes.ATTACH) {
+            throw new IllegalStateException(String.format("A data disk with lun '%d' cannot be detached, as it is part of Virtual Machine Scale Set model", lun));
         }
+        this.managedDataDisks.diskLunsToRemove.add(lun);
         return this;
-    }
-
-    private boolean checkConflictLun(int lun) {
-        boolean lunFound = false;
-        if (this.inner().storageProfile().dataDisks() != null) {
-            for (DataDisk dataDisk : this.inner().storageProfile().dataDisks()) {
-                if (dataDisk.lun() == lun) {
-                    lunFound = true;
-                    break;
-                }
-            }
-        }
-        return lunFound;
     }
 
     @Override
@@ -644,12 +634,14 @@ class VirtualMachineScaleSetVMImpl
     @Override
     public Observable<VirtualMachineScaleSetVM> applyAsync() {
         final VirtualMachineScaleSetVMImpl self = this;
+        this.managedDataDisks.syncToVMDataDisks(this.inner().storageProfile());
         Observable<VirtualMachineScaleSetVMInner> innerObservable = this.parent().virtualMachines().inner().updateAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId(), this.inner());
         return innerObservable.map(new Func1<VirtualMachineScaleSetVMInner, VirtualMachineScaleSetVM>() {
             @Override
             public VirtualMachineScaleSetVM call(VirtualMachineScaleSetVMInner inner) {
                 self.setInner(inner);
                 self.clearCachedRelatedResources();
+                self.initializeDataDisks();
                 return self;
             }
         });
@@ -662,6 +654,69 @@ class VirtualMachineScaleSetVMImpl
 
     @Override
     public VirtualMachineScaleSetVM.Update update() {
+        initializeDataDisks();
         return this;
+    }
+
+    private void initializeDataDisks() {
+        this.managedDataDisks.clear();
+    }
+
+    private DataDisk tryFindDataDisk(int lun, List<DataDisk> dataDisks) {
+        DataDisk disk = null;
+        if (dataDisks != null) {
+            for (DataDisk dataDisk : dataDisks) {
+                if (dataDisk.lun() == lun) {
+                    disk = dataDisk;
+                    break;
+                }
+            }
+        }
+        return disk;
+    }
+
+    /**
+     * Class to manage data disk collection.
+     */
+    private class ManagedDataDiskCollection {
+        private final List<DataDisk> existingDisksToAttach = new ArrayList<>();
+        private final List<Integer> diskLunsToRemove = new ArrayList<>();
+
+        void syncToVMDataDisks(StorageProfile storageProfile) {
+            if (storageProfile != null && this.isPending()) {
+                // remove disks from VM inner
+                if (storageProfile.dataDisks() != null && !diskLunsToRemove.isEmpty()) {
+                    Iterator<DataDisk> iterator = storageProfile.dataDisks().iterator();
+                    while (iterator.hasNext()) {
+                        DataDisk dataDisk = iterator.next();
+                        if (diskLunsToRemove.contains(dataDisk.lun())) {
+                            iterator.remove();
+                        }
+                    }
+                }
+
+                // add disks to VM inner
+                if (!existingDisksToAttach.isEmpty()) {
+                    for (DataDisk dataDisk : existingDisksToAttach) {
+                        if (storageProfile.dataDisks() == null) {
+                            storageProfile.withDataDisks(new ArrayList<DataDisk>());
+                        }
+                        storageProfile.dataDisks().add(dataDisk);
+                    }
+                }
+
+                // clear ManagedDataDiskCollection after it is synced into VM inner
+                this.clear();
+            }
+        }
+
+        private void clear() {
+            existingDisksToAttach.clear();
+            diskLunsToRemove.clear();
+        }
+
+        private boolean isPending() {
+            return !(existingDisksToAttach.isEmpty() && diskLunsToRemove.isEmpty());
+        }
     }
 }

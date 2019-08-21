@@ -27,6 +27,7 @@ import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
+import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -41,6 +42,7 @@ import rx.Completable;
 import rx.Observable;
 import rx.functions.Action0;
 import rx.functions.Func1;
+import rx.functions.Func2;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -130,6 +132,7 @@ class FunctionAppImpl
         if (storageAccountToSet == null) {
             return super.submitAppSettings();
         } else {
+            Observable<AppServicePlan> appServicePlanObservable = this.manager().appServicePlans().getByIdAsync(this.appServicePlanId());
             return storageAccountToSet.getKeysAsync()
                 .flatMapIterable(new Func1<List<StorageAccountKey>, Iterable<StorageAccountKey>>() {
                     @Override
@@ -137,18 +140,28 @@ class FunctionAppImpl
                         return storageAccountKeys;
                     }
                 })
-                .first().flatMap(new Func1<StorageAccountKey, Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call(StorageAccountKey storageAccountKey) {
-                    String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
-                        storageAccountToSet.name(), storageAccountKey.value());
-                    withAppSetting("AzureWebJobsStorage", connectionString);
-                    withAppSetting("AzureWebJobsDashboard", connectionString);
-                    withAppSetting("WEBSITE_CONTENTAZUREFILECONNECTIONSTRING", connectionString);
-                    withAppSetting("WEBSITE_CONTENTSHARE", SdkContext.randomResourceName(name(), 32));
-                    return FunctionAppImpl.super.submitAppSettings();
-                }
-            }).doOnCompleted(new Action0() {
+                .first().zipWith(appServicePlanObservable, new Func2<StorageAccountKey, AppServicePlan, Pair<StorageAccountKey, AppServicePlan>>() {
+                    @Override
+                    public Pair<StorageAccountKey, AppServicePlan> call(StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) {
+                        return Pair.of(storageAccountKey, appServicePlan);
+                    }
+                })
+                .flatMap(new Func1<Pair<StorageAccountKey, AppServicePlan>, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(Pair<StorageAccountKey, AppServicePlan> pair) {
+                        StorageAccountKey storageAccountKey = pair.getLeft();
+                        AppServicePlan appServicePlan = pair.getRight();
+                        String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
+                            storageAccountToSet.name(), storageAccountKey.value());
+                        withAppSetting("AzureWebJobsStorage", connectionString);
+                        withAppSetting("AzureWebJobsDashboard", connectionString);
+                        if (appServicePlan == null || isConsumptionAppServicePlan(appServicePlan.pricingTier())) {
+                            withAppSetting("WEBSITE_CONTENTAZUREFILECONNECTIONSTRING", connectionString);
+                            withAppSetting("WEBSITE_CONTENTSHARE", SdkContext.randomResourceName(name(), 32));
+                        }
+                        return FunctionAppImpl.super.submitAppSettings();
+                    }
+                }).doOnCompleted(new Action0() {
                     @Override
                     public void call() {
                         currentStorageAccount = storageAccountToSet;
@@ -157,6 +170,16 @@ class FunctionAppImpl
                     }
                 });
         }
+    }
+
+    private boolean isConsumptionAppServicePlan(PricingTier pricingTier) {
+        if (pricingTier == null || pricingTier.toSkuDescription() == null) {
+            return true;
+        }
+        SkuDescription description = pricingTier.toSkuDescription();
+        return !("Basic".equalsIgnoreCase(description.tier())
+                || "Standard".equalsIgnoreCase(description.tier())
+                || "Premium".equalsIgnoreCase(description.tier()));
     }
 
     @Override
@@ -396,11 +419,13 @@ class FunctionAppImpl
 
     @Override
     public Observable<Indexable> createAsync() {
-        if (inner().serverFarmId() == null) {
-            withNewConsumptionPlan();
-        }
-        if (currentStorageAccount == null && storageAccountToSet == null && storageAccountCreatable == null) {
-            withNewStorageAccount(SdkContext.randomResourceName(name(), 20), SkuName.STANDARD_GRS);
+        if (this.isInCreateMode()) {
+            if (inner().serverFarmId() == null) {
+                withNewConsumptionPlan();
+            }
+            if (currentStorageAccount == null && storageAccountToSet == null && storageAccountCreatable == null) {
+                withNewStorageAccount(SdkContext.randomResourceName(name(), 20), SkuName.STANDARD_GRS);
+            }
         }
         return super.createAsync();
     }

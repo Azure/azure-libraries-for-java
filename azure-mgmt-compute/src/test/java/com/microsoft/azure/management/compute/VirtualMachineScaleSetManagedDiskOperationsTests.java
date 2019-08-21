@@ -16,6 +16,8 @@ import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
     private static Region region = Region.US_EAST;
@@ -103,9 +105,11 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
                 .withSizeInGB(32)
                 .create();
 
+        Iterator<VirtualMachineScaleSetVM> vmIterator = virtualMachines.iterator();
+        VirtualMachineScaleSetVM vm0 = vmIterator.next();
+        VirtualMachineScaleSetVM vm1 = vmIterator.next();
         final int existDiskLun = 2;
         final int newDiskLun = 10;
-        VirtualMachineScaleSetVM vm0 = virtualMachines.iterator().next();
         // cannot detach non-exist disk
         Exception expectedException = null;
         try {
@@ -152,8 +156,7 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
         Assert.assertEquals(vmssModelDiskCount + 1, vm0.dataDisks().size());
 
         // cannot attach disk that already attached
-        virtualMachines.iterator().next();
-        VirtualMachineScaleSetVM vm1 = virtualMachines.iterator().next();
+        disk0.refresh();
         expectedException = null;
         try {
             vm1.update()

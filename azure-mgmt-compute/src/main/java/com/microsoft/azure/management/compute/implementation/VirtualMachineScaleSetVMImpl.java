@@ -10,12 +10,17 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.DataDisk;
 import com.microsoft.azure.management.compute.DiagnosticsProfile;
+import com.microsoft.azure.management.compute.Disk;
+import com.microsoft.azure.management.compute.DiskCreateOptionTypes;
+import com.microsoft.azure.management.compute.DiskState;
 import com.microsoft.azure.management.compute.ImageReference;
+import com.microsoft.azure.management.compute.ManagedDiskParameters;
 import com.microsoft.azure.management.compute.NetworkInterfaceReference;
 import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.PowerState;
 import com.microsoft.azure.management.compute.Sku;
+import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.StorageProfile;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
@@ -32,6 +37,8 @@ import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInter
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.rest.ServiceCallback;
+import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -39,6 +46,7 @@ import rx.functions.Func1;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,11 +59,15 @@ class VirtualMachineScaleSetVMImpl
         extends ChildResourceImpl<VirtualMachineScaleSetVMInner,
             VirtualMachineScaleSetImpl,
             VirtualMachineScaleSet>
-        implements VirtualMachineScaleSetVM {
+        implements VirtualMachineScaleSetVM,
+            VirtualMachineScaleSetVM.Update {
 
     private VirtualMachineInstanceView virtualMachineInstanceView;
     private final VirtualMachineScaleSetVMsInner client;
     private final ComputeManager computeManager;
+
+    // To track the managed data disks
+    private final ManagedDataDiskCollection managedDataDisks = new ManagedDataDiskCollection();
 
     VirtualMachineScaleSetVMImpl(VirtualMachineScaleSetVMInner inner,
                                  final VirtualMachineScaleSetImpl parent,
@@ -515,6 +527,7 @@ class VirtualMachineScaleSetVMImpl
             public VirtualMachineScaleSetVM call(VirtualMachineScaleSetVMInner virtualMachineScaleSetVMInner) {
                 self.setInner(virtualMachineScaleSetVMInner);
                 self.clearCachedRelatedResources();
+                self.initializeDataDisks();
                 return self;
             }
         });
@@ -566,4 +579,144 @@ class VirtualMachineScaleSetVMImpl
         return true;
     }
 
+    @Override
+    public Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes) {
+        return this.withExistingDataDisk(dataDisk, lun, cachingTypes, StorageAccountTypes.fromString(dataDisk.sku().accountType().toString()));
+    }
+
+    @Override
+    public Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes, StorageAccountTypes storageAccountTypes) {
+        if (!this.isManagedDiskEnabled()) {
+            throw new IllegalStateException(ManagedUnmanagedDiskErrors.VM_BOTH_UNMANAGED_AND_MANAGED_DISK_NOT_ALLOWED);
+        }
+        if (dataDisk.inner().diskState() != DiskState.UNATTACHED) {
+            throw new IllegalStateException("Disk need to be in unattached state");
+        }
+
+        DataDisk attachDataDisk = new DataDisk()
+                .withCreateOption(DiskCreateOptionTypes.ATTACH)
+                .withLun(lun)
+                .withCaching(cachingTypes)
+                .withManagedDisk((ManagedDiskParameters) new ManagedDiskParameters()
+                        .withStorageAccountType(storageAccountTypes)
+                        .withId(dataDisk.id()));
+        return this.withExistingDataDisk(attachDataDisk, lun);
+    }
+
+    private Update withExistingDataDisk(DataDisk dataDisk, int lun) {
+        if (this.tryFindDataDisk(lun, this.inner().storageProfile().dataDisks()) != null) {
+            throw new IllegalStateException(String.format("A data disk with lun '%d' already attached", lun));
+        } else if (this.tryFindDataDisk(lun, this.managedDataDisks.existingDisksToAttach) != null) {
+            throw new IllegalStateException(String.format("A data disk with lun '%d' already scheduled to be attached", lun));
+        }
+        this.managedDataDisks.existingDisksToAttach.add(dataDisk);
+        return this;
+    }
+
+    @Override
+    public Update withoutDataDisk(int lun) {
+        DataDisk dataDisk = this.tryFindDataDisk(lun, this.inner().storageProfile().dataDisks());
+        if (dataDisk == null) {
+            throw new IllegalStateException(String.format("A data disk with lun '%d' not found", lun));
+        }
+        if (dataDisk.createOption() != DiskCreateOptionTypes.ATTACH) {
+            throw new IllegalStateException(String.format("A data disk with lun '%d' cannot be detached, as it is part of Virtual Machine Scale Set model", lun));
+        }
+        this.managedDataDisks.diskLunsToRemove.add(lun);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetVM apply() {
+        return this.applyAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<VirtualMachineScaleSetVM> applyAsync() {
+        final VirtualMachineScaleSetVMImpl self = this;
+        this.managedDataDisks.syncToVMDataDisks(this.inner().storageProfile());
+        Observable<VirtualMachineScaleSetVMInner> innerObservable = this.parent().virtualMachines().inner().updateAsync(this.parent().resourceGroupName(), this.parent().name(), this.instanceId(), this.inner());
+        return innerObservable.map(new Func1<VirtualMachineScaleSetVMInner, VirtualMachineScaleSetVM>() {
+            @Override
+            public VirtualMachineScaleSetVM call(VirtualMachineScaleSetVMInner inner) {
+                self.setInner(inner);
+                self.clearCachedRelatedResources();
+                self.initializeDataDisks();
+                return self;
+            }
+        });
+    }
+
+    @Override
+    public ServiceFuture<VirtualMachineScaleSetVM> applyAsync(ServiceCallback<VirtualMachineScaleSetVM> serviceCallback) {
+        return ServiceFuture.fromBody(this.applyAsync(), serviceCallback);
+    }
+
+    @Override
+    public VirtualMachineScaleSetVM.Update update() {
+        initializeDataDisks();
+        return this;
+    }
+
+    private void initializeDataDisks() {
+        this.managedDataDisks.clear();
+    }
+
+    private DataDisk tryFindDataDisk(int lun, List<DataDisk> dataDisks) {
+        DataDisk disk = null;
+        if (dataDisks != null) {
+            for (DataDisk dataDisk : dataDisks) {
+                if (dataDisk.lun() == lun) {
+                    disk = dataDisk;
+                    break;
+                }
+            }
+        }
+        return disk;
+    }
+
+    /**
+     * Class to manage data disk collection.
+     */
+    private class ManagedDataDiskCollection {
+        private final List<DataDisk> existingDisksToAttach = new ArrayList<>();
+        private final List<Integer> diskLunsToRemove = new ArrayList<>();
+
+        void syncToVMDataDisks(StorageProfile storageProfile) {
+            if (storageProfile != null && this.isPending()) {
+                // remove disks from VM inner
+                if (storageProfile.dataDisks() != null && !diskLunsToRemove.isEmpty()) {
+                    Iterator<DataDisk> iterator = storageProfile.dataDisks().iterator();
+                    while (iterator.hasNext()) {
+                        DataDisk dataDisk = iterator.next();
+                        if (diskLunsToRemove.contains(dataDisk.lun())) {
+                            iterator.remove();
+                        }
+                    }
+                }
+
+                // add disks to VM inner
+                if (!existingDisksToAttach.isEmpty()) {
+                    for (DataDisk dataDisk : existingDisksToAttach) {
+                        if (storageProfile.dataDisks() == null) {
+                            storageProfile.withDataDisks(new ArrayList<DataDisk>());
+                        }
+                        storageProfile.dataDisks().add(dataDisk);
+                    }
+                }
+
+                // clear ManagedDataDiskCollection after it is synced into VM inner
+                this.clear();
+            }
+        }
+
+        private void clear() {
+            existingDisksToAttach.clear();
+            diskLunsToRemove.clear();
+        }
+
+        private boolean isPending() {
+            return !(existingDisksToAttach.isEmpty() && diskLunsToRemove.isEmpty());
+        }
+    }
 }

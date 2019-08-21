@@ -16,6 +16,8 @@ import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Iterator;
+
 public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
     private static Region region = Region.US_EAST;
@@ -92,6 +94,84 @@ public class VirtualMachineScaleSetManagedDiskOperationsTests extends ComputeMan
             Assert.assertNotNull(vm.dataDisks());
             Assert.assertEquals(vm.dataDisks().size(), 3);
         }
+
+        // test attach/detach data disk to single instance
+        final String diskName = generateRandomResourceName("disk", 10);
+        Disk disk0 = this.computeManager.disks()
+                .define(diskName)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup)
+                .withData()
+                .withSizeInGB(32)
+                .create();
+
+        Iterator<VirtualMachineScaleSetVM> vmIterator = virtualMachines.iterator();
+        VirtualMachineScaleSetVM vm0 = vmIterator.next();
+        VirtualMachineScaleSetVM vm1 = vmIterator.next();
+        final int existDiskLun = 2;
+        final int newDiskLun = 10;
+        // cannot detach non-exist disk
+        Exception expectedException = null;
+        try {
+            vm0.update()
+                    .withoutDataDisk(newDiskLun);
+        } catch (IllegalStateException e) {
+            expectedException = e;
+        }
+        Assert.assertNotNull(expectedException);
+        // cannot detach disk from VMSS model
+        expectedException = null;
+        try {
+            vm0.update()
+                    .withoutDataDisk(existDiskLun);
+        } catch (IllegalStateException e) {
+            expectedException = e;
+        }
+        Assert.assertNotNull(expectedException);
+        // cannot attach disk with same lun
+        expectedException = null;
+        try {
+            vm0.update()
+                    .withExistingDataDisk(disk0, existDiskLun, CachingTypes.NONE);
+        } catch (IllegalStateException e) {
+            expectedException = e;
+        }
+        Assert.assertNotNull(expectedException);
+        // cannot attach disk with same lun
+        expectedException = null;
+        try {
+            vm0.update()
+                    .withExistingDataDisk(disk0, newDiskLun, CachingTypes.NONE)
+                    .withExistingDataDisk(disk0, newDiskLun, CachingTypes.NONE);
+        } catch (IllegalStateException e) {
+            expectedException = e;
+        }
+        Assert.assertNotNull(expectedException);
+
+        // attach disk
+        final int vmssModelDiskCount = vm0.dataDisks().size();
+        vm0.update()
+                .withExistingDataDisk(disk0, newDiskLun, CachingTypes.READ_WRITE)
+                .apply();
+        Assert.assertEquals(vmssModelDiskCount + 1, vm0.dataDisks().size());
+
+        // cannot attach disk that already attached
+        disk0.refresh();
+        expectedException = null;
+        try {
+            vm1.update()
+                    .withExistingDataDisk(disk0, newDiskLun, CachingTypes.NONE)
+                    .apply();
+        } catch (IllegalStateException e) {
+            expectedException = e;
+        }
+        Assert.assertNotNull(expectedException);
+
+        // detach disk
+        vm0.update()
+                .withoutDataDisk(newDiskLun)
+                .apply();
+        Assert.assertEquals(vmssModelDiskCount, vm0.dataDisks().size());
     }
 
     @Test

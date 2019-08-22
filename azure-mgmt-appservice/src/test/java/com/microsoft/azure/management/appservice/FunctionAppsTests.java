@@ -6,8 +6,12 @@
 
 package com.microsoft.azure.management.appservice;
 
+import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.storage.SkuName;
+import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,6 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 public class FunctionAppsTests extends AppServiceTest {
     private static String RG_NAME_1 = "";
@@ -27,6 +32,8 @@ public class FunctionAppsTests extends AppServiceTest {
     private static String APP_SERVICE_PLAN_NAME_2 = "";
     private static String STORAGE_ACCOUNT_NAME_1 = "";
 
+    protected static StorageManager storageManager;
+
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         WEBAPP_NAME_1 = generateRandomResourceName("java-func-", 20);
@@ -37,6 +44,9 @@ public class FunctionAppsTests extends AppServiceTest {
         STORAGE_ACCOUNT_NAME_1 = generateRandomResourceName("javastore", 20);
         RG_NAME_1 = generateRandomResourceName("javacsmrg", 20);
         RG_NAME_2 = generateRandomResourceName("javacsmrg", 20);
+
+        storageManager = StorageManager
+                .authenticate(restClient, defaultSubscription);
 
         super.initializeClients(restClient, defaultSubscription, domain);
     }
@@ -61,6 +71,14 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertEquals(Region.US_WEST, plan1.region());
         Assert.assertEquals(new PricingTier("Dynamic", "Y1"), plan1.pricingTier());
 
+        FunctionAppResource functionAppResource1 = getStorageAccount(storageManager, functionApp1);
+        // consumption plan requires this 2 settings
+        Assert.assertTrue(functionAppResource1.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
+        Assert.assertTrue(functionAppResource1.appSettings.containsKey(KEY_CONTENT_SHARE));
+        Assert.assertEquals(functionAppResource1.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource1.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
+        // verify accountKey
+        Assert.assertEquals(functionAppResource1.storageAccount.getKeys().get(0).value(), functionAppResource1.accountKey);
+
         // Create with the same consumption plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)
                 .withExistingAppServicePlan(plan1)
@@ -80,6 +98,14 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertNotNull(functionApp2);
         Assert.assertEquals(Region.US_WEST, functionApp2.region());
 
+        // app service plan does not have this 2 settings
+        // https://github.com/Azure/azure-libraries-for-net/issues/485
+        FunctionAppResource functionAppResource3 = getStorageAccount(storageManager, functionApp3);
+        Assert.assertFalse(functionAppResource3.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
+        Assert.assertFalse(functionAppResource3.appSettings.containsKey(KEY_CONTENT_SHARE));
+        // verify accountKey
+        Assert.assertEquals(functionAppResource3.storageAccount.getKeys().get(0).value(), functionAppResource3.accountKey);
+
         // Get
         FunctionApp functionApp = appServiceManager.functionApps().getByResourceGroup(RG_NAME_1, functionApp1.name());
         Assert.assertEquals(functionApp1.id(), functionApp.id());
@@ -98,11 +124,76 @@ public class FunctionAppsTests extends AppServiceTest {
                 .apply();
         Assert.assertEquals(STORAGE_ACCOUNT_NAME_1, functionApp2.storageAccount().name());
 
+        FunctionAppResource functionAppResource2 = getStorageAccount(storageManager, functionApp2);
+        Assert.assertTrue(functionAppResource2.appSettings.containsKey(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING));
+        Assert.assertTrue(functionAppResource2.appSettings.containsKey(KEY_CONTENT_SHARE));
+        Assert.assertEquals(functionAppResource2.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource2.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
+        Assert.assertEquals(STORAGE_ACCOUNT_NAME_1, functionAppResource2.storageAccount.name());
+        Assert.assertEquals(functionAppResource2.storageAccount.getKeys().get(0).value(), functionAppResource2.accountKey);
+
+        // Update, verify modify AppSetting does not create new storage account
+        // https://github.com/Azure/azure-libraries-for-net/issues/457
+        int numStorageAccountBefore = storageManager.storageAccounts().listByResourceGroup(RG_NAME_1).size();
+        functionApp1.update()
+                .withAppSetting("newKey", "newValue")
+                .apply();
+        int numStorageAccountAfter = storageManager.storageAccounts().listByResourceGroup(RG_NAME_1).size();
+        Assert.assertEquals(numStorageAccountBefore, numStorageAccountAfter);
+        FunctionAppResource functionAppResource1Updated = getStorageAccount(storageManager, functionApp1);
+        Assert.assertTrue(functionAppResource1Updated.appSettings.containsKey("newKey"));
+        Assert.assertEquals(functionAppResource1.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource1Updated.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value());
+        Assert.assertEquals(functionAppResource1.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value(), functionAppResource1Updated.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
+        Assert.assertEquals(functionAppResource1.appSettings.get(KEY_CONTENT_SHARE).value(), functionAppResource1Updated.appSettings.get(KEY_CONTENT_SHARE).value());
+        Assert.assertEquals(functionAppResource1.storageAccount.name(), functionAppResource1Updated.storageAccount.name());
+
         // Scale
         functionApp3.update()
                 .withNewAppServicePlan(PricingTier.STANDARD_S2)
                 .apply();
         Assert.assertNotEquals(functionApp3.appServicePlanId(), functionApp1.appServicePlanId());
+    }
+
+    private static String KEY_AZURE_WEB_JOBS_STORAGE = "AzureWebJobsStorage";
+    private static String KEY_CONTENT_AZURE_FILE_CONNECTION_STRING = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING";
+    private static String KEY_CONTENT_SHARE = "WEBSITE_CONTENTSHARE";
+
+    private static String ACCOUNT_NAME_SEGMENT = "AccountName=";
+    private static String ACCOUNT_KEY_SEGMENT = "AccountKey=";
+
+    private static class FunctionAppResource {
+        Map<String, AppSetting> appSettings;
+
+        String accountName;
+        String accountKey;
+
+        StorageAccount storageAccount;
+    }
+
+    private static FunctionAppResource getStorageAccount(StorageManager storageManager,
+                                                         FunctionApp functionApp) {
+        FunctionAppResource resource = new FunctionAppResource();
+        resource.appSettings = functionApp.getAppSettings();
+
+        String storageAccountConnectionString = resource.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value();
+        String[] segments = storageAccountConnectionString.split(";");
+        for (String segment : segments) {
+            if (segment.startsWith(ACCOUNT_NAME_SEGMENT)) {
+                resource.accountName = segment.substring(ACCOUNT_NAME_SEGMENT.length());
+            } else if (segment.startsWith(ACCOUNT_KEY_SEGMENT)) {
+                resource.accountKey = segment.substring(ACCOUNT_KEY_SEGMENT.length());
+            }
+        }
+        if (resource.accountName != null) {
+            PagedList<StorageAccount> storageAccounts = storageManager.storageAccounts().list();
+            for (StorageAccount storageAccount : storageAccounts) {
+                if (resource.accountName.equals(storageAccount.name())) {
+                    resource.storageAccount = storageAccount;
+                    break;
+                }
+            }
+        }
+
+        return resource;
     }
 
     private static String readLine(InputStream in) throws IOException {

@@ -700,13 +700,13 @@ If you would like to become an active contributor to this project please follow 
 
 | Version           | SHA1                                                                                      | Remarks                                               |
 |-------------------|-------------------------------------------------------------------------------------------|-------------------------------------------------------|
-| 1.25.0       | [1.25.0](https://github.com/Azure/azure-libraries-for-java/tree/1.25.0)               | Tagged release for 1.25.0 version of Azure management libraries |
-| 1.24.2       | [1.24.2](https://github.com/Azure/azure-libraries-for-java/tree/1.24.2)               | Tagged release for 1.24.2 version of Azure management libraries |
-| 1.24.1       | [1.24.1](https://github.com/Azure/azure-libraries-for-java/tree/1.24.1)               | Tagged release for 1.24.1 version of Azure management libraries |
-| 1.24.0       | [1.24.0](https://github.com/Azure/azure-libraries-for-java/tree/1.24.0)               | Tagged release for 1.24.0 version of Azure management libraries |
-| 1.23.0       | [1.23.0](https://github.com/Azure/azure-libraries-for-java/tree/1.23.0)               | Tagged release for 1.23.0 version of Azure management libraries |
-| 1.22.0       | [1.22.0](https://github.com/Azure/azure-libraries-for-java/tree/1.22.0)               | Tagged release for 1.22.0 version of Azure management libraries |
-| 1.21.0       | [1.21.0](https://github.com/Azure/azure-libraries-for-java/tree/1.21.0)               | Tagged release for 1.21.0 version of Azure management libraries |
+| 1.25.0       | [1.25.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.25.0)               | Tagged release for 1.25.0 version of Azure management libraries |
+| 1.24.2       | [1.24.2](https://github.com/Azure/azure-libraries-for-java/tree/v1.24.2)               | Tagged release for 1.24.2 version of Azure management libraries |
+| 1.24.1       | [1.24.1](https://github.com/Azure/azure-libraries-for-java/tree/v1.24.1)               | Tagged release for 1.24.1 version of Azure management libraries |
+| 1.24.0       | [1.24.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.24.0)               | Tagged release for 1.24.0 version of Azure management libraries |
+| 1.23.0       | [1.23.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.23.0)               | Tagged release for 1.23.0 version of Azure management libraries |
+| 1.22.0       | [1.22.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.22.0)               | Tagged release for 1.22.0 version of Azure management libraries |
+| 1.21.0       | [1.21.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.21.0)               | Tagged release for 1.21.0 version of Azure management libraries |
 | 1.20.1       | [1.20.1](https://github.com/Azure/azure-libraries-for-java/tree/v1.20.1)               | Tagged release for 1.20.1 version of Azure management libraries |
 | 1.20.0       | [1.20.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.20.0)               | Tagged release for 1.20.0 version of Azure management libraries |
 | 1.19.0       | [1.19.0](https://github.com/Azure/azure-libraries-for-java/tree/v1.19.0)               | Tagged release for 1.19.0 version of Azure management libraries |

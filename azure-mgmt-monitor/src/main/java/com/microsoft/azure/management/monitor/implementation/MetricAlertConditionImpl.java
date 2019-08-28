@@ -125,12 +125,12 @@ class MetricAlertConditionImpl
 
     @Override
     public MetricAlertRuleCondition condition() {
-        return this.inner().operator();
+        return MetricAlertRuleCondition.fromString(this.inner().operator().toString());
     }
 
     @Override
     public MetricAlertRuleTimeAggregation timeAggregation() {
-        return this.inner().timeAggregation();
+        return MetricAlertRuleTimeAggregation.fromString(this.inner().timeAggregation().toString());
     }
 
     @Override

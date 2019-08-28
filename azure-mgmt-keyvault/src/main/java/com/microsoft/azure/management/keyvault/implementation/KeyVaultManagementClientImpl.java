@@ -189,7 +189,7 @@ public class KeyVaultManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2018-02-14-preview";
+        this.apiVersion = "2019-08-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;

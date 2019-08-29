@@ -13,6 +13,7 @@ import com.microsoft.azure.management.compute.OSDiskImage;
 import java.util.List;
 import com.microsoft.azure.management.compute.DataDiskImage;
 import com.microsoft.azure.management.compute.AutomaticOSUpgradeProperties;
+import com.microsoft.azure.management.compute.HyperVGenerationTypes;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -44,6 +45,12 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
      */
     @JsonProperty(value = "properties.automaticOSUpgradeProperties")
     private AutomaticOSUpgradeProperties automaticOSUpgradeProperties;
+
+    /**
+     * Possible values include: 'V1', 'V2'.
+     */
+    @JsonProperty(value = "properties.hyperVGeneration")
+    private HyperVGenerationTypes hyperVGeneration;
 
     /**
      * Get the plan value.
@@ -122,6 +129,26 @@ public class VirtualMachineImageInner extends VirtualMachineImageResourceInner {
      */
     public VirtualMachineImageInner withAutomaticOSUpgradeProperties(AutomaticOSUpgradeProperties automaticOSUpgradeProperties) {
         this.automaticOSUpgradeProperties = automaticOSUpgradeProperties;
+        return this;
+    }
+
+    /**
+     * Get possible values include: 'V1', 'V2'.
+     *
+     * @return the hyperVGeneration value
+     */
+    public HyperVGenerationTypes hyperVGeneration() {
+        return this.hyperVGeneration;
+    }
+
+    /**
+     * Set possible values include: 'V1', 'V2'.
+     *
+     * @param hyperVGeneration the hyperVGeneration value to set
+     * @return the VirtualMachineImageInner object itself.
+     */
+    public VirtualMachineImageInner withHyperVGeneration(HyperVGenerationTypes hyperVGeneration) {
+        this.hyperVGeneration = hyperVGeneration;
         return this;
     }
 

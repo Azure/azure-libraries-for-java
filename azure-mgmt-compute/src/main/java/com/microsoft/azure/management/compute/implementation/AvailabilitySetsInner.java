@@ -84,7 +84,7 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.AvailabilitySets list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Compute/availabilitySets")
-        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Query("$expand") String expand, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.AvailabilitySets listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets")
@@ -540,7 +540,111 @@ public class AvailabilitySetsInner implements InnerSupportsGet<AvailabilitySetIn
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         final String apiVersion = "2019-03-01";
-        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        final String expand = null;
+        return service.list(this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AvailabilitySetInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<AvailabilitySetInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl1<AvailabilitySetInner>> result = listDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<AvailabilitySetInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @param expand The expand expression to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;AvailabilitySetInner&gt; object if successful.
+     */
+    public PagedList<AvailabilitySetInner> list(final String expand) {
+        ServiceResponse<Page<AvailabilitySetInner>> response = listSinglePageAsync(expand).toBlocking().single();
+        return new PagedList<AvailabilitySetInner>(response.body()) {
+            @Override
+            public Page<AvailabilitySetInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @param expand The expand expression to apply to the operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<AvailabilitySetInner>> listAsync(final String expand, final ListOperationCallback<AvailabilitySetInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSinglePageAsync(expand),
+            new Func1<String, Observable<ServiceResponse<Page<AvailabilitySetInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<AvailabilitySetInner>>> call(String nextPageLink) {
+                    return listNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @param expand The expand expression to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;AvailabilitySetInner&gt; object
+     */
+    public Observable<Page<AvailabilitySetInner>> listAsync(final String expand) {
+        return listWithServiceResponseAsync(expand)
+            .map(new Func1<ServiceResponse<Page<AvailabilitySetInner>>, Page<AvailabilitySetInner>>() {
+                @Override
+                public Page<AvailabilitySetInner> call(ServiceResponse<Page<AvailabilitySetInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+     * @param expand The expand expression to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;AvailabilitySetInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<AvailabilitySetInner>>> listWithServiceResponseAsync(final String expand) {
+        return listSinglePageAsync(expand)
+            .concatMap(new Func1<ServiceResponse<Page<AvailabilitySetInner>>, Observable<ServiceResponse<Page<AvailabilitySetInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<AvailabilitySetInner>>> call(ServiceResponse<Page<AvailabilitySetInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists all availability sets in a subscription.
+     *
+    ServiceResponse<PageImpl1<AvailabilitySetInner>> * @param expand The expand expression to apply to the operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;AvailabilitySetInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<AvailabilitySetInner>>> listSinglePageAsync(final String expand) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2019-03-01";
+        return service.list(this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<AvailabilitySetInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<Page<AvailabilitySetInner>>> call(Response<ResponseBody> response) {

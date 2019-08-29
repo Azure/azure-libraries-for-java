@@ -23,8 +23,9 @@ public class ProximityPlacementGroupInner extends Resource {
     /**
      * Specifies the type of the proximity placement group.
      * &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt;
-     * **Standard** &lt;br&gt;&lt;br&gt; **Ultra**. Possible values include:
-     * 'Standard', 'Ultra'.
+     * **Standard** : Co-locate resources within an Azure region or
+     * Availability Zone. &lt;br&gt;&lt;br&gt; **Ultra** : For future use.
+     * Possible values include: 'Standard', 'Ultra'.
      */
     @JsonProperty(value = "properties.proximityPlacementGroupType")
     private ProximityPlacementGroupType proximityPlacementGroupType;
@@ -51,7 +52,7 @@ public class ProximityPlacementGroupInner extends Resource {
     private List<SubResource> availabilitySets;
 
     /**
-     * Get specifies the type of the proximity placement group. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Standard** &lt;br&gt;&lt;br&gt; **Ultra**. Possible values include: 'Standard', 'Ultra'.
+     * Get specifies the type of the proximity placement group. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Standard** : Co-locate resources within an Azure region or Availability Zone. &lt;br&gt;&lt;br&gt; **Ultra** : For future use. Possible values include: 'Standard', 'Ultra'.
      *
      * @return the proximityPlacementGroupType value
      */
@@ -60,7 +61,7 @@ public class ProximityPlacementGroupInner extends Resource {
     }
 
     /**
-     * Set specifies the type of the proximity placement group. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Standard** &lt;br&gt;&lt;br&gt; **Ultra**. Possible values include: 'Standard', 'Ultra'.
+     * Set specifies the type of the proximity placement group. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Standard** : Co-locate resources within an Azure region or Availability Zone. &lt;br&gt;&lt;br&gt; **Ultra** : For future use. Possible values include: 'Standard', 'Ultra'.
      *
      * @param proximityPlacementGroupType the proximityPlacementGroupType value to set
      * @return the ProximityPlacementGroupInner object itself.

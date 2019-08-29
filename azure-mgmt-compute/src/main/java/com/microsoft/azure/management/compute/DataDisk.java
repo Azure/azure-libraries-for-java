@@ -88,7 +88,7 @@ public class DataDisk {
     private ManagedDiskParameters managedDisk;
 
     /**
-     * Specifies whether the datadisk is in process of detachment from the
+     * Specifies whether the data disk is in process of detachment from the
      * VirtualMachine/VirtualMachineScaleset.
      */
     @JsonProperty(value = "toBeDetached")
@@ -275,7 +275,7 @@ public class DataDisk {
     }
 
     /**
-     * Get specifies whether the datadisk is in process of detachment from the VirtualMachine/VirtualMachineScaleset.
+     * Get specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset.
      *
      * @return the toBeDetached value
      */
@@ -284,7 +284,7 @@ public class DataDisk {
     }
 
     /**
-     * Set specifies whether the datadisk is in process of detachment from the VirtualMachine/VirtualMachineScaleset.
+     * Set specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset.
      *
      * @param toBeDetached the toBeDetached value to set
      * @return the DataDisk object itself.

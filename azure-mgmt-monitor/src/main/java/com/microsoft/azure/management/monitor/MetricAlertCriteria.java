@@ -13,16 +13,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * The rule criteria that defines the conditions of the alert rule.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata\\.type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("MetricAlertCriteria")
 @JsonSubTypes({
     @JsonSubTypes.Type(name = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria", value = MetricAlertSingleResourceMultipleMetricCriteria.class),
     @JsonSubTypes.Type(name = "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria", value = MetricAlertMultipleResourceMultipleMetricCriteria.class)
 })
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class MetricAlertCriteria {
     /**
      * Unmatched properties from the message are deserialized this collection.

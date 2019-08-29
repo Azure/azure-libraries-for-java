@@ -11,13 +11,15 @@ package com.microsoft.azure.management.monitor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * A rule management event data source. The discriminator fields is always
  * RuleManagementEventDataSource in this case.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata\\.type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("Microsoft.Azure.Management.Insights.Models.RuleManagementEventDataSource")
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class RuleManagementEventDataSource extends RuleDataSource {
     /**
      * the event name.

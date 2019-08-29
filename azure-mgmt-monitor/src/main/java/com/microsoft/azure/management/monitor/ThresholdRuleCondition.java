@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.monitor;
 
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 import org.joda.time.Period;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -16,8 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * A rule condition based on a metric crossing a threshold.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata\\.type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("Microsoft.Azure.Management.Insights.Models.ThresholdRuleCondition")
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class ThresholdRuleCondition extends RuleCondition {
     /**
      * the operator used to compare the data and the threshold. Possible values

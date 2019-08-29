@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.monitor;
 
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 import org.joda.time.Period;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -16,8 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * A rule condition based on a certain number of locations failing.
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata\\.type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("Microsoft.Azure.Management.Insights.Models.LocationThresholdRuleCondition")
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class LocationThresholdRuleCondition extends RuleCondition {
     /**
      * the period of time (in ISO 8601 duration format) that is used to monitor

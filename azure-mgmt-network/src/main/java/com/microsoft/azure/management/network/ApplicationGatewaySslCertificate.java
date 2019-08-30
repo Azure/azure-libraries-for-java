@@ -29,6 +29,14 @@ public interface ApplicationGatewaySslCertificate extends
     String publicData();
 
     /**
+     * Get Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate'
+     object stored in KeyVault.
+     * 
+     * @return the secret id
+     */
+    String keyVaultSecretId();
+
+    /**
      * Grouping of application gateway SSL certificate definition stages.
      */
     interface DefinitionStages {

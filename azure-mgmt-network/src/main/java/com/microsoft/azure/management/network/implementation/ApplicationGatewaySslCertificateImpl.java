@@ -45,6 +45,11 @@ class ApplicationGatewaySslCertificateImpl
         return this.inner().publicCertData();
     }
 
+    @Override
+    public String keyVaultSecretId() {
+        return this.inner().keyVaultSecretId();
+    }
+
     // Verbs
 
     @Override

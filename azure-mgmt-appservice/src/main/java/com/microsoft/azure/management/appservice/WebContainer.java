@@ -74,6 +74,9 @@ public final class WebContainer extends ExpandableStringEnum<WebContainer> {
     /** Static value jetty 9.3.13 v20161014 for WebContainer. */
     public static final WebContainer JETTY_9_3_V20161014 = WebContainer.fromString("jetty 9.3.13.20161014");
 
+    /** Static value java 8 for WebContainer. */
+    public static final WebContainer JAVA_8 = WebContainer.fromString("java 8");
+
     /**
      * Finds or creates a Web container based on the specified name.
      * @param name a name

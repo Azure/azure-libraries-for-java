@@ -63,11 +63,6 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
-    public ContainerServiceStorageProfileTypes storageProfile() {
-        return this.inner().storageProfile();
-    }
-
-    @Override
     public String subnetName() {
         if (this.subnetName != null) {
             return this.subnetName;

@@ -43,11 +43,6 @@ public interface KubernetesClusterAgentPool
     OSType osType();
 
     /**
-     * @return the storage kind (managed or classic) set for each virtual machine in the agent pool
-     */
-    ContainerServiceStorageProfileTypes storageProfile();
-
-    /**
      * @return the name of the subnet used by each virtual machine in the agent pool
      */
     @Beta(SinceVersion.V1_15_0)

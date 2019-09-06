@@ -6,7 +6,7 @@
 package com.microsoft.azure.management.containerservice.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.containerservice.ContainerServiceStorageProfileTypes;
+import com.microsoft.azure.management.containerservice.AgentPoolType;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusterAgentPool;
@@ -63,6 +63,11 @@ public class KubernetesClusterAgentPoolImpl
     }
 
     @Override
+    public AgentPoolType type() {
+        return this.inner().type();
+    }
+
+    @Override
     public String subnetName() {
         if (this.subnetName != null) {
             return this.subnetName;
@@ -92,6 +97,18 @@ public class KubernetesClusterAgentPoolImpl
     @Override
     public KubernetesClusterAgentPoolImpl withOSDiskSizeInGB(int osDiskSizeInGB) {
         this.inner().withOsDiskSizeGB(osDiskSizeInGB);
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterAgentPoolImpl withAgentPoolType(AgentPoolType agentPoolType) {
+        this.inner().withType(agentPoolType);
+        return this;
+    }
+
+    @Override
+    public KubernetesClusterAgentPoolImpl withAgentPoolTypeName(String agentPoolTypeName) {
+        this.inner().withType(AgentPoolType.fromString(agentPoolTypeName));
         return this;
     }
 

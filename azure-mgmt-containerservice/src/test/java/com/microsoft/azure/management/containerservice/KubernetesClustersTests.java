@@ -52,6 +52,7 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
             .withServicePrincipalSecret(servicePrincipalSecret)
             .defineAgentPool(agentPoolName)
                 .withVirtualMachineSize(ContainerServiceVMSizeTypes.STANDARD_D1)
+                .withAgentPoolType(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS)
                 .withAgentPoolVirtualMachineCount(1)
                 .attach()
             .withDnsPrefix("mp1" + dnsPrefix)
@@ -65,7 +66,8 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
         Assert.assertNotNull(kubernetesCluster.agentPools().get(agentPoolName));
         Assert.assertEquals(1, kubernetesCluster.agentPools().get(agentPoolName).count());
         Assert.assertEquals(ContainerServiceVMSizeTypes.STANDARD_D1, kubernetesCluster.agentPools().get(agentPoolName).vmSize());
-        Assert.assertNotNull(kubernetesCluster.tags().get("tag1"));
+        Assert.assertEquals(AgentPoolType.VIRTUAL_MACHINE_SCALE_SETS, kubernetesCluster.agentPools().get(agentPoolName).type());
+        Assert.assertNotNull(kubernetesCluster.tags().get("tag1"));;
 
         // update
         kubernetesCluster = kubernetesCluster.update()

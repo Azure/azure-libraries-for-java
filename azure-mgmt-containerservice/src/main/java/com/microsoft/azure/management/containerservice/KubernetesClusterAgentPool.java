@@ -130,14 +130,14 @@ public interface KubernetesClusterAgentPool
         }
 
         /**
-         * The stage of a container service agent pool definition allowing to specify the type of agent pool
-         * Allowed values could be seen in AgentPoolType Class
+         * The stage of a container service agent pool definition allowing to specify the type of agent pool.
+         * Allowed values could be seen in AgentPoolType Class.
          *
          * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
          */
         interface WithAgentPoolType<ParentT> {
             /**
-             * set agent pool type to every virtual machine in the agent pool
+             * set agent pool type to every virtual machine in the agent pool.
              * 
              * @param agentPoolType the agent pool type for every machine in the agent pool
              * @return the next stage of the definition
@@ -145,7 +145,7 @@ public interface KubernetesClusterAgentPool
             WithAttach<ParentT> withAgentPoolType(AgentPoolType agentPoolType);
 
             /**
-             * set agent pool type by type name
+             * set agent pool type by type name.
              * 
              * @param agentPoolTypeName the agent pool type name in string format
              * @return the next stage of the definition

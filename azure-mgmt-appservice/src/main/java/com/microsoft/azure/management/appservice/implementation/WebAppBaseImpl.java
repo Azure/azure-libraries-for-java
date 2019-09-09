@@ -48,6 +48,7 @@ import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHel
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
+import com.microsoft.azure.management.resources.fluentcore.dag.IndexableTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -764,7 +765,7 @@ abstract class WebAppBaseImpl<
             inner().withHostNameSslStates(new ArrayList<>(hostNameSslStateMap.values()));
         }
         // Hostname and SSL bindings
-        addPostRunDependent(new FunctionalTaskItem() {
+        IndexableTaskItem rootTaskItem = wrapTask(new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
                 // Submit hostname bindings
@@ -778,15 +779,16 @@ abstract class WebAppBaseImpl<
                         });
             }
         });
+        IndexableTaskItem lastTaskItem = rootTaskItem;
         // Site config
-        addPostRunDependent(new FunctionalTaskItem() {
+        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
                 return submitSiteConfig();
             }
         });
         // App settings and connection strings
-        addPostRunDependent(new FunctionalTaskItem() {
+        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
                 return submitAppSettings().mergeWith(submitConnectionStrings())
@@ -799,7 +801,7 @@ abstract class WebAppBaseImpl<
             }
         });
         // Source control
-        addPostRunDependent(new FunctionalTaskItem() {
+        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
                 return submitSourceControlToDelete().flatMap(new Func1<Indexable, Observable<Indexable>>() {
@@ -811,14 +813,14 @@ abstract class WebAppBaseImpl<
             }
         });
         // Authentication
-        addPostRunDependent(new FunctionalTaskItem() {
+        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
                 return submitAuthentication();
             }
         });
         // Log configuration
-        addPostRunDependent(new FunctionalTaskItem() {
+        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
                 return submitLogConfiguration();
@@ -826,8 +828,20 @@ abstract class WebAppBaseImpl<
         });
         // MSI roles
         if (msiHandler != null) {
-            addPostRunDependent(msiHandler);
+            lastTaskItem = sequentialTask(lastTaskItem, msiHandler);
         }
+
+        addPostRunDependent(rootTaskItem);
+    }
+
+    private static IndexableTaskItem wrapTask(FunctionalTaskItem taskItem) {
+        return IndexableTaskItem.create(taskItem);
+    }
+
+    private static IndexableTaskItem sequentialTask(IndexableTaskItem taskItem1, FunctionalTaskItem taskItem2) {
+        IndexableTaskItem taskItem = IndexableTaskItem.create(taskItem2);
+        taskItem1.addPostRunDependent(taskItem);
+        return taskItem;
     }
 
     @Override

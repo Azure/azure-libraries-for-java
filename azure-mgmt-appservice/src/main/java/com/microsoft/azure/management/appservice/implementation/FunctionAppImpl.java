@@ -27,7 +27,6 @@ import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
 import okhttp3.HttpUrl;
 import okhttp3.Request;
-import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -133,26 +132,18 @@ class FunctionAppImpl
             return super.submitAppSettings();
         } else {
             Observable<AppServicePlan> appServicePlanObservable = this.manager().appServicePlans().getByIdAsync(this.appServicePlanId());
-            return storageAccountToSet.getKeysAsync()
+            return Observable.merge(storageAccountToSet.getKeysAsync()
                 .flatMapIterable(new Func1<List<StorageAccountKey>, Iterable<StorageAccountKey>>() {
                     @Override
                     public Iterable<StorageAccountKey> call(List<StorageAccountKey> storageAccountKeys) {
                         return storageAccountKeys;
                     }
                 })
-                .first().zipWith(appServicePlanObservable, new Func2<StorageAccountKey, AppServicePlan, Pair<StorageAccountKey, AppServicePlan>>() {
+                .first().zipWith(appServicePlanObservable, new Func2<StorageAccountKey, AppServicePlan, Observable<Indexable>>() {
                     @Override
-                    public Pair<StorageAccountKey, AppServicePlan> call(StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) {
-                        return Pair.of(storageAccountKey, appServicePlan);
-                    }
-                })
-                .flatMap(new Func1<Pair<StorageAccountKey, AppServicePlan>, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(Pair<StorageAccountKey, AppServicePlan> pair) {
-                        StorageAccountKey storageAccountKey = pair.getLeft();
-                        AppServicePlan appServicePlan = pair.getRight();
+                    public Observable<Indexable> call(StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) {
                         String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
-                            storageAccountToSet.name(), storageAccountKey.value());
+                                storageAccountToSet.name(), storageAccountKey.value());
                         withAppSetting("AzureWebJobsStorage", connectionString);
                         withAppSetting("AzureWebJobsDashboard", connectionString);
                         if (appServicePlan == null || isConsumptionAppServicePlan(appServicePlan.pricingTier())) {
@@ -161,7 +152,7 @@ class FunctionAppImpl
                         }
                         return FunctionAppImpl.super.submitAppSettings();
                     }
-                }).doOnCompleted(new Action0() {
+                })).doOnCompleted(new Action0() {
                     @Override
                     public void call() {
                         currentStorageAccount = storageAccountToSet;

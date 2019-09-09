@@ -29,15 +29,19 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
         String aksName = SdkContext.randomResourceName("aks", 15);
         String dnsPrefix = SdkContext.randomResourceName("dns", 10);
         String agentPoolName = SdkContext.randomResourceName("ap0", 10);
+        String servicePrincipalClientId = "spId";
+        String servicePrincipalSecret = "spSecret";
 
         String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
         if (envSecondaryServicePrincipal == null || envSecondaryServicePrincipal.isEmpty() || !(new File(envSecondaryServicePrincipal).exists())) {
             envSecondaryServicePrincipal =  System.getenv("AZURE_AUTH_LOCATION");
         }
 
-        HashMap<String, String> credentialsMap = ParseAuthFile(envSecondaryServicePrincipal);
-        String servicePrincipalClientId = credentialsMap.get("clientId");
-        String servicePrincipalSecret = credentialsMap.get("clientSecret");
+        if (!isPlaybackMode()) {
+            HashMap<String, String> credentialsMap = ParseAuthFile(envSecondaryServicePrincipal);
+            servicePrincipalClientId = credentialsMap.get("clientId");
+            servicePrincipalSecret = credentialsMap.get("clientSecret");
+        }
 
         // create
         KubernetesCluster kubernetesCluster = containerServiceManager

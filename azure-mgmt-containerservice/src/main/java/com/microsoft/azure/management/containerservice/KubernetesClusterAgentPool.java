@@ -137,7 +137,7 @@ public interface KubernetesClusterAgentPool
          */
         interface WithAgentPoolType<ParentT> {
             /**
-             * set agent pool type to every virtual machine in the agent pool.
+             * Set agent pool type to every virtual machine in the agent pool.
              * 
              * @param agentPoolType the agent pool type for every machine in the agent pool
              * @return the next stage of the definition
@@ -145,7 +145,7 @@ public interface KubernetesClusterAgentPool
             WithAttach<ParentT> withAgentPoolType(AgentPoolType agentPoolType);
 
             /**
-             * set agent pool type by type name.
+             * Set agent pool type by type name.
              * 
              * @param agentPoolTypeName the agent pool type name in string format
              * @return the next stage of the definition

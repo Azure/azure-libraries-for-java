@@ -78,7 +78,7 @@ public interface ApplicationGatewaySslCertificate extends
             WithPassword<ParentT> withPfxFromFile(File pfxFile) throws IOException;
 
             /**
-             * Sepecifies the content of the private key using key vault
+             * Sepecifies the content of the private key using key vault.
              * @param keyVaultSecretId the secret id of key vault
              * @return the next stage of the definition
              */

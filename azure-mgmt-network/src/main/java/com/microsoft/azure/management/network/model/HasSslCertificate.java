@@ -40,7 +40,7 @@ public interface HasSslCertificate<T>  {
             ReturnT withSslCertificate(String name);
 
             /**
-             * Sepecifies the content of the private key using key vault
+             * Sepecifies the content of the private key using key vault.
              * @param keyVaultSecretId the secret id of key vault
              * @return the next stage of the definition
              */
@@ -90,7 +90,7 @@ public interface HasSslCertificate<T>  {
             ReturnT withSslCertificate(String name);
 
             /**
-             * Sepecifies the content of the private key using key vault
+             * Sepecifies the content of the private key using key vault.
              * @param keyVaultSecretId the secret id of key vault
              * @return the next stage of the update
              */
@@ -140,7 +140,7 @@ public interface HasSslCertificate<T>  {
             ReturnT withSslCertificate(String name);
 
             /**
-             * Sepecifies the content of the private key using key vault
+             * Sepecifies the content of the private key using key vault.
              * @param keyVaultSecretId the secret id of key vault
              * @return the next stage of the definition
              */

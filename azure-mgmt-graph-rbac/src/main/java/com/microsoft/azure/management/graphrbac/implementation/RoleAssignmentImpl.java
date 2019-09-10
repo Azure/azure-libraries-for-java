@@ -17,12 +17,11 @@ import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableImpl;
+import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import rx.Observable;
 import rx.exceptions.Exceptions;
 import rx.functions.Func1;
 import rx.functions.Func2;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -130,7 +129,7 @@ class RoleAssignmentImpl
                                 }).flatMap(new Func1<Integer, Observable<?>>() {
                                     @Override
                                     public Observable<?> call(Integer i) {
-                                        return Observable.timer(i, TimeUnit.SECONDS);
+                                        return SdkContext.delayedEmitAsync(i, i * 1000);
                                     }
                                 });
                             }

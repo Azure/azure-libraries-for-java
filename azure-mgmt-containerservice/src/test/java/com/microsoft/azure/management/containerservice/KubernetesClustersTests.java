@@ -32,9 +32,11 @@ public class KubernetesClustersTests extends ContainerServiceManagementTest {
         String servicePrincipalClientId = "spId";
         String servicePrincipalSecret = "spSecret";
 
+        // aks can use another azure auth rather than original client auth to access azure service.
+        // Thus, set it to AZURE_AUTH_LOCATION_2 when you want.
         String envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION_2");
         if (envSecondaryServicePrincipal == null || envSecondaryServicePrincipal.isEmpty() || !(new File(envSecondaryServicePrincipal).exists())) {
-            envSecondaryServicePrincipal =  System.getenv("AZURE_AUTH_LOCATION");
+            envSecondaryServicePrincipal = System.getenv("AZURE_AUTH_LOCATION");
         }
 
         if (!isPlaybackMode()) {

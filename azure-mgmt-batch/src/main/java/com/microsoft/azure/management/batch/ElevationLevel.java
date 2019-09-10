@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ElevationLevel.
  */
 public enum ElevationLevel {
-    /** Enum value NonAdmin. */
+    /** The user is a standard user without elevated access. */
     NON_ADMIN("NonAdmin"),
 
-    /** Enum value Admin. */
+    /** The user is a user with elevated access and operates with full Administrator permissions. */
     ADMIN("Admin");
 
     /** The actual serialized value for a ElevationLevel instance. */

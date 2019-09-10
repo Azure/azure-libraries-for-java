@@ -22,7 +22,7 @@ public class TaskSchedulingPolicy {
     private ComputeNodeFillType nodeFillType;
 
     /**
-     * Get the nodeFillType value.
+     * Get possible values include: 'Spread', 'Pack'.
      *
      * @return the nodeFillType value
      */
@@ -31,7 +31,7 @@ public class TaskSchedulingPolicy {
     }
 
     /**
-     * Set the nodeFillType value.
+     * Set possible values include: 'Spread', 'Pack'.
      *
      * @param nodeFillType the nodeFillType value to set
      * @return the TaskSchedulingPolicy object itself.

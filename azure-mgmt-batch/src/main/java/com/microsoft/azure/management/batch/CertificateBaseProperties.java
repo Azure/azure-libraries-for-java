@@ -37,7 +37,7 @@ public class CertificateBaseProperties {
     private CertificateFormat format;
 
     /**
-     * Get the thumbprintAlgorithm value.
+     * Get this must match the first portion of the certificate name. Currently required to be 'SHA1'.
      *
      * @return the thumbprintAlgorithm value
      */
@@ -46,7 +46,7 @@ public class CertificateBaseProperties {
     }
 
     /**
-     * Set the thumbprintAlgorithm value.
+     * Set this must match the first portion of the certificate name. Currently required to be 'SHA1'.
      *
      * @param thumbprintAlgorithm the thumbprintAlgorithm value to set
      * @return the CertificateBaseProperties object itself.
@@ -57,7 +57,7 @@ public class CertificateBaseProperties {
     }
 
     /**
-     * Get the thumbprint value.
+     * Get this must match the thumbprint from the name.
      *
      * @return the thumbprint value
      */
@@ -66,7 +66,7 @@ public class CertificateBaseProperties {
     }
 
     /**
-     * Set the thumbprint value.
+     * Set this must match the thumbprint from the name.
      *
      * @param thumbprint the thumbprint value to set
      * @return the CertificateBaseProperties object itself.
@@ -77,7 +77,7 @@ public class CertificateBaseProperties {
     }
 
     /**
-     * Get the format value.
+     * Get the format of the certificate - either Pfx or Cer. If omitted, the default is Pfx. Possible values include: 'Pfx', 'Cer'.
      *
      * @return the format value
      */
@@ -86,7 +86,7 @@ public class CertificateBaseProperties {
     }
 
     /**
-     * Set the format value.
+     * Set the format of the certificate - either Pfx or Cer. If omitted, the default is Pfx. Possible values include: 'Pfx', 'Cer'.
      *
      * @param format the format value to set
      * @return the CertificateBaseProperties object itself.

@@ -15,6 +15,7 @@ import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.batch.CertificateCancelDeletionHeaders;
 import com.microsoft.azure.management.batch.CertificateCreateHeaders;
+import com.microsoft.azure.management.batch.CertificateCreateOrUpdateParameters;
 import com.microsoft.azure.management.batch.CertificateDeleteHeaders;
 import com.microsoft.azure.management.batch.CertificateGetHeaders;
 import com.microsoft.azure.management.batch.CertificateUpdateHeaders;
@@ -75,15 +76,15 @@ public class CertificatesInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Certificates create" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParametersInner parameters, @Header("If-Match") String ifMatch, @Header("If-None-Match") String ifNoneMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParameters parameters, @Header("If-Match") String ifMatch, @Header("If-None-Match") String ifNoneMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Certificates beginCreate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}")
-        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParametersInner parameters, @Header("If-Match") String ifMatch, @Header("If-None-Match") String ifNoneMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParameters parameters, @Header("If-Match") String ifMatch, @Header("If-None-Match") String ifNoneMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Certificates update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParametersInner parameters, @Header("If-Match") String ifMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("certificateName") String certificateName, @Path("subscriptionId") String subscriptionId, @Body CertificateCreateOrUpdateParameters parameters, @Header("If-Match") String ifMatch, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Certificates delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}", method = "DELETE", hasBody = true)
@@ -376,7 +377,7 @@ public class CertificatesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
-    public CertificateInner create(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public CertificateInner create(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).toBlocking().last().body();
     }
 
@@ -391,7 +392,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, final ServiceCallback<CertificateInner> serviceCallback) {
+    public ServiceFuture<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, final ServiceCallback<CertificateInner> serviceCallback) {
         return ServiceFuture.fromHeaderResponse(createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters), serviceCallback);
     }
 
@@ -405,7 +406,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public Observable<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>, CertificateInner>() {
             @Override
             public CertificateInner call(ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> response) {
@@ -424,7 +425,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -463,7 +464,7 @@ public class CertificatesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
-    public CertificateInner create(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, String ifNoneMatch) {
+    public CertificateInner create(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).toBlocking().last().body();
     }
 
@@ -480,7 +481,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, String ifNoneMatch, final ServiceCallback<CertificateInner> serviceCallback) {
+    public ServiceFuture<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch, final ServiceCallback<CertificateInner> serviceCallback) {
         return ServiceFuture.fromHeaderResponse(createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch), serviceCallback);
     }
 
@@ -496,7 +497,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, String ifNoneMatch) {
+    public Observable<CertificateInner> createAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
         return createWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>, CertificateInner>() {
             @Override
             public CertificateInner call(ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> response) {
@@ -517,7 +518,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, String ifNoneMatch) {
+    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -553,7 +554,7 @@ public class CertificatesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
-    public CertificateInner beginCreate(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public CertificateInner beginCreate(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).toBlocking().single().body();
     }
 
@@ -568,7 +569,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, final ServiceCallback<CertificateInner> serviceCallback) {
+    public ServiceFuture<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, final ServiceCallback<CertificateInner> serviceCallback) {
         return ServiceFuture.fromHeaderResponse(beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters), serviceCallback);
     }
 
@@ -582,7 +583,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public Observable<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>, CertificateInner>() {
             @Override
             public CertificateInner call(ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> response) {
@@ -601,7 +602,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -651,7 +652,7 @@ public class CertificatesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
-    public CertificateInner beginCreate(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, String ifNoneMatch) {
+    public CertificateInner beginCreate(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).toBlocking().single().body();
     }
 
@@ -668,7 +669,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, String ifNoneMatch, final ServiceCallback<CertificateInner> serviceCallback) {
+    public ServiceFuture<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch, final ServiceCallback<CertificateInner> serviceCallback) {
         return ServiceFuture.fromHeaderResponse(beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch), serviceCallback);
     }
 
@@ -684,7 +685,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, String ifNoneMatch) {
+    public Observable<CertificateInner> beginCreateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
         return beginCreateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch, ifNoneMatch).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>, CertificateInner>() {
             @Override
             public CertificateInner call(ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders> response) {
@@ -705,7 +706,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, String ifNoneMatch) {
+    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateCreateHeaders>> beginCreateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, String ifNoneMatch) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -758,7 +759,7 @@ public class CertificatesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
-    public CertificateInner update(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public CertificateInner update(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).toBlocking().single().body();
     }
 
@@ -773,7 +774,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<CertificateInner> updateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, final ServiceCallback<CertificateInner> serviceCallback) {
+    public ServiceFuture<CertificateInner> updateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, final ServiceCallback<CertificateInner> serviceCallback) {
         return ServiceFuture.fromHeaderResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters), serviceCallback);
     }
 
@@ -787,7 +788,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<CertificateInner> updateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public Observable<CertificateInner> updateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateUpdateHeaders>, CertificateInner>() {
             @Override
             public CertificateInner call(ServiceResponseWithHeaders<CertificateInner, CertificateUpdateHeaders> response) {
@@ -806,7 +807,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateUpdateHeaders>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters) {
+    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateUpdateHeaders>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -854,7 +855,7 @@ public class CertificatesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the CertificateInner object if successful.
      */
-    public CertificateInner update(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch) {
+    public CertificateInner update(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch) {
         return updateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch).toBlocking().single().body();
     }
 
@@ -870,7 +871,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<CertificateInner> updateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch, final ServiceCallback<CertificateInner> serviceCallback) {
+    public ServiceFuture<CertificateInner> updateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch, final ServiceCallback<CertificateInner> serviceCallback) {
         return ServiceFuture.fromHeaderResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch), serviceCallback);
     }
 
@@ -885,7 +886,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<CertificateInner> updateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch) {
+    public Observable<CertificateInner> updateAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch) {
         return updateWithServiceResponseAsync(resourceGroupName, accountName, certificateName, parameters, ifMatch).map(new Func1<ServiceResponseWithHeaders<CertificateInner, CertificateUpdateHeaders>, CertificateInner>() {
             @Override
             public CertificateInner call(ServiceResponseWithHeaders<CertificateInner, CertificateUpdateHeaders> response) {
@@ -905,7 +906,7 @@ public class CertificatesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the CertificateInner object
      */
-    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateUpdateHeaders>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParametersInner parameters, String ifMatch) {
+    public Observable<ServiceResponseWithHeaders<CertificateInner, CertificateUpdateHeaders>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String certificateName, CertificateCreateOrUpdateParameters parameters, String ifMatch) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

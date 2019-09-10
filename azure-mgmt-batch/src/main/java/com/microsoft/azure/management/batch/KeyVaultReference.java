@@ -28,7 +28,7 @@ public class KeyVaultReference {
     private String url;
 
     /**
-     * Get the id value.
+     * Get the resource ID of the Azure key vault associated with the Batch account.
      *
      * @return the id value
      */
@@ -37,7 +37,7 @@ public class KeyVaultReference {
     }
 
     /**
-     * Set the id value.
+     * Set the resource ID of the Azure key vault associated with the Batch account.
      *
      * @param id the id value to set
      * @return the KeyVaultReference object itself.
@@ -48,7 +48,7 @@ public class KeyVaultReference {
     }
 
     /**
-     * Get the url value.
+     * Get the URL of the Azure key vault associated with the Batch account.
      *
      * @return the url value
      */
@@ -57,7 +57,7 @@ public class KeyVaultReference {
     }
 
     /**
-     * Set the url value.
+     * Set the URL of the Azure key vault associated with the Batch account.
      *
      * @param url the url value to set
      * @return the KeyVaultReference object itself.

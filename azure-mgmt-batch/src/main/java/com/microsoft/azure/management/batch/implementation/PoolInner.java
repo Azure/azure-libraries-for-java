@@ -24,6 +24,7 @@ import com.microsoft.azure.management.batch.StartTask;
 import com.microsoft.azure.management.batch.CertificateReference;
 import com.microsoft.azure.management.batch.ApplicationPackageReference;
 import com.microsoft.azure.management.batch.ResizeOperationStatus;
+import com.microsoft.azure.management.batch.MountConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.ProxyResource;
@@ -58,13 +59,7 @@ public class PoolInner extends ProxyResource {
 
     /**
      * The current state of the pool.
-     * Values are:
-     *
-     * Succeeded - The pool is available to run tasks subject to the
-     * availability of compute nodes.
-     * Deleting - The user has requested that the pool be deleted, but the
-     * delete operation has not yet completed. Possible values include:
-     * 'Succeeded', 'Deleting'.
+     * Possible values include: 'Succeeded', 'Deleting'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private PoolProvisioningState provisioningState;
@@ -77,16 +72,6 @@ public class PoolInner extends ProxyResource {
 
     /**
      * Whether the pool is resizing.
-     * Values are:
-     *
-     * Steady - The pool is not resizing. There are no changes to the number of
-     * nodes in the pool in progress. A pool enters this state when it is
-     * created and when no operations are being performed on the pool to change
-     * the number of dedicated nodes.
-     * Resizing - The pool is resizing; that is, compute nodes are being added
-     * to or removed from the pool.
-     * Stopping - The pool was resizing, but the user has requested that the
-     * resize be stopped, but the stop request has not yet been completed.
      * Possible values include: 'Steady', 'Resizing', 'Stopping'.
      */
     @JsonProperty(value = "properties.allocationState", access = JsonProperty.Access.WRITE_ONLY)
@@ -173,12 +158,15 @@ public class PoolInner extends ProxyResource {
     /**
      * The maximum number of tasks that can run concurrently on a single
      * compute node in the pool.
+     * The default value is 1. The maximum value is the smaller of 4 times the
+     * number of cores of the vmSize of the pool or 256.
      */
     @JsonProperty(value = "properties.maxTasksPerNode")
     private Integer maxTasksPerNode;
 
     /**
      * How tasks are distributed across compute nodes in a pool.
+     * If not specified, the default is spread.
      */
     @JsonProperty(value = "properties.taskSchedulingPolicy")
     private TaskSchedulingPolicy taskSchedulingPolicy;
@@ -223,9 +211,10 @@ public class PoolInner extends ProxyResource {
     /**
      * The list of application packages to be installed on each compute node in
      * the pool.
-     * Changes to application packages affect all new compute nodes joining the
-     * pool, but do not affect compute nodes that are already in the pool until
-     * they are rebooted or reimaged.
+     * Changes to application package references affect all new compute nodes
+     * joining the pool, but do not affect compute nodes that are already in
+     * the pool until they are rebooted or reimaged. There is a maximum of 10
+     * application package references on any given pool.
      */
     @JsonProperty(value = "properties.applicationPackages")
     private List<ApplicationPackageReference> applicationPackages;
@@ -247,13 +236,20 @@ public class PoolInner extends ProxyResource {
     private ResizeOperationStatus resizeOperationStatus;
 
     /**
+     * A list of file systems to mount on each node in the pool.
+     * This supports Azure Files, NFS, CIFS/SMB, and Blobfuse.
+     */
+    @JsonProperty(value = "properties.mountConfiguration")
+    private List<MountConfiguration> mountConfiguration;
+
+    /**
      * The ETag of the resource, used for concurrency statements.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
-     * Get the displayName value.
+     * Get the display name need not be unique and can contain any Unicode characters up to a maximum length of 1024.
      *
      * @return the displayName value
      */
@@ -262,7 +258,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the displayName value.
+     * Set the display name need not be unique and can contain any Unicode characters up to a maximum length of 1024.
      *
      * @param displayName the displayName value to set
      * @return the PoolInner object itself.
@@ -273,7 +269,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the lastModified value.
+     * Get this is the last time at which the pool level data, such as the targetDedicatedNodes or autoScaleSettings, changed. It does not factor in node-level changes such as a compute node changing state.
      *
      * @return the lastModified value
      */
@@ -291,7 +287,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get possible values include: 'Succeeded', 'Deleting'.
      *
      * @return the provisioningState value
      */
@@ -309,7 +305,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the allocationState value.
+     * Get possible values include: 'Steady', 'Resizing', 'Stopping'.
      *
      * @return the allocationState value
      */
@@ -327,7 +323,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the vmSize value.
+     * Get for information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series).
      *
      * @return the vmSize value
      */
@@ -336,7 +332,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the vmSize value.
+     * Set for information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (http://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series).
      *
      * @param vmSize the vmSize value to set
      * @return the PoolInner object itself.
@@ -347,7 +343,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the deploymentConfiguration value.
+     * Get using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS).
      *
      * @return the deploymentConfiguration value
      */
@@ -356,7 +352,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the deploymentConfiguration value.
+     * Set using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS).
      *
      * @param deploymentConfiguration the deploymentConfiguration value to set
      * @return the PoolInner object itself.
@@ -405,7 +401,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the autoScaleRun value.
+     * Get this property is set only if the pool automatically scales, i.e. autoScaleSettings are used.
      *
      * @return the autoScaleRun value
      */
@@ -414,7 +410,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the interNodeCommunication value.
+     * Get this imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'. Possible values include: 'Enabled', 'Disabled'.
      *
      * @return the interNodeCommunication value
      */
@@ -423,7 +419,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the interNodeCommunication value.
+     * Set this imposes restrictions on which nodes can be assigned to the pool. Enabling this value can reduce the chance of the requested number of nodes to be allocated in the pool. If not specified, this value defaults to 'Disabled'. Possible values include: 'Enabled', 'Disabled'.
      *
      * @param interNodeCommunication the interNodeCommunication value to set
      * @return the PoolInner object itself.
@@ -454,7 +450,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the maxTasksPerNode value.
+     * Get the default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256.
      *
      * @return the maxTasksPerNode value
      */
@@ -463,7 +459,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the maxTasksPerNode value.
+     * Set the default value is 1. The maximum value is the smaller of 4 times the number of cores of the vmSize of the pool or 256.
      *
      * @param maxTasksPerNode the maxTasksPerNode value to set
      * @return the PoolInner object itself.
@@ -474,7 +470,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the taskSchedulingPolicy value.
+     * Get if not specified, the default is spread.
      *
      * @return the taskSchedulingPolicy value
      */
@@ -483,7 +479,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the taskSchedulingPolicy value.
+     * Set if not specified, the default is spread.
      *
      * @param taskSchedulingPolicy the taskSchedulingPolicy value to set
      * @return the PoolInner object itself.
@@ -514,7 +510,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the metadata value.
+     * Get the Batch service does not assign any meaning to metadata; it is solely for the use of user code.
      *
      * @return the metadata value
      */
@@ -523,7 +519,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the metadata value.
+     * Set the Batch service does not assign any meaning to metadata; it is solely for the use of user code.
      *
      * @param metadata the metadata value to set
      * @return the PoolInner object itself.
@@ -534,7 +530,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the startTask value.
+     * Get in an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool.
      *
      * @return the startTask value
      */
@@ -543,7 +539,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the startTask value.
+     * Set in an PATCH (update) operation, this property can be set to an empty object to remove the start task from the pool.
      *
      * @param startTask the startTask value to set
      * @return the PoolInner object itself.
@@ -554,7 +550,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the certificates value.
+     * Get for Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
      *
      * @return the certificates value
      */
@@ -563,7 +559,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the certificates value.
+     * Set for Windows compute nodes, the Batch service installs the certificates to the specified certificate store and location. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory.
      *
      * @param certificates the certificates value to set
      * @return the PoolInner object itself.
@@ -574,7 +570,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the applicationPackages value.
+     * Get changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool.
      *
      * @return the applicationPackages value
      */
@@ -583,7 +579,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the applicationPackages value.
+     * Set changes to application package references affect all new compute nodes joining the pool, but do not affect compute nodes that are already in the pool until they are rebooted or reimaged. There is a maximum of 10 application package references on any given pool.
      *
      * @param applicationPackages the applicationPackages value to set
      * @return the PoolInner object itself.
@@ -594,7 +590,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the applicationLicenses value.
+     * Get the list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.
      *
      * @return the applicationLicenses value
      */
@@ -603,7 +599,7 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Set the applicationLicenses value.
+     * Set the list of application licenses must be a subset of available Batch service application licenses. If a license is requested which is not supported, pool creation will fail.
      *
      * @param applicationLicenses the applicationLicenses value to set
      * @return the PoolInner object itself.
@@ -623,7 +619,27 @@ public class PoolInner extends ProxyResource {
     }
 
     /**
-     * Get the etag value.
+     * Get this supports Azure Files, NFS, CIFS/SMB, and Blobfuse.
+     *
+     * @return the mountConfiguration value
+     */
+    public List<MountConfiguration> mountConfiguration() {
+        return this.mountConfiguration;
+    }
+
+    /**
+     * Set this supports Azure Files, NFS, CIFS/SMB, and Blobfuse.
+     *
+     * @param mountConfiguration the mountConfiguration value to set
+     * @return the PoolInner object itself.
+     */
+    public PoolInner withMountConfiguration(List<MountConfiguration> mountConfiguration) {
+        this.mountConfiguration = mountConfiguration;
+        return this;
+    }
+
+    /**
+     * Get the ETag of the resource, used for concurrency statements.
      *
      * @return the etag value
      */

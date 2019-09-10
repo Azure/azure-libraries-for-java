@@ -71,7 +71,7 @@ class ApplicationsImpl extends
 
         for (ApplicationInner application: applicationList) {
             childResources.add(new ApplicationImpl(
-                    application.id(),
+                    application.name(),
                     this.parent(),
                     application));
         }

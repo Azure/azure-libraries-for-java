@@ -58,7 +58,7 @@ public class AutoScaleRun {
     }
 
     /**
-     * Get the results value.
+     * Get each variable value is returned in the form $variable=value, and variables are separated by semicolons.
      *
      * @return the results value
      */
@@ -67,7 +67,7 @@ public class AutoScaleRun {
     }
 
     /**
-     * Set the results value.
+     * Set each variable value is returned in the form $variable=value, and variables are separated by semicolons.
      *
      * @param results the results value to set
      * @return the AutoScaleRun object itself.

@@ -28,13 +28,14 @@ public class CheckNameAvailabilityParameters {
 
     /**
      * Creates an instance of CheckNameAvailabilityParameters class.
+     * @param name the name to check for availability.
      */
     public CheckNameAvailabilityParameters() {
         type = "Microsoft.Batch/batchAccounts";
     }
 
     /**
-     * Get the name value.
+     * Get the name to check for availability.
      *
      * @return the name value
      */
@@ -43,7 +44,7 @@ public class CheckNameAvailabilityParameters {
     }
 
     /**
-     * Set the name value.
+     * Set the name to check for availability.
      *
      * @param name the name value to set
      * @return the CheckNameAvailabilityParameters object itself.
@@ -54,7 +55,7 @@ public class CheckNameAvailabilityParameters {
     }
 
     /**
-     * Get the type value.
+     * Get the resource type. Must be set to Microsoft.Batch/batchAccounts.
      *
      * @return the type value
      */
@@ -63,7 +64,7 @@ public class CheckNameAvailabilityParameters {
     }
 
     /**
-     * Set the type value.
+     * Set the resource type. Must be set to Microsoft.Batch/batchAccounts.
      *
      * @param type the type value to set
      * @return the CheckNameAvailabilityParameters object itself.

@@ -36,7 +36,7 @@ public class ResizeError {
     private List<ResizeError> details;
 
     /**
-     * Get the code value.
+     * Get an identifier for the error. Codes are invariant and are intended to be consumed programmatically.
      *
      * @return the code value
      */
@@ -45,7 +45,7 @@ public class ResizeError {
     }
 
     /**
-     * Set the code value.
+     * Set an identifier for the error. Codes are invariant and are intended to be consumed programmatically.
      *
      * @param code the code value to set
      * @return the ResizeError object itself.
@@ -56,7 +56,7 @@ public class ResizeError {
     }
 
     /**
-     * Get the message value.
+     * Get a message describing the error, intended to be suitable for display in a user interface.
      *
      * @return the message value
      */
@@ -65,7 +65,7 @@ public class ResizeError {
     }
 
     /**
-     * Set the message value.
+     * Set a message describing the error, intended to be suitable for display in a user interface.
      *
      * @param message the message value to set
      * @return the ResizeError object itself.

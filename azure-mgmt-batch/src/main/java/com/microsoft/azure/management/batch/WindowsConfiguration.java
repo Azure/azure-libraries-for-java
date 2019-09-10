@@ -22,7 +22,7 @@ public class WindowsConfiguration {
     private Boolean enableAutomaticUpdates;
 
     /**
-     * Get the enableAutomaticUpdates value.
+     * Get if omitted, the default value is true.
      *
      * @return the enableAutomaticUpdates value
      */
@@ -31,7 +31,7 @@ public class WindowsConfiguration {
     }
 
     /**
-     * Set the enableAutomaticUpdates value.
+     * Set if omitted, the default value is true.
      *
      * @param enableAutomaticUpdates the enableAutomaticUpdates value to set
      * @return the WindowsConfiguration object itself.

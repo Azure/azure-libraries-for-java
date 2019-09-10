@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for AutoUserScope.
  */
 public enum AutoUserScope {
-    /** Enum value Task. */
+    /** Specifies that the service should create a new user for the task. */
     TASK("Task"),
 
-    /** Enum value Pool. */
+    /** Specifies that the task runs as the common auto user account which is created on every node in a pool. */
     POOL("Pool");
 
     /** The actual serialized value for a AutoUserScope instance. */

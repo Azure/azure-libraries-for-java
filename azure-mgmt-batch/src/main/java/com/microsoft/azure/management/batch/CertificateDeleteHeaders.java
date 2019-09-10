@@ -29,7 +29,7 @@ public class CertificateDeleteHeaders {
     private Integer retryAfter;
 
     /**
-     * Get the location value.
+     * Get the URL of the resource used to check the status of the asynchronous operation.
      *
      * @return the location value
      */
@@ -38,7 +38,7 @@ public class CertificateDeleteHeaders {
     }
 
     /**
-     * Set the location value.
+     * Set the URL of the resource used to check the status of the asynchronous operation.
      *
      * @param location the location value to set
      * @return the CertificateDeleteHeaders object itself.
@@ -49,7 +49,7 @@ public class CertificateDeleteHeaders {
     }
 
     /**
-     * Get the retryAfter value.
+     * Get suggested delay to check the status of the asynchronous operation. The value is an integer that represents the seconds.
      *
      * @return the retryAfter value
      */
@@ -58,7 +58,7 @@ public class CertificateDeleteHeaders {
     }
 
     /**
-     * Set the retryAfter value.
+     * Set suggested delay to check the status of the asynchronous operation. The value is an integer that represents the seconds.
      *
      * @param retryAfter the retryAfter value to set
      * @return the CertificateDeleteHeaders object itself.

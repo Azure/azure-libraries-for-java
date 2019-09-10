@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for InboundEndpointProtocol.
  */
 public enum InboundEndpointProtocol {
-    /** Enum value TCP. */
+    /** Use TCP for the endpoint. */
     TCP("TCP"),
 
-    /** Enum value UDP. */
+    /** Use UDP for the endpoint. */
     UDP("UDP");
 
     /** The actual serialized value for a InboundEndpointProtocol instance. */

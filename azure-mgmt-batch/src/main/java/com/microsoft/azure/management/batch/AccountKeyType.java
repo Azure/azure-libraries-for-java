@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for AccountKeyType.
  */
 public enum AccountKeyType {
-    /** Enum value Primary. */
+    /** The primary account key. */
     PRIMARY("Primary"),
 
-    /** Enum value Secondary. */
+    /** The secondary account key. */
     SECONDARY("Secondary");
 
     /** The actual serialized value for a AccountKeyType instance. */

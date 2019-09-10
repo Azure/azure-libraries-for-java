@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for InterNodeCommunicationState.
  */
 public enum InterNodeCommunicationState {
-    /** Enum value Enabled. */
+    /** Enable network communication between virtual machines. */
     ENABLED("Enabled"),
 
-    /** Enum value Disabled. */
+    /** Disable network communication between virtual machines. */
     DISABLED("Disabled");
 
     /** The actual serialized value for a InterNodeCommunicationState instance. */

@@ -22,7 +22,7 @@ public class BatchLocationQuotaInner {
     private Integer accountQuota;
 
     /**
-     * Get the accountQuota value.
+     * Get the number of Batch accounts that may be created under the subscription in the specified region.
      *
      * @return the accountQuota value
      */

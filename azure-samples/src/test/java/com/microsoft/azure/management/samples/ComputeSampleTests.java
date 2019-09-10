@@ -106,7 +106,7 @@ public class ComputeSampleTests extends SamplesTestBase {
         Assert.assertTrue(ManageVirtualMachine.runSample(azure));
     }
 
-    @Test
+    @Test   
     public void testManageVirtualMachineAsync() {
         Assert.assertTrue(ManageVirtualMachineAsync.runSample(azure));
     }

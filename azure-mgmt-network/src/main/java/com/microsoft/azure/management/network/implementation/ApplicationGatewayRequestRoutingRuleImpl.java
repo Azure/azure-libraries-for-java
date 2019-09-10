@@ -325,6 +325,12 @@ class ApplicationGatewayRequestRoutingRuleImpl
     }
 
     @Override
+    public ApplicationGatewayRequestRoutingRuleImpl withKeyVaultSecretId(String keyVaultSecretId) {
+        this.parent().updateListener(ensureListener().name()).withKeyVaultSecretId(keyVaultSecretId);
+        return this;
+    }
+
+    @Override
     public ApplicationGatewayRequestRoutingRuleImpl withSslCertificateFromPfxFile(File pfxFile) throws IOException {
         this.parent().updateListener(ensureListener().name()).withSslCertificateFromPfxFile(pfxFile);
         return this;

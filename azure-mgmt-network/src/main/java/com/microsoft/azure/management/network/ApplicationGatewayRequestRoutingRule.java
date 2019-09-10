@@ -455,6 +455,20 @@ public interface ApplicationGatewayRequestRoutingRule extends
              */
             Update toBackendHttpConfiguration(String name);
         }
+
+        /**
+         * The stage of an application gateway request routing rule allowing to specify an SSL certificate.
+         */
+        interface WithSslCertificate extends
+            HasSslCertificate.UpdateStages.WithSslCertificate<Update> {
+        }
+
+        /**
+         * The stage of an application gateway request routing rule allowing to specify an SSL certificate.
+         */
+        interface WithSslPassword extends 
+            HasSslCertificate.UpdateStages.WithSslPassword<Update> {
+        }
     }
 
     /**
@@ -465,6 +479,8 @@ public interface ApplicationGatewayRequestRoutingRule extends
         UpdateStages.WithListener,
         UpdateStages.WithBackend,
         UpdateStages.WithBackendHttpConfiguration,
+        UpdateStages.WithSslCertificate,
+        UpdateStages.WithSslPassword,
         UpdateStages.WithRedirectConfig {
     }
 

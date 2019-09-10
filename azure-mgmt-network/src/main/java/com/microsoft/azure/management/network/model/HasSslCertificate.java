@@ -40,6 +40,13 @@ public interface HasSslCertificate<T>  {
             ReturnT withSslCertificate(String name);
 
             /**
+             * Sepecifies the content of the private key using key vault
+             * @param keyVaultSecretId the secret id of key vault
+             * @return the next stage of the definition
+             */
+            ReturnT withKeyVaultSecretId(String keyVaultSecretId);
+
+            /**
              * Specifies the PFX file to import the SSL certificate from to associated with this resource.
              * <p>
              * The certificate will be named using an auto-generated name.
@@ -83,6 +90,13 @@ public interface HasSslCertificate<T>  {
             ReturnT withSslCertificate(String name);
 
             /**
+             * Sepecifies the content of the private key using key vault
+             * @param keyVaultSecretId the secret id of key vault
+             * @return the next stage of the update
+             */
+            ReturnT withKeyVaultSecretId(String keyVaultSecretId);
+
+            /**
              * Specifies the PFX file to import the SSL certificate from to associate with this resource.
              * <p>
              * The certificate will be named using an auto-generated name.
@@ -124,6 +138,13 @@ public interface HasSslCertificate<T>  {
              * @return the next stage of the definition
              */
             ReturnT withSslCertificate(String name);
+
+            /**
+             * Sepecifies the content of the private key using key vault
+             * @param keyVaultSecretId the secret id of key vault
+             * @return the next stage of the definition
+             */
+            ReturnT withKeyVaultSecretId(String keyVaultSecretId);
 
             /**
              * Specifies the PFX file to import the SSL certificate from to associated with this resource.

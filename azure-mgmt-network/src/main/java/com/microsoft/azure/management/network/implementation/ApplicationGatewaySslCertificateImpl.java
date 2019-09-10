@@ -83,4 +83,10 @@ class ApplicationGatewaySslCertificateImpl
         return this;
     }
 
+    @Override
+    public ApplicationGatewaySslCertificateImpl withKeyVaultSecretId(String keyVaultSecretId) {
+        this.inner().withKeyVaultSecretId(keyVaultSecretId);
+        return this;
+    }
+
 }

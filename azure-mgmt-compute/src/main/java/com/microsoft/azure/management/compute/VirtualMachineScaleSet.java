@@ -2079,6 +2079,19 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set definition allowing to specify the custom data.
+         */
+        interface WithCustomData {
+            /**
+             * Specifies the custom data for the virtual machine scale set.
+             *
+             * @param base64EncodedCustomData the base64 encoded custom data
+             * @return the next stage in the definition
+             */
+            WithApply withCustomData(String base64EncodedCustomData);
+        }
+
+        /**
          * The stage of the virtual machine definition allowing to specify extensions.
          */
         interface WithSecrets {
@@ -2678,6 +2691,7 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithSku,
                 UpdateStages.WithAdditionalCapabilities,
                 UpdateStages.WithCapacity,
+                UpdateStages.WithCustomData,
                 UpdateStages.WithSecrets,
                 UpdateStages.WithExtension,
                 UpdateStages.WithoutPrimaryLoadBalancer,

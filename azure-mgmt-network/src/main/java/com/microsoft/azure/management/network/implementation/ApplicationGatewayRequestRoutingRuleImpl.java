@@ -325,8 +325,8 @@ class ApplicationGatewayRequestRoutingRuleImpl
     }
 
     @Override
-    public ApplicationGatewayRequestRoutingRuleImpl withKeyVaultSecretId(String keyVaultSecretId) {
-        this.parent().updateListener(ensureListener().name()).withKeyVaultSecretId(keyVaultSecretId);
+    public ApplicationGatewayRequestRoutingRuleImpl withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId) {
+        this.parent().updateListener(ensureListener().name()).withSslCertificateFromKeyVaultSecretId(keyVaultSecretId);
         return this;
     }
 

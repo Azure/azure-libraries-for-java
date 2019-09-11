@@ -194,11 +194,11 @@ class ApplicationGatewayListenerImpl
     }
 
     @Override
-    public ApplicationGatewayListenerImpl withKeyVaultSecretId(String keyVaultSecretId) {
-        return withKeyVaultSecretId(keyVaultSecretId, null);
+    public ApplicationGatewayListenerImpl withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId) {
+        return withSslCertificateFromKeyVaultSecretId(keyVaultSecretId, null);
     }
 
-    private ApplicationGatewayListenerImpl withKeyVaultSecretId(String keyVaultSecretId, String name) {
+    private ApplicationGatewayListenerImpl withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId, String name) {
         if (name == null) {
             name = SdkContext.randomResourceName("cert", 10);
         }

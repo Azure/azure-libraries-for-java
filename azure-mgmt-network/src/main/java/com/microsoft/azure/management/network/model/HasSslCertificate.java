@@ -44,7 +44,7 @@ public interface HasSslCertificate<T>  {
              * @param keyVaultSecretId the secret id of key vault
              * @return the next stage of the definition
              */
-            ReturnT withKeyVaultSecretId(String keyVaultSecretId);
+            ReturnT withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId);
 
             /**
              * Specifies the PFX file to import the SSL certificate from to associated with this resource.
@@ -94,7 +94,7 @@ public interface HasSslCertificate<T>  {
              * @param keyVaultSecretId the secret id of key vault
              * @return the next stage of the update
              */
-            ReturnT withKeyVaultSecretId(String keyVaultSecretId);
+            ReturnT withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId);
 
             /**
              * Specifies the PFX file to import the SSL certificate from to associate with this resource.
@@ -144,7 +144,7 @@ public interface HasSslCertificate<T>  {
              * @param keyVaultSecretId the secret id of key vault
              * @return the next stage of the definition
              */
-            ReturnT withKeyVaultSecretId(String keyVaultSecretId);
+            ReturnT withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId);
 
             /**
              * Specifies the PFX file to import the SSL certificate from to associated with this resource.

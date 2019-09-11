@@ -142,6 +142,43 @@ public class ManagedDiskOperationsTests extends ComputeManagementTest {
     }
 
     @Test
+   public void canOperateOnManagedDiskFromUpload() {
+        final String diskName = generateRandomResourceName("md-2", 20);
+
+        ResourceGroup resourceGroup = resourceManager
+                .resourceGroups()
+                .define(RG_NAME)
+                .withRegion(region)
+                .create();
+
+        // Create a managed disk from upload
+        //
+        Disk disk = computeManager.disks()
+                .define(diskName)
+                .withRegion(region)
+                .withExistingResourceGroup(resourceGroup.name())
+                .withData()
+                .withUploadSizeInMB(1000)
+                .withSku(DiskSkuTypes.STANDARD_LRS)
+                // End Option
+                .create();
+
+        disk = computeManager.disks().getById(disk.id());
+
+        Assert.assertNotNull(disk.id());
+        Assert.assertTrue(disk.name().equalsIgnoreCase(diskName));
+        Assert.assertEquals(disk.sku(), DiskSkuTypes.STANDARD_LRS);
+        Assert.assertEquals(disk.creationMethod(), DiskCreateOption.UPLOAD);
+        Assert.assertFalse(disk.isAttachedToVirtualMachine());
+        Assert.assertEquals(disk.sizeInGB(), 0);
+        Assert.assertNull(disk.osType());
+        Assert.assertNotNull(disk.source());
+        Assert.assertEquals(disk.source().type(), CreationSourceType.UNKNOWN);
+
+        computeManager.disks().deleteById(disk.id());
+    }
+
+    @Test
     public void canOperateOnManagedDiskFromSnapshot() {
         final String emptyDiskName = generateRandomResourceName("md-empty-", 20);
         final String snapshotBasedDiskName = generateRandomResourceName("md-snp-", 20);

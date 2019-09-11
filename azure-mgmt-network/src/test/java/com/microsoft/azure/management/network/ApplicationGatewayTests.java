@@ -18,6 +18,7 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.rest.serializer.JacksonAdapter;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -102,6 +103,7 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
     }
 
     @Test
+    @Ignore("Need client id for key vault usage")
     public void canCreateApplicationGatewayWithSecret() throws Exception {
         String appGatewayName = SdkContext.randomResourceName("agwaf", 15);
         String appPublicIp = SdkContext.randomResourceName("pip", 15);

@@ -464,7 +464,7 @@ public interface ApplicationGatewayRequestRoutingRule extends
         }
 
         /**
-         * The stage of an application gateway request routing rule allowing to specify an SSL certificate.
+         * The stage of an application gateway request routing rule allowing to specify password of the SSL certificate pfx file.
          */
         interface WithSslPassword extends 
             HasSslCertificate.UpdateStages.WithSslPassword<Update> {

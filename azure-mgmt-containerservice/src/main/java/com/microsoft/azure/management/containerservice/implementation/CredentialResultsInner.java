@@ -17,13 +17,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class CredentialResultsInner {
     /**
-     * The kubeconfigs property.
+     * Base64-encoded Kubernetes configuration file.
      */
     @JsonProperty(value = "kubeconfigs", access = JsonProperty.Access.WRITE_ONLY)
     private List<CredentialResult> kubeconfigs;
 
     /**
-     * Get the kubeconfigs value.
+     * Get base64-encoded Kubernetes configuration file.
      *
      * @return the kubeconfigs value
      */

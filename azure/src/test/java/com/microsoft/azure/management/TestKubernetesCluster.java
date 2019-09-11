@@ -26,9 +26,6 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
     public KubernetesCluster createResource(KubernetesClusters kubernetesClusters) throws Exception {
         final String sshKeyData =  this.getSshKey();
 
-        Set<String> kubernetesVersions = kubernetesClusters.listKubernetesVersions(Region.US_EAST);
-        Assert.assertTrue(kubernetesVersions.contains("1.8.1"));
-
         final String newName = "aks" + this.testId;
         final String dnsPrefix = "dns" + newName;
         final String agentPoolName = "ap" + newName;
@@ -53,7 +50,6 @@ public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, Kuber
         Assert.assertNotNull("Container service not found.", resource.id());
         Assert.assertEquals(Region.US_EAST, resource.region());
         Assert.assertEquals("aksadmin", resource.linuxRootUsername());
-        Assert.assertEquals(KubernetesVersion.KUBERNETES_1_9_9, resource.version());
         Assert.assertEquals(1, resource.agentPools().size());
         Assert.assertNotNull(resource.agentPools().get(agentPoolName));
         Assert.assertEquals(1, resource.agentPools().get(agentPoolName).count());

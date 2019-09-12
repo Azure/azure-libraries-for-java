@@ -2751,7 +2751,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
-     * @param tempDisk Specifies whether to reimage temp disk. Default value: false.
+     * @param tempDisk Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -2765,7 +2765,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
-     * @param tempDisk Specifies whether to reimage temp disk. Default value: false.
+     * @param tempDisk Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -2779,7 +2779,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
-     * @param tempDisk Specifies whether to reimage temp disk. Default value: false.
+     * @param tempDisk Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -2797,7 +2797,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
-     * @param tempDisk Specifies whether to reimage temp disk. Default value: false.
+     * @param tempDisk Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
@@ -2905,7 +2905,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
-     * @param tempDisk Specifies whether to reimage temp disk. Default value: false.
+     * @param tempDisk Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -2919,7 +2919,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
-     * @param tempDisk Specifies whether to reimage temp disk. Default value: false.
+     * @param tempDisk Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -2933,7 +2933,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
-     * @param tempDisk Specifies whether to reimage temp disk. Default value: false.
+     * @param tempDisk Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -2951,7 +2951,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
-     * @param tempDisk Specifies whether to reimage temp disk. Default value: false.
+     * @param tempDisk Specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */

@@ -51,6 +51,19 @@ public class VirtualMachineScaleSetUpdateVMProfile {
     private String licenseType;
 
     /**
+     * Specifies the billing related details of a low priority VMSS.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     */
+    @JsonProperty(value = "billingProfile")
+    private BillingProfile billingProfile;
+
+    /**
+     * Specifies Scheduled Event related configurations.
+     */
+    @JsonProperty(value = "scheduledEventsProfile")
+    private ScheduledEventsProfile scheduledEventsProfile;
+
+    /**
      * Get the virtual machine scale set OS profile.
      *
      * @return the osProfile value
@@ -167,6 +180,46 @@ public class VirtualMachineScaleSetUpdateVMProfile {
      */
     public VirtualMachineScaleSetUpdateVMProfile withLicenseType(String licenseType) {
         this.licenseType = licenseType;
+        return this;
+    }
+
+    /**
+     * Get specifies the billing related details of a low priority VMSS. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     *
+     * @return the billingProfile value
+     */
+    public BillingProfile billingProfile() {
+        return this.billingProfile;
+    }
+
+    /**
+     * Set specifies the billing related details of a low priority VMSS. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     *
+     * @param billingProfile the billingProfile value to set
+     * @return the VirtualMachineScaleSetUpdateVMProfile object itself.
+     */
+    public VirtualMachineScaleSetUpdateVMProfile withBillingProfile(BillingProfile billingProfile) {
+        this.billingProfile = billingProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies Scheduled Event related configurations.
+     *
+     * @return the scheduledEventsProfile value
+     */
+    public ScheduledEventsProfile scheduledEventsProfile() {
+        return this.scheduledEventsProfile;
+    }
+
+    /**
+     * Set specifies Scheduled Event related configurations.
+     *
+     * @param scheduledEventsProfile the scheduledEventsProfile value to set
+     * @return the VirtualMachineScaleSetUpdateVMProfile object itself.
+     */
+    public VirtualMachineScaleSetUpdateVMProfile withScheduledEventsProfile(ScheduledEventsProfile scheduledEventsProfile) {
+        this.scheduledEventsProfile = scheduledEventsProfile;
         return this;
     }
 

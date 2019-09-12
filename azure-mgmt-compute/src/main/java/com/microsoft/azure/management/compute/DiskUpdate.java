@@ -25,7 +25,7 @@ public class DiskUpdate {
 
     /**
      * If creationData.createOption is Empty, this field is mandatory and it
-     * indicates the size of the VHD to create. If this field is present for
+     * indicates the size of the disk to create. If this field is present for
      * updates or creation with other options, it indicates a resize. Resizes
      * are only allowed if the disk is not attached to a running VM, and can
      * only increase the disk's size.
@@ -88,7 +88,7 @@ public class DiskUpdate {
     }
 
     /**
-     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @return the diskSizeGB value
      */
@@ -97,7 +97,7 @@ public class DiskUpdate {
     }
 
     /**
-     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @param diskSizeGB the diskSizeGB value to set
      * @return the DiskUpdate object itself.

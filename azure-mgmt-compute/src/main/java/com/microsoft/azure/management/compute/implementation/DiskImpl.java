@@ -77,6 +77,12 @@ class DiskImpl
     }
 
     @Override
+    public long sizeInByte() {
+        return this.inner().diskSizeBytes();
+    }
+
+
+    @Override
     public OperatingSystemTypes osType() {
         return this.inner().osType();
     }
@@ -267,6 +273,16 @@ class DiskImpl
                 .creationData()
                 .withCreateOption(DiskCreateOption.IMPORT)
                 .withSourceUri(vhdUrl);
+        return this;
+    }
+
+    @Override
+    public DiskImpl withUploadSizeInMB(long uploadSizeInMB) {
+        this.inner()
+                .withCreationData(new CreationData())
+                .creationData()
+                .withCreateOption(DiskCreateOption.UPLOAD)
+                .withUploadSizeBytes(uploadSizeInMB * 1024 * 1024 + 512);
         return this;
     }
 

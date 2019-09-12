@@ -59,6 +59,11 @@ public interface Disk extends
     int sizeInGB();
 
     /**
+     * @return disk size in byte
+     */
+    long sizeInByte();
+
+    /**
      * @return the type of the operating system on the disk
      */
     OperatingSystemTypes osType();
@@ -137,6 +142,7 @@ public interface Disk extends
             DefinitionStages.WithData,
             DefinitionStages.WithDataDiskSource,
             DefinitionStages.WithDataDiskFromVhd,
+            DefinitionStages.WithDataDiskFromUpload,
             DefinitionStages.WithDataDiskFromDisk,
             DefinitionStages.WithDataDiskFromSnapshot,
             DefinitionStages.WithCreateAndSize,
@@ -276,6 +282,7 @@ public interface Disk extends
          */
         interface WithDataDiskSource extends
                 WithDataDiskFromVhd,
+                WithDataDiskFromUpload,
                 WithDataDiskFromDisk,
                 WithDataDiskFromSnapshot {
             /**
@@ -298,6 +305,20 @@ public interface Disk extends
              * @return the next stage of the definition
              */
             WithCreateAndSize fromVhd(String vhdUrl);
+        }
+
+        /**
+         *  The stage of the managed disk definition allowing to create disk from upload.
+         */
+        interface WithDataDiskFromUpload {
+            /**
+             * Gets or sets if createOption is Upload, this is the size of the
+             * contents of the upload including the VHD footer. This value should
+             * be between 20 (20 MiB) and 33554432 bytes (32 TiB).
+             * @param uploadSizeInMB The size of the contents of the upload in MB
+             * @return The next stage of the definition.
+             */
+            WithCreate withUploadSizeInMB(long uploadSizeInMB);
         }
 
         /**

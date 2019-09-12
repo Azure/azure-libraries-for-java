@@ -42,6 +42,11 @@ public interface Snapshot extends
     SnapshotSkuType skuType();
 
     /**
+     * @return whether a snapshot is incremental
+     */
+    boolean incremental();
+
+    /**
      * @return the snapshot creation method
      */
     DiskCreateOption creationMethod();
@@ -377,6 +382,19 @@ public interface Snapshot extends
         }
 
         /**
+         * The stage of the managed snapshot allowing to specify incremental snapshot.
+         */
+        interface WithIncremental {
+            /**
+             * Specifies whether a snapshot is incremental.
+             *
+             * @param enabled whether to enable incremental snapshot
+             * @return the next stage of the definition
+             */
+            WithCreate withIncremental(boolean enabled);
+        }
+
+        /**
          * The stage of the snapshot definition allowing to choose account type.
          */
         interface WithSku {
@@ -408,7 +426,8 @@ public interface Snapshot extends
                 Creatable<Snapshot>,
                 Resource.DefinitionWithTags<Snapshot.DefinitionStages.WithCreate>,
                 WithSize,
-                WithSku {
+                WithSku,
+                WithIncremental {
         }
     }
 

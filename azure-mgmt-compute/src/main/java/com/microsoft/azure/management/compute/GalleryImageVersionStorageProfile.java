@@ -12,7 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * This is the storage profile of a gallery Image Version.
+ * This is the storage profile of a Gallery Image Version.
  */
 public class GalleryImageVersionStorageProfile {
     /**

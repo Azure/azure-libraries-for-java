@@ -17,6 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.storage.StorageAccount;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -82,6 +83,34 @@ public interface BatchAccount extends
     Map<String, Application> applications();
 
     /**
+     * @return pools in this Batch account, indexed by name
+     */
+    Map<String, Pool> pools();
+
+    /**
+     * @return dedicatedCoreQuotaPerVMFamilyEnforced value indicating
+     * whether the core quota for the Batch Account is enforced
+     * per Virtual Machine family or not
+     */
+    boolean dedicatedCoreQuotaPerVMFamilyEnforced();
+
+    /**
+     * @return a list of the dedicated core quota per Virtual Machine
+     * family for the Batch account
+     */
+    List<VirtualMachineFamilyCoreQuota> dedicatedCoreQuotaPerVMFamily();
+
+    /**
+     * @return the dedicated core quota for the Batch account
+     */
+    Integer dedicatedCoreQuota();
+
+    /**
+     * @return the low-priority core quota for the Batch account
+     */
+    Integer lowPriorityCoreQuota();
+
+    /**
      * The entirety of a Batch account definition.
      */
     interface Definition extends
@@ -91,7 +120,8 @@ public interface BatchAccount extends
         DefinitionStages.WithApplicationAndStorage,
         DefinitionStages.WithCreateAndApplication,
         DefinitionStages.WithApplication,
-        DefinitionStages.WithStorage {
+        DefinitionStages.WithStorage,
+        DefinitionStages.WithPool {
     }
 
     /**
@@ -163,7 +193,21 @@ public interface BatchAccount extends
          */
         interface WithCreateAndApplication extends
                 WithCreate,
-                DefinitionStages.WithApplicationAndStorage {
+                DefinitionStages.WithApplicationAndStorage,
+                DefinitionStages.WithPool {
+        }
+
+        /**
+         * The stage of a Batch account definition allowing the creation of a Batch pool.
+         */
+        interface WithPool {
+            /**
+             * The stage of a Batch account definition allowing to add a Batch pool.
+             *
+             * @param poolId the id of the pool to create
+             * @return the next stage of the definition
+             */
+            Pool.DefinitionStages.Blank<WithPool> defineNewPool(String poolId);
         }
 
         /**
@@ -183,7 +227,8 @@ public interface BatchAccount extends
             Appliable<BatchAccount>,
             Resource.UpdateWithTags<Update>,
             UpdateStages.WithStorageAccount,
-            UpdateStages.WithApplication {
+            UpdateStages.WithApplication,
+            UpdateStages.WithPool {
     }
 
     /**
@@ -253,6 +298,35 @@ public interface BatchAccount extends
              * @return the next stage of the update
              */
             Update withoutApplication(String applicationId);
+        }
+
+        /**
+         * The stage of a Batch account definition allowing the creation of a Batch pool.
+         */
+        interface WithPool {
+            /**
+             * Starts a definition of an pool to be created in the Batch account.
+             *
+             * @param poolId the reference name for the application
+             * @return the first stage of a Batch pool definition
+             */
+            Pool.UpdateDefinitionStages.Blank<Update> defineNewPool(String poolId);
+
+            /**
+             * Begins the description of an update of an existing Batch pool in this Batch account.
+             *
+             * @param poolId the reference name of the pool to be updated
+             * @return the first stage of a Batch pool update
+             */
+            Pool.Update updatePool(String poolId);
+
+            /**
+             * Removes the specified pool from the Batch account.
+             *
+             * @param poolId the reference name for the pool to be removed
+             * @return the next stage of the update
+             */
+            Update withoutPool(String poolId);
         }
     }
 }

@@ -168,6 +168,55 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
     }
 
     @Test
+    public void canCreateLowPriorityVirtualMachine() throws Exception {
+        // Create
+        computeManager.virtualMachines()
+                .define(VMNAME)
+                .withRegion(REGION)
+                .withNewResourceGroup(RG_NAME)
+                .withNewPrimaryNetwork("10.0.0.0/28")
+                .withPrimaryPrivateIPAddressDynamic()
+                .withoutPrimaryPublicIPAddress()
+                .withPopularWindowsImage(KnownWindowsVirtualMachineImage.WINDOWS_SERVER_2012_DATACENTER)
+                .withAdminUsername("Foo12")
+                .withAdminPassword("abc!@#F0orL")
+                .withUnmanagedDisks()
+                .withSize(VirtualMachineSizeTypes.STANDARD_A2)
+                .withOSDiskCaching(CachingTypes.READ_WRITE)
+                .withOSDiskName("javatest")
+                .withLowPriority(VirtualMachineEvictionPolicyTypes.DEALLOCATE)
+                .withMaxPrice(1000.0)
+                .withLicenseType("Windows_Server")
+                .create();
+
+        VirtualMachine foundVM = null;
+        List<VirtualMachine> vms = computeManager.virtualMachines().listByResourceGroup(RG_NAME);
+        for (VirtualMachine vm1 : vms) {
+            if (vm1.name().equals(VMNAME)) {
+                foundVM = vm1;
+                break;
+            }
+        }
+        Assert.assertNotNull(foundVM);
+        Assert.assertEquals(REGION, foundVM.region());
+        // Get
+        foundVM = computeManager.virtualMachines().getByResourceGroup(RG_NAME, VMNAME);
+        Assert.assertNotNull(foundVM);
+        Assert.assertEquals(REGION, foundVM.region());
+        Assert.assertEquals("Windows_Server", foundVM.licenseType());
+        Assert.assertEquals((Double) 1000.0, foundVM.billingProfile().maxPrice());
+        Assert.assertEquals(VirtualMachineEvictionPolicyTypes.DEALLOCATE, foundVM.evictionPolicy());
+
+        foundVM.update()
+                .withMaxPrice(2000.0)
+                .apply();
+
+        Assert.assertEquals((Double) 2000.0, foundVM.billingProfile().maxPrice());
+        // Delete VM
+        computeManager.virtualMachines().deleteById(foundVM.id());
+    }
+
+    @Test
     public void cannotUpdateProximityPlacementGroupForVirtualMachine() throws Exception {
         AvailabilitySet setCreated = computeManager.availabilitySets()
                 .define(AVAILABILITYSETNAME)

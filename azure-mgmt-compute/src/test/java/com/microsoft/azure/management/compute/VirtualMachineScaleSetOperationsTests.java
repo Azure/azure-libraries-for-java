@@ -54,7 +54,7 @@ import java.util.Map;
 
 public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
-    private static final Region REGION = Region.US_EAST;
+    private static final Region REGION = Region.US_WEST;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -1059,7 +1059,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         }
         Assert.assertTrue(backends.size() == 2);
 
-        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
+        this.computeManager.virtualMachineScaleSets()
                 .define(vmss_name)
                 .withRegion(REGION)
                 .withExistingResourceGroup(resourceGroup)
@@ -1076,7 +1076,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                 .withUpgradeMode(UpgradeMode.MANUAL)
                 .create();
 
-        virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets().getByResourceGroup(RG_NAME, vmss_name);
+        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets().getByResourceGroup(RG_NAME, vmss_name);
         VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = virtualMachineScaleSet.virtualMachines();
         VirtualMachineScaleSetVM firstVm = virtualMachineScaleSetVMs.list().get(0);
         VirtualMachineScaleSetVM fetchedVm = virtualMachineScaleSetVMs.getInstance(firstVm.instanceId());
@@ -1084,6 +1084,65 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         VirtualMachineScaleSetVM fetchedAsyncVm = virtualMachineScaleSetVMs.getInstanceAsync(firstVm.instanceId()).toBlocking().single();
         this.checkVmsEqual(firstVm, fetchedAsyncVm);
     }
+
+    @Test
+    public void canCreateLowPriorityVMSSInstance() throws Exception {
+        final String vmss_name = generateRandomResourceName("vmss", 10);
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        Network network = this.networkManager
+                .networks()
+                .define("vmssvnet")
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+
+        LoadBalancer publicLoadBalancer = createInternetFacingLoadBalancer(REGION,
+                resourceGroup,
+                "1",
+                LoadBalancerSkuType.STANDARD);
+
+        List<String> backends = new ArrayList<>();
+        for (String backend : publicLoadBalancer.backends().keySet()) {
+            backends.add(backend);
+        }
+        Assert.assertTrue(backends.size() == 2);
+
+        VirtualMachineScaleSet vmss = this.computeManager.virtualMachineScaleSets()
+                .define(vmss_name)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_D3_V2)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withExistingPrimaryInternetFacingLoadBalancer(publicLoadBalancer)
+                .withPrimaryInternetFacingLoadBalancerBackends(backends.get(0), backends.get(1))
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("jvuser")
+                .withRootPassword("123OData!@#123")
+                .withNewStorageAccount(generateRandomResourceName("stg", 15))
+                .withNewStorageAccount(generateRandomResourceName("stg3", 15))
+                .withUpgradeMode(UpgradeMode.MANUAL)
+                .withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes.DEALLOCATE)
+                .withMaxPrice(-1.0)
+                .create();
+
+        Assert.assertEquals(vmss.virtualMachinePriority(), VirtualMachinePriorityTypes.LOW);
+        Assert.assertEquals(vmss.virtualMachineEvictionPolicy(), VirtualMachineEvictionPolicyTypes.DEALLOCATE);
+        Assert.assertEquals(vmss.billingProfile().maxPrice(), (Double)(-1.0));
+
+        vmss.update()
+                .withMaxPrice(2000.0)
+                .apply();
+        Assert.assertEquals(vmss.billingProfile().maxPrice(), (Double)2000.0);
+    }
+
 
     private void checkVmsEqual(VirtualMachineScaleSetVM original, VirtualMachineScaleSetVM fetched)
     {

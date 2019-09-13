@@ -354,6 +354,12 @@ public interface VirtualMachineScaleSet extends
     VirtualMachinePriorityTypes virtualMachinePriority();
 
     /**
+     * @return the billing related details of the low priority virtual machines in the scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_25_0)
+    BillingProfile billingProfile();
+
+    /**
      * @return the eviction policy of the virtual machines in the scale set.
      */
     @Beta(Beta.SinceVersion.V1_11_0)
@@ -1689,6 +1695,21 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine definition allowing to specify billing profile.
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        interface WithBillingProfile {
+
+            /**
+             * Set the billing related details of the low priority virtual machines in the scale set.
+             * @param maxPrice the maxPrice value to set
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            WithCreate withMaxPrice(Double maxPrice);
+        }
+
+        /**
          * The stage of the virtual machine scale set definition allowing to specify priority for vms in the scale-set.
          */
         @Beta(Beta.SinceVersion.V1_8_0)
@@ -1909,6 +1930,7 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithSystemAssignedManagedServiceIdentity,
                 DefinitionStages.WithUserAssignedManagedServiceIdentity,
                 DefinitionStages.WithBootDiagnostics,
+                DefinitionStages.WithBillingProfile,
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithVirtualMachinePublicIp,
                 DefinitionStages.WithAcceleratedNetworking,
@@ -2380,6 +2402,19 @@ public interface VirtualMachineScaleSet extends
             Update withoutBootDiagnostics();
         }
 
+        /**
+         * The stage of the virtual machine scale set update allowing to specify billing profile.
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        interface WithBillingProfile {
+            /**
+             * Set the billing related details of the low priority virtual machines in the scale set.
+             *
+             * @param maxPrice max price to set
+             * @return the next stage of update
+             */
+            Update withMaxPrice(Double maxPrice);
+        }
 
         /**
          * The stage of the virtual machine scale set definition allowing to specify unmanaged data disk.
@@ -2700,6 +2735,7 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithSystemAssignedManagedServiceIdentity,
                 UpdateStages.WithUserAssignedManagedServiceIdentity,
                 UpdateStages.WithBootDiagnostics,
+                UpdateStages.WithBillingProfile,
                 UpdateStages.WithAvailabilityZone,
                 UpdateStages.WithVirtualMachinePublicIp,
                 UpdateStages.WithAcceleratedNetworking,

@@ -14,6 +14,7 @@ import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AvailabilitySet;
 import com.microsoft.azure.management.compute.AvailabilitySetSkuTypes;
+import com.microsoft.azure.management.compute.BillingProfile;
 import com.microsoft.azure.management.compute.BootDiagnostics;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.DataDisk;
@@ -51,7 +52,9 @@ import com.microsoft.azure.management.compute.VirtualMachineCaptureParameters;
 import com.microsoft.azure.management.compute.VirtualMachineDataDisk;
 import com.microsoft.azure.management.compute.VirtualMachineEncryption;
 import com.microsoft.azure.management.compute.VirtualMachineExtension;
+import com.microsoft.azure.management.compute.VirtualMachineEvictionPolicyTypes;
 import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
+import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSize;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.compute.VirtualMachineUnmanagedDataDisk;
@@ -1365,6 +1368,31 @@ class VirtualMachineImpl
     }
 
     @Override
+    public VirtualMachineImpl withPriority(VirtualMachinePriorityTypes priority) {
+        this.inner().withPriority(priority);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withLowPriority() {
+        this.withPriority(VirtualMachinePriorityTypes.LOW);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withLowPriority(VirtualMachineEvictionPolicyTypes policy) {
+        this.withLowPriority();
+        this.inner().withEvictionPolicy(policy);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineImpl withMaxPrice(Double maxPrice) {
+        this.inner().withBillingProfile(new BillingProfile().withMaxPrice(maxPrice));
+        return this;
+    }
+
+    @Override
     public VirtualMachineImpl withSystemAssignedManagedServiceIdentity() {
         this.virtualMachineMsiHandler.withLocalManagedServiceIdentity();
         return this;
@@ -1731,6 +1759,21 @@ class VirtualMachineImpl
         return Collections.unmodifiableSet(new HashSet<String>());
     }
 
+    @Override
+    public BillingProfile billingProfile() {
+        return this.inner().billingProfile();
+    }
+
+    @Override
+    public VirtualMachinePriorityTypes priority() {
+        return  this.inner().priority();
+    }
+
+    @Override
+    public VirtualMachineEvictionPolicyTypes evictionPolicy() {
+        return  this.inner().evictionPolicy();
+    }
+
     // CreateUpdateTaskGroup.ResourceCreator.beforeGroupCreateOrUpdate implementation
     //
     @Override
@@ -1816,6 +1859,7 @@ class VirtualMachineImpl
         updateParameter.withOsProfile(this.inner().osProfile());
         updateParameter.withNetworkProfile(this.inner().networkProfile());
         updateParameter.withDiagnosticsProfile(this.inner().diagnosticsProfile());
+        updateParameter.withBillingProfile(this.inner().billingProfile());
         updateParameter.withAvailabilitySet(this.inner().availabilitySet());
         updateParameter.withLicenseType(this.inner().licenseType());
         updateParameter.withZones(this.inner().zones());

@@ -41,6 +41,7 @@ class VMSSPatchPayload {
             updateVMProfile.withDiagnosticsProfile(scaleSet.inner().virtualMachineProfile().diagnosticsProfile());
             updateVMProfile.withExtensionProfile(scaleSet.inner().virtualMachineProfile().extensionProfile());
             updateVMProfile.withLicenseType(scaleSet.inner().virtualMachineProfile().licenseType());
+            updateVMProfile.withBillingProfile(scaleSet.inner().virtualMachineProfile().billingProfile());
             //
             if (scaleSet.inner().virtualMachineProfile().storageProfile() != null) {
                 // -- --

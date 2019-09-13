@@ -490,6 +490,25 @@ public interface VirtualMachine extends
      */
     Set<String> userAssignedManagedServiceIdentityIds();
 
+    /**
+     * @return the priority for the virtual machine.
+     */
+    @Beta(Beta.SinceVersion.V1_25_0)
+    VirtualMachinePriorityTypes priority();
+
+
+    /**
+     * @return the eviction policy for the virtual machine.
+     */
+    @Beta(Beta.SinceVersion.V1_25_0)
+    VirtualMachineEvictionPolicyTypes evictionPolicy();
+
+    /**
+     * @return the billing related details of a low priority virtual machine
+     */
+    @Beta(Beta.SinceVersion.V1_25_0)
+    BillingProfile billingProfile();
+
     // Setters
     //
 
@@ -1616,6 +1635,53 @@ public interface VirtualMachine extends
         }
 
         /**
+         * The stage of the virtual machine definition allowing to specify priority.
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        interface WithPriority {
+            /**
+             * Specifies the priority of the virtual machine.
+             *
+             * @param priority the priority to set
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            WithCreate withPriority(VirtualMachinePriorityTypes priority);
+
+            /**
+             * Specify that virtual machine should be low priority.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            WithCreate withLowPriority();
+
+            /**
+             * Specify that virtual machines should be low priority VMs with the provided eviction policy.
+             *
+             * @param policy eviction policy for the virtual machine
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            WithCreate withLowPriority(VirtualMachineEvictionPolicyTypes policy);
+        }
+
+        /**
+         * The stage of a virtual machine definition allowing to set the billing related details of a low priority virtual machine.
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        interface WithBillingProfile {
+
+            /**
+             * Set the billing related details of a low priority virtual machine.
+             * @param maxPrice the maxPrice value to set
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            WithCreate withMaxPrice(Double maxPrice);
+        }
+
+        /**
          * The stage of the virtual machine definition allowing to enable System Assigned (Local) Managed Service Identity.
          */
         @Beta(Beta.SinceVersion.V1_5_0)
@@ -1805,6 +1871,8 @@ public interface VirtualMachine extends
                 DefinitionStages.WithExtension,
                 DefinitionStages.WithPlan,
                 DefinitionStages.WithBootDiagnostics,
+                DefinitionStages.WithPriority,
+                DefinitionStages.WithBillingProfile,
                 DefinitionStages.WithSystemAssignedManagedServiceIdentity,
                 DefinitionStages.WithUserAssignedManagedServiceIdentity,
                 DefinitionStages.WithLicenseType {
@@ -1835,6 +1903,21 @@ public interface VirtualMachine extends
              * @return the next stage of the definition.
              */
             Update withoutProximityPlacementGroup();
+        }
+
+        /**
+
+        /**
+         * The stage of the virtual machine update allowing to specify billing profile.
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        interface WithBillingProfile {
+            /**
+             * Set the billing related details of a low priority virtual machine.
+             * @param maxPrice the maxPrice value to set
+             * @return the next stage of the update
+             */
+            Update withMaxPrice(Double maxPrice);
         }
 
         /**
@@ -2274,6 +2357,7 @@ public interface VirtualMachine extends
             UpdateStages.WithSecondaryNetworkInterface,
             UpdateStages.WithExtension,
             UpdateStages.WithBootDiagnostics,
+            UpdateStages.WithBillingProfile,
             UpdateStages.WithSystemAssignedManagedServiceIdentity,
             UpdateStages.WithUserAssignedManagedServiceIdentity,
             UpdateStages.WithLicenseType {

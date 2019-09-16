@@ -1673,7 +1673,7 @@ public interface VirtualMachine extends
         interface WithBillingProfile {
 
             /**
-             * Set the billing related details of a low priority virtual machine.
+             * Set the billing related details of a low priority virtual machine. This price is in US Dollars.
              * @param maxPrice the maxPrice value to set
              * @return the next stage of the definition
              */

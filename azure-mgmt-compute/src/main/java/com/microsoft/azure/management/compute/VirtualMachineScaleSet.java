@@ -1701,7 +1701,7 @@ public interface VirtualMachineScaleSet extends
         interface WithBillingProfile {
 
             /**
-             * Set the billing related details of the low priority virtual machines in the scale set.
+             * Set the billing related details of the low priority virtual machines in the scale set. This price is in US Dollars.
              * @param maxPrice the maxPrice value to set
              * @return the next stage of the definition
              */

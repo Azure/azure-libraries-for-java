@@ -45,6 +45,11 @@ class ApplicationGatewaySslCertificateImpl
         return this.inner().publicCertData();
     }
 
+    @Override
+    public String keyVaultSecretId() {
+        return this.inner().keyVaultSecretId();
+    }
+
     // Verbs
 
     @Override
@@ -75,6 +80,12 @@ class ApplicationGatewaySslCertificateImpl
     @Override
     public ApplicationGatewaySslCertificateImpl withPfxPassword(String password) {
         this.inner().withPassword(password);
+        return this;
+    }
+
+    @Override
+    public ApplicationGatewaySslCertificateImpl withKeyVaultSecretId(String keyVaultSecretId) {
+        this.inner().withKeyVaultSecretId(keyVaultSecretId);
         return this;
     }
 

@@ -27,7 +27,7 @@ public class WebAppConfigTests extends AppServiceTest {
     public void canCRUDWebAppConfig() throws Exception {
         // Create with new app service plan
         appServiceManager.webApps().define(WEBAPP_NAME)
-                .withRegion(Region.US_WEST2)
+                .withRegion(Region.US_EAST)
                 .withNewResourceGroup(RG_NAME)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
                 .withNetFrameworkVersion(NetFrameworkVersion.V3_0)
@@ -35,7 +35,7 @@ public class WebAppConfigTests extends AppServiceTest {
 
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Assert.assertNotNull(webApp);
-        Assert.assertEquals(Region.US_WEST2, webApp.region());
+        Assert.assertEquals(Region.US_EAST, webApp.region());
         Assert.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
 
         // Java version
@@ -98,13 +98,23 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withFtpsState(FtpsState.FTPS_ONLY)
                 .apply();
         Assert.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
+
+        // Logs
+        webApp = webApp.update()
+                .withContainerLoggingEnabled()
+                .apply();
+        Assert.assertTrue(webApp.diagnosticLogsConfig().inner().httpLogs().fileSystem().enabled());
+        // verify on new instance
+        // https://github.com/Azure/azure-libraries-for-java/issues/759
+        webApp = appServiceManager.webApps().getById(webApp.id());
+        Assert.assertTrue(webApp.diagnosticLogsConfig().inner().httpLogs().fileSystem().enabled());
     }
 
     @Test
     public void canCRUDWebAppConfigJava11() throws Exception {
         // Create with new app service plan
         appServiceManager.webApps().define(WEBAPP_NAME)
-                .withRegion(Region.US_WEST2)
+                .withRegion(Region.US_EAST)
                 .withNewResourceGroup(RG_NAME)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
                 .withNetFrameworkVersion(NetFrameworkVersion.V3_0)
@@ -112,7 +122,7 @@ public class WebAppConfigTests extends AppServiceTest {
 
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Assert.assertNotNull(webApp);
-        Assert.assertEquals(Region.US_WEST2, webApp.region());
+        Assert.assertEquals(Region.US_EAST, webApp.region());
         Assert.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
 
         // Java version

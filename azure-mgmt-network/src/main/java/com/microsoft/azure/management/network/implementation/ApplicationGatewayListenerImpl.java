@@ -194,6 +194,21 @@ class ApplicationGatewayListenerImpl
     }
 
     @Override
+    public ApplicationGatewayListenerImpl withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId) {
+        return withSslCertificateFromKeyVaultSecretId(keyVaultSecretId, null);
+    }
+
+    private ApplicationGatewayListenerImpl withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId, String name) {
+        if (name == null) {
+            name = SdkContext.randomResourceName("cert", 10);
+        }
+        this.parent().defineSslCertificate(name)
+            .withKeyVaultSecretId(keyVaultSecretId)
+            .attach();
+        return this;
+    }
+
+    @Override
     public ApplicationGatewayListenerImpl withSslCertificateFromPfxFile(File pfxFile) throws IOException {
         return withSslCertificateFromPfxFile(pfxFile, null);
     }

@@ -35,6 +35,7 @@ import com.microsoft.azure.management.network.ApplicationGatewayTier;
 import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
 import com.microsoft.azure.management.network.ApplicationGatewayWebApplicationFirewallConfiguration;
 import com.microsoft.azure.management.network.IPAllocationMethod;
+import com.microsoft.azure.management.network.ManagedServiceIdentity;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.Subnet;
@@ -809,6 +810,12 @@ class ApplicationGatewayImpl
     @Override
     public ApplicationGatewayImpl withExistingSubnet(String networkResourceId, String subnetName) {
         ensureDefaultIPConfig().withExistingSubnet(networkResourceId, subnetName);
+        return this;
+    }
+
+    @Override
+    public ApplicationGatewayImpl withIdentity(ManagedServiceIdentity identity) {
+        this.inner().withIdentity(identity);
         return this;
     }
 

@@ -49,7 +49,7 @@ public class ManagedClusterUpgradeProfileInner {
     private List<ManagedClusterPoolUpgradeProfile> agentPoolProfiles;
 
     /**
-     * Get the id value.
+     * Get id of upgrade profile.
      *
      * @return the id value
      */
@@ -58,7 +58,7 @@ public class ManagedClusterUpgradeProfileInner {
     }
 
     /**
-     * Get the name value.
+     * Get name of upgrade profile.
      *
      * @return the name value
      */
@@ -67,7 +67,7 @@ public class ManagedClusterUpgradeProfileInner {
     }
 
     /**
-     * Get the type value.
+     * Get type of upgrade profile.
      *
      * @return the type value
      */
@@ -76,7 +76,7 @@ public class ManagedClusterUpgradeProfileInner {
     }
 
     /**
-     * Get the controlPlaneProfile value.
+     * Get the list of available upgrade versions for the control plane.
      *
      * @return the controlPlaneProfile value
      */
@@ -85,7 +85,7 @@ public class ManagedClusterUpgradeProfileInner {
     }
 
     /**
-     * Set the controlPlaneProfile value.
+     * Set the list of available upgrade versions for the control plane.
      *
      * @param controlPlaneProfile the controlPlaneProfile value to set
      * @return the ManagedClusterUpgradeProfileInner object itself.
@@ -96,7 +96,7 @@ public class ManagedClusterUpgradeProfileInner {
     }
 
     /**
-     * Get the agentPoolProfiles value.
+     * Get the list of available upgrade versions for agent pools.
      *
      * @return the agentPoolProfiles value
      */
@@ -105,7 +105,7 @@ public class ManagedClusterUpgradeProfileInner {
     }
 
     /**
-     * Set the agentPoolProfiles value.
+     * Set the list of available upgrade versions for agent pools.
      *
      * @param agentPoolProfiles the agentPoolProfiles value to set
      * @return the ManagedClusterUpgradeProfileInner object itself.

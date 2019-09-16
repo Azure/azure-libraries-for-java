@@ -43,9 +43,9 @@ public interface KubernetesClusterAgentPool
     OSType osType();
 
     /**
-     * @return the storage kind (managed or classic) set for each virtual machine in the agent pool
+     * @return agent pool type
      */
-    ContainerServiceStorageProfileTypes storageProfile();
+    AgentPoolType type();
 
     /**
      * @return the name of the subnet used by each virtual machine in the agent pool
@@ -71,6 +71,7 @@ public interface KubernetesClusterAgentPool
         DefinitionStages.Blank<ParentT>,
         DefinitionStages.WithOSType<ParentT>,
         DefinitionStages.WithOSDiskSize<ParentT>,
+        DefinitionStages.WithAgentPoolType<ParentT>,
         DefinitionStages.WithAgentPoolVirtualMachineCount<ParentT>,
         DefinitionStages.WithMaxPodsCount<ParentT>,
         DefinitionStages.WithVirtualNetwork<ParentT>,
@@ -126,6 +127,30 @@ public interface KubernetesClusterAgentPool
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withOSDiskSizeInGB(int osDiskSizeInGB);
+        }
+
+        /**
+         * The stage of a container service agent pool definition allowing to specify the type of agent pool.
+         * Allowed values could be seen in AgentPoolType Class.
+         *
+         * @param <ParentT>  the stage of the container service definition to return to after attaching this definition
+         */
+        interface WithAgentPoolType<ParentT> {
+            /**
+             * Set agent pool type to every virtual machine in the agent pool.
+             * 
+             * @param agentPoolType the agent pool type for every machine in the agent pool
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withAgentPoolType(AgentPoolType agentPoolType);
+
+            /**
+             * Set agent pool type by type name.
+             * 
+             * @param agentPoolTypeName the agent pool type name in string format
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withAgentPoolTypeName(String agentPoolTypeName);
         }
 
         /**
@@ -193,6 +218,7 @@ public interface KubernetesClusterAgentPool
         interface WithAttach<ParentT> extends
             WithOSType<ParentT>,
             WithOSDiskSize<ParentT>,
+            WithAgentPoolType<ParentT>,
             WithAgentPoolVirtualMachineCount<ParentT>,
             WithMaxPodsCount<ParentT>,
             WithVirtualNetwork<ParentT>,

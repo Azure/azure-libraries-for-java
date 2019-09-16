@@ -63,13 +63,25 @@ public class SnapshotInner extends Resource {
 
     /**
      * If creationData.createOption is Empty, this field is mandatory and it
-     * indicates the size of the VHD to create. If this field is present for
+     * indicates the size of the disk to create. If this field is present for
      * updates or creation with other options, it indicates a resize. Resizes
      * are only allowed if the disk is not attached to a running VM, and can
      * only increase the disk's size.
      */
     @JsonProperty(value = "properties.diskSizeGB")
     private Integer diskSizeGB;
+
+    /**
+     * The size of the disk in bytes. This field is read only.
+     */
+    @JsonProperty(value = "properties.diskSizeBytes", access = JsonProperty.Access.WRITE_ONLY)
+    private Long diskSizeBytes;
+
+    /**
+     * Unique Guid identifying the resource.
+     */
+    @JsonProperty(value = "properties.uniqueId", access = JsonProperty.Access.WRITE_ONLY)
+    private String uniqueId;
 
     /**
      * Encryption settings collection used be Azure Disk Encryption, can
@@ -83,6 +95,13 @@ public class SnapshotInner extends Resource {
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
+
+    /**
+     * Whether a snapshot is incremental. Incremental snapshots on the same
+     * disk occupy less space than full snapshots and can be diffed.
+     */
+    @JsonProperty(value = "properties.incremental")
+    private Boolean incremental;
 
     /**
      * Get unused. Always Null.
@@ -183,7 +202,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @return the diskSizeGB value
      */
@@ -192,7 +211,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @param diskSizeGB the diskSizeGB value to set
      * @return the SnapshotInner object itself.
@@ -200,6 +219,24 @@ public class SnapshotInner extends Resource {
     public SnapshotInner withDiskSizeGB(Integer diskSizeGB) {
         this.diskSizeGB = diskSizeGB;
         return this;
+    }
+
+    /**
+     * Get the size of the disk in bytes. This field is read only.
+     *
+     * @return the diskSizeBytes value
+     */
+    public Long diskSizeBytes() {
+        return this.diskSizeBytes;
+    }
+
+    /**
+     * Get unique Guid identifying the resource.
+     *
+     * @return the uniqueId value
+     */
+    public String uniqueId() {
+        return this.uniqueId;
     }
 
     /**
@@ -229,6 +266,26 @@ public class SnapshotInner extends Resource {
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
+     *
+     * @return the incremental value
+     */
+    public Boolean incremental() {
+        return this.incremental;
+    }
+
+    /**
+     * Set whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
+     *
+     * @param incremental the incremental value to set
+     * @return the SnapshotInner object itself.
+     */
+    public SnapshotInner withIncremental(Boolean incremental) {
+        this.incremental = incremental;
+        return this;
     }
 
 }

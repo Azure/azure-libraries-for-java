@@ -35,8 +35,6 @@ public class Dimension {
 
     /**
      * Creates an instance of Dimension class.
-     * @param name name of the dimension.
-     * @param values list of dimension values.
      */
     public Dimension() {
         operator = "Include";

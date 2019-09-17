@@ -35,14 +35,29 @@ public class PoolsImpl extends
         this.cacheCollection();
     }
 
+    /**
+     * Define a new pool.
+     *
+     * @param name pool name value
+     */
     public PoolImpl define(String name) {
         return this.prepareInlineDefine(name);
     }
 
+    /**
+     * Update the pool.
+     *
+     * @param name pool name value
+     */
     public PoolImpl update(String name) {
         return this.prepareInlineUpdate(name);
     }
 
+    /**
+     * Remove the pool.
+     *
+     * @param name pool name value
+     */
     public void remove(String name) {
         this.prepareInlineRemove(name);
     }
@@ -76,10 +91,18 @@ public class PoolsImpl extends
         return pool;
     }
 
+    /**
+     * Add a new pool.
+     *
+     * @param pool the pool to add
+     */
     public void addPool(PoolImpl pool) {
         this.addChildResource(pool);
     }
 
+    /**
+     * Return the map of pool.
+     */
     public Map<String, Pool> asMap() {
         Map<String, Pool> result = new HashMap<>();
         for (Map.Entry<String, PoolImpl> entry: this.collection().entrySet()) {

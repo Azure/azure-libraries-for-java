@@ -43,11 +43,11 @@ public class PoolImpl
     protected PoolImpl(
             String name,
             BatchAccountImpl batchAccount,
-            PoolInner inner){
+            PoolInner inner) {
         super(name, batchAccount, inner);
     }
 
-    protected static PoolImpl newPool (
+    protected static PoolImpl newPool(
             String name,
             BatchAccountImpl parent) {
         PoolInner inner = new PoolInner();

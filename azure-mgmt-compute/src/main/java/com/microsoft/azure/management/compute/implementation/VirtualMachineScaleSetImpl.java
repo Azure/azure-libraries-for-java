@@ -11,6 +11,7 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AdditionalCapabilities;
 import com.microsoft.azure.management.compute.ApiEntityReference;
+import com.microsoft.azure.management.compute.BillingProfile;
 import com.microsoft.azure.management.compute.BootDiagnostics;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.DiagnosticsProfile;
@@ -457,6 +458,15 @@ public class VirtualMachineScaleSetImpl
     public VirtualMachinePriorityTypes virtualMachinePriority() {
         if (this.inner().virtualMachineProfile() != null) {
             return this.inner().virtualMachineProfile().priority();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public BillingProfile billingProfile() {
+        if (this.inner().virtualMachineProfile() != null) {
+            return this.inner().virtualMachineProfile().billingProfile();
         } else {
             return null;
         }
@@ -2359,6 +2369,12 @@ public class VirtualMachineScaleSetImpl
     @Override
     public VirtualMachineScaleSetImpl withoutBootDiagnostics() {
         this.bootDiagnosticsHandler.withoutBootDiagnostics();
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withMaxPrice(Double maxPrice) {
+        this.inner().virtualMachineProfile().withBillingProfile(new BillingProfile().withMaxPrice(maxPrice));
         return this;
     }
 

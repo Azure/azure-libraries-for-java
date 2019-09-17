@@ -102,14 +102,18 @@ public class OperationsInner {
      * @return the observable to the List&lt;OperationValueInner&gt; object
      */
     public Observable<ServiceResponse<List<OperationValueInner>>> listWithServiceResponseAsync() {
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.list(apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<OperationValueInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<OperationValueInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl1<OperationValueInner>> result = listDelegate(response);
-                        ServiceResponse<List<OperationValueInner>> clientResponse = new ServiceResponse<List<OperationValueInner>>(result.body().items(), result.response());
+                        List<OperationValueInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<OperationValueInner>> clientResponse = new ServiceResponse<List<OperationValueInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

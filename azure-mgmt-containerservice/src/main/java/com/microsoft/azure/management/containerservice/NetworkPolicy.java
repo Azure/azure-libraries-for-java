@@ -19,6 +19,9 @@ public final class NetworkPolicy extends ExpandableStringEnum<NetworkPolicy> {
     /** Static value calico for NetworkPolicy. */
     public static final NetworkPolicy CALICO = fromString("calico");
 
+    /** Static value azure for NetworkPolicy. */
+    public static final NetworkPolicy AZURE = fromString("azure");
+
     /**
      * Creates or finds a NetworkPolicy from its string representation.
      * @param name a name to look for

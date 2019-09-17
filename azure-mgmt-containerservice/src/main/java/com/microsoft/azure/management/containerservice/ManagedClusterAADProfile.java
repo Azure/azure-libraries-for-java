@@ -29,7 +29,7 @@ public class ManagedClusterAADProfile {
     /**
      * The server AAD application secret.
      */
-    @JsonProperty(value = "serverAppSecret", required = true)
+    @JsonProperty(value = "serverAppSecret")
     private String serverAppSecret;
 
     /**
@@ -40,7 +40,7 @@ public class ManagedClusterAADProfile {
     private String tenantID;
 
     /**
-     * Get the clientAppID value.
+     * Get the client AAD application ID.
      *
      * @return the clientAppID value
      */
@@ -49,7 +49,7 @@ public class ManagedClusterAADProfile {
     }
 
     /**
-     * Set the clientAppID value.
+     * Set the client AAD application ID.
      *
      * @param clientAppID the clientAppID value to set
      * @return the ManagedClusterAADProfile object itself.
@@ -60,7 +60,7 @@ public class ManagedClusterAADProfile {
     }
 
     /**
-     * Get the serverAppID value.
+     * Get the server AAD application ID.
      *
      * @return the serverAppID value
      */
@@ -69,7 +69,7 @@ public class ManagedClusterAADProfile {
     }
 
     /**
-     * Set the serverAppID value.
+     * Set the server AAD application ID.
      *
      * @param serverAppID the serverAppID value to set
      * @return the ManagedClusterAADProfile object itself.
@@ -80,7 +80,7 @@ public class ManagedClusterAADProfile {
     }
 
     /**
-     * Get the serverAppSecret value.
+     * Get the server AAD application secret.
      *
      * @return the serverAppSecret value
      */
@@ -89,7 +89,7 @@ public class ManagedClusterAADProfile {
     }
 
     /**
-     * Set the serverAppSecret value.
+     * Set the server AAD application secret.
      *
      * @param serverAppSecret the serverAppSecret value to set
      * @return the ManagedClusterAADProfile object itself.
@@ -100,7 +100,7 @@ public class ManagedClusterAADProfile {
     }
 
     /**
-     * Get the tenantID value.
+     * Get the AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
      *
      * @return the tenantID value
      */
@@ -109,7 +109,7 @@ public class ManagedClusterAADProfile {
     }
 
     /**
-     * Set the tenantID value.
+     * Set the AAD tenant ID to use for authentication. If not specified, will use the tenant of the deployment subscription.
      *
      * @param tenantID the tenantID value to set
      * @return the ManagedClusterAADProfile object itself.

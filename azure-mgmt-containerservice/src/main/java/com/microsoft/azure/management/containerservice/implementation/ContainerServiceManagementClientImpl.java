@@ -51,11 +51,11 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /** The preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -64,7 +64,7 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -74,11 +74,11 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -87,7 +87,7 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -97,11 +97,11 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -110,7 +110,7 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -118,6 +118,19 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
     public ContainerServiceManagementClientImpl withGenerateClientRequestId(boolean generateClientRequestId) {
         this.generateClientRequestId = generateClientRequestId;
         return this;
+    }
+
+    /**
+     * The OpenShiftManagedClustersInner object to access its operations.
+     */
+    private OpenShiftManagedClustersInner openShiftManagedClusters;
+
+    /**
+     * Gets the OpenShiftManagedClustersInner object to access its operations.
+     * @return the OpenShiftManagedClustersInner object.
+     */
+    public OpenShiftManagedClustersInner openShiftManagedClusters() {
+        return this.openShiftManagedClusters;
     }
 
     /**
@@ -160,6 +173,19 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The AgentPoolsInner object to access its operations.
+     */
+    private AgentPoolsInner agentPools;
+
+    /**
+     * Gets the AgentPoolsInner object to access its operations.
+     * @return the AgentPoolsInner object.
+     */
+    public AgentPoolsInner agentPools() {
+        return this.agentPools;
+    }
+
+    /**
      * Initializes an instance of ContainerServiceManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -193,9 +219,11 @@ public class ContainerServiceManagementClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
+        this.openShiftManagedClusters = new OpenShiftManagedClustersInner(restClient().retrofit(), this);
         this.containerServices = new ContainerServicesInner(restClient().retrofit(), this);
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.managedClusters = new ManagedClustersInner(restClient().retrofit(), this);
+        this.agentPools = new AgentPoolsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

@@ -67,10 +67,14 @@ class SnapshotImpl
         }
     }
 
-
     @Override
     public DiskCreateOption creationMethod() {
         return this.inner().creationData().createOption();
+    }
+
+    @Override
+    public boolean incremental() {
+        return this.inner().incremental();
     }
 
     @Override
@@ -282,6 +286,12 @@ class SnapshotImpl
     @Override
     public SnapshotImpl withSizeInGB(int sizeInGB) {
         this.inner().withDiskSizeGB(sizeInGB);
+        return this;
+    }
+
+    @Override
+    public SnapshotImpl withIncremental(boolean enabled) {
+        this.inner().withIncremental(enabled);
         return this;
     }
 

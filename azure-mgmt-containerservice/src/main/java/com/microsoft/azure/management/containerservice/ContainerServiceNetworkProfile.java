@@ -23,7 +23,7 @@ public class ContainerServiceNetworkProfile {
 
     /**
      * Network policy used for building Kubernetes network. Possible values
-     * include: 'calico'.
+     * include: 'calico', 'azure'.
      */
     @JsonProperty(value = "networkPolicy")
     private NetworkPolicy networkPolicy;
@@ -58,7 +58,20 @@ public class ContainerServiceNetworkProfile {
     private String dockerBridgeCidr;
 
     /**
-     * Get the networkPlugin value.
+     * The load balancer sku for the managed cluster. Possible values include:
+     * 'standard', 'basic'.
+     */
+    @JsonProperty(value = "loadBalancerSku")
+    private LoadBalancerSku loadBalancerSku;
+
+    /**
+     * Profile of the cluster load balancer.
+     */
+    @JsonProperty(value = "loadBalancerProfile")
+    private ManagedClusterLoadBalancerProfile loadBalancerProfile;
+
+    /**
+     * Get network plugin used for building Kubernetes network. Possible values include: 'azure', 'kubenet'.
      *
      * @return the networkPlugin value
      */
@@ -67,7 +80,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Set the networkPlugin value.
+     * Set network plugin used for building Kubernetes network. Possible values include: 'azure', 'kubenet'.
      *
      * @param networkPlugin the networkPlugin value to set
      * @return the ContainerServiceNetworkProfile object itself.
@@ -78,7 +91,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Get the networkPolicy value.
+     * Get network policy used for building Kubernetes network. Possible values include: 'calico', 'azure'.
      *
      * @return the networkPolicy value
      */
@@ -87,7 +100,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Set the networkPolicy value.
+     * Set network policy used for building Kubernetes network. Possible values include: 'calico', 'azure'.
      *
      * @param networkPolicy the networkPolicy value to set
      * @return the ContainerServiceNetworkProfile object itself.
@@ -98,7 +111,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Get the podCidr value.
+     * Get a CIDR notation IP range from which to assign pod IPs when kubenet is used.
      *
      * @return the podCidr value
      */
@@ -107,7 +120,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Set the podCidr value.
+     * Set a CIDR notation IP range from which to assign pod IPs when kubenet is used.
      *
      * @param podCidr the podCidr value to set
      * @return the ContainerServiceNetworkProfile object itself.
@@ -118,7 +131,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Get the serviceCidr value.
+     * Get a CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
      *
      * @return the serviceCidr value
      */
@@ -127,7 +140,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Set the serviceCidr value.
+     * Set a CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges.
      *
      * @param serviceCidr the serviceCidr value to set
      * @return the ContainerServiceNetworkProfile object itself.
@@ -138,7 +151,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Get the dnsServiceIP value.
+     * Get an IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
      *
      * @return the dnsServiceIP value
      */
@@ -147,7 +160,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Set the dnsServiceIP value.
+     * Set an IP address assigned to the Kubernetes DNS service. It must be within the Kubernetes service address range specified in serviceCidr.
      *
      * @param dnsServiceIP the dnsServiceIP value to set
      * @return the ContainerServiceNetworkProfile object itself.
@@ -158,7 +171,7 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Get the dockerBridgeCidr value.
+     * Get a CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.
      *
      * @return the dockerBridgeCidr value
      */
@@ -167,13 +180,53 @@ public class ContainerServiceNetworkProfile {
     }
 
     /**
-     * Set the dockerBridgeCidr value.
+     * Set a CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the Kubernetes service address range.
      *
      * @param dockerBridgeCidr the dockerBridgeCidr value to set
      * @return the ContainerServiceNetworkProfile object itself.
      */
     public ContainerServiceNetworkProfile withDockerBridgeCidr(String dockerBridgeCidr) {
         this.dockerBridgeCidr = dockerBridgeCidr;
+        return this;
+    }
+
+    /**
+     * Get the load balancer sku for the managed cluster. Possible values include: 'standard', 'basic'.
+     *
+     * @return the loadBalancerSku value
+     */
+    public LoadBalancerSku loadBalancerSku() {
+        return this.loadBalancerSku;
+    }
+
+    /**
+     * Set the load balancer sku for the managed cluster. Possible values include: 'standard', 'basic'.
+     *
+     * @param loadBalancerSku the loadBalancerSku value to set
+     * @return the ContainerServiceNetworkProfile object itself.
+     */
+    public ContainerServiceNetworkProfile withLoadBalancerSku(LoadBalancerSku loadBalancerSku) {
+        this.loadBalancerSku = loadBalancerSku;
+        return this;
+    }
+
+    /**
+     * Get profile of the cluster load balancer.
+     *
+     * @return the loadBalancerProfile value
+     */
+    public ManagedClusterLoadBalancerProfile loadBalancerProfile() {
+        return this.loadBalancerProfile;
+    }
+
+    /**
+     * Set profile of the cluster load balancer.
+     *
+     * @param loadBalancerProfile the loadBalancerProfile value to set
+     * @return the ContainerServiceNetworkProfile object itself.
+     */
+    public ContainerServiceNetworkProfile withLoadBalancerProfile(ManagedClusterLoadBalancerProfile loadBalancerProfile) {
+        this.loadBalancerProfile = loadBalancerProfile;
         return this;
     }
 

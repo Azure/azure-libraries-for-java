@@ -16,13 +16,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VirtualMachineReimageParameters {
     /**
-     * Specifies whether to reimage temp disk. Default value: false.
+     * Specifies whether to reimage temp disk. Default value: false. Note: This
+     * temp disk reimage parameter is only supported for VM/VMSS with Ephemeral
+     * OS disk.
      */
     @JsonProperty(value = "tempDisk")
     private Boolean tempDisk;
 
     /**
-     * Get specifies whether to reimage temp disk. Default value: false.
+     * Get specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      *
      * @return the tempDisk value
      */
@@ -31,7 +33,7 @@ public class VirtualMachineReimageParameters {
     }
 
     /**
-     * Set specifies whether to reimage temp disk. Default value: false.
+     * Set specifies whether to reimage temp disk. Default value: false. Note: This temp disk reimage parameter is only supported for VM/VMSS with Ephemeral OS disk.
      *
      * @param tempDisk the tempDisk value to set
      * @return the VirtualMachineReimageParameters object itself.

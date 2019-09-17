@@ -71,13 +71,25 @@ public class DiskInner extends Resource {
 
     /**
      * If creationData.createOption is Empty, this field is mandatory and it
-     * indicates the size of the VHD to create. If this field is present for
+     * indicates the size of the disk to create. If this field is present for
      * updates or creation with other options, it indicates a resize. Resizes
      * are only allowed if the disk is not attached to a running VM, and can
      * only increase the disk's size.
      */
     @JsonProperty(value = "properties.diskSizeGB")
     private Integer diskSizeGB;
+
+    /**
+     * The size of the disk in bytes. This field is read only.
+     */
+    @JsonProperty(value = "properties.diskSizeBytes", access = JsonProperty.Access.WRITE_ONLY)
+    private Long diskSizeBytes;
+
+    /**
+     * Unique Guid identifying the resource.
+     */
+    @JsonProperty(value = "properties.uniqueId", access = JsonProperty.Access.WRITE_ONLY)
+    private String uniqueId;
 
     /**
      * Encryption settings collection used for Azure Disk Encryption, can
@@ -233,7 +245,7 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @return the diskSizeGB value
      */
@@ -242,7 +254,7 @@ public class DiskInner extends Resource {
     }
 
     /**
-     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @param diskSizeGB the diskSizeGB value to set
      * @return the DiskInner object itself.
@@ -250,6 +262,24 @@ public class DiskInner extends Resource {
     public DiskInner withDiskSizeGB(Integer diskSizeGB) {
         this.diskSizeGB = diskSizeGB;
         return this;
+    }
+
+    /**
+     * Get the size of the disk in bytes. This field is read only.
+     *
+     * @return the diskSizeBytes value
+     */
+    public Long diskSizeBytes() {
+        return this.diskSizeBytes;
+    }
+
+    /**
+     * Get unique Guid identifying the resource.
+     *
+     * @return the uniqueId value
+     */
+    public String uniqueId() {
+        return this.uniqueId;
     }
 
     /**

@@ -7,7 +7,16 @@
 package com.microsoft.azure.management.batch.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batch.*;
+import com.microsoft.azure.management.batch.BatchAccount;
+import com.microsoft.azure.management.batch.BatchAccountCreateParameters;
+import com.microsoft.azure.management.batch.AutoStorageProperties;
+import com.microsoft.azure.management.batch.ProvisioningState;
+import com.microsoft.azure.management.batch.BatchAccountKeys;
+import com.microsoft.azure.management.batch.VirtualMachineFamilyCoreQuota;
+import com.microsoft.azure.management.batch.AccountKeyType;
+import com.microsoft.azure.management.batch.Application;
+import com.microsoft.azure.management.batch.Pool;
+import com.microsoft.azure.management.batch.AutoStorageBaseProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;

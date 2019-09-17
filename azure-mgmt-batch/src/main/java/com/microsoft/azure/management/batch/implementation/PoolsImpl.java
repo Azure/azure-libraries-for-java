@@ -12,7 +12,12 @@ import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.batch.Pool;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Represents a pool collection associated with a batch account.
@@ -25,7 +30,7 @@ public class PoolsImpl extends
                 BatchAccountImpl,
                 BatchAccount> {
 
-    PoolsImpl(BatchAccountImpl parent){
+    PoolsImpl(BatchAccountImpl parent) {
         super(parent, parent.taskGroup(), "Pool");
         this.cacheCollection();
     }
@@ -45,7 +50,7 @@ public class PoolsImpl extends
     @Override
     protected List<PoolImpl> listChildResources() {
         List<PoolImpl> childResources = new ArrayList<>();
-        if(this.parent().inner().id() == null || this.parent().autoStorage() == null){
+        if (this.parent().inner().id() == null || this.parent().autoStorage() == null) {
             return childResources;
         }
 
@@ -54,7 +59,7 @@ public class PoolsImpl extends
                 this.parent().name()
         );
 
-        for(PoolInner pool: poolList){
+        for (PoolInner pool: poolList){
             childResources.add(new PoolImpl(
                     pool.name(),
                     this.parent(),

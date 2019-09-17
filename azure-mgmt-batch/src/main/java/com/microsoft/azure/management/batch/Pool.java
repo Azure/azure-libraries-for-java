@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.batch;
 
+import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.batch.implementation.PoolInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
@@ -17,6 +18,7 @@ import java.util.List;
 /**
  * An immutable client-side representation of an Azure Batch account pool.
  */
+@Fluent
 public interface Pool extends
         ExternalChildResource<Pool, BatchAccount>,
         HasInner<PoolInner> {
@@ -125,7 +127,7 @@ public interface Pool extends
         interface WithAttach<ParentT> extends
                 Attachable.InDefinition<ParentT> {
             /**
-             * Specifies the network configuration for the pool
+             * Specifies the network configuration for the pool.
              *
              * @param networkConfiguration network configuration value
              * @return the next stage of the definition
@@ -133,7 +135,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withNetworkConfiguration(NetworkConfiguration networkConfiguration);
 
             /**
-             * Specifies the file system configuration for the pool to mount on each node
+             * Specifies the file system configuration for the pool to mount on each node.
              *
              * @param mountConfigurations mount configuration value
              * @return the next stage of the definition
@@ -141,7 +143,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withMountConfiguration(List<MountConfiguration> mountConfigurations);
 
             /**
-             * Specifies the scale settings for the pool
+             * Specifies the scale settings for the pool.
              *
              * @param scaleSettings scale settings value
              * @return the next stage of the definition
@@ -149,7 +151,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withScaleSettings(ScaleSettings scaleSettings);
 
             /**
-             * Specifies the start task for the pool
+             * Specifies the start task for the pool.
              *
              * @param startTask start task value
              * @return the next stage of the definition
@@ -157,7 +159,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withStartTask(StartTask startTask);
 
             /**
-             * Specifies the metadata for the use of user code
+             * Specifies the metadata for the use of user code.
              *
              * @param metadata metadata value
              * @return the next stage of the definition
@@ -165,7 +167,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withMetadata(List<MetadataItem> metadata);
 
             /**
-             * Specifies the application package references affect all new compute nodes joining the pool
+             * Specifies the application package references affect all new compute nodes joining the pool.
              *
              * @param applicationPackages applicationPackages value
              * @return the next stage of the definition
@@ -173,7 +175,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withApplicationPackages(List<ApplicationPackageReference> applicationPackages);
 
             /**
-             * Specifies the certificates for compute nodes
+             * Specifies the certificates for compute nodes.
              *
              * @param certificates certificates value
              * @return the next stage of the definition
@@ -181,7 +183,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withCertificates(List<CertificateReference> certificates);
 
             /**
-             * Specifies the available sizes of virtual machine for Cloud Services pools
+             * Specifies the available sizes of virtual machine for Cloud Services pools.
              *
              * @param vmSize vmSize value
              * @return the next stage of the definition
@@ -189,7 +191,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withVmSize(String vmSize);
 
             /**
-             * Specifies the creation of nodes using CloudServiceConfiguration/VirtualMachineConfiguration
+             * Specifies the creation of nodes using CloudServiceConfiguration/VirtualMachineConfiguration.
              *
              * @param deploymentConfiguration deploymentConfiguration value
              * @return the next stage of the definition
@@ -197,7 +199,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withDeploymentConfiguration(DeploymentConfiguration deploymentConfiguration);
 
             /**
-             * Specifies the display name for the pool
+             * Specifies the display name for the pool.
              *
              * @param displayName displayName value
              * @return the next stage of the definition
@@ -205,7 +207,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withDisplayName(String displayName);
 
             /**
-             * Specifies the restrictions on which nodes can be assigned to the pool
+             * Specifies the restrictions on which nodes can be assigned to the pool.
              *
              * @param interNodeCommunication interNodeCommunication value
              * @return the next stage of the definition
@@ -213,7 +215,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withInterNodeCommunication(InterNodeCommunicationState interNodeCommunication);
 
             /**
-             * Specifies the maximum value of tasks to run on each node
+             * Specifies the maximum value of tasks to run on each node.
              *
              * @param maxTasksPerNode maxTasksPerNode value
              * @return the next stage of the definition
@@ -221,7 +223,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withMaxTasksPerNode(Integer maxTasksPerNode);
 
             /**
-             * Specifies the task scheduling policy
+             * Specifies the task scheduling policy.
              *
              * @param taskSchedulingPolicy taskSchedulingPolicy value
              * @return the next stage of the definition
@@ -229,7 +231,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withTaskSchedulingPolicy(TaskSchedulingPolicy taskSchedulingPolicy);
 
             /**
-             * Specifies the user accounts value
+             * Specifies the user accounts value.
              *
              * @param userAccounts userAccounts value
              * @return the next stage of the definition
@@ -237,7 +239,7 @@ public interface Pool extends
             DefinitionStages.WithAttach<ParentT> withUserAccounts(List<UserAccount> userAccounts);
 
             /**
-             * Specifies the list of application licenses
+             * Specifies the list of application licenses.
              *
              * @param applicationLicenses applicationLicenses value
              * @return the next stage of the definition
@@ -259,7 +261,7 @@ public interface Pool extends
     /**
      * Grouping of pool definition stages as part of a Batch account update.
      */
-    interface UpdateDefinitionStages<ParentT> {
+    interface UpdateDefinitionStages {
         /**
          * The first stage of a Batch pool definition.
          *
@@ -276,7 +278,7 @@ public interface Pool extends
         interface WithAttach<ParentT> extends
                 Attachable.InUpdate<ParentT> {
             /**
-             * Specifies the network configuration for the pool
+             * Specifies the network configuration for the pool.
              *
              * @param networkConfiguration network configuration value
              * @return the next stage of the definition
@@ -284,7 +286,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withNetworkConfiguration(NetworkConfiguration networkConfiguration);
 
             /**
-             * Specifies the file system configuration for the pool to mount on each node
+             * Specifies the file system configuration for the pool to mount on each node.
              *
              * @param mountConfigurations mount configuration value
              * @return the next stage of the definition
@@ -292,7 +294,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withMountConfiguration(List<MountConfiguration> mountConfigurations);
 
             /**
-             * Specifies the scale settings for the pool
+             * Specifies the scale settings for the pool.
              *
              * @param scaleSettings scale settings value
              * @return the next stage of the definition
@@ -300,7 +302,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withScaleSettings(ScaleSettings scaleSettings);
 
             /**
-             * Specifies the start task for the pool
+             * Specifies the start task for the pool.
              *
              * @param startTask start task value
              * @return the next stage of the definition
@@ -308,7 +310,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withStartTask(StartTask startTask);
 
             /**
-             * Specifies the metadata for the use of user code
+             * Specifies the metadata for the use of user code.
              *
              * @param metadata metadata value
              * @return the next stage of the definition
@@ -316,7 +318,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withMetadata(List<MetadataItem> metadata);
 
             /**
-             * Specifies the application package references affect all new compute nodes joining the pool
+             * Specifies the application package references affect all new compute nodes joining the pool.
              *
              * @param applicationPackages applicationPackages value
              * @return the next stage of the definition
@@ -324,7 +326,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withApplicationPackages(List<ApplicationPackageReference> applicationPackages);
 
             /**
-             * Specifies the certificates for compute nodes
+             * Specifies the certificates for compute nodes.
              *
              * @param certificates certificates value
              * @return the next stage of the definition
@@ -332,7 +334,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withCertificates(List<CertificateReference> certificates);
 
             /**
-             * Specifies the available sizes of virtual machine for Cloud Services pools
+             * Specifies the available sizes of virtual machine for Cloud Services pools.
              *
              * @param vmSize vmSize value
              * @return the next stage of the definition
@@ -340,7 +342,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withVmSize(String vmSize);
 
             /**
-             * Specifies the creation of nodes using CloudServiceConfiguration/VirtualMachineConfiguration
+             * Specifies the creation of nodes using CloudServiceConfiguration/VirtualMachineConfiguration.
              *
              * @param deploymentConfiguration deploymentConfiguration value
              * @return the next stage of the definition
@@ -348,7 +350,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withDeploymentConfiguration(DeploymentConfiguration deploymentConfiguration);
 
             /**
-             * Specifies the display name for the pool
+             * Specifies the display name for the pool.
              *
              * @param displayName displayName value
              * @return the next stage of the definition
@@ -356,7 +358,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withDisplayName(String displayName);
 
             /**
-             * Specifies the restrictions on which nodes can be assigned to the pool
+             * Specifies the restrictions on which nodes can be assigned to the pool.
              *
              * @param interNodeCommunication interNodeCommunication value
              * @return the next stage of the definition
@@ -364,7 +366,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withInterNodeCommunication(InterNodeCommunicationState interNodeCommunication);
 
             /**
-             * Specifies the maximum value of tasks to run on each node
+             * Specifies the maximum value of tasks to run on each node.
              *
              * @param maxTasksPerNode maxTasksPerNode value
              * @return the next stage of the definition
@@ -372,7 +374,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withMaxTasksPerNode(Integer maxTasksPerNode);
 
             /**
-             * Specifies the task scheduling policy
+             * Specifies the task scheduling policy.
              *
              * @param taskSchedulingPolicy taskSchedulingPolicy value
              * @return the next stage of the definition
@@ -380,7 +382,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withTaskSchedulingPolicy(TaskSchedulingPolicy taskSchedulingPolicy);
 
             /**
-             * Specifies the user accounts value
+             * Specifies the user accounts value.
              *
              * @param userAccounts userAccounts value
              * @return the next stage of the definition
@@ -388,7 +390,7 @@ public interface Pool extends
             UpdateDefinitionStages.WithAttach<ParentT> withUserAccounts(List<UserAccount> userAccounts);
 
             /**
-             * Specifies the list of application licenses
+             * Specifies the list of application licenses.
              *
              * @param applicationLicenses applicationLicenses value
              * @return the next stage of the definition
@@ -406,7 +408,7 @@ public interface Pool extends
          */
         interface WithAttach {
             /**
-             * Specifies the network configuration for the pool
+             * Specifies the network configuration for the pool.
              *
              * @param networkConfiguration network configuration value
              * @return the next stage of the update
@@ -414,7 +416,7 @@ public interface Pool extends
             Update withNetworkConfiguration(NetworkConfiguration networkConfiguration);
 
             /**
-             * Specifies the file system configuration for the pool to mount on each node
+             * Specifies the file system configuration for the pool to mount on each node.
              *
              * @param mountConfigurations mount configuration value
              * @return the next stage of the update
@@ -422,7 +424,7 @@ public interface Pool extends
             Update withMountConfiguration(List<MountConfiguration> mountConfigurations);
 
             /**
-             * Specifies the scale settings for the pool
+             * Specifies the scale settings for the pool.
              *
              * @param scaleSettings scale settings value
              * @return the next stage of the update
@@ -430,7 +432,7 @@ public interface Pool extends
             Update withScaleSettings(ScaleSettings scaleSettings);
 
             /**
-             * Specifies the start task for the pool
+             * Specifies the start task for the pool.
              *
              * @param startTask start task value
              * @return the next stage of the update
@@ -438,7 +440,7 @@ public interface Pool extends
             Update withStartTask(StartTask startTask);
 
             /**
-             * Specifies the metadata for the use of user code
+             * Specifies the metadata for the use of user code.
              *
              * @param metadata metadata value
              * @return the next stage of the update
@@ -446,7 +448,7 @@ public interface Pool extends
             Update withMetadata(List<MetadataItem> metadata);
 
             /**
-             * Specifies the application package references affect all new compute nodes joining the pool
+             * Specifies the application package references affect all new compute nodes joining the pool.
              *
              * @param applicationPackages applicationPackages value
              * @return the next stage of the update
@@ -454,7 +456,7 @@ public interface Pool extends
             Update withApplicationPackages(List<ApplicationPackageReference> applicationPackages);
 
             /**
-             * Specifies the certificates for compute nodes
+             * Specifies the certificates for compute nodes.
              *
              * @param certificates certificates value
              * @return the next stage of the update
@@ -462,7 +464,7 @@ public interface Pool extends
             Update withCertificates(List<CertificateReference> certificates);
 
             /**
-             * Specifies the available sizes of virtual machine for Cloud Services pools
+             * Specifies the available sizes of virtual machine for Cloud Services pools.
              *
              * @param vmSize vmSize value
              * @return the next stage of the update
@@ -470,7 +472,7 @@ public interface Pool extends
             Update withVmSize(String vmSize);
 
             /**
-             * Specifies the creation of nodes using CloudServiceConfiguration/VirtualMachineConfiguration
+             * Specifies the creation of nodes using CloudServiceConfiguration/VirtualMachineConfiguration.
              *
              * @param deploymentConfiguration deploymentConfiguration value
              * @return the next stage of the update
@@ -478,7 +480,7 @@ public interface Pool extends
             Update withDeploymentConfiguration(DeploymentConfiguration deploymentConfiguration);
 
             /**
-             * Specifies the display name for the pool
+             * Specifies the display name for the pool.
              *
              * @param displayName displayName value
              * @return the next stage of the update
@@ -486,7 +488,7 @@ public interface Pool extends
             Update withDisplayName(String displayName);
 
             /**
-             * Specifies the restrictions on which nodes can be assigned to the pool
+             * Specifies the restrictions on which nodes can be assigned to the pool.
              *
              * @param interNodeCommunication interNodeCommunication value
              * @return the next stage of the update
@@ -494,7 +496,7 @@ public interface Pool extends
             Update withInterNodeCommunication(InterNodeCommunicationState interNodeCommunication);
 
             /**
-             * Specifies the maximum value of tasks to run on each node
+             * Specifies the maximum value of tasks to run on each node.
              *
              * @param maxTasksPerNode maxTasksPerNode value
              * @return the next stage of the update
@@ -502,7 +504,7 @@ public interface Pool extends
             Update withMaxTasksPerNode(Integer maxTasksPerNode);
 
             /**
-             * Specifies the task scheduling policy
+             * Specifies the task scheduling policy.
              *
              * @param taskSchedulingPolicy taskSchedulingPolicy value
              * @return the next stage of the update
@@ -510,7 +512,7 @@ public interface Pool extends
             Update withTaskSchedulingPolicy(TaskSchedulingPolicy taskSchedulingPolicy);
 
             /**
-             * Specifies the user accounts value
+             * Specifies the user accounts value.
              *
              * @param userAccounts userAccounts value
              * @return the next stage of the update
@@ -518,7 +520,7 @@ public interface Pool extends
             Update withUserAccounts(List<UserAccount> userAccounts);
 
             /**
-             * Specifies the list of application licenses
+             * Specifies the list of application licenses.
              *
              * @param applicationLicenses applicationLicenses value
              * @return the next stage of the update

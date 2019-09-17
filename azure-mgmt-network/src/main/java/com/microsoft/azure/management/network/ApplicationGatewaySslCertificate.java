@@ -29,6 +29,14 @@ public interface ApplicationGatewaySslCertificate extends
     String publicData();
 
     /**
+     * Get Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate'
+     * object stored in KeyVault.
+     * 
+     * @return the secret id
+     */
+    String keyVaultSecretId();
+
+    /**
      * Grouping of application gateway SSL certificate definition stages.
      */
     interface DefinitionStages {
@@ -68,6 +76,13 @@ public interface ApplicationGatewaySslCertificate extends
              * @throws java.io.IOException when there are problems with the provided file
              */
             WithPassword<ParentT> withPfxFromFile(File pfxFile) throws IOException;
+
+            /**
+             * Sepecifies the content of the private key using key vault.
+             * @param keyVaultSecretId the secret id of key vault
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withKeyVaultSecretId(String keyVaultSecretId);
         }
 
         /**

@@ -11,11 +11,14 @@ package com.microsoft.azure.management.containerservice.implementation;
 import java.util.List;
 import com.microsoft.azure.management.containerservice.ManagedClusterAgentPoolProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceLinuxProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterWindowsProfile;
 import com.microsoft.azure.management.containerservice.ManagedClusterServicePrincipalProfile;
 import java.util.Map;
 import com.microsoft.azure.management.containerservice.ManagedClusterAddonProfile;
 import com.microsoft.azure.management.containerservice.ContainerServiceNetworkProfile;
 import com.microsoft.azure.management.containerservice.ManagedClusterAADProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterAPIServerAccessProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -33,6 +36,12 @@ public class ManagedClusterInner extends Resource {
     private String provisioningState;
 
     /**
+     * The max number of agent pools for the managed cluster.
+     */
+    @JsonProperty(value = "properties.maxAgentPools", access = JsonProperty.Access.WRITE_ONLY)
+    private Integer maxAgentPools;
+
+    /**
      * Version of Kubernetes specified when creating the managed cluster.
      */
     @JsonProperty(value = "properties.kubernetesVersion")
@@ -45,7 +54,7 @@ public class ManagedClusterInner extends Resource {
     private String dnsPrefix;
 
     /**
-     * FDQN for the master pool.
+     * FQDN for the master pool.
      */
     @JsonProperty(value = "properties.fqdn", access = JsonProperty.Access.WRITE_ONLY)
     private String fqdn;
@@ -63,6 +72,12 @@ public class ManagedClusterInner extends Resource {
     private ContainerServiceLinuxProfile linuxProfile;
 
     /**
+     * Profile for Windows VMs in the container service cluster.
+     */
+    @JsonProperty(value = "properties.windowsProfile")
+    private ManagedClusterWindowsProfile windowsProfile;
+
+    /**
      * Information about a service principal identity for the cluster to use
      * for manipulating Azure APIs.
      */
@@ -78,7 +93,7 @@ public class ManagedClusterInner extends Resource {
     /**
      * Name of the resource group containing agent pool nodes.
      */
-    @JsonProperty(value = "properties.nodeResourceGroup", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.nodeResourceGroup")
     private String nodeResourceGroup;
 
     /**
@@ -86,6 +101,12 @@ public class ManagedClusterInner extends Resource {
      */
     @JsonProperty(value = "properties.enableRBAC")
     private Boolean enableRBAC;
+
+    /**
+     * (PREVIEW) Whether to enable Kubernetes Pod security policy.
+     */
+    @JsonProperty(value = "properties.enablePodSecurityPolicy")
+    private Boolean enablePodSecurityPolicy;
 
     /**
      * Profile of network configuration.
@@ -100,7 +121,19 @@ public class ManagedClusterInner extends Resource {
     private ManagedClusterAADProfile aadProfile;
 
     /**
-     * Get the provisioningState value.
+     * Access profile for managed cluster API server.
+     */
+    @JsonProperty(value = "properties.apiServerAccessProfile")
+    private ManagedClusterAPIServerAccessProfile apiServerAccessProfile;
+
+    /**
+     * The identity of the managed cluster, if configured.
+     */
+    @JsonProperty(value = "identity")
+    private ManagedClusterIdentity identity;
+
+    /**
+     * Get the current deployment or provisioning state, which only appears in the response.
      *
      * @return the provisioningState value
      */
@@ -109,7 +142,16 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the kubernetesVersion value.
+     * Get the max number of agent pools for the managed cluster.
+     *
+     * @return the maxAgentPools value
+     */
+    public Integer maxAgentPools() {
+        return this.maxAgentPools;
+    }
+
+    /**
+     * Get version of Kubernetes specified when creating the managed cluster.
      *
      * @return the kubernetesVersion value
      */
@@ -118,7 +160,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the kubernetesVersion value.
+     * Set version of Kubernetes specified when creating the managed cluster.
      *
      * @param kubernetesVersion the kubernetesVersion value to set
      * @return the ManagedClusterInner object itself.
@@ -129,7 +171,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the dnsPrefix value.
+     * Get dNS prefix specified when creating the managed cluster.
      *
      * @return the dnsPrefix value
      */
@@ -138,7 +180,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the dnsPrefix value.
+     * Set dNS prefix specified when creating the managed cluster.
      *
      * @param dnsPrefix the dnsPrefix value to set
      * @return the ManagedClusterInner object itself.
@@ -149,7 +191,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the fqdn value.
+     * Get fQDN for the master pool.
      *
      * @return the fqdn value
      */
@@ -158,7 +200,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the agentPoolProfiles value.
+     * Get properties of the agent pool.
      *
      * @return the agentPoolProfiles value
      */
@@ -167,7 +209,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the agentPoolProfiles value.
+     * Set properties of the agent pool.
      *
      * @param agentPoolProfiles the agentPoolProfiles value to set
      * @return the ManagedClusterInner object itself.
@@ -178,7 +220,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the linuxProfile value.
+     * Get profile for Linux VMs in the container service cluster.
      *
      * @return the linuxProfile value
      */
@@ -187,7 +229,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the linuxProfile value.
+     * Set profile for Linux VMs in the container service cluster.
      *
      * @param linuxProfile the linuxProfile value to set
      * @return the ManagedClusterInner object itself.
@@ -198,7 +240,27 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the servicePrincipalProfile value.
+     * Get profile for Windows VMs in the container service cluster.
+     *
+     * @return the windowsProfile value
+     */
+    public ManagedClusterWindowsProfile windowsProfile() {
+        return this.windowsProfile;
+    }
+
+    /**
+     * Set profile for Windows VMs in the container service cluster.
+     *
+     * @param windowsProfile the windowsProfile value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withWindowsProfile(ManagedClusterWindowsProfile windowsProfile) {
+        this.windowsProfile = windowsProfile;
+        return this;
+    }
+
+    /**
+     * Get information about a service principal identity for the cluster to use for manipulating Azure APIs.
      *
      * @return the servicePrincipalProfile value
      */
@@ -207,7 +269,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the servicePrincipalProfile value.
+     * Set information about a service principal identity for the cluster to use for manipulating Azure APIs.
      *
      * @param servicePrincipalProfile the servicePrincipalProfile value to set
      * @return the ManagedClusterInner object itself.
@@ -218,7 +280,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the addonProfiles value.
+     * Get profile of managed cluster add-on.
      *
      * @return the addonProfiles value
      */
@@ -227,7 +289,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the addonProfiles value.
+     * Set profile of managed cluster add-on.
      *
      * @param addonProfiles the addonProfiles value to set
      * @return the ManagedClusterInner object itself.
@@ -238,7 +300,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the nodeResourceGroup value.
+     * Get name of the resource group containing agent pool nodes.
      *
      * @return the nodeResourceGroup value
      */
@@ -247,7 +309,18 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the enableRBAC value.
+     * Set name of the resource group containing agent pool nodes.
+     *
+     * @param nodeResourceGroup the nodeResourceGroup value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withNodeResourceGroup(String nodeResourceGroup) {
+        this.nodeResourceGroup = nodeResourceGroup;
+        return this;
+    }
+
+    /**
+     * Get whether to enable Kubernetes Role-Based Access Control.
      *
      * @return the enableRBAC value
      */
@@ -256,7 +329,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the enableRBAC value.
+     * Set whether to enable Kubernetes Role-Based Access Control.
      *
      * @param enableRBAC the enableRBAC value to set
      * @return the ManagedClusterInner object itself.
@@ -267,7 +340,27 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the networkProfile value.
+     * Get (PREVIEW) Whether to enable Kubernetes Pod security policy.
+     *
+     * @return the enablePodSecurityPolicy value
+     */
+    public Boolean enablePodSecurityPolicy() {
+        return this.enablePodSecurityPolicy;
+    }
+
+    /**
+     * Set (PREVIEW) Whether to enable Kubernetes Pod security policy.
+     *
+     * @param enablePodSecurityPolicy the enablePodSecurityPolicy value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withEnablePodSecurityPolicy(Boolean enablePodSecurityPolicy) {
+        this.enablePodSecurityPolicy = enablePodSecurityPolicy;
+        return this;
+    }
+
+    /**
+     * Get profile of network configuration.
      *
      * @return the networkProfile value
      */
@@ -276,7 +369,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the networkProfile value.
+     * Set profile of network configuration.
      *
      * @param networkProfile the networkProfile value to set
      * @return the ManagedClusterInner object itself.
@@ -287,7 +380,7 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Get the aadProfile value.
+     * Get profile of Azure Active Directory configuration.
      *
      * @return the aadProfile value
      */
@@ -296,13 +389,53 @@ public class ManagedClusterInner extends Resource {
     }
 
     /**
-     * Set the aadProfile value.
+     * Set profile of Azure Active Directory configuration.
      *
      * @param aadProfile the aadProfile value to set
      * @return the ManagedClusterInner object itself.
      */
     public ManagedClusterInner withAadProfile(ManagedClusterAADProfile aadProfile) {
         this.aadProfile = aadProfile;
+        return this;
+    }
+
+    /**
+     * Get access profile for managed cluster API server.
+     *
+     * @return the apiServerAccessProfile value
+     */
+    public ManagedClusterAPIServerAccessProfile apiServerAccessProfile() {
+        return this.apiServerAccessProfile;
+    }
+
+    /**
+     * Set access profile for managed cluster API server.
+     *
+     * @param apiServerAccessProfile the apiServerAccessProfile value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withApiServerAccessProfile(ManagedClusterAPIServerAccessProfile apiServerAccessProfile) {
+        this.apiServerAccessProfile = apiServerAccessProfile;
+        return this;
+    }
+
+    /**
+     * Get the identity of the managed cluster, if configured.
+     *
+     * @return the identity value
+     */
+    public ManagedClusterIdentity identity() {
+        return this.identity;
+    }
+
+    /**
+     * Set the identity of the managed cluster, if configured.
+     *
+     * @param identity the identity value to set
+     * @return the ManagedClusterInner object itself.
+     */
+    public ManagedClusterInner withIdentity(ManagedClusterIdentity identity) {
+        this.identity = identity;
         return this;
     }
 

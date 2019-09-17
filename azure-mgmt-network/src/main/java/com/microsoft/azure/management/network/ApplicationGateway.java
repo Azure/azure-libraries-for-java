@@ -558,6 +558,19 @@ public interface ApplicationGateway extends
         }
 
         /**
+         * The stage of an application gateway definition allowing to specify Managed Service Identities.
+         */
+        interface WithManagedServiceIdentity {
+            /**
+             * Specifies an identity to be associated with the application gateway.
+             *
+             * @param identity the identity
+             * @return the next stage of the definition
+             */
+            WithCreate withIdentity(ManagedServiceIdentity identity);
+        }
+
+        /**
          * The stage of an application gateway definition allowing to specify the SSL protocols to disable.
          */
         interface WithDisabledSslProtocol {
@@ -642,6 +655,7 @@ public interface ApplicationGateway extends
             WithAuthenticationCertificate,
             WithRedirectConfiguration,
             WithAvailabilityZone,
+            WithManagedServiceIdentity,
             WithHttp2 {
         }
     }
@@ -1184,6 +1198,19 @@ public interface ApplicationGateway extends
         }
 
         /**
+         * The stage of an application gateway update allowing to specify Managed Service Identities.
+         */
+        interface WithManagedServiceIdentity {
+            /**
+             * Specifies an identity to be associated with the application gateway.
+             *
+             * @param identity the identity
+             * @return the next stage of the update
+             */
+            Update withIdentity(ManagedServiceIdentity identity);
+        }
+
+        /**
          * The stage of an application gateway definition allowing to specify the SSL protocols to disable.
          */
         interface WithDisabledSslProtocol {
@@ -1274,6 +1301,7 @@ public interface ApplicationGateway extends
         UpdateStages.WithAuthenticationCertificate,
         UpdateStages.WithRedirectConfiguration,
         UpdateStages.WithUrlPathMap,
+        UpdateStages.WithManagedServiceIdentity,
         UpdateStages.WithHttp2 {
     }
 }

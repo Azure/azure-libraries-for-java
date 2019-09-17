@@ -80,6 +80,19 @@ public class VirtualMachineScaleSetVMProfile {
     private VirtualMachineEvictionPolicyTypes evictionPolicy;
 
     /**
+     * Specifies the billing related details of a low priority VMSS.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     */
+    @JsonProperty(value = "billingProfile")
+    private BillingProfile billingProfile;
+
+    /**
+     * Specifies Scheduled Event related configurations.
+     */
+    @JsonProperty(value = "scheduledEventsProfile")
+    private ScheduledEventsProfile scheduledEventsProfile;
+
+    /**
      * Get specifies the operating system settings for the virtual machines in the scale set.
      *
      * @return the osProfile value
@@ -236,6 +249,46 @@ public class VirtualMachineScaleSetVMProfile {
      */
     public VirtualMachineScaleSetVMProfile withEvictionPolicy(VirtualMachineEvictionPolicyTypes evictionPolicy) {
         this.evictionPolicy = evictionPolicy;
+        return this;
+    }
+
+    /**
+     * Get specifies the billing related details of a low priority VMSS. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     *
+     * @return the billingProfile value
+     */
+    public BillingProfile billingProfile() {
+        return this.billingProfile;
+    }
+
+    /**
+     * Set specifies the billing related details of a low priority VMSS. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     *
+     * @param billingProfile the billingProfile value to set
+     * @return the VirtualMachineScaleSetVMProfile object itself.
+     */
+    public VirtualMachineScaleSetVMProfile withBillingProfile(BillingProfile billingProfile) {
+        this.billingProfile = billingProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies Scheduled Event related configurations.
+     *
+     * @return the scheduledEventsProfile value
+     */
+    public ScheduledEventsProfile scheduledEventsProfile() {
+        return this.scheduledEventsProfile;
+    }
+
+    /**
+     * Set specifies Scheduled Event related configurations.
+     *
+     * @param scheduledEventsProfile the scheduledEventsProfile value to set
+     * @return the VirtualMachineScaleSetVMProfile object itself.
+     */
+    public VirtualMachineScaleSetVMProfile withScheduledEventsProfile(ScheduledEventsProfile scheduledEventsProfile) {
+        this.scheduledEventsProfile = scheduledEventsProfile;
         return this;
     }
 

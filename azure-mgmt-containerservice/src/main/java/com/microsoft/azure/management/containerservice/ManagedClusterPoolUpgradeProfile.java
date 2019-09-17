@@ -38,10 +38,10 @@ public class ManagedClusterPoolUpgradeProfile {
      * List of orchestrator types and versions available for upgrade.
      */
     @JsonProperty(value = "upgrades")
-    private List<String> upgrades;
+    private List<ManagedClusterPoolUpgradeProfileUpgradesItem> upgrades;
 
     /**
-     * Get the kubernetesVersion value.
+     * Get kubernetes version (major, minor, patch).
      *
      * @return the kubernetesVersion value
      */
@@ -50,7 +50,7 @@ public class ManagedClusterPoolUpgradeProfile {
     }
 
     /**
-     * Set the kubernetesVersion value.
+     * Set kubernetes version (major, minor, patch).
      *
      * @param kubernetesVersion the kubernetesVersion value to set
      * @return the ManagedClusterPoolUpgradeProfile object itself.
@@ -61,7 +61,7 @@ public class ManagedClusterPoolUpgradeProfile {
     }
 
     /**
-     * Get the name value.
+     * Get pool name.
      *
      * @return the name value
      */
@@ -70,7 +70,7 @@ public class ManagedClusterPoolUpgradeProfile {
     }
 
     /**
-     * Set the name value.
+     * Set pool name.
      *
      * @param name the name value to set
      * @return the ManagedClusterPoolUpgradeProfile object itself.
@@ -81,7 +81,7 @@ public class ManagedClusterPoolUpgradeProfile {
     }
 
     /**
-     * Get the osType value.
+     * Get osType to be used to specify os type. Choose from Linux and Windows. Default to Linux. Possible values include: 'Linux', 'Windows'.
      *
      * @return the osType value
      */
@@ -90,7 +90,7 @@ public class ManagedClusterPoolUpgradeProfile {
     }
 
     /**
-     * Set the osType value.
+     * Set osType to be used to specify os type. Choose from Linux and Windows. Default to Linux. Possible values include: 'Linux', 'Windows'.
      *
      * @param osType the osType value to set
      * @return the ManagedClusterPoolUpgradeProfile object itself.
@@ -101,21 +101,21 @@ public class ManagedClusterPoolUpgradeProfile {
     }
 
     /**
-     * Get the upgrades value.
+     * Get list of orchestrator types and versions available for upgrade.
      *
      * @return the upgrades value
      */
-    public List<String> upgrades() {
+    public List<ManagedClusterPoolUpgradeProfileUpgradesItem> upgrades() {
         return this.upgrades;
     }
 
     /**
-     * Set the upgrades value.
+     * Set list of orchestrator types and versions available for upgrade.
      *
      * @param upgrades the upgrades value to set
      * @return the ManagedClusterPoolUpgradeProfile object itself.
      */
-    public ManagedClusterPoolUpgradeProfile withUpgrades(List<String> upgrades) {
+    public ManagedClusterPoolUpgradeProfile withUpgrades(List<ManagedClusterPoolUpgradeProfileUpgradesItem> upgrades) {
         this.upgrades = upgrades;
         return this;
     }

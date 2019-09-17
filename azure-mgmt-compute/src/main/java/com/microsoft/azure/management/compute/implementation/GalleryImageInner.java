@@ -61,8 +61,9 @@ public class GalleryImageInner extends Resource {
     private OperatingSystemTypes osType;
 
     /**
-     * The allowed values for OS State are 'Generalized'. Possible values
-     * include: 'Generalized', 'Specialized'.
+     * This property allows the user to specify whether the virtual machines
+     * created under this image are 'Generalized' or 'Specialized'. Possible
+     * values include: 'Generalized', 'Specialized'.
      */
     @JsonProperty(value = "properties.osState", required = true)
     private OperatingSystemStateTypes osState;
@@ -208,7 +209,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the allowed values for OS State are 'Generalized'. Possible values include: 'Generalized', 'Specialized'.
+     * Get this property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'.
      *
      * @return the osState value
      */
@@ -217,7 +218,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Set the allowed values for OS State are 'Generalized'. Possible values include: 'Generalized', 'Specialized'.
+     * Set this property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'.
      *
      * @param osState the osState value to set
      * @return the GalleryImageInner object itself.

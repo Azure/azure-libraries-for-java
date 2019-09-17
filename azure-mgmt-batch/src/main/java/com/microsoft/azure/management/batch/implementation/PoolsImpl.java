@@ -39,6 +39,7 @@ public class PoolsImpl extends
      * Define a new pool.
      *
      * @param name pool name value
+     * @return poolImpl
      */
     public PoolImpl define(String name) {
         return this.prepareInlineDefine(name);
@@ -48,6 +49,7 @@ public class PoolsImpl extends
      * Update the pool.
      *
      * @param name pool name value
+     * @return poolImpl
      */
     public PoolImpl update(String name) {
         return this.prepareInlineUpdate(name);
@@ -101,7 +103,9 @@ public class PoolsImpl extends
     }
 
     /**
-     * Return the map of pool.
+     * Return pool collection as map.
+     *
+     * @return the map of pool.
      */
     public Map<String, Pool> asMap() {
         Map<String, Pool> result = new HashMap<>();

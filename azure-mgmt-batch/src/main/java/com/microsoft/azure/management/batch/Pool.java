@@ -11,7 +11,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalCh
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import org.joda.time.DateTime;
 
 import java.util.List;
 

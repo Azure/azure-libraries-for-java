@@ -20,9 +20,7 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
-import java.security.cert.Certificate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class BatchAccountOperationsTests extends BatchManagementTest {

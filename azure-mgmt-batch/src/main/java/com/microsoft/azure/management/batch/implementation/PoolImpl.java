@@ -7,7 +7,19 @@
 package com.microsoft.azure.management.batch.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batch.*;
+import com.microsoft.azure.management.batch.BatchAccount;
+import com.microsoft.azure.management.batch.Pool;
+import com.microsoft.azure.management.batch.NetworkConfiguration;
+import com.microsoft.azure.management.batch.ScaleSettings;
+import com.microsoft.azure.management.batch.StartTask;
+import com.microsoft.azure.management.batch.MountConfiguration;
+import com.microsoft.azure.management.batch.MetadataItem;
+import com.microsoft.azure.management.batch.ApplicationPackageReference;
+import com.microsoft.azure.management.batch.CertificateReference;
+import com.microsoft.azure.management.batch.DeploymentConfiguration;
+import com.microsoft.azure.management.batch.TaskSchedulingPolicy;
+import com.microsoft.azure.management.batch.InterNodeCommunicationState;
+import com.microsoft.azure.management.batch.UserAccount;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import rx.Observable;
 import rx.functions.Func1;
@@ -35,7 +47,7 @@ public class PoolImpl
         super(name, batchAccount, inner);
     }
 
-    protected static PoolImpl newPool(
+    protected static PoolImpl newPool (
             String name,
             BatchAccountImpl parent) {
         PoolInner inner = new PoolInner();

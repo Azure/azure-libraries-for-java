@@ -59,7 +59,7 @@ public class PoolsImpl extends
                 this.parent().name()
         );
 
-        for (PoolInner pool: poolList){
+        for (PoolInner pool: poolList) {
             childResources.add(new PoolImpl(
                     pool.name(),
                     this.parent(),
@@ -80,9 +80,9 @@ public class PoolsImpl extends
         this.addChildResource(pool);
     }
 
-    public Map<String ,Pool> asMap() {
+    public Map<String, Pool> asMap() {
         Map<String, Pool> result = new HashMap<>();
-        for (Map.Entry<String, PoolImpl> entry: this.collection().entrySet()){
+        for (Map.Entry<String, PoolImpl> entry: this.collection().entrySet()) {
             PoolImpl pool = entry.getValue();
             result.put(entry.getKey(), pool);
         }

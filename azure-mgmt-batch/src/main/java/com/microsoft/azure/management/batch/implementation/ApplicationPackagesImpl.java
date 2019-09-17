@@ -9,7 +9,6 @@ package com.microsoft.azure.management.batch.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batch.Application;
 import com.microsoft.azure.management.batch.ApplicationPackage;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
 
 import java.util.List;
@@ -48,8 +47,8 @@ class ApplicationPackagesImpl extends
     protected List<ApplicationPackageImpl> listChildResources() {
         List<ApplicationPackageImpl> childResources = new ArrayList<>();
 
-        for(ApplicationPackageInner applicationPackage: this.parent().parent().manager().inner()
-                .applicationPackages().list(this.parent().parent().resourceGroupName(), this.parent().parent().name(), this.parent().name())){
+        for (ApplicationPackageInner applicationPackage: this.parent().parent().manager().inner()
+                .applicationPackages().list(this.parent().parent().resourceGroupName(), this.parent().parent().name(), this.parent().name())) {
             childResources.add(new ApplicationPackageImpl(
                     applicationPackage.name(),
                     this.parent(),

@@ -7,16 +7,17 @@
 package com.microsoft.azure.management.batch.implementation;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.batch.Pool;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ExternalChildResourcesCachedImpl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Represents a pool collection associated with a batch account.
  */
+@LangDefinition
 public class PoolsImpl extends
         ExternalChildResourcesCachedImpl<PoolImpl,
                 Pool,
@@ -72,5 +73,14 @@ public class PoolsImpl extends
 
     public void addPool(PoolImpl pool) {
         this.addChildResource(pool);
+    }
+
+    public Map<String ,Pool> asMap() {
+        Map<String, Pool> result = new HashMap<>();
+        for (Map.Entry<String, PoolImpl> entry: this.collection().entrySet()){
+            PoolImpl pool = entry.getValue();
+            result.put(entry.getKey(), pool);
+        }
+        return  Collections.unmodifiableMap(result);
     }
 }

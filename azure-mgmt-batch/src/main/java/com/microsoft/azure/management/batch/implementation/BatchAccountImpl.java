@@ -50,6 +50,7 @@ public class BatchAccountImpl
         this.applicationsImpl = new ApplicationsImpl(this);
         this.applicationsImpl.enableCommitMode();
         this.poolsImpl = new PoolsImpl(this);
+        this.poolsImpl.enableCommitMode();
     }
 
     @Override
@@ -59,6 +60,7 @@ public class BatchAccountImpl
             public BatchAccount call(BatchAccount batchAccount) {
                 BatchAccountImpl impl = (BatchAccountImpl) batchAccount;
                 impl.applicationsImpl.refresh();
+                impl.poolsImpl.refresh();
                 return impl;
             }
         });
@@ -102,6 +104,17 @@ public class BatchAccountImpl
                                 .map(new Func1<List<ApplicationImpl>, BatchAccount>() {
                                     @Override
                                     public BatchAccount call(List<ApplicationImpl> applications) {
+                                        return self;
+                                    }
+                                });
+                    }
+                }).flatMap(new Func1<BatchAccount, Observable<? extends BatchAccount>>() {
+                    @Override
+                    public Observable<? extends BatchAccount> call(BatchAccount batchAccount) {
+                        return self.poolsImpl.commitAndGetAllAsync()
+                                .map(new Func1<List<PoolImpl>, BatchAccount>() {
+                                    @Override
+                                    public BatchAccount call(List<PoolImpl> pools) {
                                         return self;
                                     }
                                 });
@@ -194,7 +207,7 @@ public class BatchAccountImpl
 
     @Override
     public Map<String, Pool> pools() {
-        return null;
+        return this.poolsImpl.asMap();
     }
 
     @Override
@@ -209,20 +222,12 @@ public class BatchAccountImpl
 
     @Override
     public Integer dedicatedCoreQuota() {
-        PoolAllocationMode poolAllocationMode = this.inner().poolAllocationMode();
-        if(null != poolAllocationMode && !PoolAllocationMode.USER_SUBSCRIPTION.equals(poolAllocationMode.toString())){
-            return this.inner().dedicatedCoreQuota();
-        }
-        return null;
+        return this.inner().dedicatedCoreQuota();
     }
 
     @Override
     public Integer lowPriorityCoreQuota() {
-        PoolAllocationMode poolAllocationMode = this.inner().poolAllocationMode();
-        if(null != poolAllocationMode && !PoolAllocationMode.USER_SUBSCRIPTION.equals(poolAllocationMode.toString())){
-            return this.inner().lowPriorityCoreQuota();
-        }
-        return null;
+        return this.inner().lowPriorityCoreQuota();
     }
 
     @Override

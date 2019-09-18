@@ -77,7 +77,7 @@ public class PoolImpl
     public Observable<Pool> updateResourceAsync() {
         final PoolImpl self = this;
 
-        return this.parent().manager().inner().pools().createAsync(
+        return this.parent().manager().inner().pools().updateAsync(
                 this.parent().resourceGroupName(),
                 this.parent().name(),
                 this.name(), this.inner()).

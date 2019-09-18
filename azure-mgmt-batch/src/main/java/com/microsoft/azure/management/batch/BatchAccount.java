@@ -88,9 +88,7 @@ public interface BatchAccount extends
     Map<String, Pool> pools();
 
     /**
-     * @return dedicatedCoreQuotaPerVMFamilyEnforced value indicating
-     * whether the core quota for the Batch Account is enforced
-     * per Virtual Machine family or not
+     * @return value indicating whether the core quota for the Batch Account is enforced per Virtual Machine family or not
      */
     boolean dedicatedCoreQuotaPerVMFamilyEnforced();
 
@@ -305,9 +303,9 @@ public interface BatchAccount extends
          */
         interface WithPool {
             /**
-             * Starts a definition of an pool to be created in the Batch account.
+             * Starts a definition of a pool to be created in the Batch account.
              *
-             * @param poolId the reference name for the application
+             * @param poolId the reference name for the pool
              * @return the first stage of a Batch pool definition
              */
             Pool.UpdateDefinitionStages.Blank<Update> defineNewPool(String poolId);

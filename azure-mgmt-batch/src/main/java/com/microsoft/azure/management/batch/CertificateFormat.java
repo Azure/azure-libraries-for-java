@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for CertificateFormat.
  */
 public enum CertificateFormat {
-    /** Enum value Pfx. */
+    /** The certificate is a PFX (PKCS#12) formatted certificate or certificate chain. */
     PFX("Pfx"),
 
-    /** Enum value Cer. */
+    /** The certificate is a base64-encoded X.509 certificate. */
     CER("Cer");
 
     /** The actual serialized value for a CertificateFormat instance. */

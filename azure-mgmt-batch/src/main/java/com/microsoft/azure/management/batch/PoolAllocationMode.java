@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for PoolAllocationMode.
  */
 public enum PoolAllocationMode {
-    /** Enum value BatchService. */
+    /** Pools will be allocated in subscriptions owned by the Batch service. */
     BATCH_SERVICE("BatchService"),
 
-    /** Enum value UserSubscription. */
+    /** Pools will be allocated in a subscription owned by the user. */
     USER_SUBSCRIPTION("UserSubscription");
 
     /** The actual serialized value for a PoolAllocationMode instance. */

@@ -11,8 +11,9 @@ package com.microsoft.azure.management.batch;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Data Disk settings which will be used by the data disks associated to
- * Compute Nodes in the pool.
+ * Settings which will be used by the data disks associated to Compute Nodes in
+ * the Pool. When using attached data disks, you need to mount and format the
+ * disks from within a VM to use them.
  */
 public class DataDisk {
     /**
@@ -58,7 +59,7 @@ public class DataDisk {
     private StorageAccountType storageAccountType;
 
     /**
-     * Get the lun value.
+     * Get the lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun.
      *
      * @return the lun value
      */
@@ -67,7 +68,7 @@ public class DataDisk {
     }
 
     /**
-     * Set the lun value.
+     * Set the lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun.
      *
      * @param lun the lun value to set
      * @return the DataDisk object itself.
@@ -78,7 +79,11 @@ public class DataDisk {
     }
 
     /**
-     * Get the caching value.
+     * Get values are:
+      none - The caching mode for the disk is not enabled.
+      readOnly - The caching mode for the disk is read only.
+      readWrite - The caching mode for the disk is read and write.
+      The default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
      *
      * @return the caching value
      */
@@ -87,7 +92,11 @@ public class DataDisk {
     }
 
     /**
-     * Set the caching value.
+     * Set values are:
+      none - The caching mode for the disk is not enabled.
+      readOnly - The caching mode for the disk is read only.
+      readWrite - The caching mode for the disk is read and write.
+      The default value for caching is none. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
      *
      * @param caching the caching value to set
      * @return the DataDisk object itself.
@@ -118,7 +127,9 @@ public class DataDisk {
     }
 
     /**
-     * Get the storageAccountType value.
+     * Get if omitted, the default is "Standard_LRS". Values are:
+      Standard_LRS - The data disk should use standard locally redundant storage.
+      Premium_LRS - The data disk should use premium locally redundant storage. Possible values include: 'Standard_LRS', 'Premium_LRS'.
      *
      * @return the storageAccountType value
      */
@@ -127,7 +138,9 @@ public class DataDisk {
     }
 
     /**
-     * Set the storageAccountType value.
+     * Set if omitted, the default is "Standard_LRS". Values are:
+      Standard_LRS - The data disk should use standard locally redundant storage.
+      Premium_LRS - The data disk should use premium locally redundant storage. Possible values include: 'Standard_LRS', 'Premium_LRS'.
      *
      * @param storageAccountType the storageAccountType value to set
      * @return the DataDisk object itself.

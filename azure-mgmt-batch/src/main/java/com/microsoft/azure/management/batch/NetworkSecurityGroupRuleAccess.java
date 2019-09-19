@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for NetworkSecurityGroupRuleAccess.
  */
 public enum NetworkSecurityGroupRuleAccess {
-    /** Enum value Allow. */
+    /** Allow access. */
     ALLOW("Allow"),
 
-    /** Enum value Deny. */
+    /** Deny access. */
     DENY("Deny");
 
     /** The actual serialized value for a NetworkSecurityGroupRuleAccess instance. */

@@ -10,12 +10,17 @@ package com.microsoft.azure.management.batch.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
+import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.batch.ActivateApplicationPackageParameters;
+import com.microsoft.azure.Page;
+import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
 import java.io.IOException;
+import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -26,6 +31,7 @@ import retrofit2.http.Path;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
+import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
@@ -57,20 +63,28 @@ public class ApplicationPackagesInner {
      */
     interface ApplicationPackagesService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.ApplicationPackages activate" })
-        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}/versions/{version}/activate")
-        Observable<Response<ResponseBody>> activate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationId") String applicationId, @Path("version") String version, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ActivateApplicationPackageParameters parameters, @Header("User-Agent") String userAgent);
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}/activate")
+        Observable<Response<ResponseBody>> activate(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("versionName") String versionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ActivateApplicationPackageParameters parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.ApplicationPackages create" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}/versions/{version}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationId") String applicationId, @Path("version") String version, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}")
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("versionName") String versionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ApplicationPackageInner parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.ApplicationPackages delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}/versions/{version}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationId") String applicationId, @Path("version") String version, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("versionName") String versionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.ApplicationPackages get" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}/versions/{version}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationId") String applicationId, @Path("version") String version, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions/{versionName}")
+        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("versionName") String versionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.ApplicationPackages list" })
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}/versions")
+        Observable<Response<ResponseBody>> list(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("subscriptionId") String subscriptionId, @Query("maxresults") Integer maxresults, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.ApplicationPackages listNext" })
+        @GET
+        Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -79,15 +93,16 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application to activate.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @param format The format of the application package binary file.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ApplicationPackageInner object if successful.
      */
-    public void activate(String resourceGroupName, String accountName, String applicationId, String version, String format) {
-        activateWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version, format).toBlocking().single().body();
+    public ApplicationPackageInner activate(String resourceGroupName, String accountName, String applicationName, String versionName, String format) {
+        return activateWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName, format).toBlocking().single().body();
     }
 
     /**
@@ -95,15 +110,15 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application to activate.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @param format The format of the application package binary file.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> activateAsync(String resourceGroupName, String accountName, String applicationId, String version, String format, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(activateWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version, format), serviceCallback);
+    public ServiceFuture<ApplicationPackageInner> activateAsync(String resourceGroupName, String accountName, String applicationName, String versionName, String format, final ServiceCallback<ApplicationPackageInner> serviceCallback) {
+        return ServiceFuture.fromResponse(activateWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName, format), serviceCallback);
     }
 
     /**
@@ -111,16 +126,16 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application to activate.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @param format The format of the application package binary file.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @return the observable to the ApplicationPackageInner object
      */
-    public Observable<Void> activateAsync(String resourceGroupName, String accountName, String applicationId, String version, String format) {
-        return activateWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version, format).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<ApplicationPackageInner> activateAsync(String resourceGroupName, String accountName, String applicationName, String versionName, String format) {
+        return activateWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName, format).map(new Func1<ServiceResponse<ApplicationPackageInner>, ApplicationPackageInner>() {
             @Override
-            public Void call(ServiceResponse<Void> response) {
+            public ApplicationPackageInner call(ServiceResponse<ApplicationPackageInner> response) {
                 return response.body();
             }
         });
@@ -131,24 +146,24 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application to activate.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @param format The format of the application package binary file.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @return the observable to the ApplicationPackageInner object
      */
-    public Observable<ServiceResponse<Void>> activateWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId, String version, String format) {
+    public Observable<ServiceResponse<ApplicationPackageInner>> activateWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName, String versionName, String format) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
-        if (version == null) {
-            throw new IllegalArgumentException("Parameter version is required and cannot be null.");
+        if (versionName == null) {
+            throw new IllegalArgumentException("Parameter versionName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -161,12 +176,12 @@ public class ApplicationPackagesInner {
         }
         ActivateApplicationPackageParameters parameters = new ActivateApplicationPackageParameters();
         parameters.withFormat(format);
-        return service.activate(resourceGroupName, accountName, applicationId, version, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+        return service.activate(resourceGroupName, accountName, applicationName, versionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationPackageInner>>>() {
                 @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ApplicationPackageInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<Void> clientResponse = activateDelegate(response);
+                        ServiceResponse<ApplicationPackageInner> clientResponse = activateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -175,9 +190,9 @@ public class ApplicationPackagesInner {
             });
     }
 
-    private ServiceResponse<Void> activateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
+    private ServiceResponse<ApplicationPackageInner> activateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ApplicationPackageInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ApplicationPackageInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -187,15 +202,15 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ApplicationPackageInner object if successful.
      */
-    public ApplicationPackageInner create(String resourceGroupName, String accountName, String applicationId, String version) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version).toBlocking().single().body();
+    public ApplicationPackageInner create(String resourceGroupName, String accountName, String applicationName, String versionName) {
+        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName).toBlocking().single().body();
     }
 
     /**
@@ -203,14 +218,14 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ApplicationPackageInner> createAsync(String resourceGroupName, String accountName, String applicationId, String version, final ServiceCallback<ApplicationPackageInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version), serviceCallback);
+    public ServiceFuture<ApplicationPackageInner> createAsync(String resourceGroupName, String accountName, String applicationName, String versionName, final ServiceCallback<ApplicationPackageInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName), serviceCallback);
     }
 
     /**
@@ -218,13 +233,13 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationPackageInner object
      */
-    public Observable<ApplicationPackageInner> createAsync(String resourceGroupName, String accountName, String applicationId, String version) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version).map(new Func1<ServiceResponse<ApplicationPackageInner>, ApplicationPackageInner>() {
+    public Observable<ApplicationPackageInner> createAsync(String resourceGroupName, String accountName, String applicationName, String versionName) {
+        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName).map(new Func1<ServiceResponse<ApplicationPackageInner>, ApplicationPackageInner>() {
             @Override
             public ApplicationPackageInner call(ServiceResponse<ApplicationPackageInner> response) {
                 return response.body();
@@ -237,23 +252,23 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationPackageInner object
      */
-    public Observable<ServiceResponse<ApplicationPackageInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId, String version) {
+    public Observable<ServiceResponse<ApplicationPackageInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName, String versionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
-        if (version == null) {
-            throw new IllegalArgumentException("Parameter version is required and cannot be null.");
+        if (versionName == null) {
+            throw new IllegalArgumentException("Parameter versionName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -261,7 +276,8 @@ public class ApplicationPackagesInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.create(resourceGroupName, accountName, applicationId, version, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        ApplicationPackageInner paramters = new ApplicationPackageInner();
+        return service.create(resourceGroupName, accountName, applicationName, versionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), paramters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationPackageInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ApplicationPackageInner>> call(Response<ResponseBody> response) {
@@ -277,7 +293,7 @@ public class ApplicationPackagesInner {
 
     private ServiceResponse<ApplicationPackageInner> createDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ApplicationPackageInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<ApplicationPackageInner>() { }.getType())
+                .register(200, new TypeToken<ApplicationPackageInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -287,14 +303,14 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application to delete.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void delete(String resourceGroupName, String accountName, String applicationId, String version) {
-        deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version).toBlocking().single().body();
+    public void delete(String resourceGroupName, String accountName, String applicationName, String versionName) {
+        deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName).toBlocking().single().body();
     }
 
     /**
@@ -302,14 +318,14 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application to delete.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String applicationId, String version, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String applicationName, String versionName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName), serviceCallback);
     }
 
     /**
@@ -317,13 +333,13 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application to delete.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String accountName, String applicationId, String version) {
-        return deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String accountName, String applicationName, String versionName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -336,23 +352,23 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application to delete.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId, String version) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName, String versionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
-        if (version == null) {
-            throw new IllegalArgumentException("Parameter version is required and cannot be null.");
+        if (versionName == null) {
+            throw new IllegalArgumentException("Parameter versionName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -360,7 +376,7 @@ public class ApplicationPackagesInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.delete(resourceGroupName, accountName, applicationId, version, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.delete(resourceGroupName, accountName, applicationName, versionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -376,6 +392,7 @@ public class ApplicationPackagesInner {
 
     private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -386,15 +403,15 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ApplicationPackageInner object if successful.
      */
-    public ApplicationPackageInner get(String resourceGroupName, String accountName, String applicationId, String version) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version).toBlocking().single().body();
+    public ApplicationPackageInner get(String resourceGroupName, String accountName, String applicationName, String versionName) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName).toBlocking().single().body();
     }
 
     /**
@@ -402,14 +419,14 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ApplicationPackageInner> getAsync(String resourceGroupName, String accountName, String applicationId, String version, final ServiceCallback<ApplicationPackageInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version), serviceCallback);
+    public ServiceFuture<ApplicationPackageInner> getAsync(String resourceGroupName, String accountName, String applicationName, String versionName, final ServiceCallback<ApplicationPackageInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName), serviceCallback);
     }
 
     /**
@@ -417,13 +434,13 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationPackageInner object
      */
-    public Observable<ApplicationPackageInner> getAsync(String resourceGroupName, String accountName, String applicationId, String version) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName, applicationId, version).map(new Func1<ServiceResponse<ApplicationPackageInner>, ApplicationPackageInner>() {
+    public Observable<ApplicationPackageInner> getAsync(String resourceGroupName, String accountName, String applicationName, String versionName) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName, applicationName, versionName).map(new Func1<ServiceResponse<ApplicationPackageInner>, ApplicationPackageInner>() {
             @Override
             public ApplicationPackageInner call(ServiceResponse<ApplicationPackageInner> response) {
                 return response.body();
@@ -436,23 +453,23 @@ public class ApplicationPackagesInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
-     * @param version The version of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param versionName The version of the application.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationPackageInner object
      */
-    public Observable<ServiceResponse<ApplicationPackageInner>> getWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId, String version) {
+    public Observable<ServiceResponse<ApplicationPackageInner>> getWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName, String versionName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
-        if (version == null) {
-            throw new IllegalArgumentException("Parameter version is required and cannot be null.");
+        if (versionName == null) {
+            throw new IllegalArgumentException("Parameter versionName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -460,7 +477,7 @@ public class ApplicationPackagesInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.get(resourceGroupName, accountName, applicationId, version, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.get(resourceGroupName, accountName, applicationName, versionName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationPackageInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ApplicationPackageInner>> call(Response<ResponseBody> response) {
@@ -477,6 +494,378 @@ public class ApplicationPackagesInner {
     private ServiceResponse<ApplicationPackageInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ApplicationPackageInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ApplicationPackageInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ApplicationPackageInner&gt; object if successful.
+     */
+    public PagedList<ApplicationPackageInner> list(final String resourceGroupName, final String accountName, final String applicationName) {
+        ServiceResponse<Page<ApplicationPackageInner>> response = listSinglePageAsync(resourceGroupName, accountName, applicationName).toBlocking().single();
+        return new PagedList<ApplicationPackageInner>(response.body()) {
+            @Override
+            public Page<ApplicationPackageInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ApplicationPackageInner>> listAsync(final String resourceGroupName, final String accountName, final String applicationName, final ListOperationCallback<ApplicationPackageInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSinglePageAsync(resourceGroupName, accountName, applicationName),
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(String nextPageLink) {
+                    return listNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ApplicationPackageInner&gt; object
+     */
+    public Observable<Page<ApplicationPackageInner>> listAsync(final String resourceGroupName, final String accountName, final String applicationName) {
+        return listWithServiceResponseAsync(resourceGroupName, accountName, applicationName)
+            .map(new Func1<ServiceResponse<Page<ApplicationPackageInner>>, Page<ApplicationPackageInner>>() {
+                @Override
+                public Page<ApplicationPackageInner> call(ServiceResponse<Page<ApplicationPackageInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ApplicationPackageInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ApplicationPackageInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String accountName, final String applicationName) {
+        return listSinglePageAsync(resourceGroupName, accountName, applicationName)
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationPackageInner>>, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(ServiceResponse<Page<ApplicationPackageInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ApplicationPackageInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ApplicationPackageInner>>> listSinglePageAsync(final String resourceGroupName, final String accountName, final String applicationName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Integer maxresults = null;
+        return service.list(resourceGroupName, accountName, applicationName, this.client.subscriptionId(), maxresults, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ApplicationPackageInner>> result = listDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationPackageInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param maxresults The maximum number of items to return in the response.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ApplicationPackageInner&gt; object if successful.
+     */
+    public PagedList<ApplicationPackageInner> list(final String resourceGroupName, final String accountName, final String applicationName, final Integer maxresults) {
+        ServiceResponse<Page<ApplicationPackageInner>> response = listSinglePageAsync(resourceGroupName, accountName, applicationName, maxresults).toBlocking().single();
+        return new PagedList<ApplicationPackageInner>(response.body()) {
+            @Override
+            public Page<ApplicationPackageInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param maxresults The maximum number of items to return in the response.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ApplicationPackageInner>> listAsync(final String resourceGroupName, final String accountName, final String applicationName, final Integer maxresults, final ListOperationCallback<ApplicationPackageInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listSinglePageAsync(resourceGroupName, accountName, applicationName, maxresults),
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(String nextPageLink) {
+                    return listNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param maxresults The maximum number of items to return in the response.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ApplicationPackageInner&gt; object
+     */
+    public Observable<Page<ApplicationPackageInner>> listAsync(final String resourceGroupName, final String accountName, final String applicationName, final Integer maxresults) {
+        return listWithServiceResponseAsync(resourceGroupName, accountName, applicationName, maxresults)
+            .map(new Func1<ServiceResponse<Page<ApplicationPackageInner>>, Page<ApplicationPackageInner>>() {
+                @Override
+                public Page<ApplicationPackageInner> call(ServiceResponse<Page<ApplicationPackageInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param resourceGroupName The name of the resource group that contains the Batch account.
+     * @param accountName The name of the Batch account.
+     * @param applicationName The name of the application. This must be unique within the account.
+     * @param maxresults The maximum number of items to return in the response.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ApplicationPackageInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ApplicationPackageInner>>> listWithServiceResponseAsync(final String resourceGroupName, final String accountName, final String applicationName, final Integer maxresults) {
+        return listSinglePageAsync(resourceGroupName, accountName, applicationName, maxresults)
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationPackageInner>>, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(ServiceResponse<Page<ApplicationPackageInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+    ServiceResponse<PageImpl<ApplicationPackageInner>> * @param resourceGroupName The name of the resource group that contains the Batch account.
+    ServiceResponse<PageImpl<ApplicationPackageInner>> * @param accountName The name of the Batch account.
+    ServiceResponse<PageImpl<ApplicationPackageInner>> * @param applicationName The name of the application. This must be unique within the account.
+    ServiceResponse<PageImpl<ApplicationPackageInner>> * @param maxresults The maximum number of items to return in the response.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ApplicationPackageInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ApplicationPackageInner>>> listSinglePageAsync(final String resourceGroupName, final String accountName, final String applicationName, final Integer maxresults) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.list(resourceGroupName, accountName, applicationName, this.client.subscriptionId(), maxresults, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ApplicationPackageInner>> result = listDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationPackageInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ApplicationPackageInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationPackageInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ApplicationPackageInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ApplicationPackageInner&gt; object if successful.
+     */
+    public PagedList<ApplicationPackageInner> listNext(final String nextPageLink) {
+        ServiceResponse<Page<ApplicationPackageInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ApplicationPackageInner>(response.body()) {
+            @Override
+            public Page<ApplicationPackageInner> nextPage(String nextPageLink) {
+                return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ApplicationPackageInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationPackageInner>> serviceFuture, final ListOperationCallback<ApplicationPackageInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(String nextPageLink) {
+                    return listNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ApplicationPackageInner&gt; object
+     */
+    public Observable<Page<ApplicationPackageInner>> listNextAsync(final String nextPageLink) {
+        return listNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<ApplicationPackageInner>>, Page<ApplicationPackageInner>>() {
+                @Override
+                public Page<ApplicationPackageInner> call(ServiceResponse<Page<ApplicationPackageInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ApplicationPackageInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ApplicationPackageInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+        return listNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationPackageInner>>, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(ServiceResponse<Page<ApplicationPackageInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Lists all of the application packages in the specified application.
+     *
+    ServiceResponse<PageImpl<ApplicationPackageInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ApplicationPackageInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ApplicationPackageInner>>> listNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationPackageInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ApplicationPackageInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ApplicationPackageInner>> result = listNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationPackageInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ApplicationPackageInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationPackageInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ApplicationPackageInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

@@ -22,7 +22,7 @@ public class BatchAccountRegenerateKeyParameters {
     private AccountKeyType keyName;
 
     /**
-     * Get the keyName value.
+     * Get the type of account key to regenerate. Possible values include: 'Primary', 'Secondary'.
      *
      * @return the keyName value
      */
@@ -31,7 +31,7 @@ public class BatchAccountRegenerateKeyParameters {
     }
 
     /**
-     * Set the keyName value.
+     * Set the type of account key to regenerate. Possible values include: 'Primary', 'Secondary'.
      *
      * @param keyName the keyName value to set
      * @return the BatchAccountRegenerateKeyParameters object itself.

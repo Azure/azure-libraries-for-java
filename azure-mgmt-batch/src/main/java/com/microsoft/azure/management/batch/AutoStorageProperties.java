@@ -24,7 +24,7 @@ public class AutoStorageProperties extends AutoStorageBaseProperties {
     private DateTime lastKeySync;
 
     /**
-     * Get the lastKeySync value.
+     * Get the UTC time at which storage keys were last synchronized with the Batch account.
      *
      * @return the lastKeySync value
      */
@@ -33,7 +33,7 @@ public class AutoStorageProperties extends AutoStorageBaseProperties {
     }
 
     /**
-     * Set the lastKeySync value.
+     * Set the UTC time at which storage keys were last synchronized with the Batch account.
      *
      * @param lastKeySync the lastKeySync value to set
      * @return the AutoStorageProperties object itself.

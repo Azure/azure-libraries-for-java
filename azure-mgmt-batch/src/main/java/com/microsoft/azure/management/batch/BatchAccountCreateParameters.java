@@ -54,7 +54,7 @@ public class BatchAccountCreateParameters {
     private KeyVaultReference keyVaultReference;
 
     /**
-     * Get the location value.
+     * Get the region in which to create the account.
      *
      * @return the location value
      */
@@ -63,7 +63,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Set the location value.
+     * Set the region in which to create the account.
      *
      * @param location the location value to set
      * @return the BatchAccountCreateParameters object itself.
@@ -74,7 +74,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Get the tags value.
+     * Get the user-specified tags associated with the account.
      *
      * @return the tags value
      */
@@ -83,7 +83,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Set the tags value.
+     * Set the user-specified tags associated with the account.
      *
      * @param tags the tags value to set
      * @return the BatchAccountCreateParameters object itself.
@@ -94,7 +94,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Get the autoStorage value.
+     * Get the properties related to the auto-storage account.
      *
      * @return the autoStorage value
      */
@@ -103,7 +103,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Set the autoStorage value.
+     * Set the properties related to the auto-storage account.
      *
      * @param autoStorage the autoStorage value to set
      * @return the BatchAccountCreateParameters object itself.
@@ -114,7 +114,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Get the poolAllocationMode value.
+     * Get the pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. Possible values include: 'BatchService', 'UserSubscription'.
      *
      * @return the poolAllocationMode value
      */
@@ -123,7 +123,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Set the poolAllocationMode value.
+     * Set the pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. Possible values include: 'BatchService', 'UserSubscription'.
      *
      * @param poolAllocationMode the poolAllocationMode value to set
      * @return the BatchAccountCreateParameters object itself.
@@ -134,7 +134,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Get the keyVaultReference value.
+     * Get a reference to the Azure key vault associated with the Batch account.
      *
      * @return the keyVaultReference value
      */
@@ -143,7 +143,7 @@ public class BatchAccountCreateParameters {
     }
 
     /**
-     * Set the keyVaultReference value.
+     * Set a reference to the Azure key vault associated with the Batch account.
      *
      * @param keyVaultReference the keyVaultReference value to set
      * @return the BatchAccountCreateParameters object itself.

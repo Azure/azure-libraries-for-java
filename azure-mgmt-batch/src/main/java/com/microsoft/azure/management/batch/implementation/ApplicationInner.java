@@ -8,67 +8,44 @@
 
 package com.microsoft.azure.management.batch.implementation;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Contains information about an application in a Batch account.
  */
-public class ApplicationInner {
-    /**
-     * A string that uniquely identifies the application within the account.
-     */
-    @JsonProperty(value = "id")
-    private String id;
-
+@JsonFlatten
+public class ApplicationInner extends ProxyResource {
     /**
      * The display name for the application.
      */
-    @JsonProperty(value = "displayName")
+    @JsonProperty(value = "properties.displayName")
     private String displayName;
-
-    /**
-     * The list of packages under this application.
-     */
-    @JsonProperty(value = "packages")
-    private List<ApplicationPackageInner> packages;
 
     /**
      * A value indicating whether packages within the application may be
      * overwritten using the same version string.
      */
-    @JsonProperty(value = "allowUpdates")
+    @JsonProperty(value = "properties.allowUpdates")
     private Boolean allowUpdates;
 
     /**
      * The package to use if a client requests the application but does not
-     * specify a version.
+     * specify a version. This property can only be set to the name of an
+     * existing package.
      */
-    @JsonProperty(value = "defaultVersion")
+    @JsonProperty(value = "properties.defaultVersion")
     private String defaultVersion;
 
     /**
-     * Get the id value.
-     *
-     * @return the id value
+     * The ETag of the resource, used for concurrency statements.
      */
-    public String id() {
-        return this.id;
-    }
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
+    private String etag;
 
     /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the ApplicationInner object itself.
-     */
-    public ApplicationInner withId(String id) {
-        this.id = id;
-        return this;
-    }
-
-    /**
-     * Get the displayName value.
+     * Get the display name for the application.
      *
      * @return the displayName value
      */
@@ -77,7 +54,7 @@ public class ApplicationInner {
     }
 
     /**
-     * Set the displayName value.
+     * Set the display name for the application.
      *
      * @param displayName the displayName value to set
      * @return the ApplicationInner object itself.
@@ -88,27 +65,7 @@ public class ApplicationInner {
     }
 
     /**
-     * Get the packages value.
-     *
-     * @return the packages value
-     */
-    public List<ApplicationPackageInner> packages() {
-        return this.packages;
-    }
-
-    /**
-     * Set the packages value.
-     *
-     * @param packages the packages value to set
-     * @return the ApplicationInner object itself.
-     */
-    public ApplicationInner withPackages(List<ApplicationPackageInner> packages) {
-        this.packages = packages;
-        return this;
-    }
-
-    /**
-     * Get the allowUpdates value.
+     * Get a value indicating whether packages within the application may be overwritten using the same version string.
      *
      * @return the allowUpdates value
      */
@@ -117,7 +74,7 @@ public class ApplicationInner {
     }
 
     /**
-     * Set the allowUpdates value.
+     * Set a value indicating whether packages within the application may be overwritten using the same version string.
      *
      * @param allowUpdates the allowUpdates value to set
      * @return the ApplicationInner object itself.
@@ -128,7 +85,7 @@ public class ApplicationInner {
     }
 
     /**
-     * Get the defaultVersion value.
+     * Get the package to use if a client requests the application but does not specify a version. This property can only be set to the name of an existing package.
      *
      * @return the defaultVersion value
      */
@@ -137,7 +94,7 @@ public class ApplicationInner {
     }
 
     /**
-     * Set the defaultVersion value.
+     * Set the package to use if a client requests the application but does not specify a version. This property can only be set to the name of an existing package.
      *
      * @param defaultVersion the defaultVersion value to set
      * @return the ApplicationInner object itself.
@@ -145,6 +102,15 @@ public class ApplicationInner {
     public ApplicationInner withDefaultVersion(String defaultVersion) {
         this.defaultVersion = defaultVersion;
         return this;
+    }
+
+    /**
+     * Get the ETag of the resource, used for concurrency statements.
+     *
+     * @return the etag value
+     */
+    public String etag() {
+        return this.etag;
     }
 
 }

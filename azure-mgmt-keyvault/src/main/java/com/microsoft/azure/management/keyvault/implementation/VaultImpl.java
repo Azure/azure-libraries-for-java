@@ -283,8 +283,8 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
                                         public void call(ServicePrincipal sp) {
                                             if (sp == null) {
                                                 throw new CloudException(String.format(
-                                                        "User principal name %s is not found in tenant %s",
-                                                        accessPolicy.userPrincipalName(), graphRbacManager.tenantId()),
+                                                        "Service principal name %s is not found in tenant %s",
+                                                        accessPolicy.servicePrincipalName(), graphRbacManager.tenantId()),
                                                         null);
                                             }
                                             accessPolicy.forObjectId(sp.id());

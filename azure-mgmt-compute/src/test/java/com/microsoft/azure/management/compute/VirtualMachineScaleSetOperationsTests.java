@@ -11,7 +11,6 @@ import com.microsoft.azure.SubResource;
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
 import com.microsoft.azure.management.keyvault.Secret;
 import com.microsoft.azure.management.keyvault.Vault;
 import com.microsoft.azure.management.network.ApplicationSecurityGroup;

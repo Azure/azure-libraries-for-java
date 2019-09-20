@@ -50,6 +50,11 @@ public interface LoadBalancer extends
     Map<String, LoadBalancerHttpProbe> httpProbes();
 
     /**
+     * @return HTTPS probes of this load balancer, indexed by the name
+     */
+    Map<String, LoadBalancerHttpProbe> httpsProbes();
+
+    /**
      * @return backends for this load balancer to load balance the incoming traffic among, indexed by name
      */
     Map<String, LoadBalancerBackend> backends();
@@ -206,6 +211,13 @@ public interface LoadBalancer extends
              * @return the first stage of the new probe definition
              */
             LoadBalancerHttpProbe.DefinitionStages.Blank<WithCreate> defineHttpProbe(String name);
+
+            /**
+             * Begins the definition of a new HTTPS probe to add to the load balancer.
+             * @param name the name of the probe
+             * @return the first stage of the new probe definition
+             */
+            LoadBalancerHttpProbe.DefinitionStages.Blank<WithCreate> defineHttpsProbe(String name);
         }
 
         /**
@@ -350,6 +362,15 @@ public interface LoadBalancer extends
             LoadBalancerHttpProbe.UpdateDefinitionStages.Blank<Update> defineHttpProbe(String name);
 
             /**
+             * Begins the definition of a new HTTPS probe to add to the load balancer.
+             * <p>
+             * The definition must be completed with a call to {@link LoadBalancerHttpProbe.DefinitionStages.WithAttach#attach()}
+             * @param name the name of the new probe
+             * @return the next stage of the definition
+             */
+            LoadBalancerHttpProbe.UpdateDefinitionStages.Blank<Update> defineHttpsProbe(String name);
+
+            /**
              * Begins the definition of a new TCP probe to add to the load balancer.
              * <p>
              * The definition must be completed with a call to {@link LoadBalancerHttpProbe.DefinitionStages.WithAttach#attach()}
@@ -378,6 +399,13 @@ public interface LoadBalancer extends
              * @return the first stage of the probe update
              */
             LoadBalancerHttpProbe.Update updateHttpProbe(String name);
+
+            /**
+             * Begins the description of an update to an existing HTTPS probe on this load balancer.
+             * @param name the name of the probe to update
+             * @return the first stage of the probe update
+             */
+            LoadBalancerHttpProbe.Update updateHttpsProbe(String name);
         }
 
         /**

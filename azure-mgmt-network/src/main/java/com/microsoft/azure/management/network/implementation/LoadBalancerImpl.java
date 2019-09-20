@@ -63,6 +63,7 @@ class LoadBalancerImpl
     private Map<String, LoadBalancerBackend> backends;
     private Map<String, LoadBalancerTcpProbe> tcpProbes;
     private Map<String, LoadBalancerHttpProbe> httpProbes;
+    private Map<String, LoadBalancerHttpProbe> httpsProbes;
     private Map<String, LoadBalancingRule> loadBalancingRules;
     private Map<String, LoadBalancerFrontend> frontends;
     private Map<String, LoadBalancerInboundNatRule> inboundNatRules;
@@ -203,6 +204,7 @@ class LoadBalancerImpl
 
         // Reset and update probes
         List<ProbeInner> innerProbes = innersFromWrappers(this.httpProbes.values());
+        innerProbes = innersFromWrappers(this.httpsProbes.values(), innerProbes);
         innerProbes = innersFromWrappers(this.tcpProbes.values(), innerProbes);
         if (innerProbes == null) {
             innerProbes = new ArrayList<>();
@@ -281,6 +283,7 @@ class LoadBalancerImpl
             ref = lbRule.inner().probe();
             if (ref != null
                     && !this.httpProbes().containsKey(ResourceUtils.nameFromResourceId(ref.id()))
+                    && !this.httpsProbes().containsKey(ResourceUtils.nameFromResourceId(ref.id()))
                     && !this.tcpProbes().containsKey(ResourceUtils.nameFromResourceId(ref.id()))) {
                 lbRule.inner().withProbe(null);
             }
@@ -347,6 +350,7 @@ class LoadBalancerImpl
 
     private void initializeProbesFromInner() {
         this.httpProbes = new TreeMap<>();
+        this.httpsProbes = new TreeMap<>();
         this.tcpProbes = new TreeMap<>();
         if (this.inner().probes() != null) {
             for (ProbeInner probeInner : this.inner().probes()) {
@@ -355,6 +359,8 @@ class LoadBalancerImpl
                     this.tcpProbes.put(probeInner.name(), probe);
                 } else if (probeInner.protocol().equals(ProbeProtocol.HTTP)) {
                     this.httpProbes.put(probeInner.name(), probe);
+                } else if (probeInner.protocol().equals(ProbeProtocol.HTTPS)) {
+                    this.httpsProbes.put(probeInner.name(), probe);
                 }
             }
         }
@@ -412,6 +418,8 @@ class LoadBalancerImpl
             return this;
         } else if (probe.protocol() == ProbeProtocol.HTTP) {
             httpProbes.put(probe.name(), probe);
+        } else if (probe.protocol() == ProbeProtocol.HTTPS) {
+            httpsProbes.put(probe.name(), probe);
         } else if (probe.protocol() == ProbeProtocol.TCP) {
             tcpProbes.put(probe.name(), probe);
         }
@@ -533,6 +541,20 @@ class LoadBalancerImpl
     }
 
     @Override
+    public LoadBalancerProbeImpl defineHttpsProbe(String name) {
+        LoadBalancerProbe probe = this.httpsProbes.get(name);
+        if (probe == null) {
+            ProbeInner inner = new ProbeInner()
+                    .withName(name)
+                    .withProtocol(ProbeProtocol.HTTPS)
+                    .withPort(443);
+            return new LoadBalancerProbeImpl(inner, this);
+        } else {
+            return (LoadBalancerProbeImpl) probe;
+        }
+    }
+
+    @Override
     public LoadBalancingRuleImpl defineLoadBalancingRule(String name) {
         LoadBalancingRule lbRule = this.loadBalancingRules.get(name);
         if (lbRule == null) {
@@ -618,6 +640,8 @@ class LoadBalancerImpl
     public LoadBalancerImpl withoutProbe(String name) {
         if (this.httpProbes.containsKey(name)) {
             this.httpProbes.remove(name);
+        } else if (this.httpsProbes.containsKey(name)) {
+            this.httpsProbes.remove(name);
         } else if (this.tcpProbes.containsKey(name)) {
             this.tcpProbes.remove(name);
         }
@@ -657,6 +681,11 @@ class LoadBalancerImpl
     @Override
     public LoadBalancerProbeImpl updateHttpProbe(String name) {
         return (LoadBalancerProbeImpl) this.httpProbes.get(name);
+    }
+
+    @Override
+    public LoadBalancerProbeImpl updateHttpsProbe(String name) {
+        return (LoadBalancerProbeImpl) this.httpsProbes.get(name);
     }
 
     @Override
@@ -753,6 +782,11 @@ class LoadBalancerImpl
     @Override
     public Map<String, LoadBalancerHttpProbe> httpProbes() {
         return Collections.unmodifiableMap(this.httpProbes);
+    }
+
+    @Override
+    public Map<String, LoadBalancerHttpProbe> httpsProbes() {
+        return Collections.unmodifiableMap(this.httpsProbes);
     }
 
     @Override

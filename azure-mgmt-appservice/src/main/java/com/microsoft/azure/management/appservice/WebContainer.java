@@ -77,6 +77,9 @@ public final class WebContainer extends ExpandableStringEnum<WebContainer> {
     /** Static value java 8 for WebContainer. */
     public static final WebContainer JAVA_8 = WebContainer.fromString("java 8");
 
+    /** Static value java 11 for WebContainer. */
+    public static final WebContainer JAVA_11 = WebContainer.fromString("java 11");
+
     /**
      * Finds or creates a Web container based on the specified name.
      * @param name a name

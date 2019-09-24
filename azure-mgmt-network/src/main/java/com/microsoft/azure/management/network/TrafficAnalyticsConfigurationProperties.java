@@ -23,19 +23,19 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * The resource guid of the attached workspace.
      */
-    @JsonProperty(value = "workspaceId", required = true)
+    @JsonProperty(value = "workspaceId")
     private String workspaceId;
 
     /**
      * The location of the attached workspace.
      */
-    @JsonProperty(value = "workspaceRegion", required = true)
+    @JsonProperty(value = "workspaceRegion")
     private String workspaceRegion;
 
     /**
      * Resource Id of the attached workspace.
      */
-    @JsonProperty(value = "workspaceResourceId", required = true)
+    @JsonProperty(value = "workspaceResourceId")
     private String workspaceResourceId;
 
     /**

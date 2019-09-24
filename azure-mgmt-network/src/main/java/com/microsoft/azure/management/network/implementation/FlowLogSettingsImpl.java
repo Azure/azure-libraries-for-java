@@ -102,6 +102,9 @@ class FlowLogSettingsImpl extends RefreshableWrapperImpl<FlowLogInformationInner
 
     @Override
     public Update update() {
+        if (this.inner().flowAnalyticsConfiguration() != null && this.inner().flowAnalyticsConfiguration().networkWatcherFlowAnalyticsConfiguration() == null) {
+            this.inner().withFlowAnalyticsConfiguration(null);
+        }
         return this;
     }
 

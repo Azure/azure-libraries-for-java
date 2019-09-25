@@ -32,7 +32,7 @@ public class UserIdentity {
     private AutoUserSpecification autoUser;
 
     /**
-     * Get the userName value.
+     * Get the userName and autoUser properties are mutually exclusive; you must specify one but not both.
      *
      * @return the userName value
      */
@@ -41,7 +41,7 @@ public class UserIdentity {
     }
 
     /**
-     * Set the userName value.
+     * Set the userName and autoUser properties are mutually exclusive; you must specify one but not both.
      *
      * @param userName the userName value to set
      * @return the UserIdentity object itself.
@@ -52,7 +52,7 @@ public class UserIdentity {
     }
 
     /**
-     * Get the autoUser value.
+     * Get the userName and autoUser properties are mutually exclusive; you must specify one but not both.
      *
      * @return the autoUser value
      */
@@ -61,7 +61,7 @@ public class UserIdentity {
     }
 
     /**
-     * Set the autoUser value.
+     * Set the userName and autoUser properties are mutually exclusive; you must specify one but not both.
      *
      * @param autoUser the autoUser value to set
      * @return the UserIdentity object itself.

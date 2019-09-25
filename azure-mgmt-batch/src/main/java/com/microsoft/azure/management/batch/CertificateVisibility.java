@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for CertificateVisibility.
  */
 public enum CertificateVisibility {
-    /** Enum value StartTask. */
+    /** The certificate should be visible to the user account under which the start task is run. Note that if AutoUser Scope is Pool for both the StartTask and a Task, this certificate will be visible to the Task as well. */
     START_TASK("StartTask"),
 
-    /** Enum value Task. */
+    /** The certificate should be visible to the user accounts under which job tasks are run. */
     TASK("Task"),
 
-    /** Enum value RemoteUser. */
+    /** The certificate should be visible to the user accounts under which users remotely access the node. */
     REMOTE_USER("RemoteUser");
 
     /** The actual serialized value for a CertificateVisibility instance. */

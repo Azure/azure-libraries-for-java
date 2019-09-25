@@ -13,8 +13,6 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.batch.ApplicationCreateParameters;
-import com.microsoft.azure.management.batch.ApplicationUpdateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -65,20 +63,20 @@ public class ApplicationsInner {
      */
     interface ApplicationsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Applications create" })
-        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}")
-        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationId") String applicationId, @Path("subscriptionId") String subscriptionId, @Body ApplicationCreateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}")
+        Observable<Response<ResponseBody>> create(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("subscriptionId") String subscriptionId, @Body ApplicationInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Applications delete" })
-        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}", method = "DELETE", hasBody = true)
-        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationId") String applicationId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}", method = "DELETE", hasBody = true)
+        Observable<Response<ResponseBody>> delete(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Applications get" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}")
-        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationId") String applicationId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}")
+        Observable<Response<ResponseBody>> get(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Applications update" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationId}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationId") String applicationId, @Path("subscriptionId") String subscriptionId, @Body ApplicationUpdateParameters parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications/{applicationName}")
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Path("applicationName") String applicationName, @Path("subscriptionId") String subscriptionId, @Body ApplicationInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.batch.Applications list" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/applications")
@@ -95,14 +93,14 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ApplicationInner object if successful.
      */
-    public ApplicationInner create(String resourceGroupName, String accountName, String applicationId) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationId).toBlocking().single().body();
+    public ApplicationInner create(String resourceGroupName, String accountName, String applicationName) {
+        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationName).toBlocking().single().body();
     }
 
     /**
@@ -110,13 +108,13 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ApplicationInner> createAsync(String resourceGroupName, String accountName, String applicationId, final ServiceCallback<ApplicationInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, accountName, applicationId), serviceCallback);
+    public ServiceFuture<ApplicationInner> createAsync(String resourceGroupName, String accountName, String applicationName, final ServiceCallback<ApplicationInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, accountName, applicationName), serviceCallback);
     }
 
     /**
@@ -124,12 +122,12 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationInner object
      */
-    public Observable<ApplicationInner> createAsync(String resourceGroupName, String accountName, String applicationId) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationId).map(new Func1<ServiceResponse<ApplicationInner>, ApplicationInner>() {
+    public Observable<ApplicationInner> createAsync(String resourceGroupName, String accountName, String applicationName) {
+        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationName).map(new Func1<ServiceResponse<ApplicationInner>, ApplicationInner>() {
             @Override
             public ApplicationInner call(ServiceResponse<ApplicationInner> response) {
                 return response.body();
@@ -142,19 +140,19 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationInner object
      */
-    public Observable<ServiceResponse<ApplicationInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId) {
+    public Observable<ServiceResponse<ApplicationInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -162,8 +160,8 @@ public class ApplicationsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        final ApplicationCreateParameters parameters = null;
-        return service.create(resourceGroupName, accountName, applicationId, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final ApplicationInner parameters = null;
+        return service.create(resourceGroupName, accountName, applicationName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ApplicationInner>> call(Response<ResponseBody> response) {
@@ -182,15 +180,15 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param parameters The parameters for the request.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ApplicationInner object if successful.
      */
-    public ApplicationInner create(String resourceGroupName, String accountName, String applicationId, ApplicationCreateParameters parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationId, parameters).toBlocking().single().body();
+    public ApplicationInner create(String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationName, parameters).toBlocking().single().body();
     }
 
     /**
@@ -198,14 +196,14 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param parameters The parameters for the request.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ApplicationInner> createAsync(String resourceGroupName, String accountName, String applicationId, ApplicationCreateParameters parameters, final ServiceCallback<ApplicationInner> serviceCallback) {
-        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, accountName, applicationId, parameters), serviceCallback);
+    public ServiceFuture<ApplicationInner> createAsync(String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters, final ServiceCallback<ApplicationInner> serviceCallback) {
+        return ServiceFuture.fromResponse(createWithServiceResponseAsync(resourceGroupName, accountName, applicationName, parameters), serviceCallback);
     }
 
     /**
@@ -213,13 +211,13 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param parameters The parameters for the request.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationInner object
      */
-    public Observable<ApplicationInner> createAsync(String resourceGroupName, String accountName, String applicationId, ApplicationCreateParameters parameters) {
-        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationId, parameters).map(new Func1<ServiceResponse<ApplicationInner>, ApplicationInner>() {
+    public Observable<ApplicationInner> createAsync(String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
+        return createWithServiceResponseAsync(resourceGroupName, accountName, applicationName, parameters).map(new Func1<ServiceResponse<ApplicationInner>, ApplicationInner>() {
             @Override
             public ApplicationInner call(ServiceResponse<ApplicationInner> response) {
                 return response.body();
@@ -232,20 +230,20 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param parameters The parameters for the request.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationInner object
      */
-    public Observable<ServiceResponse<ApplicationInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId, ApplicationCreateParameters parameters) {
+    public Observable<ServiceResponse<ApplicationInner>> createWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -254,7 +252,7 @@ public class ApplicationsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.create(resourceGroupName, accountName, applicationId, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.create(resourceGroupName, accountName, applicationName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ApplicationInner>> call(Response<ResponseBody> response) {
@@ -270,7 +268,7 @@ public class ApplicationsInner {
 
     private ServiceResponse<ApplicationInner> createDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ApplicationInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(201, new TypeToken<ApplicationInner>() { }.getType())
+                .register(200, new TypeToken<ApplicationInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -280,13 +278,13 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void delete(String resourceGroupName, String accountName, String applicationId) {
-        deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationId).toBlocking().single().body();
+    public void delete(String resourceGroupName, String accountName, String applicationName) {
+        deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationName).toBlocking().single().body();
     }
 
     /**
@@ -294,13 +292,13 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String applicationId, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationId), serviceCallback);
+    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String applicationName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationName), serviceCallback);
     }
 
     /**
@@ -308,12 +306,12 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> deleteAsync(String resourceGroupName, String accountName, String applicationId) {
-        return deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationId).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<Void> deleteAsync(String resourceGroupName, String accountName, String applicationName) {
+        return deleteWithServiceResponseAsync(resourceGroupName, accountName, applicationName).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
                 return response.body();
@@ -326,19 +324,19 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId) {
+    public Observable<ServiceResponse<Void>> deleteWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -346,7 +344,7 @@ public class ApplicationsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.delete(resourceGroupName, accountName, applicationId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.delete(resourceGroupName, accountName, applicationName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -362,6 +360,7 @@ public class ApplicationsInner {
 
     private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
@@ -372,14 +371,14 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ApplicationInner object if successful.
      */
-    public ApplicationInner get(String resourceGroupName, String accountName, String applicationId) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName, applicationId).toBlocking().single().body();
+    public ApplicationInner get(String resourceGroupName, String accountName, String applicationName) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName, applicationName).toBlocking().single().body();
     }
 
     /**
@@ -387,13 +386,13 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ApplicationInner> getAsync(String resourceGroupName, String accountName, String applicationId, final ServiceCallback<ApplicationInner> serviceCallback) {
-        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName, applicationId), serviceCallback);
+    public ServiceFuture<ApplicationInner> getAsync(String resourceGroupName, String accountName, String applicationName, final ServiceCallback<ApplicationInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getWithServiceResponseAsync(resourceGroupName, accountName, applicationName), serviceCallback);
     }
 
     /**
@@ -401,12 +400,12 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationInner object
      */
-    public Observable<ApplicationInner> getAsync(String resourceGroupName, String accountName, String applicationId) {
-        return getWithServiceResponseAsync(resourceGroupName, accountName, applicationId).map(new Func1<ServiceResponse<ApplicationInner>, ApplicationInner>() {
+    public Observable<ApplicationInner> getAsync(String resourceGroupName, String accountName, String applicationName) {
+        return getWithServiceResponseAsync(resourceGroupName, accountName, applicationName).map(new Func1<ServiceResponse<ApplicationInner>, ApplicationInner>() {
             @Override
             public ApplicationInner call(ServiceResponse<ApplicationInner> response) {
                 return response.body();
@@ -419,19 +418,19 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ApplicationInner object
      */
-    public Observable<ServiceResponse<ApplicationInner>> getWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId) {
+    public Observable<ServiceResponse<ApplicationInner>> getWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -439,7 +438,7 @@ public class ApplicationsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.get(resourceGroupName, accountName, applicationId, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.get(resourceGroupName, accountName, applicationName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ApplicationInner>> call(Response<ResponseBody> response) {
@@ -465,14 +464,15 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param parameters The parameters for the request.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ApplicationInner object if successful.
      */
-    public void update(String resourceGroupName, String accountName, String applicationId, ApplicationUpdateParameters parameters) {
-        updateWithServiceResponseAsync(resourceGroupName, accountName, applicationId, parameters).toBlocking().single().body();
+    public ApplicationInner update(String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, applicationName, parameters).toBlocking().single().body();
     }
 
     /**
@@ -480,14 +480,14 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param parameters The parameters for the request.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> updateAsync(String resourceGroupName, String accountName, String applicationId, ApplicationUpdateParameters parameters, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, applicationId, parameters), serviceCallback);
+    public ServiceFuture<ApplicationInner> updateAsync(String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters, final ServiceCallback<ApplicationInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, applicationName, parameters), serviceCallback);
     }
 
     /**
@@ -495,15 +495,15 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param parameters The parameters for the request.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @return the observable to the ApplicationInner object
      */
-    public Observable<Void> updateAsync(String resourceGroupName, String accountName, String applicationId, ApplicationUpdateParameters parameters) {
-        return updateWithServiceResponseAsync(resourceGroupName, accountName, applicationId, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+    public Observable<ApplicationInner> updateAsync(String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, applicationName, parameters).map(new Func1<ServiceResponse<ApplicationInner>, ApplicationInner>() {
             @Override
-            public Void call(ServiceResponse<Void> response) {
+            public ApplicationInner call(ServiceResponse<ApplicationInner> response) {
                 return response.body();
             }
         });
@@ -514,20 +514,20 @@ public class ApplicationsInner {
      *
      * @param resourceGroupName The name of the resource group that contains the Batch account.
      * @param accountName The name of the Batch account.
-     * @param applicationId The ID of the application.
+     * @param applicationName The name of the application. This must be unique within the account.
      * @param parameters The parameters for the request.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
+     * @return the observable to the ApplicationInner object
      */
-    public Observable<ServiceResponse<Void>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationId, ApplicationUpdateParameters parameters) {
+    public Observable<ServiceResponse<ApplicationInner>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, String applicationName, ApplicationInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (applicationId == null) {
-            throw new IllegalArgumentException("Parameter applicationId is required and cannot be null.");
+        if (applicationName == null) {
+            throw new IllegalArgumentException("Parameter applicationName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
@@ -539,12 +539,12 @@ public class ApplicationsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         Validator.validate(parameters);
-        return service.update(resourceGroupName, accountName, applicationId, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+        return service.update(resourceGroupName, accountName, applicationName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ApplicationInner>>>() {
                 @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<ApplicationInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<Void> clientResponse = updateDelegate(response);
+                        ServiceResponse<ApplicationInner> clientResponse = updateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -553,9 +553,9 @@ public class ApplicationsInner {
             });
     }
 
-    private ServiceResponse<Void> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(204, new TypeToken<Void>() { }.getType())
+    private ServiceResponse<ApplicationInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ApplicationInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ApplicationInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

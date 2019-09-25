@@ -22,7 +22,7 @@ public class AutoStorageBaseProperties {
     private String storageAccountId;
 
     /**
-     * Get the storageAccountId value.
+     * Get the resource ID of the storage account to be used for auto-storage account.
      *
      * @return the storageAccountId value
      */
@@ -31,7 +31,7 @@ public class AutoStorageBaseProperties {
     }
 
     /**
-     * Set the storageAccountId value.
+     * Set the resource ID of the storage account to be used for auto-storage account.
      *
      * @param storageAccountId the storageAccountId value to set
      * @return the AutoStorageBaseProperties object itself.

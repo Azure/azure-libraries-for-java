@@ -12,6 +12,8 @@ import com.microsoft.azure.management.batch.ProvisioningState;
 import com.microsoft.azure.management.batch.PoolAllocationMode;
 import com.microsoft.azure.management.batch.KeyVaultReference;
 import com.microsoft.azure.management.batch.AutoStorageProperties;
+import java.util.List;
+import com.microsoft.azure.management.batch.VirtualMachineFamilyCoreQuota;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -57,31 +59,59 @@ public class BatchAccountInner extends Resource {
     private AutoStorageProperties autoStorage;
 
     /**
-     * The dedicated core quota for this Batch account.
+     * The dedicated core quota for the Batch account.
+     * For accounts with PoolAllocationMode set to UserSubscription, quota is
+     * managed on the subscription so this value is not returned.
      */
     @JsonProperty(value = "properties.dedicatedCoreQuota", access = JsonProperty.Access.WRITE_ONLY)
-    private int dedicatedCoreQuota;
+    private Integer dedicatedCoreQuota;
 
     /**
-     * The low-priority core quota for this Batch account.
+     * The low-priority core quota for the Batch account.
+     * For accounts with PoolAllocationMode set to UserSubscription, quota is
+     * managed on the subscription so this value is not returned.
      */
     @JsonProperty(value = "properties.lowPriorityCoreQuota", access = JsonProperty.Access.WRITE_ONLY)
-    private int lowPriorityCoreQuota;
+    private Integer lowPriorityCoreQuota;
 
     /**
-     * The pool quota for this Batch account.
+     * A list of the dedicated core quota per Virtual Machine family for the
+     * Batch account. For accounts with PoolAllocationMode set to
+     * UserSubscription, quota is managed on the subscription so this value is
+     * not returned.
+     */
+    @JsonProperty(value = "properties.dedicatedCoreQuotaPerVMFamily", access = JsonProperty.Access.WRITE_ONLY)
+    private List<VirtualMachineFamilyCoreQuota> dedicatedCoreQuotaPerVMFamily;
+
+    /**
+     * A value indicating whether the core quota for the Batch Account is
+     * enforced per Virtual Machine family or not.
+     * Batch is transitioning its core quota system for dedicated cores to be
+     * enforced per Virtual Machine family. During this transitional phase, the
+     * dedicated core quota per Virtual Machine family may not yet be enforced.
+     * If this flag is false, dedicated core quota is enforced via the old
+     * dedicatedCoreQuota property on the account and does not consider Virtual
+     * Machine family. If this flag is true, dedicated core quota is enforced
+     * via the dedicatedCoreQuotaPerVMFamily property on the account, and the
+     * old dedicatedCoreQuota does not apply.
+     */
+    @JsonProperty(value = "properties.dedicatedCoreQuotaPerVMFamilyEnforced", access = JsonProperty.Access.WRITE_ONLY)
+    private boolean dedicatedCoreQuotaPerVMFamilyEnforced;
+
+    /**
+     * The pool quota for the Batch account.
      */
     @JsonProperty(value = "properties.poolQuota", access = JsonProperty.Access.WRITE_ONLY)
     private int poolQuota;
 
     /**
-     * The active job and job schedule quota for this Batch account.
+     * The active job and job schedule quota for the Batch account.
      */
     @JsonProperty(value = "properties.activeJobAndJobScheduleQuota", access = JsonProperty.Access.WRITE_ONLY)
     private int activeJobAndJobScheduleQuota;
 
     /**
-     * Get the accountEndpoint value.
+     * Get the account endpoint used to interact with the Batch service.
      *
      * @return the accountEndpoint value
      */
@@ -90,7 +120,7 @@ public class BatchAccountInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioned state of the resource. Possible values include: 'Invalid', 'Creating', 'Deleting', 'Succeeded', 'Failed', 'Cancelled'.
      *
      * @return the provisioningState value
      */
@@ -99,7 +129,7 @@ public class BatchAccountInner extends Resource {
     }
 
     /**
-     * Get the poolAllocationMode value.
+     * Get possible values include: 'BatchService', 'UserSubscription'.
      *
      * @return the poolAllocationMode value
      */
@@ -126,21 +156,39 @@ public class BatchAccountInner extends Resource {
     }
 
     /**
-     * Get the dedicatedCoreQuota value.
+     * Get for accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.
      *
      * @return the dedicatedCoreQuota value
      */
-    public int dedicatedCoreQuota() {
+    public Integer dedicatedCoreQuota() {
         return this.dedicatedCoreQuota;
     }
 
     /**
-     * Get the lowPriorityCoreQuota value.
+     * Get for accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.
      *
      * @return the lowPriorityCoreQuota value
      */
-    public int lowPriorityCoreQuota() {
+    public Integer lowPriorityCoreQuota() {
         return this.lowPriorityCoreQuota;
+    }
+
+    /**
+     * Get a list of the dedicated core quota per Virtual Machine family for the Batch account. For accounts with PoolAllocationMode set to UserSubscription, quota is managed on the subscription so this value is not returned.
+     *
+     * @return the dedicatedCoreQuotaPerVMFamily value
+     */
+    public List<VirtualMachineFamilyCoreQuota> dedicatedCoreQuotaPerVMFamily() {
+        return this.dedicatedCoreQuotaPerVMFamily;
+    }
+
+    /**
+     * Get batch is transitioning its core quota system for dedicated cores to be enforced per Virtual Machine family. During this transitional phase, the dedicated core quota per Virtual Machine family may not yet be enforced. If this flag is false, dedicated core quota is enforced via the old dedicatedCoreQuota property on the account and does not consider Virtual Machine family. If this flag is true, dedicated core quota is enforced via the dedicatedCoreQuotaPerVMFamily property on the account, and the old dedicatedCoreQuota does not apply.
+     *
+     * @return the dedicatedCoreQuotaPerVMFamilyEnforced value
+     */
+    public boolean dedicatedCoreQuotaPerVMFamilyEnforced() {
+        return this.dedicatedCoreQuotaPerVMFamilyEnforced;
     }
 
     /**

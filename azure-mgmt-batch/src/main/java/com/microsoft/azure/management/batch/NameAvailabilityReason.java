@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for NameAvailabilityReason.
  */
 public enum NameAvailabilityReason {
-    /** Enum value Invalid. */
+    /** The requested name is invalid. */
     INVALID("Invalid"),
 
-    /** Enum value AlreadyExists. */
+    /** The requested name is already in use. */
     ALREADY_EXISTS("AlreadyExists");
 
     /** The actual serialized value for a NameAvailabilityReason instance. */

@@ -15,13 +15,13 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for CachingType.
  */
 public enum CachingType {
-    /** Enum value None. */
+    /** The caching mode for the disk is not enabled. */
     NONE("None"),
 
-    /** Enum value ReadOnly. */
+    /** The caching mode for the disk is read only. */
     READ_ONLY("ReadOnly"),
 
-    /** Enum value ReadWrite. */
+    /** The caching mode for the disk is read and write. */
     READ_WRITE("ReadWrite");
 
     /** The actual serialized value for a CachingType instance. */

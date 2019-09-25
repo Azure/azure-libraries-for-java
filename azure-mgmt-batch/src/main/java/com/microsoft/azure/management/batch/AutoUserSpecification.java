@@ -17,26 +17,26 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class AutoUserSpecification {
     /**
      * The scope for the auto user.
-     * pool - specifies that the task runs as the common auto user account
-     * which is created on every node in a pool. task - specifies that the
-     * service should create a new user for the task. The default value is
-     * task. Possible values include: 'Task', 'Pool'.
+     * The default value is Pool. If the pool is running Windows a value of
+     * Task should be specified if stricter isolation between tasks is
+     * required. For example, if the task mutates the registry in a way which
+     * could impact other tasks, or if certificates have been specified on the
+     * pool which should not be accessible by normal tasks but should be
+     * accessible by start tasks. Possible values include: 'Task', 'Pool'.
      */
     @JsonProperty(value = "scope")
     private AutoUserScope scope;
 
     /**
      * The elevation level of the auto user.
-     * nonAdmin - The auto user is a standard user without elevated access.
-     * admin - The auto user is a user with elevated access and operates with
-     * full Administrator permissions. The default value is nonAdmin. Possible
-     * values include: 'NonAdmin', 'Admin'.
+     * The default value is nonAdmin. Possible values include: 'NonAdmin',
+     * 'Admin'.
      */
     @JsonProperty(value = "elevationLevel")
     private ElevationLevel elevationLevel;
 
     /**
-     * Get the scope value.
+     * Get the default value is Pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks, or if certificates have been specified on the pool which should not be accessible by normal tasks but should be accessible by start tasks. Possible values include: 'Task', 'Pool'.
      *
      * @return the scope value
      */
@@ -45,7 +45,7 @@ public class AutoUserSpecification {
     }
 
     /**
-     * Set the scope value.
+     * Set the default value is Pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks, or if certificates have been specified on the pool which should not be accessible by normal tasks but should be accessible by start tasks. Possible values include: 'Task', 'Pool'.
      *
      * @param scope the scope value to set
      * @return the AutoUserSpecification object itself.
@@ -56,7 +56,7 @@ public class AutoUserSpecification {
     }
 
     /**
-     * Get the elevationLevel value.
+     * Get the default value is nonAdmin. Possible values include: 'NonAdmin', 'Admin'.
      *
      * @return the elevationLevel value
      */
@@ -65,7 +65,7 @@ public class AutoUserSpecification {
     }
 
     /**
-     * Set the elevationLevel value.
+     * Set the default value is nonAdmin. Possible values include: 'NonAdmin', 'Admin'.
      *
      * @param elevationLevel the elevationLevel value to set
      * @return the AutoUserSpecification object itself.

@@ -50,7 +50,7 @@ public class AutoScaleSettings {
     }
 
     /**
-     * Get the evaluationInterval value.
+     * Get if omitted, the default value is 15 minutes (PT15M).
      *
      * @return the evaluationInterval value
      */
@@ -59,7 +59,7 @@ public class AutoScaleSettings {
     }
 
     /**
-     * Set the evaluationInterval value.
+     * Set if omitted, the default value is 15 minutes (PT15M).
      *
      * @param evaluationInterval the evaluationInterval value to set
      * @return the AutoScaleSettings object itself.

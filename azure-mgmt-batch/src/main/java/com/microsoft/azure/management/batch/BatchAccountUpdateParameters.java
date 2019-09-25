@@ -30,7 +30,7 @@ public class BatchAccountUpdateParameters {
     private AutoStorageBaseProperties autoStorage;
 
     /**
-     * Get the tags value.
+     * Get the user-specified tags associated with the account.
      *
      * @return the tags value
      */
@@ -39,7 +39,7 @@ public class BatchAccountUpdateParameters {
     }
 
     /**
-     * Set the tags value.
+     * Set the user-specified tags associated with the account.
      *
      * @param tags the tags value to set
      * @return the BatchAccountUpdateParameters object itself.
@@ -50,7 +50,7 @@ public class BatchAccountUpdateParameters {
     }
 
     /**
-     * Get the autoStorage value.
+     * Get the properties related to the auto-storage account.
      *
      * @return the autoStorage value
      */
@@ -59,7 +59,7 @@ public class BatchAccountUpdateParameters {
     }
 
     /**
-     * Set the autoStorage value.
+     * Set the properties related to the auto-storage account.
      *
      * @param autoStorage the autoStorage value to set
      * @return the BatchAccountUpdateParameters object itself.

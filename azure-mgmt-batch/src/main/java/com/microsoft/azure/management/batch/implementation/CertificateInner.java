@@ -45,20 +45,7 @@ public class CertificateInner extends ProxyResource {
 
     /**
      * The provisioned state of the resource.
-     * Values are:
-     *
-     * Succeeded - The certificate is available for use in pools.
-     * Deleting - The user has requested that the certificate be deleted, but
-     * the delete operation has not yet completed. You may not reference the
-     * certificate when creating or updating pools.
-     * Failed - The user requested that the certificate be deleted, but there
-     * are pools that still have references to the certificate, or it is still
-     * installed on one or more compute nodes. (The latter can occur if the
-     * certificate has been removed from the pool, but the node has not yet
-     * restarted. Nodes refresh their certificates only when they restart.) You
-     * may use the cancel certificate delete operation to cancel the delete, or
-     * the delete certificate operation to retry the delete. Possible values
-     * include: 'Succeeded', 'Deleting', 'Failed'.
+     * Possible values include: 'Succeeded', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private CertificateProvisioningState provisioningState;
@@ -103,7 +90,7 @@ public class CertificateInner extends ProxyResource {
     private String etag;
 
     /**
-     * Get the thumbprintAlgorithm value.
+     * Get this must match the first portion of the certificate name. Currently required to be 'SHA1'.
      *
      * @return the thumbprintAlgorithm value
      */
@@ -112,7 +99,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Set the thumbprintAlgorithm value.
+     * Set this must match the first portion of the certificate name. Currently required to be 'SHA1'.
      *
      * @param thumbprintAlgorithm the thumbprintAlgorithm value to set
      * @return the CertificateInner object itself.
@@ -123,7 +110,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Get the thumbprint value.
+     * Get this must match the thumbprint from the name.
      *
      * @return the thumbprint value
      */
@@ -132,7 +119,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Set the thumbprint value.
+     * Set this must match the thumbprint from the name.
      *
      * @param thumbprint the thumbprint value to set
      * @return the CertificateInner object itself.
@@ -143,7 +130,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Get the format value.
+     * Get the format of the certificate - either Pfx or Cer. If omitted, the default is Pfx. Possible values include: 'Pfx', 'Cer'.
      *
      * @return the format value
      */
@@ -152,7 +139,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Set the format value.
+     * Set the format of the certificate - either Pfx or Cer. If omitted, the default is Pfx. Possible values include: 'Pfx', 'Cer'.
      *
      * @param format the format value to set
      * @return the CertificateInner object itself.
@@ -163,7 +150,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get possible values include: 'Succeeded', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -181,7 +168,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Get the previousProvisioningState value.
+     * Get the previous provisioned state of the resource. Possible values include: 'Succeeded', 'Deleting', 'Failed'.
      *
      * @return the previousProvisioningState value
      */
@@ -199,7 +186,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Get the publicData value.
+     * Get the public key of the certificate.
      *
      * @return the publicData value
      */
@@ -208,7 +195,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Get the deleteCertificateError value.
+     * Get this is only returned when the certificate provisioningState is 'Failed'.
      *
      * @return the deleteCertificateError value
      */
@@ -217,7 +204,7 @@ public class CertificateInner extends ProxyResource {
     }
 
     /**
-     * Get the etag value.
+     * Get the ETag of the resource, used for concurrency statements.
      *
      * @return the etag value
      */

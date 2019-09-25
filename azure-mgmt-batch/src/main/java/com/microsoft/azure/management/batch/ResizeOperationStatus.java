@@ -108,7 +108,7 @@ public class ResizeOperationStatus {
     }
 
     /**
-     * Get the resizeTimeout value.
+     * Get the default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
      *
      * @return the resizeTimeout value
      */
@@ -117,7 +117,7 @@ public class ResizeOperationStatus {
     }
 
     /**
-     * Set the resizeTimeout value.
+     * Set the default value is 15 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service returns an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
      *
      * @param resizeTimeout the resizeTimeout value to set
      * @return the ResizeOperationStatus object itself.
@@ -128,7 +128,7 @@ public class ResizeOperationStatus {
     }
 
     /**
-     * Get the nodeDeallocationOption value.
+     * Get the default value is requeue. Possible values include: 'Requeue', 'Terminate', 'TaskCompletion', 'RetainedData'.
      *
      * @return the nodeDeallocationOption value
      */
@@ -137,7 +137,7 @@ public class ResizeOperationStatus {
     }
 
     /**
-     * Set the nodeDeallocationOption value.
+     * Set the default value is requeue. Possible values include: 'Requeue', 'Terminate', 'TaskCompletion', 'RetainedData'.
      *
      * @param nodeDeallocationOption the nodeDeallocationOption value to set
      * @return the ResizeOperationStatus object itself.
@@ -168,7 +168,7 @@ public class ResizeOperationStatus {
     }
 
     /**
-     * Get the errors value.
+     * Get this property is set only if an error occurred during the last pool resize, and only when the pool allocationState is Steady.
      *
      * @return the errors value
      */
@@ -177,7 +177,7 @@ public class ResizeOperationStatus {
     }
 
     /**
-     * Set the errors value.
+     * Set this property is set only if an error occurred during the last pool resize, and only when the pool allocationState is Steady.
      *
      * @param errors the errors value to set
      * @return the ResizeOperationStatus object itself.

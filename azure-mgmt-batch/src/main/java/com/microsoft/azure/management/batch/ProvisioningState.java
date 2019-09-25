@@ -15,22 +15,22 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ProvisioningState.
  */
 public enum ProvisioningState {
-    /** Enum value Invalid. */
+    /** The account is in an invalid state. */
     INVALID("Invalid"),
 
-    /** Enum value Creating. */
+    /** The account is being created. */
     CREATING("Creating"),
 
-    /** Enum value Deleting. */
+    /** The account is being deleted. */
     DELETING("Deleting"),
 
-    /** Enum value Succeeded. */
+    /** The account has been created and is ready for use. */
     SUCCEEDED("Succeeded"),
 
-    /** Enum value Failed. */
+    /** The last operation for the account is failed. */
     FAILED("Failed"),
 
-    /** Enum value Cancelled. */
+    /** The last operation for the account is cancelled. */
     CANCELLED("Cancelled");
 
     /** The actual serialized value for a ProvisioningState instance. */

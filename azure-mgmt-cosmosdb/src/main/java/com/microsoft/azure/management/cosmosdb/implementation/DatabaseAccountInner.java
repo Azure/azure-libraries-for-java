@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.cosmosdb.implementation;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountOfferType;
 import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;

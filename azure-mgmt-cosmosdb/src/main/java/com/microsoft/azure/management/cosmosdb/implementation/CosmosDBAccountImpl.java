@@ -7,6 +7,7 @@ package com.microsoft.azure.management.cosmosdb.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.cosmosdb.Capability;
+import com.microsoft.azure.management.cosmosdb.ConnectorOffer;
 import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountCreateUpdateParameters;
@@ -179,6 +180,16 @@ class CosmosDBAccountImpl
     @Override
     public boolean multipleWriteLocationsEnabled() {
         return this.inner().enableMultipleWriteLocations();
+    }
+
+    @Override
+    public boolean cassandraConnectorEnabled() {
+        return this.inner().enableCassandraConnector();
+    }
+
+    @Override
+    public ConnectorOffer cassandraConnectorOffer() {
+        return this.inner().connectorOffer();
     }
 
     @Override
@@ -376,6 +387,8 @@ class CosmosDBAccountImpl
         createUpdateParametersInner.withEnableMultipleWriteLocations(inner.enableMultipleWriteLocations());
         this.addLocationsForCreateUpdateParameters(createUpdateParametersInner, this.failoverPolicies);
         createUpdateParametersInner.withIsVirtualNetworkFilterEnabled(inner.isVirtualNetworkFilterEnabled());
+        createUpdateParametersInner.withEnableCassandraConnector(inner.enableCassandraConnector());
+        createUpdateParametersInner.withConnectorOffer(inner.connectorOffer());
         if (this.virtualNetworkRulesMap != null) {
             createUpdateParametersInner.withVirtualNetworkRules(new ArrayList<VirtualNetworkRule>(this.virtualNetworkRulesMap.values()));
             this.virtualNetworkRulesMap = null;
@@ -583,6 +596,20 @@ class CosmosDBAccountImpl
     @Override
     public CosmosDBAccountImpl withMultipleWriteLocationsEnabled(boolean enabled) {
         this.inner().withEnableMultipleWriteLocations(enabled);
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withCassandraConnector(ConnectorOffer connectorOffer) {
+        this.inner().withEnableCassandraConnector(true);
+        this.inner().withConnectorOffer(connectorOffer);
+        return this;
+    }
+
+    @Override
+    public CosmosDBAccountImpl withoutCassandraConnector() {
+        this.inner().withEnableCassandraConnector(false);
+        this.inner().withConnectorOffer(null);
         return this;
     }
 }

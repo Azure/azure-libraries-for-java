@@ -106,6 +106,7 @@ public class CosmosDBTests extends TestBase {
             .withWriteReplication(Region.US_EAST)
             .withReadReplication(Region.US_CENTRAL)
             .withIpRangeFilter("")
+            .withCassandraConnector(ConnectorOffer.SMALL)
             .withTag("tag1", "value1")
             .create();
 
@@ -115,6 +116,15 @@ public class CosmosDBTests extends TestBase {
         Assert.assertEquals(cosmosDBAccount.writableReplications().size(), 1);
         Assert.assertEquals(cosmosDBAccount.readableReplications().size(), 2);
         Assert.assertEquals(cosmosDBAccount.defaultConsistencyLevel(), DefaultConsistencyLevel.EVENTUAL);
+        Assert.assertTrue(cosmosDBAccount.cassandraConnectorEnabled());
+        Assert.assertEquals(ConnectorOffer.SMALL, cosmosDBAccount.cassandraConnectorOffer());
+
+        cosmosDBAccount = cosmosDBAccount.update()
+            .withoutCassandraConnector()
+            .apply();
+
+        Assert.assertFalse(cosmosDBAccount.cassandraConnectorEnabled());
+        Assert.assertNull(cosmosDBAccount.cassandraConnectorOffer());
     }
 
     @Test

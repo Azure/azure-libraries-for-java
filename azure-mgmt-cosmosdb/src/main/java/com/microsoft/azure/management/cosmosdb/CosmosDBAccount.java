@@ -119,6 +119,16 @@ public interface CosmosDBAccount extends
     boolean multipleWriteLocationsEnabled();
 
     /**
+     * @return whether cassandra connector is enabled or not.
+     */
+    boolean cassandraConnectorEnabled();
+
+    /**
+     * @return the current cassandra connector offer.
+     */
+    ConnectorOffer cassandraConnectorOffer();
+
+    /**
      * @return a list that contains the Cosmos DB capabilities
      */
     @Beta(SinceVersion.V1_10_0)
@@ -385,6 +395,18 @@ public interface CosmosDBAccount extends
         }
 
         /**
+         * The stage of the cosmos db definition allowing to specify cassandra connector offer.
+         */
+        interface WithConnector {
+            /**
+             * Specifies a connector offer for cassandra connector.
+             * @param connectorOffer connector offer to specify.
+             * @return the next stage
+             */
+            WithCreate withCassandraConnector(ConnectorOffer connectorOffer);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
          * for any other optional settings to be specified.
@@ -396,6 +418,7 @@ public interface CosmosDBAccount extends
                 WithIpRangeFilter,
                 WithVirtualNetworkRule,
                 WithMultipleLocations,
+                WithConnector,
                 DefinitionWithTags<WithCreate> {
         }
     }
@@ -421,6 +444,7 @@ public interface CosmosDBAccount extends
             UpdateStages.WithConsistencyPolicy,
             UpdateStages.WithVirtualNetworkRule,
             UpdateStages.WithMultipleLocations,
+            UpdateStages.WithConnector,
             UpdateStages.WithIpRangeFilter {
         }
 
@@ -539,6 +563,23 @@ public interface CosmosDBAccount extends
              * @return the next stage of the update definition
              */
             WithOptionals withMultipleWriteLocationsEnabled(boolean enabled);
+        }
+
+        /**
+         * The stage of the cosmos db update allowing to specify cassandra connector offer.
+         */
+        interface WithConnector {
+            /**
+             * Specifies a connector offer for cassandra connector.
+             * @param connectorOffer connector offer to specify.
+             * @return the next stage
+             */
+            WithOptionals withCassandraConnector(ConnectorOffer connectorOffer);
+            /**
+             * Remove the connector offer.
+             * @return the next stage
+             */
+            WithOptionals withoutCassandraConnector();
         }
     }
 }

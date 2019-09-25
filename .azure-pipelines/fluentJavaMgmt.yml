@@ -33,7 +33,7 @@ jobs:
         displayName: 'install'
         inputs:
           mavenPomFile: pom.xml
-          options: '--batch-mode $(DefaultOptions) $(ProfileFlag) -pl !azure-samples javadoc:aggregate -DskipTests=true -DpackageOutputDirectory=$(Build.ArtifactStagingDirectory)" -am'
+          options: '--batch-mode --settings settings.xml $(DefaultOptions) $(ProfileFlag) -pl !azure-samples javadoc:aggregate -DskipTests=true -DpackageOutputDirectory=$(Build.ArtifactStagingDirectory)" -am'
           mavenOptions: '$(LoggingOptions)'
           javaHomeOption: 'JDKVersion'
           jdkVersionOption: $(JavaVersion)

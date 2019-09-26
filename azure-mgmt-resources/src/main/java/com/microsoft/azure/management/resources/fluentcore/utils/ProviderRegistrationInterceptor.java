@@ -49,12 +49,15 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
                 Pattern pattern = Pattern.compile("/subscriptions/([\\w-]+)/", Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(chain.request().url().toString());
                 matcher.find();
-                RestClient restClient = new RestClient.Builder()
-                        .withBaseUrl("https://" + chain.request().url().host())
+                RestClient.Builder restClientBuilder = new RestClient.Builder();
+                restClientBuilder.withBaseUrl("https://" + chain.request().url().host())
                         .withCredentials(credentials)
                         .withSerializerAdapter(jacksonAdapter)
-                        .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                        .build();
+                        .withResponseBuilderFactory(new AzureResponseBuilder.Factory());
+                if (credentials.proxy() != null) {
+                    restClientBuilder.withProxy(credentials.proxy());
+                }
+                RestClient restClient = restClientBuilder.build();
                 ResourceManager resourceManager = ResourceManager.authenticate(restClient)
                         .withSubscription(matcher.group(1));
                 pattern = Pattern.compile(".*'(.*)'");

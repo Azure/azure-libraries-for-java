@@ -13,7 +13,10 @@ import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
-import okhttp3.*;
+import okhttp3.Authenticator;
+import okhttp3.Interceptor;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
 

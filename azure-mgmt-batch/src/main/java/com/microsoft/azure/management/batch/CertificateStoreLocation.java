@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for CertificateStoreLocation.
  */
 public enum CertificateStoreLocation {
-    /** Enum value CurrentUser. */
+    /** Certificates should be installed to the CurrentUser certificate store. */
     CURRENT_USER("CurrentUser"),
 
-    /** Enum value LocalMachine. */
+    /** Certificates should be installed to the LocalMachine certificate store. */
     LOCAL_MACHINE("LocalMachine");
 
     /** The actual serialized value for a CertificateStoreLocation instance. */

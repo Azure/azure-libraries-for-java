@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for ComputeNodeFillType.
  */
 public enum ComputeNodeFillType {
-    /** Enum value Spread. */
+    /** Tasks should be assigned evenly across all nodes in the pool. */
     SPREAD("Spread"),
 
-    /** Enum value Pack. */
+    /** As many tasks as possible (maxTasksPerNode) should be assigned to each node in the pool before any tasks are assigned to the next node in the pool. */
     PACK("Pack");
 
     /** The actual serialized value for a ComputeNodeFillType instance. */

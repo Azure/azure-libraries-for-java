@@ -33,7 +33,7 @@ public class DeploymentConfiguration {
     private VirtualMachineConfiguration virtualMachineConfiguration;
 
     /**
-     * Get the cloudServiceConfiguration value.
+     * Get this property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'.
      *
      * @return the cloudServiceConfiguration value
      */
@@ -42,7 +42,7 @@ public class DeploymentConfiguration {
     }
 
     /**
-     * Set the cloudServiceConfiguration value.
+     * Set this property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'.
      *
      * @param cloudServiceConfiguration the cloudServiceConfiguration value to set
      * @return the DeploymentConfiguration object itself.
@@ -53,7 +53,7 @@ public class DeploymentConfiguration {
     }
 
     /**
-     * Get the virtualMachineConfiguration value.
+     * Get this property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified.
      *
      * @return the virtualMachineConfiguration value
      */
@@ -62,7 +62,7 @@ public class DeploymentConfiguration {
     }
 
     /**
-     * Set the virtualMachineConfiguration value.
+     * Set this property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified.
      *
      * @param virtualMachineConfiguration the virtualMachineConfiguration value to set
      * @return the DeploymentConfiguration object itself.

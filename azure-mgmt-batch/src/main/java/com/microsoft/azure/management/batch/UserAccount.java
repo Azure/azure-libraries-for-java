@@ -45,6 +45,15 @@ public class UserAccount {
     private LinuxUserConfiguration linuxUserConfiguration;
 
     /**
+     * The Windows-specific user configuration for the user account.
+     * This property can only be specified if the user is on a Windows pool. If
+     * not specified and on a Windows pool, the user is created with the
+     * default options.
+     */
+    @JsonProperty(value = "windowsUserConfiguration")
+    private WindowsUserConfiguration windowsUserConfiguration;
+
+    /**
      * Get the name value.
      *
      * @return the name value
@@ -85,7 +94,7 @@ public class UserAccount {
     }
 
     /**
-     * Get the elevationLevel value.
+     * Get nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin. Possible values include: 'NonAdmin', 'Admin'.
      *
      * @return the elevationLevel value
      */
@@ -94,7 +103,7 @@ public class UserAccount {
     }
 
     /**
-     * Set the elevationLevel value.
+     * Set nonAdmin - The auto user is a standard user without elevated access. admin - The auto user is a user with elevated access and operates with full Administrator permissions. The default value is nonAdmin. Possible values include: 'NonAdmin', 'Admin'.
      *
      * @param elevationLevel the elevationLevel value to set
      * @return the UserAccount object itself.
@@ -105,7 +114,7 @@ public class UserAccount {
     }
 
     /**
-     * Get the linuxUserConfiguration value.
+     * Get this property is ignored if specified on a Windows pool. If not specified, the user is created with the default options.
      *
      * @return the linuxUserConfiguration value
      */
@@ -114,13 +123,33 @@ public class UserAccount {
     }
 
     /**
-     * Set the linuxUserConfiguration value.
+     * Set this property is ignored if specified on a Windows pool. If not specified, the user is created with the default options.
      *
      * @param linuxUserConfiguration the linuxUserConfiguration value to set
      * @return the UserAccount object itself.
      */
     public UserAccount withLinuxUserConfiguration(LinuxUserConfiguration linuxUserConfiguration) {
         this.linuxUserConfiguration = linuxUserConfiguration;
+        return this;
+    }
+
+    /**
+     * Get this property can only be specified if the user is on a Windows pool. If not specified and on a Windows pool, the user is created with the default options.
+     *
+     * @return the windowsUserConfiguration value
+     */
+    public WindowsUserConfiguration windowsUserConfiguration() {
+        return this.windowsUserConfiguration;
+    }
+
+    /**
+     * Set this property can only be specified if the user is on a Windows pool. If not specified and on a Windows pool, the user is created with the default options.
+     *
+     * @param windowsUserConfiguration the windowsUserConfiguration value to set
+     * @return the UserAccount object itself.
+     */
+    public UserAccount withWindowsUserConfiguration(WindowsUserConfiguration windowsUserConfiguration) {
+        this.windowsUserConfiguration = windowsUserConfiguration;
         return this;
     }
 

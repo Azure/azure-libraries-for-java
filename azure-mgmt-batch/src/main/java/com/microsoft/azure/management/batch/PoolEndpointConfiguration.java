@@ -26,7 +26,7 @@ public class PoolEndpointConfiguration {
     private List<InboundNatPool> inboundNatPools;
 
     /**
-     * Get the inboundNatPools value.
+     * Get the maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400.
      *
      * @return the inboundNatPools value
      */
@@ -35,7 +35,7 @@ public class PoolEndpointConfiguration {
     }
 
     /**
-     * Set the inboundNatPools value.
+     * Set the maximum number of inbound NAT pools per Batch pool is 5. If the maximum number of inbound NAT pools is exceeded the request fails with HTTP status code 400.
      *
      * @param inboundNatPools the inboundNatPools value to set
      * @return the PoolEndpointConfiguration object itself.

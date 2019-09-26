@@ -33,7 +33,7 @@ public class BatchAccountKeysInner {
     private String secondary;
 
     /**
-     * Get the accountName value.
+     * Get the Batch account name.
      *
      * @return the accountName value
      */
@@ -42,7 +42,7 @@ public class BatchAccountKeysInner {
     }
 
     /**
-     * Get the primary value.
+     * Get the primary key associated with the account.
      *
      * @return the primary value
      */
@@ -51,7 +51,7 @@ public class BatchAccountKeysInner {
     }
 
     /**
-     * Get the secondary value.
+     * Get the secondary key associated with the account.
      *
      * @return the secondary value
      */

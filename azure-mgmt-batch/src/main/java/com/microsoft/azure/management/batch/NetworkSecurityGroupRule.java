@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.batch;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -45,7 +46,18 @@ public class NetworkSecurityGroupRule {
     private String sourceAddressPrefix;
 
     /**
-     * Get the priority value.
+     * The source port ranges to match for the rule.
+     * Valid values are '*' (for all ports 0 - 65535) or arrays of ports or
+     * port ranges (i.e. 100-200). The ports should in the range of 0 to 65535
+     * and the port ranges or ports can't overlap. If any other values are
+     * provided the request fails with HTTP status code 400. Default value will
+     * be *.
+     */
+    @JsonProperty(value = "sourcePortRanges")
+    private List<String> sourcePortRanges;
+
+    /**
+     * Get priorities within a pool must be unique and are evaluated in order of priority. The lower the number the higher the priority. For example, rules could be specified with order numbers of 150, 250, and 350. The rule with the order number of 150 takes precedence over the rule that has an order of 250. Allowed priorities are 150 to 3500. If any reserved or duplicate values are provided the request fails with HTTP status code 400.
      *
      * @return the priority value
      */
@@ -54,7 +66,7 @@ public class NetworkSecurityGroupRule {
     }
 
     /**
-     * Set the priority value.
+     * Set priorities within a pool must be unique and are evaluated in order of priority. The lower the number the higher the priority. For example, rules could be specified with order numbers of 150, 250, and 350. The rule with the order number of 150 takes precedence over the rule that has an order of 250. Allowed priorities are 150 to 3500. If any reserved or duplicate values are provided the request fails with HTTP status code 400.
      *
      * @param priority the priority value to set
      * @return the NetworkSecurityGroupRule object itself.
@@ -65,7 +77,7 @@ public class NetworkSecurityGroupRule {
     }
 
     /**
-     * Get the access value.
+     * Get possible values include: 'Allow', 'Deny'.
      *
      * @return the access value
      */
@@ -74,7 +86,7 @@ public class NetworkSecurityGroupRule {
     }
 
     /**
-     * Set the access value.
+     * Set possible values include: 'Allow', 'Deny'.
      *
      * @param access the access value to set
      * @return the NetworkSecurityGroupRule object itself.
@@ -85,7 +97,7 @@ public class NetworkSecurityGroupRule {
     }
 
     /**
-     * Get the sourceAddressPrefix value.
+     * Get valid values are a single IP address (i.e. 10.10.10.10), IP subnet (i.e. 192.168.1.0/24), default tag, or * (for all addresses).  If any other values are provided the request fails with HTTP status code 400.
      *
      * @return the sourceAddressPrefix value
      */
@@ -94,13 +106,33 @@ public class NetworkSecurityGroupRule {
     }
 
     /**
-     * Set the sourceAddressPrefix value.
+     * Set valid values are a single IP address (i.e. 10.10.10.10), IP subnet (i.e. 192.168.1.0/24), default tag, or * (for all addresses).  If any other values are provided the request fails with HTTP status code 400.
      *
      * @param sourceAddressPrefix the sourceAddressPrefix value to set
      * @return the NetworkSecurityGroupRule object itself.
      */
     public NetworkSecurityGroupRule withSourceAddressPrefix(String sourceAddressPrefix) {
         this.sourceAddressPrefix = sourceAddressPrefix;
+        return this;
+    }
+
+    /**
+     * Get valid values are '*' (for all ports 0 - 65535) or arrays of ports or port ranges (i.e. 100-200). The ports should in the range of 0 to 65535 and the port ranges or ports can't overlap. If any other values are provided the request fails with HTTP status code 400. Default value will be *.
+     *
+     * @return the sourcePortRanges value
+     */
+    public List<String> sourcePortRanges() {
+        return this.sourcePortRanges;
+    }
+
+    /**
+     * Set valid values are '*' (for all ports 0 - 65535) or arrays of ports or port ranges (i.e. 100-200). The ports should in the range of 0 to 65535 and the port ranges or ports can't overlap. If any other values are provided the request fails with HTTP status code 400. Default value will be *.
+     *
+     * @param sourcePortRanges the sourcePortRanges value to set
+     * @return the NetworkSecurityGroupRule object itself.
+     */
+    public NetworkSecurityGroupRule withSourcePortRanges(List<String> sourcePortRanges) {
+        this.sourcePortRanges = sourcePortRanges;
         return this;
     }
 

@@ -15,14 +15,11 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for PackageState.
  */
 public enum PackageState {
-    /** Enum value Pending. */
+    /** The application package has been created but has not yet been activated. */
     PENDING("Pending"),
 
-    /** Enum value Active. */
-    ACTIVE("Active"),
-
-    /** Enum value Unmapped. */
-    UNMAPPED("Unmapped");
+    /** The application package is ready for use. */
+    ACTIVE("Active");
 
     /** The actual serialized value for a PackageState instance. */
     private String value;

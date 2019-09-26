@@ -43,7 +43,7 @@ public class DeleteCertificateError {
     private List<DeleteCertificateError> details;
 
     /**
-     * Get the code value.
+     * Get an identifier for the error. Codes are invariant and are intended to be consumed programmatically.
      *
      * @return the code value
      */
@@ -52,7 +52,7 @@ public class DeleteCertificateError {
     }
 
     /**
-     * Set the code value.
+     * Set an identifier for the error. Codes are invariant and are intended to be consumed programmatically.
      *
      * @param code the code value to set
      * @return the DeleteCertificateError object itself.
@@ -63,7 +63,7 @@ public class DeleteCertificateError {
     }
 
     /**
-     * Get the message value.
+     * Get a message describing the error, intended to be suitable for display in a user interface.
      *
      * @return the message value
      */
@@ -72,7 +72,7 @@ public class DeleteCertificateError {
     }
 
     /**
-     * Set the message value.
+     * Set a message describing the error, intended to be suitable for display in a user interface.
      *
      * @param message the message value to set
      * @return the DeleteCertificateError object itself.
@@ -83,7 +83,7 @@ public class DeleteCertificateError {
     }
 
     /**
-     * Get the target value.
+     * Get the target of the particular error. For example, the name of the property in error.
      *
      * @return the target value
      */
@@ -92,7 +92,7 @@ public class DeleteCertificateError {
     }
 
     /**
-     * Set the target value.
+     * Set the target of the particular error. For example, the name of the property in error.
      *
      * @param target the target value to set
      * @return the DeleteCertificateError object itself.
@@ -103,7 +103,7 @@ public class DeleteCertificateError {
     }
 
     /**
-     * Get the details value.
+     * Get a list of additional details about the error.
      *
      * @return the details value
      */
@@ -112,7 +112,7 @@ public class DeleteCertificateError {
     }
 
     /**
-     * Set the details value.
+     * Set a list of additional details about the error.
      *
      * @param details the details value to set
      * @return the DeleteCertificateError object itself.

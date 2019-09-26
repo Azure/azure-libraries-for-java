@@ -8,9 +8,7 @@ package com.microsoft.azure.management.batch.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.batch.Application;
-import com.microsoft.azure.management.batch.ApplicationCreateParameters;
 import com.microsoft.azure.management.batch.ApplicationPackage;
-import com.microsoft.azure.management.batch.ApplicationUpdateParameters;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
@@ -73,14 +71,11 @@ public class ApplicationImpl
     @Override
     public Observable<Application> createResourceAsync() {
         final ApplicationImpl self = this;
-        ApplicationCreateParameters createParameter = new ApplicationCreateParameters();
-        createParameter.withDisplayName(this.inner().displayName());
-        createParameter.withAllowUpdates(this.inner().allowUpdates());
 
         return this.parent().manager().inner().applications().createAsync(
                 this.parent().resourceGroupName(),
                 this.parent().name(),
-                this.name(), createParameter)
+                this.name(), this.inner())
                 .map(new Func1<ApplicationInner, Application>() {
                     @Override
                     public Application call(ApplicationInner inner) {
@@ -106,15 +101,11 @@ public class ApplicationImpl
     public Observable<Application> updateResourceAsync() {
         final ApplicationImpl self = this;
 
-        ApplicationUpdateParameters updateParameter = new ApplicationUpdateParameters();
-        updateParameter.withDisplayName(this.inner().displayName());
-        updateParameter.withAllowUpdates(this.inner().allowUpdates());
-
         return RXMapper.map(this.parent().manager().inner().applications().updateAsync(
                 this.parent().resourceGroupName(),
                 this.parent().name(),
                 this.name(),
-                updateParameter), self)
+                this.inner()), self)
                 .flatMap(new Func1<Application, Observable<? extends Application>>() {
                     @Override
                     public Observable<? extends Application> call(Application application) {
@@ -153,7 +144,7 @@ public class ApplicationImpl
     @Override
     protected Observable<ApplicationInner> getInnerAsync() {
         return this.parent().manager().inner().applications().getAsync(
-                this.parent().resourceGroupName(), this.parent().name(), this.inner().id());
+                this.parent().resourceGroupName(), this.parent().name(), this.inner().name());
     }
 
     @Override
@@ -177,7 +168,7 @@ public class ApplicationImpl
             String name,
             BatchAccountImpl parent) {
         ApplicationInner inner = new ApplicationInner();
-        inner.withId(name);
+        inner.withDisplayName(name);
         ApplicationImpl applicationImpl = new ApplicationImpl(name, parent, inner);
         return applicationImpl;
     }

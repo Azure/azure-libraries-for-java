@@ -11,76 +11,55 @@ package com.microsoft.azure.management.batch.implementation;
 import com.microsoft.azure.management.batch.PackageState;
 import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * An application package which represents a particular version of an
  * application.
  */
-public class ApplicationPackageInner {
-    /**
-     * The ID of the application.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * The version of the application package.
-     */
-    @JsonProperty(value = "version", access = JsonProperty.Access.WRITE_ONLY)
-    private String version;
-
+@JsonFlatten
+public class ApplicationPackageInner extends ProxyResource {
     /**
      * The current state of the application package. Possible values include:
-     * 'Pending', 'Active', 'Unmapped'.
+     * 'Pending', 'Active'.
      */
-    @JsonProperty(value = "state", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.state", access = JsonProperty.Access.WRITE_ONLY)
     private PackageState state;
 
     /**
      * The format of the application package, if the package is active.
      */
-    @JsonProperty(value = "format", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.format", access = JsonProperty.Access.WRITE_ONLY)
     private String format;
 
     /**
      * The URL for the application package in Azure Storage.
      */
-    @JsonProperty(value = "storageUrl", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.storageUrl", access = JsonProperty.Access.WRITE_ONLY)
     private String storageUrl;
 
     /**
      * The UTC time at which the Azure Storage URL will expire.
      */
-    @JsonProperty(value = "storageUrlExpiry", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.storageUrlExpiry", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime storageUrlExpiry;
 
     /**
      * The time at which the package was last activated, if the package is
      * active.
      */
-    @JsonProperty(value = "lastActivationTime", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.lastActivationTime", access = JsonProperty.Access.WRITE_ONLY)
     private DateTime lastActivationTime;
 
     /**
-     * Get the id value.
-     *
-     * @return the id value
+     * The ETag of the resource, used for concurrency statements.
      */
-    public String id() {
-        return this.id;
-    }
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
+    private String etag;
 
     /**
-     * Get the version value.
-     *
-     * @return the version value
-     */
-    public String version() {
-        return this.version;
-    }
-
-    /**
-     * Get the state value.
+     * Get the current state of the application package. Possible values include: 'Pending', 'Active'.
      *
      * @return the state value
      */
@@ -89,7 +68,7 @@ public class ApplicationPackageInner {
     }
 
     /**
-     * Get the format value.
+     * Get the format of the application package, if the package is active.
      *
      * @return the format value
      */
@@ -98,7 +77,7 @@ public class ApplicationPackageInner {
     }
 
     /**
-     * Get the storageUrl value.
+     * Get the URL for the application package in Azure Storage.
      *
      * @return the storageUrl value
      */
@@ -107,7 +86,7 @@ public class ApplicationPackageInner {
     }
 
     /**
-     * Get the storageUrlExpiry value.
+     * Get the UTC time at which the Azure Storage URL will expire.
      *
      * @return the storageUrlExpiry value
      */
@@ -116,12 +95,21 @@ public class ApplicationPackageInner {
     }
 
     /**
-     * Get the lastActivationTime value.
+     * Get the time at which the package was last activated, if the package is active.
      *
      * @return the lastActivationTime value
      */
     public DateTime lastActivationTime() {
         return this.lastActivationTime;
+    }
+
+    /**
+     * Get the ETag of the resource, used for concurrency statements.
+     *
+     * @return the etag value
+     */
+    public String etag() {
+        return this.etag;
     }
 
 }

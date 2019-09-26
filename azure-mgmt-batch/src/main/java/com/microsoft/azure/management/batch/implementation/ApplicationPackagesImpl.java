@@ -47,15 +47,10 @@ class ApplicationPackagesImpl extends
     protected List<ApplicationPackageImpl> listChildResources() {
         List<ApplicationPackageImpl> childResources = new ArrayList<>();
 
-        if (this.parent().inner().packages() == null || this.parent().inner().packages().size() == 0) {
-            return childResources;
-        }
-
-        List<ApplicationPackageInner> applicationPackageList = this.parent.inner().packages();
-
-        for (ApplicationPackageInner applicationPackage: applicationPackageList) {
+        for (ApplicationPackageInner applicationPackage: this.parent().parent().manager().inner()
+                .applicationPackages().list(this.parent().parent().resourceGroupName(), this.parent().parent().name(), this.parent().name())) {
             childResources.add(new ApplicationPackageImpl(
-                    applicationPackage.version(),
+                    applicationPackage.name(),
                     this.parent(),
                     applicationPackage,
                     this.parent().parent().manager().inner().applicationPackages()));

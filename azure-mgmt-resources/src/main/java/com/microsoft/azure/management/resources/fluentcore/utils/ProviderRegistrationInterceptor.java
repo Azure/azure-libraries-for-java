@@ -45,14 +45,30 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
         return intercept(chain, null, null);
     }
 
+    /**
+     * Initialize a provider registration interceptor with proxy settings.
+     * @param chain the chain value
+     * @param proxy the proxy value
+     */
     public Response interceptWithProxy(Chain chain, Proxy proxy) throws IOException {
         return intercept(chain, proxy, null);
     }
 
+    /**
+     * Initialize a provider registration interceptor with proxy authenticator settings.
+     * @param chain the chain value
+     * @param authenticator the authenticator value
+     */
     public Response interceptWithProxyAuthenticator(Chain chain, Authenticator authenticator) throws IOException {
         return intercept(chain, null, authenticator);
     }
 
+    /**
+     * Initialize a provider registration interceptor with proxy settings if required.
+     * @param chain the chain value
+     * @param proxy the proxy value
+     * @param authenticator the authenticator value
+     */
     private Response intercept(Chain chain, Proxy proxy, Authenticator authenticator) throws IOException {
         Response response = chain.proceed(chain.request());
         if (!response.isSuccessful()) {
@@ -69,10 +85,10 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
                         .withCredentials(credentials)
                         .withSerializerAdapter(jacksonAdapter)
                         .withResponseBuilderFactory(new AzureResponseBuilder.Factory());
-                if(proxy != null) {
+                if (proxy != null) {
                     restClientBuilder.withProxy(proxy);
                 }
-                if(authenticator != null) {
+                if (authenticator != null) {
                     restClientBuilder.withProxyAuthenticator(authenticator);
                 }
                 RestClient restClient = restClientBuilder.build();

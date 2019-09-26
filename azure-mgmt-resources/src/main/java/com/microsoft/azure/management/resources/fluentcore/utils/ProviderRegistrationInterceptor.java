@@ -13,13 +13,12 @@ import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
-import okhttp3.Interceptor;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
+import okhttp3.*;
 import okio.Buffer;
 import okio.BufferedSource;
 
 import java.io.IOException;
+import java.net.Proxy;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,6 +39,18 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        return intercept(chain, null, null);
+    }
+
+    public Response interceptWithProxy(Chain chain, Proxy proxy) throws IOException {
+        return intercept(chain, proxy, null);
+    }
+
+    public Response interceptWithProxyAuthenticator(Chain chain, Authenticator authenticator) throws IOException {
+        return intercept(chain, null, authenticator);
+    }
+
+    private Response intercept(Chain chain, Proxy proxy, Authenticator authenticator) throws IOException {
         Response response = chain.proceed(chain.request());
         if (!response.isSuccessful()) {
             String content = errorBody(response.body());
@@ -49,12 +60,19 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
                 Pattern pattern = Pattern.compile("/subscriptions/([\\w-]+)/", Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(chain.request().url().toString());
                 matcher.find();
-                RestClient restClient = new RestClient.Builder()
+                RestClient.Builder restClientBuilder = new RestClient.Builder();
+                restClientBuilder
                         .withBaseUrl("https://" + chain.request().url().host())
                         .withCredentials(credentials)
                         .withSerializerAdapter(jacksonAdapter)
-                        .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                        .build();
+                        .withResponseBuilderFactory(new AzureResponseBuilder.Factory());
+                if(proxy != null) {
+                    restClientBuilder.withProxy(proxy);
+                }
+                if(authenticator != null) {
+                    restClientBuilder.withProxyAuthenticator(authenticator);
+                }
+                RestClient restClient = restClientBuilder.build();
                 ResourceManager resourceManager = ResourceManager.authenticate(restClient)
                         .withSubscription(matcher.group(1));
                 pattern = Pattern.compile(".*'(.*)'");

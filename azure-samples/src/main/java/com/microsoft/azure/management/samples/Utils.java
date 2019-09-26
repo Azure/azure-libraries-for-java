@@ -739,6 +739,24 @@ public final class Utils {
             }
         }
 
+        // Show HTTPS probes
+        info.append("\n\tHTTPS probes: ")
+                .append(resource.httpsProbes().size());
+        for (LoadBalancerHttpProbe probe : resource.httpsProbes().values()) {
+            info.append("\n\t\tProbe name: ").append(probe.name())
+                    .append("\n\t\t\tPort: ").append(probe.port())
+                    .append("\n\t\t\tInterval in seconds: ").append(probe.intervalInSeconds())
+                    .append("\n\t\t\tRetries before unhealthy: ").append(probe.numberOfProbes())
+                    .append("\n\t\t\tHTTPS request path: ").append(probe.requestPath());
+
+            // Show associated load balancing rules
+            info.append("\n\t\t\tReferenced from load balancing rules: ")
+                    .append(probe.loadBalancingRules().size());
+            for (LoadBalancingRule rule : probe.loadBalancingRules().values()) {
+                info.append("\n\t\t\t\tName: ").append(rule.name());
+            }
+        }
+
         // Show load balancing rules
         info.append("\n\tLoad balancing rules: ")
                 .append(resource.loadBalancingRules().size());

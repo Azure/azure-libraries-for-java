@@ -130,7 +130,7 @@ public interface ApplicationGatewaySslCertificate extends
          * The first stage of an application gateway authentication certificate definition.
          * @param <ParentT> the stage of the parent application gateway definition to return to after attaching
          */
-        interface Blank<ParentT> extends WithAttach<ParentT> {
+        interface Blank<ParentT> extends WithData<ParentT> {
         }
 
         /** The final stage of an application gateway SSL certificate definition.
@@ -142,6 +142,47 @@ public interface ApplicationGatewaySslCertificate extends
         interface WithAttach<ParentT> extends
             Attachable.InUpdate<ParentT> {
         }
+
+        /**
+         * The stage of an SSL certificate definition allowing to specify the contents of the SSL certificate.
+         * @param <ParentT> the stage of the parent application gateway to return to after attaching
+         */
+        interface WithData<ParentT> {
+            /**
+             * Specifies the contents of the private key in the PFX (PKCS#12) format, not base64-encoded.
+             * @param pfxData the contents of the private key in the PFX format
+             * @return the next stage of the definition
+             */
+            WithPassword<ParentT> withPfxFromBytes(byte[] pfxData);
+
+            /**
+             * Specifies the PFX (PKCS#12) file to get the private key content from.
+             * @param pfxFile a file in the PFX format
+             * @return the next stage of the definition
+             * @throws java.io.IOException when there are problems with the provided file
+             */
+            WithPassword<ParentT> withPfxFromFile(File pfxFile) throws IOException;
+
+            /**
+             * Sepecifies the content of the private key using key vault.
+             * @param keyVaultSecretId the secret id of key vault
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withKeyVaultSecretId(String keyVaultSecretId);
+        }
+
+        /**
+         * The stage of an SSL certificate definition allowing to specify the password for the private key (PFX) content of the certificate.
+         * @param <ParentT> the stage of the parent application gateway to return to after attaching
+         */
+        interface WithPassword<ParentT> {
+            /**
+             * Specifies the password currently used to protect the provided PFX content of the SSL certificate.
+             * @param password a password
+             * @return the next stage of the definition
+             */
+            WithAttach<ParentT> withPfxPassword(String password);
+        }
     }
 
     /** The entirety of an application gateway SSL certificate definition as part of an application gateway update.
@@ -149,6 +190,8 @@ public interface ApplicationGatewaySslCertificate extends
      */
     interface UpdateDefinition<ParentT> extends
         UpdateDefinitionStages.Blank<ParentT>,
+        UpdateDefinitionStages.WithData<ParentT>,
+        UpdateDefinitionStages.WithPassword<ParentT>,
         UpdateDefinitionStages.WithAttach<ParentT> {
     }
 }

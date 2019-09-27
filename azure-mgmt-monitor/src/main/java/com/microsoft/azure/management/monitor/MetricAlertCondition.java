@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import java.util.Collection;
 
 /**
- * An immutable client-side representation of an Azure metric alert criteria.
+ * An immutable client-side representation of an Azure metric dynamic alert criteria.
  */
 @Fluent
 public interface MetricAlertCondition extends

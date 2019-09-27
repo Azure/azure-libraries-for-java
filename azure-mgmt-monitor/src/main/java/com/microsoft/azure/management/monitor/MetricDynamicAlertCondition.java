@@ -16,6 +16,9 @@ import org.joda.time.DateTime;
 
 import java.util.Collection;
 
+/**
+ * An immutable client-side representation of an Azure metric alert criteria.
+ */
 @Fluent
 @Beta(Beta.SinceVersion.V1_25_0)
 public interface MetricDynamicAlertCondition extends

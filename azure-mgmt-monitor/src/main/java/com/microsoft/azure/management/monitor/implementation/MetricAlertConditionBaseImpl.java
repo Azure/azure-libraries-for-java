@@ -18,7 +18,7 @@ import java.util.Collections;
 import java.util.TreeMap;
 
 /**
- * Base class for MetricAlertConditionImpl and MetricDynamicAlertConditionImpl
+ * Base class for MetricAlertConditionImpl and MetricDynamicAlertConditionImpl.
  *
  * @param <InnerT> inner class, MetricCriteria or DynamicMetricCriteria
  * @param <SubclassT> subclass, i.e., MetricAlertConditionImpl or MetricDynamicAlertConditionImpl

@@ -119,8 +119,8 @@ public interface MetricAlertCondition extends
             /**
              * Sets the condition to monitor for the current metric alert.
              *
-             * @param condition the criteria operator. Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
              * @param timeAggregation the criteria time aggregation types. Possible values include: 'Average', 'Minimum', 'Maximum', 'Total'.
+             * @param condition the criteria operator. Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
              * @param threshold the criteria threshold value that activates the alert.
              * @return the next stage of metric alert condition definition.
              */

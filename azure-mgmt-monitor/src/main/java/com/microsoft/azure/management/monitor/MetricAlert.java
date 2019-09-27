@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.monitor;
 
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
 import com.microsoft.azure.management.apigeneration.Method;
@@ -88,6 +89,12 @@ public interface MetricAlert extends
     Map<String, MetricAlertCondition> alertCriterias();
 
     /**
+     * @return metric dynamic alert criterias, indexed by name
+     */
+    @LangMethodDefinition(AsType = LangMethodDefinition.LangMethodType.Property)
+    Map<String, MetricDynamicAlertCondition> dynamicAlertCriterias();
+
+    /**
      * Get the flag that indicates whether the alert should be auto resolved or not.
      *
      * @return the autoMitigate value
@@ -126,6 +133,21 @@ public interface MetricAlert extends
     }
 
     /**
+     * Metric Alert definition for multiple resource.
+     */
+    interface DefinitionMultipleResource extends
+            DefinitionStages.Blank,
+            DefinitionStages.WithCreate,
+            DefinitionStages.WithScopes,
+            DefinitionStages.WithWindowSizeMultipleResource,
+            DefinitionStages.WithEvaluationFrequencyMultipleResource,
+            DefinitionStages.WithSeverityMultipleResource,
+            DefinitionStages.WithActionGroupMultipleResource,
+            DefinitionStages.WithCriteriaDefinitionMultipleResource,
+            DefinitionStages.WithCreateDynamicCondition {
+    }
+
+    /**
      * Grouping of metric alerts definition stages.
      */
     interface DefinitionStages {
@@ -154,6 +176,26 @@ public interface MetricAlert extends
              * @return the next stage of metric alert definition.
              */
             WithWindowSize withTargetResource(HasId resource);
+
+            /**
+             * Sets specified resources as target to alert on metric. All resources must be of same type and in same region.
+             *
+             * @param resourceIds collection of resource id to alert on metric.
+             * @param type resource type.
+             * @param regionName resource region.
+             * @return the next stage of metric alert definition.
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            WithWindowSizeMultipleResource withMultipleTargetResources(Collection<String> resourceIds, String type, String regionName);
+
+            /**
+             * Sets specified resources as target to alert on metric. All resources must be of same type and in same region.
+             *
+             * @param resources collection of resources to alert on metric, which must be of same type and in same region.
+             * @return the next stage of metric alert definition.
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            WithWindowSizeMultipleResource withMultipleTargetResources(Collection<? extends Resource> resources);
         }
 
         /**
@@ -223,6 +265,81 @@ public interface MetricAlert extends
         }
 
         /**
+         * The stage of the definition which specifies monitoring window for metric alert.
+         */
+        interface WithWindowSizeMultipleResource {
+            /**
+             * Sets the period of time (in ISO 8601 duration format) that is used to monitor alert activity based on the threshold.
+             *
+             * @param size the windowSize value to set
+             * @return the next stage of metric alert definition.
+             */
+            WithEvaluationFrequencyMultipleResource withPeriod(Period size);
+        }
+
+        /**
+         * The stage of the definition which specifies evaluation frequency for metric alert.
+         */
+        interface WithEvaluationFrequencyMultipleResource {
+            /**
+             * Set how often the metric alert is evaluated represented in ISO 8601 duration format.
+             *
+             * @param frequency the evaluationFrequency value to set.
+             * @return the next stage of metric alert definition.
+             */
+            WithSeverityMultipleResource withFrequency(Period frequency);
+        }
+
+        /**
+         * The stage of the definition which specifies severity for metric alert.
+         */
+        interface WithSeverityMultipleResource {
+            /**
+             * Set alert severity {0, 1, 2, 3, 4} and description.
+             *
+             * @param severity the severity value to set
+             * @param description Human readable text description of the metric alert.
+             * @return the next stage of metric alert definition.
+             */
+            WithActionGroupMultipleResource withAlertDetails(int severity, String description);
+        }
+
+        /**
+         * The stage of the definition which specifies actions that will be activated when the conditions are met in the metric alert rules.
+         */
+        interface WithActionGroupMultipleResource {
+            /**
+             * Sets the actions that will activate when the condition is met.
+             *
+             * @param actionGroupId resource Ids of the {@link ActionGroup}.
+             * @return the next stage of metric alert definition.
+             */
+            WithCriteriaDefinitionMultipleResource withActionGroups(String... actionGroupId);
+        }
+
+        /**
+         * The stage of the definition which specifies condition that will cause this alert to activate.
+         */
+        interface WithCriteriaDefinitionMultipleResource {
+            /**
+             * Starts definition of the metric alert condition.
+             *
+             * @param name sets the name of the condition.
+             * @return the next stage of metric alert condition definition.
+             */
+            MetricAlertCondition.DefinitionStages.Blank.MetricName<WithCreate> defineAlertCriteria(String name);
+
+            /**
+             * Starts definition of the metric dynamic alert condition.
+             *
+             * @param name sets the name of the dynamic condition.
+             * @return the next stage of metric alert condition definition.
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            MetricDynamicAlertCondition.DefinitionStages.Blank.MetricName<WithCreate> defineDynamicAlertCriteria(String name);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          * but also allows for any other optional settings to be specified.
          */
@@ -230,6 +347,30 @@ public interface MetricAlert extends
                 Creatable<MetricAlert>,
                 DefinitionWithTags<WithCreate>,
                 WithCriteriaDefinition {
+            /**
+             * Set the flag that indicates the alert should not be auto resolved.
+             *
+             * @return the next stage of metric alert condition definition.
+             */
+            @Method
+            WithCreate withoutAutoMitigation();
+
+            /**
+             * Sets metric alert as disabled during the creation.
+             *
+             * @return the next stage of metric alert definition.
+             */
+            @Method
+            WithActionGroup withRuleDisabled();
+        }
+
+        /**
+         * The stage of the definition which contains all the minimum required inputs for the resource to be created
+         * but also allows for any other optional settings to be specified.
+         */
+        interface WithCreateDynamicCondition extends
+                Creatable<MetricAlert>,
+                DefinitionWithTags<WithCreate> {
             /**
              * Set the flag that indicates the alert should not be auto resolved.
              *
@@ -329,12 +470,28 @@ public interface MetricAlert extends
             MetricAlertCondition.UpdateDefinitionStages.Blank.MetricName<Update> defineAlertCriteria(String name);
 
             /**
+             * Starts definition of the metric dynamic alert condition.
+             *
+             * @param name sets the name of the condition.
+             * @return the next stage of the metric alert update.
+             */
+            MetricDynamicAlertCondition.UpdateDefinitionStages.Blank.MetricName<Update> defineDynamicAlertCriteria(String name);
+
+            /**
              * Starts update of the previously defined metric alert condition.
              *
              * @param name name of the condition that should be updated.
              * @return the next stage of the metric alert update.
              */
             MetricAlertCondition.UpdateStages updateAlertCriteria(String name);
+
+            /**
+             * Starts update of the previously defined metric dynamic alert condition.
+             *
+             * @param name name of the condition that should be updated.
+             * @return the next stage of the metric alert update.
+             */
+            MetricDynamicAlertCondition.UpdateStages updateDynamicAlertCriteria(String name);
 
             /**
              * Removes a condition from the previously defined metric alert conditions.

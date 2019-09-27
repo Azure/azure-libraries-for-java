@@ -10,22 +10,17 @@ package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Deployment information.
  */
-public class DeploymentExtendedInner {
+public class DeploymentExtendedInner extends ProxyResource {
     /**
-     * The ID of the deployment.
+     * the location of the deployment.
      */
-    @JsonProperty(value = "id")
-    private String id;
-
-    /**
-     * The name of the deployment.
-     */
-    @JsonProperty(value = "name", required = true)
-    private String name;
+    @JsonProperty(value = "location")
+    private String location;
 
     /**
      * Deployment properties.
@@ -34,47 +29,27 @@ public class DeploymentExtendedInner {
     private DeploymentPropertiesExtended properties;
 
     /**
-     * Get the id value.
+     * Get the location of the deployment.
      *
-     * @return the id value
+     * @return the location value
      */
-    public String id() {
-        return this.id;
+    public String location() {
+        return this.location;
     }
 
     /**
-     * Set the id value.
+     * Set the location of the deployment.
      *
-     * @param id the id value to set
+     * @param location the location value to set
      * @return the DeploymentExtendedInner object itself.
      */
-    public DeploymentExtendedInner withId(String id) {
-        this.id = id;
+    public DeploymentExtendedInner withLocation(String location) {
+        this.location = location;
         return this;
     }
 
     /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the DeploymentExtendedInner object itself.
-     */
-    public DeploymentExtendedInner withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    /**
-     * Get the properties value.
+     * Get deployment properties.
      *
      * @return the properties value
      */
@@ -83,7 +58,7 @@ public class DeploymentExtendedInner {
     }
 
     /**
-     * Set the properties value.
+     * Set deployment properties.
      *
      * @param properties the properties value to set
      * @return the DeploymentExtendedInner object itself.

@@ -8,89 +8,86 @@
 
 package com.microsoft.azure.management.resources;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Error reponse indicates ARM is not able to process the incoming request. The
- * reason is provided in the error message.
+ * The resource management error response.
  */
 public class ErrorResponse {
     /**
-     * Http status code.
+     * The error code.
      */
-    @JsonProperty(value = "httpStatus")
-    private String httpStatus;
+    @JsonProperty(value = "code", access = JsonProperty.Access.WRITE_ONLY)
+    private String code;
 
     /**
-     * Error code.
+     * The error message.
      */
-    @JsonProperty(value = "errorCode")
-    private String errorCode;
+    @JsonProperty(value = "message", access = JsonProperty.Access.WRITE_ONLY)
+    private String message;
 
     /**
-     * Error message indicating why the operation failed.
+     * The error target.
      */
-    @JsonProperty(value = "errorMessage")
-    private String errorMessage;
+    @JsonProperty(value = "target", access = JsonProperty.Access.WRITE_ONLY)
+    private String target;
 
     /**
-     * Get the httpStatus value.
+     * The error details.
+     */
+    @JsonProperty(value = "details", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ErrorResponse> details;
+
+    /**
+     * The error additional info.
+     */
+    @JsonProperty(value = "additionalInfo", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ErrorAdditionalInfo> additionalInfo;
+
+    /**
+     * Get the error code.
      *
-     * @return the httpStatus value
+     * @return the code value
      */
-    public String httpStatus() {
-        return this.httpStatus;
+    public String code() {
+        return this.code;
     }
 
     /**
-     * Set the httpStatus value.
+     * Get the error message.
      *
-     * @param httpStatus the httpStatus value to set
-     * @return the ErrorResponse object itself.
+     * @return the message value
      */
-    public ErrorResponse withHttpStatus(String httpStatus) {
-        this.httpStatus = httpStatus;
-        return this;
+    public String message() {
+        return this.message;
     }
 
     /**
-     * Get the errorCode value.
+     * Get the error target.
      *
-     * @return the errorCode value
+     * @return the target value
      */
-    public String errorCode() {
-        return this.errorCode;
+    public String target() {
+        return this.target;
     }
 
     /**
-     * Set the errorCode value.
+     * Get the error details.
      *
-     * @param errorCode the errorCode value to set
-     * @return the ErrorResponse object itself.
+     * @return the details value
      */
-    public ErrorResponse withErrorCode(String errorCode) {
-        this.errorCode = errorCode;
-        return this;
+    public List<ErrorResponse> details() {
+        return this.details;
     }
 
     /**
-     * Get the errorMessage value.
+     * Get the error additional info.
      *
-     * @return the errorMessage value
+     * @return the additionalInfo value
      */
-    public String errorMessage() {
-        return this.errorMessage;
-    }
-
-    /**
-     * Set the errorMessage value.
-     *
-     * @param errorMessage the errorMessage value to set
-     * @return the ErrorResponse object itself.
-     */
-    public ErrorResponse withErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-        return this;
+    public List<ErrorAdditionalInfo> additionalInfo() {
+        return this.additionalInfo;
     }
 
 }

@@ -70,13 +70,25 @@ public class ProvidersInner {
         @GET("subscriptions/{subscriptionId}/providers")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("$top") Integer top, @Query("$expand") String expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers listAtTenantScope" })
+        @GET("providers")
+        Observable<Response<ResponseBody>> listAtTenantScope(@Query("$top") Integer top, @Query("$expand") String expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers get" })
         @GET("subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}")
         Observable<Response<ResponseBody>> get(@Path("resourceProviderNamespace") String resourceProviderNamespace, @Path("subscriptionId") String subscriptionId, @Query("$expand") String expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers getAtTenantScope" })
+        @GET("providers/{resourceProviderNamespace}")
+        Observable<Response<ResponseBody>> getAtTenantScope(@Path("resourceProviderNamespace") String resourceProviderNamespace, @Query("$expand") String expand, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers listAtTenantScopeNext" })
+        @GET
+        Observable<Response<ResponseBody>> listAtTenantScopeNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -458,6 +470,219 @@ public class ProvidersInner {
     }
 
     /**
+     * Gets all resource providers for the tenant.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ProviderInner&gt; object if successful.
+     */
+    public PagedList<ProviderInner> listAtTenantScope() {
+        ServiceResponse<Page<ProviderInner>> response = listAtTenantScopeSinglePageAsync().toBlocking().single();
+        return new PagedList<ProviderInner>(response.body()) {
+            @Override
+            public Page<ProviderInner> nextPage(String nextPageLink) {
+                return listAtTenantScopeNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ProviderInner>> listAtTenantScopeAsync(final ListOperationCallback<ProviderInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAtTenantScopeSinglePageAsync(),
+            new Func1<String, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(String nextPageLink) {
+                    return listAtTenantScopeNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ProviderInner&gt; object
+     */
+    public Observable<Page<ProviderInner>> listAtTenantScopeAsync() {
+        return listAtTenantScopeWithServiceResponseAsync()
+            .map(new Func1<ServiceResponse<Page<ProviderInner>>, Page<ProviderInner>>() {
+                @Override
+                public Page<ProviderInner> call(ServiceResponse<Page<ProviderInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ProviderInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ProviderInner>>> listAtTenantScopeWithServiceResponseAsync() {
+        return listAtTenantScopeSinglePageAsync()
+            .concatMap(new Func1<ServiceResponse<Page<ProviderInner>>, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(ServiceResponse<Page<ProviderInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAtTenantScopeNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ProviderInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ProviderInner>>> listAtTenantScopeSinglePageAsync() {
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final Integer top = null;
+        final String expand = null;
+        return service.listAtTenantScope(top, expand, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ProviderInner>> result = listAtTenantScopeDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ProviderInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param top The number of results to return. If null is passed returns all providers.
+     * @param expand The properties to include in the results. For example, use &amp;$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ProviderInner&gt; object if successful.
+     */
+    public PagedList<ProviderInner> listAtTenantScope(final Integer top, final String expand) {
+        ServiceResponse<Page<ProviderInner>> response = listAtTenantScopeSinglePageAsync(top, expand).toBlocking().single();
+        return new PagedList<ProviderInner>(response.body()) {
+            @Override
+            public Page<ProviderInner> nextPage(String nextPageLink) {
+                return listAtTenantScopeNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param top The number of results to return. If null is passed returns all providers.
+     * @param expand The properties to include in the results. For example, use &amp;$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ProviderInner>> listAtTenantScopeAsync(final Integer top, final String expand, final ListOperationCallback<ProviderInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAtTenantScopeSinglePageAsync(top, expand),
+            new Func1<String, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(String nextPageLink) {
+                    return listAtTenantScopeNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param top The number of results to return. If null is passed returns all providers.
+     * @param expand The properties to include in the results. For example, use &amp;$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ProviderInner&gt; object
+     */
+    public Observable<Page<ProviderInner>> listAtTenantScopeAsync(final Integer top, final String expand) {
+        return listAtTenantScopeWithServiceResponseAsync(top, expand)
+            .map(new Func1<ServiceResponse<Page<ProviderInner>>, Page<ProviderInner>>() {
+                @Override
+                public Page<ProviderInner> call(ServiceResponse<Page<ProviderInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param top The number of results to return. If null is passed returns all providers.
+     * @param expand The properties to include in the results. For example, use &amp;$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ProviderInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ProviderInner>>> listAtTenantScopeWithServiceResponseAsync(final Integer top, final String expand) {
+        return listAtTenantScopeSinglePageAsync(top, expand)
+            .concatMap(new Func1<ServiceResponse<Page<ProviderInner>>, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(ServiceResponse<Page<ProviderInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAtTenantScopeNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+    ServiceResponse<PageImpl<ProviderInner>> * @param top The number of results to return. If null is passed returns all providers.
+    ServiceResponse<PageImpl<ProviderInner>> * @param expand The properties to include in the results. For example, use &amp;$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ProviderInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ProviderInner>>> listAtTenantScopeSinglePageAsync(final Integer top, final String expand) {
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listAtTenantScope(top, expand, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ProviderInner>> result = listAtTenantScopeDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ProviderInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ProviderInner>> listAtTenantScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ProviderInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ProviderInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Gets the specified resource provider.
      *
      * @param resourceProviderNamespace The namespace of the resource provider.
@@ -614,6 +839,156 @@ public class ProvidersInner {
     }
 
     /**
+     * Gets the specified resource provider at the tenant level.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ProviderInner object if successful.
+     */
+    public ProviderInner getAtTenantScope(String resourceProviderNamespace) {
+        return getAtTenantScopeWithServiceResponseAsync(resourceProviderNamespace).toBlocking().single().body();
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ProviderInner> getAtTenantScopeAsync(String resourceProviderNamespace, final ServiceCallback<ProviderInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getAtTenantScopeWithServiceResponseAsync(resourceProviderNamespace), serviceCallback);
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ProviderInner object
+     */
+    public Observable<ProviderInner> getAtTenantScopeAsync(String resourceProviderNamespace) {
+        return getAtTenantScopeWithServiceResponseAsync(resourceProviderNamespace).map(new Func1<ServiceResponse<ProviderInner>, ProviderInner>() {
+            @Override
+            public ProviderInner call(ServiceResponse<ProviderInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ProviderInner object
+     */
+    public Observable<ServiceResponse<ProviderInner>> getAtTenantScopeWithServiceResponseAsync(String resourceProviderNamespace) {
+        if (resourceProviderNamespace == null) {
+            throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        final String expand = null;
+        return service.getAtTenantScope(resourceProviderNamespace, expand, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProviderInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ProviderInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ProviderInner> clientResponse = getAtTenantScopeDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @param expand The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ProviderInner object if successful.
+     */
+    public ProviderInner getAtTenantScope(String resourceProviderNamespace, String expand) {
+        return getAtTenantScopeWithServiceResponseAsync(resourceProviderNamespace, expand).toBlocking().single().body();
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @param expand The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ProviderInner> getAtTenantScopeAsync(String resourceProviderNamespace, String expand, final ServiceCallback<ProviderInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getAtTenantScopeWithServiceResponseAsync(resourceProviderNamespace, expand), serviceCallback);
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @param expand The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ProviderInner object
+     */
+    public Observable<ProviderInner> getAtTenantScopeAsync(String resourceProviderNamespace, String expand) {
+        return getAtTenantScopeWithServiceResponseAsync(resourceProviderNamespace, expand).map(new Func1<ServiceResponse<ProviderInner>, ProviderInner>() {
+            @Override
+            public ProviderInner call(ServiceResponse<ProviderInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the specified resource provider at the tenant level.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider.
+     * @param expand The $expand query parameter. For example, to include property aliases in response, use $expand=resourceTypes/aliases.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ProviderInner object
+     */
+    public Observable<ServiceResponse<ProviderInner>> getAtTenantScopeWithServiceResponseAsync(String resourceProviderNamespace, String expand) {
+        if (resourceProviderNamespace == null) {
+            throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.getAtTenantScope(resourceProviderNamespace, expand, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProviderInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ProviderInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ProviderInner> clientResponse = getAtTenantScopeDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<ProviderInner> getAtTenantScopeDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<ProviderInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<ProviderInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Gets all resource providers for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
@@ -718,6 +1093,117 @@ public class ProvidersInner {
     }
 
     private ServiceResponse<PageImpl<ProviderInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ProviderInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ProviderInner>>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the PagedList&lt;ProviderInner&gt; object if successful.
+     */
+    public PagedList<ProviderInner> listAtTenantScopeNext(final String nextPageLink) {
+        ServiceResponse<Page<ProviderInner>> response = listAtTenantScopeNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ProviderInner>(response.body()) {
+            @Override
+            public Page<ProviderInner> nextPage(String nextPageLink) {
+                return listAtTenantScopeNextSinglePageAsync(nextPageLink).toBlocking().single().body();
+            }
+        };
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<List<ProviderInner>> listAtTenantScopeNextAsync(final String nextPageLink, final ServiceFuture<List<ProviderInner>> serviceFuture, final ListOperationCallback<ProviderInner> serviceCallback) {
+        return AzureServiceFuture.fromPageResponse(
+            listAtTenantScopeNextSinglePageAsync(nextPageLink),
+            new Func1<String, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(String nextPageLink) {
+                    return listAtTenantScopeNextSinglePageAsync(nextPageLink);
+                }
+            },
+            serviceCallback);
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ProviderInner&gt; object
+     */
+    public Observable<Page<ProviderInner>> listAtTenantScopeNextAsync(final String nextPageLink) {
+        return listAtTenantScopeNextWithServiceResponseAsync(nextPageLink)
+            .map(new Func1<ServiceResponse<Page<ProviderInner>>, Page<ProviderInner>>() {
+                @Override
+                public Page<ProviderInner> call(ServiceResponse<Page<ProviderInner>> response) {
+                    return response.body();
+                }
+            });
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+     * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the PagedList&lt;ProviderInner&gt; object
+     */
+    public Observable<ServiceResponse<Page<ProviderInner>>> listAtTenantScopeNextWithServiceResponseAsync(final String nextPageLink) {
+        return listAtTenantScopeNextSinglePageAsync(nextPageLink)
+            .concatMap(new Func1<ServiceResponse<Page<ProviderInner>>, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(ServiceResponse<Page<ProviderInner>> page) {
+                    String nextPageLink = page.body().nextPageLink();
+                    if (nextPageLink == null) {
+                        return Observable.just(page);
+                    }
+                    return Observable.just(page).concatWith(listAtTenantScopeNextWithServiceResponseAsync(nextPageLink));
+                }
+            });
+    }
+
+    /**
+     * Gets all resource providers for the tenant.
+     *
+    ServiceResponse<PageImpl<ProviderInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the PagedList&lt;ProviderInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     */
+    public Observable<ServiceResponse<Page<ProviderInner>>> listAtTenantScopeNextSinglePageAsync(final String nextPageLink) {
+        if (nextPageLink == null) {
+            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
+        }
+        String nextUrl = String.format("%s", nextPageLink);
+        return service.listAtTenantScopeNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ProviderInner>>>>() {
+                @Override
+                public Observable<ServiceResponse<Page<ProviderInner>>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<PageImpl<ProviderInner>> result = listAtTenantScopeNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ProviderInner>>(result.body(), result.response()));
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<PageImpl<ProviderInner>> listAtTenantScopeNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<ProviderInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<ProviderInner>>() { }.getType())
                 .registerError(CloudException.class)

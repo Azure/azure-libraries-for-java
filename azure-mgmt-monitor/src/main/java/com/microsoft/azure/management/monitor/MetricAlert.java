@@ -216,7 +216,7 @@ public interface MetricAlert extends
          */
         interface WithEvaluationFrequency {
             /**
-             * Set how often the metric alert is evaluated represented in ISO 8601 duration format.
+             * Sets how often the metric alert is evaluated represented in ISO 8601 duration format.
              *
              * @param frequency the evaluationFrequency value to set.
              * @return the next stage of metric alert definition.
@@ -229,7 +229,7 @@ public interface MetricAlert extends
          */
         interface WithSeverity {
             /**
-             * Set alert severity {0, 1, 2, 3, 4} and description.
+             * Sets alert severity {0, 1, 2, 3, 4} and description.
              *
              * @param severity the severity value to set
              * @param description Human readable text description of the metric alert.
@@ -282,7 +282,7 @@ public interface MetricAlert extends
          */
         interface WithEvaluationFrequencyMultipleResource {
             /**
-             * Set how often the metric alert is evaluated represented in ISO 8601 duration format.
+             * Sets how often the metric alert is evaluated represented in ISO 8601 duration format.
              *
              * @param frequency the evaluationFrequency value to set.
              * @return the next stage of metric alert definition.
@@ -295,7 +295,7 @@ public interface MetricAlert extends
          */
         interface WithSeverityMultipleResource {
             /**
-             * Set alert severity {0, 1, 2, 3, 4} and description.
+             * Sets alert severity {0, 1, 2, 3, 4} and description.
              *
              * @param severity the severity value to set
              * @param description Human readable text description of the metric alert.
@@ -348,7 +348,7 @@ public interface MetricAlert extends
                 DefinitionWithTags<WithCreate>,
                 WithCriteriaDefinition {
             /**
-             * Set the flag that indicates the alert should not be auto resolved.
+             * Sets the flag that indicates the alert should not be auto resolved.
              *
              * @return the next stage of metric alert condition definition.
              */
@@ -372,7 +372,7 @@ public interface MetricAlert extends
                 Creatable<MetricAlert>,
                 DefinitionWithTags<WithCreate> {
             /**
-             * Set the flag that indicates the alert should not be auto resolved.
+             * Sets the flag that indicates the alert should not be auto resolved.
              *
              * @return the next stage of metric alert condition definition.
              */
@@ -406,7 +406,7 @@ public interface MetricAlert extends
             Update withPeriod(Period size);
 
             /**
-             * Set how often the metric alert is evaluated represented in ISO 8601 duration format.
+             * Sets how often the metric alert is evaluated represented in ISO 8601 duration format.
              *
              * @param frequency the evaluationFrequency value to set.
              * @return the next stage of the metric alert update.
@@ -414,7 +414,7 @@ public interface MetricAlert extends
             Update withFrequency(Period frequency);
 
             /**
-             * Set alert severity {0, 1, 2, 3, 4}.
+             * Sets alert severity {0, 1, 2, 3, 4}.
              *
              * @param severity the severity value to set
              * @return the next stage of the metric alert update.
@@ -502,7 +502,7 @@ public interface MetricAlert extends
             Update withoutAlertCriteria(String name);
 
             /**
-             * Set the flag that indicates the alert should be auto resolved.
+             * Sets the flag that indicates the alert should be auto resolved.
              *
              * @return the next stage of the metric alert update.
              */
@@ -510,7 +510,7 @@ public interface MetricAlert extends
             Update withAutoMitigation();
 
             /**
-             * Set the flag that indicates the alert should not be auto resolved.
+             * Sets the flag that indicates the alert should not be auto resolved.
              *
              * @return the next stage of the metric alert update.
              */

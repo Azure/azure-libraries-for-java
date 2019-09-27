@@ -238,7 +238,7 @@ public interface MetricDynamicAlertCondition extends
              * @param alertSensitivity the extent of deviation required to trigger an alert.
              * @return the next stage of metric alert condition definition.
              */
-            WithFailingPeriods<ParentT> withCondition(MetricAlertRuleTimeAggregation timeAggregation, DynamicThresholdOperator condition, DynamicThresholdSensitivity sensitivity);
+            WithFailingPeriods<ParentT> withCondition(MetricAlertRuleTimeAggregation timeAggregation, DynamicThresholdOperator condition, DynamicThresholdSensitivity alertSensitivity);
         }
 
         /**

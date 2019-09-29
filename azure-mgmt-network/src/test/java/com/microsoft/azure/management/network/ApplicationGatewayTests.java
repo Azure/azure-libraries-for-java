@@ -107,11 +107,8 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
     public void canCreateApplicationGatewayWithSecret() throws Exception {
         String appGatewayName = SdkContext.randomResourceName("agwaf", 15);
         String appPublicIp = SdkContext.randomResourceName("pip", 15);
-        String vaultName = SdkContext.randomResourceName("vlt", 10);
         String identityName = SdkContext.randomResourceName("id", 10);
-        String secretName = SdkContext.randomResourceName("srt", 10);
-        String secretValue = Files.readFirstLine(new File(getClass().getClassLoader().getResource("test.certificate").getFile()), Charset.defaultCharset());
-        
+
         PublicIPAddress pip = networkManager.publicIPAddresses()
                 .define(appPublicIp)
                 .withRegion(Region.US_EAST)
@@ -122,20 +119,6 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
 
         ApplicationTokenCredentials credentials = ApplicationTokenCredentials
                 .fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
-        Vault vault = keyVaultManager.vaults()
-                .define(vaultName)
-                .withRegion(Region.US_EAST)
-                .withExistingResourceGroup(RG_NAME)
-                .defineAccessPolicy()
-                .forServicePrincipal(credentials.clientId())
-                .allowSecretAllPermissions()
-                .attach()
-                .withAccessFromAzureServices()
-                .withDeploymentEnabled()
-                // Important!! Only soft delete enabled key vault can be assigned to application gateway
-                // See also: https://github.com/MicrosoftDocs/azure-docs/issues/34382
-                .withSoftDeleteEnabled()
-                .create();
         
         Identity identity = msiManager.identities()
                .define(identityName)
@@ -146,18 +129,8 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
         Assert.assertNotNull(identity.name());
         Assert.assertNotNull(identity.principalId());
 
-        vault = vault.update()
-                .defineAccessPolicy()
-                .forObjectId(identity.principalId())
-                .allowSecretAllPermissions()
-                .attach()
-                .apply();
-
-        Secret secret = vault.secrets()
-                .define(secretName)
-                .withValue(secretValue)
-                .create();
-        
+        Secret secret1 = createKeyVaultSecret(credentials.clientId(), identity.principalId());
+        Secret secret2 = createKeyVaultSecret(credentials.clientId(), identity.principalId());
 
         ManagedServiceIdentity serviceIdentity = createManagedServiceIdentityFromIdentity(identity);
 
@@ -175,7 +148,7 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .attach()
                 .withIdentity(serviceIdentity)
                 .defineSslCertificate("ssl1")
-                        .withKeyVaultSecretId(secret.id())
+                        .withKeyVaultSecretId(secret1.id())
                         .attach()
                 .withExistingPublicIPAddress(pip)
                 .withTier(ApplicationGatewayTier.WAF_V2)
@@ -184,8 +157,46 @@ public class ApplicationGatewayTests extends NetworkManagementTest {
                 .withWebApplicationFirewall(true, ApplicationGatewayFirewallMode.PREVENTION)
                 .create();
 
-        Assert.assertEquals(secret.id(), appGateway.sslCertificates().get("ssl1").keyVaultSecretId());
-        Assert.assertEquals(secret.id(), appGateway.requestRoutingRules().get("rule1").sslCertificate().keyVaultSecretId());
+        Assert.assertEquals(secret1.id(), appGateway.sslCertificates().get("ssl1").keyVaultSecretId());
+        Assert.assertEquals(secret1.id(), appGateway.requestRoutingRules().get("rule1").sslCertificate().keyVaultSecretId());
+
+        appGateway = appGateway.update()
+                .defineSslCertificate("ssl2")
+                    .withKeyVaultSecretId(secret2.id())
+                    .attach()
+                .apply();
+
+        Assert.assertEquals(secret2.id(), appGateway.sslCertificates().get("ssl2").keyVaultSecretId());
+    }
+
+    private Secret createKeyVaultSecret(String servicePrincipal, String identityPrincipal) throws Exception {
+        String vaultName = SdkContext.randomResourceName("vlt", 10);
+        String secretName = SdkContext.randomResourceName("srt", 10);
+        String secretValue = Files.readFirstLine(new File(getClass().getClassLoader().getResource("test.certificate").getFile()), Charset.defaultCharset());
+
+        Vault vault = keyVaultManager.vaults()
+                .define(vaultName)
+                .withRegion(Region.US_EAST)
+                .withExistingResourceGroup(RG_NAME)
+                .defineAccessPolicy()
+                    .forServicePrincipal(servicePrincipal)
+                    .allowSecretAllPermissions()
+                    .attach()
+                .defineAccessPolicy()
+                    .forObjectId(identityPrincipal)
+                    .allowSecretAllPermissions()
+                    .attach()
+                .withAccessFromAzureServices()
+                .withDeploymentEnabled()
+                // Important!! Only soft delete enabled key vault can be assigned to application gateway
+                // See also: https://github.com/MicrosoftDocs/azure-docs/issues/34382
+                .withSoftDeleteEnabled()
+                .create();
+
+        return vault.secrets()
+                .define(secretName)
+                .withValue(secretValue)
+                .create();
     }
 
     private static ManagedServiceIdentity createManagedServiceIdentityFromIdentity(Identity identity) throws Exception{

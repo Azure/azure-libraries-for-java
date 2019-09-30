@@ -21,7 +21,8 @@ import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("MetricAlertCriteria")
 @JsonSubTypes({
-    @JsonSubTypes.Type(name = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria", value = MetricAlertSingleResourceMultipleMetricCriteria.class)
+    @JsonSubTypes.Type(name = "Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria", value = MetricAlertSingleResourceMultipleMetricCriteria.class),
+    @JsonSubTypes.Type(name = "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria", value = MetricAlertMultipleResourceMultipleMetricCriteria.class)
 })
 @JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class MetricAlertCriteria {
@@ -50,4 +51,5 @@ public class MetricAlertCriteria {
         this.additionalProperties = additionalProperties;
         return this;
     }
+
 }

@@ -14,13 +14,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The baseline values for a single sensitivity value.
  */
-public class Baseline {
+public class SingleBaseline {
     /**
      * the sensitivity of the baseline. Possible values include: 'Low',
      * 'Medium', 'High'.
      */
     @JsonProperty(value = "sensitivity", required = true)
-    private Sensitivity sensitivity;
+    private BaselineSensitivity sensitivity;
 
     /**
      * The low thresholds of the baseline.
@@ -39,7 +39,7 @@ public class Baseline {
      *
      * @return the sensitivity value
      */
-    public Sensitivity sensitivity() {
+    public BaselineSensitivity sensitivity() {
         return this.sensitivity;
     }
 
@@ -47,9 +47,9 @@ public class Baseline {
      * Set the sensitivity of the baseline. Possible values include: 'Low', 'Medium', 'High'.
      *
      * @param sensitivity the sensitivity value to set
-     * @return the Baseline object itself.
+     * @return the SingleBaseline object itself.
      */
-    public Baseline withSensitivity(Sensitivity sensitivity) {
+    public SingleBaseline withSensitivity(BaselineSensitivity sensitivity) {
         this.sensitivity = sensitivity;
         return this;
     }
@@ -67,9 +67,9 @@ public class Baseline {
      * Set the low thresholds of the baseline.
      *
      * @param lowThresholds the lowThresholds value to set
-     * @return the Baseline object itself.
+     * @return the SingleBaseline object itself.
      */
-    public Baseline withLowThresholds(List<Double> lowThresholds) {
+    public SingleBaseline withLowThresholds(List<Double> lowThresholds) {
         this.lowThresholds = lowThresholds;
         return this;
     }
@@ -87,9 +87,9 @@ public class Baseline {
      * Set the high thresholds of the baseline.
      *
      * @param highThresholds the highThresholds value to set
-     * @return the Baseline object itself.
+     * @return the SingleBaseline object itself.
      */
-    public Baseline withHighThresholds(List<Double> highThresholds) {
+    public SingleBaseline withHighThresholds(List<Double> highThresholds) {
         this.highThresholds = highThresholds;
         return this;
     }

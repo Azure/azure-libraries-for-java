@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import java.util.Collection;
 
 /**
- * An immutable client-side representation of an Azure metric alert criteria.
+ * An immutable client-side representation of an Azure metric dynamic alert criteria.
  */
 @Fluent
 public interface MetricAlertCondition extends
@@ -119,8 +119,8 @@ public interface MetricAlertCondition extends
             /**
              * Sets the condition to monitor for the current metric alert.
              *
-             * @param condition the criteria operator. Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
              * @param timeAggregation the criteria time aggregation types. Possible values include: 'Average', 'Minimum', 'Maximum', 'Total'.
+             * @param condition the criteria operator. Possible values include: 'Equals', 'NotEquals', 'GreaterThan', 'GreaterThanOrEqual', 'LessThan', 'LessThanOrEqual'.
              * @param threshold the criteria threshold value that activates the alert.
              * @return the next stage of metric alert condition definition.
              */

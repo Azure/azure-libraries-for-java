@@ -316,6 +316,19 @@ public class MonitorManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The BaselinesInner object to access its operations.
+     */
+    private BaselinesInner baselines;
+
+    /**
+     * Gets the BaselinesInner object to access its operations.
+     * @return the BaselinesInner object.
+     */
+    public BaselinesInner baselines() {
+        return this.baselines;
+    }
+
+    /**
      * The MetricAlertsInner object to access its operations.
      */
     private MetricAlertsInner metricAlerts;
@@ -352,6 +365,32 @@ public class MonitorManagementClientImpl extends AzureServiceClient {
      */
     public ScheduledQueryRulesInner scheduledQueryRules() {
         return this.scheduledQueryRules;
+    }
+
+    /**
+     * The MetricNamespacesInner object to access its operations.
+     */
+    private MetricNamespacesInner metricNamespaces;
+
+    /**
+     * Gets the MetricNamespacesInner object to access its operations.
+     * @return the MetricNamespacesInner object.
+     */
+    public MetricNamespacesInner metricNamespaces() {
+        return this.metricNamespaces;
+    }
+
+    /**
+     * The VMInsightsInner object to access its operations.
+     */
+    private VMInsightsInner vMInsights;
+
+    /**
+     * Gets the VMInsightsInner object to access its operations.
+     * @return the VMInsightsInner object.
+     */
+    public VMInsightsInner vMInsights() {
+        return this.vMInsights;
     }
 
     /**
@@ -403,9 +442,12 @@ public class MonitorManagementClientImpl extends AzureServiceClient {
         this.metricDefinitions = new MetricDefinitionsInner(restClient().retrofit(), this);
         this.metrics = new MetricsInner(restClient().retrofit(), this);
         this.metricBaselines = new MetricBaselinesInner(restClient().retrofit(), this);
+        this.baselines = new BaselinesInner(restClient().retrofit(), this);
         this.metricAlerts = new MetricAlertsInner(restClient().retrofit(), this);
         this.metricAlertsStatus = new MetricAlertsStatusInner(restClient().retrofit(), this);
         this.scheduledQueryRules = new ScheduledQueryRulesInner(restClient().retrofit(), this);
+        this.metricNamespaces = new MetricNamespacesInner(restClient().retrofit(), this);
+        this.vMInsights = new VMInsightsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

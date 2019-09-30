@@ -178,23 +178,23 @@ public interface MetricAlert extends
             WithWindowSize withTargetResource(HasId resource);
 
             /**
-             * Sets specified resources as target to alert on metric. All resources must be of same type and in same region.
+             * Sets specified resources as target to alert on metric. All resources must be of same type and same region.
              *
              * @param resourceIds collection of resource id to alert on metric.
              * @param type resource type.
              * @param regionName resource region.
              * @return the next stage of metric alert definition.
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
+            @Beta(Beta.SinceVersion.V1_27_0)
             WithWindowSizeMultipleResource withMultipleTargetResources(Collection<String> resourceIds, String type, String regionName);
 
             /**
-             * Sets specified resources as target to alert on metric. All resources must be of same type and in same region.
+             * Sets specified resources as target to alert on metric. All resources must be of same type and same region.
              *
-             * @param resources collection of resources to alert on metric, which must be of same type and in same region.
+             * @param resources collection of resources to alert on metric, which must be of same type and same region.
              * @return the next stage of metric alert definition.
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
+            @Beta(Beta.SinceVersion.V1_27_0)
             WithWindowSizeMultipleResource withMultipleTargetResources(Collection<? extends Resource> resources);
         }
 
@@ -335,7 +335,7 @@ public interface MetricAlert extends
              * @param name sets the name of the dynamic condition.
              * @return the next stage of metric alert condition definition.
              */
-            @Beta(Beta.SinceVersion.V1_25_0)
+            @Beta(Beta.SinceVersion.V1_27_0)
             MetricDynamicAlertCondition.DefinitionStages.Blank.MetricName<WithCreate> defineDynamicAlertCriteria(String name);
         }
 

@@ -178,7 +178,7 @@ public interface MetricAlert extends
             WithWindowSize withTargetResource(HasId resource);
 
             /**
-             * Sets specified resources as target to alert on metric. All resources must be of same type and same region.
+             * Sets specified resources as target to alert on metric. All resources must be of the same type and in the same region.
              *
              * @param resourceIds collection of resource id to alert on metric.
              * @param type resource type.
@@ -189,9 +189,9 @@ public interface MetricAlert extends
             WithWindowSizeMultipleResource withMultipleTargetResources(Collection<String> resourceIds, String type, String regionName);
 
             /**
-             * Sets specified resources as target to alert on metric. All resources must be of same type and same region.
+             * Sets specified resources as target to alert on metric. All resources must be of the same type and in the same region.
              *
-             * @param resources collection of resources to alert on metric, which must be of same type and same region.
+             * @param resources collection of resources to alert on metric, which must be of the same type and in the same region.
              * @return the next stage of metric alert definition.
              */
             @Beta(Beta.SinceVersion.V1_27_0)

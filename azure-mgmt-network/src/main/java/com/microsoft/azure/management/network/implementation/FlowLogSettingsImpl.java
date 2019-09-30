@@ -103,6 +103,7 @@ class FlowLogSettingsImpl extends RefreshableWrapperImpl<FlowLogInformationInner
     @Override
     public Update update() {
         if (this.inner().flowAnalyticsConfiguration() != null && this.inner().flowAnalyticsConfiguration().networkWatcherFlowAnalyticsConfiguration() == null) {
+            // Service response could have such case, which is not valid in swagger that networkWatcherFlowAnalyticsConfiguration is a required field.
             this.inner().withFlowAnalyticsConfiguration(null);
         }
         return this;

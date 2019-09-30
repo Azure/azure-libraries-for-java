@@ -18,11 +18,17 @@ public final class DiskSkuTypes {
     // This needs to be at the beginning for the initialization to happen correctly
     private static final Map<String, DiskSkuTypes> VALUES_BY_NAME = new HashMap<>();
 
-    /** Static value Aligned for DiskSkuTypes. */
+    /** Static value STANDARD_LRS for DiskSkuTypes. */
     public static final DiskSkuTypes STANDARD_LRS = new DiskSkuTypes(DiskStorageAccountTypes.STANDARD_LRS);
 
-    /** Static value Classic for DiskSkuTypes. */
+    /** Static value PREMIUM_LRS for DiskSkuTypes. */
     public static final DiskSkuTypes PREMIUM_LRS = new DiskSkuTypes(DiskStorageAccountTypes.PREMIUM_LRS);
+
+    /** Static value STANDARD_SSD_LRS for DiskSkuTypes. */
+    public static final DiskSkuTypes STANDARD_SSD_LRS = new DiskSkuTypes(DiskStorageAccountTypes.STANDARD_SSD_LRS);
+
+    /** Static value ULTRA_SSD_LRS for DiskSkuTypes. */
+    public static final DiskSkuTypes ULTRA_SSD_LRS = new DiskSkuTypes(DiskStorageAccountTypes.ULTRA_SSD_LRS);
 
     /** The actual serialized value for a DiskSkuTypes instance. */
     private DiskStorageAccountTypes value;

@@ -11,6 +11,7 @@ import com.microsoft.azure.management.resources.GenericResource;
 import com.microsoft.azure.management.resources.GenericResources;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.ResourcesMoveInfo;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -150,7 +151,7 @@ final class GenericResourcesImpl
 
     @Override
     public Completable moveResourcesAsync(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources) {
-        ResourcesMoveInfoInner moveInfo = new ResourcesMoveInfoInner();
+        ResourcesMoveInfo moveInfo = new ResourcesMoveInfo();
         moveInfo.withTargetResourceGroup(targetResourceGroup.id());
         moveInfo.withResources(resources);
         return this.inner().moveResourcesAsync(sourceResourceGroupName, moveInfo).toCompletable();

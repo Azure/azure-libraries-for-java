@@ -9,9 +9,9 @@ package com.microsoft.azure.management.resources.implementation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.management.resources.DeploymentExportResult;
+import com.microsoft.azure.management.resources.ErrorResponse;
 import com.microsoft.azure.management.resources.ResourceGroupExportResult;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.resources.ResourceManagementErrorWithDetails;
 
 /**
  * Implementation for {@link DeploymentExportResult}.
@@ -43,7 +43,7 @@ final class ResourceGroupExportResultImpl extends
     }
 
     @Override
-    public ResourceManagementErrorWithDetails error() {
+    public ErrorResponse error() {
         return inner().error();
     }
 }

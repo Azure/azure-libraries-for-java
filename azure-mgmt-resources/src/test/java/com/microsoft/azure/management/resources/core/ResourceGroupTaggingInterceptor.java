@@ -36,7 +36,7 @@ public class ResourceGroupTaggingInterceptor implements Interceptor {
             if (rg == null) {
                 throw new RuntimeException("Failed to deserialize " + body);
             }
-            Map<String, String> tags = rg.tags();
+            Map<String, String> tags = rg.getTags();
             if (tags == null) {
                 tags = new HashMap<>();
             }

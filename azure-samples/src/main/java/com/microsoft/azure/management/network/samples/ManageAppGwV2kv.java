@@ -58,9 +58,11 @@ public final class ManageAppGwV2kv {
     final static String identityName = SdkContext.randomResourceName("id", 10);
     final static String sbName = "subnetappgw";
     final static String pipName = "pipAppGW";
+    final strauc String certificateName = "test.certificate";
 
     public static boolean runSample(Azure azure, ApplicationTokenCredentials cred) {
         try {
+            ManageAppGwV2kv appgw = ManageAppGwV2kv();            
             Network network = azure.networks().define(nwName)
                     .withRegion(region)
                     .withNewResourceGroup(rgName)
@@ -77,9 +79,31 @@ public final class ManageAppGwV2kv {
             KeyVaultManager keyVaultManager = KeyVaultManager.authenticate(cred, cred.defaultSubscriptionId());
             Identity identity = msiManager.identities()
                    .define(identityName)
-                   .withRegion(Region.US_WEST2.name())
+                   .withRegion(region)
                    .withExistingResourceGroup(rgName)
                    .create();
+            KeyVaultManager keyVaultManager = KeyVaultManager.authenticate(cred, cred.defaultSubscriptionId());
+            Secret secret1 = appgw.createKeyVaultSecret(cred.clientId(), identity.principalId(), keyVaultManager, rgName);
+            ApplicationGateway gw1 = azure.applicationGateways().define(appGwName)
+                    .withRegion(region)
+                    .withExistingResourceGroup(rgName)
+                    .defineRequestRoutingRule("rule1")
+                        .fromPublicFrontend()
+                        .fromFrontendHttpsPort(443)
+                        .withSslCertificate("ssl1")
+                        .toBackendHttpPort(80)
+                        .toBackendIPAddress("192.168.22.4")
+                        .toBackendIPAddress("192.168.22.5")
+                        .attach()
+                    .withIdentity(serviceIdentity)
+                    .defineSslCertificate("ssl1")
+                        .withKeyVaultSecretId(secret1.id())
+                        .attach()
+                    .withExistingSubnet(subnetVnet)
+                    .withSize(ApplicationGatewaySkuName.STANDARD_V2)
+                    .withTier(ApplicationGatewayTier.STANDARD_V2)                 
+                    .withExistingPublicIPAddress(pipAppGw)
+                    .create();            
             return true;
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -134,5 +158,35 @@ public final class ManageAppGwV2kv {
         serviceIdentity.withType(ResourceIdentityType.USER_ASSIGNED);
         serviceIdentity.withUserAssignedIdentities(userAssignedIdentities);
         return serviceIdentity;
+    }
+
+    private Secret createKeyVaultSecret(String servicePrincipal, String identityPrincipal, KeyVaultManager keyVaultManager, String rgName) throws Exception {
+        String vaultName = SdkContext.randomResourceName("vlt", 10);
+        String secretName = SdkContext.randomResourceName("srt", 10);
+        String secretValue = Files.readFirstLine(new File(getClass().getClassLoader()
+            .getResource(certificateName).getFile()), 
+            Charset.defaultCharset());
+        Vault vault = keyVaultManager.vaults()
+                .define(vaultName)
+                .withRegion(Region.US_WEST2.name())
+                .withExistingResourceGroup(rgName)
+                .defineAccessPolicy()
+                    .forServicePrincipal(servicePrincipal)
+                    .allowSecretAllPermissions()
+                    .attach()
+                .defineAccessPolicy()
+                    .forObjectId(identityPrincipal)
+                    .allowSecretAllPermissions()
+                    .attach()
+                .withAccessFromAzureServices()
+                .withDeploymentEnabled()
+                // Important!! Only soft delete enabled key vault can be assigned to application gateway
+                // See also: https://github.com/MicrosoftDocs/azure-docs/issues/34382
+                .withSoftDeleteEnabled()
+                .create();
+        return vault.secrets()
+                .define(secretName)
+                .withValue(secretValue)
+                .create();
     }
 }

@@ -118,6 +118,32 @@ public class CosmosDBTests extends TestBase {
     }
 
     @Test
+    public void CanUpdateCosmosDbCassandraConnector() {
+        final String cosmosDbAccountName = SdkContext.randomResourceName("cosmosdb", 22);
+
+        // CassandraConnector could only be used in West US and South Central US.
+        CosmosDBAccount cosmosDBAccount = cosmosDBManager.databaseAccounts()
+                .define(cosmosDbAccountName)
+                .withRegion(Region.US_WEST)
+                .withNewResourceGroup(RG_NAME)
+                .withDataModelCassandra()
+                .withStrongConsistency()
+                .withCassandraConnector(ConnectorOffer.SMALL)
+                .withTag("tag1", "value1")
+                .create();
+
+        Assert.assertEquals("value1", cosmosDBAccount.tags().get("tag1"));
+        Assert.assertTrue(cosmosDBAccount.cassandraConnectorEnabled());
+        Assert.assertEquals(ConnectorOffer.SMALL, cosmosDBAccount.cassandraConnectorOffer());
+
+        cosmosDBAccount = cosmosDBAccount.update()
+                .withoutCassandraConnector()
+                .apply();
+
+        Assert.assertFalse(cosmosDBAccount.cassandraConnectorEnabled());
+    }
+
+    @Test
     public void CanCreateCosmosDbAzureTableAccount() {
         final String cosmosDbAccountName = SdkContext.randomResourceName("cosmosdb", 22);
 

@@ -137,14 +137,13 @@ public interface MetricAlert extends
      */
     interface DefinitionMultipleResource extends
             DefinitionStages.Blank,
-            DefinitionStages.WithCreate,
+            DefinitionStages.WithCreateDynamicCondition,
             DefinitionStages.WithScopes,
             DefinitionStages.WithWindowSizeMultipleResource,
             DefinitionStages.WithEvaluationFrequencyMultipleResource,
             DefinitionStages.WithSeverityMultipleResource,
             DefinitionStages.WithActionGroupMultipleResource,
-            DefinitionStages.WithCriteriaDefinitionMultipleResource,
-            DefinitionStages.WithCreateDynamicCondition {
+            DefinitionStages.WithCriteriaDefinitionMultipleResource {
     }
 
     /**

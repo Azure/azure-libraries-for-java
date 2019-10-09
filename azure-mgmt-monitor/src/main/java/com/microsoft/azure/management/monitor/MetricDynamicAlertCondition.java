@@ -323,6 +323,29 @@ public interface MetricDynamicAlertCondition extends
         UpdateStages withoutDimension(String dimensionName);
 
         /**
+         * Sets the failing periods for triggering the alert.
+         *
+         * @param failingPeriods the failing periods for triggering the alert.
+         * @return the next stage of metric alert condition definition.
+         */
+        UpdateStages withFailingPeriods(DynamicThresholdFailingPeriods failingPeriods);
+
+        /**
+         * Sets the date from which to start learning the metric historical data and calculate the dynamic thresholds.
+         *
+         * @param date the date from which to start learning the metric historical data and calculate the dynamic thresholds.
+         * @return the next stage of metric alert condition definition.
+         */
+        UpdateStages withIgnoreDataBefore(DateTime date);
+
+        /**
+         * Removes the date from which to start learning the metric historical data and calculate the dynamic thresholds.
+         *
+         * @return the next stage of the metric alert condition update.
+         */
+        UpdateStages withoutIgnoreDataBefore();
+
+        /**
          * Returns back to the metric alert update flow.
          *
          * @return the next stage of the metric alert update.

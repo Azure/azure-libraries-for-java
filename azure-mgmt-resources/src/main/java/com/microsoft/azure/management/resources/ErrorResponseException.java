@@ -33,12 +33,12 @@ public class ErrorResponseException extends RestException {
      * @param response the HTTP response
      * @param body the deserialized response body
      */
-    public ErrorResponseException(final String message, final Response<ResponseBody> response, final ErrorResponse body) {
+    public ErrorResponseException(final String message, final Response<ResponseBody> response, final ResourceErrorResponse body) {
         super(message, response, body);
     }
 
     @Override
-    public ErrorResponse body() {
-        return (ErrorResponse) super.body();
+    public ResourceErrorResponse body() {
+        return (ResourceErrorResponse) super.body();
     }
 }

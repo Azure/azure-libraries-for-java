@@ -295,15 +295,15 @@ class MetricAlertImpl
 
         List<String> resourceIds = new ArrayList<>();
         String type = resources.iterator().next().type();
-        String region = resources.iterator().next().regionName();
+        String regionName = resources.iterator().next().regionName();
         for (Resource resource : resources) {
-            if (!type.equalsIgnoreCase(resource.type()) || !region.equalsIgnoreCase(resource.regionName())) {
-                throw new IllegalArgumentException("Target resource must be of same resource type and in same region");
+            if (!type.equalsIgnoreCase(resource.type()) || !regionName.equalsIgnoreCase(resource.regionName())) {
+                throw new IllegalArgumentException("Target resource must be of the same resource type and in the same region");
             }
 
             resourceIds.add(resource.id());
         }
-        return this.withMultipleTargetResources(resourceIds, type, region);
+        return this.withMultipleTargetResources(resourceIds, type, regionName);
     }
 
     @Override

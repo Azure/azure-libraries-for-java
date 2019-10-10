@@ -91,4 +91,10 @@ class MetricDynamicAlertConditionImpl
         this.inner().withIgnoreDataBefore(date);
         return this;
     }
+
+    @Override
+    public MetricDynamicAlertConditionImpl withoutIgnoreDataBefore() {
+        this.inner().withIgnoreDataBefore(null);
+        return this;
+    }
 }

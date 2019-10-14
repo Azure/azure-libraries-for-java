@@ -9,6 +9,7 @@ package com.microsoft.azure.management.servicebus;
 import com.microsoft.azure.management.servicebus.implementation.TimeSpan;
 import org.joda.time.Period;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class TimeSpanTests {

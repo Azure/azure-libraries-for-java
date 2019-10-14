@@ -15,6 +15,7 @@ import com.microsoft.azure.management.resources.samples.DeployVirtualMachineUsin
 import com.microsoft.azure.management.resources.samples.ManageResource;
 import com.microsoft.azure.management.resources.samples.ManageResourceGroup;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ResourceSampleTests extends SamplesTestBase {
@@ -36,7 +37,7 @@ public class ResourceSampleTests extends SamplesTestBase {
         Assert.assertTrue(DeployUsingARMTemplateAsync.runSample(azure));
     }
 
-    @Test
+    @Test()
     public void testDeployUsingARMTemplateWithDeploymentOperations() {
         if (isPlaybackMode()) {
             Assert.assertTrue(DeployUsingARMTemplateWithDeploymentOperations.runSample(azure, 0));

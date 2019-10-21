@@ -207,6 +207,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assert.assertEquals((Double) 1000.0, foundVM.billingProfile().maxPrice());
         Assert.assertEquals(VirtualMachineEvictionPolicyTypes.DEALLOCATE, foundVM.evictionPolicy());
 
+        foundVM.deallocate();
         foundVM.update()
                 .withMaxPrice(2000.0)
                 .apply();

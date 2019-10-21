@@ -73,7 +73,7 @@ public class ManageSqlFailoverGroups {
             System.out.println("Creating a secondary SQL Server with a sample database");
 
             SqlServer sqlSecondaryServer = azure.sqlServers().define(sqlSecondaryServerName)
-                .withRegion(Region.US_WEST)
+                .withRegion(Region.US_EAST2)
                 .withExistingResourceGroup(rgName)
                 .withAdministratorLogin(administratorLogin)
                 .withAdministratorPassword(administratorPassword)

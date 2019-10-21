@@ -16,6 +16,7 @@ import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.ElasticPoolActivity;
 import com.microsoft.azure.management.sql.ElasticPoolDatabaseActivity;
 import com.microsoft.azure.management.sql.ElasticPoolEdition;
+import com.microsoft.azure.management.sql.ServiceObjectiveName;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlElasticPool;
 import com.microsoft.azure.management.sql.SqlServer;
@@ -146,6 +147,8 @@ public final class ManageSqlDatabaseInElasticPool {
             anotherDatabase = anotherDatabase.update()
                     .withoutElasticPool()
                     .withEdition(DatabaseEdition.STANDARD)
+                    .withServiceObjective(ServiceObjectiveName.S3)
+                    .withMaxSizeBytes(1024 * 1024 * 1024 * 20)
                     .apply();
             Utils.print(anotherDatabase);
 

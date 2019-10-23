@@ -16,13 +16,39 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DeploymentInner {
     /**
+     * The location to store the deployment data.
+     */
+    @JsonProperty(value = "location")
+    private String location;
+
+    /**
      * The deployment properties.
      */
     @JsonProperty(value = "properties", required = true)
     private DeploymentProperties properties;
 
     /**
-     * Get the properties value.
+     * Get the location to store the deployment data.
+     *
+     * @return the location value
+     */
+    public String location() {
+        return this.location;
+    }
+
+    /**
+     * Set the location to store the deployment data.
+     *
+     * @param location the location value to set
+     * @return the DeploymentInner object itself.
+     */
+    public DeploymentInner withLocation(String location) {
+        this.location = location;
+        return this;
+    }
+
+    /**
+     * Get the deployment properties.
      *
      * @return the properties value
      */
@@ -31,7 +57,7 @@ public class DeploymentInner {
     }
 
     /**
-     * Set the properties value.
+     * Set the deployment properties.
      *
      * @param properties the properties value to set
      * @return the DeploymentInner object itself.

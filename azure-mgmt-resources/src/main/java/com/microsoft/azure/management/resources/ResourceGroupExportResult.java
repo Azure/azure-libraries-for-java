@@ -30,6 +30,5 @@ public interface ResourceGroupExportResult extends
     /**
      * @return the error, if any.
      */
-    ResourceManagementErrorWithDetails error();
-
+    ErrorResponse error();
 }

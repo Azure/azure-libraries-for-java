@@ -49,8 +49,8 @@ public final class DeploymentImpl extends
     private Creatable<ResourceGroup> creatableResourceGroup;
     private ObjectMapper objectMapper;
 
-    DeploymentImpl(DeploymentExtendedInner innerModel, final ResourceManager resourceManager) {
-        super(innerModel.name(), innerModel);
+    DeploymentImpl(DeploymentExtendedInner innerModel, String name, final ResourceManager resourceManager) {
+        super(name, innerModel);
         this.resourceGroupName = ResourceUtils.groupFromResourceId(innerModel.id());
         this.resourceManager = resourceManager;
         this.objectMapper = new ObjectMapper();
@@ -59,11 +59,6 @@ public final class DeploymentImpl extends
     @Override
     public String resourceGroupName() {
         return this.resourceGroupName;
-    }
-
-    @Override
-    public String name() {
-        return this.inner().name();
     }
 
     @Override

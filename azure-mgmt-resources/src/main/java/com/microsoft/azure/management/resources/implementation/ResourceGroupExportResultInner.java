@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.management.resources.ResourceManagementErrorWithDetails;
+import com.microsoft.azure.management.resources.ErrorResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -22,13 +22,13 @@ public class ResourceGroupExportResultInner {
     private Object template;
 
     /**
-     * The error.
+     * The template export error.
      */
     @JsonProperty(value = "error")
-    private ResourceManagementErrorWithDetails error;
+    private ErrorResponse error;
 
     /**
-     * Get the template value.
+     * Get the template content.
      *
      * @return the template value
      */
@@ -37,7 +37,7 @@ public class ResourceGroupExportResultInner {
     }
 
     /**
-     * Set the template value.
+     * Set the template content.
      *
      * @param template the template value to set
      * @return the ResourceGroupExportResultInner object itself.
@@ -48,21 +48,21 @@ public class ResourceGroupExportResultInner {
     }
 
     /**
-     * Get the error value.
+     * Get the template export error.
      *
      * @return the error value
      */
-    public ResourceManagementErrorWithDetails error() {
+    public ErrorResponse error() {
         return this.error;
     }
 
     /**
-     * Set the error value.
+     * Set the template export error.
      *
      * @param error the error value to set
      * @return the ResourceGroupExportResultInner object itself.
      */
-    public ResourceGroupExportResultInner withError(ResourceManagementErrorWithDetails error) {
+    public ResourceGroupExportResultInner withError(ErrorResponse error) {
         this.error = error;
         return this;
     }

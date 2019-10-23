@@ -46,6 +46,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
                 .define(SA_NAME)
                 .withRegion(Region.ASIA_EAST)
                 .withNewResourceGroup(RG_NAME)
+                .withGeneralPurposeAccountKindV2()
                 .withTag("tag1", "value1")
                 .withHnsEnabled(true)
                 .withAzureFilesAadIntegrationEnabled(false)

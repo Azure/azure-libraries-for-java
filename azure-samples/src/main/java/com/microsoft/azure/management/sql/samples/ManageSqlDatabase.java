@@ -83,6 +83,7 @@ public final class ManageSqlDatabase {
             database = database.update()
                     .withEdition(DatabaseEdition.STANDARD)
                     .withServiceObjective(ServiceObjectiveName.S3)
+                    .withMaxSizeBytes(1024 * 1024 * 1024 * 20)
                     .apply();
             Utils.print(database);
 

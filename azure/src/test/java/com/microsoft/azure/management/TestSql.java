@@ -24,7 +24,7 @@ public class TestSql extends TestTemplate<SqlServer, SqlServers>  {
         final SqlServer[] sqlServers = new SqlServer[1];
         final SettableFuture<SqlServer> future = SettableFuture.create();
         Observable<Indexable> resourceStream = resources.define(sqlServerName)
-                .withRegion(Region.INDIA_CENTRAL)
+                .withRegion(Region.US_EAST)
                 .withNewResourceGroup()
                 .withAdministratorLogin("admin32")
                 .withAdministratorPassword("Password~1")

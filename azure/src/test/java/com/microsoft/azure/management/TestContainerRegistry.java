@@ -21,27 +21,28 @@ public class TestContainerRegistry extends TestTemplate<Registry, Registries> {
     public Registry createResource(Registries registries) throws Exception {
         final String newName = "acr" + this.testId;
         final String rgName = "rgacr" + this.testId;
-        Registry registry = registries.define(newName + "1")
-                .withRegion(Region.US_WEST_CENTRAL)
-                .withNewResourceGroup(rgName)
-                .withClassicSku()
-                .withNewStorageAccount("crsa" + this.testId)
-                .withRegistryNameAsAdminUser()
-                .withTag("tag1", "value1")
-                .create();
-
-        Assert.assertTrue(registry.adminUserEnabled());
-        Assert.assertEquals(registry.storageAccountName(), "crsa" + this.testId);
-
-        RegistryCredentials registryCredentials = registry.getCredentials();
-        Assert.assertNotNull(registryCredentials);
-        Assert.assertEquals(newName + "1", registryCredentials.username());
-        Assert.assertEquals(2, registryCredentials.accessKeys().size());
-        Assert.assertTrue(registry.webhooks().list().isEmpty());
+        // TODO:  The ACR service throws exception that classic SKU is deprecated while the document is not up to date.
+//        Registry registry = registries.define(newName + "1")
+//                .withRegion(Region.US_EAST)
+//                .withNewResourceGroup(rgName)
+//                .withClassicSku()
+//                .withNewStorageAccount("crsa" + this.testId)
+//                .withRegistryNameAsAdminUser()
+//                .withTag("tag1", "value1")
+//                .create();
+//
+//        Assert.assertTrue(registry.adminUserEnabled());
+//        Assert.assertEquals(registry.storageAccountName(), "crsa" + this.testId);
+//
+//        RegistryCredentials registryCredentials = registry.getCredentials();
+//        Assert.assertNotNull(registryCredentials);
+//        Assert.assertEquals(newName + "1", registryCredentials.username());
+//        Assert.assertEquals(2, registryCredentials.accessKeys().size());
+//        Assert.assertTrue(registry.webhooks().list().isEmpty());
 
         Registry registry2 = registries.define(newName + "2")
-            .withRegion(Region.US_WEST_CENTRAL)
-            .withExistingResourceGroup(rgName)
+            .withRegion(Region.US_EAST)
+            .withNewResourceGroup(rgName)
             .withBasicSku()
             .withRegistryNameAsAdminUser()
             .defineWebhook("webhookbing1")

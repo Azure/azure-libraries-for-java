@@ -112,13 +112,11 @@ final class DeploymentsImpl
     }
 
     protected DeploymentImpl createFluentModel(String name) {
-        return new DeploymentImpl(
-                new DeploymentExtendedInner().withName(name),
-                this.resourceManager);
+        return new DeploymentImpl(new DeploymentExtendedInner(), name, this.resourceManager);
     }
 
     protected DeploymentImpl createFluentModel(DeploymentExtendedInner deploymentExtendedInner) {
-        return new DeploymentImpl(deploymentExtendedInner, this.resourceManager);
+        return new DeploymentImpl(deploymentExtendedInner, deploymentExtendedInner.name(), this.resourceManager);
     }
 
     @Override

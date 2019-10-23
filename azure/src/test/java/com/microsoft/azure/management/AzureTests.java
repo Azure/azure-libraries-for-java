@@ -1016,7 +1016,7 @@ public class AzureTests extends TestBase {
                     .withPassword("MyPassword")
                     .withAutoScale(1, 1)
                     .create();
-            Assert.assertEquals("steady", cluster.allocationState().toString());
+            Assert.assertEquals("resizing", cluster.allocationState().toString());
             Assert.assertEquals(userName, cluster.adminUserName());
 
             BatchAIJob job = experiment.jobs().define("myJob")

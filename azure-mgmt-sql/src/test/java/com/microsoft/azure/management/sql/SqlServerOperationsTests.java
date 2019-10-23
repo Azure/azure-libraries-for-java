@@ -45,7 +45,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlServerName)
-            .withRegion(Region.US_SOUTH_CENTRAL)
+            .withRegion(Region.US_EAST)
             .withNewResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)
@@ -231,7 +231,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
             .create();
 
         SqlServer sqlOtherServer = sqlServerManager.sqlServers().define(sqlOtherServerName)
-            .withRegion(Region.US_SOUTH_CENTRAL)
+            .withRegion(Region.US_WEST2)
             .withExistingResourceGroup(rgName)
             .withAdministratorLogin(administratorLogin)
             .withAdministratorPassword(administratorPassword)

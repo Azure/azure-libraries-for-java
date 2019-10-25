@@ -102,7 +102,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -121,7 +121,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -141,7 +141,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceHealthMetadataInner&gt; object
@@ -158,7 +158,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceHealthMetadataInner&gt; object
@@ -179,7 +179,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceHealthMetadataInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -214,7 +214,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -234,7 +234,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -255,7 +255,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -273,7 +273,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -295,7 +295,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -334,7 +334,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
@@ -355,7 +355,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
@@ -377,7 +377,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
@@ -396,7 +396,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
@@ -419,7 +419,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param name Name of web app.
@@ -462,7 +462,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
@@ -477,7 +477,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
@@ -491,7 +491,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
@@ -509,7 +509,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
@@ -552,7 +552,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
@@ -574,7 +574,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
@@ -597,7 +597,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
@@ -617,7 +617,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app.
@@ -641,7 +641,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param name Name of web app.
@@ -688,7 +688,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
@@ -704,7 +704,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
@@ -719,7 +719,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
@@ -738,7 +738,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site.
-     * Gets the category of ResourceHealthMetadata to use for the given site.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of web app
@@ -785,7 +785,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -805,7 +805,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -827,7 +827,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -845,7 +845,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -867,7 +867,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the subscription.
-     * List all ResourceHealthMetadata for all sites in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the subscription.
      *
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -901,7 +901,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -921,7 +921,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -943,7 +943,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -961,7 +961,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -983,7 +983,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
-     * List all ResourceHealthMetadata for all sites in the resource group in the subscription.
+     * Description for List all ResourceHealthMetadata for all sites in the resource group in the subscription.
      *
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1017,7 +1017,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1037,7 +1037,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1059,7 +1059,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1077,7 +1077,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1099,7 +1099,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1133,7 +1133,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1153,7 +1153,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1175,7 +1175,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1193,7 +1193,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1215,7 +1215,7 @@ public class ResourceHealthMetadatasInner implements InnerSupportsListing<Resour
 
     /**
      * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
-     * Gets the category of ResourceHealthMetadata to use for the given site as a collection.
+     * Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection.
      *
     ServiceResponse<PageImpl<ResourceHealthMetadataInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

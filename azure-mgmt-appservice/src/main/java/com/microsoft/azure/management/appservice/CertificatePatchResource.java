@@ -140,6 +140,12 @@ public class CertificatePatchResource extends ProxyOnlyResource {
     private String serverFarmId;
 
     /**
+     * CNAME of the certificate to be issued via free certificate.
+     */
+    @JsonProperty(value = "properties.canonicalName")
+    private String canonicalName;
+
+    /**
      * Get friendly name of the certificate.
      *
      * @return the friendlyName value
@@ -373,6 +379,26 @@ public class CertificatePatchResource extends ProxyOnlyResource {
      */
     public CertificatePatchResource withServerFarmId(String serverFarmId) {
         this.serverFarmId = serverFarmId;
+        return this;
+    }
+
+    /**
+     * Get cNAME of the certificate to be issued via free certificate.
+     *
+     * @return the canonicalName value
+     */
+    public String canonicalName() {
+        return this.canonicalName;
+    }
+
+    /**
+     * Set cNAME of the certificate to be issued via free certificate.
+     *
+     * @param canonicalName the canonicalName value to set
+     * @return the CertificatePatchResource object itself.
+     */
+    public CertificatePatchResource withCanonicalName(String canonicalName) {
+        this.canonicalName = canonicalName;
         return this;
     }
 

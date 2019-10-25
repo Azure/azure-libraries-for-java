@@ -9,7 +9,6 @@
 package com.microsoft.azure.management.appservice;
 
 import java.util.Map;
-import com.microsoft.azure.management.appservice.implementation.AppServiceCertificateInner;
 import org.joda.time.DateTime;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,7 +23,7 @@ public class AppServiceCertificateOrderPatchResource extends ProxyOnlyResource {
      * State of the Key Vault secret.
      */
     @JsonProperty(value = "properties.certificates")
-    private Map<String, AppServiceCertificateInner> certificates;
+    private Map<String, AppServiceCertificate> certificates;
 
     /**
      * Certificate distinguished name.
@@ -146,7 +145,7 @@ public class AppServiceCertificateOrderPatchResource extends ProxyOnlyResource {
      *
      * @return the certificates value
      */
-    public Map<String, AppServiceCertificateInner> certificates() {
+    public Map<String, AppServiceCertificate> certificates() {
         return this.certificates;
     }
 
@@ -156,7 +155,7 @@ public class AppServiceCertificateOrderPatchResource extends ProxyOnlyResource {
      * @param certificates the certificates value to set
      * @return the AppServiceCertificateOrderPatchResource object itself.
      */
-    public AppServiceCertificateOrderPatchResource withCertificates(Map<String, AppServiceCertificateInner> certificates) {
+    public AppServiceCertificateOrderPatchResource withCertificates(Map<String, AppServiceCertificate> certificates) {
         this.certificates = certificates;
         return this;
     }

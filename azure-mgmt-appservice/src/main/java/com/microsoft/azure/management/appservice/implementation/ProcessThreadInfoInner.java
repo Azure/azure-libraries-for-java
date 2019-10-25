@@ -79,12 +79,6 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
     private String userProcessorTime;
 
     /**
-     * Privileged processor time.
-     */
-    @JsonProperty(value = "properties.priviledged_processor_time")
-    private String priviledgedProcessorTime;
-
-    /**
      * Thread state.
      */
     @JsonProperty(value = "properties.state")
@@ -282,26 +276,6 @@ public class ProcessThreadInfoInner extends ProxyOnlyResource {
      */
     public ProcessThreadInfoInner withUserProcessorTime(String userProcessorTime) {
         this.userProcessorTime = userProcessorTime;
-        return this;
-    }
-
-    /**
-     * Get privileged processor time.
-     *
-     * @return the priviledgedProcessorTime value
-     */
-    public String priviledgedProcessorTime() {
-        return this.priviledgedProcessorTime;
-    }
-
-    /**
-     * Set privileged processor time.
-     *
-     * @param priviledgedProcessorTime the priviledgedProcessorTime value to set
-     * @return the ProcessThreadInfoInner object itself.
-     */
-    public ProcessThreadInfoInner withPriviledgedProcessorTime(String priviledgedProcessorTime) {
-        this.priviledgedProcessorTime = priviledgedProcessorTime;
         return this;
     }
 

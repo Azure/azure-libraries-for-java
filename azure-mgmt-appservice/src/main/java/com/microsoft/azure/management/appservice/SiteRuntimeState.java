@@ -12,35 +12,35 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 /**
- * Defines values for ManagedServiceIdentityType.
+ * Defines values for SiteRuntimeState.
  */
-public enum ManagedServiceIdentityType {
-    /** Enum value None. */
-    NONE("None"),
+public enum SiteRuntimeState {
+    /** Enum value READY. */
+    READY("READY"),
 
-    /** Enum value SystemAssigned. */
-    SYSTEM_ASSIGNED("SystemAssigned"),
+    /** Enum value STOPPED. */
+    STOPPED("STOPPED"),
 
-    /** Enum value UserAssigned. */
-    USER_ASSIGNED("UserAssigned");
+    /** Enum value UNKNOWN. */
+    UNKNOWN("UNKNOWN");
 
-    /** The actual serialized value for a ManagedServiceIdentityType instance. */
+    /** The actual serialized value for a SiteRuntimeState instance. */
     private String value;
 
-    ManagedServiceIdentityType(String value) {
+    SiteRuntimeState(String value) {
         this.value = value;
     }
 
     /**
-     * Parses a serialized value to a ManagedServiceIdentityType instance.
+     * Parses a serialized value to a SiteRuntimeState instance.
      *
      * @param value the serialized value to parse.
-     * @return the parsed ManagedServiceIdentityType object, or null if unable to parse.
+     * @return the parsed SiteRuntimeState object, or null if unable to parse.
      */
     @JsonCreator
-    public static ManagedServiceIdentityType fromString(String value) {
-        ManagedServiceIdentityType[] items = ManagedServiceIdentityType.values();
-        for (ManagedServiceIdentityType item : items) {
+    public static SiteRuntimeState fromString(String value) {
+        SiteRuntimeState[] items = SiteRuntimeState.values();
+        for (SiteRuntimeState item : items) {
             if (item.toString().equalsIgnoreCase(value)) {
                 return item;
             }

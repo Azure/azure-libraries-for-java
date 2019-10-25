@@ -14,7 +14,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * Domain availability check result.
  */
-public class DomainAvailablilityCheckResultInner {
+public class DomainAvailabilityCheckResultInner {
     /**
      * Name of the domain.
      */
@@ -50,9 +50,9 @@ public class DomainAvailablilityCheckResultInner {
      * Set name of the domain.
      *
      * @param name the name value to set
-     * @return the DomainAvailablilityCheckResultInner object itself.
+     * @return the DomainAvailabilityCheckResultInner object itself.
      */
-    public DomainAvailablilityCheckResultInner withName(String name) {
+    public DomainAvailabilityCheckResultInner withName(String name) {
         this.name = name;
         return this;
     }
@@ -70,9 +70,9 @@ public class DomainAvailablilityCheckResultInner {
      * Set &lt;code&gt;true&lt;/code&gt; if domain can be purchased using CreateDomain API; otherwise, &lt;code&gt;false&lt;/code&gt;.
      *
      * @param available the available value to set
-     * @return the DomainAvailablilityCheckResultInner object itself.
+     * @return the DomainAvailabilityCheckResultInner object itself.
      */
-    public DomainAvailablilityCheckResultInner withAvailable(Boolean available) {
+    public DomainAvailabilityCheckResultInner withAvailable(Boolean available) {
         this.available = available;
         return this;
     }
@@ -90,9 +90,9 @@ public class DomainAvailablilityCheckResultInner {
      * Set valid values are Regular domain: Azure will charge the full price of domain registration, SoftDeleted: Purchasing this domain will simply restore it and this operation will not cost anything. Possible values include: 'Regular', 'SoftDeleted'.
      *
      * @param domainType the domainType value to set
-     * @return the DomainAvailablilityCheckResultInner object itself.
+     * @return the DomainAvailabilityCheckResultInner object itself.
      */
-    public DomainAvailablilityCheckResultInner withDomainType(DomainType domainType) {
+    public DomainAvailabilityCheckResultInner withDomainType(DomainType domainType) {
         this.domainType = domainType;
         return this;
     }

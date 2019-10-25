@@ -21,25 +21,25 @@ public class IdentifierInner extends ProxyOnlyResource {
      * String representation of the identity.
      */
     @JsonProperty(value = "properties.id")
-    private String identifierId;
+    private String value;
 
     /**
      * Get string representation of the identity.
      *
-     * @return the identifierId value
+     * @return the value value
      */
-    public String identifierId() {
-        return this.identifierId;
+    public String value() {
+        return this.value;
     }
 
     /**
      * Set string representation of the identity.
      *
-     * @param identifierId the identifierId value to set
+     * @param value the value value to set
      * @return the IdentifierInner object itself.
      */
-    public IdentifierInner withIdentifierId(String identifierId) {
-        this.identifierId = identifierId;
+    public IdentifierInner withValue(String value) {
+        this.value = value;
         return this;
     }
 

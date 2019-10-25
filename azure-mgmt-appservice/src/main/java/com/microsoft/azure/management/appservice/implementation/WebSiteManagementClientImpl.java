@@ -12,14 +12,12 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.appservice.CheckNameResourceTypes;
 import com.microsoft.azure.management.appservice.CsmMoveResourceEnvelope;
 import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
 import com.microsoft.azure.management.appservice.ResourceNameAvailabilityRequest;
 import com.microsoft.azure.management.appservice.SkuName;
-import com.microsoft.azure.management.appservice.ValidateContainerSettingsRequest;
 import com.microsoft.azure.management.appservice.ValidateRequest;
 import com.microsoft.azure.management.appservice.VnetParameters;
 import com.microsoft.azure.Page;
@@ -380,7 +378,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2018-02-01";
+        this.apiVersion = "2019-08-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -409,7 +407,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "WebSiteManagementClient", "2018-02-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "WebSiteManagementClient", "2019-08-01");
     }
 
     private void initializeService() {
@@ -481,10 +479,6 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validate")
         Observable<Response<ResponseBody>> validate(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Body ValidateRequest validateRequest, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient validateContainerSettings" })
-        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/validateContainerSettings")
-        Observable<Response<ResponseBody>> validateContainerSettings(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Body ValidateContainerSettingsRequest validateContainerSettingsRequest, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.WebSiteManagementClient validateMove" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/validateMoveResources")
         Observable<Response<ResponseBody>> validateMove(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Body CsmMoveResourceEnvelope moveResourceEnvelope, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -513,7 +507,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets publishing user.
-     * Gets publishing user.
+     * Description for Gets publishing user.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -526,7 +520,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets publishing user.
-     * Gets publishing user.
+     * Description for Gets publishing user.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -538,7 +532,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets publishing user.
-     * Gets publishing user.
+     * Description for Gets publishing user.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the UserInner object
@@ -554,7 +548,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets publishing user.
-     * Gets publishing user.
+     * Description for Gets publishing user.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the UserInner object
@@ -586,7 +580,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Updates publishing user.
-     * Updates publishing user.
+     * Description for Updates publishing user.
      *
      * @param userDetails Details of publishing user
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -600,7 +594,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Updates publishing user.
-     * Updates publishing user.
+     * Description for Updates publishing user.
      *
      * @param userDetails Details of publishing user
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -613,7 +607,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Updates publishing user.
-     * Updates publishing user.
+     * Description for Updates publishing user.
      *
      * @param userDetails Details of publishing user
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -630,7 +624,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Updates publishing user.
-     * Updates publishing user.
+     * Description for Updates publishing user.
      *
      * @param userDetails Details of publishing user
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -667,7 +661,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -686,7 +680,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -706,7 +700,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SourceControlInner&gt; object
@@ -723,7 +717,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SourceControlInner&gt; object
@@ -744,7 +738,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;SourceControlInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -776,7 +770,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets source control token.
-     * Gets source control token.
+     * Description for Gets source control token.
      *
      * @param sourceControlType Type of source control
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -790,7 +784,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets source control token.
-     * Gets source control token.
+     * Description for Gets source control token.
      *
      * @param sourceControlType Type of source control
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -803,7 +797,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets source control token.
-     * Gets source control token.
+     * Description for Gets source control token.
      *
      * @param sourceControlType Type of source control
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -820,7 +814,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets source control token.
-     * Gets source control token.
+     * Description for Gets source control token.
      *
      * @param sourceControlType Type of source control
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -856,7 +850,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Updates source control token.
-     * Updates source control token.
+     * Description for Updates source control token.
      *
      * @param sourceControlType Type of source control
      * @param requestMessage Source control token information
@@ -871,7 +865,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Updates source control token.
-     * Updates source control token.
+     * Description for Updates source control token.
      *
      * @param sourceControlType Type of source control
      * @param requestMessage Source control token information
@@ -885,7 +879,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Updates source control token.
-     * Updates source control token.
+     * Description for Updates source control token.
      *
      * @param sourceControlType Type of source control
      * @param requestMessage Source control token information
@@ -903,7 +897,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Updates source control token.
-     * Updates source control token.
+     * Description for Updates source control token.
      *
      * @param sourceControlType Type of source control
      * @param requestMessage Source control token information
@@ -944,7 +938,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -963,7 +957,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -983,7 +977,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;BillingMeterInner&gt; object
@@ -1000,7 +994,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;BillingMeterInner&gt; object
@@ -1021,7 +1015,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;BillingMeterInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -1051,7 +1045,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param billingLocation Azure Location of billable resource
      * @param osType App Service OS type meters used for
@@ -1072,7 +1066,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param billingLocation Azure Location of billable resource
      * @param osType App Service OS type meters used for
@@ -1094,7 +1088,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param billingLocation Azure Location of billable resource
      * @param osType App Service OS type meters used for
@@ -1113,7 +1107,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param billingLocation Azure Location of billable resource
      * @param osType App Service OS type meters used for
@@ -1136,7 +1130,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
     ServiceResponse<PageImpl<BillingMeterInner>> * @param billingLocation Azure Location of billable resource
     ServiceResponse<PageImpl<BillingMeterInner>> * @param osType App Service OS type meters used for
@@ -1173,7 +1167,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Check if a resource name is available.
-     * Check if a resource name is available.
+     * Description for Check if a resource name is available.
      *
      * @param name Resource name to verify.
      * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
@@ -1188,7 +1182,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Check if a resource name is available.
-     * Check if a resource name is available.
+     * Description for Check if a resource name is available.
      *
      * @param name Resource name to verify.
      * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
@@ -1202,7 +1196,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Check if a resource name is available.
-     * Check if a resource name is available.
+     * Description for Check if a resource name is available.
      *
      * @param name Resource name to verify.
      * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
@@ -1220,7 +1214,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Check if a resource name is available.
-     * Check if a resource name is available.
+     * Description for Check if a resource name is available.
      *
      * @param name Resource name to verify.
      * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
@@ -1261,7 +1255,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Check if a resource name is available.
-     * Check if a resource name is available.
+     * Description for Check if a resource name is available.
      *
      * @param name Resource name to verify.
      * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
@@ -1277,7 +1271,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Check if a resource name is available.
-     * Check if a resource name is available.
+     * Description for Check if a resource name is available.
      *
      * @param name Resource name to verify.
      * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
@@ -1292,7 +1286,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Check if a resource name is available.
-     * Check if a resource name is available.
+     * Description for Check if a resource name is available.
      *
      * @param name Resource name to verify.
      * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
@@ -1311,7 +1305,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Check if a resource name is available.
-     * Check if a resource name is available.
+     * Description for Check if a resource name is available.
      *
      * @param name Resource name to verify.
      * @param type Resource type used for verification. Possible values include: 'Site', 'Slot', 'HostingEnvironment', 'PublishingUser', 'Microsoft.Web/sites', 'Microsoft.Web/sites/slots', 'Microsoft.Web/hostingEnvironments', 'Microsoft.Web/publishingUsers'
@@ -1359,7 +1353,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets list of available geo regions plus ministamps.
-     * Gets list of available geo regions plus ministamps.
+     * Description for Gets list of available geo regions plus ministamps.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -1372,7 +1366,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets list of available geo regions plus ministamps.
-     * Gets list of available geo regions plus ministamps.
+     * Description for Gets list of available geo regions plus ministamps.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1384,7 +1378,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets list of available geo regions plus ministamps.
-     * Gets list of available geo regions plus ministamps.
+     * Description for Gets list of available geo regions plus ministamps.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentLocationsInner object
@@ -1400,7 +1394,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets list of available geo regions plus ministamps.
-     * Gets list of available geo regions plus ministamps.
+     * Description for Gets list of available geo regions plus ministamps.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DeploymentLocationsInner object
@@ -1435,7 +1429,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -1454,7 +1448,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1474,7 +1468,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;GeoRegionInner&gt; object
@@ -1491,7 +1485,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;GeoRegionInner&gt; object
@@ -1512,7 +1506,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;GeoRegionInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -1544,7 +1538,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
      * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
@@ -1567,7 +1561,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
      * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
@@ -1591,7 +1585,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
      * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
@@ -1612,7 +1606,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
      * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
@@ -1637,7 +1631,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
     ServiceResponse<PageImpl<GeoRegionInner>> * @param sku Name of SKU used to filter the regions. Possible values include: 'Free', 'Shared', 'Basic', 'Standard', 'Premium', 'Dynamic', 'Isolated', 'PremiumV2', 'ElasticPremium', 'ElasticIsolated'
     ServiceResponse<PageImpl<GeoRegionInner>> * @param linuxWorkersEnabled Specify &lt;code&gt;true&lt;/code&gt; if you want to filter to only regions that support Linux workers.
@@ -1676,7 +1670,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -1695,7 +1689,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1715,7 +1709,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;IdentifierInner&gt; object
@@ -1732,7 +1726,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;IdentifierInner&gt; object
@@ -1753,7 +1747,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;IdentifierInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -1784,7 +1778,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1804,7 +1798,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param name Name of the object.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -1825,7 +1819,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1843,7 +1837,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1865,7 +1859,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
     ServiceResponse<PageImpl<IdentifierInner>> * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1903,7 +1897,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -1922,7 +1916,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1942,7 +1936,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;PremierAddOnOfferInner&gt; object
@@ -1959,7 +1953,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;PremierAddOnOfferInner&gt; object
@@ -1980,7 +1974,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;PremierAddOnOfferInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -2015,7 +2009,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all SKUs.
-     * List all SKUs.
+     * Description for List all SKUs.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -2028,7 +2022,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all SKUs.
-     * List all SKUs.
+     * Description for List all SKUs.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2040,7 +2034,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all SKUs.
-     * List all SKUs.
+     * Description for List all SKUs.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SkuInfosInner object
@@ -2056,7 +2050,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all SKUs.
-     * List all SKUs.
+     * Description for List all SKUs.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the SkuInfosInner object
@@ -2091,7 +2085,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
-     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
      *
      * @param parameters VNET information
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2105,7 +2099,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
-     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
      *
      * @param parameters VNET information
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -2118,7 +2112,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
-     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
      *
      * @param parameters VNET information
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2135,7 +2129,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
-     * Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+     * Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
      *
      * @param parameters VNET information
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2175,12 +2169,12 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Move resources between resource groups.
-     * Move resources between resource groups.
+     * Description for Move resources between resource groups.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param moveResourceEnvelope Object that represents the resource to move.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void move(String resourceGroupName, CsmMoveResourceEnvelope moveResourceEnvelope) {
@@ -2189,7 +2183,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Move resources between resource groups.
-     * Move resources between resource groups.
+     * Description for Move resources between resource groups.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param moveResourceEnvelope Object that represents the resource to move.
@@ -2203,7 +2197,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Move resources between resource groups.
-     * Move resources between resource groups.
+     * Description for Move resources between resource groups.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param moveResourceEnvelope Object that represents the resource to move.
@@ -2221,7 +2215,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Move resources between resource groups.
-     * Move resources between resource groups.
+     * Description for Move resources between resource groups.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param moveResourceEnvelope Object that represents the resource to move.
@@ -2256,16 +2250,16 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
             });
     }
 
-    private ServiceResponse<Void> moveDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.serializerAdapter())
+    private ServiceResponse<Void> moveDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Validate if a resource can be created.
-     * Validate if a resource can be created.
+     * Description for Validate if a resource can be created.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param validateRequest Request with the resources to validate.
@@ -2280,7 +2274,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Validate if a resource can be created.
-     * Validate if a resource can be created.
+     * Description for Validate if a resource can be created.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param validateRequest Request with the resources to validate.
@@ -2294,7 +2288,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Validate if a resource can be created.
-     * Validate if a resource can be created.
+     * Description for Validate if a resource can be created.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param validateRequest Request with the resources to validate.
@@ -2312,7 +2306,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Validate if a resource can be created.
-     * Validate if a resource can be created.
+     * Description for Validate if a resource can be created.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param validateRequest Request with the resources to validate.
@@ -2355,104 +2349,13 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Validate if the container settings are correct.
-     * Validate if the container settings are correct.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param validateContainerSettingsRequest the ValidateContainerSettingsRequest value
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the Object object if successful.
-     */
-    public Object validateContainerSettings(String resourceGroupName, ValidateContainerSettingsRequest validateContainerSettingsRequest) {
-        return validateContainerSettingsWithServiceResponseAsync(resourceGroupName, validateContainerSettingsRequest).toBlocking().single().body();
-    }
-
-    /**
-     * Validate if the container settings are correct.
-     * Validate if the container settings are correct.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param validateContainerSettingsRequest the ValidateContainerSettingsRequest value
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Object> validateContainerSettingsAsync(String resourceGroupName, ValidateContainerSettingsRequest validateContainerSettingsRequest, final ServiceCallback<Object> serviceCallback) {
-        return ServiceFuture.fromResponse(validateContainerSettingsWithServiceResponseAsync(resourceGroupName, validateContainerSettingsRequest), serviceCallback);
-    }
-
-    /**
-     * Validate if the container settings are correct.
-     * Validate if the container settings are correct.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param validateContainerSettingsRequest the ValidateContainerSettingsRequest value
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the Object object
-     */
-    public Observable<Object> validateContainerSettingsAsync(String resourceGroupName, ValidateContainerSettingsRequest validateContainerSettingsRequest) {
-        return validateContainerSettingsWithServiceResponseAsync(resourceGroupName, validateContainerSettingsRequest).map(new Func1<ServiceResponse<Object>, Object>() {
-            @Override
-            public Object call(ServiceResponse<Object> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Validate if the container settings are correct.
-     * Validate if the container settings are correct.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param validateContainerSettingsRequest the ValidateContainerSettingsRequest value
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the Object object
-     */
-    public Observable<ServiceResponse<Object>> validateContainerSettingsWithServiceResponseAsync(String resourceGroupName, ValidateContainerSettingsRequest validateContainerSettingsRequest) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (this.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.subscriptionId() is required and cannot be null.");
-        }
-        if (validateContainerSettingsRequest == null) {
-            throw new IllegalArgumentException("Parameter validateContainerSettingsRequest is required and cannot be null.");
-        }
-        if (this.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.apiVersion() is required and cannot be null.");
-        }
-        Validator.validate(validateContainerSettingsRequest);
-        return service.validateContainerSettings(resourceGroupName, this.subscriptionId(), validateContainerSettingsRequest, this.apiVersion(), this.acceptLanguage(), this.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Object>>>() {
-                @Override
-                public Observable<ServiceResponse<Object>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Object> clientResponse = validateContainerSettingsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Object> validateContainerSettingsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.restClient().responseBuilderFactory().<Object, DefaultErrorResponseException>newInstance(this.serializerAdapter())
-                .register(200, new TypeToken<Object>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Validate whether a resource can be moved.
-     * Validate whether a resource can be moved.
+     * Description for Validate whether a resource can be moved.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param moveResourceEnvelope Object that represents the resource to move.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void validateMove(String resourceGroupName, CsmMoveResourceEnvelope moveResourceEnvelope) {
@@ -2461,7 +2364,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Validate whether a resource can be moved.
-     * Validate whether a resource can be moved.
+     * Description for Validate whether a resource can be moved.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param moveResourceEnvelope Object that represents the resource to move.
@@ -2475,7 +2378,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Validate whether a resource can be moved.
-     * Validate whether a resource can be moved.
+     * Description for Validate whether a resource can be moved.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param moveResourceEnvelope Object that represents the resource to move.
@@ -2493,7 +2396,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Validate whether a resource can be moved.
-     * Validate whether a resource can be moved.
+     * Description for Validate whether a resource can be moved.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param moveResourceEnvelope Object that represents the resource to move.
@@ -2528,16 +2431,16 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
             });
     }
 
-    private ServiceResponse<Void> validateMoveDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.serializerAdapter())
+    private ServiceResponse<Void> validateMoveDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2557,7 +2460,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2579,7 +2482,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2597,7 +2500,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2619,7 +2522,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets the source controls available for Azure websites.
-     * Gets the source controls available for Azure websites.
+     * Description for Gets the source controls available for Azure websites.
      *
     ServiceResponse<PageImpl<SourceControlInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2653,7 +2556,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2673,7 +2576,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2695,7 +2598,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2713,7 +2616,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2735,7 +2638,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Gets a list of meters for a given location.
-     * Gets a list of meters for a given location.
+     * Description for Gets a list of meters for a given location.
      *
     ServiceResponse<PageImpl<BillingMeterInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2769,7 +2672,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2789,7 +2692,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2811,7 +2714,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2829,7 +2732,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2851,7 +2754,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * Get a list of available geographical regions.
-     * Get a list of available geographical regions.
+     * Description for Get a list of available geographical regions.
      *
     ServiceResponse<PageImpl<GeoRegionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2885,7 +2788,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2905,7 +2808,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2927,7 +2830,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2945,7 +2848,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2967,7 +2870,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all apps that are assigned to a hostname.
-     * List all apps that are assigned to a hostname.
+     * Description for List all apps that are assigned to a hostname.
      *
     ServiceResponse<PageImpl<IdentifierInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3001,7 +2904,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3021,7 +2924,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -3043,7 +2946,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3061,7 +2964,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3083,7 +2986,7 @@ public class WebSiteManagementClientImpl extends AzureServiceClient {
 
     /**
      * List all premier add-on offers.
-     * List all premier add-on offers.
+     * Description for List all premier add-on offers.
      *
     ServiceResponse<PageImpl<PremierAddOnOfferInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

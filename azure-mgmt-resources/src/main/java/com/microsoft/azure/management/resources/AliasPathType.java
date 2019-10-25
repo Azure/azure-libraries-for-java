@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.resources;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
 
 /**
  * The type of the paths for alias.

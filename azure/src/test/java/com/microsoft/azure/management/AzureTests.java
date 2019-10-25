@@ -75,6 +75,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1272,4 +1273,26 @@ public class AzureTests extends TestBase {
             .runTest(azure.searchServices(), azure.resourceGroups());
     }
 
+    @Test
+    @Ignore("Util to generate missing regions")
+    public void generateMissingRegion() {
+        // Please double check generated code and make adjustment e.g. GERMANY_WEST_CENTRAL -> GERMANY_WESTCENTRAL
+
+        StringBuilder sb = new StringBuilder();
+
+        List<Location> locations = azure.getCurrentSubscription().listLocations();  // note the region is not complete since it depends on current subscription
+        for (Location location : locations) {
+            Region region = Region.findByLabelOrName(location.name());
+            if (region == null) {
+                sb.append("\n").append(
+                        MessageFormat.format("public static final Region {0} = new Region(\"{1}\", \"{2}\");",
+                                location.displayName().toUpperCase().replace(" ", "_"),
+                                location.name(),
+                                location.displayName())
+                );
+            }
+        }
+
+        Assert.assertTrue(sb.toString(), sb.length() == 0);
+    }
 }

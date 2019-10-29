@@ -12,7 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The elastic pool edition capabilities.
+ * The elastic pool edition capability.
  */
 public class ElasticPoolEditionCapability {
     /**
@@ -22,23 +22,29 @@ public class ElasticPoolEditionCapability {
     private String name;
 
     /**
-     * The status of the elastic pool edition. Possible values include:
-     * 'Visible', 'Available', 'Default', 'Disabled'.
-     */
-    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
-    private CapabilityStatus status;
-
-    /**
      * The list of supported elastic pool DTU levels for the edition.
      */
-    @JsonProperty(value = "supportedElasticPoolDtus", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ElasticPoolDtuCapability> supportedElasticPoolDtus;
+    @JsonProperty(value = "supportedElasticPoolPerformanceLevels", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ElasticPoolPerformanceLevelCapability> supportedElasticPoolPerformanceLevels;
 
     /**
      * Whether or not zone redundancy is supported for the edition.
      */
     @JsonProperty(value = "zoneRedundant", access = JsonProperty.Access.WRITE_ONLY)
     private Boolean zoneRedundant;
+
+    /**
+     * The status of the capability. Possible values include: 'Visible',
+     * 'Available', 'Default', 'Disabled'.
+     */
+    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
+    private CapabilityStatus status;
+
+    /**
+     * The reason for the capability not being available.
+     */
+    @JsonProperty(value = "reason")
+    private String reason;
 
     /**
      * Get the elastic pool edition name.
@@ -50,21 +56,12 @@ public class ElasticPoolEditionCapability {
     }
 
     /**
-     * Get the status of the elastic pool edition. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
-     *
-     * @return the status value
-     */
-    public CapabilityStatus status() {
-        return this.status;
-    }
-
-    /**
      * Get the list of supported elastic pool DTU levels for the edition.
      *
-     * @return the supportedElasticPoolDtus value
+     * @return the supportedElasticPoolPerformanceLevels value
      */
-    public List<ElasticPoolDtuCapability> supportedElasticPoolDtus() {
-        return this.supportedElasticPoolDtus;
+    public List<ElasticPoolPerformanceLevelCapability> supportedElasticPoolPerformanceLevels() {
+        return this.supportedElasticPoolPerformanceLevels;
     }
 
     /**
@@ -74,6 +71,35 @@ public class ElasticPoolEditionCapability {
      */
     public Boolean zoneRedundant() {
         return this.zoneRedundant;
+    }
+
+    /**
+     * Get the status of the capability. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
+     *
+     * @return the status value
+     */
+    public CapabilityStatus status() {
+        return this.status;
+    }
+
+    /**
+     * Get the reason for the capability not being available.
+     *
+     * @return the reason value
+     */
+    public String reason() {
+        return this.reason;
+    }
+
+    /**
+     * Set the reason for the capability not being available.
+     *
+     * @param reason the reason value to set
+     * @return the ElasticPoolEditionCapability object itself.
+     */
+    public ElasticPoolEditionCapability withReason(String reason) {
+        this.reason = reason;
+        return this;
     }
 
 }

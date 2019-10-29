@@ -11,39 +11,11 @@ package com.microsoft.azure.management.sql;
 import java.util.UUID;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * The service objectives capability.
  */
-@JsonFlatten
 public class ServiceObjectiveCapability {
-    /**
-     * The service objective name.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /**
-     * The status of the service objective. Possible values include: 'Visible',
-     * 'Available', 'Default', 'Disabled'.
-     */
-    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
-    private CapabilityStatus status;
-
-    /**
-     * Unit type used to measure service objective performance level. Possible
-     * values include: 'DTU'.
-     */
-    @JsonProperty(value = "performanceLevel.unit", access = JsonProperty.Access.WRITE_ONLY)
-    private PerformanceLevelUnit unit;
-
-    /**
-     * Performance level value.
-     */
-    @JsonProperty(value = "performanceLevel.value", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer value;
-
     /**
      * The unique ID of the service objective.
      */
@@ -51,52 +23,53 @@ public class ServiceObjectiveCapability {
     private UUID id;
 
     /**
-     * The list of supported maximum database sizes for this service objective.
+     * The service objective name.
      */
-    @JsonProperty(value = "supportedMaxSizes", access = JsonProperty.Access.WRITE_ONLY)
-    private List<MaxSizeCapability> supportedMaxSizes;
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
 
     /**
-     * The included (free) max size for this service level objective.
+     * The list of supported maximum database sizes.
+     */
+    @JsonProperty(value = "supportedMaxSizes", access = JsonProperty.Access.WRITE_ONLY)
+    private List<MaxSizeRangeCapability> supportedMaxSizes;
+
+    /**
+     * The performance level.
+     */
+    @JsonProperty(value = "performanceLevel", access = JsonProperty.Access.WRITE_ONLY)
+    private PerformanceLevelCapability performanceLevel;
+
+    /**
+     * The sku.
+     */
+    @JsonProperty(value = "sku", access = JsonProperty.Access.WRITE_ONLY)
+    private Sku sku;
+
+    /**
+     * List of supported license types.
+     */
+    @JsonProperty(value = "supportedLicenseTypes", access = JsonProperty.Access.WRITE_ONLY)
+    private List<LicenseTypeCapability> supportedLicenseTypes;
+
+    /**
+     * The included (free) max size.
      */
     @JsonProperty(value = "includedMaxSize", access = JsonProperty.Access.WRITE_ONLY)
     private MaxSizeCapability includedMaxSize;
 
     /**
-     * Get the service objective name.
-     *
-     * @return the name value
+     * The status of the capability. Possible values include: 'Visible',
+     * 'Available', 'Default', 'Disabled'.
      */
-    public String name() {
-        return this.name;
-    }
+    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
+    private CapabilityStatus status;
 
     /**
-     * Get the status of the service objective. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
-     *
-     * @return the status value
+     * The reason for the capability not being available.
      */
-    public CapabilityStatus status() {
-        return this.status;
-    }
-
-    /**
-     * Get unit type used to measure service objective performance level. Possible values include: 'DTU'.
-     *
-     * @return the unit value
-     */
-    public PerformanceLevelUnit unit() {
-        return this.unit;
-    }
-
-    /**
-     * Get performance level value.
-     *
-     * @return the value value
-     */
-    public Integer value() {
-        return this.value;
-    }
+    @JsonProperty(value = "reason")
+    private String reason;
 
     /**
      * Get the unique ID of the service objective.
@@ -108,21 +81,86 @@ public class ServiceObjectiveCapability {
     }
 
     /**
-     * Get the list of supported maximum database sizes for this service objective.
+     * Get the service objective name.
+     *
+     * @return the name value
+     */
+    public String name() {
+        return this.name;
+    }
+
+    /**
+     * Get the list of supported maximum database sizes.
      *
      * @return the supportedMaxSizes value
      */
-    public List<MaxSizeCapability> supportedMaxSizes() {
+    public List<MaxSizeRangeCapability> supportedMaxSizes() {
         return this.supportedMaxSizes;
     }
 
     /**
-     * Get the included (free) max size for this service level objective.
+     * Get the performance level.
+     *
+     * @return the performanceLevel value
+     */
+    public PerformanceLevelCapability performanceLevel() {
+        return this.performanceLevel;
+    }
+
+    /**
+     * Get the sku.
+     *
+     * @return the sku value
+     */
+    public Sku sku() {
+        return this.sku;
+    }
+
+    /**
+     * Get list of supported license types.
+     *
+     * @return the supportedLicenseTypes value
+     */
+    public List<LicenseTypeCapability> supportedLicenseTypes() {
+        return this.supportedLicenseTypes;
+    }
+
+    /**
+     * Get the included (free) max size.
      *
      * @return the includedMaxSize value
      */
     public MaxSizeCapability includedMaxSize() {
         return this.includedMaxSize;
+    }
+
+    /**
+     * Get the status of the capability. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
+     *
+     * @return the status value
+     */
+    public CapabilityStatus status() {
+        return this.status;
+    }
+
+    /**
+     * Get the reason for the capability not being available.
+     *
+     * @return the reason value
+     */
+    public String reason() {
+        return this.reason;
+    }
+
+    /**
+     * Set the reason for the capability not being available.
+     *
+     * @param reason the reason value to set
+     * @return the ServiceObjectiveCapability object itself.
+     */
+    public ServiceObjectiveCapability withReason(String reason) {
+        this.reason = reason;
+        return this;
     }
 
 }

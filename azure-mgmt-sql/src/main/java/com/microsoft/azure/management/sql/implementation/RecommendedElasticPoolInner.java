@@ -11,6 +11,7 @@ package com.microsoft.azure.management.sql.implementation;
 import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import org.joda.time.DateTime;
 import java.util.List;
+import com.microsoft.azure.Resource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.ProxyResource;
@@ -80,7 +81,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      * The list of databases in this pool. Expanded property.
      */
     @JsonProperty(value = "properties.databases", access = JsonProperty.Access.WRITE_ONLY)
-    private List<DatabaseInner> databases;
+    private List<TrackedResource> databases;
 
     /**
      * The list of databases housed in the server. Expanded property.
@@ -218,7 +219,7 @@ public class RecommendedElasticPoolInner extends ProxyResource {
      *
      * @return the databases value
      */
-    public List<DatabaseInner> databases() {
+    public List<TrackedResource> databases() {
         return this.databases;
     }
 

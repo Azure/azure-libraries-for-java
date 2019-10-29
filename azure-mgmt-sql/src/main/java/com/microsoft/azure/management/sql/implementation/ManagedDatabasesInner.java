@@ -23,7 +23,6 @@ import com.microsoft.rest.ServiceResponse;
 import com.microsoft.rest.Validator;
 import java.io.IOException;
 import java.util.List;
-import java.util.UUID;
 import okhttp3.ResponseBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -66,14 +65,6 @@ public class ManagedDatabasesInner {
      * used by Retrofit to perform actually REST calls.
      */
     interface ManagedDatabasesService {
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases completeRestore" })
-        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseRestoreAzureAsyncOperation/{operationId}/completeRestore")
-        Observable<Response<ResponseBody>> completeRestore(@Path("locationName") String locationName, @Path("operationId") UUID operationId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CompleteDatabaseRestoreDefinition parameters, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases beginCompleteRestore" })
-        @POST("subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/managedDatabaseRestoreAzureAsyncOperation/{operationId}/completeRestore")
-        Observable<Response<ResponseBody>> beginCompleteRestore(@Path("locationName") String locationName, @Path("operationId") UUID operationId, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CompleteDatabaseRestoreDefinition parameters, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases listByInstance" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases")
         Observable<Response<ResponseBody>> listByInstance(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -106,178 +97,18 @@ public class ManagedDatabasesInner {
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}")
         Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Body ManagedDatabaseUpdate parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases completeRestore" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore")
+        Observable<Response<ResponseBody>> completeRestore(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CompleteDatabaseRestoreDefinition parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases beginCompleteRestore" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/completeRestore")
+        Observable<Response<ResponseBody>> beginCompleteRestore(@Path("resourceGroupName") String resourceGroupName, @Path("managedInstanceName") String managedInstanceName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body CompleteDatabaseRestoreDefinition parameters, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.ManagedDatabases listByInstanceNext" })
         @GET
         Observable<Response<ResponseBody>> listByInstanceNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void completeRestore(String locationName, UUID operationId, String lastBackupName) {
-        completeRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName).toBlocking().last().body();
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> completeRestoreAsync(String locationName, UUID operationId, String lastBackupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(completeRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName), serviceCallback);
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<Void> completeRestoreAsync(String locationName, UUID operationId, String lastBackupName) {
-        return completeRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
-     */
-    public Observable<ServiceResponse<Void>> completeRestoreWithServiceResponseAsync(String locationName, UUID operationId, String lastBackupName) {
-        if (locationName == null) {
-            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
-        }
-        if (operationId == null) {
-            throw new IllegalArgumentException("Parameter operationId is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (lastBackupName == null) {
-            throw new IllegalArgumentException("Parameter lastBackupName is required and cannot be null.");
-        }
-        final String apiVersion = "2017-03-01-preview";
-        CompleteDatabaseRestoreDefinition parameters = new CompleteDatabaseRestoreDefinition();
-        parameters.withLastBackupName(lastBackupName);
-        Observable<Response<ResponseBody>> observable = service.completeRestore(locationName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     */
-    public void beginCompleteRestore(String locationName, UUID operationId, String lastBackupName) {
-        beginCompleteRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName).toBlocking().single().body();
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<Void> beginCompleteRestoreAsync(String locationName, UUID operationId, String lastBackupName, final ServiceCallback<Void> serviceCallback) {
-        return ServiceFuture.fromResponse(beginCompleteRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName), serviceCallback);
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<Void> beginCompleteRestoreAsync(String locationName, UUID operationId, String lastBackupName) {
-        return beginCompleteRestoreWithServiceResponseAsync(locationName, operationId, lastBackupName).map(new Func1<ServiceResponse<Void>, Void>() {
-            @Override
-            public Void call(ServiceResponse<Void> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Completes the restore operation on a managed database.
-     *
-     * @param locationName The name of the region where the resource is located.
-     * @param operationId Management operation id that this request tries to complete.
-     * @param lastBackupName The last backup name to apply
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceResponse} object if successful.
-     */
-    public Observable<ServiceResponse<Void>> beginCompleteRestoreWithServiceResponseAsync(String locationName, UUID operationId, String lastBackupName) {
-        if (locationName == null) {
-            throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
-        }
-        if (operationId == null) {
-            throw new IllegalArgumentException("Parameter operationId is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (lastBackupName == null) {
-            throw new IllegalArgumentException("Parameter lastBackupName is required and cannot be null.");
-        }
-        final String apiVersion = "2017-03-01-preview";
-        CompleteDatabaseRestoreDefinition parameters = new CompleteDatabaseRestoreDefinition();
-        parameters.withLastBackupName(lastBackupName);
-        return service.beginCompleteRestore(locationName, operationId, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
-                @Override
-                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<Void> clientResponse = beginCompleteRestoreDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<Void> beginCompleteRestoreDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<Void>() { }.getType())
-                .register(202, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
-                .build(response);
     }
 
     /**
@@ -379,7 +210,7 @@ public class ManagedDatabasesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-01-preview";
+        final String apiVersion = "2018-06-01-preview";
         return service.listByInstance(resourceGroupName, managedInstanceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ManagedDatabaseInner>>>>() {
                 @Override
@@ -470,7 +301,7 @@ public class ManagedDatabasesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-01-preview";
+        final String apiVersion = "2018-06-01-preview";
         return service.get(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedDatabaseInner>>>() {
                 @Override
@@ -569,7 +400,7 @@ public class ManagedDatabasesInner {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-01-preview";
+        final String apiVersion = "2018-06-01-preview";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ManagedDatabaseInner>() { }.getType());
     }
@@ -651,7 +482,7 @@ public class ManagedDatabasesInner {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-01-preview";
+        final String apiVersion = "2018-06-01-preview";
         return service.beginCreateOrUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedDatabaseInner>>>() {
                 @Override
@@ -743,7 +574,7 @@ public class ManagedDatabasesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-01-preview";
+        final String apiVersion = "2018-06-01-preview";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -816,7 +647,7 @@ public class ManagedDatabasesInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2017-03-01-preview";
+        final String apiVersion = "2018-06-01-preview";
         return service.beginDelete(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -917,7 +748,7 @@ public class ManagedDatabasesInner {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-01-preview";
+        final String apiVersion = "2018-06-01-preview";
         Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ManagedDatabaseInner>() { }.getType());
     }
@@ -999,7 +830,7 @@ public class ManagedDatabasesInner {
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2017-03-01-preview";
+        final String apiVersion = "2018-06-01-preview";
         return service.beginUpdate(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedDatabaseInner>>>() {
                 @Override
@@ -1017,6 +848,188 @@ public class ManagedDatabasesInner {
     private ServiceResponse<ManagedDatabaseInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ManagedDatabaseInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ManagedDatabaseInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param lastBackupName The last backup name to apply
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void completeRestore(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName) {
+        completeRestoreWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, lastBackupName).toBlocking().last().body();
+    }
+
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param lastBackupName The last backup name to apply
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> completeRestoreAsync(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(completeRestoreWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, lastBackupName), serviceCallback);
+    }
+
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param lastBackupName The last backup name to apply
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> completeRestoreAsync(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName) {
+        return completeRestoreWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, lastBackupName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param lastBackupName The last backup name to apply
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> completeRestoreWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (managedInstanceName == null) {
+            throw new IllegalArgumentException("Parameter managedInstanceName is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (lastBackupName == null) {
+            throw new IllegalArgumentException("Parameter lastBackupName is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01-preview";
+        CompleteDatabaseRestoreDefinition parameters = new CompleteDatabaseRestoreDefinition();
+        parameters.withLastBackupName(lastBackupName);
+        Observable<Response<ResponseBody>> observable = service.completeRestore(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param lastBackupName The last backup name to apply
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginCompleteRestore(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName) {
+        beginCompleteRestoreWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, lastBackupName).toBlocking().single().body();
+    }
+
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param lastBackupName The last backup name to apply
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginCompleteRestoreAsync(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginCompleteRestoreWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, lastBackupName), serviceCallback);
+    }
+
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param lastBackupName The last backup name to apply
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginCompleteRestoreAsync(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName) {
+        return beginCompleteRestoreWithServiceResponseAsync(resourceGroupName, managedInstanceName, databaseName, lastBackupName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Completes the restore operation on a managed database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param managedInstanceName The name of the managed instance.
+     * @param databaseName The name of the database.
+     * @param lastBackupName The last backup name to apply
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginCompleteRestoreWithServiceResponseAsync(String resourceGroupName, String managedInstanceName, String databaseName, String lastBackupName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (managedInstanceName == null) {
+            throw new IllegalArgumentException("Parameter managedInstanceName is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (lastBackupName == null) {
+            throw new IllegalArgumentException("Parameter lastBackupName is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01-preview";
+        CompleteDatabaseRestoreDefinition parameters = new CompleteDatabaseRestoreDefinition();
+        parameters.withLastBackupName(lastBackupName);
+        return service.beginCompleteRestore(resourceGroupName, managedInstanceName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginCompleteRestoreDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginCompleteRestoreDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);

@@ -26,7 +26,7 @@ public class ManagedDatabaseUpdate {
 
     /**
      * Status of the database. Possible values include: 'Online', 'Offline',
-     * 'Shutdown', 'Creating', 'Inaccessible', 'Updating'.
+     * 'Shutdown', 'Creating', 'Inaccessible', 'Restoring', 'Updating'.
      */
     @JsonProperty(value = "properties.status", access = JsonProperty.Access.WRITE_ONLY)
     private ManagedDatabaseStatus status;
@@ -149,7 +149,7 @@ public class ManagedDatabaseUpdate {
     }
 
     /**
-     * Get status of the database. Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible', 'Updating'.
+     * Get status of the database. Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible', 'Restoring', 'Updating'.
      *
      * @return the status value
      */

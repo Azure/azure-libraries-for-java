@@ -8,81 +8,116 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.BackupLongTermRetentionPolicyState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.ProxyResource;
 
 /**
- * A backup long term retention policy.
+ * A long term retention policy.
  */
 @JsonFlatten
 public class BackupLongTermRetentionPolicyInner extends ProxyResource {
     /**
-     * The geo-location where the resource lives.
+     * The weekly retention policy for an LTR backup in an ISO 8601 format.
      */
-    @JsonProperty(value = "location", access = JsonProperty.Access.WRITE_ONLY)
-    private String location;
+    @JsonProperty(value = "properties.weeklyRetention")
+    private String weeklyRetention;
 
     /**
-     * The status of the backup long term retention policy. Possible values
-     * include: 'Disabled', 'Enabled'.
+     * The monthly retention policy for an LTR backup in an ISO 8601 format.
      */
-    @JsonProperty(value = "properties.state", required = true)
-    private BackupLongTermRetentionPolicyState state;
+    @JsonProperty(value = "properties.monthlyRetention")
+    private String monthlyRetention;
 
     /**
-     * The azure recovery services backup protection policy resource id.
+     * The yearly retention policy for an LTR backup in an ISO 8601 format.
      */
-    @JsonProperty(value = "properties.recoveryServicesBackupPolicyResourceId", required = true)
-    private String recoveryServicesBackupPolicyResourceId;
+    @JsonProperty(value = "properties.yearlyRetention")
+    private String yearlyRetention;
 
     /**
-     * Get the geo-location where the resource lives.
+     * The week of year to take the yearly backup in an ISO 8601 format.
+     */
+    @JsonProperty(value = "properties.weekOfYear")
+    private Integer weekOfYear;
+
+    /**
+     * Get the weekly retention policy for an LTR backup in an ISO 8601 format.
      *
-     * @return the location value
+     * @return the weeklyRetention value
      */
-    public String location() {
-        return this.location;
+    public String weeklyRetention() {
+        return this.weeklyRetention;
     }
 
     /**
-     * Get the status of the backup long term retention policy. Possible values include: 'Disabled', 'Enabled'.
+     * Set the weekly retention policy for an LTR backup in an ISO 8601 format.
      *
-     * @return the state value
-     */
-    public BackupLongTermRetentionPolicyState state() {
-        return this.state;
-    }
-
-    /**
-     * Set the status of the backup long term retention policy. Possible values include: 'Disabled', 'Enabled'.
-     *
-     * @param state the state value to set
+     * @param weeklyRetention the weeklyRetention value to set
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner withState(BackupLongTermRetentionPolicyState state) {
-        this.state = state;
+    public BackupLongTermRetentionPolicyInner withWeeklyRetention(String weeklyRetention) {
+        this.weeklyRetention = weeklyRetention;
         return this;
     }
 
     /**
-     * Get the azure recovery services backup protection policy resource id.
+     * Get the monthly retention policy for an LTR backup in an ISO 8601 format.
      *
-     * @return the recoveryServicesBackupPolicyResourceId value
+     * @return the monthlyRetention value
      */
-    public String recoveryServicesBackupPolicyResourceId() {
-        return this.recoveryServicesBackupPolicyResourceId;
+    public String monthlyRetention() {
+        return this.monthlyRetention;
     }
 
     /**
-     * Set the azure recovery services backup protection policy resource id.
+     * Set the monthly retention policy for an LTR backup in an ISO 8601 format.
      *
-     * @param recoveryServicesBackupPolicyResourceId the recoveryServicesBackupPolicyResourceId value to set
+     * @param monthlyRetention the monthlyRetention value to set
      * @return the BackupLongTermRetentionPolicyInner object itself.
      */
-    public BackupLongTermRetentionPolicyInner withRecoveryServicesBackupPolicyResourceId(String recoveryServicesBackupPolicyResourceId) {
-        this.recoveryServicesBackupPolicyResourceId = recoveryServicesBackupPolicyResourceId;
+    public BackupLongTermRetentionPolicyInner withMonthlyRetention(String monthlyRetention) {
+        this.monthlyRetention = monthlyRetention;
+        return this;
+    }
+
+    /**
+     * Get the yearly retention policy for an LTR backup in an ISO 8601 format.
+     *
+     * @return the yearlyRetention value
+     */
+    public String yearlyRetention() {
+        return this.yearlyRetention;
+    }
+
+    /**
+     * Set the yearly retention policy for an LTR backup in an ISO 8601 format.
+     *
+     * @param yearlyRetention the yearlyRetention value to set
+     * @return the BackupLongTermRetentionPolicyInner object itself.
+     */
+    public BackupLongTermRetentionPolicyInner withYearlyRetention(String yearlyRetention) {
+        this.yearlyRetention = yearlyRetention;
+        return this;
+    }
+
+    /**
+     * Get the week of year to take the yearly backup in an ISO 8601 format.
+     *
+     * @return the weekOfYear value
+     */
+    public Integer weekOfYear() {
+        return this.weekOfYear;
+    }
+
+    /**
+     * Set the week of year to take the yearly backup in an ISO 8601 format.
+     *
+     * @param weekOfYear the weekOfYear value to set
+     * @return the BackupLongTermRetentionPolicyInner object itself.
+     */
+    public BackupLongTermRetentionPolicyInner withWeekOfYear(Integer weekOfYear) {
+        this.weekOfYear = weekOfYear;
         return this;
     }
 

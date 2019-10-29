@@ -44,6 +44,9 @@ public class ServerAzureADAdministratorInner extends ProxyResource {
 
     /**
      * Creates an instance of ServerAzureADAdministratorInner class.
+     * @param login the server administrator login value.
+     * @param sid the server administrator Sid (Secure ID).
+     * @param tenantId the server Active Directory Administrator tenant id.
      */
     public ServerAzureADAdministratorInner() {
         administratorType = "ActiveDirectory";

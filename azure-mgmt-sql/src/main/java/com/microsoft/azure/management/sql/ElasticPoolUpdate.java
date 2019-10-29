@@ -9,16 +9,47 @@
 package com.microsoft.azure.management.sql;
 
 import java.util.Map;
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.ProxyResource;
 
 /**
- * Represents an elastic pool update.
+ * An elastic pool update.
  */
 @JsonFlatten
-public class ElasticPoolUpdate extends ProxyResource {
+public class ElasticPoolUpdate {
+    /**
+     * The sku property.
+     */
+    @JsonProperty(value = "sku")
+    private Sku sku;
+
+    /**
+     * The storage limit for the database elastic pool in bytes.
+     */
+    @JsonProperty(value = "properties.maxSizeBytes")
+    private Long maxSizeBytes;
+
+    /**
+     * The per database settings for the elastic pool.
+     */
+    @JsonProperty(value = "properties.perDatabaseSettings")
+    private ElasticPoolPerDatabaseSettings perDatabaseSettings;
+
+    /**
+     * Whether or not this elastic pool is zone redundant, which means the
+     * replicas of this elastic pool will be spread across multiple
+     * availability zones.
+     */
+    @JsonProperty(value = "properties.zoneRedundant")
+    private Boolean zoneRedundant;
+
+    /**
+     * The license type to apply for this elastic pool. Possible values
+     * include: 'LicenseIncluded', 'BasePrice'.
+     */
+    @JsonProperty(value = "properties.licenseType")
+    private ElasticPoolLicenseType licenseType;
+
     /**
      * Resource tags.
      */
@@ -26,56 +57,104 @@ public class ElasticPoolUpdate extends ProxyResource {
     private Map<String, String> tags;
 
     /**
-     * The creation date of the elastic pool (ISO8601 format).
+     * Get the sku value.
+     *
+     * @return the sku value
      */
-    @JsonProperty(value = "properties.creationDate", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime creationDate;
+    public Sku sku() {
+        return this.sku;
+    }
 
     /**
-     * The state of the elastic pool. Possible values include: 'Creating',
-     * 'Ready', 'Disabled'.
+     * Set the sku value.
+     *
+     * @param sku the sku value to set
+     * @return the ElasticPoolUpdate object itself.
      */
-    @JsonProperty(value = "properties.state", access = JsonProperty.Access.WRITE_ONLY)
-    private ElasticPoolState state;
+    public ElasticPoolUpdate withSku(Sku sku) {
+        this.sku = sku;
+        return this;
+    }
 
     /**
-     * The edition of the elastic pool. Possible values include: 'Basic',
-     * 'Standard', 'Premium', 'GeneralPurpose', 'BusinessCritical'.
+     * Get the storage limit for the database elastic pool in bytes.
+     *
+     * @return the maxSizeBytes value
      */
-    @JsonProperty(value = "properties.edition")
-    private ElasticPoolEdition edition;
+    public Long maxSizeBytes() {
+        return this.maxSizeBytes;
+    }
 
     /**
-     * The total shared DTU for the database elastic pool.
+     * Set the storage limit for the database elastic pool in bytes.
+     *
+     * @param maxSizeBytes the maxSizeBytes value to set
+     * @return the ElasticPoolUpdate object itself.
      */
-    @JsonProperty(value = "properties.dtu")
-    private Integer dtu;
+    public ElasticPoolUpdate withMaxSizeBytes(Long maxSizeBytes) {
+        this.maxSizeBytes = maxSizeBytes;
+        return this;
+    }
 
     /**
-     * The maximum DTU any one database can consume.
+     * Get the per database settings for the elastic pool.
+     *
+     * @return the perDatabaseSettings value
      */
-    @JsonProperty(value = "properties.databaseDtuMax")
-    private Integer databaseDtuMax;
+    public ElasticPoolPerDatabaseSettings perDatabaseSettings() {
+        return this.perDatabaseSettings;
+    }
 
     /**
-     * The minimum DTU all databases are guaranteed.
+     * Set the per database settings for the elastic pool.
+     *
+     * @param perDatabaseSettings the perDatabaseSettings value to set
+     * @return the ElasticPoolUpdate object itself.
      */
-    @JsonProperty(value = "properties.databaseDtuMin")
-    private Integer databaseDtuMin;
+    public ElasticPoolUpdate withPerDatabaseSettings(ElasticPoolPerDatabaseSettings perDatabaseSettings) {
+        this.perDatabaseSettings = perDatabaseSettings;
+        return this;
+    }
 
     /**
-     * Gets storage limit for the database elastic pool in MB.
+     * Get whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be spread across multiple availability zones.
+     *
+     * @return the zoneRedundant value
      */
-    @JsonProperty(value = "properties.storageMB")
-    private Integer storageMB;
+    public Boolean zoneRedundant() {
+        return this.zoneRedundant;
+    }
 
     /**
-     * Whether or not this database elastic pool is zone redundant, which means
-     * the replicas of this database will be spread across multiple
-     * availability zones.
+     * Set whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be spread across multiple availability zones.
+     *
+     * @param zoneRedundant the zoneRedundant value to set
+     * @return the ElasticPoolUpdate object itself.
      */
-    @JsonProperty(value = "properties.zoneRedundant")
-    private Boolean zoneRedundant;
+    public ElasticPoolUpdate withZoneRedundant(Boolean zoneRedundant) {
+        this.zoneRedundant = zoneRedundant;
+        return this;
+    }
+
+    /**
+     * Get the license type to apply for this elastic pool. Possible values include: 'LicenseIncluded', 'BasePrice'.
+     *
+     * @return the licenseType value
+     */
+    public ElasticPoolLicenseType licenseType() {
+        return this.licenseType;
+    }
+
+    /**
+     * Set the license type to apply for this elastic pool. Possible values include: 'LicenseIncluded', 'BasePrice'.
+     *
+     * @param licenseType the licenseType value to set
+     * @return the ElasticPoolUpdate object itself.
+     */
+    public ElasticPoolUpdate withLicenseType(ElasticPoolLicenseType licenseType) {
+        this.licenseType = licenseType;
+        return this;
+    }
 
     /**
      * Get resource tags.
@@ -94,144 +173,6 @@ public class ElasticPoolUpdate extends ProxyResource {
      */
     public ElasticPoolUpdate withTags(Map<String, String> tags) {
         this.tags = tags;
-        return this;
-    }
-
-    /**
-     * Get the creation date of the elastic pool (ISO8601 format).
-     *
-     * @return the creationDate value
-     */
-    public DateTime creationDate() {
-        return this.creationDate;
-    }
-
-    /**
-     * Get the state of the elastic pool. Possible values include: 'Creating', 'Ready', 'Disabled'.
-     *
-     * @return the state value
-     */
-    public ElasticPoolState state() {
-        return this.state;
-    }
-
-    /**
-     * Get the edition of the elastic pool. Possible values include: 'Basic', 'Standard', 'Premium', 'GeneralPurpose', 'BusinessCritical'.
-     *
-     * @return the edition value
-     */
-    public ElasticPoolEdition edition() {
-        return this.edition;
-    }
-
-    /**
-     * Set the edition of the elastic pool. Possible values include: 'Basic', 'Standard', 'Premium', 'GeneralPurpose', 'BusinessCritical'.
-     *
-     * @param edition the edition value to set
-     * @return the ElasticPoolUpdate object itself.
-     */
-    public ElasticPoolUpdate withEdition(ElasticPoolEdition edition) {
-        this.edition = edition;
-        return this;
-    }
-
-    /**
-     * Get the total shared DTU for the database elastic pool.
-     *
-     * @return the dtu value
-     */
-    public Integer dtu() {
-        return this.dtu;
-    }
-
-    /**
-     * Set the total shared DTU for the database elastic pool.
-     *
-     * @param dtu the dtu value to set
-     * @return the ElasticPoolUpdate object itself.
-     */
-    public ElasticPoolUpdate withDtu(Integer dtu) {
-        this.dtu = dtu;
-        return this;
-    }
-
-    /**
-     * Get the maximum DTU any one database can consume.
-     *
-     * @return the databaseDtuMax value
-     */
-    public Integer databaseDtuMax() {
-        return this.databaseDtuMax;
-    }
-
-    /**
-     * Set the maximum DTU any one database can consume.
-     *
-     * @param databaseDtuMax the databaseDtuMax value to set
-     * @return the ElasticPoolUpdate object itself.
-     */
-    public ElasticPoolUpdate withDatabaseDtuMax(Integer databaseDtuMax) {
-        this.databaseDtuMax = databaseDtuMax;
-        return this;
-    }
-
-    /**
-     * Get the minimum DTU all databases are guaranteed.
-     *
-     * @return the databaseDtuMin value
-     */
-    public Integer databaseDtuMin() {
-        return this.databaseDtuMin;
-    }
-
-    /**
-     * Set the minimum DTU all databases are guaranteed.
-     *
-     * @param databaseDtuMin the databaseDtuMin value to set
-     * @return the ElasticPoolUpdate object itself.
-     */
-    public ElasticPoolUpdate withDatabaseDtuMin(Integer databaseDtuMin) {
-        this.databaseDtuMin = databaseDtuMin;
-        return this;
-    }
-
-    /**
-     * Get gets storage limit for the database elastic pool in MB.
-     *
-     * @return the storageMB value
-     */
-    public Integer storageMB() {
-        return this.storageMB;
-    }
-
-    /**
-     * Set gets storage limit for the database elastic pool in MB.
-     *
-     * @param storageMB the storageMB value to set
-     * @return the ElasticPoolUpdate object itself.
-     */
-    public ElasticPoolUpdate withStorageMB(Integer storageMB) {
-        this.storageMB = storageMB;
-        return this;
-    }
-
-    /**
-     * Get whether or not this database elastic pool is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
-     *
-     * @return the zoneRedundant value
-     */
-    public Boolean zoneRedundant() {
-        return this.zoneRedundant;
-    }
-
-    /**
-     * Set whether or not this database elastic pool is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
-     *
-     * @param zoneRedundant the zoneRedundant value to set
-     * @return the ElasticPoolUpdate object itself.
-     */
-    public ElasticPoolUpdate withZoneRedundant(Boolean zoneRedundant) {
-        this.zoneRedundant = zoneRedundant;
         return this;
     }
 

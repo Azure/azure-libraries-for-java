@@ -8,13 +8,14 @@
 
 package com.microsoft.azure.management.sql.implementation;
 
-import com.microsoft.azure.management.sql.CapabilityStatus;
 import java.util.List;
 import com.microsoft.azure.management.sql.ServerVersionCapability;
+import com.microsoft.azure.management.sql.ManagedInstanceVersionCapability;
+import com.microsoft.azure.management.sql.CapabilityStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The capabilities for a location.
+ * The location capability.
  */
 public class LocationCapabilitiesInner {
     /**
@@ -24,17 +25,29 @@ public class LocationCapabilitiesInner {
     private String name;
 
     /**
-     * Azure SQL Database's status for the location. Possible values include:
-     * 'Visible', 'Available', 'Default', 'Disabled'.
+     * The list of supported server versions.
+     */
+    @JsonProperty(value = "supportedServerVersions", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ServerVersionCapability> supportedServerVersions;
+
+    /**
+     * The list of supported managed instance versions.
+     */
+    @JsonProperty(value = "supportedManagedInstanceVersions", access = JsonProperty.Access.WRITE_ONLY)
+    private List<ManagedInstanceVersionCapability> supportedManagedInstanceVersions;
+
+    /**
+     * The status of the capability. Possible values include: 'Visible',
+     * 'Available', 'Default', 'Disabled'.
      */
     @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
     private CapabilityStatus status;
 
     /**
-     * The list of supported server versions.
+     * The reason for the capability not being available.
      */
-    @JsonProperty(value = "supportedServerVersions", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ServerVersionCapability> supportedServerVersions;
+    @JsonProperty(value = "reason")
+    private String reason;
 
     /**
      * Get the location name.
@@ -46,7 +59,25 @@ public class LocationCapabilitiesInner {
     }
 
     /**
-     * Get azure SQL Database's status for the location. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
+     * Get the list of supported server versions.
+     *
+     * @return the supportedServerVersions value
+     */
+    public List<ServerVersionCapability> supportedServerVersions() {
+        return this.supportedServerVersions;
+    }
+
+    /**
+     * Get the list of supported managed instance versions.
+     *
+     * @return the supportedManagedInstanceVersions value
+     */
+    public List<ManagedInstanceVersionCapability> supportedManagedInstanceVersions() {
+        return this.supportedManagedInstanceVersions;
+    }
+
+    /**
+     * Get the status of the capability. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */
@@ -55,12 +86,23 @@ public class LocationCapabilitiesInner {
     }
 
     /**
-     * Get the list of supported server versions.
+     * Get the reason for the capability not being available.
      *
-     * @return the supportedServerVersions value
+     * @return the reason value
      */
-    public List<ServerVersionCapability> supportedServerVersions() {
-        return this.supportedServerVersions;
+    public String reason() {
+        return this.reason;
+    }
+
+    /**
+     * Set the reason for the capability not being available.
+     *
+     * @param reason the reason value to set
+     * @return the LocationCapabilitiesInner object itself.
+     */
+    public LocationCapabilitiesInner withReason(String reason) {
+        this.reason = reason;
+        return this;
     }
 
 }

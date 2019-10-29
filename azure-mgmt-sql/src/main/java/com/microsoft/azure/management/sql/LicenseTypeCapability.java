@@ -8,18 +8,17 @@
 
 package com.microsoft.azure.management.sql;
 
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The max per-database DTU capability.
+ * The license type capability.
  */
-public class ElasticPoolPerDatabaseMaxDtuCapability {
+public class LicenseTypeCapability {
     /**
-     * The maximum DTUs per database.
+     * License type identifier.
      */
-    @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private Long limit;
+    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
+    private String name;
 
     /**
      * The status of the capability. Possible values include: 'Visible',
@@ -29,18 +28,18 @@ public class ElasticPoolPerDatabaseMaxDtuCapability {
     private CapabilityStatus status;
 
     /**
-     * The list of supported min database DTUs.
+     * The reason for the capability not being available.
      */
-    @JsonProperty(value = "supportedPerDatabaseMinDtus", access = JsonProperty.Access.WRITE_ONLY)
-    private List<ElasticPoolPerDatabaseMinDtuCapability> supportedPerDatabaseMinDtus;
+    @JsonProperty(value = "reason")
+    private String reason;
 
     /**
-     * Get the maximum DTUs per database.
+     * Get license type identifier.
      *
-     * @return the limit value
+     * @return the name value
      */
-    public Long limit() {
-        return this.limit;
+    public String name() {
+        return this.name;
     }
 
     /**
@@ -53,12 +52,23 @@ public class ElasticPoolPerDatabaseMaxDtuCapability {
     }
 
     /**
-     * Get the list of supported min database DTUs.
+     * Get the reason for the capability not being available.
      *
-     * @return the supportedPerDatabaseMinDtus value
+     * @return the reason value
      */
-    public List<ElasticPoolPerDatabaseMinDtuCapability> supportedPerDatabaseMinDtus() {
-        return this.supportedPerDatabaseMinDtus;
+    public String reason() {
+        return this.reason;
+    }
+
+    /**
+     * Set the reason for the capability not being available.
+     *
+     * @param reason the reason value to set
+     * @return the LicenseTypeCapability object itself.
+     */
+    public LicenseTypeCapability withReason(String reason) {
+        this.reason = reason;
+        return this;
     }
 
 }

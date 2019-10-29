@@ -29,7 +29,7 @@ public class ManagedDatabaseInner extends Resource {
 
     /**
      * Status of the database. Possible values include: 'Online', 'Offline',
-     * 'Shutdown', 'Creating', 'Inaccessible', 'Updating'.
+     * 'Shutdown', 'Creating', 'Inaccessible', 'Restoring', 'Updating'.
      */
     @JsonProperty(value = "properties.status", access = JsonProperty.Access.WRITE_ONLY)
     private ManagedDatabaseStatus status;
@@ -146,7 +146,7 @@ public class ManagedDatabaseInner extends Resource {
     }
 
     /**
-     * Get status of the database. Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible', 'Updating'.
+     * Get status of the database. Possible values include: 'Online', 'Offline', 'Shutdown', 'Creating', 'Inaccessible', 'Restoring', 'Updating'.
      *
      * @return the status value
      */

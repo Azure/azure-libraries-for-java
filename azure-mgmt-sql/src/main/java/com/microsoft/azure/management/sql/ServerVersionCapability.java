@@ -12,7 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The server capabilities.
+ * The server capability.
  */
 public class ServerVersionCapability {
     /**
@@ -20,13 +20,6 @@ public class ServerVersionCapability {
      */
     @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
     private String name;
-
-    /**
-     * The status of the server version. Possible values include: 'Visible',
-     * 'Available', 'Default', 'Disabled'.
-     */
-    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
-    private CapabilityStatus status;
 
     /**
      * The list of supported database editions.
@@ -41,21 +34,25 @@ public class ServerVersionCapability {
     private List<ElasticPoolEditionCapability> supportedElasticPoolEditions;
 
     /**
+     * The status of the capability. Possible values include: 'Visible',
+     * 'Available', 'Default', 'Disabled'.
+     */
+    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
+    private CapabilityStatus status;
+
+    /**
+     * The reason for the capability not being available.
+     */
+    @JsonProperty(value = "reason")
+    private String reason;
+
+    /**
      * Get the server version name.
      *
      * @return the name value
      */
     public String name() {
         return this.name;
-    }
-
-    /**
-     * Get the status of the server version. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
-     *
-     * @return the status value
-     */
-    public CapabilityStatus status() {
-        return this.status;
     }
 
     /**
@@ -74,6 +71,35 @@ public class ServerVersionCapability {
      */
     public List<ElasticPoolEditionCapability> supportedElasticPoolEditions() {
         return this.supportedElasticPoolEditions;
+    }
+
+    /**
+     * Get the status of the capability. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
+     *
+     * @return the status value
+     */
+    public CapabilityStatus status() {
+        return this.status;
+    }
+
+    /**
+     * Get the reason for the capability not being available.
+     *
+     * @return the reason value
+     */
+    public String reason() {
+        return this.reason;
+    }
+
+    /**
+     * Set the reason for the capability not being available.
+     *
+     * @param reason the reason value to set
+     * @return the ServerVersionCapability object itself.
+     */
+    public ServerVersionCapability withReason(String reason) {
+        this.reason = reason;
+        return this;
     }
 
 }

@@ -11,35 +11,28 @@ package com.microsoft.azure.management.sql;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The maximum size limits for a database.
+ * The maximum size capability.
  */
 public class MaxSizeCapability {
     /**
-     * The maximum size of the database (see 'unit' for the units).
+     * The maximum size limit (see 'unit' for the units).
      */
     @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private long limit;
+    private Integer limit;
 
     /**
      * The units that the limit is expressed in. Possible values include:
      * 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'.
      */
     @JsonProperty(value = "unit", access = JsonProperty.Access.WRITE_ONLY)
-    private MaxSizeUnits unit;
+    private MaxSizeUnit unit;
 
     /**
-     * The status of the maximum size capability. Possible values include:
-     * 'Visible', 'Available', 'Default', 'Disabled'.
-     */
-    @JsonProperty(value = "status", access = JsonProperty.Access.WRITE_ONLY)
-    private CapabilityStatus status;
-
-    /**
-     * Get the maximum size of the database (see 'unit' for the units).
+     * Get the maximum size limit (see 'unit' for the units).
      *
      * @return the limit value
      */
-    public long limit() {
+    public Integer limit() {
         return this.limit;
     }
 
@@ -48,17 +41,8 @@ public class MaxSizeCapability {
      *
      * @return the unit value
      */
-    public MaxSizeUnits unit() {
+    public MaxSizeUnit unit() {
         return this.unit;
-    }
-
-    /**
-     * Get the status of the maximum size capability. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
-     *
-     * @return the status value
-     */
-    public CapabilityStatus status() {
-        return this.status;
     }
 
 }

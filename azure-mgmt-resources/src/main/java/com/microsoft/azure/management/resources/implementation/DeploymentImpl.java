@@ -7,17 +7,7 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.management.resources.Dependency;
-import com.microsoft.azure.management.resources.Deployment;
-import com.microsoft.azure.management.resources.DeploymentExportResult;
-import com.microsoft.azure.management.resources.DeploymentMode;
-import com.microsoft.azure.management.resources.DeploymentOperations;
-import com.microsoft.azure.management.resources.DeploymentProperties;
-import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
-import com.microsoft.azure.management.resources.ParametersLink;
-import com.microsoft.azure.management.resources.Provider;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.TemplateLink;
+import com.microsoft.azure.management.resources.*;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -191,6 +181,46 @@ public final class DeploymentImpl extends
     @Override
     public ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback) {
         return ServiceFuture.fromBody(this.exportTemplateAsync(), callback);
+    }
+
+    @Override
+    public WhatIfOperationResult whatIf(DeploymentWhatIf parameters) {
+        return this.whatIfAsync(parameters).toBlocking().last();
+    }
+
+    @Override
+    public Observable<WhatIfOperationResult> whatIfAsync(DeploymentWhatIf parameters) {
+        return this.manager().inner().deployments().whatIfAsync(resourceGroupName(), name(), parameters).map(new Func1<WhatIfOperationResultInner, WhatIfOperationResult>() {
+            @Override
+            public WhatIfOperationResult call(WhatIfOperationResultInner whatIfOperationResultInner) {
+                return new WhatIfOperationResultImpl(whatIfOperationResultInner);
+            }
+        });
+    }
+
+    @Override
+    public ServiceFuture<WhatIfOperationResult> whatIfAsync(DeploymentWhatIf parameters, ServiceCallback<WhatIfOperationResult> callback) {
+        return ServiceFuture.fromBody(this.whatIfAsync(parameters), callback);
+    }
+
+    @Override
+    public WhatIfOperationResult whatIfAtSubscriptionScope(DeploymentWhatIf parameters) {
+        return this.whatIfAtSubscriptionScopeAsync(parameters).toBlocking().last();
+    }
+
+    @Override
+    public Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIf parameters) {
+        return this.manager().inner().deployments().whatIfAtSubscriptionScopeAsync(name(), parameters).map(new Func1<WhatIfOperationResultInner, WhatIfOperationResult>() {
+            @Override
+            public WhatIfOperationResult call(WhatIfOperationResultInner whatIfOperationResultInner) {
+                return new WhatIfOperationResultImpl(whatIfOperationResultInner);
+            }
+        });
+    }
+
+    @Override
+    public ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIf parameters, ServiceCallback<WhatIfOperationResult> callback) {
+        return ServiceFuture.fromBody(this.whatIfAtSubscriptionScopeAsync(parameters), callback);
     }
 
     // Withers

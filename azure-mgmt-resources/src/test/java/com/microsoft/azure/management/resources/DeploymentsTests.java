@@ -21,6 +21,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
     private String testId;
     private String rgName;
     private static String templateUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vnet-two-subnets/azuredeploy.json";
+    private static String blankTemplateUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/100-blank-template/azuredeploy.json";
     private static String parametersUri = "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-vnet-two-subnets/azuredeploy.parameters.json";
     private static String updateTemplate = "{\"$schema\":\"https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#\",\"contentVersion\":\"1.0.0.0\",\"parameters\":{\"vnetName\":{\"type\":\"string\",\"defaultValue\":\"VNet2\",\"metadata\":{\"description\":\"VNet name\"}},\"vnetAddressPrefix\":{\"type\":\"string\",\"defaultValue\":\"10.0.0.0/16\",\"metadata\":{\"description\":\"Address prefix\"}},\"subnet1Prefix\":{\"type\":\"string\",\"defaultValue\":\"10.0.0.0/24\",\"metadata\":{\"description\":\"Subnet 1 Prefix\"}},\"subnet1Name\":{\"type\":\"string\",\"defaultValue\":\"Subnet1\",\"metadata\":{\"description\":\"Subnet 1 Name\"}},\"subnet2Prefix\":{\"type\":\"string\",\"defaultValue\":\"10.0.1.0/24\",\"metadata\":{\"description\":\"Subnet 2 Prefix\"}},\"subnet2Name\":{\"type\":\"string\",\"defaultValue\":\"Subnet222\",\"metadata\":{\"description\":\"Subnet 2 Name\"}}},\"variables\":{\"apiVersion\":\"2015-06-15\"},\"resources\":[{\"apiVersion\":\"[variables('apiVersion')]\",\"type\":\"Microsoft.Network/virtualNetworks\",\"name\":\"[parameters('vnetName')]\",\"location\":\"[resourceGroup().location]\",\"properties\":{\"addressSpace\":{\"addressPrefixes\":[\"[parameters('vnetAddressPrefix')]\"]},\"subnets\":[{\"name\":\"[parameters('subnet1Name')]\",\"properties\":{\"addressPrefix\":\"[parameters('subnet1Prefix')]\"}},{\"name\":\"[parameters('subnet2Name')]\",\"properties\":{\"addressPrefix\":\"[parameters('subnet2Prefix')]\"}}]}}]}";
     private static String updateParameters = "{\"vnetAddressPrefix\":{\"value\":\"10.0.0.0/16\"},\"subnet1Name\":{\"value\":\"Subnet1\"},\"subnet1Prefix\":{\"value\":\"10.0.0.0/24\"}}";
@@ -81,6 +82,87 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         Assert.assertEquals(4, operations.size());
         DeploymentOperation op = deployment.deploymentOperations().getById(operations.get(0).operationId());
         Assert.assertNotNull(op);
+        resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");
+    }
+
+    @Test
+    public void canPostDeploymentWhatIfOnResourceGroup() throws Exception {
+        final String dpName = "dpA" + testId;
+
+        // Create
+        resourceClient.deployments()
+                .define(dpName)
+                .withExistingResourceGroup(rgName)
+                .withTemplateLink(templateUri, contentVersion)
+                .withParametersLink(parametersUri, contentVersion)
+                .withMode(DeploymentMode.COMPLETE)
+                .create();
+        // List
+        PagedList<Deployment> deployments = resourceClient.deployments().listByResourceGroup(rgName);
+        boolean found = false;
+        for (Deployment deployment : deployments) {
+            if (deployment.name().equals(dpName)) {
+                found = true;
+            }
+        }
+        Assert.assertTrue(found);
+
+        // Get
+        Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dpName);
+        Assert.assertNotNull(deployment);
+        Assert.assertEquals("Succeeded", deployment.provisioningState());
+
+        //What if
+        DeploymentWhatIfProperties properties = new DeploymentWhatIfProperties();
+        properties.withTemplateLink(new TemplateLink().withUri(templateUri).withContentVersion(contentVersion));
+        properties.withMode(DeploymentMode.INCREMENTAL);
+        DeploymentWhatIf parameters = new DeploymentWhatIf()
+                .withProperties(properties);
+        WhatIfOperationResult result = deployment.whatIf(parameters);
+        Assert.assertEquals("Succeeded", result.status());
+        Assert.assertEquals(3, result.changes().size());
+
+        resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");
+    }
+
+    @Test
+    public void canPostDeploymentWhatIfOnSubscription() throws Exception {
+        final String dpName = "dpA" + testId;
+
+        // Create
+        resourceClient.deployments()
+                .define(dpName)
+                .withExistingResourceGroup(rgName)
+                .withTemplateLink(templateUri, contentVersion)
+                .withParametersLink(parametersUri, contentVersion)
+                .withMode(DeploymentMode.COMPLETE)
+                .create();
+        // List
+        PagedList<Deployment> deployments = resourceClient.deployments().listByResourceGroup(rgName);
+        boolean found = false;
+        for (Deployment deployment : deployments) {
+            if (deployment.name().equals(dpName)) {
+                found = true;
+            }
+        }
+        Assert.assertTrue(found);
+
+        // Get
+        Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dpName);
+        Assert.assertNotNull(deployment);
+        Assert.assertEquals("Succeeded", deployment.provisioningState());
+
+        //What if
+        DeploymentWhatIfProperties properties = new DeploymentWhatIfProperties();
+        properties.withTemplateLink(new TemplateLink().withUri(blankTemplateUri).withContentVersion(contentVersion));
+        properties.withMode(DeploymentMode.INCREMENTAL);
+        DeploymentWhatIf parameters = new DeploymentWhatIf()
+                .withLocation("westus")
+                .withProperties(properties);
+        WhatIfOperationResult result = deployment.whatIfAtSubscriptionScope(parameters);
+        Assert.assertEquals("Succeeded", result.status());
+        Assert.assertEquals(0, result.changes().size());
+
         resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");
     }
 

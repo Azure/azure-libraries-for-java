@@ -160,6 +160,62 @@ public interface Deployment extends
     ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback);
 
     /**
+     * Gets changes that will be made by the deployment if executed at the scope of the resource group.
+     *
+     * @param parameters the What-if operation parameters
+     * @return the What-if operation result.
+     */
+    @Method
+    WhatIfOperationResult whatIf(DeploymentWhatIf parameters);
+
+    /**
+     * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
+     *
+     * @param parameters the What-if operation parameters
+     * @return the What-if operation result.
+     */
+    @Method
+    Observable<WhatIfOperationResult> whatIfAsync(DeploymentWhatIf parameters);
+
+    /**
+     * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
+     *
+     * @param parameters the What-if operation parameters
+     * @param callback the callback to call on success or failure with export result as parameter
+     * @return the What-if operation result
+     */
+    @Method
+    ServiceFuture<WhatIfOperationResult> whatIfAsync(DeploymentWhatIf parameters, ServiceCallback<WhatIfOperationResult> callback);
+
+    /**
+     * Gets changes that will be made by the deployment if executed at the scope of the subscription.
+     *
+     * @param parameters the What-if operation parameters
+     * @return the What-if operation result.
+     */
+    @Method
+    WhatIfOperationResult whatIfAtSubscriptionScope(DeploymentWhatIf parameters);
+
+    /**
+     * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
+     *
+     * @param parameters the What-if operation parameters
+     * @return the What-if operation result.
+     */
+    @Method
+    Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIf parameters);
+
+    /**
+     * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
+     *
+     * @param parameters the What-if operation parameters
+     * @param callback the callback to call on success or failure with export result as parameter
+     * @return the What-if operation result
+     */
+    @Method
+    ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIf parameters, ServiceCallback<WhatIfOperationResult> callback);
+
+    /**
      * Container interface for all the deployment definitions.
      */
     interface Definition extends

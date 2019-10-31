@@ -20,17 +20,17 @@ public interface WhatIfOperationResult extends
         HasInner<WhatIfOperationResultInner> {
 
     /**
-     * Status of the What-If operation.
+     * @return status of the What-If operation.
      */
     String status();
 
     /**
-     * List of resource changes predicted by What-If operation.
+     * @return list of resource changes predicted by What-If operation.
      */
     List<WhatIfChange> changes();
 
     /**
-     * Error when What-If operation fails.
+     * @return error when What-If operation fails.
      */
     ErrorResponse error();
 }

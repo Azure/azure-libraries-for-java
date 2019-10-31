@@ -226,7 +226,7 @@ abstract class AppServiceBaseImpl<
 
     @Override
     public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
-        IdentifierInner identifierInner = new IdentifierInner().withIdentifierId(domainVerificationToken);
+        IdentifierInner identifierInner = new IdentifierInner().withValue(domainVerificationToken);
         return this.manager().inner().webApps().createOrUpdateDomainOwnershipIdentifierAsync(resourceGroupName(), name(), certificateOrderName, identifierInner)
                 .map(new Func1<IdentifierInner, Void>() {
                     @Override

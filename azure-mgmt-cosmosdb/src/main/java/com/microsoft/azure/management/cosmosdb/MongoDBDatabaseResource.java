@@ -11,7 +11,7 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Cosmos DB MongoDB database id object.
+ * Cosmos DB MongoDB database resource object.
  */
 public class MongoDBDatabaseResource {
     /**

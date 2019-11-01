@@ -16,7 +16,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Parameters to create and update Cosmos DB Gremlin database.
  */
 @JsonFlatten
-public class GremlinDatabaseCreateUpdateParameters {
+public class GremlinDatabaseCreateUpdateParameters extends ARMResourceProperties {
     /**
      * The standard JSON format of a Gremlin database.
      */

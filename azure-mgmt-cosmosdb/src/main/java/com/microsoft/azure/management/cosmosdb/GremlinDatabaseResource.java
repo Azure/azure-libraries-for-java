@@ -11,7 +11,7 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Cosmos DB Gremlin database id object.
+ * Cosmos DB Gremlin database resource object.
  */
 public class GremlinDatabaseResource {
     /**

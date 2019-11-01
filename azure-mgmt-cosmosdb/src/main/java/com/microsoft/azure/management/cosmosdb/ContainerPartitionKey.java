@@ -30,6 +30,12 @@ public class ContainerPartitionKey {
     private PartitionKind kind;
 
     /**
+     * Indicates the version of the partition key definition.
+     */
+    @JsonProperty(value = "version")
+    private Integer version;
+
+    /**
      * Get list of paths using which data within the container can be partitioned.
      *
      * @return the paths value
@@ -66,6 +72,26 @@ public class ContainerPartitionKey {
      */
     public ContainerPartitionKey withKind(PartitionKind kind) {
         this.kind = kind;
+        return this;
+    }
+
+    /**
+     * Get indicates the version of the partition key definition.
+     *
+     * @return the version value
+     */
+    public Integer version() {
+        return this.version;
+    }
+
+    /**
+     * Set indicates the version of the partition key definition.
+     *
+     * @param version the version value to set
+     * @return the ContainerPartitionKey object itself.
+     */
+    public ContainerPartitionKey withVersion(Integer version) {
+        this.version = version;
         return this;
     }
 

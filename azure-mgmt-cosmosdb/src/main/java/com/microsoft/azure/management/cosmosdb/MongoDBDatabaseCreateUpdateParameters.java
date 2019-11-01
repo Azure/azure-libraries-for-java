@@ -16,7 +16,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Parameters to create and update Cosmos DB MongoDB database.
  */
 @JsonFlatten
-public class MongoDBDatabaseCreateUpdateParameters {
+public class MongoDBDatabaseCreateUpdateParameters extends ARMResourceProperties {
     /**
      * The standard JSON format of a MongoDB database.
      */

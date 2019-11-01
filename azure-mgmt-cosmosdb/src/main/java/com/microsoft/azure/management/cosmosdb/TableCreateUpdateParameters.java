@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.cosmosdb;
 
+import com.microsoft.azure.management.cosmosdb.implementation.TableResourceInner;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -16,12 +17,12 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Parameters to create and update Cosmos DB Table.
  */
 @JsonFlatten
-public class TableCreateUpdateParameters {
+public class TableCreateUpdateParameters extends ARMResourceProperties {
     /**
      * The standard JSON format of a Table.
      */
     @JsonProperty(value = "properties.resource", required = true)
-    private TableResource resource;
+    private TableResourceInner resource;
 
     /**
      * A key-value pair of options to be applied for the request. This
@@ -35,7 +36,7 @@ public class TableCreateUpdateParameters {
      *
      * @return the resource value
      */
-    public TableResource resource() {
+    public TableResourceInner resource() {
         return this.resource;
     }
 
@@ -45,7 +46,7 @@ public class TableCreateUpdateParameters {
      * @param resource the resource value to set
      * @return the TableCreateUpdateParameters object itself.
      */
-    public TableCreateUpdateParameters withResource(TableResource resource) {
+    public TableCreateUpdateParameters withResource(TableResourceInner resource) {
         this.resource = resource;
         return this;
     }

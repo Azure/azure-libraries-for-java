@@ -10,39 +10,37 @@ package com.microsoft.azure.management.cosmosdb.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.cosmosdb.ARMResourceProperties;
 
 /**
  * An Azure Cosmos DB SQL database.
  */
 @JsonFlatten
-@SkipParentValidation
-public class SqlDatabaseInner extends Resource {
+public class SqlDatabaseGetResultsInner extends ARMResourceProperties {
     /**
      * Name of the Cosmos DB SQL database.
      */
     @JsonProperty(value = "properties.id", required = true)
-    private String sqlDatabaseId;
+    private String sqlDatabaseGetResultsId;
 
     /**
      * A system generated property. A unique identifier.
      */
-    @JsonProperty(value = "properties._rid")
+    @JsonProperty(value = "properties._rid", access = JsonProperty.Access.WRITE_ONLY)
     private String _rid;
 
     /**
      * A system generated property that denotes the last updated timestamp of
      * the resource.
      */
-    @JsonProperty(value = "properties._ts")
+    @JsonProperty(value = "properties._ts", access = JsonProperty.Access.WRITE_ONLY)
     private Object _ts;
 
     /**
      * A system generated property representing the resource etag required for
      * optimistic concurrency control.
      */
-    @JsonProperty(value = "properties._etag")
+    @JsonProperty(value = "properties._etag", access = JsonProperty.Access.WRITE_ONLY)
     private String _etag;
 
     /**
@@ -62,20 +60,20 @@ public class SqlDatabaseInner extends Resource {
     /**
      * Get name of the Cosmos DB SQL database.
      *
-     * @return the sqlDatabaseId value
+     * @return the sqlDatabaseGetResultsId value
      */
-    public String sqlDatabaseId() {
-        return this.sqlDatabaseId;
+    public String sqlDatabaseGetResultsId() {
+        return this.sqlDatabaseGetResultsId;
     }
 
     /**
      * Set name of the Cosmos DB SQL database.
      *
-     * @param sqlDatabaseId the sqlDatabaseId value to set
-     * @return the SqlDatabaseInner object itself.
+     * @param sqlDatabaseGetResultsId the sqlDatabaseGetResultsId value to set
+     * @return the SqlDatabaseGetResultsInner object itself.
      */
-    public SqlDatabaseInner withSqlDatabaseId(String sqlDatabaseId) {
-        this.sqlDatabaseId = sqlDatabaseId;
+    public SqlDatabaseGetResultsInner withSqlDatabaseGetResultsId(String sqlDatabaseGetResultsId) {
+        this.sqlDatabaseGetResultsId = sqlDatabaseGetResultsId;
         return this;
     }
 
@@ -89,17 +87,6 @@ public class SqlDatabaseInner extends Resource {
     }
 
     /**
-     * Set a system generated property. A unique identifier.
-     *
-     * @param _rid the _rid value to set
-     * @return the SqlDatabaseInner object itself.
-     */
-    public SqlDatabaseInner with_rid(String _rid) {
-        this._rid = _rid;
-        return this;
-    }
-
-    /**
      * Get a system generated property that denotes the last updated timestamp of the resource.
      *
      * @return the _ts value
@@ -109,34 +96,12 @@ public class SqlDatabaseInner extends Resource {
     }
 
     /**
-     * Set a system generated property that denotes the last updated timestamp of the resource.
-     *
-     * @param _ts the _ts value to set
-     * @return the SqlDatabaseInner object itself.
-     */
-    public SqlDatabaseInner with_ts(Object _ts) {
-        this._ts = _ts;
-        return this;
-    }
-
-    /**
      * Get a system generated property representing the resource etag required for optimistic concurrency control.
      *
      * @return the _etag value
      */
     public String _etag() {
         return this._etag;
-    }
-
-    /**
-     * Set a system generated property representing the resource etag required for optimistic concurrency control.
-     *
-     * @param _etag the _etag value to set
-     * @return the SqlDatabaseInner object itself.
-     */
-    public SqlDatabaseInner with_etag(String _etag) {
-        this._etag = _etag;
-        return this;
     }
 
     /**
@@ -152,9 +117,9 @@ public class SqlDatabaseInner extends Resource {
      * Set a system generated property that specified the addressable path of the collections resource.
      *
      * @param _colls the _colls value to set
-     * @return the SqlDatabaseInner object itself.
+     * @return the SqlDatabaseGetResultsInner object itself.
      */
-    public SqlDatabaseInner with_colls(String _colls) {
+    public SqlDatabaseGetResultsInner with_colls(String _colls) {
         this._colls = _colls;
         return this;
     }
@@ -172,9 +137,9 @@ public class SqlDatabaseInner extends Resource {
      * Set a system generated property that specifies the addressable path of the users resource.
      *
      * @param _users the _users value to set
-     * @return the SqlDatabaseInner object itself.
+     * @return the SqlDatabaseGetResultsInner object itself.
      */
-    public SqlDatabaseInner with_users(String _users) {
+    public SqlDatabaseGetResultsInner with_users(String _users) {
         this._users = _users;
         return this;
     }

@@ -142,13 +142,11 @@ public class CollectionPartitionsInner {
         if (collectionRid == null) {
             throw new IllegalArgumentException("Parameter collectionRid is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (filter == null) {
             throw new IllegalArgumentException("Parameter filter is required and cannot be null.");
         }
-        return service.listMetrics(this.client.subscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, this.client.apiVersion(), filter, this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listMetrics(this.client.subscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, apiVersion, filter, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<PartitionMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<PartitionMetricInner>>> call(Response<ResponseBody> response) {
@@ -250,11 +248,9 @@ public class CollectionPartitionsInner {
         if (collectionRid == null) {
             throw new IllegalArgumentException("Parameter collectionRid is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
+        final String apiVersion = "2019-08-01";
         final String filter = null;
-        return service.listUsages(this.client.subscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, this.client.apiVersion(), filter, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listUsages(this.client.subscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, apiVersion, filter, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<PartitionUsageInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<PartitionUsageInner>>> call(Response<ResponseBody> response) {
@@ -353,10 +349,8 @@ public class CollectionPartitionsInner {
         if (collectionRid == null) {
             throw new IllegalArgumentException("Parameter collectionRid is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listUsages(this.client.subscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, this.client.apiVersion(), filter, this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listUsages(this.client.subscriptionId(), resourceGroupName, accountName, databaseRid, collectionRid, apiVersion, filter, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<PartitionUsageInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<PartitionUsageInner>>> call(Response<ResponseBody> response) {

@@ -10,7 +10,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountInner;
+import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountGetResultsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -29,7 +29,7 @@ import java.util.List;
 @Fluent
 @Beta(SinceVersion.V1_2_0)
 public interface CosmosDBAccount extends
-    GroupableResource<CosmosDBManager, DatabaseAccountInner>,
+    GroupableResource<CosmosDBManager, DatabaseAccountGetResultsInner>,
     Refreshable<CosmosDBAccount>,
     Updatable<CosmosDBAccount.Update> {
 

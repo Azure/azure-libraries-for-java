@@ -45,7 +45,7 @@ class CosmosDBAccountImpl
         extends
         GroupableResourceImpl<
                 CosmosDBAccount,
-                DatabaseAccountInner,
+                DatabaseAccountGetResultsInner,
                 CosmosDBAccountImpl,
                 CosmosDBManager>
         implements CosmosDBAccount,
@@ -56,7 +56,7 @@ class CosmosDBAccountImpl
     private final int maxDelayDueToMissingFailovers = 60 * 10;
     private Map<String, VirtualNetworkRule> virtualNetworkRulesMap;
 
-    CosmosDBAccountImpl(String name, DatabaseAccountInner innerObject, CosmosDBManager manager) {
+    CosmosDBAccountImpl(String name, DatabaseAccountGetResultsInner innerObject, CosmosDBManager manager) {
         super(fixDBName(name), innerObject, manager);
         this.failoverPolicies = new ArrayList<FailoverPolicy>();
     }
@@ -163,13 +163,13 @@ class CosmosDBAccountImpl
 
     @Override
     public Observable<List<SqlDatabase>> listSqlDatabasesAsync() {
-        return this.manager().inner().databaseAccounts()
+        return this.manager().inner().sqlResources()
                 .listSqlDatabasesAsync(this.resourceGroupName(), this.name())
-                .map(new Func1<List<SqlDatabaseInner>, List<SqlDatabase>>() {
+                .map(new Func1<List<SqlDatabaseGetResultsInner>, List<SqlDatabase>>() {
                     @Override
-                    public List<SqlDatabase> call(List<SqlDatabaseInner> sqlDatabaseInners) {
+                    public List<SqlDatabase> call(List<SqlDatabaseGetResultsInner> sqlDatabaseInners) {
                         List<SqlDatabase> sqlDatabases = new ArrayList<>();
-                        for (SqlDatabaseInner inner : sqlDatabaseInners) {
+                        for (SqlDatabaseGetResultsInner inner : sqlDatabaseInners) {
                             sqlDatabases.add(new SqlDatabaseImpl(inner));
                         }
                         return Collections.unmodifiableList(sqlDatabases);
@@ -301,7 +301,7 @@ class CosmosDBAccountImpl
     }
 
     @Override
-    protected Observable<DatabaseAccountInner> getInnerAsync() {
+    protected Observable<DatabaseAccountGetResultsInner> getInnerAsync() {
         return this.manager().inner().databaseAccounts().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
@@ -372,7 +372,7 @@ class CosmosDBAccountImpl
         return this.doDatabaseUpdateCreate();
     }
 
-    private DatabaseAccountCreateUpdateParameters createUpdateParametersInner(DatabaseAccountInner inner) {
+    private DatabaseAccountCreateUpdateParameters createUpdateParametersInner(DatabaseAccountGetResultsInner inner) {
         this.ensureFailoverIsInitialized();
         DatabaseAccountCreateUpdateParameters createUpdateParametersInner =
                 new DatabaseAccountCreateUpdateParameters();
@@ -463,9 +463,9 @@ class CosmosDBAccountImpl
                 resourceGroupName(),
                 name(),
                 createUpdateParametersInner)
-                .flatMap(new Func1<DatabaseAccountInner, Observable<? extends CosmosDBAccount>>() {
+                .flatMap(new Func1<DatabaseAccountGetResultsInner, Observable<? extends CosmosDBAccount>>() {
                     @Override
-                    public Observable<? extends CosmosDBAccount> call(DatabaseAccountInner databaseAccountInner) {
+                    public Observable<? extends CosmosDBAccount> call(DatabaseAccountGetResultsInner databaseAccountInner) {
                         self.failoverPolicies.clear();
                         self.hasFailoverPolicyChanges = false;
                         return manager().databaseAccounts().getByResourceGroupAsync(

@@ -113,11 +113,10 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         Assert.assertEquals("Succeeded", deployment.provisioningState());
 
         //What if
-        DeploymentWhatIfProperties properties = new DeploymentWhatIfProperties();
-        properties.withTemplateLink(new TemplateLink().withUri(templateUri).withContentVersion(contentVersion));
-        properties.withMode(DeploymentMode.INCREMENTAL);
-        DeploymentWhatIf parameters = new DeploymentWhatIf()
-                .withProperties(properties);
+        DeploymentWhatIfParameters parameters = new DeploymentWhatIfParameters()
+                .withIncrementalMode()
+                .withTemplateLink(templateUri, contentVersion);
+
         WhatIfOperationResult result = deployment.whatIf(parameters);
         Assert.assertEquals("Succeeded", result.status());
         Assert.assertEquals(3, result.changes().size());
@@ -153,12 +152,11 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         Assert.assertEquals("Succeeded", deployment.provisioningState());
 
         //What if
-        DeploymentWhatIfProperties properties = new DeploymentWhatIfProperties();
-        properties.withTemplateLink(new TemplateLink().withUri(blankTemplateUri).withContentVersion(contentVersion));
-        properties.withMode(DeploymentMode.INCREMENTAL);
-        DeploymentWhatIf parameters = new DeploymentWhatIf()
+        DeploymentWhatIfParameters parameters = new DeploymentWhatIfParameters()
                 .withLocation("westus")
-                .withProperties(properties);
+                .withIncrementalMode()
+                .withTemplateLink(blankTemplateUri, contentVersion);
+
         WhatIfOperationResult result = deployment.whatIfAtSubscriptionScope(parameters);
         Assert.assertEquals("Succeeded", result.status());
         Assert.assertEquals(0, result.changes().size());

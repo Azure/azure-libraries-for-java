@@ -166,7 +166,7 @@ public interface Deployment extends
      * @return the What-if operation result.
      */
     @Method
-    WhatIfOperationResult whatIf(DeploymentWhatIf parameters);
+    WhatIfOperationResult whatIf(DeploymentWhatIfParameters parameters);
 
     /**
      * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
@@ -175,7 +175,7 @@ public interface Deployment extends
      * @return the What-if operation result.
      */
     @Method
-    Observable<WhatIfOperationResult> whatIfAsync(DeploymentWhatIf parameters);
+    Observable<WhatIfOperationResult> whatIfAsync(DeploymentWhatIfParameters parameters);
 
     /**
      * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
@@ -185,7 +185,7 @@ public interface Deployment extends
      * @return the What-if operation result
      */
     @Method
-    ServiceFuture<WhatIfOperationResult> whatIfAsync(DeploymentWhatIf parameters, ServiceCallback<WhatIfOperationResult> callback);
+    ServiceFuture<WhatIfOperationResult> whatIfAsync(DeploymentWhatIfParameters parameters, ServiceCallback<WhatIfOperationResult> callback);
 
     /**
      * Gets changes that will be made by the deployment if executed at the scope of the subscription.
@@ -194,7 +194,7 @@ public interface Deployment extends
      * @return the What-if operation result.
      */
     @Method
-    WhatIfOperationResult whatIfAtSubscriptionScope(DeploymentWhatIf parameters);
+    WhatIfOperationResult whatIfAtSubscriptionScope(DeploymentWhatIfParameters parameters);
 
     /**
      * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
@@ -203,7 +203,7 @@ public interface Deployment extends
      * @return the What-if operation result.
      */
     @Method
-    Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIf parameters);
+    Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIfParameters parameters);
 
     /**
      * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
@@ -213,7 +213,7 @@ public interface Deployment extends
      * @return the What-if operation result
      */
     @Method
-    ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIf parameters, ServiceCallback<WhatIfOperationResult> callback);
+    ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIfParameters parameters, ServiceCallback<WhatIfOperationResult> callback);
 
     /**
      * Container interface for all the deployment definitions.

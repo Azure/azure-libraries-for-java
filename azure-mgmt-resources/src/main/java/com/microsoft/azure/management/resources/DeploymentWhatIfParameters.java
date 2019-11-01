@@ -179,7 +179,7 @@ public class DeploymentWhatIfParameters {
      * Set new OnErrorDeployment object if it is not initialized.
      */
     private void addOnErrorDeploymentIfAbsent() {
-        if(deploymentWhatIf.properties().onErrorDeployment() == null) {
+        if (deploymentWhatIf.properties().onErrorDeployment() == null) {
             deploymentWhatIf.properties().withOnErrorDeployment(new OnErrorDeployment());
         }
     }

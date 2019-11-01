@@ -6,15 +6,12 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
 
 /**
  * Base class for resource that can be updated.
  *
  * @param <T> the fluent type of the resource
  */
-@LangDefinition(ContainerName = "ResourceActions")
 public interface Updatable<T> {
     /**
      * Begins an update for a new resource.
@@ -25,6 +22,5 @@ public interface Updatable<T> {
      *
      * @return the stage of new resource update
      */
-    @Method
     T update();
 }

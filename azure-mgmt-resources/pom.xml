@@ -71,6 +71,43 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-annotations</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-core</artifactId>
+      <version>1.0.0-preview.6</version>
+    </dependency>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-identity</artifactId>
+      <version>1.0.0-preview.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-core-management</artifactId>
+      <version>1.0.0-preview.7</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <version>2.10.1</version>
+      <scope>compile</scope>
+    </dependency>
+      <dependency>
+          <groupId>com.squareup.retrofit2</groupId>
+          <artifactId>retrofit</artifactId>
+          <version>2.5.0</version>
+          <scope>compile</scope>
+      </dependency>
+    <dependency>
+      <groupId>javax.validation</groupId>
+      <artifactId>validation-api</artifactId>
+      <version>2.0.1.Final</version>
+      <scope>compile</scope>
+    </dependency>
+      <dependency>
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+      </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -98,8 +135,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.1</version>
         <configuration>
-          <source>1.7</source>
-          <target>1.7</target>
+          <source>8</source>
+          <target>8</target>
           <annotationProcessors>
             <annotationProcessor>
               com.microsoft.azure.management.apigeneration.LangDefinitionProcessor</annotationProcessor>

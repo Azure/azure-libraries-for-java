@@ -7,8 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.arm.collection;
 
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 
@@ -21,7 +20,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
  * @param <ParentT> the type of the parent resource
  * @param <ManagerT> the client manager type representing the service
  */
-@LangDefinition(ContainerName = "CollectionActions", CreateAsyncMethods = true, MethodConversionType = LangDefinition.MethodConversion.OnlyMethod)
 public interface SupportsListingByParent<T, ParentT extends Resource & HasResourceGroup, ManagerT> {
     /**
      * Lists resources of the specified type in the specified resource group.

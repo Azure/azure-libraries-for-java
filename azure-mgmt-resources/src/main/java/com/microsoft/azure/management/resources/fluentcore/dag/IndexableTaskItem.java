@@ -11,9 +11,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -63,10 +62,10 @@ public abstract class IndexableTaskItem
     public static IndexableTaskItem create(final FunctionalTaskItem taskItem) {
         return new IndexableTaskItem() {
             @Override
-            protected rx.Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+            protected Mono<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
                 FunctionalTaskItem.Context fContext = new FunctionalTaskItem.Context(this);
                 fContext.setInnerContext(context);
-                return taskItem.call(fContext);
+                return taskItem.apply(fContext);
             }
         };
     }
@@ -248,24 +247,21 @@ public abstract class IndexableTaskItem
     }
 
     @Override
-    public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
+    public Mono<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
         return this.invokeTaskAsync(context)
                 .subscribeOn(SdkContext.getRxScheduler())
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable result) {
-                        taskResult = result;
-                        return result;
-                    }
+                .map(result -> {
+                    taskResult = result;
+                    return result;
                 });
     }
 
     @Override
-    public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
-        return Completable.complete();
+    public Flux<Indexable> invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        return Flux.empty();
     }
 
-    protected abstract Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context);
+    protected abstract Mono<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context);
 
     /**
      * @return an instance of {@link VoidIndexable} with key same as the key of this TaskItem.
@@ -278,7 +274,7 @@ public abstract class IndexableTaskItem
      * @return an Observable upon subscription emits {@link VoidIndexable} with key same as the key of
      * this TaskItem
      */
-    protected Observable<Indexable> voidObservable() {
-        return Observable.just(this.voidIndexable());
+    protected Mono<Indexable> voidObservable() {
+        return Mono.just(this.voidIndexable());
     }
 }

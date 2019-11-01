@@ -6,11 +6,9 @@
 
 package com.microsoft.azure.management.resources.fluentcore.collection;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * Provides access to listing Azure resources of a specific type based on their region.
@@ -19,7 +17,6 @@ import rx.Observable;
  *
  * @param <T> the fluent type of the resource
  */
-@LangDefinition(ContainerName = "CollectionActions", MethodConversionType = MethodConversion.OnlyMethod)
 public interface SupportsListingByRegion<T> {
     /**
      * Lists all the resources of the specified type in the specified region.
@@ -42,12 +39,12 @@ public interface SupportsListingByRegion<T> {
      * @param region the selected Azure region
      * @return a representation of the deferred computation of this call, returning the requested resources
      */
-    Observable<T> listByRegionAsync(Region region);
+    Mono<T> listByRegionAsync(Region region);
 
     /**
      * List all the resources of the specified type in the specified region.
      * @param regionName the name of an Azure region
      * @return a representation of the deferred computation of this call, returning the requested resources
      */
-    Observable<T> listByRegionAsync(String regionName);
+    Mono<T> listByRegionAsync(String regionName);
 }

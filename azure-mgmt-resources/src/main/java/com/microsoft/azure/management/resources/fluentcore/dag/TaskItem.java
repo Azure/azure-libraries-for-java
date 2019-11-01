@@ -7,8 +7,8 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * Type representing a unit of work, upon invocation produces result of {@link Indexable} type.
@@ -41,7 +41,7 @@ public interface TaskItem {
      * @return an observable upon subscription does the unit of work and produces
      * result of type {@link Indexable}
      */
-    Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context);
+    Mono<Indexable> invokeAsync(TaskGroup.InvocationContext context);
 
     /**
      * The method that gets called after invocation of "post run" task items depends on
@@ -53,5 +53,5 @@ public interface TaskItem {
      *                       to are in faulted state.
      * @return a completable representing any asynchronous work initiated
      */
-    Completable invokeAfterPostRunAsync(boolean isGroupFaulted);
+    Flux invokeAfterPostRunAsync(boolean isGroupFaulted);
 }

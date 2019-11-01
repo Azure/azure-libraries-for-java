@@ -8,14 +8,7 @@ package com.microsoft.azure.management.resources.fluentcore.arm.collection.imple
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
-import rx.Observable;
-import rx.exceptions.CompositeException;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Action2;
-import rx.functions.Func0;
-import rx.functions.Func1;
-import rx.subjects.PublishSubject;
+import reactor.core.publisher.Flux;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -131,9 +124,9 @@ public abstract class ExternalChildResourceCollectionImpl<
      *
      * @return the observable stream
      */
-    public Observable<FluentModelTImpl> commitAsync() {
+    public Flux<FluentModelTImpl> commitAsync() {
         if (this.isPostRunMode) {
-            return Observable.error(new IllegalStateException("commitAsync() cannot be invoked when 'post run' mode is enabled"));
+            return Flux.error(new IllegalStateException("commitAsync() cannot be invoked when 'post run' mode is enabled"));
         }
 
         final ExternalChildResourceCollectionImpl<FluentModelTImpl, FluentModelT, InnerModelT, ParentImplT, ParentT> self = this;
@@ -143,15 +136,9 @@ public abstract class ExternalChildResourceCollectionImpl<
         }
 
         final List<Throwable> exceptionsList = Collections.synchronizedList(new ArrayList<Throwable>());
-        Observable<FluentModelTImpl> deleteStream = Observable.from(items)
-                .filter(new Func1<FluentModelTImpl, Boolean>() {
-                    @Override
-                    public Boolean call(FluentModelTImpl childResource) {
-                        return childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeRemoved;
-                    }
-                }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
-                    @Override
-                    public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
+        Flux<FluentModelTImpl> deleteStream = Flux.fromIterable(items)
+                .filter(childResource -> childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeRemoved)
+                .flatMap(childResource -> {
                         return childResource.deleteResourceAsync()
                                 .map(new Func1<Void, FluentModelTImpl>() {
                                     @Override
@@ -270,7 +257,7 @@ public abstract class ExternalChildResourceCollectionImpl<
      *
      * @return the observable stream
      */
-    public Observable<List<FluentModelTImpl>> commitAndGetAllAsync() {
+    public Flux<List<FluentModelTImpl>> commitAndGetAllAsync() {
         return commitAsync().collect(
                 new Func0<List<FluentModelTImpl>>() {
                     public List<FluentModelTImpl> call() {

@@ -9,7 +9,7 @@ package com.microsoft.azure.management.resources.fluentcore.model.implementation
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * The base class for all updatable resource.
@@ -38,15 +38,15 @@ public abstract class AppliableImpl<
     }
 
     @Override
-    public final Observable<Indexable> createAsync() {
+    public final Mono<Indexable> createAsync() {
         throw new IllegalStateException("Internal Error: createAsync cannot be called from UpdatableImpl");
     }
 
     @Override
-    public final Observable<FluentModelT> createResourceAsync() {
+    public final Mono<FluentModelT> createResourceAsync() {
         throw new IllegalStateException("Internal Error: createResourceAsync cannot be called from UpdatableImpl");
     }
 
     @Override
-    public abstract Observable<FluentModelT> updateResourceAsync();
+    public abstract Mono<FluentModelT> updateResourceAsync();
 }

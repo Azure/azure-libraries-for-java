@@ -7,9 +7,9 @@
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
 import org.joda.time.DateTime;
-import rx.Observable;
-import rx.Scheduler;
-import rx.schedulers.Schedulers;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
 
 /**
  * The class to contain the common factory methods required for SDK framework.
@@ -17,7 +17,7 @@ import rx.schedulers.Schedulers;
 public class SdkContext {
     private static ResourceNamerFactory resourceNamerFactory = new ResourceNamerFactory();
     private static DelayProvider delayProvider = new DelayProvider();
-    private static Scheduler rxScheduler = Schedulers.io();
+    private static Scheduler rxScheduler = Schedulers.boundedElastic();
 
     /**
      * Function to override the ResourceNamerFactory.
@@ -30,6 +30,7 @@ public class SdkContext {
 
     /**
      * Gets the current factory for ResourceNamer.
+     *
      * @return resourceNamer factory.
      */
     public static ResourceNamerFactory getResourceNamerFactory() {
@@ -50,9 +51,10 @@ public class SdkContext {
 
     /**
      * Generates the specified number of random resource names with the same prefix.
+     *
      * @param prefix the prefix to be used if possible
      * @param maxLen the maximum length for the random generated name
-     * @param count the number of names to generate
+     * @param count  the number of names to generate
      * @return random names
      */
     public static String[] randomResourceNames(String prefix, int maxLen, int count) {
@@ -85,6 +87,7 @@ public class SdkContext {
 
     /**
      * Wrapper for sleep, based on delayProvider.
+     *
      * @param milliseconds number of millisecond for which thread should put on sleep.
      */
     public static void sleep(int milliseconds) {
@@ -98,20 +101,22 @@ public class SdkContext {
         ResourceNamer resourceNamer = SdkContext.getResourceNamerFactory().createResourceNamer("");
         return resourceNamer.dateTimeNow();
     }
+
     /**
      * Wrapper delayed emission, based on delayProvider.
      *
-     * @param event the event to emit
+     * @param event        the event to emit
      * @param milliseconds the delay in milliseconds
-     * @param <T> the type of event
+     * @param <T>          the type of event
      * @return delayed observable
      */
-    public static <T> Observable<T>  delayedEmitAsync(T event, int milliseconds) {
+    public static <T> Mono<T> delayedEmitAsync(T event, int milliseconds) {
         return delayProvider.delayedEmitAsync(event, milliseconds);
     }
 
     /**
      * Gets the current Rx Scheduler for the SDK framework.
+     *
      * @return current rx scheduler.
      */
     public static Scheduler getRxScheduler() {
@@ -120,6 +125,7 @@ public class SdkContext {
 
     /**
      * Sets the Rx Scheduler for SDK framework, by default is Scheduler.io().
+     *
      * @param rxScheduler current Rx Scheduler to be used in SDK framework.
      */
     public static void setRxScheduler(Scheduler rxScheduler) {

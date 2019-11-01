@@ -6,9 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.collection;
 
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 
 /**
@@ -37,16 +35,6 @@ public interface InnerSupportsGet<InnerT> {
      *
      * @return Observable to specific resource.
      */
-    Observable<InnerT> getByResourceGroupAsync(String resourceGroupName, String resourceName);
+    Mono<InnerT> getByResourceGroupAsync(String resourceGroupName, String resourceName);
 
-    /**
-     * Returns the specific resource asynchronously.
-     *
-     * @param resourceGroupName The name of the resource group within the user's subscription.
-     * @param resourceName The name of the resource within specified resource group.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-
-     * @return ServiceFuture to specific resource.
-     */
-    ServiceFuture<InnerT> getByResourceGroupAsync(String resourceGroupName, String resourceName, ServiceCallback<InnerT> serviceCallback);
 }

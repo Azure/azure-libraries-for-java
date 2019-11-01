@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
@@ -22,7 +21,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
  * @param <ManagerT> the manager type for this resource provider type
  * @param <ParentT> the type of the parent resource
  */
-@LangDefinition
 public abstract class IndependentChildResourcesImpl<
         T extends IndependentChildResource<ManagerT, InnerT>,
         ImplT extends T,

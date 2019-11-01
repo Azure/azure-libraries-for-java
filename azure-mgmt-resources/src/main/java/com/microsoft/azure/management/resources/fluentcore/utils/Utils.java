@@ -6,25 +6,23 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
+import com.azure.core.annotation.Get;
+import com.azure.core.annotation.PathParam;
+import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.HttpResponse;
+import com.azure.core.implementation.RestProxy;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.Page;
+import com.azure.core.management.PagedList;
 import com.google.common.primitives.Ints;
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
-import com.microsoft.rest.RestClient;
-import okhttp3.ResponseBody;
-import retrofit2.Retrofit;
-import retrofit2.http.GET;
-import retrofit2.http.Url;
-import rx.Observable;
-import rx.exceptions.Exceptions;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * Defines a few utilities.
@@ -110,13 +108,8 @@ public final class Utils {
      * @return an observable that emits last item
      */
     @SuppressWarnings("unchecked")
-    public static <U extends Indexable> Observable<U> rootResource(Observable<Indexable> stream) {
-        return stream.last().map(new Func1<Indexable, U>() {
-            @Override
-            public U call(Indexable indexable) {
-                return (U) indexable;
-            }
-        });
+    public static <U extends Indexable> Mono<U> rootResource(Mono<Indexable> stream) {
+        return stream.map(indexable -> (U) indexable);
     }
 
     /**
@@ -125,19 +118,10 @@ public final class Utils {
      * @param retrofit the retrofit client
      * @return an Observable pointing to the content of the file
      */
-    public static Observable<byte[]> downloadFileAsync(String url, Retrofit retrofit) {
-        FileService service = retrofit.create(FileService.class);
-        Observable<ResponseBody> response = service.download(url);
-        return response.map(new Func1<ResponseBody, byte[]>() {
-            @Override
-            public byte[] call(ResponseBody responseBody) {
-                try {
-                    return responseBody.bytes();
-                } catch (IOException e) {
-                    throw Exceptions.propagate(e);
-                }
-            }
-        });
+    public static Mono<byte[]> downloadFileAsync(String url, HttpPipeline retrofit) {
+        FileService service = RestProxy.create(FileService.class, retrofit);
+        Mono<HttpResponse> response = service.download(url);
+        return response.flatMap( httpResponse ->  httpResponse.getBodyAsByteArray() );
     }
 
     /**
@@ -149,7 +133,7 @@ public final class Utils {
      * @param <InT> the type of items in input paged list
      * @return the paged list
      */
-    public static <OutT, InT> PagedList<OutT> toPagedList(List<InT> list, final Func1<InT, OutT> mapper) {
+    public static <OutT, InT> PagedList<OutT> toPagedList(List<InT> list, final Function<InT, OutT> mapper) {
         PageImpl<InT> page = new PageImpl<>();
         page.setItems(list);
         page.setNextPageLink(null);
@@ -161,8 +145,8 @@ public final class Utils {
         };
         PagedListConverter<InT, OutT> converter = new PagedListConverter<InT, OutT>() {
             @Override
-            public Observable<OutT> typeConvertAsync(InT inner) {
-                return Observable.just(mapper.call(inner));
+            public Mono<OutT> typeConvertAsync(InT inner) {
+                return Mono.just(mapper.apply(inner));
             }
         };
         return converter.convert(pagedList);
@@ -237,8 +221,8 @@ public final class Utils {
      * A Retrofit service used to download a file.
      */
     private interface FileService {
-        @GET
-        Observable<ResponseBody> download(@Url String url);
+        @Get("{url}")
+        Mono<HttpResponse> download(@PathParam("url") String url);
     }
 
     /**

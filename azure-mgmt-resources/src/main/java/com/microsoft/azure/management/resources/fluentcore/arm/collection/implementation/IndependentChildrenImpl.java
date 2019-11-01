@@ -6,8 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByParent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
@@ -20,10 +19,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.Independen
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * Base class for independent child collection class.
@@ -35,7 +31,6 @@ import rx.Observable;
  * @param <ManagerT> the manager type for this resource provider type
  * @param <ParentT> the type of the parent resource
  */
-@LangDefinition
 public abstract class IndependentChildrenImpl<
         T extends IndependentChild<ManagerT>,
         ImplT extends T,
@@ -67,26 +62,26 @@ public abstract class IndependentChildrenImpl<
 
     @Override
     public T getByParent(String resourceGroup, String parentName, String name) {
-        return getByParentAsync(resourceGroup, parentName, name).toBlocking().last();
+        return getByParentAsync(resourceGroup, parentName, name).block();
     }
 
     @Override
     public T getByParent(ParentT parentResource, String name) {
-        return getByParentAsync(parentResource, name).toBlocking().last();
+        return getByParentAsync(parentResource, name).block();
     }
 
     @Override
-    public Observable<T> getByParentAsync(ParentT parentResource, String name) {
+    public Mono<T> getByParentAsync(ParentT parentResource, String name) {
         return getByParentAsync(parentResource.resourceGroupName(), parentResource.name(), name);
     }
 
     @Override
     public T getById(String id) {
-        return getByIdAsync(id).toBlocking().last();
+        return getByIdAsync(id).block();
     }
 
     @Override
-    public Observable<T> getByIdAsync(String id) {
+    public Mono<T> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
         if (resourceId == null) {
             return null;
@@ -96,27 +91,18 @@ public abstract class IndependentChildrenImpl<
     }
 
     @Override
-    public ServiceFuture<T> getByIdAsync(String id, ServiceCallback<T> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
-    }
-
-    @Override
     public PagedList<T> listByParent(ParentT parentResource) {
         return listByParent(parentResource.resourceGroupName(), parentResource.name());
     }
 
     @Override
     public void deleteByParent(String groupName, String parentName, String name) {
-        deleteByParentAsync(groupName, parentName, name).await();
+        deleteByParentAsync(groupName, parentName, name).block();
     }
 
-    @Override
-    public ServiceFuture<Void> deleteByParentAsync(String groupName, String parentName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(deleteByParentAsync(groupName, parentName, name), callback);
-    }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
         return deleteByParentAsync(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name());
     }

@@ -6,12 +6,12 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.azure.core.exception.HttpResponseException;
+import com.azure.core.management.Page;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
-import com.microsoft.rest.RestException;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,7 +33,7 @@ public abstract class PagedListConverter<U, V> {
      * @param u the resource to convert from
      * @return the converted resource
      */
-    public abstract Observable<V> typeConvertAsync(U u);
+    public abstract Mono<V> typeConvertAsync(U u);
 
     /**
      * Override this method to define what items should be fetched.
@@ -54,22 +54,22 @@ public abstract class PagedListConverter<U, V> {
         if (uList == null || uList.isEmpty()) {
             return new PagedList<V>() {
                 @Override
-                public Page<V> nextPage(String s) throws RestException, IOException {
+                public Page<V> nextPage(String s) throws HttpResponseException, IOException {
                     return null;
                 }
             };
         }
-        Page<U> uPage = uList.currentPage();
+        Page<U> uPage = uList.getCurrentPage();
         final PageImpl<V> vPage = new PageImpl<>();
-        vPage.setNextPageLink(uPage.nextPageLink());
+        vPage.setNextPageLink(uPage.getNextPageLink());
         vPage.setItems(new ArrayList<V>());
         loadConvertedList(uPage, vPage);
         return new PagedList<V>(vPage) {
             @Override
-            public Page<V> nextPage(String nextPageLink) throws RestException, IOException {
+            public Page<V> nextPage(String nextPageLink) throws HttpResponseException, IOException {
                 Page<U> uPage = uList.nextPage(nextPageLink);
                 final PageImpl<V> vPage = new PageImpl<>();
-                vPage.setNextPageLink(uPage.nextPageLink());
+                vPage.setNextPageLink(uPage.getNextPageLink());
                 vPage.setItems(new ArrayList<V>());
                 loadConvertedList(uPage, vPage);
                 return vPage;
@@ -78,25 +78,30 @@ public abstract class PagedListConverter<U, V> {
     }
 
     private void loadConvertedList(final Page<U> uPage, final Page<V> vPage) {
-        Observable.from(uPage.items())
-                .filter(new Func1<U, Boolean>() {
-                    @Override
-                    public Boolean call(U u) {
-                        return filter(u);
-                    }
-                })
-                .flatMap(new Func1<U, Observable<V>>() {
-                    @Override
-                    public Observable<V> call(U u) {
-                        return typeConvertAsync(u);
-                    }
-                })
-                .map(new Func1<V, V>() {
-                    @Override
-                    public V call(V v) {
-                        vPage.items().add(v);
-                        return v;
-                    }
-                }).toBlocking().subscribe();
+        Flux.fromIterable(uPage.getItems())
+                .filter( u -> filter(u))
+                .flatMap(u -> typeConvertAsync(u))
+                .map(v -> vPage.getItems().add(v))
+                .subscribe();
+//        Flux.fromIterable(uPage.getItems())
+//                .filter(new Func1<U, Boolean>() {
+//                    @Override
+//                    public Boolean call(U u) {
+//                        return filter(u);
+//                    }
+//                })
+//                .flatMap(new Func1<U, Observable<V>>() {
+//                    @Override
+//                    public Observable<V> call(U u) {
+//                        return typeConvertAsync(u);
+//                    }
+//                })
+//                .map(new Func1<V, V>() {
+//                    @Override
+//                    public V call(V v) {
+//                        vPage.items().add(v);
+//                        return v;
+//                    }
+//                }).toBlocking().subscribe();
     }
 }

@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.Resource;
+import com.azure.core.management.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
@@ -16,20 +16,17 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableR
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * Base class for resource collection classes.
  * (Internal use only)
- * @param <T> the individual resource type returned
- * @param <ImplT> the individual resource implementation
- * @param <InnerT> the wrapper inner type
+ *
+ * @param <T>                the individual resource type returned
+ * @param <ImplT>            the individual resource implementation
+ * @param <InnerT>           the wrapper inner type
  * @param <InnerCollectionT> the inner type of the collection object
- * @param <ManagerT> the manager type for this resource provider type
+ * @param <ManagerT>         the manager type for this resource provider type
  */
 public abstract class GroupableResourcesImpl<
         T extends GroupableResource<ManagerT, InnerT>,
@@ -37,8 +34,8 @@ public abstract class GroupableResourcesImpl<
         InnerT extends Resource,
         InnerCollectionT,
         ManagerT extends ManagerBase>
-    extends CreatableResourcesImpl<T, ImplT, InnerT>
-    implements
+        extends CreatableResourcesImpl<T, ImplT, InnerT>
+        implements
         SupportsGettingById<T>,
         SupportsGettingByResourceGroup<T>,
         SupportsDeletingByResourceGroup,
@@ -47,6 +44,7 @@ public abstract class GroupableResourcesImpl<
 
     private final InnerCollectionT innerCollection;
     private final ManagerT myManager;
+
     protected GroupableResourcesImpl(
             InnerCollectionT innerCollection,
             ManagerT manager) {
@@ -66,11 +64,11 @@ public abstract class GroupableResourcesImpl<
 
     @Override
     public T getById(String id) {
-        return getByIdAsync(id).toBlocking().last();
+        return getByIdAsync(id).block();
     }
 
     @Override
-    public final Observable<T> getByIdAsync(String id) {
+    public final Mono<T> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
 
         if (resourceId == null) {
@@ -81,51 +79,32 @@ public abstract class GroupableResourcesImpl<
     }
 
     @Override
-    public final ServiceFuture<T> getByIdAsync(String id, ServiceCallback<T> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
-    }
-
-    @Override
     public final void deleteByResourceGroup(String groupName, String name) {
-        deleteByResourceGroupAsync(groupName, name).await();
+        deleteByResourceGroupAsync(groupName, name).block();
     }
 
     @Override
-    public final ServiceFuture<Void> deleteByResourceGroupAsync(String groupName, String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(deleteByResourceGroupAsync(groupName, name).andThen(Observable.<Void>just(null)), callback);
-    }
-
-    @Override
-    public Completable deleteByResourceGroupAsync(String groupName, String name) {
+    public Mono<?> deleteByResourceGroupAsync(String groupName, String name) {
         return this.deleteInnerAsync(groupName, name).subscribeOn(SdkContext.getRxScheduler());
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<?> deleteByIdAsync(String id) {
         return deleteByResourceGroupAsync(ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id));
     }
 
     @Override
     public T getByResourceGroup(String resourceGroupName, String name) {
-        return getByResourceGroupAsync(resourceGroupName, name).toBlocking().last();
+        return getByResourceGroupAsync(resourceGroupName, name).block();
     }
 
     @Override
-    public Observable<T> getByResourceGroupAsync(String resourceGroupName, String name) {
-        return this.getInnerAsync(resourceGroupName, name).map(new Func1<InnerT, T>() {
-            @Override
-            public T call(InnerT innerT) {
-                return wrapModel(innerT);
-            }
-        });
+    public Mono<T> getByResourceGroupAsync(String resourceGroupName, String name) {
+        return this.getInnerAsync(resourceGroupName, name)
+                .map(innerT -> wrapModel(innerT));
     }
 
-    @Override
-    public ServiceFuture<T> getByResourceGroupAsync(String resourceGroupName, String name, ServiceCallback<T> callback) {
-        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, name), callback);
-    }
+    protected abstract Mono<InnerT> getInnerAsync(String resourceGroupName, String name);
 
-    protected abstract Observable<InnerT> getInnerAsync(String resourceGroupName, String name);
-
-    protected abstract Completable deleteInnerAsync(String resourceGroupName, String name);
+    protected abstract Mono<?> deleteInnerAsync(String resourceGroupName, String name);
 }

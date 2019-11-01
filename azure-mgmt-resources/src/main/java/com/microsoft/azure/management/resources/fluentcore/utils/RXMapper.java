@@ -6,16 +6,18 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
-import rx.Observable;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Scheduler;
+import reactor.core.scheduler.Schedulers;
+
+import java.util.function.Function;
 
 /**
  * An internal utility class representing an RX function returning the provided type instance
  * from a call with an arbitrary parameter.
  * @param <T> the type to emit as Observable
  */
-public final class RXMapper<T> implements Func1<Object, T> {
+public final class RXMapper<T> implements Function<Object, T> {
     private final T value;
 
     /**
@@ -25,12 +27,12 @@ public final class RXMapper<T> implements Func1<Object, T> {
      * @param <T> the type of the value to emit
      * @return an observable emitting the specified value
      */
-    public static <T> Observable<T> map(Observable<?> fromObservable, final T toValue) {
+    public static <T> Mono<T> map(Mono<?> fromObservable, final T toValue) {
         if (fromObservable != null) {
-            return fromObservable.subscribeOn(Schedulers.io())
+            return fromObservable.subscribeOn(Schedulers.boundedElastic())
                     .map(new RXMapper<T>(toValue));
         } else {
-            return Observable.empty();
+            return Mono.empty();
         }
     }
 
@@ -39,12 +41,12 @@ public final class RXMapper<T> implements Func1<Object, T> {
      * @param fromObservable the source observable
      * @return a void-emitting observable
      */
-    public static Observable<Void> mapToVoid(Observable<?> fromObservable) {
+    public static Mono<Void> mapToVoid(Mono<?> fromObservable) {
         if (fromObservable != null) {
-            return fromObservable.subscribeOn(Schedulers.io())
+            return fromObservable.subscribeOn(Schedulers.boundedElastic())
                     .map(new RXMapper<Void>());
         } else {
-            return Observable.empty();
+            return Mono.empty();
         }
     }
 
@@ -63,7 +65,7 @@ public final class RXMapper<T> implements Func1<Object, T> {
     }
 
     @Override
-    public T call(Object t) {
+    public T apply(Object t) {
         return this.value;
     }
 }

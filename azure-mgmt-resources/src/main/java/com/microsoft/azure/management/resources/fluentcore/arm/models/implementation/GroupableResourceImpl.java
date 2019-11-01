@@ -25,7 +25,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
  */
 public abstract class GroupableResourceImpl<
         FluentModelT extends Resource,
-        InnerModelT extends com.microsoft.azure.Resource,
+        InnerModelT extends com.azure.core.management.Resource,
         FluentModelImplT extends GroupableResourceImpl<FluentModelT, InnerModelT, FluentModelImplT, ManagerT>,
         ManagerT extends ManagerBase>
         extends

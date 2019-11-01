@@ -23,12 +23,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
 import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -164,7 +160,7 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    public Completable cancelAsync() {
+    public Mono<Void> cancelAsync() {
         return this.manager().inner().deployments().cancelAsync(resourceGroupName, name()).toCompletable();
     }
 

@@ -30,7 +30,7 @@ import java.util.TreeMap;
  */
 public abstract class ResourceImpl<
         FluentModelT extends Resource,
-        InnerModelT extends com.microsoft.azure.Resource,
+        InnerModelT extends com.azure.core.management.Resource,
         FluentModelImplT extends ResourceImpl<FluentModelT, InnerModelT, FluentModelImplT>>
     extends
         CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>
@@ -39,7 +39,7 @@ public abstract class ResourceImpl<
     protected ResourceImpl(String name, InnerModelT innerObject) {
         super(name, innerObject);
         if (innerObject.getTags() == null) {
-            innerObject.withTags(new TreeMap<String, String>());
+            innerObject.setTags(new TreeMap<String, String>());
         }
     }
 
@@ -49,7 +49,7 @@ public abstract class ResourceImpl<
 
     @Override
     public String regionName() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override
@@ -68,20 +68,20 @@ public abstract class ResourceImpl<
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.inner().getId();
     }
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.inner().getType();
     }
 
     @Override
     public String name() {
-        if (this.inner().name() == null) {
+        if (this.inner().getName() == null) {
             return super.name();
         } else {
-            return this.inner().name();
+            return this.inner().getName();
         }
     }
 
@@ -96,7 +96,7 @@ public abstract class ResourceImpl<
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTags(Map<String, String> tags) {
-        this.inner().withTags(new HashMap<>(tags));
+        this.inner().setTags(new HashMap<>(tags));
         return (FluentModelImplT) this;
     }
 
@@ -109,7 +109,7 @@ public abstract class ResourceImpl<
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTag(String key, String value) {
         if (this.inner().getTags() == null) {
-            this.inner().withTags(new HashMap<String, String>());
+            this.inner().setTags(new HashMap<String, String>());
         }
         this.inner().getTags().put(key, value);
         System.out.println(this.inner().getTags());
@@ -140,7 +140,7 @@ public abstract class ResourceImpl<
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withRegion(String regionName) {
-        this.inner().withLocation(regionName);
+        this.inner().setLocation(regionName);
         return (FluentModelImplT) this;
     }
 
@@ -158,7 +158,7 @@ public abstract class ResourceImpl<
      */
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     protected <InnerT> List<InnerT> innersFromWrappers(Collection<? extends HasInner<InnerT>> wrappers) {

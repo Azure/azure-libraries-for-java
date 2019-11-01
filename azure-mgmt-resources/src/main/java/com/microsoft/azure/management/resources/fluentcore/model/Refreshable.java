@@ -6,23 +6,19 @@
 
 package com.microsoft.azure.management.resources.fluentcore.model;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * Base class for resources that can be refreshed to get the latest state.
  *
  * @param <T> the fluent type of the resource
  */
-@LangDefinition(ContainerName = "ResourceActions")
 public interface Refreshable<T> {
     /**
      * Refreshes the resource to sync with Azure.
      *
      * @return the refreshed resource
      */
-    @Method
     T refresh();
 
     /**
@@ -30,6 +26,5 @@ public interface Refreshable<T> {
      *
      * @return the Observable to refreshed resource
      */
-    @Method
-    Observable<T> refreshAsync();
+    Mono<T> refreshAsync();
 }

@@ -13,11 +13,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -208,29 +205,19 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     }
 
     @Override
-    public Observable<FluentModelT> executeAsync() {
+    public Mono<FluentModelT> executeAsync() {
         return taskGroup.invokeAsync(taskGroup.newInvocationContext())
                 .last()
-                .map(new Func1<Indexable, FluentModelT>() {
-                    @Override
-                    public FluentModelT call(Indexable indexable) {
-                        return (FluentModelT) indexable;
-                    }
-                });
+                .map(indexable -> (FluentModelT) indexable);
     }
 
     @Override
     public FluentModelT execute() {
-        return executeAsync().toBlocking().last();
+        return executeAsync().block();
     }
 
     @Override
-    public ServiceFuture<FluentModelT> executeAsync(ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(executeAsync(), callback);
-    }
-
-    @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
-        return Completable.complete();
+    public Flux afterPostRunAsync(boolean isGroupFaulted) {
+        return Flux.empty();
     }
 }

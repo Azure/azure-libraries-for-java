@@ -6,16 +6,12 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 import java.util.Collection;
 
 /**
  * Availability zone identifiers.
  */
-@LangDefinition
-@Beta(Beta.SinceVersion.V1_3_0)
 public class AvailabilityZoneId extends ExpandableStringEnum<AvailabilityZoneId> {
     /** Static value 1 for AvailabilityZoneId. */
     public static final AvailabilityZoneId ZONE_1 = fromString("1");

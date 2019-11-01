@@ -5,8 +5,8 @@
  */
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.Resource;
+import com.azure.core.management.PagedList;
+import com.azure.core.management.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
@@ -22,8 +22,8 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.utils.RXMapper;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -60,35 +60,35 @@ public abstract class TopLevelModifiableResourcesImpl<
     }
 
     @Override
-    protected final Observable<InnerT> getInnerAsync(String resourceGroupName, String name) {
+    protected final Mono<InnerT> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return inner().deleteAsync(resourceGroupName, name).toCompletable();
+    protected Mono<?> deleteInnerAsync(String resourceGroupName, String name) {
+        return inner().deleteAsync(resourceGroupName, name);
     }
 
     @Override
-    public Observable<String> deleteByIdsAsync(String...ids) {
+    public Flux<String> deleteByIdsAsync(String...ids) {
         return this.deleteByIdsAsync(new ArrayList<String>(Arrays.asList(ids)));
     }
 
     @Override
-    public Observable<String> deleteByIdsAsync(Collection<String> ids) {
+    public Flux<String> deleteByIdsAsync(Collection<String> ids) {
         if (ids == null || ids.isEmpty()) {
-            return Observable.empty();
+            return Flux.empty();
         }
 
-        Collection<Observable<String>> observables = new ArrayList<>();
+        Collection<Mono<String>> observables = new ArrayList<>();
         for (String id : ids) {
             final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
             final String name = ResourceUtils.nameFromResourceId(id);
-            Observable<String> o = RXMapper.map(this.inner().deleteAsync(resourceGroupName, name), id);
+            Mono<String> o = RXMapper.map(this.inner().deleteAsync(resourceGroupName, name), id);
             observables.add(o);
         }
 
-        return Observable.mergeDelayError(observables);
+        return Flux.mergeDelayError(32, observables.toArray(new Mono[observables.size()]));
     }
 
     @Override
@@ -99,17 +99,17 @@ public abstract class TopLevelModifiableResourcesImpl<
     @Override
     public void deleteByIds(Collection<String> ids) {
         if (ids != null && !ids.isEmpty()) {
-            this.deleteByIdsAsync(ids).toBlocking().last();
+            this.deleteByIdsAsync(ids).blockLast();
         }
     }
 
     @Override
-    public Observable<T> listAsync() {
+    public Flux<T> listAsync() {
         return wrapPageAsync(inner().listAsync());
     }
 
     @Override
-    public Observable<T> listByResourceGroupAsync(String resourceGroupName) {
+    public Flux<T> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroupName));
     }
 

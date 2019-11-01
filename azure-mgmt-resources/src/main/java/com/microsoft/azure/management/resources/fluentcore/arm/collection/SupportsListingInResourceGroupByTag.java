@@ -6,10 +6,8 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.collection;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
-import rx.Observable;
+import com.azure.core.management.PagedList;
+import reactor.core.publisher.Mono;
 
 /**
  * Provides access to listing Azure resources of a specific type based on their tag.
@@ -18,7 +16,6 @@ import rx.Observable;
  *
  * @param <T> the fluent type of the resource
  */
-@LangDefinition(ContainerName = "CollectionActions", MethodConversionType = MethodConversion.OnlyMethod)
 public interface SupportsListingInResourceGroupByTag<T> {
     /**
      * Lists all the resources with the specified tag.
@@ -38,5 +35,5 @@ public interface SupportsListingInResourceGroupByTag<T> {
      * @param tagValue tag's value
      * @return a representation of the deferred computation of this call, returning the requested resources
      */
-    Observable<T> listByTagAsync(String resourceGroupName, String tagName, String tagValue);
+    Mono<T> listByTagAsync(String resourceGroupName, String tagName, String tagValue);
 }

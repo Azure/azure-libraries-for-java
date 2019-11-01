@@ -8,14 +8,15 @@ package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
+
+import java.util.function.Function;
 
 /**
  * Simplified functional interface equivalent to abstract class {@link IndexableTaskItem}.
  */
 public interface FunctionalTaskItem
-        extends Func1<FunctionalTaskItem.Context, Observable<Indexable>> {
+        extends Function<FunctionalTaskItem.Context, Mono<Indexable>> {
     /**
      * Type representing context of an {@link FunctionalTaskItem}.
      */
@@ -63,9 +64,9 @@ public interface FunctionalTaskItem
          * @return an Observable upon subscription emits {@link VoidIndexable} with key same as
          * the key of this TaskItem.
          */
-        public Observable<Indexable> voidObservable() {
+        public Mono<Indexable> voidObservable() {
             Indexable voidIndexable = new VoidIndexable(this.wrapperTaskItem.key());
-            return Observable.just(voidIndexable);
+            return Mono.just(voidIndexable);
         }
 
         @Override

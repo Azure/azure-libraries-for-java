@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import java.security.InvalidParameterException;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,7 +13,6 @@ import org.apache.commons.lang3.StringUtils;
  * Instantiate itself from a resource id, and give easy access to resource information like subscription, resourceGroup,
  * resource name.
  */
-@LangDefinition
 public final class ResourceId {
 
     private String subscriptionId = null;

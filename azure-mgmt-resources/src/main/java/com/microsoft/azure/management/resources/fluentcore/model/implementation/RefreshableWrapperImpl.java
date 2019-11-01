@@ -7,14 +7,13 @@
 package com.microsoft.azure.management.resources.fluentcore.model.implementation;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * Base implementation for Wrapper interface.
  *
  * @param <InnerT> wrapped type
- * @param <Impl> impl type
+ * @param <Impl>   impl type
  */
 public abstract class RefreshableWrapperImpl<InnerT, Impl>
         extends WrapperImpl<InnerT>
@@ -26,21 +25,18 @@ public abstract class RefreshableWrapperImpl<InnerT, Impl>
 
     @Override
     public final Impl refresh() {
-        return this.refreshAsync().toBlocking().last();
+        return this.refreshAsync().block();
     }
 
     @Override
-    public Observable<Impl> refreshAsync() {
+    public Mono<Impl> refreshAsync() {
         final RefreshableWrapperImpl<InnerT, Impl> self = this;
-
-        return this.getInnerAsync().map(new Func1<InnerT, Impl>() {
-            @Override
-            public Impl call(InnerT innerT) {
-                self.setInner(innerT);
-                return (Impl) self;
-            }
-        });
+        return this.getInnerAsync()
+                .map(innerT -> {
+                    self.setInner(innerT);
+                    return (Impl) self;
+                });
     }
 
-    protected abstract Observable<InnerT> getInnerAsync();
+    protected abstract Mono<InnerT> getInnerAsync();
 }

@@ -8,17 +8,17 @@ package com.microsoft.azure.management.resources.fluentcore.model.implementation
 
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * The base class for all creatable resource.
  *
- * @param <FluentModelT> the fluent model type representing the creatable resource
- * @param <InnerModelT> the model inner type that the fluent model type wraps
+ * @param <FluentModelT>     the fluent model type representing the creatable resource
+ * @param <InnerModelT>      the model inner type that the fluent model type wraps
  * @param <FluentModelImplT> the fluent model implementation type
  */
 public abstract class CreatableImpl<
-        FluentModelT  extends Indexable,
+        FluentModelT extends Indexable,
         InnerModelT,
         FluentModelImplT extends IndexableRefreshableWrapperImpl<FluentModelT, InnerModelT>>
         extends
@@ -28,7 +28,7 @@ public abstract class CreatableImpl<
     /**
      * Creates a CreatableImpl.
      *
-     * @param name the creatable name
+     * @param name        the creatable name
      * @param innerObject the inner object
      */
     protected CreatableImpl(String name, InnerModelT innerObject) {
@@ -36,15 +36,15 @@ public abstract class CreatableImpl<
     }
 
     @Override
-    public final Observable<FluentModelT> applyAsync() {
+    public final Mono<FluentModelT> applyAsync() {
         throw new IllegalStateException("Internal Error: applyAsync cannot be called from CreatableImpl");
     }
 
     @Override
-    public final Observable<FluentModelT> updateResourceAsync() {
+    public final Mono<FluentModelT> updateResourceAsync() {
         throw new IllegalStateException("Internal Error: updateResourceAsync cannot be called from CreatableImpl");
     }
 
     @Override
-    public abstract Observable<FluentModelT> createResourceAsync();
+    public abstract Mono<FluentModelT> createResourceAsync();
 }

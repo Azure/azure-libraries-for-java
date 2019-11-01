@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm;
 
-import com.microsoft.rest.LogLevel;
+import com.azure.core.http.policy.HttpLogDetailLevel;
 import okhttp3.Authenticator;
 import okhttp3.ConnectionPool;
 import okhttp3.Dispatcher;
@@ -28,7 +28,7 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      * @param level the OkHttp logging level
      * @return the configurable object itself
      */
-    T withLogLevel(LogLevel level);
+    T withLogLevel(HttpLogDetailLevel level);
 
     /**
      * Plug in an interceptor into the HTTP pipeline.

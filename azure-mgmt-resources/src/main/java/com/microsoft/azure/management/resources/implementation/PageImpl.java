@@ -8,8 +8,8 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.azure.core.management.Page;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.Page;
 import java.util.List;
 
 /**
@@ -37,7 +37,7 @@ public class PageImpl<T> implements Page<T> {
      * @return the link to the next page.
      */
     @Override
-    public String nextPageLink() {
+    public String getNextPageLink() {
         return this.nextPageLink;
     }
 
@@ -47,7 +47,7 @@ public class PageImpl<T> implements Page<T> {
      * @return the list of items in {@link List}.
      */
     @Override
-    public List<T> items() {
+    public List<T> getItems() {
         return items;
     }
 

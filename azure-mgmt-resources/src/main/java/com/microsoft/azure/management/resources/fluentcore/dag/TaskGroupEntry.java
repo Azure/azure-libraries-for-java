@@ -7,8 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Observable;
-import rx.functions.Func0;
+import reactor.core.publisher.Mono;
 
 /**
  * Type representing an entry in {@link TaskGroup} that holds one {@link TaskItem} and associated
@@ -33,7 +32,7 @@ final class TaskGroupEntry<TaskT extends TaskItem>
     /**
      * Creates TaskGroupEntry.
      *
-     * @param taskId id that uniquely identifies the task from other tasks in the group
+     * @param taskId   id that uniquely identifies the task from other tasks in the group
      * @param taskItem the task this entry holds
      */
     TaskGroupEntry(String taskId, TaskT taskItem) {
@@ -85,29 +84,22 @@ final class TaskGroupEntry<TaskT extends TaskItem>
      * @param ignoreCachedResult if the task is already invoked and has result cached then a value false for this
      *                           parameter indicates the cached result can be returned without invoking task again,
      *                           if true then cached result will be ignored and task will be invoked
-     * @param context the context object shared across all the entries in the group that this entry belongs to,
-     *                this will be passed to {@link TaskItem#invokeAsync(TaskGroup.InvocationContext)}
-     *                method of the task item
-     *
+     * @param context            the context object shared across all the entries in the group that this entry belongs to,
+     *                           this will be passed to {@link TaskItem#invokeAsync(TaskGroup.InvocationContext)}
+     *                           method of the task item
      * @return a cold Observable upon subscription invokes the task this entry hold, which produces a result of
      * type {@link Indexable}.
      */
-    public Observable<Indexable> invokeTaskAsync(boolean ignoreCachedResult, final TaskGroup.InvocationContext context) {
+    public Mono<Indexable> invokeTaskAsync(boolean ignoreCachedResult, final TaskGroup.InvocationContext context) {
         if (hasFaultedDescentDependencyTasks) {
-            return Observable.error(new ErroredDependencyTaskException());
+            return Mono.error(new ErroredDependencyTaskException());
         }
         final TaskT taskItem = this.taskItem();
         if (!ignoreCachedResult && hasCachedResult()) {
-            return Observable.just(taskItem.result());
+            return Mono.just(taskItem.result());
         }
         if (taskItem.isHot()) {
-            // Convert hot task to cold to delay it's execution until subscription.
-            return Observable.defer(new Func0<Observable<Indexable>>() {
-                @Override
-                public Observable<Indexable> call() {
-                    return taskItem.invokeAsync(context);
-                }
-            });
+            return Mono.defer(() -> taskItem.invokeAsync(context));
         } else {
             return taskItem.invokeAsync(context);
         }

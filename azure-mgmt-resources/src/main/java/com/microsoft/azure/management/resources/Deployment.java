@@ -6,10 +6,7 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMethodType;
-import com.microsoft.azure.management.apigeneration.Method;
+import com.azure.core.annotation.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
@@ -26,11 +23,12 @@ import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * An immutable client-side representation of an Azure deployment.
@@ -109,21 +107,18 @@ public interface Deployment extends
     /**
      * @return the operations related to this deployment
      */
-    @LangMethodDefinition(AsType = LangMethodType.Property)
     DeploymentOperations deploymentOperations();
 
     /**
      * Cancel a currently running template deployment.
      */
-    @Method
     void cancel();
 
     /**
      * Cancel a currently running template deployment asynchronously.
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable cancelAsync();
+    Mono<Void> cancelAsync();
 
     /**
      * Cancel a currently running template deployment asynchronously.
@@ -131,15 +126,13 @@ public interface Deployment extends
      * @param callback the callback to call on success or failure
      * @return a handle to cancel the request
      */
-    @Method
-    ServiceFuture<Void> cancelAsync(ServiceCallback<Void> callback);
+    ServiceFuture<Void> cancelAsync(Mono<Void> callback);
 
     /**
      * Exports a deployment template.
      *
      * @return the export result
      */
-    @Method
     DeploymentExportResult exportTemplate();
 
     /**
@@ -147,8 +140,7 @@ public interface Deployment extends
      *
      * @return a representation of the deferred computation of this call returning the export result
      */
-    @Method
-    Observable<DeploymentExportResult> exportTemplateAsync();
+    Flux<DeploymentExportResult> exportTemplateAsync();
 
     /**
      * Exports a deployment template asynchronously.
@@ -156,8 +148,7 @@ public interface Deployment extends
      * @param callback the callback to call on success or failure with export result as parameter
      * @return a handle to cancel the request
      */
-    @Method
-    ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback);
+    ServiceFuture<DeploymentExportResult> exportTemplateAsync(Mono<DeploymentExportResult> callback);
 
     /**
      * Container interface for all the deployment definitions.
@@ -280,11 +271,9 @@ public interface Deployment extends
          * deployment in the cloud, but exposing additional optional inputs to specify.
          */
         interface WithCreate extends Creatable<Deployment> {
-            @Method
             Deployment beginCreate();
 
-            @Method
-            Observable<Deployment> beginCreateAsync();
+            Flux<Deployment> beginCreateAsync();
         }
     }
 

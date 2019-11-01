@@ -7,7 +7,19 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.microsoft.azure.management.resources.*;
+import com.microsoft.azure.management.resources.Dependency;
+import com.microsoft.azure.management.resources.Deployment;
+import com.microsoft.azure.management.resources.DeploymentExportResult;
+import com.microsoft.azure.management.resources.DeploymentMode;
+import com.microsoft.azure.management.resources.DeploymentOperations;
+import com.microsoft.azure.management.resources.DeploymentProperties;
+import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
+import com.microsoft.azure.management.resources.DeploymentWhatIfParameters;
+import com.microsoft.azure.management.resources.ParametersLink;
+import com.microsoft.azure.management.resources.Provider;
+import com.microsoft.azure.management.resources.ResourceGroup;
+import com.microsoft.azure.management.resources.TemplateLink;
+import com.microsoft.azure.management.resources.WhatIfOperationResult;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;

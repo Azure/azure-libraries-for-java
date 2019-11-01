@@ -11,6 +11,7 @@ import com.microsoft.azure.management.resources.WhatIfChange;
 import com.microsoft.azure.management.resources.WhatIfOperationResult;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class WhatIfOperationResultImpl extends
 
     @Override
     public List<WhatIfChange> changes() {
-        return this.inner().changes();
+        return Collections.unmodifiableList(this.inner().changes());
     }
 
     @Override

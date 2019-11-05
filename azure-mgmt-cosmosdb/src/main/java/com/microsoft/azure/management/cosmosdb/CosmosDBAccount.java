@@ -129,6 +129,11 @@ public interface CosmosDBAccount extends
     ConnectorOffer cassandraConnectorOffer();
 
     /**
+     * @return whether metadata write access is disabled or not.
+     */
+    boolean keyBasedMetadataWriteAccessDisabled();
+
+    /**
      * @return a list that contains the Cosmos DB capabilities
      */
     @Beta(SinceVersion.V1_10_0)
@@ -407,6 +412,17 @@ public interface CosmosDBAccount extends
         }
 
         /**
+         * The stage of the cosmos db definition allowing to specify metadata write access.
+         */
+        interface WithKeyBasedMetadataWriteAccess {
+            /**
+             * Specifies whether metadata write access should be disabled.
+             * @param disabled whether metadata write access is disabled or not.
+             * @return the next stage
+             */
+            WithCreate withDisableKeyBaseMetadataWriteAccess(boolean disabled);
+        }
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
          * for any other optional settings to be specified.
@@ -419,6 +435,7 @@ public interface CosmosDBAccount extends
                 WithVirtualNetworkRule,
                 WithMultipleLocations,
                 WithConnector,
+                WithKeyBasedMetadataWriteAccess,
                 DefinitionWithTags<WithCreate> {
         }
     }
@@ -445,6 +462,7 @@ public interface CosmosDBAccount extends
             UpdateStages.WithVirtualNetworkRule,
             UpdateStages.WithMultipleLocations,
             UpdateStages.WithConnector,
+            UpdateStages.WithKeyBasedMetadataWriteAccess,
             UpdateStages.WithIpRangeFilter {
         }
 
@@ -571,15 +589,30 @@ public interface CosmosDBAccount extends
         interface WithConnector {
             /**
              * Specifies a connector offer for cassandra connector.
+             *
              * @param connectorOffer connector offer to specify.
              * @return the next stage
              */
             WithOptionals withCassandraConnector(ConnectorOffer connectorOffer);
+
             /**
              * Remove the connector offer.
+             *
              * @return the next stage
              */
             WithOptionals withoutCassandraConnector();
+        }
+
+        /**
+         * The stage of the cosmos db update allowing to specify metadata write access.
+         */
+        interface WithKeyBasedMetadataWriteAccess {
+            /**
+             * Specifies whether metadata write access should be disabled.
+             * @param disabled whether metadata write access is disabled or not.
+             * @return the next stage
+             */
+            WithOptionals withDisableKeyBaseMetadataWriteAccess(boolean disabled);
         }
     }
 }

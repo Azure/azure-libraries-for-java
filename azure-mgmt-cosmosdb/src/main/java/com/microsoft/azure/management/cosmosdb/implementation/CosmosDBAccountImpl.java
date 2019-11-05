@@ -40,10 +40,12 @@ class CosmosDBAccountImpl
     private boolean hasFailoverPolicyChanges;
     private final int maxDelayDueToMissingFailovers = 60 * 10;
     private Map<String, VirtualNetworkRule> virtualNetworkRulesMap;
+    private PrivateEndpointConnectionsImpl privateEndpointConnections;
 
     CosmosDBAccountImpl(String name, DatabaseAccountGetResultsInner innerObject, CosmosDBManager manager) {
         super(fixDBName(name), innerObject, manager);
         this.failoverPolicies = new ArrayList<FailoverPolicy>();
+        this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this.manager().inner().privateEndpointConnections(), this);
     }
 
     @Override
@@ -158,6 +160,72 @@ class CosmosDBAccountImpl
                             sqlDatabases.add(new SqlDatabaseImpl(inner));
                         }
                         return Collections.unmodifiableList(sqlDatabases);
+                    }
+                });
+    }
+
+    @Override
+    public List<PrivateLinkResource> listPrivateLinkResources() {
+        return this.listPrivateLinkResourcesAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<List<PrivateLinkResource>> listPrivateLinkResourcesAsync() {
+        return this.manager().inner().privateLinkResources()
+                .listByDatabaseAccountAsync(this.resourceGroupName(), this.name())
+                .map(new Func1<List<PrivateLinkResourceInner>, List<PrivateLinkResource>>() {
+                    @Override
+                    public List<PrivateLinkResource> call(List<PrivateLinkResourceInner> privateLinkResourceInners) {
+                        List<PrivateLinkResource> privateLinkResources = new ArrayList<>();
+                        for (PrivateLinkResourceInner inner : privateLinkResourceInners) {
+                            privateLinkResources.add(new PrivateLinkResourceImpl(inner));
+                        }
+                        return Collections.unmodifiableList(privateLinkResources);
+                    }
+                });
+    }
+
+    @Override
+    public PrivateLinkResource getPrivateLinkResource(String groupName) {
+        return this.getPrivateLinkResourceAsync(groupName).toBlocking().last();
+    }
+
+    @Override
+    public Observable<PrivateLinkResource> getPrivateLinkResourceAsync(String groupName) {
+        return this.manager().inner().privateLinkResources()
+                .getAsync(this.resourceGroupName(), this.name(), groupName)
+                .map(new Func1<PrivateLinkResourceInner, PrivateLinkResource>() {
+                    @Override
+                    public PrivateLinkResource call(PrivateLinkResourceInner privateLinkResourceInner) {
+                        if (privateLinkResourceInner == null)
+                            return null;
+                        return new PrivateLinkResourceImpl(privateLinkResourceInner);
+                    }
+                });
+    }
+
+    @Override
+    public Map<String, PrivateEndpointConnection> listPrivateEndpointConnection() {
+        return this.listPrivateEndpointConnectionAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<Map<String, PrivateEndpointConnection>> listPrivateEndpointConnectionAsync() {
+        return this.privateEndpointConnections.asMapAsync();
+    }
+
+    @Override
+    public PrivateEndpointConnection getPrivateEndpointConnection(String name) {
+        return this.getPrivateEndpointConnectionAsync(name).toBlocking().last();
+    }
+
+    @Override
+    public Observable<PrivateEndpointConnection> getPrivateEndpointConnectionAsync(String name) {
+        return this.privateEndpointConnections.getImplAsync(name)
+                .map(new Func1<PrivateEndpointConnectionImpl, PrivateEndpointConnection>() {
+                    @Override
+                    public PrivateEndpointConnection call(PrivateEndpointConnectionImpl privateEndpointConnection) {
+                        return privateEndpointConnection;
                     }
                 });
     }
@@ -356,6 +424,21 @@ class CosmosDBAccountImpl
         return this;
     }
 
+    @Override
+    public PrivateEndpointConnectionImpl defineNewPrivateEndpointConnection(String name) {
+        return this.privateEndpointConnections.define(name);
+    }
+
+    @Override
+    public PrivateEndpointConnectionImpl updatePrivateEndpointConnection(String name) {
+        return this.privateEndpointConnections.update(name);
+    }
+
+    @Override
+    public CosmosDBAccountImpl withoutPrivateEndpointConnection(String name) {
+        this.privateEndpointConnections.remove(name);
+        return this;
+    }
 
     @Override
     public Observable<CosmosDBAccount> createResourceAsync() {

@@ -22,6 +22,7 @@ import rx.Completable;
 import rx.Observable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An immutable client-side representation of an Azure Cosmos DB.
@@ -132,6 +133,50 @@ public interface CosmosDBAccount extends
      * @return whether metadata write access is disabled or not.
      */
     boolean keyBasedMetadataWriteAccessDisabled();
+
+    /**
+     * @return all private link resources in the account.
+     */
+    Observable<List<PrivateLinkResource>> listPrivateLinkResourcesAsync();
+
+    /**
+     * @return all private link resources in the account.
+     */
+    List<PrivateLinkResource> listPrivateLinkResources();
+
+    /**
+     * @param groupName group name of private link resource
+     * @return the specific private link resource group
+     */
+    Observable<PrivateLinkResource> getPrivateLinkResourceAsync(String groupName);
+
+    /**
+     * @param groupName group name of private link resource
+     * @return the specific private link resource group
+     */
+    PrivateLinkResource getPrivateLinkResource(String groupName);
+
+    /**
+     * @return all private endpoint connection in the account.
+     */
+    Observable<Map<String, PrivateEndpointConnection>> listPrivateEndpointConnectionAsync();
+
+    /**
+     * @return all private endpoint connection in the account.
+     */
+    Map<String, PrivateEndpointConnection> listPrivateEndpointConnection();
+
+    /**
+     * @param name name of private endpoint connection
+     * @return the specific private endpoint connection
+     */
+    Observable<PrivateEndpointConnection> getPrivateEndpointConnectionAsync(String name);
+
+    /**
+     * @param name name of private endpoint connection
+     * @return the specific private endpoint connection
+     */
+    PrivateEndpointConnection getPrivateEndpointConnection(String name);
 
     /**
      * @return a list that contains the Cosmos DB capabilities
@@ -422,6 +467,20 @@ public interface CosmosDBAccount extends
              */
             WithCreate withDisableKeyBaseMetadataWriteAccess(boolean disabled);
         }
+
+        /**
+         * The stage of the cosmos db definition allowing to specify private endpoint connection.
+         */
+        interface WithPrivateEndpointConnection {
+            /**
+             * Starts the definition of a private endpoint connection to be attached
+             * to the cosmos db account
+             *
+             * @param name the reference name for the private endpoint connection
+             * @return the first stage of a private endpoint connection definition
+             */
+            PrivateEndpointConnection.DefinitionStages.Blank<WithCreate> defineNewPrivateEndpointConnection(String name);
+        }
         /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
@@ -436,6 +495,7 @@ public interface CosmosDBAccount extends
                 WithMultipleLocations,
                 WithConnector,
                 WithKeyBasedMetadataWriteAccess,
+                WithPrivateEndpointConnection,
                 DefinitionWithTags<WithCreate> {
         }
     }
@@ -463,6 +523,7 @@ public interface CosmosDBAccount extends
             UpdateStages.WithMultipleLocations,
             UpdateStages.WithConnector,
             UpdateStages.WithKeyBasedMetadataWriteAccess,
+            UpdateStages.WithPrivateEndpointConnection,
             UpdateStages.WithIpRangeFilter {
         }
 
@@ -613,6 +674,36 @@ public interface CosmosDBAccount extends
              * @return the next stage
              */
             WithOptionals withDisableKeyBaseMetadataWriteAccess(boolean disabled);
+        }
+
+        /**
+         * The stage of the cosmos db update allowing to specify private endpoint connection.
+         */
+        interface WithPrivateEndpointConnection {
+            /**
+             * Start the definition of a private endpoint connection to be attached
+             * to the cosmos db account
+             *
+             * @param name the reference name for the private endpoint connection
+             * @return the first stage of a private endpoint connection definition
+             */
+            PrivateEndpointConnection.UpdateDefinitionStages.Blank<WithOptionals> defineNewPrivateEndpointConnection(String name);
+
+            /**
+             * Start the update of an existing private endpoint connection
+             *
+             * @param name the reference name for the private endpoint connection
+             * @return the first stage of a private endpoint connection update
+             */
+            PrivateEndpointConnection.Update updatePrivateEndpointConnection(String name);
+
+            /**
+             * Remove an existing private endpoint connection
+             *
+             * @param name the reference name for the private endpoint connection
+             * @return the next stage
+             */
+            WithOptionals withoutPrivateEndpointConnection(String name);
         }
     }
 }

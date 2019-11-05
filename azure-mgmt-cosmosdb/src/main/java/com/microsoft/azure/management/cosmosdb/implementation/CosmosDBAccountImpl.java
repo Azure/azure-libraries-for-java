@@ -385,15 +385,40 @@ class CosmosDBAccountImpl
         createUpdateParametersInner.withCapabilities(inner.capabilities());
         createUpdateParametersInner.withTags(inner.getTags());
         createUpdateParametersInner.withEnableMultipleWriteLocations(inner.enableMultipleWriteLocations());
-        this.addLocationsForCreateUpdateParameters(createUpdateParametersInner, this.failoverPolicies);
+        this.addLocationsForParameters(new CreateUpdateLocationParameters(createUpdateParametersInner), this.failoverPolicies);
         createUpdateParametersInner.withIsVirtualNetworkFilterEnabled(inner.isVirtualNetworkFilterEnabled());
         createUpdateParametersInner.withEnableCassandraConnector(inner.enableCassandraConnector());
         createUpdateParametersInner.withConnectorOffer(inner.connectorOffer());
+        createUpdateParametersInner.withEnableAutomaticFailover(inner.enableAutomaticFailover());
+        createUpdateParametersInner.withDisableKeyBasedMetadataWriteAccess(inner.disableKeyBasedMetadataWriteAccess());
         if (this.virtualNetworkRulesMap != null) {
             createUpdateParametersInner.withVirtualNetworkRules(new ArrayList<VirtualNetworkRule>(this.virtualNetworkRulesMap.values()));
             this.virtualNetworkRulesMap = null;
         }
         return createUpdateParametersInner;
+    }
+
+    private DatabaseAccountUpdateParameters updateParametersInner(DatabaseAccountGetResultsInner inner) {
+        this.ensureFailoverIsInitialized();
+        DatabaseAccountUpdateParameters updateParameters = new DatabaseAccountUpdateParameters();
+        updateParameters.withTags(inner.getTags());
+        updateParameters.withLocation(this.regionName().toLowerCase());
+        updateParameters.withConsistencyPolicy(inner.consistencyPolicy());
+        updateParameters.withIpRangeFilter(inner.ipRangeFilter());
+        updateParameters.withIsVirtualNetworkFilterEnabled(inner.isVirtualNetworkFilterEnabled());
+        updateParameters.withEnableAutomaticFailover(inner.enableAutomaticFailover());
+        updateParameters.withCapabilities(inner.capabilities());
+        updateParameters.withEnableMultipleWriteLocations(inner.enableMultipleWriteLocations());
+        updateParameters.withEnableCassandraConnector(inner.enableCassandraConnector());
+        updateParameters.withConnectorOffer(inner.connectorOffer());
+        updateParameters.withDisableKeyBasedMetadataWriteAccess(inner.disableKeyBasedMetadataWriteAccess());
+        if (virtualNetworkRulesMap != null) {
+            updateParameters.withVirtualNetworkRules(new ArrayList<>(this.virtualNetworkRulesMap.values()));
+            virtualNetworkRulesMap = null;
+        }
+        this.addLocationsForParameters(new UpdateLocationParameters(updateParameters), this.failoverPolicies);
+
+        return updateParameters;
     }
 
     private static String fixDBName(String name) {
@@ -414,8 +439,8 @@ class CosmosDBAccountImpl
         this.inner().withConsistencyPolicy(policy);
     }
 
-    private void addLocationsForCreateUpdateParameters(
-            DatabaseAccountCreateUpdateParameters createUpdateParametersInner,
+    private void addLocationsForParameters(
+            HasLocations Parameters,
             List<FailoverPolicy> failoverPolicies) {
         List<Location> locations = new ArrayList<Location>();
 
@@ -430,10 +455,10 @@ class CosmosDBAccountImpl
         } else {
             Location location = new Location();
             location.withFailoverPriority(0);
-            location.withLocationName(createUpdateParametersInner.location());
+            location.withLocationName(Parameters.location());
             locations.add(location);
         }
-        createUpdateParametersInner.withLocations(locations);
+        Parameters.withLocations(locations);
     }
 
     private Observable<CosmosDBAccount> updateFailoverPriorityAsync() {
@@ -457,12 +482,32 @@ class CosmosDBAccountImpl
         final CosmosDBAccountImpl self = this;
         final List<Integer> data = new ArrayList<Integer>();
         data.add(0);
-        final DatabaseAccountCreateUpdateParameters createUpdateParametersInner =
-                this.createUpdateParametersInner(this.inner());
-        return this.manager().inner().databaseAccounts().createOrUpdateAsync(
-                resourceGroupName(),
-                name(),
-                createUpdateParametersInner)
+
+        Observable<DatabaseAccountGetResultsInner> request = null;
+        HasLocations locationParameters = null;
+
+        if (isInCreateMode()) {
+            final DatabaseAccountCreateUpdateParameters createUpdateParametersInner =
+                    this.createUpdateParametersInner(this.inner());
+            request = this.manager().inner().databaseAccounts().createOrUpdateAsync(
+                    resourceGroupName(),
+                    name(),
+                    createUpdateParametersInner
+            );
+            locationParameters = new CreateUpdateLocationParameters(createUpdateParametersInner);
+        } else {
+            final DatabaseAccountUpdateParameters updateParametersInner =
+                    this.updateParametersInner(this.inner());
+            request = this.manager().inner().databaseAccounts().updateAsync(
+                    resourceGroupName(),
+                    name(),
+                    updateParametersInner
+            );
+            locationParameters = new UpdateLocationParameters(updateParametersInner);
+        }
+
+        final HasLocations finalLocationParameters = locationParameters;
+        return request
                 .flatMap(new Func1<DatabaseAccountGetResultsInner, Observable<? extends CosmosDBAccount>>() {
                     @Override
                     public Observable<? extends CosmosDBAccount> call(DatabaseAccountGetResultsInner databaseAccountInner) {
@@ -484,7 +529,7 @@ class CosmosDBAccountImpl
                                 if (maxDelayDueToMissingFailovers > data.get(0)
                                         && (databaseAccount.id() == null
                                         || databaseAccount.id().length() == 0
-                                        || createUpdateParametersInner.locations().size()
+                                        || finalLocationParameters.locations().size()
                                         > databaseAccount.inner().failoverPolicies().size())) {
                                     data.set(0, data.get(0) + 5);
                                     return false;
@@ -611,5 +656,57 @@ class CosmosDBAccountImpl
         this.inner().withEnableCassandraConnector(false);
         this.inner().withConnectorOffer(null);
         return this;
+    }
+
+    interface HasLocations {
+        public String location();
+        public List<Location> locations();
+        public void withLocations(List<Location> locations);
+    }
+
+    public class CreateUpdateLocationParameters implements HasLocations {
+        private DatabaseAccountCreateUpdateParameters parameters;
+
+        public CreateUpdateLocationParameters(DatabaseAccountCreateUpdateParameters parametersObject) {
+            parameters = parametersObject;
+        }
+
+        @Override
+        public String location() {
+            return parameters.location();
+        }
+
+        @Override
+        public List<Location> locations() {
+            return parameters.locations();
+        }
+
+        @Override
+        public void withLocations(List<Location> locations) {
+            parameters.withLocations(locations);
+        }
+    }
+
+    public class UpdateLocationParameters implements HasLocations {
+        private DatabaseAccountUpdateParameters parameters;
+
+        public UpdateLocationParameters(DatabaseAccountUpdateParameters parametersObject) {
+            parameters = parametersObject;
+        }
+
+        @Override
+        public String location() {
+            return parameters.location();
+        }
+
+        @Override
+        public List<Location> locations() {
+            return parameters.locations();
+        }
+
+        @Override
+        public void withLocations(List<Location> locations) {
+            parameters.withLocations(locations);
+        }
     }
 }

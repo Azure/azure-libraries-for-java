@@ -42,7 +42,7 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
         if (!response.isSuccessful()) {
-            String content = errorBody(response.body());
+            String content = Utils.getResponseBodyInString(response.body());
             AzureJacksonAdapter jacksonAdapter = new AzureJacksonAdapter();
             CloudError cloudError = jacksonAdapter.deserialize(content, CloudError.class);
             if (cloudError != null && "MissingSubscriptionRegistration".equals(cloudError.code())) {
@@ -74,16 +74,6 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
             }
         }
         return response;
-    }
-
-    private String errorBody(ResponseBody responseBody) throws IOException {
-        if (responseBody == null) {
-            return null;
-        }
-        BufferedSource source = responseBody.source();
-        source.request(Long.MAX_VALUE); // Buffer the entire body.
-        Buffer buffer = source.buffer();
-        return buffer.clone().readUtf8();
     }
 
     private Provider registerProvider(String namespace, ResourceManager resourceManager) {

@@ -8,14 +8,19 @@ package com.microsoft.azure.management.resources.fluentcore.utils;
 
 import com.google.common.primitives.Ints;
 import com.microsoft.azure.AzureEnvironment;
+import com.microsoft.azure.CloudError;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
+import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
+import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
@@ -250,6 +255,22 @@ public final class Utils {
         return String.format("/subscriptions/%s/resourceGroups/%s",
                 resourceId.subscriptionId(),
                 resourceId.resourceGroupName());
+    }
+
+    /**
+     * Get the response body as String
+     * @param responseBody response body object
+     * @return response body in string
+     * @throws IOException
+     */
+    public static String getResponseBodyInString(ResponseBody responseBody) throws IOException {
+        if (responseBody == null) {
+            return null;
+        }
+        BufferedSource source = responseBody.source();
+        source.request(Long.MAX_VALUE); // Buffer the entire body.
+        Buffer buffer = source.buffer();
+        return buffer.clone().readUtf8();
     }
 
     private Utils() {

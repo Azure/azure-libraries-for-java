@@ -40,12 +40,12 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
     T withInterceptor(Interceptor interceptor);
 
     /**
-     * Set the cross-tenant auxiliary tokens for Azure which can hold up to three.
+     * Set the cross-tenant auxiliary credentials for Azure which can hold up to three.
      *
      * @param tokens the AzureTokenCredentials list
      * @return the configurable object itself
      */
-    T withAuxiliaryTokens(AzureTokenCredentials... tokens);
+    T withAuxiliaryCredentials(AzureTokenCredentials... tokens);
 
     /**
      * Specify the user agent header.

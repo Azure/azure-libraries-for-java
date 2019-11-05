@@ -124,6 +124,8 @@ public interface FunctionApp extends
         DefinitionStages.Blank,
         DefinitionStages.ExistingAppServicePlanWithGroup,
         DefinitionStages.WithStorageAccount,
+        DefinitionStages.WithDockerContainerImage,
+        DefinitionStages.WithCredentials,
         DefinitionStages.WithCreate {
     }
 
@@ -136,11 +138,18 @@ public interface FunctionApp extends
          */
         interface Blank extends DefinitionWithRegion<NewAppServicePlanWithGroup> {
             /**
-             * Uses an existing app service plan for the function app.
+             * Uses an existing Windows app service plan for the function app.
              * @param appServicePlan the existing app service plan
              * @return the next stage of the definition
              */
             ExistingAppServicePlanWithGroup withExistingAppServicePlan(AppServicePlan appServicePlan);
+
+            /**
+             * Uses an existing Linux app service plan for the function app.
+             * @param appServicePlan the existing app service plan
+             * @return the next stage of the definition
+             */
+            ExistingLinuxPlanWithGroup withExistingLinuxAppServicePlan(AppServicePlan appServicePlan);
         }
 
         /**
@@ -198,13 +207,13 @@ public interface FunctionApp extends
          */
         interface WithNewAppServicePlan {
             /**
-             * Creates a new consumption plan to use.
+             * Creates a new Windows consumption plan to use.
              * @return the next stage of the definition
              */
             WithCreate withNewConsumptionPlan();
 
             /**
-             * Creates a new free app service plan. This will fail if there are 10 or more
+             * Creates a new Windows free app service plan. This will fail if there are 10 or more
              * free plans in the current subscription.
              *
              * @return the next stage of the definition
@@ -212,14 +221,14 @@ public interface FunctionApp extends
             WithCreate withNewFreeAppServicePlan();
 
             /**
-             * Creates a new shared app service plan.
+             * Creates a new Windows shared app service plan.
              *
              * @return the next stage of the definition
              */
             WithCreate withNewSharedAppServicePlan();
 
             /**
-             * Creates a new app service plan to use.
+             * Creates a new Windows app service plan to use.
              *
              * @param pricingTier the sku of the app service plan
              * @return the next stage of the definition
@@ -227,12 +236,34 @@ public interface FunctionApp extends
             WithCreate withNewAppServicePlan(PricingTier pricingTier);
 
             /**
-             * Creates a new app service plan to use.
+             * Creates a new Windows app service plan to use.
              *
              * @param appServicePlanCreatable the new app service plan creatable
              * @return the next stage of the definition
              */
             WithCreate withNewAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable);
+
+            /**
+             * Creates a new Linux consumption plan to use.
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewLinuxConsumptionPlan();
+
+            /**
+             * Creates a new Linux app service plan to use.
+             *
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewLinuxAppServicePlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new Linux app service plan to use.
+             *
+             * @param appServicePlanCreatable the new app service plan creatable
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewLinuxAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable);
         }
 
         /**
@@ -261,6 +292,13 @@ public interface FunctionApp extends
          * A function app definition allowing runtime version to be specified.
          */
         interface WithRuntimeVersion {
+            /**
+             * Specifies the runtime for the function app.
+             * @param runtime the Azure Functions runtime
+             * @return the next stage of the definition
+             */
+            WithCreate withRuntime(String runtime);
+
             /**
              * Specifies the runtime version for the function app.
              * @param version the version of the Azure Functions runtime
@@ -305,6 +343,97 @@ public interface FunctionApp extends
             DefinitionStages.WithRuntimeVersion,
             DefinitionStages.WithDailyUsageQuota,
             WebAppBase.DefinitionStages.WithCreate<FunctionApp> {
+        }
+
+        /**
+         * A function app definition allowing resource group to be specified when an existing app service plan is used.
+         */
+        interface ExistingLinuxPlanWithGroup {
+            /**
+             * Associates the resource with an existing resource group.
+             * @param groupName the name of an existing resource group to put this resource in.
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withExistingResourceGroup(String groupName);
+
+            /**
+             * Associates the resource with an existing resource group.
+             * @param group an existing resource group to put the resource in
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withExistingResourceGroup(ResourceGroup group);
+
+            /**
+             * Creates a new resource group to put the resource in.
+             * <p>
+             * The group will be created in the same location as the resource.
+             * @param name the name of the new group
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewResourceGroup(String name);
+
+            /**
+             * Creates a new resource group to put the resource in.
+             * <p>
+             * The group will be created in the same location as the resource.
+             * The group's name is automatically derived from the resource's name.
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewResourceGroup();
+
+            /**
+             * Creates a new resource group to put the resource in, based on the definition specified.
+             * @param groupDefinition a creatable definition for a new resource group
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewResourceGroup(Creatable<ResourceGroup> groupDefinition);
+        }
+
+        /**
+         * A function app definition allowing docker image source to be specified.
+         */
+        interface WithDockerContainerImage {
+            /**
+             * Specifies the docker container image to be a built in one.
+             * @param runtimeStack the runtime stack installed on the image
+             * @return the next stage of the definition
+             */
+            WithCreate withBuiltInImage(FunctionRuntimeStack runtimeStack);
+
+            /**
+             * Specifies the docker container image to be one from Docker Hub.
+             * @param imageAndTag image and optional tag (eg 'image:tag')
+             * @return the next stage of the definition
+             */
+            WithCreate withPublicDockerHubImage(String imageAndTag);
+
+            /**
+             * Specifies the docker container image to be one from Docker Hub.
+             * @param imageAndTag image and optional tag (eg 'image:tag')
+             * @return the next stage of the definition
+             */
+            WithCredentials withPrivateDockerHubImage(String imageAndTag);
+
+            /**
+             * Specifies the docker container image to be one from a private registry.
+             * @param imageAndTag image and optional tag (eg 'image:tag')
+             * @param serverUrl the URL to the private registry server
+             * @return the next stage of the definition
+             */
+            WithCredentials withPrivateRegistryImage(String imageAndTag, String serverUrl);
+        }
+
+        /**
+         * A function app definition allowing docker registry credentials to be set.
+         */
+        interface WithCredentials {
+            /**
+             * Specifies the username and password for Docker Hub.
+             * @param username the username for Docker Hub
+             * @param password the password for Docker Hub
+             * @return the next stage of the web app update
+             */
+            WithCreate withCredentials(String username, String password);
         }
     }
 
@@ -417,6 +546,53 @@ public interface FunctionApp extends
              * @return the next stage of the function app update
              */
             Update withoutDailyUsageQuota();
+        }
+
+        /**
+         * A function app update allowing docker image source to be specified.
+         */
+        interface WithDockerContainerImage {
+            /**
+             * Specifies the docker container image to be a built in one.
+             * @param runtimeStack the runtime stack installed on the image
+             * @return the next stage of the web app update
+             */
+            Update withBuiltInImage(FunctionRuntimeStack runtimeStack);
+
+            /**
+             * Specifies the docker container image to be one from Docker Hub.
+             * @param imageAndTag image and optional tag (eg 'image:tag')
+             * @return the next stage of the web app update
+             */
+            Update withPublicDockerHubImage(String imageAndTag);
+
+            /**
+             * Specifies the docker container image to be one from Docker Hub.
+             * @param imageAndTag image and optional tag (eg 'image:tag')
+             * @return the next stage of the web app update
+             */
+            WithCredentials withPrivateDockerHubImage(String imageAndTag);
+
+            /**
+             * Specifies the docker container image to be one from a private registry.
+             * @param imageAndTag image and optional tag (eg 'image:tag')
+             * @param serverUrl the URL to the private registry server
+             * @return the next stage of the web app update
+             */
+            WithCredentials withPrivateRegistryImage(String imageAndTag, String serverUrl);
+        }
+
+        /**
+         * A function app update allowing docker hub credentials to be set.
+         */
+        interface WithCredentials {
+            /**
+             * Specifies the username and password for Docker Hub.
+             * @param username the username for Docker Hub
+             * @param password the password for Docker Hub
+             * @return the next stage of the web app update
+             */
+            Update withCredentials(String username, String password);
         }
     }
 

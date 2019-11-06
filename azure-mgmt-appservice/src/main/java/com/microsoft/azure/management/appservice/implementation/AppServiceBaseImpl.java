@@ -422,7 +422,7 @@ abstract class AppServiceBaseImpl<
     }
 
     @SuppressWarnings("unchecked")
-    protected FluentImplT withOperatingSystem(OperatingSystem os) {
+    private FluentImplT withOperatingSystem(OperatingSystem os) {
         if (os == OperatingSystem.LINUX) {
             inner().withReserved(true);
             inner().withKind(inner().kind() + ",linux");

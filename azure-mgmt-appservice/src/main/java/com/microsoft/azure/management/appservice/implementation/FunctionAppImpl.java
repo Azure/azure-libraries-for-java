@@ -569,9 +569,7 @@ class FunctionAppImpl
     public Observable<Indexable> createAsync() {
         if (this.isInCreateMode()) {
             if (inner().serverFarmId() == null) {
-                if (OperatingSystem.WINDOWS.equals(operatingSystem())) {
-                    withNewConsumptionPlan();
-                }
+                withNewConsumptionPlan();
             }
             if (currentStorageAccount == null && storageAccountToSet == null && storageAccountCreatable == null) {
                 withNewStorageAccount(SdkContext.randomResourceName(name(), 20), com.microsoft.azure.management.storage.SkuName.STANDARD_GRS);

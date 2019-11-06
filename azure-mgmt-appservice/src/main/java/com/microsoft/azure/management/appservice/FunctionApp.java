@@ -446,13 +446,13 @@ public interface FunctionApp extends
          */
         interface WithAppServicePlan {
             /**
-             * Creates a new consumption plan to use.
+             * Creates a new Windows consumption plan to use.
              * @return the next stage of the function app update
              */
             Update withNewConsumptionPlan();
 
             /**
-             * Creates a new free app service plan. This will fail if there are 10 or more
+             * Creates a new Windows free app service plan. This will fail if there are 10 or more
              * free plans in the current subscription.
              *
              * @return the next stage of the function app update
@@ -460,14 +460,14 @@ public interface FunctionApp extends
             Update withNewFreeAppServicePlan();
 
             /**
-             * Creates a new shared app service plan.
+             * Creates a new Windows shared app service plan.
              *
              * @return the next stage of the function app update
              */
             Update withNewSharedAppServicePlan();
 
             /**
-             * Creates a new app service plan to use.
+             * Creates a new Windows app service plan to use.
              *
              * @param pricingTier the sku of the app service plan
              * @return the next stage of the function app update
@@ -475,7 +475,7 @@ public interface FunctionApp extends
             Update withNewAppServicePlan(PricingTier pricingTier);
 
             /**
-             * Creates a new app service plan to use.
+             * Creates a new Windows app service plan to use.
              *
              * @param appServicePlanCreatable the new app service plan creatable
              * @return the next stage of the function app update
@@ -483,7 +483,7 @@ public interface FunctionApp extends
             Update withNewAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable);
 
             /**
-             * Uses an existing app service plan for the function app.
+             * Uses an existing Windows app service plan for the function app.
              * @param appServicePlan the existing app service plan
              * @return the next stage of the function app update
              */

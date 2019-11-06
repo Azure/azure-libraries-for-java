@@ -488,12 +488,48 @@ public interface FunctionApp extends
              * @return the next stage of the function app update
              */
             Update withExistingAppServicePlan(AppServicePlan appServicePlan);
+
+            /**
+             * Uses an existing Linux app service plan for the function app.
+             * @param appServicePlan the existing app service plan
+             * @return the next stage of the definition
+             */
+            Update withExistingLinuxAppServicePlan(AppServicePlan appServicePlan);
+
+            /**
+             * Creates a new Linux consumption plan to use.
+             * @return the next stage of the definition
+             */
+            Update withNewLinuxConsumptionPlan();
+
+            /**
+             * Creates a new Linux app service plan to use.
+             *
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            Update withNewLinuxAppServicePlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new Linux app service plan to use.
+             *
+             * @param appServicePlanCreatable the new app service plan creatable
+             * @return the next stage of the definition
+             */
+            Update withNewLinuxAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable);
         }
 
         /**
          * A function app update allowing runtime version to be specified.
          */
         interface WithRuntimeVersion {
+            /**
+             * Specifies the runtime for the function app.
+             * @param runtime the Azure Functions runtime
+             * @return the next stage of the definition
+             */
+            Update withRuntime(String runtime);
+
             /**
              * Specifies the runtime version for the function app.
              * @param version the version of the Azure Functions runtime
@@ -604,6 +640,8 @@ public interface FunctionApp extends
         UpdateStages.WithAppServicePlan,
         UpdateStages.WithRuntimeVersion,
         UpdateStages.WithStorageAccount,
-        UpdateStages.WithDailyUsageQuota {
+        UpdateStages.WithDailyUsageQuota,
+        UpdateStages.WithDockerContainerImage,
+        UpdateStages.WithCredentials {
     }
 }

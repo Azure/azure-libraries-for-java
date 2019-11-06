@@ -58,7 +58,7 @@ public class FunctionRuntimeStack {
     }
 
     /**
-     * Gets LinuxFxVersion property value, for Consumption plan
+     * Gets LinuxFxVersion property value, for Consumption plan.
      * @return the LinuxFxVersion property value for siteConfig
      */
     public String getLinuxFxVersionForConsumptionPlan() {
@@ -66,7 +66,7 @@ public class FunctionRuntimeStack {
     }
 
     /**
-     * Gets LinuxFxVersion property value, for dedicated plan (app service plan or premium)
+     * Gets LinuxFxVersion property value, for dedicated plan (app service plan or premium).
      * @return the LinuxFxVersion property value for siteConfig
      */
     public String getLinuxFxVersionForDedicatedPlan() {
@@ -80,11 +80,15 @@ public class FunctionRuntimeStack {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
         FunctionRuntimeStack that = (FunctionRuntimeStack) o;
-        return runtime.equals(that.runtime) &&
-                version.equals(that.version);
+        return runtime.equals(that.runtime)
+                && version.equals(that.version);
     }
 
     @Override

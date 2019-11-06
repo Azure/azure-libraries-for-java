@@ -378,9 +378,9 @@ class FunctionAppImpl
     @Override
     protected OperatingSystem appServicePlanOperatingSystem(AppServicePlan appServicePlan) {
         // Consumption plan or premium (elastic) plan would have "functionapp" or "elastic" in "kind" property, no "linux" in it.
-        return (appServicePlan.inner().reserved() == null || !appServicePlan.inner().reserved()) ?
-                OperatingSystem.WINDOWS :
-                OperatingSystem.LINUX;
+        return (appServicePlan.inner().reserved() == null || !appServicePlan.inner().reserved())
+                ? OperatingSystem.WINDOWS
+                : OperatingSystem.LINUX;
     }
 
     private Observable<AppServicePlan> cachedAppServicePlanObservable() {

@@ -180,12 +180,20 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertTrue(plan1.inner().reserved());
         Assert.assertTrue(Arrays.asList(functionApp1.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
 
+        // deploy
+        functionApp1.update()
+                .withAppSetting("SCM_DO_BUILD_DURING_DEPLOYMENT", "false")
+                .apply();
+        SdkContext.sleep(5000);
+        functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+
         // function app with app service plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)
                 .withRegion(Region.US_EAST)
                 .withExistingResourceGroup(RG_NAME_1)
                 .withNewLinuxAppServicePlan(PricingTier.STANDARD_S1)
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
                 .create();
         Assert.assertNotNull(functionApp2);
         assertLinuxJava8(functionApp2, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
@@ -195,25 +203,29 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertEquals(PricingTier.STANDARD_S1, plan2.pricingTier());
         Assert.assertTrue(plan2.inner().reserved());
 
-        // deploy
-        functionApp2.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
-
         // one more function app using existing app service plan
         FunctionApp functionApp3 = appServiceManager.functionApps().define(WEBAPP_NAME_3)
                 .withExistingLinuxAppServicePlan(plan2)
                 .withExistingResourceGroup(RG_NAME_1)
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
                 .create();
         Assert.assertNotNull(functionApp3);
         assertLinuxJava8(functionApp3, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         // deploy
+        functionApp2.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
         functionApp3.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
 
         // verify deploy
-        if (!isPlaybackMode()) SdkContext.sleep(60000);
-        List<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp2.resourceGroupName(), functionApp2.name());
+        if (!isPlaybackMode()) { SdkContext.sleep(10000); }
+
+        List<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
         Assert.assertEquals(1, functions.size());
+
+        functions = appServiceManager.functionApps().listFunctions(functionApp2.resourceGroupName(), functionApp2.name());
+        Assert.assertEquals(1, functions.size());
+
         functions = appServiceManager.functionApps().listFunctions(functionApp3.resourceGroupName(), functionApp3.name());
         Assert.assertEquals(1, functions.size());
     }
@@ -226,6 +238,7 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewResourceGroup(RG_NAME_1)
                 .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
                 .create();
         Assert.assertNotNull(functionApp1);
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(functionApp1.appServicePlanId());
@@ -238,7 +251,7 @@ public class FunctionAppsTests extends AppServiceTest {
         functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
 
         // verify deploy
-        if (!isPlaybackMode()) SdkContext.sleep(60000);
+        if (!isPlaybackMode()) SdkContext.sleep(30000);
         List<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
         Assert.assertEquals(1, functions.size());
     }
@@ -255,6 +268,7 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withCredentials("weidxuregistry", "PASSWORD")
                 .withRuntime("java")
                 .withRuntimeVersion("~2")
+                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
                 .create();
 
         // deploy

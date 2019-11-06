@@ -15,9 +15,6 @@ import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
 import okhttp3.Interceptor;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
 
 import java.io.IOException;
 import java.util.regex.Matcher;

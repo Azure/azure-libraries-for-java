@@ -8,16 +8,13 @@ package com.microsoft.azure.management.resources.fluentcore.utils;
 
 import com.google.common.primitives.Ints;
 import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.CloudError;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
-import okhttp3.Response;
 import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
@@ -258,10 +255,10 @@ public final class Utils {
     }
 
     /**
-     * Get the response body as String
+     * Get the response body as string.
      * @param responseBody response body object
      * @return response body in string
-     * @throws IOException
+     * @throws IOException throw IOException
      */
     public static String getResponseBodyInString(ResponseBody responseBody) throws IOException {
         if (responseBody == null) {

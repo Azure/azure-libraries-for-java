@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm;
 
+import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.rest.LogLevel;
 import okhttp3.Authenticator;
 import okhttp3.ConnectionPool;
@@ -37,6 +38,14 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      * @return the configurable object itself
      */
     T withInterceptor(Interceptor interceptor);
+
+    /**
+     * Set the cross-tenant auxiliary credentials for Azure which can hold up to three.
+     *
+     * @param tokens the AzureTokenCredentials list
+     * @return the configurable object itself
+     */
+    T withAuxiliaryCredentials(AzureTokenCredentials... tokens);
 
     /**
      * Specify the user agent header.

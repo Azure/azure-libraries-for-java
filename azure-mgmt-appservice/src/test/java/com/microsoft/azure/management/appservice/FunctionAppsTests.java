@@ -184,8 +184,13 @@ public class FunctionAppsTests extends AppServiceTest {
         functionApp1.update()
                 .withAppSetting("SCM_DO_BUILD_DURING_DEPLOYMENT", "false")
                 .apply();
-        SdkContext.sleep(5000);
-        functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+        if (!isPlaybackMode()) {
+            SdkContext.sleep(5000);
+            functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+        }
+
+        List<FunctionApp> functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
+        Assert.assertEquals(1, functionApps.size());
 
         // function app with app service plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)
@@ -214,12 +219,16 @@ public class FunctionAppsTests extends AppServiceTest {
         assertLinuxJava8(functionApp3, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         // deploy
-        functionApp2.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
-        functionApp3.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+        if (!isPlaybackMode()) {
+            functionApp2.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+            functionApp3.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+            SdkContext.sleep(10000);
+        }
+
+        functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
+        Assert.assertEquals(3, functionApps.size());
 
         // verify deploy
-        if (!isPlaybackMode()) { SdkContext.sleep(10000); }
-
         List<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
         Assert.assertEquals(1, functions.size());
 
@@ -248,10 +257,12 @@ public class FunctionAppsTests extends AppServiceTest {
         assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
         // deploy
-        functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+        if (!isPlaybackMode()) {
+            functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+            SdkContext.sleep(30000);
+        }
 
         // verify deploy
-        if (!isPlaybackMode()) SdkContext.sleep(30000);
         List<FunctionEnvelope> functions = appServiceManager.functionApps().listFunctions(functionApp1.resourceGroupName(), functionApp1.name());
         Assert.assertEquals(1, functions.size());
     }
@@ -272,7 +283,9 @@ public class FunctionAppsTests extends AppServiceTest {
                 .create();
 
         // deploy
-        functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+        if (!isPlaybackMode()) {
+            functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
+        }
     }
 
     private static Map<String, AppSetting> assertLinuxJava8(FunctionApp functionApp, String linuxFxVersion) {

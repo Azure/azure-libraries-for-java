@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.azure.management.resources.DebugSetting;
 import com.microsoft.azure.management.resources.Dependency;
 import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.DeploymentExportResult;
@@ -14,12 +15,17 @@ import com.microsoft.azure.management.resources.DeploymentMode;
 import com.microsoft.azure.management.resources.DeploymentOperations;
 import com.microsoft.azure.management.resources.DeploymentProperties;
 import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
-import com.microsoft.azure.management.resources.DeploymentWhatIfParameters;
+import com.microsoft.azure.management.resources.DeploymentWhatIf;
+import com.microsoft.azure.management.resources.DeploymentWhatIfProperties;
+import com.microsoft.azure.management.resources.DeploymentWhatIfSettings;
+import com.microsoft.azure.management.resources.OnErrorDeployment;
+import com.microsoft.azure.management.resources.OnErrorDeploymentType;
 import com.microsoft.azure.management.resources.ParametersLink;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.TemplateLink;
 import com.microsoft.azure.management.resources.WhatIfOperationResult;
+import com.microsoft.azure.management.resources.WhatIfResultFormat;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -44,18 +50,21 @@ public final class DeploymentImpl extends
         implements
         Deployment,
         Deployment.Definition,
-        Deployment.Update {
+        Deployment.Update,
+        Deployment.Execution {
 
     private final ResourceManager resourceManager;
     private String resourceGroupName;
     private Creatable<ResourceGroup> creatableResourceGroup;
     private ObjectMapper objectMapper;
+    private DeploymentWhatIf deploymentWhatIf;
 
     DeploymentImpl(DeploymentExtendedInner innerModel, String name, final ResourceManager resourceManager) {
         super(name, innerModel);
         this.resourceGroupName = ResourceUtils.groupFromResourceId(innerModel.id());
         this.resourceManager = resourceManager;
         this.objectMapper = new ObjectMapper();
+        this.deploymentWhatIf = new DeploymentWhatIf();
     }
 
     @Override
@@ -193,46 +202,6 @@ public final class DeploymentImpl extends
     @Override
     public ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback) {
         return ServiceFuture.fromBody(this.exportTemplateAsync(), callback);
-    }
-
-    @Override
-    public WhatIfOperationResult whatIf(DeploymentWhatIfParameters parameters) {
-        return this.whatIfAsync(parameters).toBlocking().last();
-    }
-
-    @Override
-    public Observable<WhatIfOperationResult> whatIfAsync(DeploymentWhatIfParameters parameters) {
-        return this.manager().inner().deployments().whatIfAsync(resourceGroupName(), name(), parameters.deploymentWhatIf()).map(new Func1<WhatIfOperationResultInner, WhatIfOperationResult>() {
-            @Override
-            public WhatIfOperationResult call(WhatIfOperationResultInner whatIfOperationResultInner) {
-                return new WhatIfOperationResultImpl(whatIfOperationResultInner);
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<WhatIfOperationResult> whatIfAsync(DeploymentWhatIfParameters parameters, ServiceCallback<WhatIfOperationResult> callback) {
-        return ServiceFuture.fromBody(this.whatIfAsync(parameters), callback);
-    }
-
-    @Override
-    public WhatIfOperationResult whatIfAtSubscriptionScope(DeploymentWhatIfParameters parameters) {
-        return this.whatIfAtSubscriptionScopeAsync(parameters).toBlocking().last();
-    }
-
-    @Override
-    public Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIfParameters parameters) {
-        return this.manager().inner().deployments().whatIfAtSubscriptionScopeAsync(name(), parameters.deploymentWhatIf()).map(new Func1<WhatIfOperationResultInner, WhatIfOperationResult>() {
-            @Override
-            public WhatIfOperationResult call(WhatIfOperationResultInner whatIfOperationResultInner) {
-                return new WhatIfOperationResultImpl(whatIfOperationResultInner);
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIfParameters parameters, ServiceCallback<WhatIfOperationResult> callback) {
-        return ServiceFuture.fromBody(this.whatIfAtSubscriptionScopeAsync(parameters), callback);
     }
 
     // Withers
@@ -412,5 +381,189 @@ public final class DeploymentImpl extends
     @Override
     public String id() {
         return inner().id();
+    }
+
+    @Override
+    public DeploymentImpl withDetailedLevel(String detailedLevel) {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        deploymentWhatIf.properties().withDebugSetting(new DebugSetting().withDetailLevel(detailedLevel));
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withDeploymentName(String deploymentName) {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        if(deploymentWhatIf.properties().onErrorDeployment() == null) {
+            deploymentWhatIf.properties().withOnErrorDeployment(new OnErrorDeployment());
+        }
+        deploymentWhatIf.properties().onErrorDeployment().withDeploymentName(deploymentName);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withLocation(String location) {
+        this.deploymentWhatIf.withLocation(location);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withIncrementalMode() {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        deploymentWhatIf.properties().withMode(DeploymentMode.INCREMENTAL);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withCompleteMode() {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        deploymentWhatIf.properties().withMode(DeploymentMode.COMPLETE);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withFullResourcePayloadsResultFormat() {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        if(deploymentWhatIf.properties().whatIfSettings() == null) {
+            deploymentWhatIf.properties().withWhatIfSettings(new DeploymentWhatIfSettings());
+        }
+        deploymentWhatIf.properties().whatIfSettings().withResultFormat(WhatIfResultFormat.FULL_RESOURCE_PAYLOADS);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withResourceIdOnlyResultFormat() {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        if(deploymentWhatIf.properties().whatIfSettings() == null) {
+            deploymentWhatIf.properties().withWhatIfSettings(new DeploymentWhatIfSettings());
+        }
+        deploymentWhatIf.properties().whatIfSettings().withResultFormat(WhatIfResultFormat.RESOURCE_ID_ONLY);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withLastSuccessfulOnErrorDeployment() {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        if(deploymentWhatIf.properties().onErrorDeployment() == null) {
+            deploymentWhatIf.properties().withOnErrorDeployment(new OnErrorDeployment());
+        }
+        deploymentWhatIf.properties().onErrorDeployment().withType(OnErrorDeploymentType.LAST_SUCCESSFUL);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withSpecialDeploymentOnErrorDeployment() {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        if(deploymentWhatIf.properties().onErrorDeployment() == null) {
+            deploymentWhatIf.properties().withOnErrorDeployment(new OnErrorDeployment());
+        }
+        deploymentWhatIf.properties().onErrorDeployment().withType(OnErrorDeploymentType.SPECIFIC_DEPLOYMENT);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withWhatIfTemplate(Object template) {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        deploymentWhatIf.properties().withTemplate(template);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withWhatIfTemplateLink(String uri, String contentVersion) {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        deploymentWhatIf.properties().withTemplateLink(new TemplateLink().withUri(uri).withContentVersion(contentVersion));
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withWhatIfParameters(Object parameters) {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        deploymentWhatIf.properties().withParameters(parameters);
+        return this;
+    }
+
+    @Override
+    public DeploymentImpl withWhatIfParametersLink(String uri, String contentVersion) {
+        if(deploymentWhatIf.properties() == null) {
+            deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
+        }
+        deploymentWhatIf.properties().withParametersLink(new ParametersLink().withUri(uri).withContentVersion(contentVersion));
+        return this;
+    }
+
+    @Override
+    public WhatIfOperationResult whatIf() {
+        return this.whatIfAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<WhatIfOperationResult> whatIfAsync() {
+        return this.manager().inner().deployments().whatIfAsync(resourceGroupName(), name(), deploymentWhatIf).map(new Func1<WhatIfOperationResultInner, WhatIfOperationResult>() {
+            @Override
+            public WhatIfOperationResult call(WhatIfOperationResultInner whatIfOperationResultInner) {
+                return new WhatIfOperationResultImpl(whatIfOperationResultInner);
+            }
+        });
+    }
+
+    @Override
+    public ServiceFuture<WhatIfOperationResult> whatIfAsync(ServiceCallback<WhatIfOperationResult> callback) {
+        return ServiceFuture.fromBody(this.whatIfAsync(), callback);
+    }
+
+    @Override
+    public WhatIfOperationResult whatIfAtSubscriptionScope() {
+        return this.whatIfAtSubscriptionScopeAsync().toBlocking().last();
+    }
+
+    @Override
+    public Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync() {
+        return this.manager().inner().deployments().whatIfAtSubscriptionScopeAsync(name(), deploymentWhatIf).map(new Func1<WhatIfOperationResultInner, WhatIfOperationResult>() {
+            @Override
+            public WhatIfOperationResult call(WhatIfOperationResultInner whatIfOperationResultInner) {
+                return new WhatIfOperationResultImpl(whatIfOperationResultInner);
+            }
+        });
+    }
+
+    @Override
+    public ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(ServiceCallback<WhatIfOperationResult> callback) {
+        return ServiceFuture.fromBody(this.whatIfAtSubscriptionScopeAsync(), callback);
+    }
+
+    @Override
+    public Execution execute() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Observable<Execution> executeAsync() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public ServiceFuture<Execution> executeAsync(ServiceCallback<Execution> callback) {
+        throw new UnsupportedOperationException();
     }
 }

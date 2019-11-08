@@ -15,12 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableR
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.management.resources.fluentcore.model.*;
 import com.microsoft.azure.management.resources.implementation.DeploymentExtendedInner;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
 import com.microsoft.rest.ServiceCallback;
@@ -40,6 +35,7 @@ public interface Deployment extends
         Indexable,
         Refreshable<Deployment>,
         Updatable<Deployment.Update>,
+        Executable<Deployment.Execution>,
         HasInner<DeploymentExtendedInner>,
         HasManager<ResourceManager>,
         HasName,
@@ -158,62 +154,6 @@ public interface Deployment extends
      */
     @Method
     ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback);
-
-    /**
-     * Gets changes that will be made by the deployment if executed at the scope of the resource group.
-     *
-     * @param parameters the What-if operation parameters
-     * @return the What-if operation result.
-     */
-    @Method
-    WhatIfOperationResult whatIf(DeploymentWhatIfParameters parameters);
-
-    /**
-     * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
-     *
-     * @param parameters the What-if operation parameters
-     * @return the What-if operation result.
-     */
-    @Method
-    Observable<WhatIfOperationResult> whatIfAsync(DeploymentWhatIfParameters parameters);
-
-    /**
-     * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
-     *
-     * @param parameters the What-if operation parameters
-     * @param callback the callback to call on success or failure with export result as parameter
-     * @return the What-if operation result
-     */
-    @Method
-    ServiceFuture<WhatIfOperationResult> whatIfAsync(DeploymentWhatIfParameters parameters, ServiceCallback<WhatIfOperationResult> callback);
-
-    /**
-     * Gets changes that will be made by the deployment if executed at the scope of the subscription.
-     *
-     * @param parameters the What-if operation parameters
-     * @return the What-if operation result.
-     */
-    @Method
-    WhatIfOperationResult whatIfAtSubscriptionScope(DeploymentWhatIfParameters parameters);
-
-    /**
-     * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
-     *
-     * @param parameters the What-if operation parameters
-     * @return the What-if operation result.
-     */
-    @Method
-    Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIfParameters parameters);
-
-    /**
-     * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
-     *
-     * @param parameters the What-if operation parameters
-     * @param callback the callback to call on success or failure with export result as parameter
-     * @return the What-if operation result
-     */
-    @Method
-    ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(DeploymentWhatIfParameters parameters, ServiceCallback<WhatIfOperationResult> callback);
 
     /**
      * Container interface for all the deployment definitions.
@@ -435,5 +375,225 @@ public interface Deployment extends
             UpdateStages.WithTemplate,
             UpdateStages.WithParameters,
             UpdateStages.WithMode {
+    }
+
+    /**
+     * Container interface for all the deployment execution.
+     */
+    interface Execution extends
+            ExecutionStages.Blank,
+            ExecutionStages.WithExecute,
+            ExecutionStages.WithWhatIf,
+            ExecutionStages.WithWhatIfDeploymentMode,
+            ExecutionStages.WithWhatIfLocation,
+            ExecutionStages.WithWhatIfOnErrorDeploymentType,
+            ExecutionStages.WithWhatIfParameter,
+            ExecutionStages.WithWhatIfResultFormat,
+            ExecutionStages.WithWhatIfTemplate {
+    }
+
+    /**
+     * Grouping of all the deployment execution stages.
+     */
+    interface ExecutionStages {
+        /**
+         * The first stage of deployment execution.
+         */
+        interface Blank {
+        }
+
+        /**
+         * A deployment execution allowing What-if parameters to be specified.
+         */
+        interface WithWhatIf extends
+                WithExecute,
+                WithWhatIfDeploymentMode,
+                WithWhatIfLocation,
+                WithWhatIfOnErrorDeploymentType,
+                WithWhatIfParameter,
+                WithWhatIfResultFormat,
+                WithWhatIfTemplate {
+            /**
+             * Specifies the type of information to log for debugging.
+             *
+             * @param detailedLevel the detailed value to set.
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withDetailedLevel(String detailedLevel);
+
+            /**
+             * Specifies the deployment name to be used on error cases.
+             *
+             * @param deploymentName the deployment name to set.
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withDeploymentName(String deploymentName);
+        }
+
+        /**
+         * A deployment execution allowing data storage location to be specified.
+         */
+        interface WithWhatIfLocation {
+            /**
+             * Specifies the location to store the deployment data.
+             *
+             * @param location the location value to set.
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withLocation(String location);
+        }
+
+        /**
+         * A deployment execution allowing deployment mode to be specified.
+         */
+        interface WithWhatIfDeploymentMode {
+            /**
+             * Specifies the mode with value of 'INCREMENTAL' in deployment properties.
+             *
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withIncrementalMode();
+
+            /**
+             * Specifies the mode with value of 'COMPLETE' in deployment properties.
+             *
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withCompleteMode();
+        }
+
+        /**
+         * A deployment execution allowing result format to be specified.
+         */
+        interface WithWhatIfResultFormat {
+            /**
+             * Specifies the result format with value of 'FULL_RESOURCE_PAYLOADS' in What-if settings of deployment properties.
+             *
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withFullResourcePayloadsResultFormat();
+
+            /**
+             * Specifies the result format with value of 'RESOURCE_ID_ONLY' in What-if settings of deployment properties.
+             *
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withResourceIdOnlyResultFormat();
+        }
+
+        /**
+         * A deployment execution allowing template to be specified.
+         */
+        interface WithWhatIfTemplate {
+            /**
+             * Specifies the template content.
+             *
+             * @param template the template value to set.
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withWhatIfTemplate(Object template);
+
+            /**
+             * Specifies the uri and content version of template.
+             *
+             * @param uri the uri value to set.
+             * @param contentVersion the content version value to set.
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withWhatIfTemplateLink(String uri, String contentVersion);
+        }
+
+        /**
+         * A deployment execution allowing parameter to be specified.
+         */
+        interface WithWhatIfParameter {
+            /**
+             * Specifies the name and value pairs that define the deployment parameters for the template.
+             *
+             * @param parameters the parameters value to set.
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withWhatIfParameters(Object parameters);
+
+            /**
+             * Specifies the uri and content version of parameters file.
+             *
+             * @param uri the uri value to set.
+             * @param contentVersion the content version value to set.
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withWhatIfParametersLink(String uri, String contentVersion);
+        }
+
+        /**
+         * A deployment execution allowing on error deployment type to be specified.
+         */
+        interface WithWhatIfOnErrorDeploymentType {
+            /**
+             * Specifies the What-if deployment on error behavior type with value of 'LAST_SUCCESSFUL'.
+             *
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withLastSuccessfulOnErrorDeployment();
+
+            /**
+             * Specifies the What-if deployment on error behavior type with value of 'SPECIFIC_DEPLOYMENT'.
+             *
+             * @return the next stage of the execution.
+             */
+            WithWhatIf withSpecialDeploymentOnErrorDeployment();
+        }
+
+        interface WithExecute {
+            /**
+             * Gets changes that will be made by the deployment if executed at the scope of the resource group.
+             *
+             * @return the next stage of the execution.
+             */
+            @Method
+            WhatIfOperationResult whatIf();
+
+            /**
+             * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
+             *
+             * @return the next stage of the execution.
+             */
+            @Method
+            Observable<WhatIfOperationResult> whatIfAsync();
+
+            /**
+             * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
+             *
+             * @param callback the callback to call on success or failure with export result as parameter
+             * @return the next stage of the execution.
+             */
+            @Method
+            ServiceFuture<WhatIfOperationResult> whatIfAsync(ServiceCallback<WhatIfOperationResult> callback);
+
+            /**
+             * Gets changes that will be made by the deployment if executed at the scope of the subscription.
+             *
+             * @return the next stage of the execution.
+             */
+            @Method
+            WhatIfOperationResult whatIfAtSubscriptionScope();
+
+            /**
+             * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
+             *
+             * @return the next stage of the execution.
+             */
+            @Method
+            Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync();
+
+            /**
+             * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
+             *
+             * @param callback the callback to call on success or failure with export result as parameter
+             * @return the next stage of the execution.
+             */
+            @Method
+            ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(ServiceCallback<WhatIfOperationResult> callback);
+        }
     }
 }

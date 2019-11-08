@@ -16,7 +16,7 @@ steps:
     git config --global user.email "azfluent@microsoft.com"
 - task: MavenAuthenticate@0
   inputs:
-    artifactsFeeds: azuresdkpartnerdrops
+    mavenServiceConnections: azuresdkpartnerdropsmaven
 # - task: Maven@3
 #   inputs:
 #     mavenPomFile: 'pom.xml'

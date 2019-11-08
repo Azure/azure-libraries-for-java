@@ -12,9 +12,11 @@ pool:
 steps:
 - bash: |
     npm install
+    git config --global user.name "Azure-Fluent"
+    git config --global user.email "azfluent@microsoft.com"
 - task: MavenAuthenticate@0
   inputs:
-    artifactsFeeds: azure-sdk-for-js-feed,azure-sdk-for-js-20190806,azure-sdk-js-feed-2,js-feed
+    artifactsFeeds: azuresdkpartnerdrops
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'

@@ -553,8 +553,8 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    public Execution execute() {
-        throw new UnsupportedOperationException();
+    public DeploymentImpl execute() {
+        return this;
     }
 
     @Override

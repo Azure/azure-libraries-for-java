@@ -385,7 +385,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withDetailedLevel(String detailedLevel) {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
         deploymentWhatIf.properties().withDebugSetting(new DebugSetting().withDetailLevel(detailedLevel));
@@ -394,10 +394,10 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withDeploymentName(String deploymentName) {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
-        if(deploymentWhatIf.properties().onErrorDeployment() == null) {
+        if (deploymentWhatIf.properties().onErrorDeployment() == null) {
             deploymentWhatIf.properties().withOnErrorDeployment(new OnErrorDeployment());
         }
         deploymentWhatIf.properties().onErrorDeployment().withDeploymentName(deploymentName);
@@ -412,7 +412,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withIncrementalMode() {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
         deploymentWhatIf.properties().withMode(DeploymentMode.INCREMENTAL);
@@ -421,7 +421,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withCompleteMode() {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
         deploymentWhatIf.properties().withMode(DeploymentMode.COMPLETE);
@@ -430,10 +430,10 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withFullResourcePayloadsResultFormat() {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
-        if(deploymentWhatIf.properties().whatIfSettings() == null) {
+        if (deploymentWhatIf.properties().whatIfSettings() == null) {
             deploymentWhatIf.properties().withWhatIfSettings(new DeploymentWhatIfSettings());
         }
         deploymentWhatIf.properties().whatIfSettings().withResultFormat(WhatIfResultFormat.FULL_RESOURCE_PAYLOADS);
@@ -442,10 +442,10 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withResourceIdOnlyResultFormat() {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
-        if(deploymentWhatIf.properties().whatIfSettings() == null) {
+        if (deploymentWhatIf.properties().whatIfSettings() == null) {
             deploymentWhatIf.properties().withWhatIfSettings(new DeploymentWhatIfSettings());
         }
         deploymentWhatIf.properties().whatIfSettings().withResultFormat(WhatIfResultFormat.RESOURCE_ID_ONLY);
@@ -454,10 +454,10 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withLastSuccessfulOnErrorDeployment() {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
-        if(deploymentWhatIf.properties().onErrorDeployment() == null) {
+        if (deploymentWhatIf.properties().onErrorDeployment() == null) {
             deploymentWhatIf.properties().withOnErrorDeployment(new OnErrorDeployment());
         }
         deploymentWhatIf.properties().onErrorDeployment().withType(OnErrorDeploymentType.LAST_SUCCESSFUL);
@@ -466,10 +466,10 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withSpecialDeploymentOnErrorDeployment() {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
-        if(deploymentWhatIf.properties().onErrorDeployment() == null) {
+        if (deploymentWhatIf.properties().onErrorDeployment() == null) {
             deploymentWhatIf.properties().withOnErrorDeployment(new OnErrorDeployment());
         }
         deploymentWhatIf.properties().onErrorDeployment().withType(OnErrorDeploymentType.SPECIFIC_DEPLOYMENT);
@@ -478,7 +478,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withWhatIfTemplate(Object template) {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
         deploymentWhatIf.properties().withTemplate(template);
@@ -487,7 +487,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withWhatIfTemplateLink(String uri, String contentVersion) {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
         deploymentWhatIf.properties().withTemplateLink(new TemplateLink().withUri(uri).withContentVersion(contentVersion));
@@ -496,7 +496,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withWhatIfParameters(Object parameters) {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
         deploymentWhatIf.properties().withParameters(parameters);
@@ -505,7 +505,7 @@ public final class DeploymentImpl extends
 
     @Override
     public DeploymentImpl withWhatIfParametersLink(String uri, String contentVersion) {
-        if(deploymentWhatIf.properties() == null) {
+        if (deploymentWhatIf.properties() == null) {
             deploymentWhatIf.withProperties(new DeploymentWhatIfProperties());
         }
         deploymentWhatIf.properties().withParametersLink(new ParametersLink().withUri(uri).withContentVersion(contentVersion));

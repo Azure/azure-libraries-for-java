@@ -156,7 +156,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withLocation("westus")
                 .withIncrementalMode()
                 .withWhatIfTemplateLink(blankTemplateUri, contentVersion)
-                .whatIf();
+                .whatIfAtSubscriptionScope();
 
         Assert.assertEquals("Succeeded", result.status());
         Assert.assertEquals(0, result.changes().size());

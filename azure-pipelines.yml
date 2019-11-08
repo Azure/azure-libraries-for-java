@@ -10,6 +10,8 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- bash: |
+    npm install
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'

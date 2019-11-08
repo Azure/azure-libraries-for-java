@@ -26,4 +26,5 @@ steps:
     jdkArchitectureOption: 'x64'
     publishJUnitResults: false
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+    mavenAuthenticateFeed: azuresdkpartnerdrops
     goals: 'com.microsoft.azure:bundler-maven-plugin:auto'

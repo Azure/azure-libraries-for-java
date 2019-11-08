@@ -12,6 +12,9 @@ pool:
 steps:
 - bash: |
     npm install
+- task: MavenAuthenticate@0
+  inputs:
+    artifactsFeeds: azure-sdk-for-js-feed,azure-sdk-for-js-20190806,azure-sdk-js-feed-2,js-feed
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'

@@ -17,14 +17,17 @@ steps:
 - task: MavenAuthenticate@0
   inputs:
     artifactsFeeds: azuresdkpartnerdrops
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m -Dversion=1.27.3 -DdevVersion=1.27.4-SNAPSHOT'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: false
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    mavenAuthenticateFeed: azuresdkpartnerdrops
-    goals: 'com.microsoft.azure:bundler-maven-plugin:auto'
+# - task: Maven@3
+#   inputs:
+#     mavenPomFile: 'pom.xml'
+#     mavenOptions: '-Xmx3072m -Dversion=1.27.3 -DdevVersion=1.27.4-SNAPSHOT'
+#     javaHomeOption: 'JDKVersion'
+#     jdkVersionOption: '1.8'
+#     jdkArchitectureOption: 'x64'
+#     publishJUnitResults: false
+#     testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#     mavenAuthenticateFeed: azuresdkpartnerdrops
+#     goals: 'com.microsoft.azure:bundler-maven-plugin:auto'
+- bash: |
+    cat $HOME/.m2/settings.xml
+    git status

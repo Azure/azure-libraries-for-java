@@ -24,7 +24,7 @@ def create_pull_request(url, title, head, auth = os.environ.get("GITHUB_TOKEN"))
 
 def main(argv):
     if len(argv) < 4:
-        print(f"Usage: {argv[0]} url title head [auth]")
+        print("Usage: {} url title head [auth]".format(argv[0]))
         print("        url: <owner>/<repo>/pulls[/<numbers]")
         sys.exit(1)
     create_pull_request(*argv[1:5])

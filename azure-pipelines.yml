@@ -23,6 +23,8 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'com.microsoft.azure:bundler-maven-plugin:auto'
 - bash: |
-    git status
+    git log
     git push https://$(GITHUB_TOKEN)@github.com/azure-fluent/azure-libraries-for-java HEAD:$(VERSION) -f
-    python3 tools/pull-request.py chentanyi/azure-libraries-for-java/pulls "Release $(VERSION)" "azure-fluent:$(VERSION)" $(GITHUB_TOKEN) || true
+    python3 tools/pull-request.py chentanyi/azure-libraries-for-java/pulls "Release $(VERSION)" "azure-fluent:$(VERSION)" || true
+  env:
+    GITHUB_TOKEN: $(GITHUB_TOKEN)

@@ -204,6 +204,11 @@ public final class DeploymentImpl extends
         return ServiceFuture.fromBody(this.exportTemplateAsync(), callback);
     }
 
+    @Override
+    public DeploymentImpl prepareWhatIf() {
+        return this;
+    }
+
     // Withers
 
     @Override
@@ -550,20 +555,5 @@ public final class DeploymentImpl extends
     @Override
     public ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(ServiceCallback<WhatIfOperationResult> callback) {
         return ServiceFuture.fromBody(this.whatIfAtSubscriptionScopeAsync(), callback);
-    }
-
-    @Override
-    public DeploymentImpl execute() {
-        return this;
-    }
-
-    @Override
-    public Observable<Execution> executeAsync() {
-        throw new UnsupportedOperationException();
-    }
-
-    @Override
-    public ServiceFuture<Execution> executeAsync(ServiceCallback<Execution> callback) {
-        throw new UnsupportedOperationException();
     }
 }

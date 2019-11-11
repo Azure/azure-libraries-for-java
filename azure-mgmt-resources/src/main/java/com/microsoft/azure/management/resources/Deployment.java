@@ -17,7 +17,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
@@ -41,7 +40,6 @@ public interface Deployment extends
         Indexable,
         Refreshable<Deployment>,
         Updatable<Deployment.Update>,
-        Executable<Deployment.Execution>,
         HasInner<DeploymentExtendedInner>,
         HasManager<ResourceManager>,
         HasName,
@@ -160,6 +158,14 @@ public interface Deployment extends
      */
     @Method
     ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback);
+
+    /**
+     * Prepares a What-if operation.
+     *
+     * @return the What-if execution.
+     */
+    @Method
+    Execution prepareWhatIf();
 
     /**
      * Container interface for all the deployment definitions.

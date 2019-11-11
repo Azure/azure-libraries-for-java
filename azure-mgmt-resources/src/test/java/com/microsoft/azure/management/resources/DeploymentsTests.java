@@ -113,7 +113,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         Assert.assertEquals("Succeeded", deployment.provisioningState());
 
         //What if
-        WhatIfOperationResult result = deployment.execute()
+        WhatIfOperationResult result = deployment.prepareWhatIf()
                 .withIncrementalMode()
                 .withWhatIfTemplateLink(templateUri, contentVersion)
                 .whatIf();
@@ -152,7 +152,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         Assert.assertEquals("Succeeded", deployment.provisioningState());
 
         //What if
-        WhatIfOperationResult result = deployment.execute()
+        WhatIfOperationResult result = deployment.prepareWhatIf()
                 .withLocation("westus")
                 .withIncrementalMode()
                 .withWhatIfTemplateLink(blankTemplateUri, contentVersion)

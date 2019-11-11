@@ -25,4 +25,4 @@ steps:
 - bash: |
     git status
     git push https://$(GITHUB_TOKEN)@github.com/azure-fluent/azure-libraries-for-java HEAD:$(VERSION) -f
-    python3 tools/pull-request.py azure/azure-libraries-for-java/pulls "Release $(VERSION)" "azure-fluent:$(VERSION)" $(GITHUB_TOKEN) || true
+    python3 tools/pull-request.py chentanyi/azure-libraries-for-java/pulls "Release $(VERSION)" "azure-fluent:$(VERSION)" $(GITHUB_TOKEN) || true

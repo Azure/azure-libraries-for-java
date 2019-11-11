@@ -16,8 +16,11 @@ def create_pull_request(url, title, head, auth = os.environ.get("GITHUB_TOKEN"))
             "head": head,
         }
     )
-    resp.raise_for_status()
-    print(json.dumps(resp.json(), indent = 2))
+    if resp.status_code == 422:
+        print("duplicate pull request")
+    else:
+        resp.raise_for_status()
+        print(json.dumps(resp.json(), indent = 2))
 
 def main(argv):
     if len(argv) < 4:

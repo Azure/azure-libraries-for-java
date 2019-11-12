@@ -14,6 +14,9 @@ import com.microsoft.rest.ExpandableStringEnum;
  * Defines values for MetricAlertRuleTimeAggregation.
  */
 public final class MetricAlertRuleTimeAggregation extends ExpandableStringEnum<MetricAlertRuleTimeAggregation> {
+    /** Static value Count for MetricAlertRuleTimeAggregation. */
+    public static final MetricAlertRuleTimeAggregation COUNT = fromString("Count");
+
     /** Static value Average for MetricAlertRuleTimeAggregation. */
     public static final MetricAlertRuleTimeAggregation AVERAGE = fromString("Average");
 

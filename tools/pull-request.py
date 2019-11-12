@@ -5,8 +5,8 @@ import json
 import requests
 import urllib.parse
 
-def create_pull_request(url, title, head, auth = os.environ.get("GITHUB_TOKEN")):
-    url = urllib.parse.urljoin("https://api.github.com/repos/", url)
+def create_pull_request(owner, repo, title, head, auth = os.environ.get("GITHUB_TOKEN")):
+    url = "https://api.github.com/repos/{0}/{1}/pulls".format(owner, repo)
     resp = requests.post(
         url = url,
         auth = (auth, ""),
@@ -24,10 +24,9 @@ def create_pull_request(url, title, head, auth = os.environ.get("GITHUB_TOKEN"))
 
 def main(argv):
     if len(argv) < 4:
-        print("Usage: {} url title head [auth]".format(argv[0]))
-        print("        url: <owner>/<repo>/pulls[/<numbers]")
+        print("Usage: {} owner repo title head [auth]".format(argv[0]))
         sys.exit(1)
-    create_pull_request(*argv[1:5])
+    create_pull_request(*argv[1:6])
 
 if __name__ == "__main__":
     main(sys.argv)

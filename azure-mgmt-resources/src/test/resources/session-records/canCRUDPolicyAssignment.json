@@ -1,28 +1,130 @@
 {
   "networkCallRecords" : [ {
     "Method" : "PUT",
-    "Uri" : "http://localhost:5223/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policydefinitions/policy1?api-version=2016-04-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/policy1?api-version=2016-12-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null (PolicyClient, 2016-04-01)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (PolicyClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "StatusCode" : "403",
-      "content-type" : "application/json; charset=utf-8",
-      "Body" : "{\"error\":{\"code\":\"AuthorizationFailed\",\"message\":\"The client '541d1fb3-fb36-4488-aba9-b2f82c3825c9' with object id '541d1fb3-fb36-4488-aba9-b2f82c3825c9' does not have authorization to perform action 'Microsoft.Authorization/policydefinitions/write' over scope '/subscriptions/00000000-0000-0000-0000-000000000000'.\"}}",
-      "connection" : "close",
-      "x-ms-routing-request-id" : "CENTRALUS:20170121T012526Z:b2c646bb-4ddd-462e-8eef-c1c088461278",
-      "date" : "Sat, 21 Jan 2017 01:25:25 GMT",
-      "pragma" : "no-cache",
-      "x-ms-failure-cause" : "gateway",
-      "retry-after" : "0",
-      "cache-control" : "no-cache",
+      "date" : "Wed, 13 Nov 2019 06:03:58 GMT",
+      "content-length" : "627",
       "expires" : "-1",
-      "x-ms-request-id" : "b2c646bb-4ddd-462e-8eef-c1c088461278",
-      "content-length" : "318",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "b2c646bb-4ddd-462e-8eef-c1c088461278"
+      "x-ms-correlation-request-id" : "3b7642f4-6e34-4434-bcb6-9e21def3cc69",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191113T060359Z:3b7642f4-6e34-4434-bcb6-9e21def3cc69",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "southeastasia:6b6f8707-101f-4094-945a-b66f3ea6e8d9",
+      "Body" : "{\"properties\":{\"displayName\":\"My Policy\",\"policyType\":\"Custom\",\"mode\":\"Indexed\",\"description\":\"This is my policy\",\"metadata\":{\"createdBy\":\"5b5e6b07-55b8-419b-a446-20fe0aa5b459\",\"createdOn\":\"2019-11-13T05:40:16.8263265Z\",\"updatedBy\":\"5b5e6b07-55b8-419b-a446-20fe0aa5b459\",\"updatedOn\":\"2019-11-13T06:03:59.2537475Z\"},\"parameters\":{},\"policyRule\":{\"if\":{\"not\":{\"field\":\"location\",\"in\":[\"northeurope\",\"westeurope\"]}},\"then\":{\"effect\":\"deny\"}}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/policy1\",\"type\":\"Microsoft.Authorization/policyDefinitions\",\"name\":\"policy1\"}"
+    }
+  }, {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rgassignment115095?api-version=2019-08-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Wed, 13 Nov 2019 06:04:04 GMT",
+      "content-length" : "317",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "vary" : "Accept-Encoding",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1198",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "edd53aff-9a12-4f1f-a75a-9c2ea6285243",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191113T060404Z:edd53aff-9a12-4f1f-a75a-9c2ea6285243",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "edd53aff-9a12-4f1f-a75a-9c2ea6285243",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgassignment115095\",\"name\":\"rgassignment115095\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"ukwest\",\"tags\":{\"date\":\"2019-11-13T06:04:01.364Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+    }
+  }, {
+    "Method" : "PUT",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgassignment115095/providers/Microsoft.Authorization/policyAssignments/assignment1?api-version=2017-06-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (PolicyClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Wed, 13 Nov 2019 06:04:04 GMT",
+      "content-length" : "741",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "cc73e65e-027e-4829-82bc-da5096faf253",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191113T060404Z:cc73e65e-027e-4829-82bc-da5096faf253",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "southeastasia:7c9b9ccf-91b2-429d-bd05-196eafcaf60c",
+      "Body" : "{\"sku\":{\"name\":\"A0\",\"tier\":\"Free\"},\"properties\":{\"displayName\":\"My Assignment\",\"policyDefinitionId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/policy1\",\"scope\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgassignment115095\",\"metadata\":{\"createdBy\":\"5b5e6b07-55b8-419b-a446-20fe0aa5b459\",\"createdOn\":\"2019-11-13T05:40:22.4893468Z\",\"updatedBy\":\"5b5e6b07-55b8-419b-a446-20fe0aa5b459\",\"updatedOn\":\"2019-11-13T06:04:04.8581799Z\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgassignment115095/providers/Microsoft.Authorization/policyAssignments/assignment1\",\"type\":\"Microsoft.Authorization/policyAssignments\",\"name\":\"assignment1\"}"
+    }
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgassignment115095/providers/Microsoft.Authorization/policyAssignments/assignment1?api-version=2017-06-01-preview",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (PolicyClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Wed, 13 Nov 2019 06:04:04 GMT",
+      "content-length" : "741",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "55574002-2363-47ff-94b1-790f278ff56d",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191113T060405Z:55574002-2363-47ff-94b1-790f278ff56d",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "southeastasia:350a04ec-afd5-485b-be25-2e9572cb2461",
+      "Body" : "{\"sku\":{\"name\":\"A0\",\"tier\":\"Free\"},\"properties\":{\"displayName\":\"My Assignment\",\"policyDefinitionId\":\"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/policy1\",\"scope\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgassignment115095\",\"metadata\":{\"createdBy\":\"5b5e6b07-55b8-419b-a446-20fe0aa5b459\",\"createdOn\":\"2019-11-13T05:40:22.4893468Z\",\"updatedBy\":\"5b5e6b07-55b8-419b-a446-20fe0aa5b459\",\"updatedOn\":\"2019-11-13T06:04:04.8581799Z\"}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rgassignment115095/providers/Microsoft.Authorization/policyAssignments/assignment1\",\"type\":\"Microsoft.Authorization/policyAssignments\",\"name\":\"assignment1\"}"
+    }
+  }, {
+    "Method" : "DELETE",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/policy1?api-version=2016-12-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:6329c03b535ec33cd37fb229b82c5babb3cb7866e991f6299f1b3716d621b34d Java:1.8.0_221 (PolicyClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Wed, 13 Nov 2019 06:04:04 GMT",
+      "content-length" : "627",
+      "expires" : "-1",
+      "transfer-encoding" : "chunked",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14998",
+      "vary" : "Accept-Encoding,Accept-Encoding",
+      "retry-after" : "0",
+      "StatusCode" : "200",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "6caaff8b-5d5b-4848-822a-6a2c41dd7492",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191113T060405Z:6caaff8b-5d5b-4848-822a-6a2c41dd7492",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "southeastasia:01d94168-70f9-46c2-81d9-e5005d25c654",
+      "Body" : "{\"properties\":{\"displayName\":\"My Policy\",\"policyType\":\"Custom\",\"mode\":\"Indexed\",\"description\":\"This is my policy\",\"metadata\":{\"createdBy\":\"5b5e6b07-55b8-419b-a446-20fe0aa5b459\",\"createdOn\":\"2019-11-13T05:40:16.8263265Z\",\"updatedBy\":\"5b5e6b07-55b8-419b-a446-20fe0aa5b459\",\"updatedOn\":\"2019-11-13T06:03:59.2537475Z\"},\"parameters\":{},\"policyRule\":{\"if\":{\"not\":{\"field\":\"location\",\"in\":[\"northeurope\",\"westeurope\"]}},\"then\":{\"effect\":\"deny\"}}},\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/policyDefinitions/policy1\",\"type\":\"Microsoft.Authorization/policyDefinitions\",\"name\":\"policy1\"}"
     }
   } ],
-  "variables" : [ ]
+  "variables" : [ "12c9ce4d-6295-4b35-a009-7af601d4bc5a", "215fc1c2-51fd-4769-bf38-d23d181c247d", "19cadffb-2624-4dbe-a83c-12bda562a298", "8f6bf875-92ce-4f30-b09c-d10ec119c03c" ]
 }

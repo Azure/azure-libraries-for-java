@@ -37,7 +37,6 @@ public class PolicyTests extends TestBase {
     }
 
     @Test
-    @Ignore("Not authorized for scope - 'Microsoft.Authorization/policydefinitions/write'")
     public void canCRUDPolicyDefinition() throws Exception {
         // Create
         PolicyDefinition definition = resourceManager.policyDefinitions().define("policy1")
@@ -68,7 +67,6 @@ public class PolicyTests extends TestBase {
     }
 
     @Test
-    @Ignore("Not authorized for scope - 'Microsoft.Authorization/policydefinitions/write'")
     public void canCRUDPolicyAssignment() throws Exception {
         // Create definition
         PolicyDefinition definition = resourceManager.policyDefinitions().define("policy1")
@@ -87,22 +85,8 @@ public class PolicyTests extends TestBase {
                 .withDisplayName("My Assignment")
                 .create();
         // Verify
-        try {
-            GenericResource resource = resourceManager.genericResources().define("webassignment115095")
-                    .withRegion(Region.US_SOUTH_CENTRAL)
-                    .withExistingResourceGroup(group)
-                    .withResourceType("sites")
-                    .withProviderNamespace("Microsoft.Web")
-                    .withoutPlan()
-                    .withApiVersion("2015-08-01")
-                    .withParentResourcePath("")
-                    .withProperties(new ObjectMapper().readTree("{\"SiteMode\":\"Limited\",\"ComputeMode\":\"Shared\"}"))
-                    .create();
-            fail();
-        } catch (CloudException ce) {
-            // expected
-            Assert.assertTrue(ce.getMessage().contains("disallowed"));
-        }
+        Assert.assertNotNull(assignment);
+        Assert.assertEquals("My Assignment", assignment.displayName());
         // Delete
         resourceManager.resourceGroups().define(group.name());
         resourceManager.policyAssignments().deleteById(assignment.id());

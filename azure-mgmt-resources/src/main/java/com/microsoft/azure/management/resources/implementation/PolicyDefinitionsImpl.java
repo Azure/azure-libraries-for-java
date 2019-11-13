@@ -46,7 +46,7 @@ final class PolicyDefinitionsImpl
     public Completable deleteByIdAsync(String name) {
         String[] parts = name.split("/");
         if (parts != null && parts.length > 0) {
-            name = parts[parts.length-1];
+            name = parts[parts.length - 1];
         }
         return client.deleteAsync(name).toCompletable();
     }

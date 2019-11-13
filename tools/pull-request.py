@@ -18,6 +18,7 @@ def create_pull_request(owner, repo, title, head, auth = os.environ.get("GITHUB_
     )
     if resp.status_code == 422:
         print("duplicate pull request")
+        print("Error: {0} for url: {1}".format(resp.reason, resp.url))
     else:
         resp.raise_for_status()
         print(json.dumps(resp.json(), indent = 2))

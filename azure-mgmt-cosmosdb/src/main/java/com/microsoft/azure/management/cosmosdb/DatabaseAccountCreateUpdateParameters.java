@@ -108,7 +108,6 @@ public class DatabaseAccountCreateUpdateParameters extends ARMResourceProperties
 
     /**
      * Creates an instance of DatabaseAccountCreateUpdateParameters class.
-     * @param locations an array that contains the georeplication locations enabled for the Cosmos DB account.
      */
     public DatabaseAccountCreateUpdateParameters() {
         databaseAccountOfferType = "Standard";

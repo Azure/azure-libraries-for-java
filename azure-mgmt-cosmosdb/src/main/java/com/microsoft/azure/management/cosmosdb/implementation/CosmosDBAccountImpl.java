@@ -765,7 +765,7 @@ class CosmosDBAccountImpl
     class CreateUpdateLocationParameters implements HasLocations {
         private DatabaseAccountCreateUpdateParameters parameters;
 
-        public CreateUpdateLocationParameters(DatabaseAccountCreateUpdateParameters parametersObject) {
+        CreateUpdateLocationParameters(DatabaseAccountCreateUpdateParameters parametersObject) {
             parameters = parametersObject;
         }
 
@@ -788,7 +788,7 @@ class CosmosDBAccountImpl
     class UpdateLocationParameters implements HasLocations {
         private DatabaseAccountUpdateParameters parameters;
 
-        public UpdateLocationParameters(DatabaseAccountUpdateParameters parametersObject) {
+        UpdateLocationParameters(DatabaseAccountUpdateParameters parametersObject) {
             parameters = parametersObject;
         }
 

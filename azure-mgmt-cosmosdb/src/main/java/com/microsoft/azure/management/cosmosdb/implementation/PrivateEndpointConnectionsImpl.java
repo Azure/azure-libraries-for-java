@@ -12,13 +12,18 @@ import com.microsoft.azure.management.resources.fluentcore.arm.collection.implem
 import rx.Observable;
 import rx.functions.Func1;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 /**
  * Represents a private endpoint connection collection.
  */
 @LangDefinition
-public class PrivateEndpointConnectionsImpl extends
+class PrivateEndpointConnectionsImpl extends
         ExternalChildResourcesCachedImpl<PrivateEndpointConnectionImpl,
                 PrivateEndpointConnection,
                 PrivateEndpointConnectionInner,

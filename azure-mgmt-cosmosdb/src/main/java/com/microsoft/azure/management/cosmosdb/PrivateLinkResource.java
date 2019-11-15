@@ -25,33 +25,33 @@ public interface PrivateLinkResource
      *
      * @return the id value
      */
-    public String id();
+    String id();
 
     /**
      * Get the name value.
      *
      * @return the name value
      */
-    public String name();
+    String name();
 
     /**
      * Get the type value.
      *
      * @return the type value
      */
-    public String type();
+    String type();
 
     /**
      * Get the private link resource group id.
      *
      * @return the groupId value
      */
-    public String groupId();
+    String groupId();
 
     /**
      * Get the private link resource required member names.
      *
      * @return the requiredMembers value
      */
-    public List<String> requiredMembers();
+    List<String> requiredMembers();
 }

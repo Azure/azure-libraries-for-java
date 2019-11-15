@@ -474,7 +474,7 @@ public interface CosmosDBAccount extends
         interface WithPrivateEndpointConnection {
             /**
              * Starts the definition of a private endpoint connection to be attached
-             * to the cosmos db account
+             * to the cosmos db account.
              *
              * @param name the reference name for the private endpoint connection
              * @return the first stage of a private endpoint connection definition
@@ -682,7 +682,7 @@ public interface CosmosDBAccount extends
         interface WithPrivateEndpointConnection {
             /**
              * Start the definition of a private endpoint connection to be attached
-             * to the cosmos db account
+             * to the cosmos db account.
              *
              * @param name the reference name for the private endpoint connection
              * @return the first stage of a private endpoint connection definition
@@ -690,7 +690,7 @@ public interface CosmosDBAccount extends
             PrivateEndpointConnection.UpdateDefinitionStages.Blank<WithOptionals> defineNewPrivateEndpointConnection(String name);
 
             /**
-             * Start the update of an existing private endpoint connection
+             * Start the update of an existing private endpoint connection.
              *
              * @param name the reference name for the private endpoint connection
              * @return the first stage of a private endpoint connection update
@@ -698,7 +698,7 @@ public interface CosmosDBAccount extends
             PrivateEndpointConnection.Update updatePrivateEndpointConnection(String name);
 
             /**
-             * Remove an existing private endpoint connection
+             * Remove an existing private endpoint connection.
              *
              * @param name the reference name for the private endpoint connection
              * @return the next stage

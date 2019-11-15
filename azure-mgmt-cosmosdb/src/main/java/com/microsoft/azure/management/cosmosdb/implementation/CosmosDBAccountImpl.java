@@ -6,7 +6,25 @@
 package com.microsoft.azure.management.cosmosdb.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.cosmosdb.*;
+import com.microsoft.azure.management.cosmosdb.Capability;
+import com.microsoft.azure.management.cosmosdb.ConnectorOffer;
+import com.microsoft.azure.management.cosmosdb.ConsistencyPolicy;
+import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountCreateUpdateParameters;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountKind;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountOfferType;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountUpdateParameters;
+import com.microsoft.azure.management.cosmosdb.DefaultConsistencyLevel;
+import com.microsoft.azure.management.cosmosdb.FailoverPolicy;
+import com.microsoft.azure.management.cosmosdb.KeyKind;
+import com.microsoft.azure.management.cosmosdb.Location;
+import com.microsoft.azure.management.cosmosdb.PrivateEndpointConnection;
+import com.microsoft.azure.management.cosmosdb.PrivateLinkResource;
+import com.microsoft.azure.management.cosmosdb.SqlDatabase;
+import com.microsoft.azure.management.cosmosdb.VirtualNetworkRule;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import rx.Completable;
@@ -197,8 +215,9 @@ class CosmosDBAccountImpl
                 .map(new Func1<PrivateLinkResourceInner, PrivateLinkResource>() {
                     @Override
                     public PrivateLinkResource call(PrivateLinkResourceInner privateLinkResourceInner) {
-                        if (privateLinkResourceInner == null)
+                        if (privateLinkResourceInner == null) {
                             return null;
+                        }
                         return new PrivateLinkResourceImpl(privateLinkResourceInner);
                     }
                 });
@@ -513,7 +532,7 @@ class CosmosDBAccountImpl
     }
 
     private void addLocationsForParameters(
-            HasLocations Parameters,
+            HasLocations locationParameters,
             List<FailoverPolicy> failoverPolicies) {
         List<Location> locations = new ArrayList<Location>();
 
@@ -528,10 +547,10 @@ class CosmosDBAccountImpl
         } else {
             Location location = new Location();
             location.withFailoverPriority(0);
-            location.withLocationName(Parameters.location());
+            location.withLocationName(locationParameters.location());
             locations.add(location);
         }
-        Parameters.withLocations(locations);
+        locationParameters.withLocations(locations);
     }
 
     private Observable<CosmosDBAccount> updateFailoverPriorityAsync() {

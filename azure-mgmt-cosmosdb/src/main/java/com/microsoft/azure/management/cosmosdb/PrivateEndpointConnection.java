@@ -26,14 +26,14 @@ public interface PrivateEndpointConnection extends
      *
      * @return the privateEndpoint value
      */
-    public PrivateEndpointProperty privateEndpoint();
+    PrivateEndpointProperty privateEndpoint();
 
     /**
      * Get connection State of the Private Endpoint Connection.
      *
      * @return the privateLinkServiceConnectionState value
      */
-    public PrivateLinkServiceConnectionStateProperty privateLinkServiceConnectionState();
+    PrivateLinkServiceConnectionStateProperty privateLinkServiceConnectionState();
 
     /**
      * Grouping of private endpoint connection definition stages as a port of cosmos db account definition.

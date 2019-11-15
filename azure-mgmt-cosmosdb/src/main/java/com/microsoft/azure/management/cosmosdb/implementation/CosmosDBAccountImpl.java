@@ -757,12 +757,12 @@ class CosmosDBAccountImpl
     }
 
     interface HasLocations {
-        public String location();
-        public List<Location> locations();
-        public void withLocations(List<Location> locations);
+        String location();
+        List<Location> locations();
+        void withLocations(List<Location> locations);
     }
 
-    public class CreateUpdateLocationParameters implements HasLocations {
+    class CreateUpdateLocationParameters implements HasLocations {
         private DatabaseAccountCreateUpdateParameters parameters;
 
         public CreateUpdateLocationParameters(DatabaseAccountCreateUpdateParameters parametersObject) {
@@ -785,7 +785,7 @@ class CosmosDBAccountImpl
         }
     }
 
-    public class UpdateLocationParameters implements HasLocations {
+    class UpdateLocationParameters implements HasLocations {
         private DatabaseAccountUpdateParameters parameters;
 
         public UpdateLocationParameters(DatabaseAccountUpdateParameters parametersObject) {

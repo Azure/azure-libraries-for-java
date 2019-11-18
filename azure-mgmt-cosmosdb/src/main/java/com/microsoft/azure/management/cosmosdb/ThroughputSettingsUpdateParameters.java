@@ -15,19 +15,19 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Parameters to update Cosmos DB resource throughput.
  */
 @JsonFlatten
-public class ThroughputUpdateParameters {
+public class ThroughputSettingsUpdateParameters extends ARMResourceProperties {
     /**
      * The standard JSON format of a resource throughput.
      */
     @JsonProperty(value = "properties.resource", required = true)
-    private ThroughputResource resource;
+    private ThroughputSettingsResource resource;
 
     /**
      * Get the standard JSON format of a resource throughput.
      *
      * @return the resource value
      */
-    public ThroughputResource resource() {
+    public ThroughputSettingsResource resource() {
         return this.resource;
     }
 
@@ -35,9 +35,9 @@ public class ThroughputUpdateParameters {
      * Set the standard JSON format of a resource throughput.
      *
      * @param resource the resource value to set
-     * @return the ThroughputUpdateParameters object itself.
+     * @return the ThroughputSettingsUpdateParameters object itself.
      */
-    public ThroughputUpdateParameters withResource(ThroughputResource resource) {
+    public ThroughputSettingsUpdateParameters withResource(ThroughputSettingsResource resource) {
         this.resource = resource;
         return this;
     }

@@ -14,16 +14,16 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
  */
 @LangDefinition
 public class SqlDatabaseImpl
-        extends WrapperImpl<SqlDatabaseInner>
+        extends WrapperImpl<SqlDatabaseGetResultsInner>
         implements SqlDatabase {
 
-    SqlDatabaseImpl(SqlDatabaseInner innerObject) {
+    SqlDatabaseImpl(SqlDatabaseGetResultsInner innerObject) {
         super(innerObject);
     }
 
     @Override
     public String sqlDatabaseId() {
-        return this.inner().sqlDatabaseId();
+        return this.inner().sqlDatabaseGetResultsId();
     }
 
     @Override

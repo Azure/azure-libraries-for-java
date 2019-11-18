@@ -11,17 +11,17 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Cosmos DB table id object.
+ * Private endpoint which the connection belongs to.
  */
-public class TableResource {
+public class PrivateEndpointProperty {
     /**
-     * Name of the Cosmos DB table.
+     * Resource id of the private endpoint.
      */
-    @JsonProperty(value = "id", required = true)
+    @JsonProperty(value = "id")
     private String id;
 
     /**
-     * Get name of the Cosmos DB table.
+     * Get resource id of the private endpoint.
      *
      * @return the id value
      */
@@ -30,12 +30,12 @@ public class TableResource {
     }
 
     /**
-     * Set name of the Cosmos DB table.
+     * Set resource id of the private endpoint.
      *
      * @param id the id value to set
-     * @return the TableResource object itself.
+     * @return the PrivateEndpointProperty object itself.
      */
-    public TableResource withId(String id) {
+    public PrivateEndpointProperty withId(String id) {
         this.id = id;
         return this;
     }

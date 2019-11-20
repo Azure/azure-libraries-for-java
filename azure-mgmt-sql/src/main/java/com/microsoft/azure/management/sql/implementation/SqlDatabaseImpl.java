@@ -503,7 +503,7 @@ class SqlDatabaseImpl
     public TransparentDataEncryption getTransparentDataEncryption() {
         TransparentDataEncryptionInner transparentDataEncryptionInner = this.sqlServerManager.inner()
             .transparentDataEncryptions().get(this.resourceGroupName, this.sqlServerName, this.name());
-        return (null == transparentDataEncryptionInner) ? null : new TransparentDataEncryptionImpl(this.resourceGroupName, this.sqlServerName, transparentDataEncryptionInner, this.sqlServerManager);
+        return (transparentDataEncryptionInner == null) ? null : new TransparentDataEncryptionImpl(this.resourceGroupName, this.sqlServerName, transparentDataEncryptionInner, this.sqlServerManager);
     }
 
     @Override

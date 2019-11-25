@@ -459,6 +459,11 @@ class CosmosDBAccountImpl
         return this;
     }
 
+    CosmosDBAccountImpl withPrivateEndpointConnection(PrivateEndpointConnectionImpl privateEndpointConnection) {
+        this.privateEndpointConnections.addPrivateEndpointConnection(privateEndpointConnection);
+        return this;
+    }
+
     @Override
     public Observable<CosmosDBAccount> createResourceAsync() {
         return this.doDatabaseUpdateCreate();

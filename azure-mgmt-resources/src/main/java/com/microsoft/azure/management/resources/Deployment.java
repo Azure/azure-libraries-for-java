@@ -20,8 +20,6 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.resources.implementation.DeploymentExtendedInner;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
 import org.joda.time.DateTime;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -121,14 +119,6 @@ public interface Deployment extends
     Mono<Void> cancelAsync();
 
     /**
-     * Cancel a currently running template deployment asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> cancelAsync(Mono<Void> callback);
-
-    /**
      * Exports a deployment template.
      *
      * @return the export result
@@ -140,15 +130,7 @@ public interface Deployment extends
      *
      * @return a representation of the deferred computation of this call returning the export result
      */
-    Flux<DeploymentExportResult> exportTemplateAsync();
-
-    /**
-     * Exports a deployment template asynchronously.
-     *
-     * @param callback the callback to call on success or failure with export result as parameter
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<DeploymentExportResult> exportTemplateAsync(Mono<DeploymentExportResult> callback);
+    Mono<DeploymentExportResult> exportTemplateAsync();
 
     /**
      * Container interface for all the deployment definitions.

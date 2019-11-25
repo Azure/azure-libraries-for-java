@@ -47,7 +47,7 @@ public final class DeploymentImpl extends
 
     DeploymentImpl(DeploymentExtendedInner innerModel, String name, final ResourceManager resourceManager) {
         super(name, innerModel);
-        this.resourceGroupName = ResourceUtils.groupFromResourceId(innerModel.id());
+        this.resourceGroupName = ResourceUtils.groupFromResourceId(innerModel.getId());
         this.resourceManager = resourceManager;
         this.objectMapper = new ObjectMapper();
     }
@@ -156,38 +156,25 @@ public final class DeploymentImpl extends
 
     @Override
     public void cancel() {
-        this.cancelAsync().await();
+        this.cancelAsync().block();
     }
 
     @Override
     public Mono<Void> cancelAsync() {
-        return this.manager().inner().deployments().cancelAsync(resourceGroupName, name()).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> cancelAsync(ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.cancelAsync(), callback);
+        return this.manager().inner().deployments().cancelAsync(resourceGroupName, name());
     }
 
     @Override
     public DeploymentExportResult exportTemplate() {
-        return this.exportTemplateAsync().toBlocking().last();
+        return this.exportTemplateAsync().block();
     }
 
     @Override
-    public Observable<DeploymentExportResult> exportTemplateAsync() {
-        return this.manager().inner().deployments().exportTemplateAsync(resourceGroupName(), name()).map(new Func1<DeploymentExportResultInner, DeploymentExportResult>() {
-            @Override
-            public DeploymentExportResult call(DeploymentExportResultInner deploymentExportResultInner) {
-                return new DeploymentExportResultImpl(deploymentExportResultInner);
-            }
-        });
+    public Mono<DeploymentExportResult> exportTemplateAsync() {
+        return this.manager().inner().deployments().exportTemplateAsync(resourceGroupName(), name())
+                .map(inner -> new DeploymentExportResultImpl(inner));
     }
 
-    @Override
-    public ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback) {
-        return ServiceFuture.fromBody(this.exportTemplateAsync(), callback);
-    }
 
     // Withers
 
@@ -296,12 +283,12 @@ public final class DeploymentImpl extends
         if (this.creatableResourceGroup != null) {
             this.creatableResourceGroup.create();
         }
-        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()));
+        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()).block());
         return this;
     }
 
     @Override
-    public Observable<Deployment> beginCreateAsync() {
+    public Paged<Deployment> beginCreateAsync() {
         return Observable.just(creatableResourceGroup)
                 .flatMap(new Func1<Creatable<ResourceGroup>, Observable<Indexable>>() {
                     @Override
@@ -323,18 +310,18 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    public Observable<Deployment> createResourceAsync() {
+    public Mono<Deployment> createResourceAsync() {
         return this.manager().inner().deployments().createOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    public Observable<Deployment> applyAsync() {
+    public Mono<Deployment> applyAsync() {
         return updateResourceAsync();
     }
 
     @Override
-    public Observable<Deployment> updateResourceAsync() {
+    public Mono<Deployment> updateResourceAsync() {
         try {
             if (this.templateLink() != null && this.template() != null) {
                 this.withTemplate(null);
@@ -343,19 +330,19 @@ public final class DeploymentImpl extends
                 this.withParameters(null);
             }
         } catch (IOException e) {
-            return Observable.error(e);
+            return Mono.error(e);
         }
         return createResourceAsync();
     }
 
     @Override
-    protected Observable<DeploymentExtendedInner> getInnerAsync() {
+    protected Mono<DeploymentExtendedInner> getInnerAsync() {
         return this.manager().inner().deployments().getByResourceGroupAsync(resourceGroupName(), name());
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
@@ -363,8 +350,7 @@ public final class DeploymentImpl extends
         return this.resourceManager;
     }
 
-    @Override
-    public String id() {
-        return inner().id();
+    public String getId() {
+        return inner().getId();
     }
 }

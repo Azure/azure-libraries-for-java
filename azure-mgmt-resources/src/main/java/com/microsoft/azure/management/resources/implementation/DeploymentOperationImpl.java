@@ -11,7 +11,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.implementation.
 import com.microsoft.azure.management.resources.DeploymentOperation;
 import com.microsoft.azure.management.resources.TargetResource;
 import org.joda.time.DateTime;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation of {@link DeploymentOperation}.
@@ -78,7 +78,7 @@ final class DeploymentOperationImpl extends
     }
 
     @Override
-    protected Observable<DeploymentOperationInner> getInnerAsync() {
+    protected Mono<DeploymentOperationInner> getInnerAsync() {
         return client.getAsync(resourceGroupName, deploymentName, operationId());
     }
 }

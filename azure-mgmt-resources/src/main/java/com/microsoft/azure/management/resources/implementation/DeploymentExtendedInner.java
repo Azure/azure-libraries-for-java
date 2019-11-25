@@ -8,14 +8,14 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.azure.core.management.Resource;
 import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.ProxyResource;
 
 /**
  * Deployment information.
  */
-public class DeploymentExtendedInner extends ProxyResource {
+public class DeploymentExtendedInner extends Resource {
     /**
      * the location of the deployment.
      */

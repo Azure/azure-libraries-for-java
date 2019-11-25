@@ -6,9 +6,7 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBeginDeletingByName;
@@ -45,6 +43,5 @@ public interface ResourceGroups extends
      * @param name the name (case insensitive) of the resource group to check for
      * @return true of exists, otherwise false
      */
-    @Beta(SinceVersion.V1_4_0)
     boolean contain(String name);
 }

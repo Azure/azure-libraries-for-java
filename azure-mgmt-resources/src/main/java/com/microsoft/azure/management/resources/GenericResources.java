@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingInResourceGroupByTag;
@@ -15,9 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCr
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -111,19 +109,7 @@ public interface GenericResources extends
      *
      * @return a representation of the deferred computation of this call
      */
-    Completable moveResourcesAsync(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources);
-
-    /**
-     * Move resources from one resource group to another asynchronously.
-     *
-     * @param sourceResourceGroupName Source resource group name
-     * @param targetResourceGroup target resource group, can be in a different subscription
-     * @param resources the list of IDs of the resources to move
-     * @param callback the callback to call on success or failure
-     *
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> moveResourcesAsync(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources, ServiceCallback<Void> callback);
+    Mono<Void> moveResourcesAsync(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources);
 
     /**
      * Delete resource and all of its child resources.
@@ -149,21 +135,6 @@ public interface GenericResources extends
      * @param apiVersion the String value
      * @return a representation of the deferred computation of this call
      */
-    Completable deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion);
+    Mono<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion);
 
-
-    /**
-     * Delete resource and all of its child resources asynchronously.
-     *
-     * @param resourceGroupName The name of the resource group. The name is case insensitive.
-     * @param resourceProviderNamespace Resource identity.
-     * @param parentResourcePath Resource identity.
-     * @param resourceType Resource identity.
-     * @param resourceName Resource identity.
-     * @param apiVersion the String value
-     * @param callback the callback to call on success or failure
-     *
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, ServiceCallback<Void> callback);
 }

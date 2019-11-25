@@ -11,13 +11,10 @@ package com.microsoft.azure.management.resources.implementation;
 import java.util.List;
 import com.microsoft.azure.management.resources.PolicySku;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.azure.ProxyResource;
 
 /**
  * The policy assignment.
  */
-@JsonFlatten
 public class PolicyAssignmentInner extends ProxyResource {
     /**
      * The display name of the policy assignment.

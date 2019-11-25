@@ -6,8 +6,8 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;

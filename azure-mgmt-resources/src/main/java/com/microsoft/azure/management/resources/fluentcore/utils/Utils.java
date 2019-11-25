@@ -10,6 +10,7 @@ import com.azure.core.annotation.Get;
 import com.azure.core.annotation.PathParam;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpResponse;
+import com.azure.core.http.rest.RestProxy;
 import com.azure.core.implementation.RestProxy;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.Page;

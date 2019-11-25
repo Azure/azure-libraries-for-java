@@ -7,10 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.arm;
 
 import com.azure.core.http.policy.HttpLogDetailLevel;
-import okhttp3.Authenticator;
-import okhttp3.ConnectionPool;
-import okhttp3.Dispatcher;
-import okhttp3.Interceptor;
+import com.azure.core.http.policy.HttpPipelinePolicy;
 
 import java.net.Proxy;
 import java.util.concurrent.Executor;
@@ -36,7 +33,7 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      * @param interceptor the interceptor to plug in
      * @return the configurable object itself
      */
-    T withInterceptor(Interceptor interceptor);
+    T withInterceptor(HttpPipelinePolicy interceptor);
 
     /**
      * Specify the user agent header.
@@ -69,17 +66,16 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      *
      * @param maxIdleConnections the maximum idle connections
      * @return the configurable object itself for chaining
-     * @deprecated use {@link #withConnectionPool(ConnectionPool)} instead
      */
     @Deprecated
     T withMaxIdleConnections(int maxIdleConnections);
 
-    /**
-     * Sets the connection pool for the Http client.
-     * @param connectionPool the OkHttp 3 connection pool to use
-     * @return the configurable object itself for chaining
-     */
-    T withConnectionPool(ConnectionPool connectionPool);
+//    /**
+//     * Sets the connection pool for the Http client.
+//     * @param connectionPool the OkHttp 3 connection pool to use
+//     * @return the configurable object itself for chaining
+//     */
+//    T withConnectionPool(ConnectionPool connectionPool);
 
     /**
      * Sets whether to use the thread pool in OkHttp client or RxJava schedulers.
@@ -89,13 +85,13 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      */
     T useHttpClientThreadPool(boolean useHttpClientThreadPool);
 
-    /**
-     * Sets the dispatcher used in OkHttp client. This is also where to set
-     * the thread pool for executing HTTP requests.
-     * @param dispatcher the dispatcher to use
-     * @return the configurable object itself for chaining
-     */
-    T withDispatcher(Dispatcher dispatcher);
+//    /**
+//     * Sets the dispatcher used in OkHttp client. This is also where to set
+//     * the thread pool for executing HTTP requests.
+//     * @param dispatcher the dispatcher to use
+//     * @return the configurable object itself for chaining
+//     */
+//    T withDispatcher(Dispatcher dispatcher);
 
     /**
      * Sets the executor for async callbacks to run on.
@@ -113,11 +109,11 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      */
     T withProxy(Proxy proxy);
 
-    /**
-     * Sets the proxy authenticator for the HTTP client.
-     *
-     * @param proxyAuthenticator the proxy authenticator to use
-     * @return the configurable object itself for chaining
-     */
-    T withProxyAuthenticator(Authenticator proxyAuthenticator);
+//    /**
+//     * Sets the proxy authenticator for the HTTP client.
+//     *
+//     * @param proxyAuthenticator the proxy authenticator to use
+//     * @return the configurable object itself for chaining
+//     */
+//    T withProxyAuthenticator(Authenticator proxyAuthenticator);
 }

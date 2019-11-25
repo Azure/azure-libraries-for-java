@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.collection;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.management.PagedList;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -30,5 +31,5 @@ public interface SupportsListing<T> {
      *
      * @return list of resources
      */
-    Flux<T> listAsync();
+    PagedFlux<T> listAsync();
 }

@@ -6,11 +6,8 @@
 
 package com.microsoft.azure.management.resources.fluentcore.collection;
 
-
-import com.azure.core.management.Page;
 import com.azure.core.management.PagedList;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import com.azure.core.http.rest.PagedFlux;
 
 /**
  * Provides access to listing Azure resources of a specific type in a subscription.
@@ -25,7 +22,7 @@ public interface InnerSupportsListing<InnerT> {
      *
      * @return Observable of list of resources.
      */
-    Flux<Page<InnerT>> listAsync();
+    PagedFlux<InnerT> listAsync();
 
     /**
      * Returns the observable for the page list of all resources of specific type in specified resource group.
@@ -33,7 +30,7 @@ public interface InnerSupportsListing<InnerT> {
      * @param resourceGroup name of the resource group.
      * @return Observable of list of resources.
      */
-    Flux<Page<InnerT>> listByResourceGroupAsync(String resourceGroup);
+    PagedFlux<InnerT> listByResourceGroupAsync(String resourceGroup);
 
     /**
      * Lists the page list of all resources of specific type available in subscription.

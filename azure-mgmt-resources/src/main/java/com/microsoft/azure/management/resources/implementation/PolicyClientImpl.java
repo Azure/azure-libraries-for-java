@@ -8,16 +8,15 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.AzureClient;
-import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
-import com.microsoft.rest.RestClient;
+import com.azure.core.credential.TokenCredential;
+import com.microsoft.azure.management.AzureClient;
+import com.microsoft.azure.management.AzureServiceClient;
+import com.microsoft.azure.management.RestClient;
 
 /**
  * Initializes a new instance of the PolicyClientImpl class.
  */
 public class PolicyClientImpl extends AzureServiceClient {
-    /** the {@link AzureClient} used for long running operations. */
     private AzureClient azureClient;
 
     /**
@@ -164,7 +163,7 @@ public class PolicyClientImpl extends AzureServiceClient {
      *
      * @param credentials the management credentials for Azure
      */
-    public PolicyClientImpl(ServiceClientCredentials credentials) {
+    public PolicyClientImpl(TokenCredential credentials) {
         this("https://management.azure.com", credentials);
     }
 
@@ -174,7 +173,7 @@ public class PolicyClientImpl extends AzureServiceClient {
      * @param baseUrl the base URL of the host
      * @param credentials the management credentials for Azure
      */
-    public PolicyClientImpl(String baseUrl, ServiceClientCredentials credentials) {
+    public PolicyClientImpl(String baseUrl, TokenCredential credentials) {
         super(baseUrl, credentials);
         initialize();
     }
@@ -193,9 +192,9 @@ public class PolicyClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.policyAssignments = new PolicyAssignmentsInner(restClient().retrofit(), this);
-        this.policySetDefinitions = new PolicySetDefinitionsInner(restClient().retrofit(), this);
-        this.policyDefinitions = new PolicyDefinitionsInner(restClient().retrofit(), this);
+        this.policyAssignments = new PolicyAssignmentsInner(this.restClient().getHttpPipeline(), this);
+        this.policySetDefinitions = new PolicySetDefinitionsInner(this.restClient().getHttpPipeline(), this);
+        this.policyDefinitions = new PolicyDefinitionsInner(this.restClient().getHttpPipeline(), this);
         this.azureClient = new AzureClient(this);
     }
 

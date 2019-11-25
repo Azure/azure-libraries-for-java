@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.AzureClient;
-import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
-import com.microsoft.rest.RestClient;
+import com.azure.core.credential.TokenCredential;
+import com.microsoft.azure.management.AzureClient;
+import com.microsoft.azure.management.AzureServiceClient;
+import com.microsoft.azure.management.RestClient;
 
 /**
  * Initializes a new instance of the FeatureClientImpl class.
@@ -150,7 +150,7 @@ public class FeatureClientImpl extends AzureServiceClient {
      *
      * @param credentials the management credentials for Azure
      */
-    public FeatureClientImpl(ServiceClientCredentials credentials) {
+    public FeatureClientImpl(TokenCredential credentials) {
         this("https://management.azure.com", credentials);
     }
 
@@ -160,7 +160,7 @@ public class FeatureClientImpl extends AzureServiceClient {
      * @param baseUrl the base URL of the host
      * @param credentials the management credentials for Azure
      */
-    public FeatureClientImpl(String baseUrl, ServiceClientCredentials credentials) {
+    public FeatureClientImpl(String baseUrl, TokenCredential credentials) {
         super(baseUrl, credentials);
         initialize();
     }
@@ -180,7 +180,7 @@ public class FeatureClientImpl extends AzureServiceClient {
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
-        this.features = new FeaturesInner(restClient().retrofit(), this);
+        this.features = new FeaturesInner(restClient().getHttpPipeline(), this);
         this.azureClient = new AzureClient(this);
     }
 

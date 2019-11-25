@@ -9,10 +9,11 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import java.util.List;
+
+import com.azure.core.annotation.JsonFlatten;
 import com.microsoft.azure.management.resources.WhatIfChange;
 import com.microsoft.azure.management.resources.ErrorResponse;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.rest.serializer.JsonFlatten;
 
 /**
  * Result of the What-If operation. Contains a list of predicted changes and a

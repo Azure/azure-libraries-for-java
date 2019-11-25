@@ -6,8 +6,8 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.Page;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
@@ -30,5 +30,5 @@ public interface PolicyAssignments extends
      * @param resourceId the ID of the resource
      * @return the list of policy assignments
      */
-    PagedList<PolicyAssignment> listByResource(final String resourceId);
+    Page<PolicyAssignment> listByResource(final String resourceId);
 }

@@ -6,9 +6,9 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
+import com.azure.core.credential.TokenCredential;
+import com.microsoft.azure.management.RestClient;
+import com.microsoft.azure.management.RestClientBuilder;
 import com.microsoft.azure.management.resources.Deployments;
 import com.microsoft.azure.management.resources.Features;
 import com.microsoft.azure.management.resources.GenericResources;
@@ -22,10 +22,6 @@ import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
 
 /**
  * Entry point to Azure resource management.
@@ -47,11 +43,11 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     /**
      * Creates an instance of ResourceManager that exposes resource management API entry points.
      *
-     * @param credentials the credentials to use
+     * @param credential the credentials to use
      * @return the ResourceManager instance
      */
-    public static ResourceManager.Authenticated authenticate(AzureTokenCredentials credentials) {
-        return new AuthenticatedImpl(new RestClient.Builder()
+    public static ResourceManager.Authenticated authenticate(TokenCredential credential) {
+        return new AuthenticatedImpl(new RestClientBuilder()
                 .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredentials(credentials)
                 .withSerializerAdapter(new AzureJacksonAdapter())

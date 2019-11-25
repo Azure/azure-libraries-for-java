@@ -9,8 +9,9 @@
 package com.microsoft.azure.management.resources;
 
 import java.util.Collection;
+
+import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for PolicyType.

@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.azure.core.management.Page;
+import com.azure.core.http.rest.Page;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -37,7 +37,7 @@ public class PageImpl<T> implements Page<T> {
      * @return the link to the next page.
      */
     @Override
-    public String getNextPageLink() {
+    public String getContinuationToken() {
         return this.nextPageLink;
     }
 

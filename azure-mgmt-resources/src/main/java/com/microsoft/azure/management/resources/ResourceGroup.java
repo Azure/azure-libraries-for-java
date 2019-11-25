@@ -6,7 +6,7 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -17,9 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.implementation.ResourceGroupInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * An immutable client-side representation of an Azure resource group.
@@ -52,17 +50,7 @@ public interface ResourceGroup extends
      * @param options the export options
      * @return a representation of the deferred computation of this call returning the result of the template export
      */
-    Observable<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options);
-
-    /**
-     * Captures the specified resource group as a template asynchronously.
-     *
-     * @param options the export options
-     * @param callback the callback to call on success or failure with result as parameter
-     *
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options, ServiceCallback<ResourceGroupExportResult> callback);
+    Mono<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options);
 
     /**
      * Container interface for all the definitions that need to be implemented.

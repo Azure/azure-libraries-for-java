@@ -6,8 +6,9 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.rest.RestClient;
-import com.microsoft.azure.management.apigeneration.Fluent;
+
+import com.azure.core.annotation.Fluent;
+import com.microsoft.azure.management.RestClient;
 
 /**
  * Defines a connector that connects other resources to a resource group.

@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.fluentcore.collection;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import reactor.core.publisher.Mono;
@@ -39,12 +40,12 @@ public interface SupportsListingByRegion<T> {
      * @param region the selected Azure region
      * @return a representation of the deferred computation of this call, returning the requested resources
      */
-    Mono<T> listByRegionAsync(Region region);
+    PagedFlux<T> listByRegionAsync(Region region);
 
     /**
      * List all the resources of the specified type in the specified region.
      * @param regionName the name of an Azure region
      * @return a representation of the deferred computation of this call, returning the requested resources
      */
-    Mono<T> listByRegionAsync(String regionName);
+    PagedFlux<T> listByRegionAsync(String regionName);
 }

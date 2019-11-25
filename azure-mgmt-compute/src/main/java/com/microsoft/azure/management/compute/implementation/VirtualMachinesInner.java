@@ -46,6 +46,8 @@ import rx.functions.Func1;
 import rx.Observable;
 import com.microsoft.azure.LongRunningFinalState;
 import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -2529,7 +2531,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     /**
-     * The operation to redeploy a virtual machine.
+     * Shuts down the virtual machine, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
@@ -2542,7 +2544,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     /**
-     * The operation to redeploy a virtual machine.
+     * Shuts down the virtual machine, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
@@ -2555,7 +2557,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     /**
-     * The operation to redeploy a virtual machine.
+     * Shuts down the virtual machine, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
@@ -2572,7 +2574,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     /**
-     * The operation to redeploy a virtual machine.
+     * Shuts down the virtual machine, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
@@ -2595,7 +2597,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     /**
-     * The operation to redeploy a virtual machine.
+     * Shuts down the virtual machine, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
@@ -2608,7 +2610,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     /**
-     * The operation to redeploy a virtual machine.
+     * Shuts down the virtual machine, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
@@ -2621,7 +2623,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     /**
-     * The operation to redeploy a virtual machine.
+     * Shuts down the virtual machine, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.
@@ -2638,7 +2640,7 @@ public class VirtualMachinesInner implements InnerSupportsGet<VirtualMachineInne
     }
 
     /**
-     * The operation to redeploy a virtual machine.
+     * Shuts down the virtual machine, moves it to a new node, and powers it back on.
      *
      * @param resourceGroupName The name of the resource group.
      * @param vmName The name of the virtual machine.

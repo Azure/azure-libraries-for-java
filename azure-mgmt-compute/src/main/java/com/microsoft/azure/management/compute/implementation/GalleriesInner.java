@@ -16,6 +16,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.compute.GalleryUpdate;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -30,6 +31,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -71,6 +73,14 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Galleries beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}")
         Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Query("api-version") String apiVersion, @Body GalleryInner gallery, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Galleries update" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}")
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Query("api-version") String apiVersion, @Body GalleryUpdate gallery, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Galleries beginUpdate" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}")
+        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Query("api-version") String apiVersion, @Body GalleryUpdate gallery, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.Galleries getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}")
@@ -172,7 +182,7 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
             throw new IllegalArgumentException("Parameter gallery is required and cannot be null.");
         }
         Validator.validate(gallery);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, apiVersion, gallery, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryInner>() { }.getType());
     }
@@ -247,7 +257,7 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
             throw new IllegalArgumentException("Parameter gallery is required and cannot be null.");
         }
         Validator.validate(gallery);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, apiVersion, gallery, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryInner>>>() {
                 @Override
@@ -267,6 +277,173 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
                 .register(200, new TypeToken<GalleryInner>() { }.getType())
                 .register(201, new TypeToken<GalleryInner>() { }.getType())
                 .register(202, new TypeToken<GalleryInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Update a Shared Image Gallery.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the GalleryInner object if successful.
+     */
+    public GalleryInner update(String resourceGroupName, String galleryName, GalleryUpdate gallery) {
+        return updateWithServiceResponseAsync(resourceGroupName, galleryName, gallery).toBlocking().last().body();
+    }
+
+    /**
+     * Update a Shared Image Gallery.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<GalleryInner> updateAsync(String resourceGroupName, String galleryName, GalleryUpdate gallery, final ServiceCallback<GalleryInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, galleryName, gallery), serviceCallback);
+    }
+
+    /**
+     * Update a Shared Image Gallery.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<GalleryInner> updateAsync(String resourceGroupName, String galleryName, GalleryUpdate gallery) {
+        return updateWithServiceResponseAsync(resourceGroupName, galleryName, gallery).map(new Func1<ServiceResponse<GalleryInner>, GalleryInner>() {
+            @Override
+            public GalleryInner call(ServiceResponse<GalleryInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Update a Shared Image Gallery.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<GalleryInner>> updateWithServiceResponseAsync(String resourceGroupName, String galleryName, GalleryUpdate gallery) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (galleryName == null) {
+            throw new IllegalArgumentException("Parameter galleryName is required and cannot be null.");
+        }
+        if (gallery == null) {
+            throw new IllegalArgumentException("Parameter gallery is required and cannot be null.");
+        }
+        Validator.validate(gallery);
+        final String apiVersion = "2019-07-01";
+        Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, galleryName, apiVersion, gallery, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryInner>() { }.getType());
+    }
+
+    /**
+     * Update a Shared Image Gallery.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the GalleryInner object if successful.
+     */
+    public GalleryInner beginUpdate(String resourceGroupName, String galleryName, GalleryUpdate gallery) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, galleryName, gallery).toBlocking().single().body();
+    }
+
+    /**
+     * Update a Shared Image Gallery.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<GalleryInner> beginUpdateAsync(String resourceGroupName, String galleryName, GalleryUpdate gallery, final ServiceCallback<GalleryInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, galleryName, gallery), serviceCallback);
+    }
+
+    /**
+     * Update a Shared Image Gallery.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the GalleryInner object
+     */
+    public Observable<GalleryInner> beginUpdateAsync(String resourceGroupName, String galleryName, GalleryUpdate gallery) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, galleryName, gallery).map(new Func1<ServiceResponse<GalleryInner>, GalleryInner>() {
+            @Override
+            public GalleryInner call(ServiceResponse<GalleryInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Update a Shared Image Gallery.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Image Gallery. The allowed characters are alphabets and numbers with dots and periods allowed in the middle. The maximum length is 80 characters.
+     * @param gallery Parameters supplied to the update Shared Image Gallery operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the GalleryInner object
+     */
+    public Observable<ServiceResponse<GalleryInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String galleryName, GalleryUpdate gallery) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (galleryName == null) {
+            throw new IllegalArgumentException("Parameter galleryName is required and cannot be null.");
+        }
+        if (gallery == null) {
+            throw new IllegalArgumentException("Parameter gallery is required and cannot be null.");
+        }
+        Validator.validate(gallery);
+        final String apiVersion = "2019-07-01";
+        return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, apiVersion, gallery, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryInner>>>() {
+                @Override
+                public Observable<ServiceResponse<GalleryInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<GalleryInner> clientResponse = beginUpdateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<GalleryInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<GalleryInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<GalleryInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -333,7 +510,7 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
         if (galleryName == null) {
             throw new IllegalArgumentException("Parameter galleryName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, galleryName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryInner>>>() {
                 @Override
@@ -416,7 +593,7 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
         if (galleryName == null) {
             throw new IllegalArgumentException("Parameter galleryName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, galleryName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -482,7 +659,7 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
         if (galleryName == null) {
             throw new IllegalArgumentException("Parameter galleryName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, galleryName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -597,7 +774,7 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<GalleryInner>>>>() {
                 @Override
@@ -702,7 +879,7 @@ public class GalleriesInner implements InnerSupportsGet<GalleryInner>, InnerSupp
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<GalleryInner>>>>() {
                 @Override

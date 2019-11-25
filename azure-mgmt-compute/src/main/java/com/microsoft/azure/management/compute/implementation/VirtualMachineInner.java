@@ -122,13 +122,13 @@ public class VirtualMachineInner extends Resource {
     /**
      * Specifies the priority for the virtual machine.
      * &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values
-     * include: 'Regular', 'Low'.
+     * include: 'Regular', 'Low', 'Spot'.
      */
     @JsonProperty(value = "properties.priority")
     private VirtualMachinePriorityTypes priority;
 
     /**
-     * Specifies the eviction policy for the low priority virtual machine. Only
+     * Specifies the eviction policy for the Azure Spot virtual machine. Only
      * supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum
      * api-version: 2019-03-01. Possible values include: 'Deallocate',
      * 'Delete'.
@@ -137,7 +137,7 @@ public class VirtualMachineInner extends Resource {
     private VirtualMachineEvictionPolicyTypes evictionPolicy;
 
     /**
-     * Specifies the billing related details of a low priority virtual machine.
+     * Specifies the billing related details of a Azure Spot virtual machine.
      * &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
      */
     @JsonProperty(value = "properties.billingProfile")
@@ -404,7 +404,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Get specifies the priority for the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Regular', 'Low'.
+     * Get specifies the priority for the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Regular', 'Low', 'Spot'.
      *
      * @return the priority value
      */
@@ -413,7 +413,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Set specifies the priority for the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Regular', 'Low'.
+     * Set specifies the priority for the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Regular', 'Low', 'Spot'.
      *
      * @param priority the priority value to set
      * @return the VirtualMachineInner object itself.
@@ -424,7 +424,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Get specifies the eviction policy for the low priority virtual machine. Only supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Deallocate', 'Delete'.
+     * Get specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Deallocate', 'Delete'.
      *
      * @return the evictionPolicy value
      */
@@ -433,7 +433,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Set specifies the eviction policy for the low priority virtual machine. Only supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Deallocate', 'Delete'.
+     * Set specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Deallocate', 'Delete'.
      *
      * @param evictionPolicy the evictionPolicy value to set
      * @return the VirtualMachineInner object itself.
@@ -444,7 +444,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Get specifies the billing related details of a low priority virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     * Get specifies the billing related details of a Azure Spot virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
      *
      * @return the billingProfile value
      */
@@ -453,7 +453,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Set specifies the billing related details of a low priority virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     * Set specifies the billing related details of a Azure Spot virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
      *
      * @param billingProfile the billingProfile value to set
      * @return the VirtualMachineInner object itself.

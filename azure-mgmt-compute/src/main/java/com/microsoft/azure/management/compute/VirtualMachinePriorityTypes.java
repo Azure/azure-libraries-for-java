@@ -22,6 +22,9 @@ public final class VirtualMachinePriorityTypes extends ExpandableStringEnum<Virt
     /** Static value Low for VirtualMachinePriorityTypes. */
     public static final VirtualMachinePriorityTypes LOW = fromString("Low");
 
+    /** Static value Spot for VirtualMachinePriorityTypes. */
+    public static final VirtualMachinePriorityTypes SPOT = fromString("Spot");
+
     /**
      * Creates or finds a VirtualMachinePriorityTypes from its string representation.
      * @param name a name to look for

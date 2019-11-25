@@ -43,6 +43,8 @@ import rx.functions.Func1;
 import rx.Observable;
 import com.microsoft.azure.LongRunningFinalState;
 import com.microsoft.azure.LongRunningOperationOptions;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -202,7 +204,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             throw new IllegalArgumentException("Parameter snapshot is required and cannot be null.");
         }
         Validator.validate(snapshot);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, snapshot, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<SnapshotInner>() { }.getType());
     }
@@ -277,7 +279,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             throw new IllegalArgumentException("Parameter snapshot is required and cannot be null.");
         }
         Validator.validate(snapshot);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, snapshot, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SnapshotInner>>>() {
                 @Override
@@ -370,7 +372,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             throw new IllegalArgumentException("Parameter snapshot is required and cannot be null.");
         }
         Validator.validate(snapshot);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, snapshot, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<SnapshotInner>() { }.getType());
     }
@@ -445,7 +447,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             throw new IllegalArgumentException("Parameter snapshot is required and cannot be null.");
         }
         Validator.validate(snapshot);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, snapshot, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SnapshotInner>>>() {
                 @Override
@@ -530,7 +532,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         if (snapshotName == null) {
             throw new IllegalArgumentException("Parameter snapshotName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<SnapshotInner>>>() {
                 @Override
@@ -613,7 +615,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         if (snapshotName == null) {
             throw new IllegalArgumentException("Parameter snapshotName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -679,7 +681,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         if (snapshotName == null) {
             throw new IllegalArgumentException("Parameter snapshotName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -794,7 +796,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SnapshotInner>>>>() {
                 @Override
@@ -899,7 +901,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<SnapshotInner>>>>() {
                 @Override
@@ -991,7 +993,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             throw new IllegalArgumentException("Parameter grantAccessData is required and cannot be null.");
         }
         Validator.validate(grantAccessData);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.grantAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, grantAccessData, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<AccessUriInner>() { }.getType());
     }
@@ -1066,7 +1068,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
             throw new IllegalArgumentException("Parameter grantAccessData is required and cannot be null.");
         }
         Validator.validate(grantAccessData);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginGrantAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, grantAccessData, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AccessUriInner>>>() {
                 @Override
@@ -1150,7 +1152,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         if (snapshotName == null) {
             throw new IllegalArgumentException("Parameter snapshotName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.revokeAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
     }
@@ -1216,7 +1218,7 @@ public class SnapshotsInner implements InnerSupportsGet<SnapshotInner>, InnerSup
         if (snapshotName == null) {
             throw new IllegalArgumentException("Parameter snapshotName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginRevokeAccess(this.client.subscriptionId(), resourceGroupName, snapshotName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override

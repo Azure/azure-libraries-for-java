@@ -13,7 +13,7 @@ import com.azure.core.annotation.*;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.Response;
-import com.azure.core.implementation.RestProxy;
+import com.azure.core.http.rest.RestProxy;
 import reactor.core.publisher.Mono;
 
 /**

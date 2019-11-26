@@ -10,13 +10,11 @@ package com.microsoft.azure.management.resources.implementation;
 
 import com.azure.core.annotation.*;
 import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.rest.PagedFlux;
-import com.azure.core.http.rest.PagedResponse;
-import com.azure.core.http.rest.Response;
-import com.azure.core.implementation.RestProxy;
-import com.azure.core.management.Page;
+import com.azure.core.http.rest.*;
 import com.azure.core.management.PagedList;
+import com.azure.core.polling.PollResult;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.core.util.polling.SyncPoller;
 import com.microsoft.azure.management.resources.ScopedDeployment;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsGet;
@@ -54,7 +52,6 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      */
     public DeploymentsInner(HttpPipeline pipeline, ResourceManagementClientImpl client) {
         this.service = RestProxy.create(DeploymentsService.class, pipeline);
-        ;
         this.client = client;
     }
 
@@ -234,12 +231,26 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
-     * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @param deploymentName    The name of the deployment.
+     * @param parameters        Additional parameters supplied to the operation.
      * @return the observable to the DeploymentExtendedInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      */
-    public Mono<DeploymentExtendedInner> beginCreateOrUpdate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+    public DeploymentExtendedInner beginCreateOrUpdate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, deploymentName, parameters).block();
+    }
+
+    /**
+     * Deploys resources to a resource group.
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     *
+     * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
+     * @param deploymentName    The name of the deployment.
+     * @param parameters        Additional parameters supplied to the operation.
+     * @return the observable to the DeploymentExtendedInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     */
+    public Mono<DeploymentExtendedInner> beginCreateOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -258,6 +269,17 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         // Validator.validate(parameters);
         return service.beginCreateOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(response -> Mono.just(response.getValue()));
+//                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentExtendedInner>>>() {
+//                    @Override
+//                    public Observable<ServiceResponse<DeploymentExtendedInner>> call(Response<ResponseBody> response) {
+//                        try {
+//                            ServiceResponse<DeploymentExtendedInner> clientResponse = beginCreateOrUpdateDelegate(response);
+//                            return Observable.just(clientResponse);
+//                        } catch (Throwable t) {
+//                            return Observable.error(t);
+//                        }
+//                    }
+//                });
     }
 
 
@@ -266,12 +288,12 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      * You can provide the template and parameters directly in the request or link to JSON files.
      *
      * @param resourceGroupName The name of the resource group to deploy the resources to. The name is case insensitive. The resource group must already exist.
-     * @param deploymentName The name of the deployment.
-     * @param parameters Additional parameters supplied to the operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @param deploymentName    The name of the deployment.
+     * @param parameters        Additional parameters supplied to the operation.
      * @return the observable for the request
+     * @throws IllegalArgumentException thrown if parameters fail the validation
      */
-    public SyncPoller<DeploymentExtendedInner, Void> createOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+    public Mono<DeploymentExtendedInner> createOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -288,19 +310,63 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         // Validator.validate(parameters);
-        Mono<DeploymentExtendedInner> observable = service.createOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-                .flatMap(response -> Mono.just(response.getValue()));
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DeploymentExtendedInner>() { }.getType());
+        Mono<Response<DeploymentExtendedInner>> observable = service.createOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        //  .flatMap(response -> Mono.just(response.getValue()));
+        return client.getAzureClient().getPutOrPatchResultAsync(observable)
+                .takeWhile(apr -> apr.getStatus() == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED)
+                .next()
+                .flatMap(val -> Mono.just(val.getValue().value()));
+    }
+
+    public boolean checkExistence(String resourceGroupName, String deploymentName) {
+        return checkExistenceAsync(resourceGroupName, deploymentName).block();
+    }
+
+    /**
+     * Checks whether the deployment exists.
+     *
+     * @param resourceGroupName The name of the resource group with the deployment to check. The name is case insensitive.
+     * @param deploymentName    The name of the deployment.
+     * @return the observable to the Boolean object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     */
+    public Mono<Boolean> checkExistenceAsync(String resourceGroupName, String deploymentName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (deploymentName == null) {
+            throw new IllegalArgumentException("Parameter deploymentName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.checkExistence(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+                .flatMap(res -> Mono.just(res.getValue()));
     }
 
     @Override
     public PagedList<DeploymentExtendedInner> list() {
-        return null;
+        PagedResponse<DeploymentExtendedInner> response = listDeploymentsFirstPage().block();
+        return new PagedList<DeploymentExtendedInner>(response) {
+            @Override
+            public Page<DeploymentExtendedInner> nextPage(String nextPageLink) {
+                return listDeploymentsByResourceNextPage(nextPageLink).block();
+            }
+        };
     }
 
     @Override
     public PagedList<DeploymentExtendedInner> listByResourceGroup(String resourceGroupName) {
-        return null;
+        PagedResponse<DeploymentExtendedInner> response = listDeploymentsByResourceGroupFirstPage(resourceGroupName).block();
+        return new PagedList<DeploymentExtendedInner>(response) {
+            @Override
+            public Page<DeploymentExtendedInner> nextPage(String nextPageLink) {
+                return listDeploymentsByResourceNextPage(nextPageLink).block();
+            }
+        };
     }
 
     interface DeploymentsService {
@@ -342,7 +408,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtScope"})
         @Get("{scope}/providers/Microsoft.Resources/deployments/")
-        Mono<Response<Page<DeploymentExtendedInner>>> listAtScope(@PathParam("scope") String scope, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtScope(@PathParam("scope") String scope, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtTenantScope"})
         @Delete("providers/Microsoft.Resources/deployments/{deploymentName}")
@@ -382,7 +448,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtTenantScope"})
         @Get("providers/Microsoft.Resources/deployments/")
-        Mono<Response<Page<DeploymentExtendedInner>>> listAtTenantScope(@QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtTenantScope(@QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtManagementGroupScope"})
         @Delete("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
@@ -422,7 +488,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtManagementGroupScope"})
         @Get("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/")
-        Mono<Response<Page<DeploymentExtendedInner>>> listAtManagementGroupScope(@PathParam("groupId") String groupId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtManagementGroupScope(@PathParam("groupId") String groupId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtSubscriptionScope"})
         @Delete("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
@@ -526,15 +592,15 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtScopeNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<Page<DeploymentExtendedInner>>> listAtScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtTenantScopeNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<Page<DeploymentExtendedInner>>> listAtTenantScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtTenantScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtManagementGroupScopeNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<Page<DeploymentExtendedInner>>> listAtManagementGroupScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtManagementGroupScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listNext"})
         @Get("{nextUrl}")

@@ -7,9 +7,8 @@
 package com.microsoft.azure.management.resources.fluentcore.arm.collection;
 
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.management.PagedList;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 /**
  * Provides access to listing Azure resources of a specific type in a specific resource group.
@@ -33,5 +32,5 @@ public interface SupportsListingByResourceGroup<T> {
      * @param resourceGroupName the name of the resource group to list the resources from
      * @return the list of resources
      */
-    Flux<T> listByResourceGroupAsync(String resourceGroupName);
+    PagedFlux<T> listByResourceGroupAsync(String resourceGroupName);
 }

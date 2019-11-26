@@ -6,15 +6,13 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.Deployment;
 import com.microsoft.azure.management.resources.DeploymentOperation;
 import com.microsoft.azure.management.resources.DeploymentOperations;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation of {@link DeploymentOperations}.
@@ -26,7 +24,7 @@ final class DeploymentOperationsImpl
     private final Deployment deployment;
 
     DeploymentOperationsImpl(final DeploymentOperationsInner client,
-                                    final Deployment deployment) {
+                             final Deployment deployment) {
         this.client = client;
         this.deployment = deployment;
     }
@@ -38,23 +36,15 @@ final class DeploymentOperationsImpl
 
     @Override
     public DeploymentOperation getById(String operationId) {
-        return getByIdAsync(operationId).toBlocking().last();
+        return getByIdAsync(operationId).block();
     }
 
     @Override
-    public Observable<DeploymentOperation> getByIdAsync(String operationId) {
-        return client.getAsync(deployment.resourceGroupName(), deployment.name(), operationId).map(new Func1<DeploymentOperationInner, DeploymentOperation>() {
-            @Override
-            public DeploymentOperation call(DeploymentOperationInner deploymentOperationInner) {
-                return wrapModel(deploymentOperationInner);
-            }
-        });
+    public Mono<DeploymentOperation> getByIdAsync(String operationId) {
+        return client.getAsync(deployment.resourceGroupName(), deployment.name(), operationId)
+                .map(inner -> wrapModel(inner));
     }
 
-    @Override
-    public ServiceFuture<DeploymentOperation> getByIdAsync(String id, ServiceCallback<DeploymentOperation> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
-    }
 
     @Override
     protected DeploymentOperationImpl wrapModel(DeploymentOperationInner inner) {
@@ -65,7 +55,7 @@ final class DeploymentOperationsImpl
     }
 
     @Override
-    public Observable<DeploymentOperation> listAsync() {
+    public PagedFlux<DeploymentOperation> listAsync() {
         return wrapPageAsync(this.client.listByResourceGroupAsync(deployment.resourceGroupName(), deployment.name()));
     }
 }

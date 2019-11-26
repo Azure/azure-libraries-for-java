@@ -1,7 +1,10 @@
 package com.microsoft.azure.management;
 
+import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.util.serializer.SerializerAdapter;
+
+import java.net.URL;
 
 public class RestClient {
 
@@ -20,5 +23,16 @@ public class RestClient {
 
     public HttpPipeline getHttpPipeline() {
         return this.client.getHttpPipeline();
+    }
+
+    /**
+     * @return the credentials attached to this REST client
+     */
+    public TokenCredential getCredential() {
+        return this.client.getCredential();
+    }
+
+    public URL getBaseURL() {
+        return this.client.getBaseUrl();
     }
 }

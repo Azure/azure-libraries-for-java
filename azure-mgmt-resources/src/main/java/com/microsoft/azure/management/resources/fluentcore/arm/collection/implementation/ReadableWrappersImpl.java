@@ -6,6 +6,8 @@
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
 import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
@@ -66,30 +68,30 @@ public abstract class ReadableWrappersImpl<
     }
 
 
-    protected Flux<T> wrapPageAsync(Flux<Page<InnerT>> innerPage) {
-        return wrapModelAsync(convertPageToInnerAsync(innerPage));
+    protected PagedFlux<T> wrapPageAsync(PagedFlux<InnerT> innerPage) {
+        return innerPage.mapPage(innerT -> wrapModel(innerT));
     }
-
-    protected Flux<T> wrapListAsync(Flux<List<InnerT>> innerList) {
-        return wrapModelAsync(convertListToInnerAsync(innerList));
-    }
-
-    /**
-     * Converts Observable of list to Observable of Inner.
-     * @param innerList list to be converted.
-     * @param <InnerT> type of inner.
-     * @return Observable for list of inner.
-     */
-    public static <InnerT> Flux<InnerT> convertListToInnerAsync(Flux<List<InnerT>> innerList) {
-        return innerList.flatMap(u -> Flux.fromIterable(u));
-
+//
+//    protected Flux<T> wrapListAsync(Flux<List<InnerT>> innerList) {
+//        return wrapModelAsync(convertListToInnerAsync(innerList));
+//    }
+//
+//    /**
+//     * Converts Observable of list to Observable of Inner.
+//     * @param innerList list to be converted.
+//     * @param <InnerT> type of inner.
+//     * @return Observable for list of inner.
+//     */
+//    public static <InnerT> Flux<InnerT> convertListToInnerAsync(PagedList<InnerT> innerList) {
+//        return innerList.flatMap(u -> Flux.fromIterable(u));
+//
 //        return innerList.flatMap(new Func1<List<InnerT>, Observable<InnerT>>() {
 //            @Override
 //            public Observable<InnerT> call(List<InnerT> inners) {
 //                return Observable.from(inners);
 //            }
 //        });
-    }
+//    }
 
     /**
      * Converts Observable of page to Observable of Inner.
@@ -97,17 +99,15 @@ public abstract class ReadableWrappersImpl<
      * @param innerPage Page to be converted.
      * @return Observable for list of inner.
      */
-    public static <InnerT> Flux<InnerT> convertPageToInnerAsync(Flux<Page<InnerT>> innerPage) {
-        return innerPage.flatMap(innerT -> Flux.fromIterable(innerT.getItems()));
+    public static <InnerT> Flux<InnerT> convertPageToInnerAsync(PagedFlux<InnerT> innerPage) {
+
+        // TODO: What's this?????
+        return innerPage;
 //        return innerPage.flatMap(new Func1<Page<InnerT>, Observable<InnerT>>() {
 //            @Override
 //            public Observable<InnerT> call(Page<InnerT> pageInner) {
 //                return Observable.from(pageInner.items());
 //            }
 //        });
-    }
-
-    private Flux<T> wrapModelAsync(Flux<InnerT> inner) {
-        return inner.map(innerT -> wrapModel(innerT));
     }
 }

@@ -10,9 +10,10 @@ package com.microsoft.azure.management.resources.implementation;
 
 import com.azure.core.annotation.*;
 import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.rest.PagedResponse;
-import com.azure.core.http.rest.Response;
-import com.azure.core.implementation.RestProxy;
+import com.azure.core.http.rest.*;
+import com.azure.core.management.PagedList;
+import com.azure.core.util.logging.ClientLogger;
+import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -22,20 +23,131 @@ import java.util.List;
  * in Subscriptions.
  */
 public class SubscriptionsInner {
-    /** The Retrofit service to perform REST calls. */
+    /**
+     * The Retrofit service to perform REST calls.
+     */
     private SubscriptionsService service;
-    /** The service client containing this operation class. */
+    /**
+     * The service client containing this operation class.
+     */
     private SubscriptionClientImpl client;
+
+
+    private final ClientLogger logger = new ClientLogger(SubscriptionsInner.class);
 
     /**
      * Initializes an instance of SubscriptionsInner.
      *
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
-     * @param client the instance of the service client containing this operation class.
+     * @param client   the instance of the service client containing this operation class.
      */
     public SubscriptionsInner(HttpPipeline retrofit, SubscriptionClientImpl client) {
         this.service = RestProxy.create(SubscriptionsService.class, retrofit);
         this.client = client;
+    }
+
+
+    public List<LocationInner> listLocations(String subscriptionId) {
+        return listLocationsAsync(subscriptionId).block();
+    }
+
+
+    public Mono<List<LocationInner>> listLocationsAsync(String subscriptionId) {
+        if (subscriptionId == null) {
+            throw new IllegalArgumentException("Parameter subscriptionId is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.listLocations(subscriptionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+                .flatMap(res -> Mono.just(res.getValue()));
+//                .flatMap(response -> {
+//
+//                });
+//                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<LocationInner>>>>() {
+//                    @Override
+//                    public Observable<ServiceResponse<List<LocationInner>>> call(Response<ResponseBody> response) {
+//                        try {
+//                            ServiceResponse<PageImpl<LocationInner>> result = listLocationsDelegate(response);
+//                            ServiceResponse<List<LocationInner>> clientResponse = new ServiceResponse<List<LocationInner>>(result.body().items(), result.response());
+//                            return Observable.just(clientResponse);
+//                        } catch (Throwable t) {
+//                            return Observable.error(t);
+//                        }
+//                    }
+//                });
+    }
+
+
+    public PagedList<SubscriptionInner> list() {
+        PagedResponse<SubscriptionInner> response = listSubscriptionsFirstPage().block();
+        return new PagedList<SubscriptionInner>(response) {
+            @Override
+            public Page<SubscriptionInner> nextPage(String nextPageLink) {
+                return listSubscriptionsNextPage(nextPageLink).block();
+            }
+        };
+    }
+
+    public PagedFlux<SubscriptionInner> listAsync() {
+        return new PagedFlux<>(
+                () -> listSubscriptionsFirstPage(),
+                continuationToken -> listSubscriptionsNextPage(continuationToken));
+    }
+
+    /*
+     * Calls the service and retrieve first page result. It makes one call and retrieve {@code
+     * DEFAULT_MAX_PAGE_RESULTS} values.
+     */
+    private Mono<PagedResponse<SubscriptionInner>> listSubscriptionsFirstPage() {
+        try {
+            return service.list(this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+                    .doOnRequest(ignored -> logger.info("Listing deployments"))
+                    .doOnSuccess(response -> logger.info("Listed deployments"))
+                    .doOnError(error -> logger.warning("Failed to list deployments", error));
+        } catch (RuntimeException ex) {
+            return Mono.error(logger.logExceptionAsError(Exceptions.propagate(ex)));
+        }
+    }
+
+
+    /*
+     * Gets attributes of all the secrets given by the {@code nextPageLink} that was retrieved from a call to
+     * {@link SecretAsyncClient#listSecrets()}.
+     *
+     * @param continuationToken The {@link PagedResponse#nextLink()} from a previous, successful call to one of the
+     * list operations.
+     * @return A {@link Mono} of {@link PagedResponse<SecretProperties>} from the next page of results.
+     */
+    private Mono<PagedResponse<SubscriptionInner>> listSubscriptionsNextPage(String continuationToken) {
+        try {
+            return service.listNext(continuationToken, this.client.acceptLanguage(), this.client.userAgent())
+                    .doOnRequest(ignoredValue -> logger.info("Retrieving the next secrets page - Page {}", continuationToken))
+                    .doOnSuccess(response -> logger.info("Retrieved the next secrets page - Page {}", continuationToken))
+                    .doOnError(error -> logger.warning("Failed to retrieve the next secrets page - Page {}",
+                            continuationToken, error));
+        } catch (RuntimeException ex) {
+            return Mono.error(logger.logExceptionAsError(Exceptions.propagate(ex)));
+        }
+    }
+
+
+    /**
+     * Gets details about a specified subscription.
+     *
+     * @param subscriptionId The ID of the target subscription.
+     * @return the observable to the SubscriptionInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     */
+    public Mono<SubscriptionInner> getAsync(String subscriptionId) {
+        if (subscriptionId == null) {
+            throw new IllegalArgumentException("Parameter subscriptionId is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.get(subscriptionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+                .flatMap(res -> Mono.just(res.getValue()));
     }
 
     /**

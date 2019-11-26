@@ -7,7 +7,7 @@
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
 import com.azure.core.exception.HttpResponseException;
-import com.azure.core.management.Page;
+import com.azure.core.http.rest.Page;
 import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
 import reactor.core.publisher.Flux;
@@ -37,6 +37,7 @@ public abstract class PagedListConverter<U, V> {
 
     /**
      * Override this method to define what items should be fetched.
+     *
      * @param u an original item to test
      * @return true if this item should be fetched
      */
@@ -61,7 +62,7 @@ public abstract class PagedListConverter<U, V> {
         }
         Page<U> uPage = uList.getCurrentPage();
         final PageImpl<V> vPage = new PageImpl<>();
-        vPage.setNextPageLink(uPage.getNextPageLink());
+        vPage.setNextPageLink(uPage.getContinuationToken());
         vPage.setItems(new ArrayList<V>());
         loadConvertedList(uPage, vPage);
         return new PagedList<V>(vPage) {
@@ -69,7 +70,7 @@ public abstract class PagedListConverter<U, V> {
             public Page<V> nextPage(String nextPageLink) throws HttpResponseException, IOException {
                 Page<U> uPage = uList.nextPage(nextPageLink);
                 final PageImpl<V> vPage = new PageImpl<>();
-                vPage.setNextPageLink(uPage.getNextPageLink());
+                vPage.setNextPageLink(uPage.getContinuationToken());
                 vPage.setItems(new ArrayList<V>());
                 loadConvertedList(uPage, vPage);
                 return vPage;
@@ -79,7 +80,7 @@ public abstract class PagedListConverter<U, V> {
 
     private void loadConvertedList(final Page<U> uPage, final Page<V> vPage) {
         Flux.fromIterable(uPage.getItems())
-                .filter( u -> filter(u))
+                .filter(u -> filter(u))
                 .flatMap(u -> typeConvertAsync(u))
                 .map(v -> vPage.getItems().add(v))
                 .subscribe();

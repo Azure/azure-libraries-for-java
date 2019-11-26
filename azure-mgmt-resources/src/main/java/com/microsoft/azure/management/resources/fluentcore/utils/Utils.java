@@ -10,12 +10,13 @@ import com.azure.core.annotation.Get;
 import com.azure.core.annotation.PathParam;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpResponse;
+import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.RestProxy;
-import com.azure.core.implementation.RestProxy;
 import com.azure.core.management.AzureEnvironment;
-import com.azure.core.management.Page;
 import com.azure.core.management.PagedList;
 import com.google.common.primitives.Ints;
+import com.microsoft.azure.management.AzureTokenCredential;
+import com.microsoft.azure.management.RestClient;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
@@ -86,7 +87,7 @@ public final class Utils {
     /**
      * Creates an Odata filter string that can be used for filtering list results by tags.
      *
-     * @param tagName the name of the tag. If not provided, all resources will be returned.
+     * @param tagName  the name of the tag. If not provided, all resources will be returned.
      * @param tagValue the value of the tag. If not provided, only tag name will be filtered.
      * @return the Odata filter to pass into list methods
      */
@@ -105,7 +106,7 @@ public final class Utils {
      * resource from a given observable of {@link Indexable}.
      *
      * @param stream the input observable of {@link Indexable}
-     * @param <U> the specialized type of last item in the input stream
+     * @param <U>    the specialized type of last item in the input stream
      * @return an observable that emits last item
      */
     @SuppressWarnings("unchecked")
@@ -115,23 +116,24 @@ public final class Utils {
 
     /**
      * Download a file asynchronously.
-     * @param url the URL pointing to the file
+     *
+     * @param url      the URL pointing to the file
      * @param retrofit the retrofit client
      * @return an Observable pointing to the content of the file
      */
     public static Mono<byte[]> downloadFileAsync(String url, HttpPipeline retrofit) {
         FileService service = RestProxy.create(FileService.class, retrofit);
         Mono<HttpResponse> response = service.download(url);
-        return response.flatMap( httpResponse ->  httpResponse.getBodyAsByteArray() );
+        return response.flatMap(httpResponse -> httpResponse.getBodyAsByteArray());
     }
 
     /**
      * Converts the given list of a type to paged list of a different type.
      *
-     * @param list the list to convert to paged list
+     * @param list   the list to convert to paged list
      * @param mapper the mapper to map type in input list to output list
      * @param <OutT> the type of items in output paged list
-     * @param <InT> the type of items in input paged list
+     * @param <InT>  the type of items in input paged list
      * @return the paged list
      */
     public static <OutT, InT> PagedList<OutT> toPagedList(List<InT> list, final Function<InT, OutT> mapper) {
@@ -156,7 +158,7 @@ public final class Utils {
     /**
      * Adds a value to the list if does not already exists.
      *
-     * @param list the list
+     * @param list  the list
      * @param value value to add if not exists in the list
      */
     public static void addToListIfNotExists(List<String> list, String value) {
@@ -175,7 +177,7 @@ public final class Utils {
     /**
      * Removes a value from the list.
      *
-     * @param list the list
+     * @param list  the list
      * @param value value to remove
      */
     public static void removeFromList(List<String> list, String value) {
@@ -196,17 +198,18 @@ public final class Utils {
     /**
      * Try to extract the environment the client is authenticated to based
      * on the information on the rest client.
+     *
      * @param restClient the RestClient instance
      * @return the non-null AzureEnvironment
      */
     public static AzureEnvironment extractAzureEnvironment(RestClient restClient) {
         AzureEnvironment environment = null;
-        if (restClient.credentials() instanceof AzureTokenCredentials) {
-            environment = ((AzureTokenCredentials) restClient.credentials()).environment();
+        if (restClient.getCredential() instanceof AzureTokenCredential) {
+            environment = ((AzureTokenCredential) restClient.getCredential()).environment();
         } else {
-            String baseUrl = restClient.retrofit().baseUrl().toString();
+            String baseUrl = restClient.getBaseURL().toString();
             for (AzureEnvironment env : AzureEnvironment.knownEnvironments()) {
-                if (env.resourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
+                if (env.getResourceManagerEndpoint().toLowerCase().contains(baseUrl.toLowerCase())) {
                     environment = env;
                     break;
                 }

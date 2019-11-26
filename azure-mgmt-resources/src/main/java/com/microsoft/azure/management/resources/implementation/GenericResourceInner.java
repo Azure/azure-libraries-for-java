@@ -9,11 +9,11 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.azure.core.implementation.annotation.SkipParentValidation;
+import com.azure.core.management.Resource;
 import com.microsoft.azure.management.resources.Plan;
 import com.microsoft.azure.management.resources.Sku;
 import com.microsoft.azure.management.resources.Identity;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 
 /**
  * Resource information.

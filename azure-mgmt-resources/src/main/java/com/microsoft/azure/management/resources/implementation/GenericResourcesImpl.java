@@ -6,7 +6,8 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.GenericResource;
 import com.microsoft.azure.management.resources.GenericResources;
 import com.microsoft.azure.management.resources.Provider;
@@ -15,11 +16,8 @@ import com.microsoft.azure.management.resources.ResourcesMoveInfo;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.List;
 
@@ -27,13 +25,13 @@ import java.util.List;
  * Implementation of the {@link GenericResources}.
  */
 final class GenericResourcesImpl
-    extends GroupableResourcesImpl<
+        extends GroupableResourcesImpl<
         GenericResource,
         GenericResourceImpl,
         GenericResourceInner,
         ResourcesInner,
         ResourceManager>
-    implements GenericResources {
+        implements GenericResources {
 
     GenericResourcesImpl(ResourceManager resourceManager) {
         super(resourceManager.inner().resources(), resourceManager);
@@ -56,7 +54,7 @@ final class GenericResourcesImpl
     }
 
     @Override
-    public Observable<GenericResource> listByTagAsync(String resourceGroupName, String tagName, String tagValue) {
+    public PagedFlux<GenericResource> listByTagAsync(String resourceGroupName, String tagName, String tagValue) {
         return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName,
                 Utils.createOdataFilterForTags(tagName, tagValue), null, null));
     }
@@ -82,7 +80,7 @@ final class GenericResourcesImpl
 
     @Override
     public boolean checkExistenceById(String id) {
-        String apiVersion = getApiVersionFromId(id).toBlocking().single();
+        String apiVersion = getApiVersionFromId(id).block();
         return this.inner().checkExistenceById(id, apiVersion);
     }
 
@@ -146,35 +144,28 @@ final class GenericResourcesImpl
 
     @Override
     public void moveResources(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources) {
-        this.moveResourcesAsync(sourceResourceGroupName, targetResourceGroup, resources).await();
+        this.moveResourcesAsync(sourceResourceGroupName, targetResourceGroup, resources).block();
     }
 
     @Override
-    public Completable moveResourcesAsync(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources) {
-        ResourcesMoveInfo moveInfo = new ResourcesMoveInfo();
-        moveInfo.withTargetResourceGroup(targetResourceGroup.id());
-        moveInfo.withResources(resources);
-        return this.inner().moveResourcesAsync(sourceResourceGroupName, moveInfo).toCompletable();
+    public Mono<Void> moveResourcesAsync(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources) {
+        throw new NotImplementedException();
+//        ResourcesMoveInfo moveInfo = new ResourcesMoveInfo();
+//        moveInfo.withTargetResourceGroup(targetResourceGroup.id());
+//        moveInfo.withResources(resources);
+//        return this.inner().moveResourcesAsync(sourceResourceGroupName, moveInfo).toCompletable();
     }
 
-    @Override
-    public ServiceFuture<Void> moveResourcesAsync(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(this.moveResourcesAsync(sourceResourceGroupName, targetResourceGroup, resources), callback);
-    }
 
     @Override
     public void delete(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).await();
+        deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).block();
     }
 
     @Override
-    public Completable deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).toCompletable();
-    }
-
-    @Override
-    public ServiceFuture<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion), callback);
+    public Mono<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+        throw new NotImplementedException();
+//        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).toCompletable();
     }
 
     @Override
@@ -191,54 +182,44 @@ final class GenericResourcesImpl
         if (inner == null) {
             return null;
         }
-        return new GenericResourceImpl(inner.id(), inner, this.manager())
-                .withExistingResourceGroup(ResourceUtils.groupFromResourceId(inner.id()))
-                .withProviderNamespace(ResourceUtils.resourceProviderFromResourceId(inner.id()))
-                .withResourceType(ResourceUtils.resourceTypeFromResourceId(inner.id()))
-                .withParentResourceId(ResourceUtils.parentResourceIdFromResourceId(inner.id()));
+        return new GenericResourceImpl(inner.getId(), inner, this.manager())
+                .withExistingResourceGroup(ResourceUtils.groupFromResourceId(inner.getId()))
+                .withProviderNamespace(ResourceUtils.resourceProviderFromResourceId(inner.getId()))
+                .withResourceType(ResourceUtils.resourceTypeFromResourceId(inner.getId()))
+                .withParentResourceId(ResourceUtils.parentResourceIdFromResourceId(inner.getId()));
     }
 
     @Override
-    public Observable<GenericResourceInner> getInnerAsync(String groupName, String name) {
+    public Mono<GenericResourceInner> getInnerAsync(String groupName, String name) {
         // Not needed, can't be supported, provided only to satisfy GroupableResourceImpl's requirements
         throw new UnsupportedOperationException("Get just by resource group and name is not supported. Please use other overloads.");
     }
 
     @Override
-    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
+    protected Mono<Void> deleteInnerAsync(String resourceGroupName, String name) {
         // Not needed, can't be supported, provided only to satisfy GroupableResourceImpl's requirements
         throw new UnsupportedOperationException("Delete just by resource group and name is not supported. Please use other overloads.");
     }
 
     @Override
-    public Completable deleteByIdAsync(final String id) {
-       final ResourcesInner inner = this.inner();
+    public Mono<Void> deleteByIdAsync(final String id) {
+        final ResourcesInner inner = this.inner();
         return getApiVersionFromId(id)
-                .flatMap(new Func1<String, Observable<Void>>() {
-                    @Override
-                    public Observable<Void> call(String apiVersion) {
-                        return inner.deleteByIdAsync(id, apiVersion);
-                    }
-                }).toCompletable();
+                .flatMap(apiVersion -> inner.deleteByIdAsync(id, apiVersion));
     }
 
-    private Observable<String> getApiVersionFromId(final String id) {
+    private Mono<String> getApiVersionFromId(final String id) {
         return this.manager().providers().getByNameAsync(ResourceUtils.resourceProviderFromResourceId(id))
-                .map(new Func1<Provider, String>() {
-                    @Override
-                    public String call(Provider provider) {
-                        return ResourceUtils.defaultApiVersion(id, provider);
-                    }
-                });
+                .flatMap(provider -> Mono.just(ResourceUtils.defaultApiVersion(id, provider)));
     }
 
     @Override
-    public Observable<GenericResource> listAsync() {
+    public PagedFlux<GenericResource> listAsync() {
         return wrapPageAsync(this.inner().listAsync());
     }
 
     @Override
-    public Observable<GenericResource> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<GenericResource> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(this.manager().inner().resources().listByResourceGroupAsync(resourceGroupName));
     }
 }

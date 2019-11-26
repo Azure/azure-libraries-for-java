@@ -16,5 +16,5 @@ public interface HasId {
     /**
      * @return the resource ID string
      */
-    String id();
+    String getId();
 }

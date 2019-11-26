@@ -19,13 +19,13 @@ import java.util.concurrent.TimeUnit;
  * @param <T> the actual type of the interface extending this interface
  */
 public interface AzureConfigurable<T extends AzureConfigurable<T>> {
-    /**
-     * Set the logging level on the HTTP client.
-     *
-     * @param level the OkHttp logging level
-     * @return the configurable object itself
-     */
-    T withLogLevel(HttpLogDetailLevel level);
+//    /**
+//     * Set the logging level on the HTTP client.
+//     *
+//     * @param level the OkHttp logging level
+//     * @return the configurable object itself
+//     */
+//    T withLogLevel(HttpLogDetailLevel level);
 
     /**
      * Plug in an interceptor into the HTTP pipeline.

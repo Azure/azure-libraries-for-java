@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
@@ -14,7 +13,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.Independen
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation for the child resource which can be CRUDed independently from the parent resource.
@@ -25,7 +24,6 @@ import rx.Observable;
  * @param <FluentModelImplT> the implementation type of the fluent model type
  * @param <ManagerT> the client manager type representing the service
  */
-@LangDefinition
 public abstract class IndependentChildImpl<
             FluentModelT extends IndependentChild<ManagerT>,
             FluentParentModelT extends Resource & HasResourceGroup,
@@ -110,7 +108,7 @@ public abstract class IndependentChildImpl<
 
     @SuppressWarnings("unchecked")
     @Override
-    public Observable<FluentModelT> createResourceAsync() {
+    public Mono<FluentModelT> createResourceAsync() {
         if (this.creatableParentResourceKey != null) {
             FluentParentModelT parentResource = this.<FluentParentModelT>taskResult(this.creatableParentResourceKey);
             withExistingParentResource(parentResource);
@@ -124,5 +122,5 @@ public abstract class IndependentChildImpl<
         }
     }
 
-    protected abstract Observable<FluentModelT> createChildResourceAsync();
+    protected abstract Mono<FluentModelT> createChildResourceAsync();
 }

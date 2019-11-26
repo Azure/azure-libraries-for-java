@@ -6,11 +6,14 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.Subscription;
 import com.microsoft.azure.management.resources.Subscriptions;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.SupportsGettingByIdImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation of Subscriptions.
@@ -28,8 +31,8 @@ final class SubscriptionsImpl
     public PagedList<Subscription> list() {
         PagedListConverter<SubscriptionInner, Subscription> converter = new PagedListConverter<SubscriptionInner, Subscription>() {
             @Override
-            public Observable<Subscription> typeConvertAsync(SubscriptionInner subscriptionInner) {
-                return Observable.just((Subscription) wrapModel(subscriptionInner));
+            public Mono<Subscription> typeConvertAsync(SubscriptionInner subscriptionInner) {
+                return Mono.just((Subscription) wrapModel(subscriptionInner));
             }
         };
         return converter.convert(client.list());
@@ -37,23 +40,13 @@ final class SubscriptionsImpl
 
 
     @Override
-    public Observable<Subscription> getByIdAsync(String id) {
-        return client.getAsync(id).map(new Func1<SubscriptionInner, Subscription>() {
-            @Override
-            public Subscription call(SubscriptionInner subscriptionInner) {
-                return wrapModel(subscriptionInner);
-            }
-        });
+    public Mono<Subscription> getByIdAsync(String id) {
+        return client.getAsync(id).flatMap(inner -> Mono.just(wrapModel(inner)));
     }
 
     @Override
-    public Observable<Subscription> listAsync() {
-        return ReadableWrappersImpl.convertPageToInnerAsync(client.listAsync()).map(new Func1<SubscriptionInner, Subscription>() {
-            @Override
-            public Subscription call(SubscriptionInner subscriptionInner) {
-                return wrapModel(subscriptionInner);
-            }
-        });
+    public PagedFlux<Subscription> listAsync() {
+        return client.listAsync().mapPage(inner -> wrapModel(inner));
     }
 
     private SubscriptionImpl wrapModel(SubscriptionInner subscriptionInner) {

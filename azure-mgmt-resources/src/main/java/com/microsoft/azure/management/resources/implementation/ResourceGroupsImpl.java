@@ -6,16 +6,14 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.ResourceGroups;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for ResourceGroups.
@@ -47,7 +45,7 @@ final class ResourceGroupsImpl
     }
 
     @Override
-    public Observable<ResourceGroup> listByTagAsync(String tagName, String tagValue) {
+    public PagedFlux<ResourceGroup> listByTagAsync(String tagName, String tagValue) {
         return wrapPageAsync(client.listAsync(Utils.createOdataFilterForTags(tagName, tagValue), null));
     }
 
@@ -58,17 +56,13 @@ final class ResourceGroupsImpl
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).block();
     }
 
-    @Override
-    public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromResponse(client.deleteWithServiceResponseAsync(name), callback);
-    }
 
     @Override
-    public Completable deleteByNameAsync(String name) {
-        return client.deleteAsync(name).toCompletable();
+    public Mono<Void> deleteByNameAsync(String name) {
+        return client.deleteAsync(name);
     }
 
     @Override
@@ -96,31 +90,27 @@ final class ResourceGroupsImpl
         if (inner == null) {
             return null;
         }
-        return new ResourceGroupImpl(inner, inner.name(), serviceClient);
+        return new ResourceGroupImpl(inner, inner.getName(), serviceClient);
     }
 
     @Override
     public void beginDeleteByName(String id) {
-        beginDeleteByNameAsync(id).toBlocking().subscribe();
+        beginDeleteByNameAsync(id).block();
     }
 
-    @Override
-    public ServiceFuture<Void> beginDeleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        return ServiceFuture.fromBody(beginDeleteByNameAsync(name), callback);
-    }
 
     @Override
-    public Observable<Void> beginDeleteByNameAsync(String name) {
+    public Mono<Void> beginDeleteByNameAsync(String name) {
         return client.beginDeleteAsync(name);
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         return deleteByNameAsync(ResourceUtils.nameFromResourceId(id));
     }
 
     @Override
-    public Observable<ResourceGroup> listAsync() {
+    public PagedFlux<ResourceGroup> listAsync() {
         return wrapPageAsync(this.client.listAsync());
     }
 }

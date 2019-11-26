@@ -12,19 +12,18 @@ import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation for GenericResource and its nested interfaces.
  */
 final class GenericResourceImpl
-    extends GroupableResourceImpl<
+        extends GroupableResourceImpl<
         GenericResource,
         GenericResourceInner,
         GenericResourceImpl,
         ResourceManager>
-    implements
+        implements
         GenericResource,
         GenericResource.Definition,
         GenericResource.UpdateStages.WithApiVersion,
@@ -38,9 +37,9 @@ final class GenericResourceImpl
                         GenericResourceInner innerModel,
                         final ResourceManager resourceManager) {
         super(key, innerModel, resourceManager);
-        resourceProviderNamespace = ResourceUtils.resourceProviderFromResourceId(innerModel.id());
-        resourceType = ResourceUtils.resourceTypeFromResourceId(innerModel.id());
-        parentResourcePath = ResourceUtils.parentRelativePathFromResourceId(innerModel.id());
+        resourceProviderNamespace = ResourceUtils.resourceProviderFromResourceId(innerModel.getId());
+        resourceType = ResourceUtils.resourceTypeFromResourceId(innerModel.getId());
+        parentResourcePath = ResourceUtils.parentRelativePathFromResourceId(innerModel.getId());
     }
 
     @Override
@@ -77,7 +76,7 @@ final class GenericResourceImpl
     }
 
     @Override
-    protected Observable<GenericResourceInner> getInnerAsync() {
+    protected Mono<GenericResourceInner> getInnerAsync() {
         return this.manager().inner().resources().getAsync(
                 resourceGroupName(),
                 resourceProviderNamespace(),
@@ -88,7 +87,7 @@ final class GenericResourceImpl
     }
 
     public GenericResourceImpl withProperties(Object properties) {
-            inner().withProperties(properties);
+        inner().withProperties(properties);
         return this;
     }
 
@@ -104,13 +103,13 @@ final class GenericResourceImpl
     }
 
     public GenericResourceImpl withPlan(String name, String publisher, String product, String promotionCode) {
-            inner().withPlan(new Plan().withName(name).withPublisher(publisher).withProduct(product).withPromotionCode(promotionCode));
+        inner().withPlan(new Plan().withName(name).withPublisher(publisher).withProduct(product).withPromotionCode(promotionCode));
         return this;
     }
 
     @Override
     public GenericResourceImpl withoutPlan() {
-            inner().withPlan(null);
+        inner().withPlan(null);
         return this;
     }
 
@@ -134,52 +133,46 @@ final class GenericResourceImpl
 
     // CreateUpdateTaskGroup.ResourceCreator implementation
     @Override
-    public Observable<GenericResource> createResourceAsync() {
+    public Mono<GenericResource> createResourceAsync() {
         final GenericResourceImpl self = this;
-        Observable<String> observable = Observable.just(apiVersion);
+        Mono<String> observable = Mono.just(apiVersion);
         if (apiVersion == null) {
             final ResourceManagementClientImpl serviceClient = this.manager().inner();
             observable = this.manager().providers().getByNameAsync(resourceProviderNamespace)
-                    .map(new Func1<Provider, String>() {
-                        @Override
-                        public String call(Provider provider) {
-                            String id;
-                            if (!isInCreateMode()) {
-                                id = inner().id();
-                            } else {
-                                id = ResourceUtils.constructResourceId(
-                                        serviceClient.subscriptionId(),
-                                        resourceGroupName(),
-                                        resourceProviderNamespace(),
-                                        resourceType(),
-                                        name(),
-                                        parentResourcePath());
-                            }
-                            self.apiVersion = ResourceUtils.defaultApiVersion(id, provider);
-                            return self.apiVersion;
+                    .flatMap(provider -> {
+                        String id;
+                        if (!isInCreateMode()) {
+                            id = inner().getId();
+                        } else {
+                            id = ResourceUtils.constructResourceId(
+                                    serviceClient.subscriptionId(),
+                                    resourceGroupName(),
+                                    resourceProviderNamespace(),
+                                    resourceType(),
+                                    name(),
+                                    parentResourcePath());
                         }
+                        self.apiVersion = ResourceUtils.defaultApiVersion(id, provider);
+                        return Mono.just(self.apiVersion);
                     });
         }
         final ResourcesInner resourceClient = this.manager().inner().resources();
         return observable
-                .flatMap(new Func1<String, Observable<GenericResource>>() {
-                    @Override
-                    public Observable<GenericResource> call(String api) {
-                        String name = name();
-                        if (!isInCreateMode()) {
-                            name = ResourceUtils.nameFromResourceId(inner().id());
-                        }
-                        return resourceClient.createOrUpdateAsync(
-                                resourceGroupName(),
-                                resourceProviderNamespace,
-                                parentResourcePath(),
-                                resourceType,
-                                name,
-                                api,
-                                inner())
-                                .subscribeOn(SdkContext.getRxScheduler())
-                                .map(innerToFluentMap(self));
+                .flatMap(api -> {
+                    String name = name();
+                    if (!isInCreateMode()) {
+                        name = ResourceUtils.nameFromResourceId(inner().getId());
                     }
+                    return resourceClient.createOrUpdateAsync(
+                            resourceGroupName(),
+                            resourceProviderNamespace,
+                            parentResourcePath(),
+                            resourceType,
+                            name,
+                            api,
+                            inner())
+                            .subscribeOn(SdkContext.getRxScheduler())
+                            .map(innerToFluentMap(self));
                 });
     }
 }

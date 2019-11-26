@@ -11,9 +11,9 @@ package com.microsoft.azure.management.resources.implementation;
 
 import com.azure.core.annotation.*;
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.Response;
-import com.azure.core.implementation.RestProxy;
-import com.azure.core.management.Page;
+import com.azure.core.http.rest.RestProxy;
 import reactor.core.publisher.Mono;
 
 /**
@@ -29,7 +29,6 @@ public class TagsInner {
     /**
      * Initializes an instance of TagsInner.
      *
-     * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
     public TagsInner(HttpPipeline pipeline, ResourceManagementClientImpl client) {
@@ -60,11 +59,11 @@ public class TagsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Tags list" })
         @Get("subscriptions/{subscriptionId}/tagNames")
-        Mono<Response<Page<TagDetailsInner>>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<TagDetailsInner>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Tags listNext" })
         @Get("{nextUrl}")
-        Mono<Response<Page<TagDetailsInner>>> listNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<TagDetailsInner>> listNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
     }
 

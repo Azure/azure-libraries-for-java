@@ -19,6 +19,7 @@ import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.serializer.SerializerAdapter;
 import org.apache.commons.lang3.StringUtils;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -122,6 +123,9 @@ public final class RestClientBuilder {
         return this;
     }
 
+    public RestClientBuilder withUserAgent() {
+        throw new NotImplementedException();
+    }
 
     public RestClientBuilder addPolicy(HttpPipelinePolicy policy) {
         Objects.requireNonNull(policy);
@@ -169,6 +173,13 @@ public final class RestClientBuilder {
     }
 
     public SerializerAdapter getSerializerAdapter() {
-        return  this.serializerAdapter;
+        return this.serializerAdapter;
+    }
+
+    /**
+     * @return the credentials attached to this REST client
+     */
+    public TokenCredential credentials() {
+        return this.credential;
     }
 }

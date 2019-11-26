@@ -90,6 +90,18 @@ public class AzureClient extends AzureServiceClient {
     }
 
 
+    public <T, U> PollerFlux<PollResult<T>, U> getPostOrDeleteResultAsync(Mono<Response<T>> lroInit) {
+        return PollerFactory.create(this.restClient().getSerializerAdapter(),
+                this.restClient().getHttpPipeline(),
+                new TypeToken<T>() {
+                }.getType(),
+                new TypeToken<U>() {
+                }.getType(),
+                Duration.ofSeconds(this.longRunningOperationRetryTimeout),
+                activationOperation(lroInit));
+    }
+
+
     private <T> Function<PollingContext<PollResult<T>>, Mono<PollResult<T>>> activationOperation(Mono<Response<T>> lroInit) {
         return (pollingContext) -> withContext(context -> lroInit
                 .flatMap(response -> Mono.just(new PollResult<T>(response.getValue()))));

@@ -6,7 +6,6 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
@@ -20,23 +19,23 @@ import java.util.TreeMap;
 /**
  * Implementation for the child resource which can be CRUDed independently from the parent resource.
  * (internal use only)
- * @param <FluentModelT> The fluent model type
+ *
+ * @param <FluentModelT>       The fluent model type
  * @param <FluentParentModelT> the fluent model for parent resource
- * @param <InnerModelT> Azure inner resource class type
- * @param <FluentModelImplT> the implementation type of the fluent model type
- * @param <ManagerT> the client manager type representing the service
+ * @param <InnerModelT>        Azure inner resource class type
+ * @param <FluentModelImplT>   the implementation type of the fluent model type
+ * @param <ManagerT>           the client manager type representing the service
  */
-@LangDefinition
 public abstract class IndependentChildResourceImpl<
-            FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
-            FluentParentModelT extends Resource & HasResourceGroup,
-            InnerModelT extends com.microsoft.azure.Resource,
-            FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
-            ManagerT>
+        FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
+        FluentParentModelT extends Resource & HasResourceGroup,
+        InnerModelT extends com.azure.core.management.Resource,
+        FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
+        ManagerT>
         extends
-            IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
+        IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
         implements
-            IndependentChildResource<ManagerT, InnerModelT> {
+        IndependentChildResource<ManagerT, InnerModelT> {
     /**
      * Creates a new instance of CreatableUpdatableImpl.
      *
@@ -53,7 +52,7 @@ public abstract class IndependentChildResourceImpl<
 
     @Override
     public String regionName() {
-        return this.inner().location();
+        return this.inner().getLocation();
     }
 
     @Override
@@ -73,7 +72,7 @@ public abstract class IndependentChildResourceImpl<
     @Override
     public String id() {
         if (this.inner() != null) {
-            return this.inner().id();
+            return this.inner().getId();
         }
 
         return null;
@@ -81,15 +80,15 @@ public abstract class IndependentChildResourceImpl<
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.inner().getType();
     }
 
     @Override
     public String name() {
-        if (this.inner().name() == null) {
+        if (this.inner().getName() == null) {
             return super.name();
         } else {
-            return this.inner().name();
+            return this.inner().getName();
         }
     }
 
@@ -99,25 +98,27 @@ public abstract class IndependentChildResourceImpl<
 
     /**
      * Specifies tags for the resource as a {@link Map}.
+     *
      * @param tags a {@link Map} of tags
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTags(Map<String, String> tags) {
-        this.inner().withTags(new HashMap<>(tags));
+        this.inner().setTags(new HashMap<>(tags));
         return (FluentModelImplT) this;
     }
 
     /**
      * Adds a tag to the resource.
-     * @param key the key for the tag
+     *
+     * @param key   the key for the tag
      * @param value the value for the tag
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTag(String key, String value) {
         if (this.inner().getTags() == null) {
-            this.inner().withTags(new HashMap<String, String>());
+            this.inner().setTags(new HashMap<String, String>());
         }
         this.inner().getTags().put(key, value);
         return (FluentModelImplT) this;
@@ -125,6 +126,7 @@ public abstract class IndependentChildResourceImpl<
 
     /**
      * Removes a tag from the resource.
+     *
      * @param key the key of the tag to remove
      * @return the next stage of the definition/update
      */
@@ -141,12 +143,12 @@ public abstract class IndependentChildResourceImpl<
      */
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
     public FluentModelImplT withExistingParentResource(FluentParentModelT existingParentResource) {
-        this.inner().withLocation(existingParentResource.regionName());
+        this.inner().setLocation(existingParentResource.regionName());
         return super.withExistingParentResource(existingParentResource);
     }
 }

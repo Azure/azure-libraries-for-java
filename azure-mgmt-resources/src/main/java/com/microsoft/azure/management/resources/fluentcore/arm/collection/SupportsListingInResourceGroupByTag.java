@@ -6,7 +6,9 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.collection;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.management.PagedList;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -35,5 +37,5 @@ public interface SupportsListingInResourceGroupByTag<T> {
      * @param tagValue tag's value
      * @return a representation of the deferred computation of this call, returning the requested resources
      */
-    Mono<T> listByTagAsync(String resourceGroupName, String tagName, String tagValue);
+    PagedFlux<T> listByTagAsync(String resourceGroupName, String tagName, String tagValue);
 }

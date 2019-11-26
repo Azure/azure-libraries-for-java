@@ -6,8 +6,8 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.Page;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.Location;
 import com.microsoft.azure.management.resources.Subscription;
 import com.microsoft.azure.management.resources.SubscriptionPolicies;
@@ -15,7 +15,7 @@ import com.microsoft.azure.management.resources.SubscriptionState;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
 final class SubscriptionImpl extends
         IndexableWrapperImpl<SubscriptionInner>
         implements
-        Subscription  {
+        Subscription {
 
     private final SubscriptionsInner client;
 
@@ -58,8 +58,8 @@ final class SubscriptionImpl extends
     public PagedList<Location> listLocations() {
         PagedListConverter<LocationInner, Location> converter = new PagedListConverter<LocationInner, Location>() {
             @Override
-            public Observable<Location> typeConvertAsync(LocationInner locationInner) {
-                return Observable.just((Location) new LocationImpl(locationInner));
+            public Mono<Location> typeConvertAsync(LocationInner locationInner) {
+                return Mono.just((Location) new LocationImpl(locationInner));
             }
         };
         return converter.convert(toPagedList(client.listLocations(this.subscriptionId())));

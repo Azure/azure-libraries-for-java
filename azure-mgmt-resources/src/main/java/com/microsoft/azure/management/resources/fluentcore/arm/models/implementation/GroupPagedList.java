@@ -6,8 +6,8 @@
 
 package com.microsoft.azure.management.resources.fluentcore.arm.models.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.Page;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
 

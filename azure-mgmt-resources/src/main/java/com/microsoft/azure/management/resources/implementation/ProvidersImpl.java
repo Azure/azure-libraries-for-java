@@ -6,14 +6,13 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.Provider;
 import com.microsoft.azure.management.resources.Providers;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * The implementation for {@link Providers}.
@@ -34,53 +33,48 @@ final class ProvidersImpl
 
     @Override
     public Provider unregister(String resourceProviderNamespace) {
-        return this.unregisterAsync(resourceProviderNamespace).toBlocking().last();
+        return this.unregisterAsync(resourceProviderNamespace).block();
     }
 
     @Override
-    public Observable<Provider> unregisterAsync(String resourceProviderNamespace) {
-        return client.unregisterAsync(resourceProviderNamespace).map(new Func1<ProviderInner, Provider>() {
-            @Override
-            public Provider call(ProviderInner providerInner) {
-                return wrapModel(providerInner);
-            }
-        });
+    public Mono<Provider> unregisterAsync(String resourceProviderNamespace) {
+        throw new NotImplementedException();
+//        return client.unregisterAsync(resourceProviderNamespace).map(new Func1<ProviderInner, Provider>() {
+//            @Override
+//            public Provider call(ProviderInner providerInner) {
+//                return wrapModel(providerInner);
+//            }
+//        });
     }
 
-    @Override
-    public ServiceFuture<Provider> unregisterAsync(String resourceProviderNamespace, ServiceCallback<Provider> callback) {
-        return ServiceFuture.fromBody(this.unregisterAsync(resourceProviderNamespace), callback);
-    }
 
     @Override
     public Provider register(String resourceProviderNamespace) {
-        return this.registerAsync(resourceProviderNamespace).toBlocking().last();
+        return this.registerAsync(resourceProviderNamespace).block();
     }
 
     @Override
-    public Observable<Provider> registerAsync(String resourceProviderNamespace) {
-        return client.registerAsync(resourceProviderNamespace).map(new Func1<ProviderInner, Provider>() {
-            @Override
-            public Provider call(ProviderInner providerInner) {
-                return wrapModel(providerInner);
-            }
-        });
+    public Mono<Provider> registerAsync(String resourceProviderNamespace) {
+        throw new NotImplementedException();
+//        return client.registerAsync(resourceProviderNamespace).map(new Func1<ProviderInner, Provider>() {
+//            @Override
+//            public Provider call(ProviderInner providerInner) {
+//                return wrapModel(providerInner);
+//            }
+//        });
     }
 
-    @Override
-    public ServiceFuture<Provider> registerAsync(String resourceProviderNamespace, ServiceCallback<Provider> callback) {
-        return ServiceFuture.fromBody(this.registerAsync(resourceProviderNamespace), callback);
-    }
 
     @Override
-    public Observable<Provider> getByNameAsync(String name) {
-        return client.getAsync(name)
-                .map(new Func1<ProviderInner, Provider>() {
-                    @Override
-                    public Provider call(ProviderInner providerInner) {
-                        return wrapModel(providerInner);
-                    }
-                });
+    public Mono<Provider> getByNameAsync(String name) {
+        return client.getAsync(name).
+                flatMap(res -> Mono.just(wrapModel(res)));
+//                .map(new Func1<ProviderInner, Provider>() {
+//                    @Override
+//                    public Provider call(ProviderInner providerInner) {
+//                        return wrapModel(providerInner);
+//                    }
+//                });
     }
 
     @Override
@@ -97,7 +91,7 @@ final class ProvidersImpl
     }
 
     @Override
-    public Observable<Provider> listAsync() {
+    public PagedFlux<Provider> listAsync() {
         return wrapPageAsync(this.client.listAsync());
     }
 }

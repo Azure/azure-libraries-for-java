@@ -24,6 +24,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import org.joda.time.DateTime;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
@@ -283,30 +284,42 @@ public final class DeploymentImpl extends
         if (this.creatableResourceGroup != null) {
             this.creatableResourceGroup.create();
         }
-        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()).block());
+        setInner(this.manager().inner().deployments().beginCreateOrUpdate(resourceGroupName(), name(), createRequestFromInner()));
         return this;
     }
 
     @Override
-    public Paged<Deployment> beginCreateAsync() {
-        return Observable.just(creatableResourceGroup)
-                .flatMap(new Func1<Creatable<ResourceGroup>, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(Creatable<ResourceGroup> resourceGroupCreatable) {
-                        if (resourceGroupCreatable != null) {
-                            return creatableResourceGroup.createAsync();
-                        } else {
-                            return Observable.just((Indexable) DeploymentImpl.this);
-                        }
+    public Flux<Deployment> beginCreateAsync() {
+        return Flux.just(creatableResourceGroup)
+                .flatMap(resourceGroupCreatable -> {
+                    if (resourceGroupCreatable != null) {
+                        return creatableResourceGroup.createAsync();
+                    } else {
+                        return Flux.just((Indexable) DeploymentImpl.this);
                     }
                 })
-                .flatMap(new Func1<Indexable, Observable<DeploymentExtendedInner>>() {
-                    @Override
-                    public Observable<DeploymentExtendedInner> call(Indexable indexable) {
-                        return manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner());
-                    }
+                .flatMap(indexable -> {
+                    return manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner());
                 })
                 .map(innerToFluentMap(this));
+//        return Flux.just(creatableResourceGroup)
+//                .flatMap(new Func1<Creatable<ResourceGroup>, Observable<Indexable>>() {
+//                    @Override
+//                    public Observable<Indexable> call(Creatable<ResourceGroup> resourceGroupCreatable) {
+//                        if (resourceGroupCreatable != null) {
+//                            return creatableResourceGroup.createAsync();
+//                        } else {
+//                            return Observable.just((Indexable) DeploymentImpl.this);
+//                        }
+//                    }
+//                })
+//                .flatMap(new Func1<Indexable, Observable<DeploymentExtendedInner>>() {
+//                    @Override
+//                    public Observable<DeploymentExtendedInner> call(Indexable indexable) {
+//                        return manager().inner().deployments().beginCreateOrUpdateAsync(resourceGroupName(), name(), createRequestFromInner());
+//                    }
+//                })
+//                .map(innerToFluentMap(this));
     }
 
     @Override

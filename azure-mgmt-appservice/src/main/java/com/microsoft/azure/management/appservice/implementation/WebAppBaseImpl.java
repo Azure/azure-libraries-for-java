@@ -38,6 +38,7 @@ import com.microsoft.azure.management.appservice.SiteAvailabilityState;
 import com.microsoft.azure.management.appservice.SiteConfig;
 import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.SslState;
+import com.microsoft.azure.management.appservice.SupportedTlsVersions;
 import com.microsoft.azure.management.appservice.UsageState;
 import com.microsoft.azure.management.appservice.VirtualApplication;
 import com.microsoft.azure.management.appservice.WebAppAuthentication;
@@ -533,6 +534,14 @@ abstract class WebAppBaseImpl<
             return null;
         }
         return siteConfig.documentRoot();
+    }
+
+    @Override
+    public SupportedTlsVersions minTlsVersion() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.minTlsVersion();
     }
 
     @Override
@@ -1499,6 +1508,15 @@ abstract class WebAppBaseImpl<
             siteConfig = new SiteConfigResourceInner();
         }
         siteConfig.withVirtualApplications(virtualApplications);
+        return (FluentImplT) this;
+    }
+
+    @Override
+    public FluentImplT withMinTlsVersion(SupportedTlsVersions minTlsVersion) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withMinTlsVersion(minTlsVersion);
         return (FluentImplT) this;
     }
 

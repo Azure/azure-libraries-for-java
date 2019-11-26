@@ -39,6 +39,11 @@ public class WebAppsMsiTests extends AppServiceTest {
     @Override
     protected void cleanUpResources() {
         resourceManager.resourceGroups().beginDeleteByName(RG_NAME_1);
+        try {
+            resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
+        } catch (Exception e) {
+            // fine, RG_NAME is not created
+        }
     }
 
     @Test

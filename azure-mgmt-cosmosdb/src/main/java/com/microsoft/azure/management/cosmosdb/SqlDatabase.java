@@ -6,7 +6,7 @@
 package com.microsoft.azure.management.cosmosdb;
 
 import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.cosmosdb.implementation.SqlDatabaseInner;
+import com.microsoft.azure.management.cosmosdb.implementation.SqlDatabaseGetResultsInner;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
@@ -14,7 +14,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
  */
 @Beta(Beta.SinceVersion.V1_24_0)
 public interface SqlDatabase
-        extends HasInner<SqlDatabaseInner> {
+        extends HasInner<SqlDatabaseGetResultsInner> {
 
     /**
      * Get name of the Cosmos DB SQL database.

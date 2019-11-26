@@ -54,6 +54,11 @@ abstract class AppServiceBaseImpl<
     FluentUpdateT>
         extends WebAppBaseImpl<FluentT, FluentImplT> {
 
+    protected static final String SETTING_DOCKER_IMAGE = "DOCKER_CUSTOM_IMAGE_NAME";
+    protected static final String SETTING_REGISTRY_SERVER = "DOCKER_REGISTRY_SERVER_URL";
+    protected static final String SETTING_REGISTRY_USERNAME = "DOCKER_REGISTRY_SERVER_USERNAME";
+    protected static final String SETTING_REGISTRY_PASSWORD = "DOCKER_REGISTRY_SERVER_PASSWORD";
+
     AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, siteConfig, logConfig, manager);
     }
@@ -428,6 +433,10 @@ abstract class AppServiceBaseImpl<
     public FluentImplT withExistingAppServicePlan(AppServicePlan appServicePlan) {
         inner().withServerFarmId(appServicePlan.id());
         this.withRegion(appServicePlan.regionName());
-        return withOperatingSystem(appServicePlan.operatingSystem());
+        return withOperatingSystem(appServicePlanOperatingSystem(appServicePlan));
+    }
+
+    protected OperatingSystem appServicePlanOperatingSystem(AppServicePlan appServicePlan) {
+        return appServicePlan.operatingSystem();
     }
 }

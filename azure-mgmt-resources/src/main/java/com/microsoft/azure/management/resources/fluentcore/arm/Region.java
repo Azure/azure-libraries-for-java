@@ -65,11 +65,11 @@ public final class Region {
     public static final Region INDIA_WEST = new Region("westindia", "West India");
     public static final Region KOREA_CENTRAL = new Region("koreacentral", "Korea Central");
     public static final Region KOREA_SOUTH = new Region("koreasouth", "Korea South");
+    /**************************************************
+     * Azure Cloud - Middle East and Africa
+     **************************************************/
     public static final Region UAE_CENTRAL = new Region("uaecentral", "UAE Central");
     public static final Region UAE_NORTH = new Region("uaenorth", "UAE North");
-    /**************************************************
-     * Azure Cloud - Africa
-     **************************************************/
     public static final Region SOUTHAFRICA_NORTH = new Region("southafricanorth", "South Africa North");
     public static final Region SOUTHAFRICA_WEST = new Region("southafricawest", "South Africa West");
     /**************************************************

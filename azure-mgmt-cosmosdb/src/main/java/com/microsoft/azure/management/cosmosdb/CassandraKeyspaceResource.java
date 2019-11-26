@@ -11,7 +11,7 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Cosmos DB Cassandra keyspace id object.
+ * Cosmos DB Cassandra keyspace resource object.
  */
 public class CassandraKeyspaceResource {
     /**

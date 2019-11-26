@@ -18,6 +18,8 @@ import rx.Observable;
 import rx.functions.Func1;
 import rx.functions.Func2;
 
+import java.util.Arrays;
+
 /**
  * The implementation for WebApps.
  */
@@ -51,7 +53,7 @@ class FunctionAppsImpl
 
             @Override
             protected boolean filter(SiteInner inner) {
-                return "functionapp".equalsIgnoreCase(inner.kind());
+                return inner.kind() != null && Arrays.asList(inner.kind().split(",")).contains("functionapp");
             }
         };
     }

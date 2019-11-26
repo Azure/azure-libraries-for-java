@@ -35,7 +35,7 @@ class CosmosDBAccountsImpl
         GroupableResourcesImpl<
                 CosmosDBAccount,
                 CosmosDBAccountImpl,
-                DatabaseAccountInner,
+                DatabaseAccountGetResultsInner,
                 DatabaseAccountsInner,
                 CosmosDBManager>
         implements CosmosDBAccounts {
@@ -79,7 +79,7 @@ class CosmosDBAccountsImpl
     }
 
     @Override
-    protected Observable<DatabaseAccountInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Observable<DatabaseAccountGetResultsInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
@@ -100,12 +100,12 @@ class CosmosDBAccountsImpl
     @Override
     protected CosmosDBAccountImpl wrapModel(String name) {
         return new CosmosDBAccountImpl(name,
-                new DatabaseAccountInner(),
+                new DatabaseAccountGetResultsInner(),
                 this.manager());
     }
 
     @Override
-    protected CosmosDBAccountImpl wrapModel(DatabaseAccountInner containerServiceInner) {
+    protected CosmosDBAccountImpl wrapModel(DatabaseAccountGetResultsInner containerServiceInner) {
         if (containerServiceInner == null) {
             return null;
         }

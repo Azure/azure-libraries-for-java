@@ -16,7 +16,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Parameters to create and update Cosmos DB container.
  */
 @JsonFlatten
-public class SqlContainerCreateUpdateParameters {
+public class SqlContainerCreateUpdateParameters extends ARMResourceProperties {
     /**
      * The standard JSON format of a container.
      */

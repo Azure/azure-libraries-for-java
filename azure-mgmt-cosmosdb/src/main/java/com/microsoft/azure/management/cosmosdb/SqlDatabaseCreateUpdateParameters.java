@@ -16,7 +16,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Parameters to create and update Cosmos DB SQL database.
  */
 @JsonFlatten
-public class SqlDatabaseCreateUpdateParameters {
+public class SqlDatabaseCreateUpdateParameters extends ARMResourceProperties {
     /**
      * The standard JSON format of a SQL database.
      */

@@ -14,20 +14,18 @@ import com.microsoft.azure.management.cosmosdb.UniqueKeyPolicy;
 import com.microsoft.azure.management.cosmosdb.ConflictResolutionPolicy;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.cosmosdb.ARMResourceProperties;
 
 /**
  * An Azure Cosmos DB container.
  */
 @JsonFlatten
-@SkipParentValidation
-public class SqlContainerInner extends Resource {
+public class SqlContainerGetResultsInner extends ARMResourceProperties {
     /**
      * Name of the Cosmos DB SQL container.
      */
     @JsonProperty(value = "properties.id", required = true)
-    private String sqlContainerId;
+    private String sqlContainerGetResultsId;
 
     /**
      * The configuration of the indexing policy. By default, the indexing is
@@ -66,40 +64,40 @@ public class SqlContainerInner extends Resource {
     /**
      * A system generated property. A unique identifier.
      */
-    @JsonProperty(value = "properties._rid")
+    @JsonProperty(value = "properties._rid", access = JsonProperty.Access.WRITE_ONLY)
     private String _rid;
 
     /**
      * A system generated property that denotes the last updated timestamp of
      * the resource.
      */
-    @JsonProperty(value = "properties._ts")
+    @JsonProperty(value = "properties._ts", access = JsonProperty.Access.WRITE_ONLY)
     private Object _ts;
 
     /**
      * A system generated property representing the resource etag required for
      * optimistic concurrency control.
      */
-    @JsonProperty(value = "properties._etag")
+    @JsonProperty(value = "properties._etag", access = JsonProperty.Access.WRITE_ONLY)
     private String _etag;
 
     /**
      * Get name of the Cosmos DB SQL container.
      *
-     * @return the sqlContainerId value
+     * @return the sqlContainerGetResultsId value
      */
-    public String sqlContainerId() {
-        return this.sqlContainerId;
+    public String sqlContainerGetResultsId() {
+        return this.sqlContainerGetResultsId;
     }
 
     /**
      * Set name of the Cosmos DB SQL container.
      *
-     * @param sqlContainerId the sqlContainerId value to set
-     * @return the SqlContainerInner object itself.
+     * @param sqlContainerGetResultsId the sqlContainerGetResultsId value to set
+     * @return the SqlContainerGetResultsInner object itself.
      */
-    public SqlContainerInner withSqlContainerId(String sqlContainerId) {
-        this.sqlContainerId = sqlContainerId;
+    public SqlContainerGetResultsInner withSqlContainerGetResultsId(String sqlContainerGetResultsId) {
+        this.sqlContainerGetResultsId = sqlContainerGetResultsId;
         return this;
     }
 
@@ -116,9 +114,9 @@ public class SqlContainerInner extends Resource {
      * Set the configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container.
      *
      * @param indexingPolicy the indexingPolicy value to set
-     * @return the SqlContainerInner object itself.
+     * @return the SqlContainerGetResultsInner object itself.
      */
-    public SqlContainerInner withIndexingPolicy(IndexingPolicy indexingPolicy) {
+    public SqlContainerGetResultsInner withIndexingPolicy(IndexingPolicy indexingPolicy) {
         this.indexingPolicy = indexingPolicy;
         return this;
     }
@@ -136,9 +134,9 @@ public class SqlContainerInner extends Resource {
      * Set the configuration of the partition key to be used for partitioning data into multiple partitions.
      *
      * @param partitionKey the partitionKey value to set
-     * @return the SqlContainerInner object itself.
+     * @return the SqlContainerGetResultsInner object itself.
      */
-    public SqlContainerInner withPartitionKey(ContainerPartitionKey partitionKey) {
+    public SqlContainerGetResultsInner withPartitionKey(ContainerPartitionKey partitionKey) {
         this.partitionKey = partitionKey;
         return this;
     }
@@ -156,9 +154,9 @@ public class SqlContainerInner extends Resource {
      * Set default time to live.
      *
      * @param defaultTtl the defaultTtl value to set
-     * @return the SqlContainerInner object itself.
+     * @return the SqlContainerGetResultsInner object itself.
      */
-    public SqlContainerInner withDefaultTtl(Integer defaultTtl) {
+    public SqlContainerGetResultsInner withDefaultTtl(Integer defaultTtl) {
         this.defaultTtl = defaultTtl;
         return this;
     }
@@ -176,9 +174,9 @@ public class SqlContainerInner extends Resource {
      * Set the unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service.
      *
      * @param uniqueKeyPolicy the uniqueKeyPolicy value to set
-     * @return the SqlContainerInner object itself.
+     * @return the SqlContainerGetResultsInner object itself.
      */
-    public SqlContainerInner withUniqueKeyPolicy(UniqueKeyPolicy uniqueKeyPolicy) {
+    public SqlContainerGetResultsInner withUniqueKeyPolicy(UniqueKeyPolicy uniqueKeyPolicy) {
         this.uniqueKeyPolicy = uniqueKeyPolicy;
         return this;
     }
@@ -196,9 +194,9 @@ public class SqlContainerInner extends Resource {
      * Set the conflict resolution policy for the container.
      *
      * @param conflictResolutionPolicy the conflictResolutionPolicy value to set
-     * @return the SqlContainerInner object itself.
+     * @return the SqlContainerGetResultsInner object itself.
      */
-    public SqlContainerInner withConflictResolutionPolicy(ConflictResolutionPolicy conflictResolutionPolicy) {
+    public SqlContainerGetResultsInner withConflictResolutionPolicy(ConflictResolutionPolicy conflictResolutionPolicy) {
         this.conflictResolutionPolicy = conflictResolutionPolicy;
         return this;
     }
@@ -213,17 +211,6 @@ public class SqlContainerInner extends Resource {
     }
 
     /**
-     * Set a system generated property. A unique identifier.
-     *
-     * @param _rid the _rid value to set
-     * @return the SqlContainerInner object itself.
-     */
-    public SqlContainerInner with_rid(String _rid) {
-        this._rid = _rid;
-        return this;
-    }
-
-    /**
      * Get a system generated property that denotes the last updated timestamp of the resource.
      *
      * @return the _ts value
@@ -233,34 +220,12 @@ public class SqlContainerInner extends Resource {
     }
 
     /**
-     * Set a system generated property that denotes the last updated timestamp of the resource.
-     *
-     * @param _ts the _ts value to set
-     * @return the SqlContainerInner object itself.
-     */
-    public SqlContainerInner with_ts(Object _ts) {
-        this._ts = _ts;
-        return this;
-    }
-
-    /**
      * Get a system generated property representing the resource etag required for optimistic concurrency control.
      *
      * @return the _etag value
      */
     public String _etag() {
         return this._etag;
-    }
-
-    /**
-     * Set a system generated property representing the resource etag required for optimistic concurrency control.
-     *
-     * @param _etag the _etag value to set
-     * @return the SqlContainerInner object itself.
-     */
-    public SqlContainerInner with_etag(String _etag) {
-        this._etag = _etag;
-        return this;
     }
 
 }

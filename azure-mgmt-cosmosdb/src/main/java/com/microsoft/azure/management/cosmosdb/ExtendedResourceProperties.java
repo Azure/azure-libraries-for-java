@@ -11,28 +11,28 @@ package com.microsoft.azure.management.cosmosdb;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The system generated resource properties associated with SQL databases and
- * SQL containers.
+ * The system generated resource properties associated with SQL databases, SQL
+ * containers, Gremlin databases and Gremlin graphs.
  */
 public class ExtendedResourceProperties {
     /**
      * A system generated property. A unique identifier.
      */
-    @JsonProperty(value = "_rid")
+    @JsonProperty(value = "_rid", access = JsonProperty.Access.WRITE_ONLY)
     private String _rid;
 
     /**
      * A system generated property that denotes the last updated timestamp of
      * the resource.
      */
-    @JsonProperty(value = "_ts")
+    @JsonProperty(value = "_ts", access = JsonProperty.Access.WRITE_ONLY)
     private Object _ts;
 
     /**
      * A system generated property representing the resource etag required for
      * optimistic concurrency control.
      */
-    @JsonProperty(value = "_etag")
+    @JsonProperty(value = "_etag", access = JsonProperty.Access.WRITE_ONLY)
     private String _etag;
 
     /**
@@ -45,17 +45,6 @@ public class ExtendedResourceProperties {
     }
 
     /**
-     * Set a system generated property. A unique identifier.
-     *
-     * @param _rid the _rid value to set
-     * @return the ExtendedResourceProperties object itself.
-     */
-    public ExtendedResourceProperties with_rid(String _rid) {
-        this._rid = _rid;
-        return this;
-    }
-
-    /**
      * Get a system generated property that denotes the last updated timestamp of the resource.
      *
      * @return the _ts value
@@ -65,34 +54,12 @@ public class ExtendedResourceProperties {
     }
 
     /**
-     * Set a system generated property that denotes the last updated timestamp of the resource.
-     *
-     * @param _ts the _ts value to set
-     * @return the ExtendedResourceProperties object itself.
-     */
-    public ExtendedResourceProperties with_ts(Object _ts) {
-        this._ts = _ts;
-        return this;
-    }
-
-    /**
      * Get a system generated property representing the resource etag required for optimistic concurrency control.
      *
      * @return the _etag value
      */
     public String _etag() {
         return this._etag;
-    }
-
-    /**
-     * Set a system generated property representing the resource etag required for optimistic concurrency control.
-     *
-     * @param _etag the _etag value to set
-     * @return the ExtendedResourceProperties object itself.
-     */
-    public ExtendedResourceProperties with_etag(String _etag) {
-        this._etag = _etag;
-        return this;
     }
 
 }

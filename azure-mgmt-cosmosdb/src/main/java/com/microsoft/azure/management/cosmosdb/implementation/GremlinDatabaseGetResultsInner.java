@@ -10,58 +10,56 @@ package com.microsoft.azure.management.cosmosdb.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
+import com.microsoft.azure.management.cosmosdb.ARMResourceProperties;
 
 /**
  * An Azure Cosmos DB Gremlin database.
  */
 @JsonFlatten
-@SkipParentValidation
-public class GremlinDatabaseInner extends Resource {
+public class GremlinDatabaseGetResultsInner extends ARMResourceProperties {
     /**
      * Name of the Cosmos DB Gremlin database.
      */
     @JsonProperty(value = "properties.id", required = true)
-    private String gremlinDatabaseId;
+    private String gremlinDatabaseGetResultsId;
 
     /**
      * A system generated property. A unique identifier.
      */
-    @JsonProperty(value = "properties._rid")
+    @JsonProperty(value = "properties._rid", access = JsonProperty.Access.WRITE_ONLY)
     private String _rid;
 
     /**
      * A system generated property that denotes the last updated timestamp of
      * the resource.
      */
-    @JsonProperty(value = "properties._ts")
+    @JsonProperty(value = "properties._ts", access = JsonProperty.Access.WRITE_ONLY)
     private Object _ts;
 
     /**
      * A system generated property representing the resource etag required for
      * optimistic concurrency control.
      */
-    @JsonProperty(value = "properties._etag")
+    @JsonProperty(value = "properties._etag", access = JsonProperty.Access.WRITE_ONLY)
     private String _etag;
 
     /**
      * Get name of the Cosmos DB Gremlin database.
      *
-     * @return the gremlinDatabaseId value
+     * @return the gremlinDatabaseGetResultsId value
      */
-    public String gremlinDatabaseId() {
-        return this.gremlinDatabaseId;
+    public String gremlinDatabaseGetResultsId() {
+        return this.gremlinDatabaseGetResultsId;
     }
 
     /**
      * Set name of the Cosmos DB Gremlin database.
      *
-     * @param gremlinDatabaseId the gremlinDatabaseId value to set
-     * @return the GremlinDatabaseInner object itself.
+     * @param gremlinDatabaseGetResultsId the gremlinDatabaseGetResultsId value to set
+     * @return the GremlinDatabaseGetResultsInner object itself.
      */
-    public GremlinDatabaseInner withGremlinDatabaseId(String gremlinDatabaseId) {
-        this.gremlinDatabaseId = gremlinDatabaseId;
+    public GremlinDatabaseGetResultsInner withGremlinDatabaseGetResultsId(String gremlinDatabaseGetResultsId) {
+        this.gremlinDatabaseGetResultsId = gremlinDatabaseGetResultsId;
         return this;
     }
 
@@ -75,17 +73,6 @@ public class GremlinDatabaseInner extends Resource {
     }
 
     /**
-     * Set a system generated property. A unique identifier.
-     *
-     * @param _rid the _rid value to set
-     * @return the GremlinDatabaseInner object itself.
-     */
-    public GremlinDatabaseInner with_rid(String _rid) {
-        this._rid = _rid;
-        return this;
-    }
-
-    /**
      * Get a system generated property that denotes the last updated timestamp of the resource.
      *
      * @return the _ts value
@@ -95,34 +82,12 @@ public class GremlinDatabaseInner extends Resource {
     }
 
     /**
-     * Set a system generated property that denotes the last updated timestamp of the resource.
-     *
-     * @param _ts the _ts value to set
-     * @return the GremlinDatabaseInner object itself.
-     */
-    public GremlinDatabaseInner with_ts(Object _ts) {
-        this._ts = _ts;
-        return this;
-    }
-
-    /**
      * Get a system generated property representing the resource etag required for optimistic concurrency control.
      *
      * @return the _etag value
      */
     public String _etag() {
         return this._etag;
-    }
-
-    /**
-     * Set a system generated property representing the resource etag required for optimistic concurrency control.
-     *
-     * @param _etag the _etag value to set
-     * @return the GremlinDatabaseInner object itself.
-     */
-    public GremlinDatabaseInner with_etag(String _etag) {
-        this._etag = _etag;
-        return this;
     }
 
 }

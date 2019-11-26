@@ -16,7 +16,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Parameters to create and update Cosmos DB Cassandra keyspace.
  */
 @JsonFlatten
-public class CassandraKeyspaceCreateUpdateParameters {
+public class CassandraKeyspaceCreateUpdateParameters extends ARMResourceProperties {
     /**
      * The standard JSON format of a Cassandra keyspace.
      */

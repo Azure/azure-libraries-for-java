@@ -16,6 +16,8 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
 import com.microsoft.rest.RestClient;
 import okhttp3.ResponseBody;
+import okio.Buffer;
+import okio.BufferedSource;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Url;
@@ -250,6 +252,22 @@ public final class Utils {
         return String.format("/subscriptions/%s/resourceGroups/%s",
                 resourceId.subscriptionId(),
                 resourceId.resourceGroupName());
+    }
+
+    /**
+     * Get the response body as string.
+     * @param responseBody response body object
+     * @return response body in string
+     * @throws IOException throw IOException
+     */
+    public static String getResponseBodyInString(ResponseBody responseBody) throws IOException {
+        if (responseBody == null) {
+            return null;
+        }
+        BufferedSource source = responseBody.source();
+        source.request(Long.MAX_VALUE); // Buffer the entire body.
+        Buffer buffer = source.buffer();
+        return buffer.clone().readUtf8();
     }
 
     private Utils() {

@@ -158,7 +158,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
             * @return the next definition stage
             */
            @Beta(Beta.SinceVersion.V1_15_0)
-           WithSource withLocation(String location);
+           WithCreate withLocation(String location);
 
             /**
              * Specifies location.
@@ -167,30 +167,24 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
              * @return the next definition stage
              */
             @Beta(Beta.SinceVersion.V1_15_0)
-            WithSource withLocation(Region location);
+            WithCreate withLocation(Region location);
         }
 
         /**
          * The stage of the image version definition allowing to specify the source.
          */
-        @Beta(Beta.SinceVersion.V1_15_0)
+        @Deprecated
         interface WithSource {
             /**
-             * Specifies that the provided custom image needs to be used as source of the image version.
-             *
-             * @param customImageId the ARM id of the custom image
-             * @return the next definition stage
+             * @deprecated Source was deprecated in api-version 2019-07-01, this stage will do nothing.
              */
-            @Beta(Beta.SinceVersion.V1_15_0)
+            @Deprecated
             WithCreate withSourceCustomImage(String customImageId);
 
             /**
-             * Specifies that the provided custom image needs to be used as source of the image version.
-             *
-             * @param customImage the custom image
-             * @return the next definition stage
+             * @deprecated Source was deprecated in api-version 2019-07-01, this stage will do nothing.
              */
-            @Beta(Beta.SinceVersion.V1_15_0)
+            @Deprecated
             WithCreate withSourceCustomImage(VirtualMachineCustomImage customImage);
         }
 
@@ -275,6 +269,7 @@ public interface GalleryImageVersion extends HasInner<GalleryImageVersionInner>,
                 DefinitionStages.WithAvailableRegion,
                 DefinitionStages.WithEndOfLifeDate,
                 DefinitionStages.WithExcludeFromLatest,
+                DefinitionStages.WithSource,
                 DefinitionStages.WithTags {
         }
     }

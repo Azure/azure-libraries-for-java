@@ -2540,7 +2540,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app to delete.
      * @param deleteMetrics If true, web app metrics are also deleted.
-     * @param deleteEmptyServerFarm Specify true if the App Service plan will be empty after app deletion and you want to delete the empty App Service plan. By default, the empty App Service plan is not deleted.
+     * @param deleteEmptyServerFarm Specify false if you want to keep empty App Service plan. By default, empty App Service plan is deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
@@ -2556,7 +2556,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app to delete.
      * @param deleteMetrics If true, web app metrics are also deleted.
-     * @param deleteEmptyServerFarm Specify true if the App Service plan will be empty after app deletion and you want to delete the empty App Service plan. By default, the empty App Service plan is not deleted.
+     * @param deleteEmptyServerFarm Specify false if you want to keep empty App Service plan. By default, empty App Service plan is deleted.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
@@ -2572,7 +2572,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app to delete.
      * @param deleteMetrics If true, web app metrics are also deleted.
-     * @param deleteEmptyServerFarm Specify true if the App Service plan will be empty after app deletion and you want to delete the empty App Service plan. By default, the empty App Service plan is not deleted.
+     * @param deleteEmptyServerFarm Specify false if you want to keep empty App Service plan. By default, empty App Service plan is deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
@@ -2592,7 +2592,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the app to delete.
      * @param deleteMetrics If true, web app metrics are also deleted.
-     * @param deleteEmptyServerFarm Specify true if the App Service plan will be empty after app deletion and you want to delete the empty App Service plan. By default, the empty App Service plan is not deleted.
+     * @param deleteEmptyServerFarm Specify false if you want to keep empty App Service plan. By default, empty App Service plan is deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */

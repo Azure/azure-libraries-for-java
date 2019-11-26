@@ -259,7 +259,7 @@ public class FunctionAppsTests extends AppServiceTest {
         // deploy
         if (!isPlaybackMode()) {
             functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
-            SdkContext.sleep(30000);
+            SdkContext.sleep(180000);
         }
 
         // verify deploy

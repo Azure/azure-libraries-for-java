@@ -10,11 +10,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
 import org.junit.Assert;
-import rx.Observable;
-import rx.Scheduler;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -75,7 +73,7 @@ class PancakeImpl
         Assert.assertFalse("PancakeImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
         prepareCalled = true;
         int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        for(Creatable<IPancake> pancake : this.delayedPancakes) {
+        for (Creatable<IPancake> pancake : this.delayedPancakes) {
             this.addDependency(pancake);
         }
         int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
@@ -84,27 +82,17 @@ class PancakeImpl
     }
 
     @Override
-    public Observable<IPancake> createResourceAsync() {
+    public Mono<IPancake> createResourceAsync() {
         if (this.errorToThrow == null) {
             System.out.println("Pancake(" + this.name() + ")::createResourceAsync() 'onNext()'");
-            return Observable.just(this)
-                    .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .map(new Func1<PancakeImpl, IPancake>() {
-                        @Override
-                        public IPancake call(PancakeImpl pancake) {
-                            return pancake;
-                        }
-                    });
+            return Mono.just(this)
+                    .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
+                    .map(pancake -> pancake);
         } else {
             System.out.println("Pancake(" + this.name() + ")::createResourceAsync() 'onError()'");
-            return Observable.just(this)
-                    .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .flatMap(new Func1<PancakeImpl, Observable<IPancake>>() {
-                        @Override
-                        public Observable<IPancake> call(PancakeImpl pancake) {
-                            return toErrorObservable(errorToThrow);
-                        }
-                    });
+            return Mono.just(this)
+                    .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
+                    .flatMap(pancake -> toErrorObservable(errorToThrow));
         }
     }
 
@@ -114,11 +102,11 @@ class PancakeImpl
     }
 
     @Override
-    protected Observable<PancakeInner> getInnerAsync() {
+    protected Mono<PancakeInner> getInnerAsync() {
         return null;
     }
 
-    private Observable<IPancake> toErrorObservable(Throwable throwable) {
-        return Observable.error(throwable);
+    private Mono<IPancake> toErrorObservable(Throwable throwable) {
+        return Mono.error(throwable);
     }
 }

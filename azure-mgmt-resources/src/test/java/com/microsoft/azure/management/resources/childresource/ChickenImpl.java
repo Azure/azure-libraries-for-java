@@ -6,11 +6,13 @@
 
 package com.microsoft.azure.management.resources.childresource;
 
-import rx.Observable;
-import rx.functions.Func1;
+
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 class ChickenImpl {
     private PulletsImpl pullets;
+
     ChickenImpl() {
         this.pullets = new PulletsImpl(this);
         this.pullets.enableCommitMode();
@@ -38,13 +40,14 @@ class ChickenImpl {
         return this;
     }
 
-    Observable<ChickenImpl> applyAsync() {
+    Flux<ChickenImpl> applyAsync() {
         final ChickenImpl self = this;
         return this.pullets.commitAsync()
-                .map(new Func1<PulletImpl, ChickenImpl>() {
-                    public ChickenImpl call(PulletImpl p) {
-                        return self;
-                    }
-                });
+                .flatMap(p -> Flux.just(self));
+//                .map(new Func1<PulletImpl, ChickenImpl>() {
+//                    public ChickenImpl call(PulletImpl p) {
+//                        return self;
+//                    }
+//                });
     }
 }

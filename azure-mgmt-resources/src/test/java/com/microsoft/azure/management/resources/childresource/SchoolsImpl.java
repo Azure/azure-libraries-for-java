@@ -12,17 +12,16 @@ import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Type representing top level school collection using which
- *    1. new schools can be created with associated teachers and students
- *    2. new teachers and students can be created independently.
+ * 1. new schools can be created with associated teachers and students
+ * 2. new teachers and students can be created independently.
  */
 class SchoolsImpl {
     private IndependentTeachersImpl independentTeachers;
@@ -110,7 +109,7 @@ class SchoolsImpl {
             return this.independentStudents;
         }
 
-        public Observable<Indexable> createAsync() {
+        public Flux<Indexable> createAsync() {
             return taskGroup.invokeAsync(this.taskGroup.newInvocationContext());
         }
 
@@ -130,20 +129,17 @@ class SchoolsImpl {
         }
 
         @Override
-        public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
-            return Observable.<Indexable>just(this)
-                    .map(new Func1<Indexable, Indexable>() {
-                        @Override
-                        public Indexable call(Indexable indexable) {
-                            isInvoked = true;
-                            return indexable;
-                        }
+        public Mono<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
+            return Mono.<Indexable>just(this)
+                    .map(indexable -> {
+                        isInvoked = true;
+                        return indexable;
                     });
         }
 
         @Override
-        public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
-            return Completable.complete();
+        public Flux invokeAfterPostRunAsync(boolean isGroupFaulted) {
+            return Flux.empty();
         }
 
         public SchoolImpl withTeacher(TeacherImpl teacher) {
@@ -171,7 +167,7 @@ class SchoolsImpl {
         }
 
         TeacherImpl withSubject(String subjectName) {
-           return this;
+            return this;
         }
 
         @Override
@@ -184,29 +180,26 @@ class SchoolsImpl {
         }
 
         @Override
-        public Observable<TeacherImpl> createResourceAsync() {
-            return Observable.just(this)
-                    .map(new Func1<TeacherImpl, TeacherImpl>() {
-                        @Override
-                        public TeacherImpl call(TeacherImpl teacher) {
-                            isInvoked = true;
-                            return teacher;
-                        }
+        public Mono<TeacherImpl> createResourceAsync() {
+            return Mono.just(this)
+                    .map(teacher -> {
+                        isInvoked = true;
+                        return teacher;
                     });
         }
 
         @Override
-        public Observable<TeacherImpl> updateResourceAsync() {
+        public Mono<TeacherImpl> updateResourceAsync() {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public Observable<Void> deleteResourceAsync() {
+        public Mono<Void> deleteResourceAsync() {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        protected Observable<Object> getInnerAsync() {
+        protected Mono<Object> getInnerAsync() {
             throw new UnsupportedOperationException();
         }
 
@@ -295,12 +288,13 @@ class SchoolsImpl {
         public String id() {
             return name();
         }
+
         public boolean isInvoked() {
             return this.isInvoked;
         }
 
         @Override
-        public Observable<StudentImpl> createResourceAsync() {
+        public Mono<StudentImpl> createResourceAsync() {
             Indexable teacher = this.taskGroup().taskResult(teacherName);
             if (teacher == null) {
                 throw new IllegalStateException("Expected dependency teacher not found");
@@ -313,27 +307,24 @@ class SchoolsImpl {
                 throw new IllegalStateException("teacherImpl.isInvoked() should be true");
             }
 
-            return Observable.just(this).map(new Func1<StudentImpl, StudentImpl>() {
-                @Override
-                public StudentImpl call(StudentImpl student) {
-                    isInvoked = true;
-                    return student;
-                }
+            return Mono.just(this).map(student -> {
+                isInvoked = true;
+                return student;
             });
         }
 
         @Override
-        public Observable<StudentImpl> updateResourceAsync() {
+        public Mono<StudentImpl> updateResourceAsync() {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public Observable<Void> deleteResourceAsync() {
+        public Mono<Void> deleteResourceAsync() {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        protected Observable<Object> getInnerAsync() {
+        protected Mono<Object> getInnerAsync() {
             throw new UnsupportedOperationException();
         }
 

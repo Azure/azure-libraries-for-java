@@ -6,17 +6,15 @@
 
 package com.microsoft.azure.management.resources;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.Page;
+import com.azure.core.management.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
 import com.microsoft.azure.management.resources.implementation.PageImpl;
 import com.microsoft.azure.management.resources.implementation.ResourceGroupInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -140,7 +138,7 @@ public class GroupPagedListTests {
             }
 
             @Override
-            public String id() {
+            public String getId() {
                 return null;
             }
 
@@ -160,14 +158,10 @@ public class GroupPagedListTests {
             }
 
             @Override
-            public Observable<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options) {
+            public Mono<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options) {
                 return null;
             }
 
-            @Override
-            public ServiceFuture<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options, ServiceCallback<ResourceGroupExportResult> callback) {
-                return null;
-            }
 
             @Override
             public String key() {
@@ -176,12 +170,12 @@ public class GroupPagedListTests {
 
             @Override
             public ResourceGroup refresh() {
-                return refreshAsync().toBlocking().last();
+                return refreshAsync().block();
             }
 
             @Override
-            public Observable<ResourceGroup> refreshAsync() {
-                return Observable.just(null);
+            public Mono<ResourceGroup> refreshAsync() {
+                return Mono.just(null);
             }
 
             @Override

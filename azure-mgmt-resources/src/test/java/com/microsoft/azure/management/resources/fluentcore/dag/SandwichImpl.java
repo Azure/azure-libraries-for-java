@@ -8,9 +8,9 @@ package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -37,16 +37,18 @@ public class SandwichImpl
     }
 
     @Override
-    public Observable<ISandwich> createResourceAsync() {
+    public Mono<ISandwich> createResourceAsync() {
         System.out.println("Sandwich(" + this.name() + ")::createResourceAsync() [Creating sandwich]");
-        return Observable.just(this)
-                .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Func1<SandwichImpl, ISandwich>() {
-                    @Override
-                    public ISandwich call(SandwichImpl sandwich) {
-                        return sandwich;
-                    }
-                });
+        return Mono.just(this)
+                .delayElement(Duration.ofMillis(250))
+                .flatMap(san -> Mono.just(san));
+
+//                .map(new Func1<SandwichImpl, ISandwich>() {
+//                    @Override
+//                    public ISandwich call(SandwichImpl sandwich) {
+//                        return sandwich;
+//                    }
+//                });
     }
 
     @Override
@@ -55,7 +57,7 @@ public class SandwichImpl
     }
 
     @Override
-    protected Observable<SandwichInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Mono<SandwichInner> getInnerAsync() {
+        return Mono.just(this.inner());
     }
 }

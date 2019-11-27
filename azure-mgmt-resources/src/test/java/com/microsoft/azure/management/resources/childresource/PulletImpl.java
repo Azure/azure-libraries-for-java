@@ -7,8 +7,8 @@
 package com.microsoft.azure.management.resources.childresource;
 
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
-import rx.Observable;
-import rx.schedulers.Schedulers;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, Object>
         implements Pullet {
@@ -34,56 +34,56 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
     }
 
     @Override
-    public Observable<Pullet> createResourceAsync() {
+    public Mono<Pullet> createResourceAsync() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
         }
 
         if (this.failFlag == FailFlag.OnCreate) {
-            return Observable.error(new Exception("Creation of " + this.name() + " failed"));
+            return Mono.error(new Exception("Creation of " + this.name() + " failed"));
         }
 
         Pullet self = this;
-        return Observable
+        return Mono
                 .just(self)
-                .observeOn(Schedulers.computation());
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
     @Override
-    public Observable<Pullet> updateResourceAsync() {
+    public Mono<Pullet> updateResourceAsync() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
         }
 
         if (this.failFlag == FailFlag.OnUpdate) {
-            return Observable.error(new Exception("Update of " + this.name() + " failed"));
+            return Mono.error(new Exception("Update of " + this.name() + " failed"));
         }
 
         Pullet self = this;
-        return Observable
+        return Mono
                 .just(self)
-                .observeOn(Schedulers.computation());
+                .subscribeOn(Schedulers.boundedElastic());
     }
 
     @Override
-    public Observable<Void> deleteResourceAsync() {
+    public Mono<Void> deleteResourceAsync() {
         try {
             Thread.sleep(2000);
         } catch (InterruptedException ex) {
         }
 
         if (this.failFlag == FailFlag.OnDelete) {
-            return Observable.error(new Exception("Deletion of " + this.name() + " failed"));
+            return Mono.error(new Exception("Deletion of " + this.name() + " failed"));
         }
 
-        return Observable.just(null);
+        return Mono.just(null);
     }
 
     @Override
-    protected Observable<Object> getInnerAsync() {
-        return Observable.just(null);
+    protected Mono<Object> getInnerAsync() {
+        return Mono.just(null);
     }
 
     @Override

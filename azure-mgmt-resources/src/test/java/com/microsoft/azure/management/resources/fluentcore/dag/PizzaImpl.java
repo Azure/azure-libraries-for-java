@@ -10,9 +10,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
 import org.junit.Assert;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -70,16 +70,17 @@ class PizzaImpl
     }
 
     @Override
-    public Observable<IPizza> createResourceAsync() {
+    public Mono<IPizza> createResourceAsync() {
         System.out.println("Pizza(" + this.name() + ")::createResourceAsync()");
-        return Observable.just(this)
-                .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Func1<PizzaImpl, IPizza>() {
-                    @Override
-                    public IPizza call(PizzaImpl pizza) {
-                        return pizza;
-                    }
-                });
+        return Mono.just(this)
+                .delayElement(Duration.ofMillis(250))
+                .flatMap(pizza -> Mono.just(pizza));
+//                .map(new Func1<PizzaImpl, IPizza>() {
+//                    @Override
+//                    public IPizza call(PizzaImpl pizza) {
+//                        return pizza;
+//                    }
+//                });
     }
 
     @Override
@@ -88,7 +89,7 @@ class PizzaImpl
     }
 
     @Override
-    protected Observable<PizzaInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Mono<PizzaInner> getInnerAsync() {
+        return Mono.just(this.inner());
     }
 }

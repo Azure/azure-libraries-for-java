@@ -9,9 +9,9 @@ package com.microsoft.azure.management.resources.fluentcore.dag;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -25,16 +25,18 @@ public class BreadSliceImpl extends ExecutableImpl<IBreadSlice> implements IBrea
     }
 
     @Override
-    public Observable<IBreadSlice> executeWorkAsync() {
+    public Mono<IBreadSlice> executeWorkAsync() {
         System.out.println("Bread("+ this.name +")::executeWorkAsync() [Getting slice from store]");
-        return Observable.just(this)
-                .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Func1<BreadSliceImpl, IBreadSlice>() {
-                    @Override
-                    public IBreadSlice call(BreadSliceImpl breadSlice) {
-                        return breadSlice;
-                    }
-                });
+        return Mono.just(this)
+                .delayElement(Duration.ofMillis(250))
+                .flatMap(impl -> Mono.just(impl));
+
+//                .map(new Func1<BreadSliceImpl, IBreadSlice>() {
+//                    @Override
+//                    public IBreadSlice call(BreadSliceImpl breadSlice) {
+//                        return breadSlice;
+//                    }
+//                });
     }
 
     @Override

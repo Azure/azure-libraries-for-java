@@ -7,9 +7,9 @@
 package com.microsoft.azure.management.resources.fluentcore.dag;
 
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -29,15 +29,12 @@ public class OrderImpl
     }
 
     @Override
-    public Observable<IOrder> createResourceAsync() {
+    public Mono<IOrder> createResourceAsync() {
         System.out.println("Order(" + this.name() + ")::createResourceAsync() [Creating order]");
-        return Observable.just(this)
-                .delay(250, TimeUnit.MILLISECONDS)
-                .map(new Func1<OrderImpl, IOrder>() {
-                    @Override
-                    public IOrder call(OrderImpl sandwich) {
-                        return sandwich;
-                    }
+        return Mono.just(this)
+                .delayElement(Duration.ofMillis(250))
+                .map(sandwich -> {
+                    return sandwich;
                 });
     }
 
@@ -47,7 +44,7 @@ public class OrderImpl
     }
 
     @Override
-    protected Observable<OrderInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Mono<OrderInner> getInnerAsync() {
+        return Mono.just(this.inner());
     }
 }

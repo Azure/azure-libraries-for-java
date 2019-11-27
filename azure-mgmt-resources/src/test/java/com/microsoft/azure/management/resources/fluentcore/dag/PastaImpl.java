@@ -10,9 +10,9 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
 import org.junit.Assert;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -83,27 +83,30 @@ class PastaImpl
     }
 
     @Override
-    public Observable<IPasta> createResourceAsync() {
+    public Mono<IPasta> createResourceAsync() {
         if (this.errorToThrow == null) {
             System.out.println("Pasta(" + this.name() + ")::createResourceAsync() 'onNext()'");
-            return Observable.just(this)
-                    .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .map(new Func1<PastaImpl, IPasta>() {
-                        @Override
-                        public IPasta call(PastaImpl pasta) {
-                            return pasta;
-                        }
-                    });
+            return Mono.just(this)
+                    .delayElement(Duration.ofMillis(eventDelayInMilliseconds))
+                    .flatMap(pasta -> Mono.just(pasta));
+//                    .map(new Func1<PastaImpl, IPasta>() {
+//                        @Override
+//                        public IPasta call(PastaImpl pasta) {
+//                            return pasta;
+//                        }
+//                    });
         } else {
             System.out.println("Pasta(" + this.name() + ")::createResourceAsync() 'onError()'");
-            return Observable.just(this)
-                    .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .flatMap(new Func1<PastaImpl, Observable<IPasta>>() {
-                        @Override
-                        public Observable<IPasta> call(PastaImpl pasta) {
-                            return toErrorObservable(errorToThrow);
-                        }
-                    });
+            return Mono.just(this)
+                    .delayElement(Duration.ofMillis(eventDelayInMilliseconds))
+                    .flatMap(pasta ->  toErrorObservable(errorToThrow));
+
+//                            new Func1<PastaImpl, Observable<IPasta>>() {
+//                        @Override
+//                        public Observable<IPasta> call(PastaImpl pasta) {
+//                            return toErrorObservable(errorToThrow);
+//                        }
+//                    });
         }
     }
 
@@ -113,11 +116,11 @@ class PastaImpl
     }
 
     @Override
-    protected Observable<PastaInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Mono<PastaInner> getInnerAsync() {
+        return Mono.just(this.inner());
     }
 
-    private Observable<IPasta> toErrorObservable(Throwable throwable) {
-        return Observable.error(throwable);
+    private Mono<IPasta> toErrorObservable(Throwable throwable) {
+        return Mono.error(throwable);
     }
 }

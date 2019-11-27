@@ -6,16 +6,14 @@
 
 package com.microsoft.azure.management.resources.core;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.microsoft.azure.management.ApplicationTokenCredential;
+import com.microsoft.azure.management.RestClient;
+import com.microsoft.azure.management.RestClientBuilder;
+import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationPolicy;
+import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicy;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.LogLevel;
-import com.microsoft.rest.RestClient;
-import com.microsoft.rest.interceptors.LoggingInterceptor;
 import org.junit.After;
 import org.junit.Assume;
 import org.junit.Before;
@@ -69,12 +67,12 @@ public abstract class TestBase {
     private String shouldCancelTest(boolean isPlaybackMode) {
         // Determine whether to run the test based on the condition the test has been configured with
         switch (this.runCondition) {
-        case MOCK_ONLY:
-            return (!isPlaybackMode) ? "Test configured to run only as mocked, not live." : null;
-        case LIVE_ONLY:
-            return (isPlaybackMode) ? "Test configured to run only as live, not mocked." : null;
-        default:
-            return null;
+            case MOCK_ONLY:
+                return (!isPlaybackMode) ? "Test configured to run only as mocked, not live." : null;
+            case LIVE_ONLY:
+                return (isPlaybackMode) ? "Test configured to run only as live, not mocked." : null;
+            default:
+                return null;
         }
     }
 
@@ -124,7 +122,7 @@ public abstract class TestBase {
     }
 
     public static boolean isRecordMode() {
-        return  !isPlaybackMode();
+        return !isPlaybackMode();
     }
 
     @Rule
@@ -153,23 +151,24 @@ public abstract class TestBase {
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
 
-        ApplicationTokenCredentials credentials;
+        ApplicationTokenCredential credentials;
         RestClient restClient;
         String defaultSubscription;
 
         if (isPlaybackMode()) {
-            credentials = new AzureTestCredentials(playbackUri, ZERO_TENANT, true);
-            restClient = buildRestClient(new RestClient.Builder()
-                    .withBaseUrl(playbackUri + "/")
-                    .withSerializerAdapter(new AzureJacksonAdapter())
-                    .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                    .withCredentials(credentials)
-                    .withLogLevel(LogLevel.NONE)
-                    .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
-                    .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
-                    .withNetworkInterceptor(interceptorManager.initInterceptor())
-                    .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                    ,true);
+            credentials = new AzureTestCredential(playbackUri, ZERO_TENANT, true);
+            restClient = buildRestClient(new RestClientBuilder()
+                            .withBaseUrl(playbackUri + "/")
+                            .withSerializerAdapter(new AzureJacksonAdapter())
+                            // .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
+                            .withCredential(credentials)
+                            // .withLogLevel(LogLevel.NONE)
+                    // TODO: FIX policy
+//                            .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
+//                            .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS))
+//                            .withNetworkInterceptor(interceptorManager.initInterceptor())
+//                            .withInterceptor(new ResourceManagerThrottlingInterceptor())
+                    , true);
 
             defaultSubscription = ZERO_SUBSCRIPTION;
             interceptorManager.addTextReplacementRule(PLAYBACK_URI_BASE + "1234", playbackUri);
@@ -180,11 +179,10 @@ public abstract class TestBase {
                     //DO NOTHING
                 }
             }));
-        }
-        else {
+        } else {
             if (System.getenv("AZURE_AUTH_LOCATION") != null) { // Record mode
                 final File credFile = new File(System.getenv("AZURE_AUTH_LOCATION"));
-                credentials = ApplicationTokenCredentials.fromFile(credFile);
+                credentials = ApplicationTokenCredential.fromFile(credFile);
             } else {
                 String clientId = System.getenv("AZURE_CLIENT_ID");
                 String tenantId = System.getenv("AZURE_TENANT_ID");
@@ -194,23 +192,23 @@ public abstract class TestBase {
                     throw new IllegalArgumentException("When running tests in record mode either 'AZURE_AUTH_LOCATION' or 'AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET and AZURE_SUBSCRIPTION_ID' needs to be set");
                 }
 
-                credentials = new ApplicationTokenCredentials(clientId, tenantId, clientSecret, AzureEnvironment.AZURE);
+                credentials = new ApplicationTokenCredential(clientId, tenantId, clientSecret, AzureEnvironment.AZURE);
                 credentials.withDefaultSubscriptionId(subscriptionId);
             }
-            RestClient.Builder builder = new RestClient.Builder()
-                            .withBaseUrl(this.baseUri())
-                            .withSerializerAdapter(new AzureJacksonAdapter())
-                            .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                            .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                            .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
-                            .withCredentials(credentials)
-                            .withLogLevel(LogLevel.NONE)
-                            .withReadTimeout(3, TimeUnit.MINUTES)
-                            .withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS));
-            if (!interceptorManager.isNoneMode()) {
-                builder.withNetworkInterceptor(interceptorManager.initInterceptor());
-            }
-            restClient = buildRestClient(builder.withInterceptor(new ResourceManagerThrottlingInterceptor()),false);
+            RestClientBuilder builder = new RestClientBuilder()
+                    .withBaseUrl(this.baseUri())
+                    .withSerializerAdapter(new AzureJacksonAdapter())
+                    // .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
+                    .addPolicy(new ProviderRegistrationPolicy(credentials))
+                    // .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
+                    .withCredential(credentials);
+                    // .withLogLevel(LogLevel.NONE)
+                    // .withReadTimeout(3, TimeUnit.MINUTES)
+                    //.withNetworkInterceptor(new LoggingInterceptor(LogLevel.BODY_AND_HEADERS));
+//            if (!interceptorManager.isNoneMode()) {
+//                builder.withNetworkInterceptor(interceptorManager.initInterceptor());
+//            }
+            restClient = buildRestClient(builder.addPolicy(new ResourceManagerThrottlingPolicy()), false);
             defaultSubscription = credentials.defaultSubscriptionId();
             interceptorManager.addTextReplacementRule(defaultSubscription, ZERO_SUBSCRIPTION);
             interceptorManager.addTextReplacementRule(credentials.domain(), ZERO_TENANT);
@@ -222,14 +220,14 @@ public abstract class TestBase {
 
     @After
     public void afterTest() throws IOException {
-        if(shouldCancelTest(isPlaybackMode()) != null) {
+        if (shouldCancelTest(isPlaybackMode()) != null) {
             return;
         }
         cleanUpResources();
         interceptorManager.finalizeInterceptor();
     }
 
-    protected void addTextReplacementRule(String from, String to ) {
+    protected void addTextReplacementRule(String from, String to) {
         interceptorManager.addTextReplacementRule(from, to);
     }
 
@@ -245,10 +243,11 @@ public abstract class TestBase {
         }
     }
 
-    protected RestClient buildRestClient(RestClient.Builder builder, boolean isMocked) {
-        return builder.build();
+    protected RestClient buildRestClient(RestClientBuilder builder, boolean isMocked) {
+        return builder.buildClient();
     }
 
     protected abstract void initializeClients(RestClient restClient, String defaultSubscription, String domain) throws IOException;
+
     protected abstract void cleanUpResources();
 }

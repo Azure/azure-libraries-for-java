@@ -153,6 +153,13 @@ public class CosmosDBTests extends TestBase {
         Assert.assertEquals("Rejected", connections.get(pedName).privateLinkServiceConnectionState().status());
 
         Assert.assertEquals(1, cosmosDBAccount.listPrivateLinkResources().size());
+
+        cosmosDBAccount.update()
+                .updatePrivateEndpointConnection(pedName)
+                    .withDescription("Test Update")
+                    .parent()
+                .apply();
+        Assert.assertEquals("Test Update", cosmosDBAccount.getPrivateEndpointConnection(pedName).privateLinkServiceConnectionState().description());
     }
 
     @Test

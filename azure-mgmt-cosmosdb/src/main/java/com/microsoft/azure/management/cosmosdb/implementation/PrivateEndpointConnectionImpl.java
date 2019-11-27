@@ -118,6 +118,6 @@ public class PrivateEndpointConnectionImpl
 
     @Override
     public CosmosDBAccountImpl attach() {
-        return this.parent();
+        return this.parent().withPrivateEndpointConnection(this);
     }
 }

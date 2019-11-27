@@ -168,7 +168,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
     }
 
     @Test
-    public void canCreateLowPriorityVirtualMachine() throws Exception {
+    public void canCreateUpdatePriorityAndPrice() throws Exception {
         // Create
         computeManager.virtualMachines()
                 .define(VMNAME)
@@ -207,12 +207,49 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
         Assert.assertEquals((Double) 1000.0, foundVM.billingProfile().maxPrice());
         Assert.assertEquals(VirtualMachineEvictionPolicyTypes.DEALLOCATE, foundVM.evictionPolicy());
 
+        // change max price
+        try {
+            foundVM.update()
+                    .withMaxPrice(1500.0)
+                    .apply();
+            // not run to assert
+            Assert.assertEquals((Double) 1500.0, foundVM.billingProfile().maxPrice());
+            Assert.assertTrue(false);
+        } catch (AssertionError e) {
+            throw e;
+        } catch (Exception e) {} // cannot change max price when vm is running
+
         foundVM.deallocate();
         foundVM.update()
                 .withMaxPrice(2000.0)
                 .apply();
+        foundVM.start();
 
         Assert.assertEquals((Double) 2000.0, foundVM.billingProfile().maxPrice());
+
+        // change priority types
+        foundVM = foundVM.update()
+                .withPriority(VirtualMachinePriorityTypes.SPOT)
+                .apply();
+
+        Assert.assertEquals(VirtualMachinePriorityTypes.SPOT, foundVM.priority());
+
+        foundVM = foundVM.update()
+                .withPriority(VirtualMachinePriorityTypes.LOW)
+                .apply();
+
+        Assert.assertEquals(VirtualMachinePriorityTypes.LOW, foundVM.priority());
+        try {
+            foundVM.update()
+                    .withPriority(VirtualMachinePriorityTypes.REGULAR)
+                    .apply();
+            // not run to assert
+            Assert.assertEquals(VirtualMachinePriorityTypes.REGULAR, foundVM.priority());
+            Assert.assertTrue(false);
+        } catch (AssertionError e) {
+            throw e;
+        } catch (Exception e) {} // cannot change priority from spot to regular
+
         // Delete VM
         computeManager.virtualMachines().deleteById(foundVM.id());
     }

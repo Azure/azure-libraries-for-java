@@ -10,6 +10,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.sql.ElasticPoolActivity;
 import com.microsoft.azure.management.sql.ElasticPoolDatabaseActivity;
 import com.microsoft.azure.management.sql.ElasticPoolEdition;
@@ -154,27 +155,27 @@ public class SqlElasticPoolImpl
 
     @Override
     public int dtu() {
-        return this.inner().dtu();
+        return Utils.toPrimitiveInt(this.inner().dtu());
     }
 
     @Override
     public int databaseDtuMax() {
-        return this.inner().databaseDtuMax();
+        return Utils.toPrimitiveInt(this.inner().databaseDtuMax());
     }
 
     @Override
     public int databaseDtuMin() {
-        return this.inner().databaseDtuMin();
+        return Utils.toPrimitiveInt(this.inner().databaseDtuMin());
     }
 
     @Override
     public int storageMB() {
-        return this.inner().storageMB();
+        return Utils.toPrimitiveInt(this.inner().storageMB());
     }
 
     @Override
     public int storageCapacityInMB() {
-        return this.inner().storageMB();
+        return Utils.toPrimitiveInt(this.inner().storageMB());
     }
 
     @Override

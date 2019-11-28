@@ -214,10 +214,8 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     .apply();
             // not run to assert
             Assert.assertEquals((Double) 1500.0, foundVM.billingProfile().maxPrice());
-            Assert.assertTrue(false);
-        } catch (AssertionError e) {
-            throw e;
-        } catch (Exception e) {} // cannot change max price when vm is running
+            Assert.fail();
+        } catch (CloudException e) {} // cannot change max price when vm is running
 
         foundVM.deallocate();
         foundVM.update()
@@ -245,10 +243,8 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     .apply();
             // not run to assert
             Assert.assertEquals(VirtualMachinePriorityTypes.REGULAR, foundVM.priority());
-            Assert.assertTrue(false);
-        } catch (AssertionError e) {
-            throw e;
-        } catch (Exception e) {} // cannot change priority from spot to regular
+            Assert.fail();
+        } catch (CloudException e) {} // cannot change priority from spot to regular
 
         // Delete VM
         computeManager.virtualMachines().deleteById(foundVM.id());

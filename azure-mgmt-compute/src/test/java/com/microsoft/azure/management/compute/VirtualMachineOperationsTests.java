@@ -244,7 +244,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
             // not run to assert
             Assert.assertEquals(VirtualMachinePriorityTypes.REGULAR, foundVM.priority());
             Assert.fail();
-        } catch (CloudException e) {} // cannot change priority from spot to regular
+        } catch (CloudException e) {} // cannot change priority from low to regular
 
         // Delete VM
         computeManager.virtualMachines().deleteById(foundVM.id());

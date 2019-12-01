@@ -38,13 +38,7 @@ final class ProvidersImpl
 
     @Override
     public Mono<Provider> unregisterAsync(String resourceProviderNamespace) {
-        throw new NotImplementedException();
-//        return client.unregisterAsync(resourceProviderNamespace).map(new Func1<ProviderInner, Provider>() {
-//            @Override
-//            public Provider call(ProviderInner providerInner) {
-//                return wrapModel(providerInner);
-//            }
-//        });
+        return client.unregisterAsync(resourceProviderNamespace).map(providerInner -> wrapModel(providerInner));
     }
 
 
@@ -55,13 +49,7 @@ final class ProvidersImpl
 
     @Override
     public Mono<Provider> registerAsync(String resourceProviderNamespace) {
-        throw new NotImplementedException();
-//        return client.registerAsync(resourceProviderNamespace).map(new Func1<ProviderInner, Provider>() {
-//            @Override
-//            public Provider call(ProviderInner providerInner) {
-//                return wrapModel(providerInner);
-//            }
-//        });
+        return client.registerAsync(resourceProviderNamespace).map(providerInner -> wrapModel(providerInner));
     }
 
 

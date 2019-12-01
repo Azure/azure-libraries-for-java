@@ -8,8 +8,9 @@
 
 package com.microsoft.azure.management.resources;
 
-import org.joda.time.DateTime;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.time.OffsetDateTime;
 
 /**
  * Deployment operation properties.
@@ -25,7 +26,7 @@ public class DeploymentOperationProperties {
      * The date and time of the operation.
      */
     @JsonProperty(value = "timestamp", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime timestamp;
+    private OffsetDateTime timestamp;
 
     /**
      * The duration of the operation.
@@ -83,7 +84,7 @@ public class DeploymentOperationProperties {
      *
      * @return the timestamp value
      */
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.timestamp;
     }
 

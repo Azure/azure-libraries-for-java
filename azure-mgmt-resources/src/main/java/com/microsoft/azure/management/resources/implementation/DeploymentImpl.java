@@ -23,11 +23,11 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import org.joda.time.DateTime;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +75,7 @@ public final class DeploymentImpl extends
     }
 
     @Override
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         if (this.inner().properties() == null) {
             return null;
         }

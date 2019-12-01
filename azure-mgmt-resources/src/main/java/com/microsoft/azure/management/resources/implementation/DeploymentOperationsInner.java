@@ -169,6 +169,8 @@ public class DeploymentOperationsInner {
      * The interface defining all the services for DeploymentOperations to be
      * used by Retrofit to perform actually REST calls.
      */
+    @Host("{url}")
+    @ServiceInterface(name = "DeploymentOperationsService")
     interface DeploymentOperationsService {
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.DeploymentOperations getAtScope"})
         @Get("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations/{operationId}")

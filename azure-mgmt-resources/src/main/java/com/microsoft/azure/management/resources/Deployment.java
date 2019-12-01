@@ -20,11 +20,11 @@ import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.resources.implementation.DeploymentExtendedInner;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
-import org.joda.time.DateTime;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -59,7 +59,7 @@ public interface Deployment extends
     /**
      * @return the timestamp of the template deployment
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return key/value pairs that represent deployment output

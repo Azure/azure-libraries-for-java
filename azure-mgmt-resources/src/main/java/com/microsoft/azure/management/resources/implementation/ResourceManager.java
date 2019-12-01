@@ -7,16 +7,15 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.azure.core.credential.TokenCredential;
+import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
+import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.microsoft.azure.management.AzureTokenCredential;
 import com.microsoft.azure.management.RestClient;
 import com.microsoft.azure.management.RestClientBuilder;
 import com.microsoft.azure.management.resources.Deployments;
-import com.microsoft.azure.management.resources.Features;
 import com.microsoft.azure.management.resources.GenericResources;
-import com.microsoft.azure.management.resources.PolicyAssignments;
-import com.microsoft.azure.management.resources.PolicyDefinitions;
 import com.microsoft.azure.management.resources.Providers;
 import com.microsoft.azure.management.resources.ResourceGroups;
 import com.microsoft.azure.management.resources.Subscriptions;
@@ -25,7 +24,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationPolicy;
+//import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationPolicy;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicy;
 
 /**
@@ -40,10 +39,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private ResourceGroups resourceGroups;
     private GenericResources genericResources;
     private Deployments deployments;
-    private Features features;
     private Providers providers;
-    private PolicyDefinitions policyDefinitions;
-    private PolicyAssignments policyAssignments;
 
     /**
      * Creates an instance of ResourceManager that exposes resource management API entry points.
@@ -57,8 +53,10 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
                 // .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .addPolicy(new ProviderRegistrationPolicy(credential))
+//                .addPolicy(new ProviderRegistrationPolicy(credential))
                 .addPolicy(new ResourceManagerThrottlingPolicy())
+                .addPolicy(new CookiePolicy())
+                .addPolicy(new BearerTokenAuthenticationPolicy(credential, "default"))
                 .buildClient());
     }
 

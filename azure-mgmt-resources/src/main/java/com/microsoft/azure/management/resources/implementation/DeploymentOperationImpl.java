@@ -10,8 +10,9 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
 import com.microsoft.azure.management.resources.DeploymentOperation;
 import com.microsoft.azure.management.resources.TargetResource;
-import org.joda.time.DateTime;
 import reactor.core.publisher.Mono;
+
+import java.time.OffsetDateTime;
 
 /**
  * The implementation of {@link DeploymentOperation}.
@@ -46,7 +47,7 @@ final class DeploymentOperationImpl extends
     }
 
     @Override
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         if (this.inner().properties() == null) {
             return null;
         }

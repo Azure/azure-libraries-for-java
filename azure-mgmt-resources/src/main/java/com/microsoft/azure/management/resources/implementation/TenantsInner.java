@@ -69,7 +69,7 @@ public class TenantsInner {
      */
     private Mono<PagedResponse<TenantIdDescriptionInner>> listTenantsFirstPage() {
         try {
-            return service.list(this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            return service.list(this.client.getAzureClient().restClient().getBaseURL().toString(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignored -> logger.info("Listing deployments"))
                     .doOnSuccess(response -> logger.info("Listed deployments"))
                     .doOnError(error -> logger.warning("Failed to list deployments", error));
@@ -102,10 +102,13 @@ public class TenantsInner {
      * The interface defining all the services for Tenants to be
      * used by Retrofit to perform actually REST calls.
      */
+    @Host("{url}")
+    @ServiceInterface(name = "TenantsService")
     interface TenantsService {
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Tenants list"})
         @Get("tenants")
-        Mono<PagedResponse<TenantIdDescriptionInner>> list(@QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        @ReturnValueWireType(TenantIdDescriptionInnerPage.class)
+        Mono<PagedResponse<TenantIdDescriptionInner>> list(@HostParam("url") String url, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Tenants listNext"})
         @Get("{nextUrl}")

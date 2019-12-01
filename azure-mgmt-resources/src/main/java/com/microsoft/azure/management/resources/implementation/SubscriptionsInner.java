@@ -13,6 +13,7 @@ import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.*;
 import com.azure.core.management.PagedList;
 import com.azure.core.util.logging.ClientLogger;
+import com.google.common.reflect.TypeToken;
 import reactor.core.Exceptions;
 import reactor.core.publisher.Mono;
 
@@ -59,7 +60,7 @@ public class SubscriptionsInner {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listLocations(subscriptionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.listLocations(this.client.getAzureClient().restClient().getBaseURL().toString(), subscriptionId, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(res -> Mono.just(res.getValue()));
 //                .flatMap(response -> {
 //
@@ -101,7 +102,7 @@ public class SubscriptionsInner {
      */
     private Mono<PagedResponse<SubscriptionInner>> listSubscriptionsFirstPage() {
         try {
-            return service.list(this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            return service.list(this.client.getAzureClient().restClient().getBaseURL().toString(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignored -> logger.info("Listing deployments"))
                     .doOnSuccess(response -> logger.info("Listed deployments"))
                     .doOnError(error -> logger.warning("Failed to list deployments", error));
@@ -121,7 +122,7 @@ public class SubscriptionsInner {
      */
     private Mono<PagedResponse<SubscriptionInner>> listSubscriptionsNextPage(String continuationToken) {
         try {
-            return service.listNext(continuationToken, this.client.acceptLanguage(), this.client.userAgent())
+            return service.listNext(this.client.getAzureClient().restClient().getBaseURL().toString(), continuationToken, this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignoredValue -> logger.info("Retrieving the next secrets page - Page {}", continuationToken))
                     .doOnSuccess(response -> logger.info("Retrieved the next secrets page - Page {}", continuationToken))
                     .doOnError(error -> logger.warning("Failed to retrieve the next secrets page - Page {}",
@@ -154,10 +155,13 @@ public class SubscriptionsInner {
      * The interface defining all the services for Subscriptions to be
      * used by Retrofit to perform actually REST calls.
      */
+    @Host("{url}")
+    @ServiceInterface(name = "SubscriptionService")
     interface SubscriptionsService {
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Subscriptions listLocations"})
         @Get("subscriptions/{subscriptionId}/locations")
-        Mono<Response<List<LocationInner>>> listLocations(@PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        @ReturnValueWireType(LocationInnerPage.class)
+        Mono<PagedResponse<LocationInner>> listLocations(@HostParam("url") String url, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Subscriptions get"})
         @Get("subscriptions/{subscriptionId}")
@@ -165,12 +169,11 @@ public class SubscriptionsInner {
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Subscriptions list"})
         @Get("subscriptions")
-        Mono<PagedResponse<SubscriptionInner>> list(@QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        @ReturnValueWireType(SubscriptionInnerPage.class)
+        Mono<PagedResponse<SubscriptionInner>> list(@HostParam("url") String url, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Subscriptions listNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<SubscriptionInner>> listNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
-
+        Mono<PagedResponse<SubscriptionInner>> listNext(@HostParam("url") String url, @PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
     }
-
 }

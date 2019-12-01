@@ -105,13 +105,12 @@ public class ExternalChildResourceTests {
                 .subscribe(
                         pullet -> changedPuppets.add(pullet),
                         throwable -> {
-                            // TODO: Fix the composite exception cases
                             try {
-//                                Exceptions exception = (Exceptions) throwable;
-//                                Assert.assertNotNull(exception);
-//                                for (Throwable innerThrowable : exception.un) {
-//                                    throwables.add(innerThrowable);
-//                                }
+                                Throwable[] exception = throwable.getSuppressed();
+                                Assert.assertNotNull(exception);
+                                for (Throwable innerThrowable : exception) {
+                                    throwables.add(innerThrowable);
+                                }
                             } finally {
                                 monitor.countDown();
                             }
@@ -120,7 +119,6 @@ public class ExternalChildResourceTests {
                             monitor.countDown();
                             Assert.assertTrue("onCompleted should not be invoked", false);
                         }
-
                 );
 
         monitor.await();

@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CountDownLatch;
 
 public class ProxyTaskGroupTests {
 
@@ -451,10 +452,13 @@ public class ProxyTaskGroupTests {
         //
         group1.invokeAsync(group1.newInvocationContext())
                 .subscribe(value -> {
-                    StringIndexable stringIndexable = toStringIndexable(value);
-                    Assert.assertTrue(group1Items.contains(stringIndexable.str()));
-                    group1Items.remove(stringIndexable.str());
-                });
+                            StringIndexable stringIndexable = toStringIndexable(value);
+                            Assert.assertTrue(group1Items.contains(stringIndexable.str()));
+                            group1Items.remove(stringIndexable.str());
+                        },
+                        throwable -> {
+
+                        });
 
         Assert.assertEquals(0, group1Items.size());
 
@@ -1407,7 +1411,7 @@ public class ProxyTaskGroupTests {
     }
 
     @Test
-    public void canHandleDependenciesAndPostRunDependentsInBeforeGroupInvoke() {
+    public void canHandleDependenciesAndPostRunDependentsInBeforeGroupInvoke() throws InterruptedException {
         final IndexableTaskItem itiA = new IndexableTaskItem("A") {
             @Override
             protected Mono<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
@@ -1452,13 +1456,14 @@ public class ProxyTaskGroupTests {
          */
 
         final ArrayList<String> seen = new ArrayList<>();
+        CountDownLatch down = new CountDownLatch(1);
         itiC.taskGroup()
                 .invokeAsync(itiC.taskGroup().newInvocationContext())
-                // .toBlocking()
-                .subscribe( indexable -> {
-                        seen.add(indexable.key());
-//                    }
-                });
+                .subscribe(indexable -> seen.add(indexable.key()),
+                        throwable -> down.countDown(),
+                        () -> down.countDown());
+
+        down.await();
 
         boolean b1 = seen.equals(new ArrayList<>(Arrays.asList(new String[]{"A", "C", "B", "C"})));
         boolean b2 = seen.equals(new ArrayList<>(Arrays.asList(new String[]{"C", "A", "B", "C"})));
@@ -1515,14 +1520,15 @@ public class ProxyTaskGroupTests {
          *            |-----------> D
          */
 
+        final CountDownLatch monitor = new CountDownLatch(1);
         seen.clear();
         itiF.taskGroup()
                 .invokeAsync(itiC.taskGroup().newInvocationContext())
 //                .toBlocking()
-                .subscribe(indexable -> {
-                        seen.add(indexable.key());
-//                    }
-                });
+                .subscribe(indexable ->                    seen.add(indexable.key()),
+                    throwable -> monitor.countDown(),
+                        () -> monitor.countDown());
+        monitor.await();
 
         b1 = seen.equals(new ArrayList<>(Arrays.asList(new String[]{"E", "D", "E", "F"})));
         Assert.assertTrue("Emission order should be [E, D, E, F] but got " + seen, b1);

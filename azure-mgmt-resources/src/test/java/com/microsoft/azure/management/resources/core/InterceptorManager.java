@@ -75,29 +75,31 @@ public class InterceptorManager {
     }
 
     public HttpPipelinePolicy initInterceptor() throws IOException {
-//        switch (testMode) {
-//            case RECORD:
-//                recordedData = new RecordedData();
+        switch (testMode) {
+            case RECORD:
+                recordedData = new RecordedData();
+                return null;
 //                return new Interceptor() {
 //                    @Override
 //                    public Response intercept(Chain chain) throws IOException {
 //                        return record(chain);
 //                    }
 //                };
-//            case PLAYBACK:
-//                readDataFromFile();
+            case PLAYBACK:
+                readDataFromFile();
+                return null;
 //                return new Interceptor() {
 //                    @Override
 //                    public Response intercept(Chain chain) throws IOException {
 //                        return playback(chain);
 //                    }
 //                };
-//            case NONE:
-//                System.out.println("==> No interceptor defined for AZURE_TEST_MODE: " + testMode);
-//                break;
-//            default:
-//                System.out.println("==> Unknown AZURE_TEST_MODE: " + testMode);
-//        };
+            case NONE:
+                System.out.println("==> No interceptor defined for AZURE_TEST_MODE: " + testMode);
+                break;
+            default:
+                System.out.println("==> Unknown AZURE_TEST_MODE: " + testMode);
+        };
         return null;
     }
 

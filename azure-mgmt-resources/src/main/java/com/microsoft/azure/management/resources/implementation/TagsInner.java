@@ -40,6 +40,9 @@ public class TagsInner {
      * The interface defining all the services for Tags to be
      * used by Retrofit to perform actually REST calls.
      */
+
+    @Host("{url}")
+    @ServiceInterface(name = "TagsService")
     interface TagsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Tags deleteValue" })
         @Delete("subscriptions/{subscriptionId}/tagNames/{tagName}/tagValues/{tagValue}")

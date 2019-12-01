@@ -15,7 +15,7 @@ import com.microsoft.azure.management.AzureTokenCredential;
 import com.microsoft.azure.management.RestClient;
 import com.microsoft.azure.management.RestClientBuilder;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationPolicy;
+//import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationPolicy;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicy;
 
 import java.net.Proxy;
@@ -126,7 +126,7 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
         RestClient client =  restClientBuilder
                 .withBaseUrl(credentials.environment(), endpoint)
                 .withCredential(credentials)
-                .addPolicy(new ProviderRegistrationPolicy(credentials))
+  //              .addPolicy(new ProviderRegistrationPolicy(credentials))
                 .addPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient();
 //        if (client.httpClient().proxy() != null) {

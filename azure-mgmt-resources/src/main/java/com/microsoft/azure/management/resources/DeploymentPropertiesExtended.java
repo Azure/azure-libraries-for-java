@@ -8,7 +8,8 @@
 
 package com.microsoft.azure.management.resources;
 
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 import com.microsoft.azure.management.resources.implementation.ProviderInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -33,7 +34,7 @@ public class DeploymentPropertiesExtended {
      * The timestamp of the template deployment.
      */
     @JsonProperty(value = "timestamp", access = JsonProperty.Access.WRITE_ONLY)
-    private DateTime timestamp;
+    private OffsetDateTime timestamp;
 
     /**
      * The duration of the template deployment.
@@ -127,7 +128,7 @@ public class DeploymentPropertiesExtended {
      *
      * @return the timestamp value
      */
-    public DateTime timestamp() {
+    public OffsetDateTime timestamp() {
         return this.timestamp;
     }
 

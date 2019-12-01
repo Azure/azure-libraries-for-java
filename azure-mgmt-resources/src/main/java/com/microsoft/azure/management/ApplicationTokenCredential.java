@@ -65,6 +65,6 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
                 .clientSecret(this.clientSecret)
                 .tenantId(domain())
                 .build();
-        return clientSecretCredential.getToken(new TokenRequestContext());
+        return clientSecretCredential.getToken(new TokenRequestContext().addScopes(this.environment().getResourceManagerEndpoint() + "/.default"));
     }
 }

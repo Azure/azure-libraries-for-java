@@ -14,6 +14,7 @@ import com.azure.core.http.rest.*;
 import com.azure.core.management.PagedList;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.polling.LongRunningOperationStatus;
+import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.management.resources.GenericResource;
 import com.microsoft.azure.management.resources.ResourcesMoveInfo;
 import com.microsoft.azure.management.resources.fluentcore.collection.InnerSupportsListing;
@@ -73,7 +74,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
         if (apiVersion == null) {
             throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
         }
-        return service.get(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.get(this.getHostUrl(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(res -> Mono.just(res.getValue()));
 //                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GenericResourceInner>>>() {
 //                    @Override
@@ -107,7 +108,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
         if (apiVersion == null) {
             throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
         }
-        return service.getById(resourceId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.getById(this.getHostUrl(), resourceId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(res -> Mono.just(res.getValue()));
 //                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GenericResourceInner>>>() {
 //                    @Override
@@ -157,12 +158,11 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         // Validator.validate(parameters);
-        Mono<Response<GenericResourceInner>> observable = service.createOrUpdate(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
+        Mono<Response<GenericResourceInner>> observable = service.createOrUpdate(this.getHostUrl(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
         //  .flatMap(response -> Mono.just(response.getValue()));
-        return client.getAzureClient().getPutOrPatchResultAsync(observable)
-                .takeWhile(apr -> apr.getStatus() == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED)
-                .next()
-                .flatMap(val -> Mono.just(val.getValue().value()));
+        return client.getAzureClient().<GenericResourceInner, GenericResourceInner>getPutOrPatchResultAsync(observable, GenericResourceInner.class, GenericResourceInner.class)
+                .last()
+                .flatMap(res -> Mono.just(res.getValue().value()));
     }
 
 
@@ -181,7 +181,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
         if (apiVersion == null) {
             throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
         }
-        Mono<Response<Void>> observable = service.deleteById(resourceId, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        Mono<Response<Void>> observable = service.deleteById(this.getHostUrl(), resourceId, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable)
                 .takeWhile(apr -> apr.getStatus() == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED)
                 .next()
@@ -247,7 +247,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
      */
     private Mono<PagedResponse<GenericResourceInner>> listResourcesByResourceGroupFirstPage(String resourceGroupName, String filter) {
         try {
-            return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), filter, null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            return service.listByResourceGroup(this.getHostUrl(), resourceGroupName, this.client.subscriptionId(), filter, null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignored -> logger.info("Listing deployments"))
                     .doOnSuccess(response -> logger.info("Listed deployments"))
                     .doOnError(error -> logger.warning("Failed to list deployments", error));
@@ -267,7 +267,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
      */
     private Mono<PagedResponse<GenericResourceInner>> listResourcesByResourceNextPage(String continuationToken) {
         try {
-            return service.listByResourceGroupNext(continuationToken, this.client.acceptLanguage(), this.client.userAgent())
+            return service.listByResourceGroupNext(this.getHostUrl(), continuationToken, this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignoredValue -> logger.info("Retrieving the next secrets page - Page {}", continuationToken))
                     .doOnSuccess(response -> logger.info("Retrieved the next secrets page - Page {}", continuationToken))
                     .doOnError(error -> logger.warning("Failed to retrieve the next secrets page - Page {}",
@@ -284,7 +284,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
      */
     private Mono<PagedResponse<GenericResourceInner>> listResourcesFirstPage(String filter) {
         try {
-            return service.list(this.client.subscriptionId(), filter, null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            return service.list(this.getHostUrl(), this.client.subscriptionId(), filter, null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignored -> logger.info("Listing deployments"))
                     .doOnSuccess(response -> logger.info("Listed deployments"))
                     .doOnError(error -> logger.warning("Failed to list deployments", error));
@@ -304,7 +304,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
      */
     private Mono<PagedResponse<GenericResourceInner>> listResourcesNextPage(String continuationToken) {
         try {
-            return service.listByResourceGroupNext(continuationToken, this.client.acceptLanguage(), this.client.userAgent())
+            return service.listByResourceGroupNext(this.getHostUrl(), continuationToken, this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignoredValue -> logger.info("Retrieving the next secrets page - Page {}", continuationToken))
                     .doOnSuccess(response -> logger.info("Retrieved the next secrets page - Page {}", continuationToken))
                     .doOnError(error -> logger.warning("Failed to retrieve the next secrets page - Page {}",
@@ -340,7 +340,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
         if (apiVersion == null) {
             throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
         }
-        return service.checkExistence(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.checkExistence(this.getHostUrl(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(res -> Mono.just(res.getValue()));
 //                .flatMap(new Func1<Response<Void>, Observable<ServiceResponse<Boolean>>>() {
 //                    @Override
@@ -366,7 +366,7 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
         if (apiVersion == null) {
             throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
         }
-        return service.checkExistenceById(resourceId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+        return service.checkExistenceById(this.getHostUrl(),  resourceId, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(res -> Mono.just(res.getValue()));
 //                .flatMap(new Func1<Response<Void>, Observable<ServiceResponse<Boolean>>>() {
 //                    @Override
@@ -423,22 +423,76 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
      * The interface defining all the services for Resources to be
      * used by Retrofit to perform actually REST calls.
      */
+
+    public Mono<Void> moveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+        if (sourceResourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter sourceResourceGroupName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        // Validator.validate(parameters);
+        Mono<Response<Void>> observable = service.moveResources(this.getHostUrl(), sourceResourceGroupName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable)
+                .then();
+    }
+
+    public Mono<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (resourceProviderNamespace == null) {
+            throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
+        }
+        if (parentResourcePath == null) {
+            throw new IllegalArgumentException("Parameter parentResourcePath is required and cannot be null.");
+        }
+        if (resourceType == null) {
+            throw new IllegalArgumentException("Parameter resourceType is required and cannot be null.");
+        }
+        if (resourceName == null) {
+            throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (apiVersion == null) {
+            throw new IllegalArgumentException("Parameter apiVersion is required and cannot be null.");
+        }
+        Mono<Response<Void>> observable = service.delete(this.getHostUrl(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable)
+                .then();
+    }
+
+    private String getHostUrl() {
+        return this.client.getAzureClient().restClient().getBaseURL().toString();
+    }
+
+    @Host("{url}")
+    @ServiceInterface(name = "ResourcesService")
     interface ResourcesService {
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources listByResourceGroup"})
         @Get("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/resources")
-        Mono<PagedResponse<GenericResourceInner>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$expand") String expand, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        @ReturnValueWireType(GenericResourceInnerPage.class)
+        Mono<PagedResponse<GenericResourceInner>> listByResourceGroup(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$expand") String expand, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources moveResources"})
         @Post("subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/moveResources")
-        Mono<Response<Void>> moveResources(@PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> moveResources(@HostParam("url") String url, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources beginMoveResources"})
         @Post("subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/moveResources")
-        Mono<Response<Void>> beginMoveResources(@PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> beginMoveResources(@HostParam("url") String url, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources validateMoveResources"})
         @Post("subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/validateMoveResources")
-        Mono<Response<Void>> validateMoveResources(@PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> validateMoveResources(@HostParam("url") String url, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources beginValidateMoveResources"})
         @Post("subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/validateMoveResources")
@@ -446,31 +500,32 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources list"})
         @Get("subscriptions/{subscriptionId}/resources")
-        Mono<PagedResponse<GenericResourceInner>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$expand") String expand, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<GenericResourceInner>> list(@HostParam("url") String url, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$expand") String expand, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources checkExistence"})
         @Head("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
-        Mono<Response<Boolean>> checkExistence(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        @ExpectedResponses({200, 204, 404})
+        Mono<Response<Boolean>> checkExistence(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources delete"})
         @Delete("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
-        Mono<Response<Void>> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> delete(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources beginDelete"})
         @Delete("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
-        Mono<Response<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> beginDelete(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources createOrUpdate"})
         @Put("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
-        Mono<Response<GenericResourceInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("body") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<GenericResourceInner>> createOrUpdate(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("body") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources beginCreateOrUpdate"})
         @Put("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
-        Mono<Response<GenericResourceInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("body") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<GenericResourceInner>> beginCreateOrUpdate(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("body") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources update"})
         @Patch("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
-        Mono<Response<GenericResourceInner>> update(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("body") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<GenericResourceInner>> update(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @BodyParam("body") GenericResourceInner parameters, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources beginUpdate"})
         @Patch("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
@@ -478,15 +533,16 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources get"})
         @Get("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
-        Mono<Response<GenericResourceInner>> get(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<GenericResourceInner>> get(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources checkExistenceById"})
         @Head("{resourceId}")
-        Mono<Response<Boolean>> checkExistenceById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        @ExpectedResponses({200, 204, 404})
+        Mono<Response<Boolean>> checkExistenceById(@HostParam("url") String url, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources deleteById"})
         @Delete("{resourceId}")
-        Mono<Response<Void>> deleteById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> deleteById(@HostParam("url") String url, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources beginDeleteById"})
         @Delete("{resourceId}")
@@ -510,15 +566,15 @@ public class ResourcesInner implements InnerSupportsListing<GenericResourceInner
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources getById"})
         @Get("{resourceId}")
-        Mono<Response<GenericResourceInner>> getById(@PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<GenericResourceInner>> getById(@HostParam("url") String url, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources listByResourceGroupNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<GenericResourceInner>> listByResourceGroupNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<GenericResourceInner>> listByResourceGroupNext(@HostParam("url") String url, @PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Resources listNext"})
         @Get("{nextUrl}")
-        Mono<Response<Page<GenericResourceInner>>> listNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Page<GenericResourceInner>>> listNext(@HostParam("url") String url, @PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
     }
 

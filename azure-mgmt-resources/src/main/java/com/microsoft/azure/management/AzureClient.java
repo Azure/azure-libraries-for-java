@@ -8,13 +8,18 @@ package com.microsoft.azure.management;
 
 import com.azure.core.http.rest.Response;
 import com.azure.core.management.implementation.polling.PollerFactory;
+import com.azure.core.management.implementation.polling.PollingState;
 import com.azure.core.polling.PollResult;
 import com.azure.core.util.logging.ClientLogger;
+import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.core.util.polling.PollerFlux;
 import com.azure.core.util.polling.PollingContext;
+import com.azure.core.util.serializer.SerializerEncoding;
 import com.google.gson.reflect.TypeToken;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
+import java.lang.reflect.Type;
 import java.time.Duration;
 import java.util.function.Function;
 
@@ -47,6 +52,7 @@ public class AzureClient extends AzureServiceClient {
     public AzureClient(AzureServiceClient serviceClient) {
         super(serviceClient.restClient());
         this.serviceClientUserAgent = serviceClient.userAgent();
+        this.longRunningOperationRetryTimeout = 30;
     }
 
     /**
@@ -72,13 +78,11 @@ public class AzureClient extends AzureServiceClient {
     }
 
 
-    public <T, U> PollerFlux<PollResult<T>, U> getPutOrPatchResultAsync(Mono<Response<T>> lroInit) {
+    public <T, U> PollerFlux<PollResult<T>, U> getPutOrPatchResultAsync(Mono<Response<T>> lroInit, Type pollResultType, Type finalResultType) {
         return PollerFactory.create(this.restClient().getSerializerAdapter(),
                 this.restClient().getHttpPipeline(),
-                new TypeToken<T>() {
-                }.getType(),
-                new TypeToken<U>() {
-                }.getType(),
+                pollResultType,
+                finalResultType,
                 Duration.ofSeconds(this.longRunningOperationRetryTimeout),
                 activationOperation(lroInit));
 
@@ -104,7 +108,20 @@ public class AzureClient extends AzureServiceClient {
 
     private <T> Function<PollingContext<PollResult<T>>, Mono<PollResult<T>>> activationOperation(Mono<Response<T>> lroInit) {
         return (pollingContext) -> withContext(context -> lroInit
-                .flatMap(response -> Mono.just(new PollResult<T>(response.getValue()))));
-                // TODO: onErrorMap(error -> Mono.just(new PollResult<T>((PollResult.Error) error)));
+                .flatMap(response -> {
+                    PollingState state = null;
+                    try {
+                        state = PollingState.create(getSerializerAdapter(), response.getRequest(), response.getStatusCode(), response.getHeaders(),
+                                this.getSerializerAdapter().serialize(response.getValue(), SerializerEncoding.JSON));
+                        if (response.getStatusCode() == 200) {
+                            // pollingContext.setData("INIT_STATUS", LongRunningOperationStatus.SUCCESSFULLY_COMPLETED.toString());
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    state.store(pollingContext);
+                    return Mono.just(new PollResult<T>(response.getValue()));
+                }));
+        // TODO: onErrorMap(error -> Mono.just(new PollResult<T>((PollResult.Error) error)));
     }
 }

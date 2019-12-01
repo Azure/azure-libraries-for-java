@@ -7,9 +7,9 @@
 package com.microsoft.azure.management.resources;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.microsoft.azure.management.RestClient;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -74,7 +74,7 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
         // Get
         Assert.assertNotNull(genericResources.get(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
         // Move
-        genericResources.moveResources(rgName, resourceGroups.getByName(newRgName), Arrays.asList(resource.id()));
+        genericResources.moveResources(rgName, resourceGroups.getByName(newRgName), Arrays.asList(resource.getId()));
         Assert.assertFalse(genericResources.checkExistence(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
         resource = genericResources.get(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion());
         Assert.assertNotNull(resource);
@@ -83,8 +83,8 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
                 .withProperties(new ObjectMapper().readTree("{\"SiteMode\":\"Limited\",\"ComputeMode\":\"Dynamic\"}"))
                 .apply();
         // Delete
-        genericResources.deleteById(resource.id());
+        genericResources.deleteById(resource.getId());
         Assert.assertFalse(genericResources.checkExistence(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
-        Assert.assertFalse(genericResources.checkExistenceById(resource.id()));
+        Assert.assertFalse(genericResources.checkExistenceById(resource.getId()));
     }
 }

@@ -6,12 +6,14 @@
 
 package com.microsoft.azure.management.resources.core;
 
+import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
+import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.microsoft.azure.management.ApplicationTokenCredential;
 import com.microsoft.azure.management.RestClient;
 import com.microsoft.azure.management.RestClientBuilder;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationPolicy;
+// import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationPolicy;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingPolicy;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.After;
@@ -150,6 +152,7 @@ public abstract class TestBase {
         Assume.assumeTrue(skipMessage, skipMessage == null);
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
+        interceptorManager.initInterceptor();
 
         ApplicationTokenCredential credentials;
         RestClient restClient;
@@ -199,7 +202,9 @@ public abstract class TestBase {
                     .withBaseUrl(this.baseUri())
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     // .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                    .addPolicy(new ProviderRegistrationPolicy(credentials))
+    //                 .addPolicy(new ProviderRegistrationPolicy(credentials))
+                    .addPolicy(new CookiePolicy())
+                    .addPolicy(new BearerTokenAuthenticationPolicy(credentials, credentials.clientId() + "/.default"))
                     // .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
                     .withCredential(credentials);
                     // .withLogLevel(LogLevel.NONE)

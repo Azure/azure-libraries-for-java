@@ -66,7 +66,7 @@ public class ProvidersInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String expand = null;
-        return service.get(resourceProviderNamespace, this.client.subscriptionId(), expand, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.get(this.getHostUrl(), resourceProviderNamespace, this.client.subscriptionId(), expand, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(res -> Mono.just(res.getValue()));
 //                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProviderInner>>>() {
 //                    @Override
@@ -103,7 +103,8 @@ public class ProvidersInner {
      */
     private Mono<PagedResponse<ProviderInner>> listProvidersFirstPage() {
         try {
-            return service.list(this.client.subscriptionId(), null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            return service.list(this.client.getAzureClient().restClient().getBaseURL().toString(),
+                    this.client.subscriptionId(), null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignored -> logger.info("Listing deployments"))
                     .doOnSuccess(response -> logger.info("Listed deployments"))
                     .doOnError(error -> logger.warning("Failed to list deployments", error));
@@ -135,21 +136,75 @@ public class ProvidersInner {
 
 
     /**
+     * Unregisters a subscription from a resource provider.
+     *
+     * @param resourceProviderNamespace The namespace of the resource provider to unregister.
+     * @return the observable to the ProviderInner object
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     */
+    public Mono<ProviderInner> unregisterAsync(String resourceProviderNamespace) {
+        if (resourceProviderNamespace == null) {
+            throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.unregister(this.client.getAzureClient().restClient().getBaseURL().toString(), resourceProviderNamespace, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+                .flatMap(res -> Mono.just(res.getValue()));
+//                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ProviderInner>>>() {
+//                    @Override
+//                    public Observable<ServiceResponse<ProviderInner>> call(Response<ResponseBody> response) {
+//                        try {
+//                            ServiceResponse<ProviderInner> clientResponse = unregisterDelegate(response);
+//                            return Observable.just(clientResponse);
+//                        } catch (Throwable t) {
+//                            return Observable.error(t);
+//                        }
+//                    }
+//                });
+    }
+
+
+    public Mono<ProviderInner> registerAsync(String resourceProviderNamespace) {
+        if (resourceProviderNamespace == null) {
+            throw new IllegalArgumentException("Parameter resourceProviderNamespace is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        return service.register(this.getHostUrl(), resourceProviderNamespace, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+                .flatMap(res -> Mono.just(res.getValue()));
+    }
+
+    private String getHostUrl() {
+        return this.client.getAzureClient().restClient().getBaseURL().toString();
+    }
+
+    /**
      * The interface defining all the services for Providers to be
      * used by Retrofit to perform actually REST calls.
      */
+    @Host("{url}")
+    @ServiceInterface(name = "ProvidersService")
     interface ProvidersService {
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers unregister"})
         @Post("subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/unregister")
-        Mono<Response<ProviderInner>> unregister(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<ProviderInner>> unregister(@HostParam("url") String url, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers register"})
         @Post("subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}/register")
-        Mono<Response<ProviderInner>> register(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<ProviderInner>> register(@HostParam("url") String url, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers list"})
         @Get("subscriptions/{subscriptionId}/providers")
-        Mono<PagedResponse<ProviderInner>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$top") Integer top, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        @ReturnValueWireType(ProviderInnerPage.class)
+        Mono<PagedResponse<ProviderInner>> list(@HostParam("url") String url, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$top") Integer top, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers listAtTenantScope"})
         @Get("providers")
@@ -157,7 +212,7 @@ public class ProvidersInner {
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers get"})
         @Get("subscriptions/{subscriptionId}/providers/{resourceProviderNamespace}")
-        Mono<Response<ProviderInner>> get(@PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<ProviderInner>> get(@HostParam("url") String url, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$expand") String expand, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Providers getAtTenantScope"})
         @Get("providers/{resourceProviderNamespace}")

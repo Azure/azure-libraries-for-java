@@ -77,7 +77,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.delete(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent()).flatMap(
+        return service.delete(this.getHostUrl(), resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent()).flatMap(
                 response -> Mono.just(response.getValue()));
     }
 
@@ -100,7 +100,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.getByResourceGroup(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.getByResourceGroup(this.getHostUrl(), resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(response -> Mono.just(response.getValue()));
     }
 
@@ -117,7 +117,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      */
     private Mono<PagedResponse<DeploymentExtendedInner>> listDeploymentsFirstPage() {
         try {
-            return service.list(this.client.subscriptionId(), null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            return service.list(this.getHostUrl(), this.client.subscriptionId(), null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignored -> logger.info("Listing deployments"))
                     .doOnSuccess(response -> logger.info("Listed deployments"))
                     .doOnError(error -> logger.warning("Failed to list deployments", error));
@@ -137,7 +137,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      */
     private Mono<PagedResponse<DeploymentExtendedInner>> listDeploymentsNextPage(String continuationToken) {
         try {
-            return service.listNext(continuationToken, this.client.acceptLanguage(), this.client.userAgent())
+            return service.listNext(this.getHostUrl(), continuationToken, this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignoredValue -> logger.info("Retrieving the next secrets page - Page {}", continuationToken))
                     .doOnSuccess(response -> logger.info("Retrieved the next secrets page - Page {}", continuationToken))
                     .doOnError(error -> logger.warning("Failed to retrieve the next secrets page - Page {}",
@@ -160,7 +160,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      */
     private Mono<PagedResponse<DeploymentExtendedInner>> listDeploymentsByResourceGroupFirstPage(String resourceGroupName) {
         try {
-            return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+            return service.listByResourceGroup(this.getHostUrl(),  resourceGroupName, this.client.subscriptionId(), null, null, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignored -> logger.info("Listing deployments"))
                     .doOnSuccess(response -> logger.info("Listed deployments"))
                     .doOnError(error -> logger.warning("Failed to list deployments", error));
@@ -180,7 +180,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
      */
     private Mono<PagedResponse<DeploymentExtendedInner>> listDeploymentsByResourceNextPage(String continuationToken) {
         try {
-            return service.listByResourceGroupNext(continuationToken, this.client.acceptLanguage(), this.client.userAgent())
+            return service.listByResourceGroupNext(this.getHostUrl(), continuationToken, this.client.acceptLanguage(), this.client.userAgent())
                     .doOnRequest(ignoredValue -> logger.info("Retrieving the next secrets page - Page {}", continuationToken))
                     .doOnSuccess(response -> logger.info("Retrieved the next secrets page - Page {}", continuationToken))
                     .doOnError(error -> logger.warning("Failed to retrieve the next secrets page - Page {}",
@@ -204,8 +204,9 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.cancel(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-                .flatMap(response -> Mono.just(response.getValue()));
+        return service.cancel(this.getHostUrl(), resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+                .then();
+//                .flatMap(response -> Mono.just(response.getValue()));
     }
 
     public Mono<DeploymentExportResultInner> exportTemplateAsync(String resourceGroupName, String deploymentName) {
@@ -221,7 +222,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.exportTemplate(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.exportTemplate(this.getHostUrl(), resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(response -> Mono.just(response.getValue()));
     }
 
@@ -267,7 +268,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         // Validator.validate(parameters);
-        return service.beginCreateOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.beginCreateOrUpdate(this.getHostUrl(), resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(response -> Mono.just(response.getValue()));
 //                .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DeploymentExtendedInner>>>() {
 //                    @Override
@@ -310,11 +311,10 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         // Validator.validate(parameters);
-        Mono<Response<DeploymentExtendedInner>> observable = service.createOrUpdate(resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        Mono<Response<DeploymentExtendedInner>> observable = service.createOrUpdate(this.getHostUrl(), resourceGroupName, deploymentName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
         //  .flatMap(response -> Mono.just(response.getValue()));
-        return client.getAzureClient().getPutOrPatchResultAsync(observable)
-                .takeWhile(apr -> apr.getStatus() == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED)
-                .next()
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, DeploymentExtendedInner.class, DeploymentExtendedInner.class)
+                .last()
                 .flatMap(val -> Mono.just(val.getValue().value()));
     }
 
@@ -343,7 +343,7 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.checkExistence(resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.checkExistence(this.getHostUrl(), resourceGroupName, deploymentName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
                 .flatMap(res -> Mono.just(res.getValue()));
     }
 
@@ -369,245 +369,251 @@ public class DeploymentsInner implements InnerSupportsGet<DeploymentExtendedInne
         };
     }
 
+    private String getHostUrl() {
+        return this.client.getAzureClient().restClient().getBaseURL().toString();
+    }
+
+    @Host("{url}")
+    @ServiceInterface(name = "DeploymentsService")
     interface DeploymentsService {
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtScope"})
         @Delete("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> deleteAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> deleteAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginDeleteAtScope"})
         @Delete("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> beginDeleteAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> beginDeleteAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments checkExistenceAtScope"})
         @Head("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Boolean>> checkExistenceAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Boolean>> checkExistenceAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments createOrUpdateAtScope"})
         @Put("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> createOrUpdateAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> createOrUpdateAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginCreateOrUpdateAtScope"})
         @Put("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdateAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdateAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments getAtScope"})
         @Get("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> getAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> getAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments cancelAtScope"})
         @Post("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel")
-        Mono<Response<Void>> cancelAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> cancelAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validateAtScope"})
         @Post("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
-        Mono<Response<DeploymentValidateResultInner>> validateAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentValidateResultInner>> validateAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments exportTemplateAtScope"})
         @Post("{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
-        Mono<Response<DeploymentExportResultInner>> exportTemplateAtScope(@PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExportResultInner>> exportTemplateAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtScope"})
         @Get("{scope}/providers/Microsoft.Resources/deployments/")
-        Mono<PagedResponse<DeploymentExtendedInner>> listAtScope(@PathParam("scope") String scope, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtScope(@HostParam("url") String url, @PathParam("scope") String scope, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtTenantScope"})
         @Delete("providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> deleteAtTenantScope(@PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> deleteAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginDeleteAtTenantScope"})
         @Delete("providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> beginDeleteAtTenantScope(@PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> beginDeleteAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments checkExistenceAtTenantScope"})
         @Head("providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Boolean>> checkExistenceAtTenantScope(@PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Boolean>> checkExistenceAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments createOrUpdateAtTenantScope"})
         @Put("providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> createOrUpdateAtTenantScope(@PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> createOrUpdateAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginCreateOrUpdateAtTenantScope"})
         @Put("providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdateAtTenantScope(@PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdateAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments getAtTenantScope"})
         @Get("providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> getAtTenantScope(@PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> getAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments cancelAtTenantScope"})
         @Post("providers/Microsoft.Resources/deployments/{deploymentName}/cancel")
-        Mono<Response<Void>> cancelAtTenantScope(@PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> cancelAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validateAtTenantScope"})
         @Post("providers/Microsoft.Resources/deployments/{deploymentName}/validate")
-        Mono<Response<DeploymentValidateResultInner>> validateAtTenantScope(@PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentValidateResultInner>> validateAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments exportTemplateAtTenantScope"})
         @Post("providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
-        Mono<Response<DeploymentExportResultInner>> exportTemplateAtTenantScope(@PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExportResultInner>> exportTemplateAtTenantScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtTenantScope"})
         @Get("providers/Microsoft.Resources/deployments/")
-        Mono<PagedResponse<DeploymentExtendedInner>> listAtTenantScope(@QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtTenantScope(@HostParam("url") String url, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtManagementGroupScope"})
         @Delete("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> deleteAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> deleteAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginDeleteAtManagementGroupScope"})
         @Delete("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> beginDeleteAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> beginDeleteAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments checkExistenceAtManagementGroupScope"})
         @Head("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Boolean>> checkExistenceAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Boolean>> checkExistenceAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments createOrUpdateAtManagementGroupScope"})
         @Put("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> createOrUpdateAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> createOrUpdateAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginCreateOrUpdateAtManagementGroupScope"})
         @Put("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdateAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdateAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments getAtManagementGroupScope"})
         @Get("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> getAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> getAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments cancelAtManagementGroupScope"})
         @Post("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel")
-        Mono<Response<Void>> cancelAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> cancelAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validateAtManagementGroupScope"})
         @Post("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
-        Mono<Response<DeploymentValidateResultInner>> validateAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentValidateResultInner>> validateAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("body") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments exportTemplateAtManagementGroupScope"})
         @Post("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
-        Mono<Response<DeploymentExportResultInner>> exportTemplateAtManagementGroupScope(@PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExportResultInner>> exportTemplateAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtManagementGroupScope"})
         @Get("providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/")
-        Mono<PagedResponse<DeploymentExtendedInner>> listAtManagementGroupScope(@PathParam("groupId") String groupId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtManagementGroupScope(@HostParam("url") String url, @PathParam("groupId") String groupId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments deleteAtSubscriptionScope"})
         @Delete("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> deleteAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> deleteAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginDeleteAtSubscriptionScope"})
         @Delete("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> beginDeleteAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> beginDeleteAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments checkExistenceAtSubscriptionScope"})
         @Head("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Boolean>> checkExistenceAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Boolean>> checkExistenceAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments createOrUpdateAtSubscriptionScope"})
         @Put("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> createOrUpdateAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> createOrUpdateAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginCreateOrUpdateAtSubscriptionScope"})
         @Put("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdateAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdateAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments getAtSubscriptionScope"})
         @Get("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> getAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> getAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments cancelAtSubscriptionScope"})
         @Post("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel")
-        Mono<Response<Void>> cancelAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> cancelAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validateAtSubscriptionScope"})
         @Post("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
-        Mono<Response<DeploymentValidateResultInner>> validateAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentValidateResultInner>> validateAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments whatIfAtSubscriptionScope"})
         @Post("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
-        Mono<Response<WhatIfOperationResultInner>> whatIfAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<WhatIfOperationResultInner>> whatIfAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginWhatIfAtSubscriptionScope"})
         @Post("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
-        Mono<Response<WhatIfOperationResultInner>> beginWhatIfAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<WhatIfOperationResultInner>> beginWhatIfAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments exportTemplateAtSubscriptionScope"})
         @Post("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
-        Mono<Response<DeploymentExportResultInner>> exportTemplateAtSubscriptionScope(@PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExportResultInner>> exportTemplateAtSubscriptionScope(@HostParam("url") String url, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments list"})
         @Get("subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/")
-        Mono<PagedResponse<DeploymentExtendedInner>> list(@PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> list(@HostParam("url") String url, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments delete"})
         @Delete("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> delete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> delete(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginDelete"})
         @Delete("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Void>> beginDelete(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> beginDelete(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments checkExistence"})
         @Head("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<Boolean>> checkExistence(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Boolean>> checkExistence(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments createOrUpdate"})
         @Put("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> createOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> createOrUpdate(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginCreateOrUpdate"})
         @Put("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> beginCreateOrUpdate(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments getByResourceGroup"})
         @Get("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
-        Mono<Response<DeploymentExtendedInner>> getByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExtendedInner>> getByResourceGroup(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments cancel"})
         @Post("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel")
-        Mono<Response<Void>> cancel(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<Void>> cancel(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments validate"})
         @Post("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/validate")
-        Mono<Response<DeploymentValidateResultInner>> validate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentValidateResultInner>> validate(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentInner parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments whatIf"})
         @Post("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
-        Mono<Response<WhatIfOperationResultInner>> whatIf(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<WhatIfOperationResultInner>> whatIf(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments beginWhatIf"})
         @Post("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
-        Mono<Response<WhatIfOperationResultInner>> beginWhatIf(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<WhatIfOperationResultInner>> beginWhatIf(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("body") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments exportTemplate"})
         @Post("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
-        Mono<Response<DeploymentExportResultInner>> exportTemplate(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<DeploymentExportResultInner>> exportTemplate(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listByResourceGroup"})
         @Get("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/")
-        Mono<PagedResponse<DeploymentExtendedInner>> listByResourceGroup(@PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listByResourceGroup(@HostParam("url") String url, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @QueryParam("api-version") String apiVersion, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments calculateTemplateHash"})
         @Post("providers/Microsoft.Resources/calculateTemplateHash")
-        Mono<Response<TemplateHashResultInner>> calculateTemplateHash(@QueryParam("api-version") String apiVersion, @BodyParam("body") Object template, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<Response<TemplateHashResultInner>> calculateTemplateHash(@HostParam("url") String url, @QueryParam("api-version") String apiVersion, @BodyParam("body") Object template, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtScopeNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<DeploymentExtendedInner>> listAtScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtScopeNext(@HostParam("url") String url, @PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtTenantScopeNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<DeploymentExtendedInner>> listAtTenantScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtTenantScopeNext(@HostParam("url") String url, @PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listAtManagementGroupScopeNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<DeploymentExtendedInner>> listAtManagementGroupScopeNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listAtManagementGroupScopeNext(@HostParam("url") String url, @PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<DeploymentExtendedInner>> listNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listNext(@HostParam("url") String url, @PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
 
         @Headers({"Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Deployments listByResourceGroupNext"})
         @Get("{nextUrl}")
-        Mono<PagedResponse<DeploymentExtendedInner>> listByResourceGroupNext(@PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
+        Mono<PagedResponse<DeploymentExtendedInner>> listByResourceGroupNext(@HostParam("url") String url, @PathParam("nextUrl") String nextUrl, @HeaderParam("accept-language") String acceptLanguage, @HeaderParam("User-Agent") String userAgent);
     }
 }

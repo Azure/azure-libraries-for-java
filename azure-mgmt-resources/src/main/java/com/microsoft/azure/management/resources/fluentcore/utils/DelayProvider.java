@@ -6,10 +6,10 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
-import org.joda.time.DateTime;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.time.OffsetDateTime;
 
 /**
  * A wrapper class for thread sleep.
@@ -30,8 +30,8 @@ public class DelayProvider {
     /**
      * @return the current time.
      */
-    public DateTime now() {
-        return DateTime.now();
+    public OffsetDateTime now() {
+        return OffsetDateTime.now();
     }
 
     /**

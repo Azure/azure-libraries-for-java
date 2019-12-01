@@ -70,7 +70,7 @@ public abstract class IndependentChildResourceImpl<
     }
 
     @Override
-    public String id() {
+    public String getId() {
         if (this.inner() != null) {
             return this.inner().getId();
         }

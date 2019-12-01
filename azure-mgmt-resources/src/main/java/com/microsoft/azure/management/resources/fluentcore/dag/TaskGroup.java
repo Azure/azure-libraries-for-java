@@ -355,7 +355,7 @@ public class TaskGroup
             }
             readyTaskEntry = super.getNext();
         }
-        return Flux.mergeDelayError(32, observables.toArray(new Mono[observables.size()]));
+        return Flux.mergeDelayError(32, observables.toArray(new Flux[observables.size()]));
     }
 
     /**

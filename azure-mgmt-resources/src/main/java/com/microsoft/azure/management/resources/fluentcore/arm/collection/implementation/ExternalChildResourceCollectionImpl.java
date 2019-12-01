@@ -9,8 +9,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.ExternalCh
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
 import reactor.core.Exceptions;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.*;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -140,15 +139,22 @@ public abstract class ExternalChildResourceCollectionImpl<
         }
 
         final List<Throwable> exceptionsList = Collections.synchronizedList(new ArrayList<Throwable>());
+        final List<FluentModelTImpl> successfullyRemoved = new ArrayList<>();
+        ReplayProcessor<FluentModelTImpl> aggregatedErrorStream = ReplayProcessor.create();
         Flux<FluentModelTImpl> deleteStream = Flux.fromIterable(items)
                 .filter(childResource -> childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeRemoved)
                 .flatMap(childResource -> {
                             return childResource.deleteResourceAsync()
                                     .map(response -> childResource)
-                                    .doOnNext(fluentModelT -> {
+                                    .doOnSuccess(fluentModelT -> {
                                         childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
                                         self.childCollection.remove(childResource.name());
+                                        successfullyRemoved.add(childResource);
                                     })
+//                                    .doOnNext(fluentModelT -> {
+//                                        childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
+//                                        self.childCollection.remove(childResource.name());
+//                                    })
                                     .onErrorResume(throwable -> {
                                         exceptionsList.add(throwable);
                                         return Mono.empty();
@@ -183,18 +189,24 @@ public abstract class ExternalChildResourceCollectionImpl<
                         }
                 );
 
-        final Mono<FluentModelTImpl> aggregatedErrorStream = Mono.empty();
+
         Flux<FluentModelTImpl> operationsStream = Flux.merge(deleteStream,
                 createStream,
                 updateStream).doOnTerminate(() -> {
             if (clearAfterCommit()) {
                 self.childCollection.clear();
             }
+            if (successfullyRemoved.size() > 0) {
+                for (FluentModelTImpl removed : successfullyRemoved) {
+                    aggregatedErrorStream.sink().next(removed);
+                }
+            }
             if (!exceptionsList.isEmpty()) {
-                aggregatedErrorStream.error(Exceptions.multiple(exceptionsList));
+                aggregatedErrorStream.sink().error(Exceptions.multiple(exceptionsList));
+            } else {
+                aggregatedErrorStream.sink().complete();
             }
         });
-
         return Flux.concat(operationsStream, aggregatedErrorStream);
     }
 

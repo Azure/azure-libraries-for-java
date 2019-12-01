@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.management.PagedList;
 import com.azure.core.management.Resource;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -104,12 +105,12 @@ public abstract class TopLevelModifiableResourcesImpl<
     }
 
     @Override
-    public Flux<T> listAsync() {
+    public PagedFlux<T> listAsync() {
         return wrapPageAsync(inner().listAsync());
     }
 
     @Override
-    public Flux<T> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<T> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroupName));
     }
 

@@ -6,15 +6,12 @@ package com.microsoft.azure.management;
 import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.annotation.ServiceClientBuilder;
-import com.azure.core.http.policy.HttpPolicyProviders;
+import com.azure.core.http.netty.NettyAsyncHttpClientBuilder;
+import com.azure.core.http.policy.*;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.util.Configuration;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpPipeline;
-import com.azure.core.http.policy.HttpLoggingPolicy;
-import com.azure.core.http.policy.HttpPipelinePolicy;
-import com.azure.core.http.policy.HttpLogOptions;
-import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.serializer.SerializerAdapter;
@@ -49,7 +46,7 @@ public final class RestClientBuilder {
      */
     public RestClientBuilder() {
         retryPolicy = new RetryPolicy();
-        httpLogOptions = new HttpLogOptions();
+        httpLogOptions = new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS);
         policies = new ArrayList<>();
     }
 
@@ -79,6 +76,9 @@ public final class RestClientBuilder {
         HttpPolicyProviders.addAfterRetryPolicies(policies);
         policies.add(new HttpLoggingPolicy(httpLogOptions));
 
+        httpClient = new NettyAsyncHttpClientBuilder()
+
+                .build();
         HttpPipeline pipeline = new HttpPipelineBuilder()
                 .policies(policies.toArray(new HttpPipelinePolicy[0]))
                 .httpClient(httpClient)
@@ -123,7 +123,7 @@ public final class RestClientBuilder {
         return this;
     }
 
-    public RestClientBuilder withUserAgent() {
+    public RestClientBuilder withUserAgent(String userAgent) {
         throw new NotImplementedException();
     }
 

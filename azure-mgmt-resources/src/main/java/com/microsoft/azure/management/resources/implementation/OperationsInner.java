@@ -40,6 +40,8 @@ public class OperationsInner {
      * The interface defining all the services for Operations to be
      * used by Retrofit to perform actually REST calls.
      */
+    @Host("{url}")
+    @ServiceInterface(name = "OperationsService")
     interface OperationsService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.Operations list" })
         @Get("providers/Microsoft.Resources/operations")

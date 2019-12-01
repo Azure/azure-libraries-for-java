@@ -6,9 +6,8 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
+import java.time.OffsetDateTime;
 import java.util.Random;
 import java.util.UUID;
 
@@ -68,8 +67,8 @@ public class ResourceNamer {
     /**
      * @return the current time.
      */
-    public DateTime dateTimeNow() {
-        return DateTime.now(DateTimeZone.UTC);
+    public OffsetDateTime dateTimeNow() {
+        return OffsetDateTime.now();
     }
 
     private String randomString(int length) {

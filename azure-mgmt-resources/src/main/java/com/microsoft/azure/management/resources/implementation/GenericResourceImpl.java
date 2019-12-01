@@ -135,8 +135,11 @@ final class GenericResourceImpl
     @Override
     public Mono<GenericResource> createResourceAsync() {
         final GenericResourceImpl self = this;
-        Mono<String> observable = Mono.just(apiVersion);
-        if (apiVersion == null) {
+        Mono<String> observable = null;
+        if (apiVersion != null) {
+            observable = Mono.just(apiVersion);
+        }
+        else {
             final ResourceManagementClientImpl serviceClient = this.manager().inner();
             observable = this.manager().providers().getByNameAsync(resourceProviderNamespace)
                     .flatMap(provider -> {

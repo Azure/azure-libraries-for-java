@@ -6,10 +6,11 @@
 
 package com.microsoft.azure.management.resources.fluentcore.utils;
 
-import org.joda.time.DateTime;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
+
+import java.time.OffsetDateTime;
 
 /**
  * The class to contain the common factory methods required for SDK framework.
@@ -97,7 +98,7 @@ public class SdkContext {
     /**
      * @return the current date time.
      */
-    public static DateTime dateTimeNow() {
+    public static OffsetDateTime dateTimeNow() {
         ResourceNamer resourceNamer = SdkContext.getResourceNamerFactory().createResourceNamer("");
         return resourceNamer.dateTimeNow();
     }

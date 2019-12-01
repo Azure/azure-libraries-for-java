@@ -66,7 +66,7 @@ public abstract class GroupableResourceImpl<
     @Override
     public String resourceGroupName() {
         if (this.groupName == null) {
-            return ResourceUtils.groupFromResourceId(this.id());
+            return ResourceUtils.groupFromResourceId(this.getId());
         } else {
             return this.groupName;
         }

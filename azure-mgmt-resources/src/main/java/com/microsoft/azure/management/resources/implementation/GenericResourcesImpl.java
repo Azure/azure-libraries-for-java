@@ -149,11 +149,10 @@ final class GenericResourcesImpl
 
     @Override
     public Mono<Void> moveResourcesAsync(String sourceResourceGroupName, ResourceGroup targetResourceGroup, List<String> resources) {
-        throw new NotImplementedException();
-//        ResourcesMoveInfo moveInfo = new ResourcesMoveInfo();
-//        moveInfo.withTargetResourceGroup(targetResourceGroup.id());
-//        moveInfo.withResources(resources);
-//        return this.inner().moveResourcesAsync(sourceResourceGroupName, moveInfo).toCompletable();
+        ResourcesMoveInfo moveInfo = new ResourcesMoveInfo();
+        moveInfo.withTargetResourceGroup(targetResourceGroup.getId());
+        moveInfo.withResources(resources);
+        return this.inner().moveResourcesAsync(sourceResourceGroupName, moveInfo);
     }
 
 
@@ -164,8 +163,7 @@ final class GenericResourcesImpl
 
     @Override
     public Mono<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        throw new NotImplementedException();
-//        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion).toCompletable();
+        return this.inner().deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, apiVersion);
     }
 
     @Override

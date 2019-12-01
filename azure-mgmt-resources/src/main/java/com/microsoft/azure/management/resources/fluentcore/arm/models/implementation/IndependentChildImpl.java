@@ -63,7 +63,7 @@ public abstract class IndependentChildImpl<
     @Override
     public String resourceGroupName() {
         if (this.groupName == null) {
-            return ResourceUtils.groupFromResourceId(this.id());
+            return ResourceUtils.groupFromResourceId(this.getId());
         } else {
             return this.groupName;
         }
@@ -74,7 +74,7 @@ public abstract class IndependentChildImpl<
      */
     @Override
     public boolean isInCreateMode() {
-        return this.id() == null;
+        return this.getId() == null;
     }
 
     @SuppressWarnings("unchecked")
@@ -117,8 +117,8 @@ public abstract class IndependentChildImpl<
     }
 
     protected void setParentName(InnerModelT inner) {
-        if (this.id() != null) {
-            this.parentName = ResourceId.fromString(this.id()).parent().name();
+        if (this.getId() != null) {
+            this.parentName = ResourceId.fromString(this.getId()).parent().name();
         }
     }
 

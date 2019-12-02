@@ -177,13 +177,20 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
     }
 
     @Override
-    public GalleryImageVersionImpl withLocation(Region location) {
+    public DefinitionStages.WithSource withLocation(Region location) {
         this.inner().withLocation(location.toString());
         return this;
     }
 
     @Override
     public GalleryImageVersionImpl withSourceCustomImage(String customImageId) {
+        if (this.inner().publishingProfile() == null) {
+            this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
+        }
+        if (this.inner().publishingProfile().source() == null) {
+            this.inner().publishingProfile().withSource(new GalleryArtifactSource());
+        }
+        this.inner().publishingProfile().source().withManagedImage(new ManagedArtifact().withId(customImageId));
         return this;
     }
 

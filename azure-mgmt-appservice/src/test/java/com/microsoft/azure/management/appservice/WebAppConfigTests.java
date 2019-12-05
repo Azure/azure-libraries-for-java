@@ -31,12 +31,14 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withNewResourceGroup(RG_NAME)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
                 .withNetFrameworkVersion(NetFrameworkVersion.V3_0)
+                .withMinTlsVersion(SupportedTlsVersions.ONE_FULL_STOP_ONE)
                 .create();
 
         WebApp webApp = appServiceManager.webApps().getByResourceGroup(RG_NAME, WEBAPP_NAME);
         Assert.assertNotNull(webApp);
         Assert.assertEquals(Region.US_EAST, webApp.region());
         Assert.assertEquals(NetFrameworkVersion.V3_0, webApp.netFrameworkVersion());
+        Assert.assertEquals(SupportedTlsVersions.ONE_FULL_STOP_ONE, webApp.minTlsVersion());
 
         // Java version
         webApp.update()
@@ -98,6 +100,12 @@ public class WebAppConfigTests extends AppServiceTest {
                 .withFtpsState(FtpsState.FTPS_ONLY)
                 .apply();
         Assert.assertEquals(FtpsState.FTPS_ONLY, webApp.ftpsState());
+
+        // Min TLS version
+        webApp = webApp.update()
+                .withMinTlsVersion(SupportedTlsVersions.ONE_FULL_STOP_TWO)
+                .apply();
+        Assert.assertEquals(SupportedTlsVersions.ONE_FULL_STOP_TWO, webApp.minTlsVersion());
 
         // Logs
         webApp = webApp.update()

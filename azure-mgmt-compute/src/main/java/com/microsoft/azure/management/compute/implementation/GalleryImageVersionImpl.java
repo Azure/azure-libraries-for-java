@@ -7,12 +7,10 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.GalleryArtifactSource;
 import com.microsoft.azure.management.compute.GalleryArtifactVersionSource;
 import com.microsoft.azure.management.compute.GalleryImageVersion;
 import com.microsoft.azure.management.compute.GalleryImageVersionPublishingProfile;
 import com.microsoft.azure.management.compute.GalleryImageVersionStorageProfile;
-import com.microsoft.azure.management.compute.ManagedArtifact;
 import com.microsoft.azure.management.compute.ReplicationStatus;
 import com.microsoft.azure.management.compute.TargetRegion;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImage;

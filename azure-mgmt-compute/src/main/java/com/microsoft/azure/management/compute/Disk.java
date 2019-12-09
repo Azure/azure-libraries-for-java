@@ -17,6 +17,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -145,6 +146,7 @@ public interface Disk extends
             DefinitionStages.WithDataDiskFromUpload,
             DefinitionStages.WithDataDiskFromDisk,
             DefinitionStages.WithDataDiskFromSnapshot,
+            DefinitionStages.WithStorageAccount,
             DefinitionStages.WithCreateAndSize,
             DefinitionStages.WithCreate {
     }
@@ -217,7 +219,7 @@ public interface Disk extends
              * @param vhdUrl the source VHD URL
              * @return the next stage of the definition
              */
-            WithCreateAndSize withWindowsFromVhd(String vhdUrl);
+            WithStorageAccount withWindowsFromVhd(String vhdUrl);
         }
 
         /**
@@ -262,7 +264,7 @@ public interface Disk extends
              * @param vhdUrl the source VHD URL
              * @return the next stage of the definition
              */
-            WithCreateAndSize withLinuxFromVhd(String vhdUrl);
+            WithStorageAccount withLinuxFromVhd(String vhdUrl);
         }
 
         /**
@@ -304,7 +306,7 @@ public interface Disk extends
              * @param vhdUrl the source VHD URL
              * @return the next stage of the definition
              */
-            WithCreateAndSize fromVhd(String vhdUrl);
+            WithStorageAccount fromVhd(String vhdUrl);
         }
 
         /**
@@ -427,6 +429,38 @@ public interface Disk extends
         }
 
         /**
+         * The stage of the managed disk definition allowing to specify storage account
+         * that contains disk information.
+         *
+         * It is mandatory in import option.
+         */
+        interface WithStorageAccount {
+            /**
+             * Specifies the storage account id.
+             *
+             * @param storageAccountId the storage account id
+             * @return the next stage of the definition
+             */
+            WithCreateAndSize withStorageAccountId(String storageAccountId);
+
+            /**
+             * Specifies the storage account name in same resource group.
+             *
+             * @param storageAccountName the storage account name in same resource group
+             * @return the next stage of the definition
+             */
+            WithCreateAndSize withStorageAccountName(String storageAccountName);
+
+            /**
+             * Specifies the storage account.
+             *
+             * @param account the storage account
+             * @return the next stage of the definition
+             */
+            WithCreateAndSize withStorageAccount(StorageAccount account);
+        }
+
+        /**
          * The stage of the managed disk definition allowing to specify availability zone.
          */
         @Beta(Beta.SinceVersion.V1_3_0)
@@ -451,7 +485,7 @@ public interface Disk extends
              * @param sizeInGB the disk size in GB
              * @return the next stage of the definition
              */
-            WithCreateAndSize withSizeInGB(int sizeInGB);
+            WithCreate withSizeInGB(int sizeInGB);
         }
 
         /**

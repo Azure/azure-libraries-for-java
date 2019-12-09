@@ -1865,6 +1865,7 @@ class VirtualMachineImpl
         updateParameter.withZones(this.inner().zones());
         updateParameter.withTags(this.inner().getTags());
         updateParameter.withProximityPlacementGroup(this.inner().proximityPlacementGroup());
+        updateParameter.withPriority(this.inner().priority());
         //
         this.virtualMachineMsiHandler.handleExternalIdentities(updateParameter);
         //

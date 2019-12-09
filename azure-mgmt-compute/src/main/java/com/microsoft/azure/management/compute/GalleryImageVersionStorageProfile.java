@@ -16,16 +16,42 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GalleryImageVersionStorageProfile {
     /**
+     * The source property.
+     */
+    @JsonProperty(value = "source")
+    private GalleryArtifactVersionSource source;
+
+    /**
      * The osDiskImage property.
      */
-    @JsonProperty(value = "osDiskImage", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "osDiskImage")
     private GalleryOSDiskImage osDiskImage;
 
     /**
      * A list of data disk images.
      */
-    @JsonProperty(value = "dataDiskImages", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "dataDiskImages")
     private List<GalleryDataDiskImage> dataDiskImages;
+
+    /**
+     * Get the source value.
+     *
+     * @return the source value
+     */
+    public GalleryArtifactVersionSource source() {
+        return this.source;
+    }
+
+    /**
+     * Set the source value.
+     *
+     * @param source the source value to set
+     * @return the GalleryImageVersionStorageProfile object itself.
+     */
+    public GalleryImageVersionStorageProfile withSource(GalleryArtifactVersionSource source) {
+        this.source = source;
+        return this;
+    }
 
     /**
      * Get the osDiskImage value.
@@ -37,12 +63,34 @@ public class GalleryImageVersionStorageProfile {
     }
 
     /**
+     * Set the osDiskImage value.
+     *
+     * @param osDiskImage the osDiskImage value to set
+     * @return the GalleryImageVersionStorageProfile object itself.
+     */
+    public GalleryImageVersionStorageProfile withOsDiskImage(GalleryOSDiskImage osDiskImage) {
+        this.osDiskImage = osDiskImage;
+        return this;
+    }
+
+    /**
      * Get a list of data disk images.
      *
      * @return the dataDiskImages value
      */
     public List<GalleryDataDiskImage> dataDiskImages() {
         return this.dataDiskImages;
+    }
+
+    /**
+     * Set a list of data disk images.
+     *
+     * @param dataDiskImages the dataDiskImages value to set
+     * @return the GalleryImageVersionStorageProfile object itself.
+     */
+    public GalleryImageVersionStorageProfile withDataDiskImages(List<GalleryDataDiskImage> dataDiskImages) {
+        this.dataDiskImages = dataDiskImages;
+        return this;
     }
 
 }

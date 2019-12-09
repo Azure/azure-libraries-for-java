@@ -2430,5 +2430,14 @@ public interface VirtualMachine extends
          * @return the next stage of the definition
          */
         Update withSize(VirtualMachineSizeTypes size);
+
+        /**
+         * Specifies a new priority for the virtual machine.
+         *
+         * @param priority a priority from the list of available priority types
+         * @return the next stage of the update
+         */
+        @Beta(Beta.SinceVersion.V1_29_0)
+        Update withPriority(VirtualMachinePriorityTypes priority);
     }
 }

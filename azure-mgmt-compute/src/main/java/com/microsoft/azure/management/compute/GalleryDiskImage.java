@@ -24,8 +24,14 @@ public class GalleryDiskImage {
      * The host caching of the disk. Valid values are 'None', 'ReadOnly', and
      * 'ReadWrite'. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
      */
-    @JsonProperty(value = "hostCaching", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "hostCaching")
     private HostCaching hostCaching;
+
+    /**
+     * The source property.
+     */
+    @JsonProperty(value = "source")
+    private GalleryArtifactVersionSource source;
 
     /**
      * Get this property indicates the size of the VHD to be created.
@@ -43,6 +49,37 @@ public class GalleryDiskImage {
      */
     public HostCaching hostCaching() {
         return this.hostCaching;
+    }
+
+    /**
+     * Set the host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'. Possible values include: 'None', 'ReadOnly', 'ReadWrite'.
+     *
+     * @param hostCaching the hostCaching value to set
+     * @return the GalleryDiskImage object itself.
+     */
+    public GalleryDiskImage withHostCaching(HostCaching hostCaching) {
+        this.hostCaching = hostCaching;
+        return this;
+    }
+
+    /**
+     * Get the source value.
+     *
+     * @return the source value
+     */
+    public GalleryArtifactVersionSource source() {
+        return this.source;
+    }
+
+    /**
+     * Set the source value.
+     *
+     * @param source the source value to set
+     * @return the GalleryDiskImage object itself.
+     */
+    public GalleryDiskImage withSource(GalleryArtifactVersionSource source) {
+        this.source = source;
+        return this;
     }
 
 }

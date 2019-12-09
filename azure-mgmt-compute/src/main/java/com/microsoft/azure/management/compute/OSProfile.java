@@ -115,6 +115,13 @@ public class OSProfile {
     private Boolean allowExtensionOperations;
 
     /**
+     * Specifies whether the guest provision signal is required from the
+     * virtual machine.
+     */
+    @JsonProperty(value = "requireGuestProvisionSignal")
+    private Boolean requireGuestProvisionSignal;
+
+    /**
      * Get specifies the host OS name of the virtual machine. &lt;br&gt;&lt;br&gt; This name cannot be updated after the VM is created. &lt;br&gt;&lt;br&gt; **Max-length (Windows):** 15 characters &lt;br&gt;&lt;br&gt; **Max-length (Linux):** 64 characters. &lt;br&gt;&lt;br&gt; For naming conventions and restrictions see [Azure infrastructure services implementation guidelines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-infrastructure-subscription-accounts-guidelines?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#1-naming-conventions).
      *
      * @return the computerName value
@@ -271,6 +278,26 @@ public class OSProfile {
      */
     public OSProfile withAllowExtensionOperations(Boolean allowExtensionOperations) {
         this.allowExtensionOperations = allowExtensionOperations;
+        return this;
+    }
+
+    /**
+     * Get specifies whether the guest provision signal is required from the virtual machine.
+     *
+     * @return the requireGuestProvisionSignal value
+     */
+    public Boolean requireGuestProvisionSignal() {
+        return this.requireGuestProvisionSignal;
+    }
+
+    /**
+     * Set specifies whether the guest provision signal is required from the virtual machine.
+     *
+     * @param requireGuestProvisionSignal the requireGuestProvisionSignal value to set
+     * @return the OSProfile object itself.
+     */
+    public OSProfile withRequireGuestProvisionSignal(Boolean requireGuestProvisionSignal) {
+        this.requireGuestProvisionSignal = requireGuestProvisionSignal;
         return this;
     }
 

@@ -11,9 +11,11 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.management.compute.Sku;
 import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.UpgradePolicy;
+import com.microsoft.azure.management.compute.AutomaticRepairsPolicy;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMProfile;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.compute.AdditionalCapabilities;
+import com.microsoft.azure.management.compute.ScaleInPolicy;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetIdentity;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -48,6 +50,12 @@ public class VirtualMachineScaleSetInner extends Resource {
      */
     @JsonProperty(value = "properties.upgradePolicy")
     private UpgradePolicy upgradePolicy;
+
+    /**
+     * Policy for automatic repairs.
+     */
+    @JsonProperty(value = "properties.automaticRepairsPolicy")
+    private AutomaticRepairsPolicy automaticRepairsPolicy;
 
     /**
      * The virtual machine profile.
@@ -120,6 +128,13 @@ public class VirtualMachineScaleSetInner extends Resource {
     private AdditionalCapabilities additionalCapabilities;
 
     /**
+     * Specifies the scale-in policy that decides which virtual machines are
+     * chosen for removal when a Virtual Machine Scale Set is scaled-in.
+     */
+    @JsonProperty(value = "properties.scaleInPolicy")
+    private ScaleInPolicy scaleInPolicy;
+
+    /**
      * The identity of the virtual machine scale set, if configured.
      */
     @JsonProperty(value = "identity")
@@ -188,6 +203,26 @@ public class VirtualMachineScaleSetInner extends Resource {
      */
     public VirtualMachineScaleSetInner withUpgradePolicy(UpgradePolicy upgradePolicy) {
         this.upgradePolicy = upgradePolicy;
+        return this;
+    }
+
+    /**
+     * Get policy for automatic repairs.
+     *
+     * @return the automaticRepairsPolicy value
+     */
+    public AutomaticRepairsPolicy automaticRepairsPolicy() {
+        return this.automaticRepairsPolicy;
+    }
+
+    /**
+     * Set policy for automatic repairs.
+     *
+     * @param automaticRepairsPolicy the automaticRepairsPolicy value to set
+     * @return the VirtualMachineScaleSetInner object itself.
+     */
+    public VirtualMachineScaleSetInner withAutomaticRepairsPolicy(AutomaticRepairsPolicy automaticRepairsPolicy) {
+        this.automaticRepairsPolicy = automaticRepairsPolicy;
         return this;
     }
 
@@ -366,6 +401,26 @@ public class VirtualMachineScaleSetInner extends Resource {
      */
     public VirtualMachineScaleSetInner withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
         this.additionalCapabilities = additionalCapabilities;
+        return this;
+    }
+
+    /**
+     * Get specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
+     *
+     * @return the scaleInPolicy value
+     */
+    public ScaleInPolicy scaleInPolicy() {
+        return this.scaleInPolicy;
+    }
+
+    /**
+     * Set specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
+     *
+     * @param scaleInPolicy the scaleInPolicy value to set
+     * @return the VirtualMachineScaleSetInner object itself.
+     */
+    public VirtualMachineScaleSetInner withScaleInPolicy(ScaleInPolicy scaleInPolicy) {
+        this.scaleInPolicy = scaleInPolicy;
         return this;
     }
 

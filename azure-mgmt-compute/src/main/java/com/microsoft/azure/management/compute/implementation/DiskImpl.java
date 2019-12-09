@@ -19,8 +19,10 @@ import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -334,6 +336,29 @@ class DiskImpl
     public DiskImpl withSku(DiskSkuTypes sku) {
         this.inner().withSku((new DiskSku()).withName(sku.accountType()));
         return this;
+    }
+
+    @Override
+    public DiskImpl withStorageAccountId(String storageAccountId) {
+        this.inner().creationData().withStorageAccountId(storageAccountId);
+        return this;
+    }
+
+    @Override
+    public DiskImpl withStorageAccountName(String storageAccountName) {
+        String id = ResourceUtils.constructResourceId(this.myManager.subscriptionId(),
+                this.resourceGroupName(),
+                "Microsoft.Storage",
+                "storageAccounts",
+                storageAccountName,
+                ""
+                );
+        return this.withStorageAccountId(id);
+    }
+
+    @Override
+    public DiskImpl withStorageAccount(StorageAccount account) {
+        return this.withStorageAccountId(account.id());
     }
 
     @Override

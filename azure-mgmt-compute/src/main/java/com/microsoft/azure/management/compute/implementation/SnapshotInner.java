@@ -14,6 +14,7 @@ import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.HyperVGeneration;
 import com.microsoft.azure.management.compute.CreationData;
 import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
+import com.microsoft.azure.management.compute.Encryption;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -102,6 +103,13 @@ public class SnapshotInner extends Resource {
      */
     @JsonProperty(value = "properties.incremental")
     private Boolean incremental;
+
+    /**
+     * Encryption property can be used to encrypt data at rest with customer
+     * managed keys or platform managed keys.
+     */
+    @JsonProperty(value = "properties.encryption")
+    private Encryption encryption;
 
     /**
      * Get unused. Always Null.
@@ -285,6 +293,26 @@ public class SnapshotInner extends Resource {
      */
     public SnapshotInner withIncremental(Boolean incremental) {
         this.incremental = incremental;
+        return this;
+    }
+
+    /**
+     * Get encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+     *
+     * @return the encryption value
+     */
+    public Encryption encryption() {
+        return this.encryption;
+    }
+
+    /**
+     * Set encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+     *
+     * @param encryption the encryption value to set
+     * @return the SnapshotInner object itself.
+     */
+    public SnapshotInner withEncryption(Encryption encryption) {
+        this.encryption = encryption;
         return this;
     }
 

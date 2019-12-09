@@ -7,11 +7,10 @@
 package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.compute.GalleryArtifactSource;
+import com.microsoft.azure.management.compute.GalleryArtifactVersionSource;
 import com.microsoft.azure.management.compute.GalleryImageVersion;
 import com.microsoft.azure.management.compute.GalleryImageVersionPublishingProfile;
 import com.microsoft.azure.management.compute.GalleryImageVersionStorageProfile;
-import com.microsoft.azure.management.compute.ManagedArtifact;
 import com.microsoft.azure.management.compute.ReplicationStatus;
 import com.microsoft.azure.management.compute.TargetRegion;
 import com.microsoft.azure.management.compute.VirtualMachineCustomImage;
@@ -186,13 +185,13 @@ class GalleryImageVersionImpl extends CreatableUpdatableImpl<GalleryImageVersion
 
     @Override
     public GalleryImageVersionImpl withSourceCustomImage(String customImageId) {
-        if (this.inner().publishingProfile() == null) {
-            this.inner().withPublishingProfile(new GalleryImageVersionPublishingProfile());
+        if (this.inner().storageProfile() == null) {
+            this.inner().withStorageProfile(new GalleryImageVersionStorageProfile());
         }
-        if (this.inner().publishingProfile().source() == null) {
-            this.inner().publishingProfile().withSource(new GalleryArtifactSource());
+        if (this.inner().storageProfile().source() == null) {
+            this.inner().storageProfile().withSource(new GalleryArtifactVersionSource());
         }
-        this.inner().publishingProfile().source().withManagedImage(new ManagedArtifact().withId(customImageId));
+        this.inner().storageProfile().source().withId(customImageId);
         return this;
     }
 

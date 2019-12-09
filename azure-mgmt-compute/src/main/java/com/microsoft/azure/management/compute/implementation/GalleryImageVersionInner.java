@@ -24,7 +24,7 @@ public class GalleryImageVersionInner extends Resource {
     /**
      * The publishingProfile property.
      */
-    @JsonProperty(value = "properties.publishingProfile", required = true)
+    @JsonProperty(value = "properties.publishingProfile")
     private GalleryImageVersionPublishingProfile publishingProfile;
 
     /**
@@ -39,7 +39,7 @@ public class GalleryImageVersionInner extends Resource {
     /**
      * The storageProfile property.
      */
-    @JsonProperty(value = "properties.storageProfile", access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(value = "properties.storageProfile", required = true)
     private GalleryImageVersionStorageProfile storageProfile;
 
     /**
@@ -84,6 +84,17 @@ public class GalleryImageVersionInner extends Resource {
      */
     public GalleryImageVersionStorageProfile storageProfile() {
         return this.storageProfile;
+    }
+
+    /**
+     * Set the storageProfile value.
+     *
+     * @param storageProfile the storageProfile value to set
+     * @return the GalleryImageVersionInner object itself.
+     */
+    public GalleryImageVersionInner withStorageProfile(GalleryImageVersionStorageProfile storageProfile) {
+        this.storageProfile = storageProfile;
+        return this;
     }
 
     /**

@@ -35,7 +35,7 @@ public interface Recurrences {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobRecurrenceInformation&gt; object if successful.
      */
-    PagedList<JobRecurrenceInformation> list(final String accountName);
+    PagedList<JobRecurrenceInformation> list(String accountName);
 
     /**
      * Lists all recurrences.
@@ -45,7 +45,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobRecurrenceInformation>> listAsync(final String accountName, final ListOperationCallback<JobRecurrenceInformation> serviceCallback);
+    ServiceFuture<List<JobRecurrenceInformation>> listAsync(String accountName, ListOperationCallback<JobRecurrenceInformation> serviceCallback);
 
     /**
      * Lists all recurrences.
@@ -54,7 +54,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobRecurrenceInformation&gt; object
      */
-    Observable<Page<JobRecurrenceInformation>> listAsync(final String accountName);
+    Observable<Page<JobRecurrenceInformation>> listAsync(String accountName);
 
     /**
      * Lists all recurrences.
@@ -63,7 +63,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobRecurrenceInformation&gt; object
      */
-    Observable<ServiceResponse<Page<JobRecurrenceInformation>>> listWithServiceResponseAsync(final String accountName);
+    Observable<ServiceResponse<Page<JobRecurrenceInformation>>> listWithServiceResponseAsync(String accountName);
     /**
      * Lists all recurrences.
      *
@@ -75,7 +75,7 @@ public interface Recurrences {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobRecurrenceInformation&gt; object if successful.
      */
-    PagedList<JobRecurrenceInformation> list(final String accountName, final DateTime startDateTime, final DateTime endDateTime);
+    PagedList<JobRecurrenceInformation> list(String accountName, DateTime startDateTime, DateTime endDateTime);
 
     /**
      * Lists all recurrences.
@@ -87,7 +87,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobRecurrenceInformation>> listAsync(final String accountName, final DateTime startDateTime, final DateTime endDateTime, final ListOperationCallback<JobRecurrenceInformation> serviceCallback);
+    ServiceFuture<List<JobRecurrenceInformation>> listAsync(String accountName, DateTime startDateTime, DateTime endDateTime, ListOperationCallback<JobRecurrenceInformation> serviceCallback);
 
     /**
      * Lists all recurrences.
@@ -98,7 +98,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobRecurrenceInformation&gt; object
      */
-    Observable<Page<JobRecurrenceInformation>> listAsync(final String accountName, final DateTime startDateTime, final DateTime endDateTime);
+    Observable<Page<JobRecurrenceInformation>> listAsync(String accountName, DateTime startDateTime, DateTime endDateTime);
 
     /**
      * Lists all recurrences.
@@ -109,7 +109,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobRecurrenceInformation&gt; object
      */
-    Observable<ServiceResponse<Page<JobRecurrenceInformation>>> listWithServiceResponseAsync(final String accountName, final DateTime startDateTime, final DateTime endDateTime);
+    Observable<ServiceResponse<Page<JobRecurrenceInformation>>> listWithServiceResponseAsync(String accountName, DateTime startDateTime, DateTime endDateTime);
 
     /**
      * Gets the recurrence information for the specified recurrence ID.
@@ -132,7 +132,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobRecurrenceInformation> getAsync(String accountName, UUID recurrenceIdentity, final ServiceCallback<JobRecurrenceInformation> serviceCallback);
+    ServiceFuture<JobRecurrenceInformation> getAsync(String accountName, UUID recurrenceIdentity, ServiceCallback<JobRecurrenceInformation> serviceCallback);
 
     /**
      * Gets the recurrence information for the specified recurrence ID.
@@ -178,7 +178,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobRecurrenceInformation> getAsync(String accountName, UUID recurrenceIdentity, DateTime startDateTime, DateTime endDateTime, final ServiceCallback<JobRecurrenceInformation> serviceCallback);
+    ServiceFuture<JobRecurrenceInformation> getAsync(String accountName, UUID recurrenceIdentity, DateTime startDateTime, DateTime endDateTime, ServiceCallback<JobRecurrenceInformation> serviceCallback);
 
     /**
      * Gets the recurrence information for the specified recurrence ID.
@@ -213,7 +213,7 @@ public interface Recurrences {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobRecurrenceInformation&gt; object if successful.
      */
-    PagedList<JobRecurrenceInformation> listNext(final String nextPageLink);
+    PagedList<JobRecurrenceInformation> listNext(String nextPageLink);
 
     /**
      * Lists all recurrences.
@@ -224,7 +224,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobRecurrenceInformation>> listNextAsync(final String nextPageLink, final ServiceFuture<List<JobRecurrenceInformation>> serviceFuture, final ListOperationCallback<JobRecurrenceInformation> serviceCallback);
+    ServiceFuture<List<JobRecurrenceInformation>> listNextAsync(String nextPageLink, ServiceFuture<List<JobRecurrenceInformation>> serviceFuture, ListOperationCallback<JobRecurrenceInformation> serviceCallback);
 
     /**
      * Lists all recurrences.
@@ -233,7 +233,7 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobRecurrenceInformation&gt; object
      */
-    Observable<Page<JobRecurrenceInformation>> listNextAsync(final String nextPageLink);
+    Observable<Page<JobRecurrenceInformation>> listNextAsync(String nextPageLink);
 
     /**
      * Lists all recurrences.
@@ -242,6 +242,6 @@ public interface Recurrences {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobRecurrenceInformation&gt; object
      */
-    Observable<ServiceResponse<Page<JobRecurrenceInformation>>> listNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<JobRecurrenceInformation>>> listNextWithServiceResponseAsync(String nextPageLink);
 
 }

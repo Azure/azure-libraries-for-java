@@ -58,7 +58,7 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @return the observable for the request
      */
     @Beta(Beta.SinceVersion.V1_15_0)
-    Observable<GalleryImageVersion> listByGalleryImageAsync(final String resourceGroupName, final String galleryName, final String galleryImageName);
+    Observable<GalleryImageVersion> listByGalleryImageAsync(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
      * List gallery image versions under a gallery image.
@@ -70,7 +70,7 @@ public interface GalleryImageVersions extends SupportsCreating<GalleryImageVersi
      * @return list of gallery image versions
      */
     @Beta(Beta.SinceVersion.V1_15_0)
-    PagedList<GalleryImageVersion> listByGalleryImage(final String resourceGroupName, final String galleryName, final String galleryImageName);
+    PagedList<GalleryImageVersion> listByGalleryImage(String resourceGroupName, String galleryName, String galleryImageName);
 
     /**
      * Delete a gallery image version.

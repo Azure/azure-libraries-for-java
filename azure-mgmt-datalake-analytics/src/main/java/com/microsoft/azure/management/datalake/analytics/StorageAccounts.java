@@ -36,7 +36,7 @@ public interface StorageAccounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;StorageAccountInformation&gt; object if successful.
      */
-    PagedList<StorageAccountInformation> listByAccount(final String resourceGroupName, final String accountName);
+    PagedList<StorageAccountInformation> listByAccount(String resourceGroupName, String accountName);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -47,7 +47,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<StorageAccountInformation>> listByAccountAsync(final String resourceGroupName, final String accountName, final ListOperationCallback<StorageAccountInformation> serviceCallback);
+    ServiceFuture<List<StorageAccountInformation>> listByAccountAsync(String resourceGroupName, String accountName, ListOperationCallback<StorageAccountInformation> serviceCallback);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -57,7 +57,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageAccountInformation&gt; object
      */
-    Observable<Page<StorageAccountInformation>> listByAccountAsync(final String resourceGroupName, final String accountName);
+    Observable<Page<StorageAccountInformation>> listByAccountAsync(String resourceGroupName, String accountName);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -67,7 +67,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageAccountInformation&gt; object
      */
-    Observable<ServiceResponse<Page<StorageAccountInformation>>> listByAccountWithServiceResponseAsync(final String resourceGroupName, final String accountName);
+    Observable<ServiceResponse<Page<StorageAccountInformation>>> listByAccountWithServiceResponseAsync(String resourceGroupName, String accountName);
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
      *
@@ -84,7 +84,7 @@ public interface StorageAccounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;StorageAccountInformation&gt; object if successful.
      */
-    PagedList<StorageAccountInformation> listByAccount(final String resourceGroupName, final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    PagedList<StorageAccountInformation> listByAccount(String resourceGroupName, String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -101,7 +101,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<StorageAccountInformation>> listByAccountAsync(final String resourceGroupName, final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<StorageAccountInformation> serviceCallback);
+    ServiceFuture<List<StorageAccountInformation>> listByAccountAsync(String resourceGroupName, String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count, ListOperationCallback<StorageAccountInformation> serviceCallback);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -117,7 +117,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageAccountInformation&gt; object
      */
-    Observable<Page<StorageAccountInformation>> listByAccountAsync(final String resourceGroupName, final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    Observable<Page<StorageAccountInformation>> listByAccountAsync(String resourceGroupName, String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -133,7 +133,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageAccountInformation&gt; object
      */
-    Observable<ServiceResponse<Page<StorageAccountInformation>>> listByAccountWithServiceResponseAsync(final String resourceGroupName, final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    Observable<ServiceResponse<Page<StorageAccountInformation>>> listByAccountWithServiceResponseAsync(String resourceGroupName, String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Updates the specified Data Lake Analytics account to add an Azure Storage account.
@@ -159,7 +159,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, ServiceCallback<Void> serviceCallback);
 
     /**
      * Updates the specified Data Lake Analytics account to add an Azure Storage account.
@@ -210,7 +210,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> addAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix, ServiceCallback<Void> serviceCallback);
 
     /**
      * Updates the specified Data Lake Analytics account to add an Azure Storage account.
@@ -261,7 +261,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<StorageAccountInformation> getAsync(String resourceGroupName, String accountName, String storageAccountName, final ServiceCallback<StorageAccountInformation> serviceCallback);
+    ServiceFuture<StorageAccountInformation> getAsync(String resourceGroupName, String accountName, String storageAccountName, ServiceCallback<StorageAccountInformation> serviceCallback);
 
     /**
      * Gets the specified Azure Storage account linked to the given Data Lake Analytics account.
@@ -307,7 +307,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> updateAsync(String resourceGroupName, String accountName, String storageAccountName, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> updateAsync(String resourceGroupName, String accountName, String storageAccountName, ServiceCallback<Void> serviceCallback);
 
     /**
      * Updates the Data Lake Analytics account to replace Azure Storage blob account details, such as the access key and/or suffix.
@@ -356,7 +356,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> updateAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> updateAsync(String resourceGroupName, String accountName, String storageAccountName, String accessKey, String suffix, ServiceCallback<Void> serviceCallback);
 
     /**
      * Updates the Data Lake Analytics account to replace Azure Storage blob account details, such as the access key and/or suffix.
@@ -406,7 +406,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String storageAccountName, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String storageAccountName, ServiceCallback<Void> serviceCallback);
 
     /**
      * Updates the specified Data Lake Analytics account to remove an Azure Storage account.
@@ -441,7 +441,7 @@ public interface StorageAccounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;StorageContainer&gt; object if successful.
      */
-    PagedList<StorageContainer> listStorageContainers(final String resourceGroupName, final String accountName, final String storageAccountName);
+    PagedList<StorageContainer> listStorageContainers(String resourceGroupName, String accountName, String storageAccountName);
 
     /**
      * Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.
@@ -453,7 +453,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<StorageContainer>> listStorageContainersAsync(final String resourceGroupName, final String accountName, final String storageAccountName, final ListOperationCallback<StorageContainer> serviceCallback);
+    ServiceFuture<List<StorageContainer>> listStorageContainersAsync(String resourceGroupName, String accountName, String storageAccountName, ListOperationCallback<StorageContainer> serviceCallback);
 
     /**
      * Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.
@@ -464,7 +464,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageContainer&gt; object
      */
-    Observable<Page<StorageContainer>> listStorageContainersAsync(final String resourceGroupName, final String accountName, final String storageAccountName);
+    Observable<Page<StorageContainer>> listStorageContainersAsync(String resourceGroupName, String accountName, String storageAccountName);
 
     /**
      * Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.
@@ -475,7 +475,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageContainer&gt; object
      */
-    Observable<ServiceResponse<Page<StorageContainer>>> listStorageContainersWithServiceResponseAsync(final String resourceGroupName, final String accountName, final String storageAccountName);
+    Observable<ServiceResponse<Page<StorageContainer>>> listStorageContainersWithServiceResponseAsync(String resourceGroupName, String accountName, String storageAccountName);
 
     /**
      * Gets the specified Azure Storage container associated with the given Data Lake Analytics and Azure Storage accounts.
@@ -502,7 +502,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<StorageContainer> getStorageContainerAsync(String resourceGroupName, String accountName, String storageAccountName, String containerName, final ServiceCallback<StorageContainer> serviceCallback);
+    ServiceFuture<StorageContainer> getStorageContainerAsync(String resourceGroupName, String accountName, String storageAccountName, String containerName, ServiceCallback<StorageContainer> serviceCallback);
 
     /**
      * Gets the specified Azure Storage container associated with the given Data Lake Analytics and Azure Storage accounts.
@@ -540,7 +540,7 @@ public interface StorageAccounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SasTokenInformation&gt; object if successful.
      */
-    PagedList<SasTokenInformation> listSasTokens(final String resourceGroupName, final String accountName, final String storageAccountName, final String containerName);
+    PagedList<SasTokenInformation> listSasTokens(String resourceGroupName, String accountName, String storageAccountName, String containerName);
 
     /**
      * Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.
@@ -553,7 +553,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<SasTokenInformation>> listSasTokensAsync(final String resourceGroupName, final String accountName, final String storageAccountName, final String containerName, final ListOperationCallback<SasTokenInformation> serviceCallback);
+    ServiceFuture<List<SasTokenInformation>> listSasTokensAsync(String resourceGroupName, String accountName, String storageAccountName, String containerName, ListOperationCallback<SasTokenInformation> serviceCallback);
 
     /**
      * Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.
@@ -565,7 +565,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SasTokenInformation&gt; object
      */
-    Observable<Page<SasTokenInformation>> listSasTokensAsync(final String resourceGroupName, final String accountName, final String storageAccountName, final String containerName);
+    Observable<Page<SasTokenInformation>> listSasTokensAsync(String resourceGroupName, String accountName, String storageAccountName, String containerName);
 
     /**
      * Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.
@@ -577,7 +577,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SasTokenInformation&gt; object
      */
-    Observable<ServiceResponse<Page<SasTokenInformation>>> listSasTokensWithServiceResponseAsync(final String resourceGroupName, final String accountName, final String storageAccountName, final String containerName);
+    Observable<ServiceResponse<Page<SasTokenInformation>>> listSasTokensWithServiceResponseAsync(String resourceGroupName, String accountName, String storageAccountName, String containerName);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -588,7 +588,7 @@ public interface StorageAccounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;StorageAccountInformation&gt; object if successful.
      */
-    PagedList<StorageAccountInformation> listByAccountNext(final String nextPageLink);
+    PagedList<StorageAccountInformation> listByAccountNext(String nextPageLink);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -599,7 +599,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<StorageAccountInformation>> listByAccountNextAsync(final String nextPageLink, final ServiceFuture<List<StorageAccountInformation>> serviceFuture, final ListOperationCallback<StorageAccountInformation> serviceCallback);
+    ServiceFuture<List<StorageAccountInformation>> listByAccountNextAsync(String nextPageLink, ServiceFuture<List<StorageAccountInformation>> serviceFuture, ListOperationCallback<StorageAccountInformation> serviceCallback);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -608,7 +608,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageAccountInformation&gt; object
      */
-    Observable<Page<StorageAccountInformation>> listByAccountNextAsync(final String nextPageLink);
+    Observable<Page<StorageAccountInformation>> listByAccountNextAsync(String nextPageLink);
 
     /**
      * Gets the first page of Azure Storage accounts, if any, linked to the specified Data Lake Analytics account. The response includes a link to the next page, if any.
@@ -617,7 +617,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageAccountInformation&gt; object
      */
-    Observable<ServiceResponse<Page<StorageAccountInformation>>> listByAccountNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<StorageAccountInformation>>> listByAccountNextWithServiceResponseAsync(String nextPageLink);
 
     /**
      * Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.
@@ -628,7 +628,7 @@ public interface StorageAccounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;StorageContainer&gt; object if successful.
      */
-    PagedList<StorageContainer> listStorageContainersNext(final String nextPageLink);
+    PagedList<StorageContainer> listStorageContainersNext(String nextPageLink);
 
     /**
      * Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.
@@ -639,7 +639,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<StorageContainer>> listStorageContainersNextAsync(final String nextPageLink, final ServiceFuture<List<StorageContainer>> serviceFuture, final ListOperationCallback<StorageContainer> serviceCallback);
+    ServiceFuture<List<StorageContainer>> listStorageContainersNextAsync(String nextPageLink, ServiceFuture<List<StorageContainer>> serviceFuture, ListOperationCallback<StorageContainer> serviceCallback);
 
     /**
      * Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.
@@ -648,7 +648,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageContainer&gt; object
      */
-    Observable<Page<StorageContainer>> listStorageContainersNextAsync(final String nextPageLink);
+    Observable<Page<StorageContainer>> listStorageContainersNextAsync(String nextPageLink);
 
     /**
      * Lists the Azure Storage containers, if any, associated with the specified Data Lake Analytics and Azure Storage account combination. The response includes a link to the next page of results, if any.
@@ -657,7 +657,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;StorageContainer&gt; object
      */
-    Observable<ServiceResponse<Page<StorageContainer>>> listStorageContainersNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<StorageContainer>>> listStorageContainersNextWithServiceResponseAsync(String nextPageLink);
 
     /**
      * Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.
@@ -668,7 +668,7 @@ public interface StorageAccounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;SasTokenInformation&gt; object if successful.
      */
-    PagedList<SasTokenInformation> listSasTokensNext(final String nextPageLink);
+    PagedList<SasTokenInformation> listSasTokensNext(String nextPageLink);
 
     /**
      * Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.
@@ -679,7 +679,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<SasTokenInformation>> listSasTokensNextAsync(final String nextPageLink, final ServiceFuture<List<SasTokenInformation>> serviceFuture, final ListOperationCallback<SasTokenInformation> serviceCallback);
+    ServiceFuture<List<SasTokenInformation>> listSasTokensNextAsync(String nextPageLink, ServiceFuture<List<SasTokenInformation>> serviceFuture, ListOperationCallback<SasTokenInformation> serviceCallback);
 
     /**
      * Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.
@@ -688,7 +688,7 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SasTokenInformation&gt; object
      */
-    Observable<Page<SasTokenInformation>> listSasTokensNextAsync(final String nextPageLink);
+    Observable<Page<SasTokenInformation>> listSasTokensNextAsync(String nextPageLink);
 
     /**
      * Gets the SAS token associated with the specified Data Lake Analytics and Azure Storage account and container combination.
@@ -697,6 +697,6 @@ public interface StorageAccounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;SasTokenInformation&gt; object
      */
-    Observable<ServiceResponse<Page<SasTokenInformation>>> listSasTokensNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<SasTokenInformation>>> listSasTokensNextWithServiceResponseAsync(String nextPageLink);
 
 }

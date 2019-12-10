@@ -30,5 +30,5 @@ public interface PolicyAssignments extends
      * @param resourceId the ID of the resource
      * @return the list of policy assignments
      */
-    PagedList<PolicyAssignment> listByResource(final String resourceId);
+    PagedList<PolicyAssignment> listByResource(String resourceId);
 }

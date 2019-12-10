@@ -77,5 +77,5 @@ public interface SupportsBatchCreation<ResourceT extends Indexable> {
      * @param creatables the list of creatables in the batch
      * @return a handle to cancel the request
      */
-    ServiceFuture<CreatedResources<ResourceT>> createAsync(final ServiceCallback<CreatedResources<ResourceT>> callback, List<Creatable<ResourceT>> creatables);
+    ServiceFuture<CreatedResources<ResourceT>> createAsync(ServiceCallback<CreatedResources<ResourceT>> callback, List<Creatable<ResourceT>> creatables);
 }

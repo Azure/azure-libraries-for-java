@@ -6,7 +6,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.microsoft.azure</groupId>
-  <version>1.28.1-SNAPSHOT</version>
+  <version>2.0.0-SNAPSHOT</version>
   <artifactId>azure-parent</artifactId>
   <packaging>pom</packaging>
 
@@ -53,103 +53,6 @@
   </distributionManagement>
 
   <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-core</artifactId>
-        <version>2.9.4</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
-        <version>2.9.4</version>
-      </dependency>
-      <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-annotations</artifactId>
-        <version>2.9.0</version>
-      </dependency>
-      <dependency>
-        <groupId>commons-codec</groupId>
-        <artifactId>commons-codec</artifactId>
-        <version>1.10</version>
-      </dependency>
-      <dependency>
-        <groupId>io.reactivex</groupId>
-        <artifactId>rxjava</artifactId>
-        <version>1.3.8</version>
-      </dependency>
-      <dependency>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-client-runtime</artifactId>
-        <version>1.6.14</version>
-      </dependency>
-      <dependency>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-client-authentication</artifactId>
-        <version>1.6.14</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.guava</groupId>
-        <artifactId>guava</artifactId>
-        <version>20.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-keyvault</artifactId>
-        <version>1.0.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-storage</artifactId>
-        <version>6.1.0</version>
-      </dependency>
-      <!-- Test dependencies -->
-      <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>4.12</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>2.4</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.microsoft.azure</groupId>
-        <artifactId>azure-annotations</artifactId>
-        <version>1.9.0</version>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.7.5</version>
-        <scope>test</scope>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jgit</groupId>
-        <artifactId>org.eclipse.jgit</artifactId>
-        <version>4.5.0.201609210915-r</version>
-        <exclusions>
-          <exclusion>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>commons-net</groupId>
-        <artifactId>commons-net</artifactId>
-        <version>3.3</version>
-      </dependency>
-      <dependency>
-        <groupId>javax.xml.bind</groupId>
-        <artifactId>jaxb-api</artifactId>
-        <version>2.3.0</version>
-      </dependency>
-    </dependencies>
   </dependencyManagement>
   <build>
     <plugins>
@@ -186,7 +89,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-        <version>2.17</version>
+        <version>3.1.0</version>
         <dependencies>
           <dependency>
             <groupId>com.microsoft.azure</groupId>
@@ -196,7 +99,7 @@
           <dependency>
             <groupId>com.puppycrawl.tools</groupId>
             <artifactId>checkstyle</artifactId>
-            <version>6.18</version>
+            <version>8.24</version>
           </dependency>
         </dependencies>
         <configuration>
@@ -227,7 +130,6 @@
         <configuration>
           <doctitle>Microsoft Azure Management Libraries for Java ${project.version}</doctitle>
           <windowtitle>Microsoft Azure Management Libraries for Java ${project.version}</windowtitle>
-          <additionalparam>-Xdoclint:none</additionalparam>
           <excludePackageNames>*.samples;*.implementation.*;*.utils.*;com.microsoft.azure.utility;*.management.billing;*.management.cognitiveservices;*.management.consumption;*.management.customerinsights;*.management.devices;*.management.devtestlab;*.management.insights;*.management.logic;*.management.machinelearning;*.management.notificationhubs;*.management.powerbi;*.management.recoveryservices;*.management.relay;*.management.scheduler;*.management.servicefabric;*.management.streamanalytics</excludePackageNames>
           <bottom><![CDATA[<code>/**
 <br />* Copyright (c) Microsoft Corporation. All rights reserved.
@@ -243,23 +145,23 @@
         <version>2.5.3</version>
       </plugin>
 
-     <plugin>
-       <groupId>com.googlecode.addjars-maven-plugin</groupId>
-       <artifactId>addjars-maven-plugin</artifactId>
-       <version>1.0.5</version>
-          <executions>
-             <execution>
-                <goals>
-                  <goal>add-jars</goal>
-                </goals>
-                <configuration>
-                  <resources>
-                    <resource>
-                      <directory>../extlib</directory>
-                    </resource>
-                 </resources>
-              </configuration>
-           </execution>
+      <plugin>
+        <groupId>com.googlecode.addjars-maven-plugin</groupId>
+        <artifactId>addjars-maven-plugin</artifactId>
+        <version>1.0.5</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>add-jars</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>../extlib</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -269,17 +171,15 @@
         <plugin>
           <groupId>com.github.spotbugs</groupId>
           <artifactId>spotbugs-maven-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>3.1.12.2</version>
           <configuration>
-            <includeFilterFile>${project.parent.basedir}/spotbugs-includeFilter.xml</includeFilterFile>
-            <excludeFilterFile>${project.parent.basedir}/spotbugs-excludeFilter.xml</excludeFilterFile>
           </configuration>
           <dependencies>
             <!-- overwrite dependency on spotbugs if you want to specify the version of spotbugs -->
             <dependency>
               <groupId>com.github.spotbugs</groupId>
               <artifactId>spotbugs</artifactId>
-              <version>3.1.1</version>
+              <version>4.0.0-beta3</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -292,7 +192,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>2.18.1</version>
+          <version>3.0.0-M3</version>
           <configuration>
             <reuseForks>false</reuseForks>
             <useSystemClassLoader>false</useSystemClassLoader>
@@ -315,32 +215,32 @@
         </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
         <plugin>
-        	<groupId>org.eclipse.m2e</groupId>
-        	<artifactId>lifecycle-mapping</artifactId>
-        	<version>1.0.0</version>
-        	<configuration>
-        		<lifecycleMappingMetadata>
-        			<pluginExecutions>
-        				<pluginExecution>
-        					<pluginExecutionFilter>
-        						<groupId>
-        							com.googlecode.addjars-maven-plugin
-        						</groupId>
-        						<artifactId>
-        							addjars-maven-plugin
-        						</artifactId>
-        						<versionRange>[1.0.5,)</versionRange>
-        						<goals>
-        							<goal>add-jars</goal>
-        						</goals>
-        					</pluginExecutionFilter>
-        					<action>
-        						<ignore />
-        					</action>
-        				</pluginExecution>
-        			</pluginExecutions>
-        		</lifecycleMappingMetadata>
-        	</configuration>
+          <groupId>org.eclipse.m2e</groupId>
+          <artifactId>lifecycle-mapping</artifactId>
+          <version>1.0.0</version>
+          <configuration>
+            <lifecycleMappingMetadata>
+              <pluginExecutions>
+                <pluginExecution>
+                  <pluginExecutionFilter>
+                    <groupId>
+                      com.googlecode.addjars-maven-plugin
+                    </groupId>
+                    <artifactId>
+                      addjars-maven-plugin
+                    </artifactId>
+                    <versionRange>[1.0.5,)</versionRange>
+                    <goals>
+                      <goal>add-jars</goal>
+                    </goals>
+                  </pluginExecutionFilter>
+                  <action>
+                    <ignore />
+                  </action>
+                </pluginExecution>
+              </pluginExecutions>
+            </lifecycleMappingMetadata>
+          </configuration>
         </plugin>
 
         <plugin>
@@ -372,7 +272,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-shade-plugin</artifactId>
-            <version>2.4.1</version>
+            <version>3.2.1</version>
             <configuration>
             </configuration>
             <executions>

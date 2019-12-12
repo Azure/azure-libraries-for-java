@@ -11,7 +11,7 @@ import org.junit.Assert;
 
 import com.microsoft.azure.management.compute.AvailabilitySet;
 import com.microsoft.azure.management.compute.AvailabilitySets;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 
 public class TestAvailabilitySet extends TestTemplate<AvailabilitySet, AvailabilitySets> {
     @Override

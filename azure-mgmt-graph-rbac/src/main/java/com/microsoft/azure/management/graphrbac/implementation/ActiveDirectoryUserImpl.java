@@ -9,8 +9,8 @@ package com.microsoft.azure.management.graphrbac.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
 import com.microsoft.azure.management.graphrbac.PasswordProfile;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import rx.Observable;
 import rx.functions.Func1;
 

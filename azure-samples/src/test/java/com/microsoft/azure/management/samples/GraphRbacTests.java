@@ -10,7 +10,7 @@ import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.graphrbac.samples.ManageServicePrincipal;
 import com.microsoft.azure.management.graphrbac.samples.ManageServicePrincipalCredentials;
 import com.microsoft.azure.management.graphrbac.samples.ManageUsersGroupsAndRoles;
-import com.microsoft.azure.management.resources.core.TestBase;
+import com.azure.management.resources.core.TestBase;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;

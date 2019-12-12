@@ -10,7 +10,7 @@ import com.microsoft.azure.management.containerservice.ContainerServiceMasterPro
 import com.microsoft.azure.management.containerservice.ContainerServiceOrchestratorTypes;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.ContainerServices;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 

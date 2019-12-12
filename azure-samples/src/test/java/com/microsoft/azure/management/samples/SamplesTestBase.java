@@ -7,7 +7,7 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.Azure;
-import com.microsoft.azure.management.resources.core.TestBase;
+import com.azure.management.resources.core.TestBase;
 import com.microsoft.rest.RestClient;
 
 public class SamplesTestBase extends TestBase {

@@ -13,8 +13,8 @@ import com.microsoft.azure.management.batchai.StorageAccountType;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Networks;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
 public class TestBatchAIFileServers extends TestTemplate<BatchAIWorkspace, BatchAIWorkspaces> {

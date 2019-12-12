@@ -13,7 +13,7 @@ import com.microsoft.azure.management.network.NicIPConfiguration;
 import com.microsoft.azure.management.network.LoadBalancerPublicFrontend;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 
 /**
  * Tests public IPs.

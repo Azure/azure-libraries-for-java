@@ -11,8 +11,7 @@ import com.microsoft.azure.management.containerinstance.ResourceIdentityType;
 import com.microsoft.azure.management.containerinstance.Volume;
 import com.microsoft.azure.management.containerinstance.VolumeMount;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
 import java.util.ArrayList;

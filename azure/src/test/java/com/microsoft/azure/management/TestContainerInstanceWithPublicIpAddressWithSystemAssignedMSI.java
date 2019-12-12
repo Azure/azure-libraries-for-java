@@ -11,9 +11,7 @@ import com.microsoft.azure.management.containerinstance.Operation;
 import com.microsoft.azure.management.containerinstance.Volume;
 import com.microsoft.azure.management.containerinstance.VolumeMount;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.msi.Identity;
-import com.microsoft.azure.management.msi.implementation.MSIManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
 import java.util.ArrayList;

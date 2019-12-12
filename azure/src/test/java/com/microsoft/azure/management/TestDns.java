@@ -24,7 +24,7 @@ import com.microsoft.azure.management.dns.SrvRecord;
 import com.microsoft.azure.management.dns.SrvRecordSet;
 import com.microsoft.azure.management.dns.TxtRecord;
 import com.microsoft.azure.management.dns.TxtRecordSet;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
 import java.util.HashMap;

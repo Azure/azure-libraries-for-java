@@ -5,7 +5,7 @@
  */
 package com.microsoft.azure.management;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.search.*;
 import org.junit.Assert;
 

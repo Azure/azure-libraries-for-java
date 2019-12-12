@@ -18,7 +18,7 @@ import com.microsoft.azure.management.appservice.samples.ManageWebAppCosmosDbThr
 import com.microsoft.azure.management.appservice.samples.ManageWebAppLogs;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppSourceControl;
 import com.microsoft.azure.management.appservice.samples.ManageWebAppStorageAccountConnection;
-import com.microsoft.azure.management.resources.core.TestBase;
+import com.azure.management.resources.core.TestBase;
 import org.junit.Assert;
 import org.junit.Test;
 

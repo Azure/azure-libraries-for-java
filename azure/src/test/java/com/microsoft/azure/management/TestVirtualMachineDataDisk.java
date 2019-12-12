@@ -12,7 +12,7 @@ import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.compute.VirtualMachines;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
 public class TestVirtualMachineDataDisk extends TestTemplate<VirtualMachine, VirtualMachines> {

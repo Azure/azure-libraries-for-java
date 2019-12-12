@@ -6,7 +6,7 @@
 package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.cosmosdb.*;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
 public class TestCosmosDB extends TestTemplate<CosmosDBAccount, CosmosDBAccounts> {

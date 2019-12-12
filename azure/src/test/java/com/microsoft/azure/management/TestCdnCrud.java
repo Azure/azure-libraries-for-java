@@ -11,8 +11,8 @@ import com.microsoft.azure.management.cdn.CdnProfile;
 import com.microsoft.azure.management.cdn.CustomDomainValidationResult;
 import com.microsoft.azure.management.cdn.GeoFilterActions;
 import com.microsoft.azure.management.cdn.QueryStringCachingBehavior;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.rest.LogLevel;
 
 import java.io.File;

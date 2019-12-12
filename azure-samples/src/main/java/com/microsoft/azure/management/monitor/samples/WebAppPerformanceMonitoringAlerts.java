@@ -14,7 +14,7 @@ import com.microsoft.azure.management.monitor.ActionGroup;
 import com.microsoft.azure.management.monitor.MetricAlert;
 import com.microsoft.azure.management.monitor.MetricAlertRuleCondition;
 import com.microsoft.azure.management.monitor.MetricAlertRuleTimeAggregation;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
 import com.microsoft.rest.LogLevel;
 import org.joda.time.Period;

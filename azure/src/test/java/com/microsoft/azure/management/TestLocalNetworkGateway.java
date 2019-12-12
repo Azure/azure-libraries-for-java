@@ -7,8 +7,8 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.network.LocalNetworkGateway;
 import com.microsoft.azure.management.network.LocalNetworkGateways;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
 /**

@@ -8,9 +8,9 @@ package com.microsoft.azure.management;
 
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.trafficmanager.EndpointType;
 import com.microsoft.azure.management.trafficmanager.TargetAzureResourceType;
 import com.microsoft.azure.management.trafficmanager.TrafficManagerAzureEndpoint;

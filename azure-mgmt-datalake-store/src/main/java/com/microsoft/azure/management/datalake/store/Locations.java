@@ -39,7 +39,7 @@ public interface Locations {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<CapabilityInformation> getCapabilityAsync(String location, final ServiceCallback<CapabilityInformation> serviceCallback);
+    ServiceFuture<CapabilityInformation> getCapabilityAsync(String location, ServiceCallback<CapabilityInformation> serviceCallback);
 
     /**
      * Gets subscription-level properties and limits for Data Lake Store specified by resource location.

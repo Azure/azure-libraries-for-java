@@ -45,7 +45,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listAsync(final ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
+    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listAsync(ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within the current subscription. This includes a link to the next page, if any.
@@ -76,7 +76,7 @@ public interface Accounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object if successful.
      */
-    PagedList<DataLakeAnalyticsAccountBasic> list(final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    PagedList<DataLakeAnalyticsAccountBasic> list(String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within the current subscription. This includes a link to the next page, if any.
@@ -91,7 +91,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listAsync(final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
+    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listAsync(String filter, Integer top, Integer skip, String select, String orderby, Boolean count, ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within the current subscription. This includes a link to the next page, if any.
@@ -105,7 +105,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<Page<DataLakeAnalyticsAccountBasic>> listAsync(final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    Observable<Page<DataLakeAnalyticsAccountBasic>> listAsync(String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within the current subscription. This includes a link to the next page, if any.
@@ -119,7 +119,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listWithServiceResponseAsync(final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listWithServiceResponseAsync(String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -130,7 +130,7 @@ public interface Accounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object if successful.
      */
-    PagedList<DataLakeAnalyticsAccountBasic> listByResourceGroup(final String resourceGroupName);
+    PagedList<DataLakeAnalyticsAccountBasic> listByResourceGroup(String resourceGroupName);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -140,7 +140,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listByResourceGroupAsync(final String resourceGroupName, final ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
+    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listByResourceGroupAsync(String resourceGroupName, ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -149,7 +149,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<Page<DataLakeAnalyticsAccountBasic>> listByResourceGroupAsync(final String resourceGroupName);
+    Observable<Page<DataLakeAnalyticsAccountBasic>> listByResourceGroupAsync(String resourceGroupName);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -158,7 +158,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName);
+    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listByResourceGroupWithServiceResponseAsync(String resourceGroupName);
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
      *
@@ -174,7 +174,7 @@ public interface Accounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object if successful.
      */
-    PagedList<DataLakeAnalyticsAccountBasic> listByResourceGroup(final String resourceGroupName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    PagedList<DataLakeAnalyticsAccountBasic> listByResourceGroup(String resourceGroupName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -190,7 +190,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listByResourceGroupAsync(final String resourceGroupName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
+    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listByResourceGroupAsync(String resourceGroupName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count, ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -205,7 +205,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<Page<DataLakeAnalyticsAccountBasic>> listByResourceGroupAsync(final String resourceGroupName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    Observable<Page<DataLakeAnalyticsAccountBasic>> listByResourceGroupAsync(String resourceGroupName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -220,7 +220,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listByResourceGroupWithServiceResponseAsync(final String resourceGroupName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listByResourceGroupWithServiceResponseAsync(String resourceGroupName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Creates the specified Data Lake Analytics account. This supplies the user with computation services for Data Lake Analytics workloads.
@@ -245,7 +245,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<DataLakeAnalyticsAccount> createAsync(String resourceGroupName, String accountName, CreateDataLakeAnalyticsAccountParameters parameters, final ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
+    ServiceFuture<DataLakeAnalyticsAccount> createAsync(String resourceGroupName, String accountName, CreateDataLakeAnalyticsAccountParameters parameters, ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
 
     /**
      * Creates the specified Data Lake Analytics account. This supplies the user with computation services for Data Lake Analytics workloads.
@@ -292,7 +292,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<DataLakeAnalyticsAccount> beginCreateAsync(String resourceGroupName, String accountName, CreateDataLakeAnalyticsAccountParameters parameters, final ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
+    ServiceFuture<DataLakeAnalyticsAccount> beginCreateAsync(String resourceGroupName, String accountName, CreateDataLakeAnalyticsAccountParameters parameters, ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
 
     /**
      * Creates the specified Data Lake Analytics account. This supplies the user with computation services for Data Lake Analytics workloads.
@@ -337,7 +337,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<DataLakeAnalyticsAccount> getAsync(String resourceGroupName, String accountName, final ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
+    ServiceFuture<DataLakeAnalyticsAccount> getAsync(String resourceGroupName, String accountName, ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
 
     /**
      * Gets details of the specified Data Lake Analytics account.
@@ -380,7 +380,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<DataLakeAnalyticsAccount> updateAsync(String resourceGroupName, String accountName, final ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
+    ServiceFuture<DataLakeAnalyticsAccount> updateAsync(String resourceGroupName, String accountName, ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
 
     /**
      * Updates the Data Lake Analytics account object specified by the accountName with the contents of the account object.
@@ -424,7 +424,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<DataLakeAnalyticsAccount> updateAsync(String resourceGroupName, String accountName, UpdateDataLakeAnalyticsAccountParameters parameters, final ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
+    ServiceFuture<DataLakeAnalyticsAccount> updateAsync(String resourceGroupName, String accountName, UpdateDataLakeAnalyticsAccountParameters parameters, ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
 
     /**
      * Updates the Data Lake Analytics account object specified by the accountName with the contents of the account object.
@@ -469,7 +469,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<DataLakeAnalyticsAccount> beginUpdateAsync(String resourceGroupName, String accountName, final ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
+    ServiceFuture<DataLakeAnalyticsAccount> beginUpdateAsync(String resourceGroupName, String accountName, ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
 
     /**
      * Updates the Data Lake Analytics account object specified by the accountName with the contents of the account object.
@@ -513,7 +513,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<DataLakeAnalyticsAccount> beginUpdateAsync(String resourceGroupName, String accountName, UpdateDataLakeAnalyticsAccountParameters parameters, final ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
+    ServiceFuture<DataLakeAnalyticsAccount> beginUpdateAsync(String resourceGroupName, String accountName, UpdateDataLakeAnalyticsAccountParameters parameters, ServiceCallback<DataLakeAnalyticsAccount> serviceCallback);
 
     /**
      * Updates the Data Lake Analytics account object specified by the accountName with the contents of the account object.
@@ -557,7 +557,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, ServiceCallback<Void> serviceCallback);
 
     /**
      * Begins the delete process for the Data Lake Analytics account object specified by the account name.
@@ -599,7 +599,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String accountName, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> beginDeleteAsync(String resourceGroupName, String accountName, ServiceCallback<Void> serviceCallback);
 
     /**
      * Begins the delete process for the Data Lake Analytics account object specified by the account name.
@@ -642,7 +642,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<NameAvailabilityInformation> checkNameAvailabilityAsync(String location, String name, final ServiceCallback<NameAvailabilityInformation> serviceCallback);
+    ServiceFuture<NameAvailabilityInformation> checkNameAvailabilityAsync(String location, String name, ServiceCallback<NameAvailabilityInformation> serviceCallback);
 
     /**
      * Checks whether the specified account name is available or taken.
@@ -673,7 +673,7 @@ public interface Accounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object if successful.
      */
-    PagedList<DataLakeAnalyticsAccountBasic> listNext(final String nextPageLink);
+    PagedList<DataLakeAnalyticsAccountBasic> listNext(String nextPageLink);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within the current subscription. This includes a link to the next page, if any.
@@ -684,7 +684,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listNextAsync(final String nextPageLink, final ServiceFuture<List<DataLakeAnalyticsAccountBasic>> serviceFuture, final ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
+    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listNextAsync(String nextPageLink, ServiceFuture<List<DataLakeAnalyticsAccountBasic>> serviceFuture, ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within the current subscription. This includes a link to the next page, if any.
@@ -693,7 +693,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<Page<DataLakeAnalyticsAccountBasic>> listNextAsync(final String nextPageLink);
+    Observable<Page<DataLakeAnalyticsAccountBasic>> listNextAsync(String nextPageLink);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within the current subscription. This includes a link to the next page, if any.
@@ -702,7 +702,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listNextWithServiceResponseAsync(String nextPageLink);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -713,7 +713,7 @@ public interface Accounts {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object if successful.
      */
-    PagedList<DataLakeAnalyticsAccountBasic> listByResourceGroupNext(final String nextPageLink);
+    PagedList<DataLakeAnalyticsAccountBasic> listByResourceGroupNext(String nextPageLink);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -724,7 +724,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listByResourceGroupNextAsync(final String nextPageLink, final ServiceFuture<List<DataLakeAnalyticsAccountBasic>> serviceFuture, final ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
+    ServiceFuture<List<DataLakeAnalyticsAccountBasic>> listByResourceGroupNextAsync(String nextPageLink, ServiceFuture<List<DataLakeAnalyticsAccountBasic>> serviceFuture, ListOperationCallback<DataLakeAnalyticsAccountBasic> serviceCallback);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -733,7 +733,7 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<Page<DataLakeAnalyticsAccountBasic>> listByResourceGroupNextAsync(final String nextPageLink);
+    Observable<Page<DataLakeAnalyticsAccountBasic>> listByResourceGroupNextAsync(String nextPageLink);
 
     /**
      * Gets the first page of Data Lake Analytics accounts, if any, within a specific resource group. This includes a link to the next page, if any.
@@ -742,6 +742,6 @@ public interface Accounts {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DataLakeAnalyticsAccountBasic&gt; object
      */
-    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listByResourceGroupNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<DataLakeAnalyticsAccountBasic>>> listByResourceGroupNextWithServiceResponseAsync(String nextPageLink);
 
 }

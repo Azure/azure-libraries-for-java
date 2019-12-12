@@ -6,7 +6,7 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.management.network.samples.ManageNetworkWatcher;
-import com.microsoft.azure.management.resources.core.TestBase;
+import com.azure.management.resources.core.TestBase;
 import org.junit.Assert;
 import org.junit.Test;
 

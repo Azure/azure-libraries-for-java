@@ -14,8 +14,8 @@ import com.microsoft.azure.management.batchai.BatchAIWorkspace;
 import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.Networks;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.azure.storage.CloudStorageAccount;
@@ -24,7 +24,7 @@ import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.file.CloudFileShare;
 import org.junit.Assert;
 
-import static com.microsoft.azure.management.resources.core.TestBase.isPlaybackMode;
+import static com.azure.management.resources.core.TestBase.isPlaybackMode;
 
 /**
  * Test of Batch AI management.

@@ -9,8 +9,8 @@ import com.microsoft.azure.management.network.ExpressRouteCircuit;
 import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
 import com.microsoft.azure.management.network.ExpressRouteCircuits;
 import com.microsoft.azure.management.network.ExpressRoutePeeringType;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
 /**

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.microsoft.azure.management.network.ApplicationGatewayUrlPathMap;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 
 import com.microsoft.azure.management.network.ApplicationGateway;
@@ -37,8 +37,8 @@ import com.microsoft.azure.management.network.ApplicationGateways;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.PublicIPAddress;
 import com.microsoft.azure.management.network.PublicIPAddresses;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.model.Creatable;
 
 /**
  * Test of application gateway management.

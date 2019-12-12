@@ -11,8 +11,7 @@ import com.microsoft.azure.management.containerregistry.Registry;
 import com.microsoft.azure.management.containerregistry.RegistryCredentials;
 import com.microsoft.azure.management.containerregistry.Webhook;
 import com.microsoft.azure.management.containerregistry.WebhookAction;
-import com.microsoft.azure.management.containerregistry.WebhookStatus;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
 public class TestContainerRegistry extends TestTemplate<Registry, Registries> {

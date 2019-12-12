@@ -6,14 +6,14 @@
 
 package com.microsoft.azure.management.samples;
 
-import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplate;
-import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateAsync;
-import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithDeploymentOperations;
-import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithProgress;
-import com.microsoft.azure.management.resources.samples.DeployUsingARMTemplateWithTags;
-import com.microsoft.azure.management.resources.samples.DeployVirtualMachineUsingARMTemplate;
-import com.microsoft.azure.management.resources.samples.ManageResource;
-import com.microsoft.azure.management.resources.samples.ManageResourceGroup;
+import com.azure.management.resources.samples.DeployUsingARMTemplate;
+import com.azure.management.resources.samples.DeployUsingARMTemplateAsync;
+import com.azure.management.resources.samples.DeployUsingARMTemplateWithDeploymentOperations;
+import com.azure.management.resources.samples.DeployUsingARMTemplateWithProgress;
+import com.azure.management.resources.samples.DeployUsingARMTemplateWithTags;
+import com.azure.management.resources.samples.DeployVirtualMachineUsingARMTemplate;
+import com.azure.management.resources.samples.ManageResource;
+import com.azure.management.resources.samples.ManageResourceGroup;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

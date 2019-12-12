@@ -15,8 +15,8 @@ import com.microsoft.azure.management.cdn.GeoFilterActions;
 import com.microsoft.azure.management.cdn.QueryStringCachingBehavior;
 import com.microsoft.azure.management.cdn.ResourceUsage;
 import com.microsoft.azure.management.cdn.SkuName;
-import com.microsoft.azure.management.resources.fluentcore.arm.CountryIsoCode;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 
 import java.util.Map;

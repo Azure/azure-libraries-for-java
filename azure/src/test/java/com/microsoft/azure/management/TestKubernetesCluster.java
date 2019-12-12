@@ -8,8 +8,7 @@ package com.microsoft.azure.management;
 import com.microsoft.azure.management.containerservice.ContainerServiceVMSizeTypes;
 import com.microsoft.azure.management.containerservice.KubernetesCluster;
 import com.microsoft.azure.management.containerservice.KubernetesClusters;
-import com.microsoft.azure.management.containerservice.KubernetesVersion;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 
@@ -19,7 +18,6 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
-import java.util.Set;
 
 public class TestKubernetesCluster extends TestTemplate<KubernetesCluster, KubernetesClusters> {
     @Override

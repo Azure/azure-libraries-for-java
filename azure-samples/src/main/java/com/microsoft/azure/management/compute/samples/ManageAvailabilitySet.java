@@ -14,8 +14,8 @@ package com.microsoft.azure.management.compute.samples;
  import com.microsoft.azure.management.compute.VirtualMachine;
  import com.microsoft.azure.management.compute.VirtualMachineSizeTypes;
  import com.microsoft.azure.management.network.Network;
- import com.microsoft.azure.management.resources.fluentcore.arm.Region;
- import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+ import com.azure.management.resources.fluentcore.arm.Region;
+ import com.azure.management.resources.fluentcore.model.Creatable;
  import com.microsoft.azure.management.samples.Utils;
  import com.microsoft.rest.LogLevel;
 

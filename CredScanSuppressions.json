@@ -1,0 +1,20 @@
+{
+  "tool": "Credential Scanner",
+  "suppressions": [
+    {
+      "placeholder": "ebc6e170-72b2-4b6f-9de2-99410964d2d0",
+      "_justification": "Client secret used in the example of auth file format."
+    },
+    {
+      "file": [
+        "azure\\src\\test\\resources\\myTest.pfx",
+		"azure\\src\\test\\resources\\myTest2.pfx"
+      ],
+      "_justification": "Certs used in test cases."
+    },
+	{
+      "placeholder": "$$_AZURE_FLUENT_JAVA_*_$$",
+      "_justification": "Credentials in response body from session records of unit tests."
+    }
+  ]
+}

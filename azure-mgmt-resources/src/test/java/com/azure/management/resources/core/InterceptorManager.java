@@ -63,7 +63,7 @@ public class InterceptorManager {
         SdkContext.setResourceNamerFactory(new TestResourceNamerFactory(interceptorManager));
         SdkContext.setDelayProvider(new TestDelayProvider(interceptorManager.isRecordMode() || interceptorManager.isNoneMode()));
         if (!interceptorManager.isNoneMode()) {
-            SdkContext.setRxScheduler(Schedulers.trampoline());
+            SdkContext.setReactorScheduler(Schedulers.trampoline());
         }
         return interceptorManager;
     }

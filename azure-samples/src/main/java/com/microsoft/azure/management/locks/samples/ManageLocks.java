@@ -108,8 +108,8 @@ public final class ManageLocks {
             // Create resources in parallel to save time
             System.out.println("Creating the needed resources...");
             Observable.merge(
-                    storageDefinition.createAsync().subscribeOn(SdkContext.getRxScheduler()),
-                    vmDefinition.createAsync().subscribeOn(SdkContext.getRxScheduler()))
+                    storageDefinition.createAsync().subscribeOn(SdkContext.getReactorScheduler()),
+                    vmDefinition.createAsync().subscribeOn(SdkContext.getReactorScheduler()))
             .toBlocking().subscribe();
             System.out.println("Resources created.");
     

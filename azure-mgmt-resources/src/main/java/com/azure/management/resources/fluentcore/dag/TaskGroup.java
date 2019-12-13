@@ -7,12 +7,9 @@
 package com.azure.management.resources.fluentcore.dag;
 
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func0;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,20 +23,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
  * Type representing a group of task entries with dependencies between them. Initially a task
  * group will have only one task entry known as root task entry, then more entries can be
  * added by taking dependency on other task groups or adding "post-run" task group dependents.
- *
+ * <p>
  * The method {@link TaskGroup#invokeAsync(InvocationContext)} ()} kick-off invocation of tasks
  * in the group, task are invoked in topological sorted order.
- *
+ * <p>
  * {@link TaskGroup#addDependencyTaskGroup(TaskGroup)}: A task group "A" can take dependency on
  * another task group "B" through this method e.g. `A.addDependencyTaskGroup(B)` indicates that
  * completion of tasks in the dependency task group "B" is required before the invocation of root
  * task in group "A". A.invokeAsync(cxt) will ensure this order.
- *
+ * <p>
  * {@link TaskGroup#addPostRunDependentTaskGroup(TaskGroup)}: there are scenarios where a subset
  * of dependent task groups say "H", "I" may required to run after the invocation of a task group
  * "K" when K.invokeAsync(cxt) is called. Such special dependents can be added via
  * K.addPostRunDependentTaskGroup(H) and K.addPostRunDependentTaskGroup(I).
- *
+ * <p>
  * The result produced by the tasks in the group are of type {@link Indexable}.
  */
 public class TaskGroup
@@ -88,7 +85,7 @@ public class TaskGroup
      * Creates TaskGroup.
      *
      * @param rootTaskItemId the id of the root task in the group
-     * @param rootTaskItem the root task
+     * @param rootTaskItem   the root task
      */
     public TaskGroup(String rootTaskItemId,
                      TaskItem rootTaskItem) {
@@ -101,20 +98,20 @@ public class TaskGroup
      * @param rootTaskItem the root task
      */
     public TaskGroup(IndexableTaskItem rootTaskItem) {
-        this(new TaskGroupEntry<TaskItem>(rootTaskItem.key(), rootTaskItem));
+        this(new TaskGroupEntry<TaskItem>(rootTaskItem.getKey(), rootTaskItem));
     }
 
     /**
      * @return the key of this task group, which is same as key of the root entry in the group
      */
     @Override
-    public String key() {
-        return this.rootTaskEntry.key();
+    public String getKey() {
+        return this.rootTaskEntry.getKey();
     }
 
     /**
      * Retrieve the result produced by a task with the given id in the group.
-     *
+     * <p>
      * This method can be used to retrieve the result of invocation of both dependency
      * and "post-run" dependent tasks. If task with the given id does not exists then
      * IllegalArgumentException exception will be thrown.
@@ -125,14 +122,14 @@ public class TaskGroup
     public Indexable taskResult(String taskId) {
         TaskGroupEntry<TaskItem> taskGroupEntry = super.getNode(taskId);
         if (taskGroupEntry != null) {
-            return taskGroupEntry.taskResult();
+            return taskGroupEntry.getTaskResult();
         }
         if (!this.proxyTaskGroupWrapper.isActive()) {
             throw new IllegalArgumentException("A dependency task with id '" + taskId + "' is not found");
         }
         taskGroupEntry = this.proxyTaskGroupWrapper.proxyTaskGroup.getNode(taskId);
         if (taskGroupEntry != null) {
-            return taskGroupEntry.taskResult();
+            return taskGroupEntry.getTaskResult();
         }
         throw new IllegalArgumentException("A dependency task or 'post-run' dependent task with with id '" + taskId + "' not found");
     }
@@ -144,7 +141,7 @@ public class TaskGroup
      * @return true if TaskGroup is depends on the given TaskGroup
      */
     public boolean dependsOn(TaskGroup taskGroup) {
-        return this.nodeTable.containsKey(taskGroup.root().key());
+        return this.nodeTable.containsKey(taskGroup.root().getKey());
     }
 
     /**
@@ -165,7 +162,7 @@ public class TaskGroup
     public String addDependency(FunctionalTaskItem dependencyTaskItem) {
         IndexableTaskItem dependency = IndexableTaskItem.create(dependencyTaskItem);
         this.addDependency(dependency);
-        return dependency.key();
+        return dependency.getKey();
     }
 
     /**
@@ -176,7 +173,7 @@ public class TaskGroup
      * @param hasTaskGroup an item with taskGroup that this task group depends on
      */
     public void addDependency(TaskGroup.HasTaskGroup hasTaskGroup) {
-        this.addDependencyTaskGroup(hasTaskGroup.taskGroup());
+        this.addDependencyTaskGroup(hasTaskGroup.getTaskGroup());
     }
 
     /**
@@ -205,7 +202,7 @@ public class TaskGroup
     public String addPostRunDependent(FunctionalTaskItem dependentTaskItem) {
         IndexableTaskItem taskItem = IndexableTaskItem.create(dependentTaskItem);
         this.addPostRunDependent(taskItem);
-        return taskItem.key();
+        return taskItem.getKey();
     }
 
     /**
@@ -214,7 +211,7 @@ public class TaskGroup
      * @param hasTaskGroup an item with as task group that depends on this task group
      */
     public void addPostRunDependent(TaskGroup.HasTaskGroup hasTaskGroup) {
-        this.addPostRunDependentTaskGroup(hasTaskGroup.taskGroup());
+        this.addPostRunDependentTaskGroup(hasTaskGroup.getTaskGroup());
     }
 
     /**
@@ -234,27 +231,21 @@ public class TaskGroup
      *
      * @param context group level shared context that need be passed to invokeAsync(cxt)
      *                method of each task item in the group when it is selected for invocation.
-     *
      * @return an observable that emits the result of tasks in the order they finishes.
      */
-    public Observable<Indexable> invokeAsync(final InvocationContext context) {
-        return Observable.defer(new Func0<Observable<Indexable>>() {
-            @Override
-            public Observable<Indexable> call() {
+    public Flux<Indexable> invokeAsync(final InvocationContext context) {
+        return Flux.defer(() -> {
+            if (proxyTaskGroupWrapper.isActive()) {
+                return proxyTaskGroupWrapper.getTaskGroup().invokeInternAsync(context, true, null);
+            } else {
+                Set<String> processedKeys = runBeforeGroupInvoke(null);
                 if (proxyTaskGroupWrapper.isActive()) {
-                    return proxyTaskGroupWrapper.taskGroup()
-                            .invokeInternAsync(context, true, null);
+                    // If proxy got activated after 'runBeforeGroupInvoke()' stage due to the addition of direct
+                    // 'postRunDependent's then delegate group invocation to proxy group.
+                    //
+                    return proxyTaskGroupWrapper.getTaskGroup().invokeInternAsync(context, true, processedKeys);
                 } else {
-                    Set<String> processedKeys = runBeforeGroupInvoke(null);
-                    if (proxyTaskGroupWrapper.isActive()) {
-                        // If proxy got activated after 'runBeforeGroupInvoke()' stage due to the addition of direct
-                        // 'postRunDependent's then delegate group invocation to proxy group.
-                        //
-                        return proxyTaskGroupWrapper.taskGroup()
-                                .invokeInternAsync(context, true, processedKeys);
-                    } else {
-                        return invokeInternAsync(context, false, null);
-                    }
+                    return invokeInternAsync(context, false, null);
                 }
             }
         });
@@ -263,19 +254,19 @@ public class TaskGroup
     /**
      * Invokes tasks in the group.
      *
-     * @param context group level shared context that need be passed to invokeAsync(cxt)
-     *                method of each task item in the group when it is selected for invocation.
+     * @param context                    group level shared context that need be passed to invokeAsync(cxt)
+     *                                   method of each task item in the group when it is selected for invocation.
      * @param shouldRunBeforeGroupInvoke indicate whether to run the 'beforeGroupInvoke' method
      *                                   of each tasks before invoking them
-     * @param skipBeforeGroupInvoke the tasks keys for which 'beforeGroupInvoke' should not be called
-     *                              before invoking them
+     * @param skipBeforeGroupInvoke      the tasks keys for which 'beforeGroupInvoke' should not be called
+     *                                   before invoking them
      * @return an observable that emits the result of tasks in the order they finishes.
      */
-    private Observable<Indexable> invokeInternAsync(final InvocationContext context,
-                                                    final boolean shouldRunBeforeGroupInvoke,
-                                                    final Set<String> skipBeforeGroupInvoke) {
+    private Flux<Indexable> invokeInternAsync(final InvocationContext context,
+                                              final boolean shouldRunBeforeGroupInvoke,
+                                              final Set<String> skipBeforeGroupInvoke) {
         if (!isPreparer()) {
-            return Observable.error(new IllegalStateException("invokeInternAsync(cxt) can be called only from root TaskGroup"));
+            return Flux.error(new IllegalStateException("invokeInternAsync(cxt) can be called only from root TaskGroup"));
         }
         this.taskGroupTerminateOnErrorStrategy = context.terminateOnErrorStrategy();
         if (shouldRunBeforeGroupInvoke) {
@@ -307,9 +298,9 @@ public class TaskGroup
         do {
             hasMoreToProcess = false;
             for (TaskGroupEntry<TaskItem> entry : entries) {
-                if (!processedEntryKeys.contains(entry.key())) {
-                    entry.data().beforeGroupInvoke();
-                    processedEntryKeys.add(entry.key());
+                if (!processedEntryKeys.contains(entry.getKey())) {
+                    entry.getData().beforeGroupInvoke();
+                    processedEntryKeys.add(entry.getKey());
                 }
             }
             int prevSize = entries.size();
@@ -344,17 +335,16 @@ public class TaskGroup
      * @param context group level shared context that need be passed to
      *                {@link TaskGroupEntry#invokeTaskAsync(boolean, InvocationContext)}
      *                method of each entry in the group when it is selected for execution
-     *
-     * @return an observable that emits the result of tasks in the order they finishes.
+     * @return a {@link Flux} that emits the result of tasks in the order they finishes.
      */
-    private Observable<Indexable> invokeReadyTasksAsync(final InvocationContext context) {
+    private Flux<Indexable> invokeReadyTasksAsync(final InvocationContext context) {
         TaskGroupEntry<TaskItem> readyTaskEntry = super.getNext();
-        final List<Observable<Indexable>> observables = new ArrayList<>();
+        final List<Flux<Indexable>> observables = new ArrayList<>();
         // Enumerate the ready tasks (those with dependencies resolved) and kickoff them concurrently
         //
         while (readyTaskEntry != null) {
             final TaskGroupEntry<TaskItem> currentEntry = readyTaskEntry;
-            final TaskItem currentTaskItem = currentEntry.data();
+            final TaskItem currentTaskItem = currentEntry.getData();
             if (currentTaskItem instanceof ProxyTaskItem) {
                 observables.add(invokeAfterPostRunAsync(currentEntry, context));
             } else {
@@ -362,7 +352,7 @@ public class TaskGroup
             }
             readyTaskEntry = super.getNext();
         }
-        return Observable.mergeDelayError(observables);
+        return Flux.mergeDelayError(32, observables.toArray(new Flux[observables.size()]));
     }
 
     /**
@@ -371,49 +361,29 @@ public class TaskGroup
      * if the task cannot be invoked because the group marked as cancelled then an observable
      * that emit {@link TaskCancelledException} will be returned.
      *
-     * @param entry the entry holding task
+     * @param entry   the entry holding task
      * @param context a group level shared context that is passed to {@link TaskItem#invokeAsync(InvocationContext)}
      *                method of the task item this entry wraps.
-     *
      * @return an observable that emits result of task in the given entry and result of subset of tasks which gets
      * scheduled after this task.
      */
-    private Observable<Indexable> invokeTaskAsync(final TaskGroupEntry<TaskItem> entry, final InvocationContext context) {
-        return Observable.defer(new Func0<Observable<Indexable>>() {
-            @Override
-            public Observable<Indexable> call() {
-                if (isGroupCancelled.get()) {
-                    // One or more tasks are in faulted state, though this task MAYBE invoked if it does not
-                    // have faulted tasks as transitive dependencies, we won't do it since group is cancelled
-                    // due to termination strategy TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION.
-                    //
-                    return processFaultedTaskAsync(entry, taskCancelledException, context);
-                } else {
-                    // Any cached result will be ignored for root resource
-                    //
-                    boolean ignoreCachedResult = isRootEntry(entry) || (entry.proxy() != null && isRootEntry(entry.proxy()));
+    private Flux<Indexable> invokeTaskAsync(final TaskGroupEntry<TaskItem> entry, final InvocationContext context) {
+        return Flux.defer(() -> {
+            if (isGroupCancelled.get()) {
+                // One or more tasks are in faulted state, though this task MAYBE invoked if it does not
+                // have faulted tasks as transitive dependencies, we won't do it since group is cancelled
+                // due to termination strategy TERMINATE_ON_IN_PROGRESS_TASKS_COMPLETION.
+                //
+                return processFaultedTaskAsync(entry, taskCancelledException, context);
+            } else {
+                // Any cached result will be ignored for root resource
+                //
+                boolean ignoreCachedResult = isRootEntry(entry) || (entry.getProxy() != null && isRootEntry(entry.getProxy()));
 
-                    Observable<Indexable> taskObservable = entry.invokeTaskAsync(ignoreCachedResult, context);
-                    Func1<Indexable, Observable<Indexable>> onResult = new Func1<Indexable, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(final Indexable taskResult) {
-                            return Observable.just(taskResult);
-                        }
-                    };
-                    Func1<Throwable, Observable<Indexable>> onError = new Func1<Throwable, Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call(final Throwable taskError) {
-                            return processFaultedTaskAsync(entry, taskError, context);
-                        }
-                    };
-                    Func0<Observable<Indexable>> onComplete = new Func0<Observable<Indexable>>() {
-                        @Override
-                        public Observable<Indexable> call() {
-                            return processCompletedTaskAsync(entry, context);
-                        }
-                    };
-                    return taskObservable.flatMap(onResult, onError, onComplete);
-                }
+                Mono<Indexable> taskObservable = entry.invokeTaskAsync(ignoreCachedResult, context);
+                return taskObservable.flatMapMany((indexable) -> Flux.just(indexable),
+                        (throwable) -> processFaultedTaskAsync(entry, throwable, context),
+                        () -> processCompletedTaskAsync(entry, context));
             }
         });
     }
@@ -422,52 +392,39 @@ public class TaskGroup
      * Invokes the {@link TaskItem#invokeAfterPostRunAsync(boolean)} method of an actual TaskItem
      * if the given entry holds a ProxyTaskItem.
      *
-     * @param entry the entry holding a ProxyTaskItem
+     * @param entry   the entry holding a ProxyTaskItem
      * @param context a group level shared context
-     *
      * @return An Observable that represents asynchronous work started by
      * {@link TaskItem#invokeAfterPostRunAsync(boolean)} method of actual TaskItem and result of subset
      * of tasks which gets scheduled after proxy task. If group was not in faulted state and
      * {@link TaskItem#invokeAfterPostRunAsync(boolean)} emits no error then stream also includes
      * result produced by actual TaskItem.
      */
-    private Observable<Indexable> invokeAfterPostRunAsync(final TaskGroupEntry<TaskItem> entry,
-                                                          final InvocationContext context) {
-        return Observable.defer(new Func0<Observable<Indexable>>() {
-            @Override
-            public Observable<Indexable> call() {
-                final ProxyTaskItem proxyTaskItem = (ProxyTaskItem) entry.data();
-                if (proxyTaskItem == null) {
-                    return Observable.empty();
-                }
-                final boolean isFaulted = entry.hasFaultedDescentDependencyTasks() || isGroupCancelled.get();
-
-                Observable<Indexable> postRunObservable = proxyTaskItem.invokeAfterPostRunAsync(isFaulted).toObservable();
-                Func1<Throwable, Observable<Indexable>> onError = new Func1<Throwable, Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call(final Throwable error) {
-                        return processFaultedTaskAsync(entry, error, context);
-                    }
-                };
-                Func0<Observable<Indexable>> onComplete = new Func0<Observable<Indexable>>() {
-                    @Override
-                    public Observable<Indexable> call() {
-                        if (isFaulted) {
-                            if (entry.hasFaultedDescentDependencyTasks()) {
-                                return processFaultedTaskAsync(entry, new ErroredDependencyTaskException(), context);
-                            } else {
-                                return processFaultedTaskAsync(entry, taskCancelledException, context);
-                            }
-                        } else {
-                            return Observable.concat(Observable.just(proxyTaskItem.result()),
-                                    processCompletedTaskAsync(entry, context));
-                        }
-                    }
-                };
-                return postRunObservable.flatMap(null, // no onNext call as stream is created from Completable.
-                        onError,
-                        onComplete);
+    private Flux<Indexable> invokeAfterPostRunAsync(final TaskGroupEntry<TaskItem> entry,
+                                                    final InvocationContext context) {
+        return Flux.defer(() -> {
+            final ProxyTaskItem proxyTaskItem = (ProxyTaskItem) entry.getData();
+            if (proxyTaskItem == null) {
+                return Flux.empty();
             }
+            final boolean isFaulted = entry.hasFaultedDescentDependencyTasks() || isGroupCancelled.get();
+
+            return proxyTaskItem.invokeAfterPostRunAsync(isFaulted)
+                    .flatMap((indexable) -> Flux.error(new IllegalStateException("This onNext should never be called")),
+                            (error) -> processFaultedTaskAsync(entry, error, context),
+                            () -> {
+                                if (isFaulted) {
+                                    if (entry.hasFaultedDescentDependencyTasks()) {
+                                        return processFaultedTaskAsync(entry, new ErroredDependencyTaskException(), context);
+                                    } else {
+                                        return processFaultedTaskAsync(entry, taskCancelledException, context);
+                                    }
+                                } else {
+                                    return Flux.concat(Flux.just(proxyTaskItem.getResult()),
+                                            processCompletedTaskAsync(entry, context));
+                                }
+                            });
+
         });
     }
 
@@ -477,15 +434,14 @@ public class TaskGroup
      * If the task is not root (terminal) task then this kickoff execution of next set of ready tasks
      *
      * @param completedEntry the entry holding completed task
-     * @param context the context object shared across all the task entries in this group during execution
-     *
+     * @param context        the context object shared across all the task entries in this group during execution
      * @return an observable represents asynchronous operation in the next stage
      */
-    private Observable<Indexable> processCompletedTaskAsync(final TaskGroupEntry<TaskItem> completedEntry,
-                                                            final InvocationContext context) {
+    private Flux<Indexable> processCompletedTaskAsync(final TaskGroupEntry<TaskItem> completedEntry,
+                                                      final InvocationContext context) {
         reportCompletion(completedEntry);
         if (isRootEntry(completedEntry)) {
-            return Observable.empty();
+            return Flux.empty();
         } else {
             return invokeReadyTasksAsync(context);
         }
@@ -495,23 +451,22 @@ public class TaskGroup
      * Handles a faulted task.
      *
      * @param faultedEntry the entry holding faulted task
-     * @param throwable the reason for fault
-     * @param context the context object shared across all the task entries in this group during execution
-     *
+     * @param throwable    the reason for fault
+     * @param context      the context object shared across all the task entries in this group during execution
      * @return an observable represents asynchronous operation in the next stage
      */
-    private Observable<Indexable> processFaultedTaskAsync(final TaskGroupEntry<TaskItem> faultedEntry,
-                                                          final Throwable throwable,
-                                                          final InvocationContext context) {
+    private Flux<Indexable> processFaultedTaskAsync(final TaskGroupEntry<TaskItem> faultedEntry,
+                                                    final Throwable throwable,
+                                                    final InvocationContext context) {
         markGroupAsCancelledIfTerminationStrategyIsIPTC();
         reportError(faultedEntry, throwable);
         if (isRootEntry(faultedEntry)) {
             if (shouldPropagateException(throwable)) {
                 return toErrorObservable(throwable);
             }
-            return Observable.empty();
+            return Flux.empty();
         } else if (shouldPropagateException(throwable)) {
-            return Observable.concatDelayError(invokeReadyTasksAsync(context), toErrorObservable(throwable));
+            return Flux.concatDelayError(invokeReadyTasksAsync(context), toErrorObservable(throwable));
         } else {
             return invokeReadyTasksAsync(context);
         }
@@ -540,7 +495,7 @@ public class TaskGroup
      * {@link this#invokeAsync(InvocationContext)} ()} method.
      *
      * @param throwable the exception to check
-     * @return true if the throwable needs to be included in the {@link rx.exceptions.CompositeException}
+     * @return true if the throwable needs to be included in the {@link RuntimeException}
      * emitted by the final stream.
      */
     private static boolean shouldPropagateException(Throwable throwable) {
@@ -554,8 +509,8 @@ public class TaskGroup
      * @param throwable the throwable to wrap
      * @return observable with throwable wrapped
      */
-    private Observable<Indexable> toErrorObservable(Throwable throwable) {
-        return Observable.error(throwable);
+    private Flux<Indexable> toErrorObservable(Throwable throwable) {
+        return Flux.error(throwable);
     }
 
     /**
@@ -572,7 +527,7 @@ public class TaskGroup
         /**
          * @return Gets the task group.
          */
-        TaskGroup taskGroup();
+        TaskGroup getTaskGroup();
     }
 
     /**
@@ -597,7 +552,7 @@ public class TaskGroup
         /**
          * @return the TaskGroup this invocation context associated with.
          */
-        public TaskGroup taskGroup() {
+        public TaskGroup getTaskGroup() {
             return this.taskGroup;
         }
 
@@ -628,7 +583,7 @@ public class TaskGroup
         /**
          * Put a key-value in the context.
          *
-         * @param key the key
+         * @param key   the key
          * @param value the value
          */
         public void put(String key, Object value) {
@@ -689,7 +644,7 @@ public class TaskGroup
         /**
          * @return the wrapped proxy task group.
          */
-        TaskGroup taskGroup() {
+        TaskGroup getTaskGroup() {
             return this.proxyTaskGroup;
         }
 
@@ -730,15 +685,15 @@ public class TaskGroup
                 // Creates proxy TaskGroup with an instance of ProxyTaskItem as root TaskItem which delegates actions on
                 // it to "actual TaskGroup"'s root.
                 //
-                ProxyTaskItem proxyTaskItem = new ProxyTaskItem(this.actualTaskGroup.root().data());
-                this.proxyTaskGroup = new TaskGroup("proxy-" + this.actualTaskGroup.root().key(),
+                ProxyTaskItem proxyTaskItem = new ProxyTaskItem(this.actualTaskGroup.root().getData());
+                this.proxyTaskGroup = new TaskGroup("proxy-" + this.actualTaskGroup.root().getKey(),
                         proxyTaskItem);
 
                 if (this.actualTaskGroup.hasParents()) {
                     // Once "proxy TaskGroup" is enabled, all existing TaskGroups depends on "actual TaskGroup" should
                     // take dependency on "proxy TaskGroup".
                     //
-                    String atgRootKey = this.actualTaskGroup.root().key();
+                    String atgRootKey = this.actualTaskGroup.root().getKey();
                     for (DAGraph<TaskItem, TaskGroupEntry<TaskItem>> parentDAG : this.actualTaskGroup.parentDAGs) {
                         parentDAG.root().removeDependency(atgRootKey);
                         parentDAG.addDependencyGraph(this.proxyTaskGroup);
@@ -768,8 +723,8 @@ public class TaskGroup
         }
 
         @Override
-        public Indexable result() {
-            return actualTaskItem.result();
+        public Indexable getResult() {
+            return actualTaskItem.getResult();
         }
 
 
@@ -784,20 +739,14 @@ public class TaskGroup
         }
 
         @Override
-        public Observable<Indexable> invokeAsync(InvocationContext context) {
-            return Observable.just(actualTaskItem.result());
+        public Mono<Indexable> invokeAsync(InvocationContext context) {
+            return Mono.just(actualTaskItem.getResult());
         }
 
         @Override
-        public Completable invokeAfterPostRunAsync(final boolean isGroupFaulted) {
+        public Flux<Indexable> invokeAfterPostRunAsync(final boolean isGroupFaulted) {
             if (actualTaskItem.isHot()) {
-                return Completable.defer(new Func0<Completable>() {
-                    @Override
-                    public Completable call() {
-                        return actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted)
-                                .subscribeOn(Schedulers.immediate());
-                    }
-                });
+                return Flux.defer(() -> actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted).subscribeOn(Schedulers.immediate()));
             } else {
                 return this.actualTaskItem.invokeAfterPostRunAsync(isGroupFaulted)
                         .subscribeOn(Schedulers.immediate());

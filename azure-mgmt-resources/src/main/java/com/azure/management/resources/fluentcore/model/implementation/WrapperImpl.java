@@ -21,7 +21,7 @@ public abstract class WrapperImpl<InnerT> implements HasInner<InnerT> {
     }
 
     @Override
-    public InnerT inner() {
+    public InnerT getInner() {
         return this.innerObject;
     }
 
@@ -29,6 +29,7 @@ public abstract class WrapperImpl<InnerT> implements HasInner<InnerT> {
      * Sets the inner object of the wrapper.
      * <p>
      * (Internal use only)
+     *
      * @param inner an inner object
      */
     public void setInner(InnerT inner) {

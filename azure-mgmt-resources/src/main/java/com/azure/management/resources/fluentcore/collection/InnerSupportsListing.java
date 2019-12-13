@@ -6,10 +6,8 @@
 
 package com.azure.management.resources.fluentcore.collection;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import rx.Observable;
-
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 
 /**
  * Provides access to listing Azure resources of a specific type in a subscription.
@@ -22,30 +20,30 @@ public interface InnerSupportsListing<InnerT> {
     /**
      * Returns the observable for the page list of all resources of specific type in subscription.
      *
-     * @return Observable of list of resources.
+     * @return the {@link PagedFlux} of resources if successful.
      */
-    Observable<Page<InnerT>> listAsync();
+    PagedFlux<InnerT> listAsync();
 
     /**
      * Returns the observable for the page list of all resources of specific type in specified resource group.
      *
      * @param resourceGroup name of the resource group.
-     * @return Observable of list of resources.
+     * @return the {@link PagedFlux} of resources if successful.
      */
-    Observable<Page<InnerT>> listByResourceGroupAsync(String resourceGroup);
+    PagedFlux<InnerT> listByResourceGroupAsync(String resourceGroup);
 
     /**
      * Lists the page list of all resources of specific type available in subscription.
      *
-     * @return the paged list of resources if successful.
+     * @return the {@link PagedIterable} of resources if successful.
      */
-    PagedList<InnerT> list();
+    PagedIterable<InnerT> list();
 
     /**
      * Lists the page list of all resources of specific type in specified resource group.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription.
-     * @return the paged list of resources if successful.
+     * @return the {@link PagedIterable} of resources if successful.
      */
-    PagedList<InnerT> listByResourceGroup(String resourceGroupName);
+    PagedIterable<InnerT> listByResourceGroup(String resourceGroupName);
 }

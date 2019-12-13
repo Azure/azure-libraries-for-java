@@ -5,10 +5,11 @@
  */
 package com.azure.management.resources.fluentcore.arm.models;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 /**
  * An interface representing a model that exposes a management client.
+ *
  * @param <ManagerT> the manager client type
  */
 @Fluent
@@ -16,5 +17,5 @@ public interface HasManager<ManagerT> {
     /**
      * @return the manager client of this resource type
      */
-    ManagerT manager();
+    ManagerT getManager();
 }

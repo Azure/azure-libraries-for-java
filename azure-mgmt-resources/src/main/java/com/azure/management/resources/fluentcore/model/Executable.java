@@ -6,25 +6,19 @@
 
 package com.azure.management.resources.fluentcore.model;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * The base interface for all template interfaces that support execute operations.
  *
  * @param <T> the type of result produced by the execution.
  */
-@LangDefinition(ContainerName = "ResourceActions", CreateAsyncMultiThreadMethodParam = true)
 public interface Executable<T> extends Indexable {
     /**
      * Execute the request.
      *
      * @return execution result object
      */
-    @Method
     T execute();
 
     /**
@@ -32,14 +26,5 @@ public interface Executable<T> extends Indexable {
      *
      * @return the handle to the REST call
      */
-    @Method
-    Observable<T> executeAsync();
-
-    /**
-     * Execute the request asynchronously.
-     *
-     * @param callback the callback for success and failure
-     * @return the handle to the REST call
-     */
-    ServiceFuture<T> executeAsync(ServiceCallback<T> callback);
+    Mono<T> executeAsync();
 }

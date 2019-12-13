@@ -8,15 +8,13 @@ package com.azure.management.resources.fluentcore.collection;
 
 import com.azure.management.resources.fluentcore.model.Creatable;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
 /**
  * Providing access to creating Azure top level resources.
  * <p>
  * (Note: this interface is not intended to be implemented by user code)
+ *
  * @param <T> the initial blank definition interface
  */
-@LangDefinition(ContainerName = "CollectionActions", MethodConversionType = MethodConversion.OnlyMethod)
 public interface SupportsCreating<T> {
     /**
      * Begins a definition for a new resource.
@@ -31,6 +29,7 @@ public interface SupportsCreating<T> {
      * means you have not yet specified all the required input settings. Input settings generally begin
      * with the word "with", for example: <code>.withNewResourceGroup()</code> and return the next stage
      * of the resource definition, as an interface in the "fluent interface" style.
+     *
      * @param name the name of the new resource
      * @return the first stage of the new resource definition
      */

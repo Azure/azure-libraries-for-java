@@ -8,35 +8,34 @@ package com.azure.management.resources.fluentcore.arm.models.implementation;
 
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.IndependentChild;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation for the child resource which can be CRUDed independently from the parent resource.
  * (internal use only)
- * @param <FluentModelT> The fluent model type
+ *
+ * @param <FluentModelT>       The fluent model type
  * @param <FluentParentModelT> the fluent model for parent resource
- * @param <InnerModelT> Azure inner resource class type
- * @param <FluentModelImplT> the implementation type of the fluent model type
- * @param <ManagerT> the client manager type representing the service
+ * @param <InnerModelT>        Azure inner resource class type
+ * @param <FluentModelImplT>   the implementation type of the fluent model type
+ * @param <ManagerT>           the client manager type representing the service
  */
-@LangDefinition
 public abstract class IndependentChildImpl<
-            FluentModelT extends IndependentChild<ManagerT>,
-            FluentParentModelT extends Resource & HasResourceGroup,
-            InnerModelT,
-            FluentModelImplT extends IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
-            ManagerT>
+        FluentModelT extends IndependentChild<ManagerT>,
+        FluentParentModelT extends Resource & HasResourceGroup,
+        InnerModelT,
+        FluentModelImplT extends IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
+        ManagerT>
         extends
-            CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>
+        CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>
         implements
-            IndependentChild<ManagerT>,
-            IndependentChild.DefinitionStages.WithParentResource<FluentModelT, FluentParentModelT> {
+        IndependentChild<ManagerT>,
+        IndependentChild.DefinitionStages.WithParentResource<FluentModelT, FluentParentModelT> {
     private String groupName;
     protected String parentName;
     private String creatableParentResourceKey;
@@ -58,14 +57,14 @@ public abstract class IndependentChildImpl<
      *******************************************/
 
     @Override
-    public ManagerT manager() {
+    public ManagerT getManager() {
         return this.manager;
     }
 
     @Override
-    public String resourceGroupName() {
+    public String getResourceGroupName() {
         if (this.groupName == null) {
-            return ResourceUtils.groupFromResourceId(this.id());
+            return ResourceUtils.groupFromResourceId(this.getId());
         } else {
             return this.groupName;
         }
@@ -76,7 +75,7 @@ public abstract class IndependentChildImpl<
      */
     @Override
     public boolean isInCreateMode() {
-        return this.id() == null;
+        return this.getId() == null;
     }
 
     @SuppressWarnings("unchecked")
@@ -90,7 +89,7 @@ public abstract class IndependentChildImpl<
 
     @Override
     public FluentModelImplT withExistingParentResource(FluentParentModelT existingParentResource) {
-        return withExistingParentResource(existingParentResource.resourceGroupName(), existingParentResource.name());
+        return withExistingParentResource(existingParentResource.getResourceGroupName(), existingParentResource.getName());
     }
 
     @SuppressWarnings("unchecked")
@@ -110,7 +109,7 @@ public abstract class IndependentChildImpl<
 
     @SuppressWarnings("unchecked")
     @Override
-    public Observable<FluentModelT> createResourceAsync() {
+    public Mono<FluentModelT> createResourceAsync() {
         if (this.creatableParentResourceKey != null) {
             FluentParentModelT parentResource = this.<FluentParentModelT>taskResult(this.creatableParentResourceKey);
             withExistingParentResource(parentResource);
@@ -119,10 +118,10 @@ public abstract class IndependentChildImpl<
     }
 
     protected void setParentName(InnerModelT inner) {
-        if (this.id() != null) {
-            this.parentName = ResourceId.fromString(this.id()).parent().name();
+        if (this.getId() != null) {
+            this.parentName = ResourceId.fromString(this.getId()).parent().name();
         }
     }
 
-    protected abstract Observable<FluentModelT> createChildResourceAsync();
+    protected abstract Mono<FluentModelT> createChildResourceAsync();
 }

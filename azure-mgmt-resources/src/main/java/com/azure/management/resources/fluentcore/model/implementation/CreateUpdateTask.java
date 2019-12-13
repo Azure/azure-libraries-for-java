@@ -10,12 +10,8 @@ import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.dag.TaskItem;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * A {@link TaskItem} type, when invoked it create or update a resource using
@@ -44,7 +40,7 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
     }
 
     @Override
-    public ResourceT result() {
+    public ResourceT getResult() {
         return resource;
     }
 
@@ -54,42 +50,23 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
     }
 
     @Override
-    public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
+    public Mono<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
         if (this.resourceCreatorUpdater.isInCreateMode()) {
             return this.resourceCreatorUpdater.createResourceAsync()
-                    .subscribeOn(SdkContext.getRxScheduler())
-                    .doOnNext(new Action1<ResourceT>() {
-                        @Override
-                        public void call(ResourceT resourceT) {
-                            resource = resourceT;
-                        }
-                    }).map(new Func1<ResourceT, Indexable>() {
-                        @Override
-                        public Indexable call(ResourceT resourceT) {
-                            return resourceT;
-                        }
-                    });
+                    .subscribeOn(SdkContext.getReactorScheduler())
+                    .doOnNext(resourceT -> resource = resourceT)
+                    .map(resourceT -> resourceT);
         } else {
             return this.resourceCreatorUpdater.updateResourceAsync()
-                    .subscribeOn(SdkContext.getRxScheduler())
-                    .doOnNext(new Action1<ResourceT>() {
-                        @Override
-                        public void call(ResourceT resourceT) {
-                            resource = resourceT;
-                        }
-                    })
-                    .map(new Func1<ResourceT, Indexable>() {
-                        @Override
-                        public Indexable call(ResourceT resourceT) {
-                            return resourceT;
-                        }
-                    });
+                    .subscribeOn(SdkContext.getReactorScheduler())
+                    .doOnNext(resourceT -> resource = resourceT)
+                    .map(resourceT -> resourceT);
         }
     }
 
     @Override
-    public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
-        return this.resourceCreatorUpdater.afterPostRunAsync(isGroupFaulted);
+    public Flux<Indexable> invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        return this.resourceCreatorUpdater.afterPostRunAsync(isGroupFaulted).map(resourceT -> resourceT);
     }
 
     @Override
@@ -123,14 +100,14 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
          *
          * @return an observable that create the resource when subscribed
          */
-        Observable<T> createResourceAsync();
+        Mono<T> createResourceAsync();
 
         /**
          * Update the resource asynchronously.
          *
          * @return an observable that update the resource when subscribed
          */
-        Observable<T> updateResourceAsync();
+        Mono<T> updateResourceAsync();
 
         /**
          * @return true if the observable returned by {@link this#createResourceAsync()} and
@@ -148,6 +125,6 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
          *                       belongs to are in faulted state.
          * @return a completable represents the asynchronous action
          */
-        Completable afterPostRunAsync(boolean isGroupFaulted);
+        Flux<T> afterPostRunAsync(boolean isGroupFaulted);
     }
 }

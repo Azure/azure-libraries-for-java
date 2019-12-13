@@ -7,7 +7,6 @@
 package com.azure.management.resources.fluentcore.dag;
 
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.model.Indexable;
 
 import java.util.Objects;
 
@@ -33,7 +32,7 @@ public final class VoidIndexable implements Indexable {
     }
 
     @Override
-    public String key() {
+    public String getKey() {
         return this.key;
     }
 }

@@ -9,13 +9,11 @@ package com.azure.management.resources.fluentcore.arm.collection.implementation;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * Provides access to getting a specific Azure resource based on its name and resource group.
- *
+ * <p>
  * (Note: this interface is not intended to be implemented by user code)
  *
  * @param <T> the type of the resource to get.
@@ -23,20 +21,16 @@ import rx.Observable;
 public abstract class SupportsGettingByResourceGroupImpl<T>
         extends SupportsGettingByIdImpl<T>
         implements
-            SupportsGettingByResourceGroup<T>,
+        SupportsGettingByResourceGroup<T>,
         SupportsGettingById<T> {
     @Override
     public T getByResourceGroup(String resourceGroupName, String name) {
-        return this.getByResourceGroupAsync(resourceGroupName, name).toBlocking().last();
+        return this.getByResourceGroupAsync(resourceGroupName, name).block();
     }
 
-    @Override
-    public ServiceFuture<T> getByResourceGroupAsync(String resourceGroupName, String name, ServiceCallback<T> callback) {
-        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, name), callback);
-    }
 
     @Override
-    public Observable<T> getByIdAsync(String id) {
+    public Mono<T> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
         if (resourceId == null) {
             return null;

@@ -10,12 +10,8 @@ import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.dag.TaskItem;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * A {@link TaskItem} type, when invoked it execute a work using the {@link Executor}
@@ -43,7 +39,7 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
     }
 
     @Override
-    public ResultT result() {
+    public ResultT getResult() {
         return this.result;
     }
 
@@ -58,24 +54,15 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
     }
 
     @Override
-    public Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
+    public Mono<Indexable> invokeAsync(TaskGroup.InvocationContext context) {
         return this.executor.executeWorkAsync()
-                .subscribeOn(SdkContext.getRxScheduler())
-                .doOnNext(new Action1<ResultT>() {
-                    @Override
-                    public void call(ResultT resultT) {
-                        result = resultT;
-                    }
-                }).map(new Func1<ResultT, Indexable>() {
-                    @Override
-                    public Indexable call(ResultT resourceT) {
-                        return resourceT;
-                    }
-                });
+                .subscribeOn(SdkContext.getReactorScheduler())
+                .doOnNext(resultT -> result = resultT)
+                .map(resourceT -> resourceT);
     }
 
     @Override
-    public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
+    public Flux invokeAfterPostRunAsync(boolean isGroupFaulted) {
         return this.executor.afterPostRunAsync(isGroupFaulted);
     }
 
@@ -103,9 +90,9 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
         /**
          * Execute the work asynchronously.
          *
-         * @return the observable reference
+         * @return the {@link Mono} reference
          */
-        Observable<T> executeWorkAsync();
+        Mono<T> executeWorkAsync();
 
         /**
          * Perform any action followed by the processing of work scheduled to be invoked
@@ -113,9 +100,8 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
          *
          * @param isGroupFaulted true if one or more tasks in the group this work belongs
          *                       to are in faulted state.
-         *
-         * @return a completable represents the asynchronous action
+         * @return a {@link Flux} represents the asynchronous action
          */
-        Completable afterPostRunAsync(boolean isGroupFaulted);
+        Flux<T> afterPostRunAsync(boolean isGroupFaulted);
     }
 }

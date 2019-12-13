@@ -5,7 +5,7 @@
  */
 package com.azure.management.resources.fluentcore.arm.models;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 /**
  * An interface representing a model's ability to reference a subnet by its name and network's ID.
@@ -15,12 +15,12 @@ public interface HasSubnet {
     /**
      * @return the resource ID of the virtual network whose subnet is associated with this resource
      */
-    String networkId();
+    String getNetworkId();
 
     /**
      * @return the name of the subnet associated with this resource
      */
-    String subnetName();
+    String getSubnetName();
 
     /**
      * Grouping of definition stages involving associating an existing subnet with a resource.
@@ -28,13 +28,15 @@ public interface HasSubnet {
     interface DefinitionStages {
         /**
          * The stage of a definition allowing to associate a subnet with a resource.
+         *
          * @param <ReturnT> the next stage of the definition
          */
         interface WithSubnet<ReturnT> {
             /**
              * Assigns the specified subnet to this resource.
+             *
              * @param parentNetworkResourceId the resource ID of the virtual network the subnet is part of
-             * @param subnetName the name of the subnet
+             * @param subnetName              the name of the subnet
              * @return the next stage of the definition
              */
             ReturnT withExistingSubnet(String parentNetworkResourceId, String subnetName);
@@ -47,13 +49,15 @@ public interface HasSubnet {
     interface UpdateStages {
         /**
          * The stage of an update allowing to associate a subnet with a resource.
+         *
          * @param <ReturnT> the next stage of the update
          */
         interface WithSubnet<ReturnT> {
             /**
              * Assigns the specified subnet to this resource.
+             *
              * @param parentNetworkResourceId the resource ID of the virtual network the subnet is part of
-             * @param subnetName the name of the subnet
+             * @param subnetName              the name of the subnet
              * @return the next stage of the definition
              */
             ReturnT withExistingSubnet(String parentNetworkResourceId, String subnetName);
@@ -66,13 +70,15 @@ public interface HasSubnet {
     interface UpdateDefinitionStages {
         /**
          * The stage of a definition allowing to associate a subnet with a resource.
+         *
          * @param <ReturnT> the next stage of the definition
          */
         interface WithSubnet<ReturnT> {
             /**
              * Assigns the specified subnet to this resource.
+             *
              * @param parentNetworkResourceId the resource ID of the virtual network the subnet is part of
-             * @param subnetName the name of the subnet
+             * @param subnetName              the name of the subnet
              * @return the next stage of the definition
              */
             ReturnT withExistingSubnet(String parentNetworkResourceId, String subnetName);

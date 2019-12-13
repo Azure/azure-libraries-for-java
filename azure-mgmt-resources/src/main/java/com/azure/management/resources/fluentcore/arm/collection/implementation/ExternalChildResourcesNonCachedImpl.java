@@ -20,10 +20,10 @@ import com.azure.management.resources.fluentcore.dag.TaskGroup;
  * child resource PUT if PATCH is not supported.
  *
  * @param <FluentModelTImpl> the implementation of {@param FluentModelT}
- * @param <FluentModelT> the fluent model type of the child resource
- * @param <InnerModelT> Azure inner resource class type representing the child resource
- * @param <ParentImplT> <ParentImplT> the parent Azure resource impl class type that implements {@link ParentT}
- * @param <ParentT> the parent interface
+ * @param <FluentModelT>     the fluent model type of the child resource
+ * @param <InnerModelT>      Azure inner resource class type representing the child resource
+ * @param <ParentImplT>      <ParentImplT> the parent Azure resource impl class type that implements {@link ParentT}
+ * @param <ParentT>          the parent interface
  */
 public abstract class ExternalChildResourcesNonCachedImpl<
         FluentModelTImpl extends ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT>,
@@ -35,8 +35,8 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     /**
      * Creates a new ExternalNonInlineChildResourcesImpl.
      *
-     * @param parent the parent Azure resource
-     * @param parentTaskGroup the TaskGroup the parent Azure resource belongs to
+     * @param parent            the parent Azure resource
+     * @param parentTaskGroup   the TaskGroup the parent Azure resource belongs to
      * @param childResourceName the child resource name
      */
     protected ExternalChildResourcesNonCachedImpl(ParentImplT parent, TaskGroup parentTaskGroup, String childResourceName) {
@@ -63,7 +63,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     protected final FluentModelTImpl prepareInlineDefine(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
-            throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));
+            throw new IllegalArgumentException(pendingOperationMessage(model.getName(), model.childResourceKey()));
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeCreated);
         this.childCollection.put(model.childResourceKey(), model);
@@ -79,7 +79,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     protected final FluentModelTImpl prepareInlineUpdate(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
-            throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));
+            throw new IllegalArgumentException(pendingOperationMessage(model.getName(), model.childResourceKey()));
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeUpdated);
         this.childCollection.put(model.childResourceKey(), model);
@@ -94,7 +94,7 @@ public abstract class ExternalChildResourcesNonCachedImpl<
     protected final void prepareInlineRemove(FluentModelTImpl model) {
         FluentModelTImpl childResource = find(model.childResourceKey());
         if (childResource != null) {
-            throw new IllegalArgumentException(pendingOperationMessage(model.name(), model.childResourceKey()));
+            throw new IllegalArgumentException(pendingOperationMessage(model.getName(), model.childResourceKey()));
         }
         model.setPendingOperation(ExternalChildResourceImpl.PendingOperation.ToBeRemoved);
         this.childCollection.put(model.childResourceKey(), model);

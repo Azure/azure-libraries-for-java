@@ -6,10 +6,8 @@
 
 package com.azure.management.resources.fluentcore.collection;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
-import rx.Observable;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 
 /**
  * Provides access to listing Azure resources of a specific type in a subscription.
@@ -18,19 +16,18 @@ import rx.Observable;
  *
  * @param <T> the fluent type of the resource
  */
-@LangDefinition(ContainerName = "CollectionActions", MethodConversionType = MethodConversion.OnlyMethod)
 public interface SupportsListing<T> {
     /**
      * Lists all the resources of the specified type in the currently selected subscription.
      *
-     * @return list of resources
+     * @return A {@link PagedIterable} of resources
      */
-    PagedList<T> list();
+    PagedIterable<T> list();
 
     /**
      * Lists all the resources of the specified type in the currently selected subscription.
      *
-     * @return list of resources
+     * @return A {@link PagedFlux} of resources
      */
-    Observable<T> listAsync();
+    PagedFlux<T> listAsync();
 }

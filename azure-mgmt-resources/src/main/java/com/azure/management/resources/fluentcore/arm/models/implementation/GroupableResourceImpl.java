@@ -18,20 +18,20 @@ import com.azure.management.resources.fluentcore.model.Creatable;
  * The implementation for {@link GroupableResource}.
  * (Internal use only)
  *
- * @param <FluentModelT> The fluent model type
- * @param <InnerModelT> Azure inner resource class type
+ * @param <FluentModelT>     The fluent model type
+ * @param <InnerModelT>      Azure inner resource class type
  * @param <FluentModelImplT> the implementation type of the fluent model type
- * @param <ManagerT> the service manager type
+ * @param <ManagerT>         the service manager type
  */
 public abstract class GroupableResourceImpl<
         FluentModelT extends Resource,
-        InnerModelT extends com.microsoft.azure.Resource,
+        InnerModelT extends com.azure.core.management.Resource,
         FluentModelImplT extends GroupableResourceImpl<FluentModelT, InnerModelT, FluentModelImplT, ManagerT>,
         ManagerT extends ManagerBase>
         extends
-            ResourceImpl<FluentModelT, InnerModelT, FluentModelImplT>
+        ResourceImpl<FluentModelT, InnerModelT, FluentModelImplT>
         implements
-            GroupableResource<ManagerT, InnerModelT> {
+        GroupableResource<ManagerT, InnerModelT> {
 
     protected final ManagerT myManager;
     protected Creatable<ResourceGroup> creatableGroup;
@@ -49,8 +49,8 @@ public abstract class GroupableResourceImpl<
 
     protected String resourceIdBase() {
         return new StringBuilder()
-                .append("/subscriptions/").append(this.myManager.subscriptionId())
-                .append("/resourceGroups/").append(this.resourceGroupName())
+                .append("/subscriptions/").append(this.myManager.getSubscriptionId())
+                .append("/resourceGroups/").append(this.getResourceGroupName())
                 .toString();
     }
 
@@ -59,14 +59,14 @@ public abstract class GroupableResourceImpl<
      *******************************************/
 
     @Override
-    public ManagerT manager() {
+    public ManagerT getManager() {
         return this.myManager;
     }
 
     @Override
-    public String resourceGroupName() {
+    public String getResourceGroupName() {
         if (this.groupName == null) {
-            return ResourceUtils.groupFromResourceId(this.id());
+            return ResourceUtils.groupFromResourceId(this.getId());
         } else {
             return this.groupName;
         }
@@ -80,12 +80,13 @@ public abstract class GroupableResourceImpl<
      * Creates a new resource group to put the resource in.
      * <p>
      * The group will be created in the same location as the resource.
+     *
      * @param groupName the name of the new group
      * @return the next stage of the definition
      */
     public final FluentModelImplT withNewResourceGroup(String groupName) {
         return this.withNewResourceGroup(
-                this.myManager.resourceManager().resourceGroups().define(groupName).withRegion(this.regionName()));
+                this.myManager.getResourceManager().resourceGroups().define(groupName).withRegion(this.getRegionName()));
     }
 
     /**
@@ -94,12 +95,12 @@ public abstract class GroupableResourceImpl<
      * The group will be created in the same location as the resource.
      *
      * @param groupName the name of the new group
-     * @param region the region where resource group needs to be created
+     * @param region    the region where resource group needs to be created
      * @return the next stage of the definition
      */
     public final FluentModelImplT withNewResourceGroup(String groupName, Region region) {
         return this.withNewResourceGroup(
-                this.myManager.resourceManager().resourceGroups().define(groupName).withRegion(region));
+                this.myManager.getResourceManager().resourceGroups().define(groupName).withRegion(region));
     }
 
     /**
@@ -107,10 +108,11 @@ public abstract class GroupableResourceImpl<
      * <p>
      * The group will be created in the same location as the resource.
      * The group's name is automatically derived from the resource's name.
+     *
      * @return the next stage of the definition
      */
     public final FluentModelImplT withNewResourceGroup() {
-        return this.withNewResourceGroup(this.name() + "group");
+        return this.withNewResourceGroup(this.getName() + "group");
     }
 
     /**
@@ -123,17 +125,18 @@ public abstract class GroupableResourceImpl<
      * @return the next stage of the definition
      */
     public final FluentModelImplT withNewResourceGroup(Region region) {
-        return this.withNewResourceGroup(this.name() + "group", region);
+        return this.withNewResourceGroup(this.getName() + "group", region);
     }
 
     /**
      * Creates a new resource group to put the resource in, based on the definition specified.
+     *
      * @param creatable a creatable definition for a new resource group
      * @return the next stage of the definition
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withNewResourceGroup(Creatable<ResourceGroup> creatable) {
-        this.groupName = creatable.name();
+        this.groupName = creatable.getName();
         this.creatableGroup = creatable;
         this.addDependency(creatable);
         return (FluentModelImplT) this;
@@ -141,6 +144,7 @@ public abstract class GroupableResourceImpl<
 
     /**
      * Associates the resources with an existing resource group.
+     *
      * @param groupName the name of an existing resource group to put this resource in.
      * @return the next stage of the definition
      */
@@ -152,10 +156,11 @@ public abstract class GroupableResourceImpl<
 
     /**
      * Associates the resources with an existing resource group.
+     *
      * @param group an existing resource group to put the resource in
      * @return the next stage of the definition
      */
     public final FluentModelImplT withExistingResourceGroup(ResourceGroup group) {
-        return this.withExistingResourceGroup(group.name());
+        return this.withExistingResourceGroup(group.getName());
     }
 }

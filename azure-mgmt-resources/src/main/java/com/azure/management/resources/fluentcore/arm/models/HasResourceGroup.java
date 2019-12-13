@@ -5,7 +5,7 @@
  */
 package com.azure.management.resources.fluentcore.arm.models;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 /**
  * An interface representing a model that has a resource group name.
@@ -15,5 +15,5 @@ public interface HasResourceGroup {
     /**
      * @return the name of the resource group
      */
-    String resourceGroupName();
+    String getResourceGroupName();
 }

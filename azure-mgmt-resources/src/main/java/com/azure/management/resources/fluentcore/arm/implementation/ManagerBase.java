@@ -7,7 +7,6 @@
 package com.azure.management.resources.fluentcore.arm.implementation;
 
 import com.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
 
 /**
  * Base class for Azure resource managers.
@@ -27,7 +26,7 @@ public abstract class ManagerBase {
     /**
      * @return the ID of the subscription the manager is working with
      */
-    public String subscriptionId() {
+    public String getSubscriptionId() {
         return this.subscriptionId;
     }
 
@@ -38,7 +37,7 @@ public abstract class ManagerBase {
     /**
      * @return the {@link ResourceManager} associated with this manager
      */
-    public ResourceManager resourceManager() {
+    public ResourceManager getResourceManager() {
         return this.resourceManager;
     }
 }

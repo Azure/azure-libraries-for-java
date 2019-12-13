@@ -8,8 +8,7 @@ package com.azure.management.resources.fluentcore.model.implementation;
 
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
  * The base class for all creatable resource.
@@ -37,15 +36,15 @@ public abstract class CreatableImpl<
     }
 
     @Override
-    public final Observable<FluentModelT> applyAsync() {
+    public final Mono<FluentModelT> applyAsync() {
         throw new IllegalStateException("Internal Error: applyAsync cannot be called from CreatableImpl");
     }
 
     @Override
-    public final Observable<FluentModelT> updateResourceAsync() {
+    public final Mono<FluentModelT> updateResourceAsync() {
         throw new IllegalStateException("Internal Error: updateResourceAsync cannot be called from CreatableImpl");
     }
 
     @Override
-    public abstract Observable<FluentModelT> createResourceAsync();
+    public abstract Mono<FluentModelT> createResourceAsync();
 }

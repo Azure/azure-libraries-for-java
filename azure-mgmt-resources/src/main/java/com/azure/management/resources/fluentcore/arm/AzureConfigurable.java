@@ -6,7 +6,6 @@
 
 package com.azure.management.resources.fluentcore.arm;
 
-
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.management.AzureTokenCredential;
@@ -25,13 +24,13 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
     /**
      * Set the logging level on the HTTP client.
      *
-     * @param level the OkHttp logging level
+     * @param level the HttpLogDetailLevel logging level
      * @return the configurable object itself
      */
     T withLogLevel(HttpLogDetailLevel level);
 
     /**
-     * Plug in an interceptor into the HTTP pipeline.
+     * Plug in a policy into the HTTP pipeline.
      *
      * @param policy the policy to plug in
      * @return the configurable object itself
@@ -41,7 +40,7 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
     /**
      * Set the cross-tenant auxiliary credentials for Azure which can hold up to three.
      *
-     * @param tokens the AzureTokenCredentials list
+     * @param tokens the AzureTokenCredential list
      * @return the configurable object itself
      */
     T withAuxiliaryCredentials(AzureTokenCredential... tokens);
@@ -73,10 +72,10 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
     T withConnectionTimeout(long timeout, TimeUnit unit);
 
     /**
-     * Sets whether to use the thread pool in OkHttp/Netty client or RxJava schedulers.
-     * If set to true, the thread pool in OkHttp client will be used. Default is false.
+     * Sets whether to use the thread pool in OkHttp/Netty client or Reactor schedulers.
+     * If set to true, the thread pool in Http client will be used. Default is false.
      *
-     * @param useHttpClientThreadPool whether to use the thread pool in Okhttp client. Default is false.
+     * @param useHttpClientThreadPool whether to use the thread pool in Okhttp/Netty client. Default is false.
      * @return the configurable object itself for chaining
      */
     T useHttpClientThreadPool(boolean useHttpClientThreadPool);

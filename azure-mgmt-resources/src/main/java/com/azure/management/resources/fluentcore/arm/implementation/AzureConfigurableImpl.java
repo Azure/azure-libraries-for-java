@@ -7,19 +7,6 @@
 package com.azure.management.resources.fluentcore.arm.implementation;
 
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.azure.management.resources.fluentcore.utils.AuxiliaryCredentialsInterceptor;
-import com.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.LogLevel;
-import com.microsoft.rest.RestClient;
-import okhttp3.Authenticator;
-import okhttp3.ConnectionPool;
-import okhttp3.Dispatcher;
-import okhttp3.Interceptor;
 
 import java.net.Proxy;
 import java.util.concurrent.Executor;

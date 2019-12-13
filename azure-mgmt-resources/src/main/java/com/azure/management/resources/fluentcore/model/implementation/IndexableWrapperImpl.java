@@ -19,13 +19,14 @@ public abstract class IndexableWrapperImpl<InnerT>
         extends IndexableImpl
         implements HasInner<InnerT> {
     private InnerT innerObject;
+
     protected IndexableWrapperImpl(InnerT innerObject) {
         super();
         this.innerObject = innerObject;
     }
 
     @Override
-    public InnerT inner() {
+    public InnerT getInner() {
         return this.innerObject;
     }
 
@@ -33,6 +34,7 @@ public abstract class IndexableWrapperImpl<InnerT>
      * Sets the inner object of the wrapper.
      * <p>
      * (Internal use only)
+     *
      * @param innerObject an inner object
      */
     public void setInner(InnerT innerObject) {

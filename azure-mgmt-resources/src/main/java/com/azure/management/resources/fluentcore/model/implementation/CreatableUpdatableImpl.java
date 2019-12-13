@@ -15,24 +15,17 @@ import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.Executable;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * The base class for all creatable and updatable model.
  *
- * @param <FluentModelT> the fluent model type
- * @param <InnerModelT> the inner model type that the fluent model wraps
+ * @param <FluentModelT>     the fluent model type
+ * @param <InnerModelT>      the inner model type that the fluent model wraps
  * @param <FluentModelImplT> the implementation type of the fluent model
  */
 public abstract class CreatableUpdatableImpl<
@@ -57,7 +50,7 @@ public abstract class CreatableUpdatableImpl<
     /**
      * Creates CreatableUpdatableImpl.
      *
-     * @param name the name of the model
+     * @param name        the name of the model
      * @param innerObject the inner model object
      */
     protected CreatableUpdatableImpl(String name, InnerModelT innerObject) {
@@ -67,24 +60,24 @@ public abstract class CreatableUpdatableImpl<
     /**
      * Creates CreatableUpdatableImpl.
      *
-     * @param name the name of the model
-     * @param key task group key for the creator updater of this model
+     * @param name        the name of the model
+     * @param key         task group key for the creator updater of this model
      * @param innerObject the inner model object
      */
     protected CreatableUpdatableImpl(String name, String key, InnerModelT innerObject) {
         super(key, innerObject);
         this.name = name;
-        taskGroup = new TaskGroup(this.key(),
+        taskGroup = new TaskGroup(this.getKey(),
                 new CreateUpdateTask<FluentModelT>(this));
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return this.name;
     }
 
     @Override
-    public TaskGroup taskGroup() {
+    public TaskGroup getTaskGroup() {
         return this.taskGroup;
     }
 
@@ -108,8 +101,8 @@ public abstract class CreatableUpdatableImpl<
      */
     protected String addDependency(TaskGroup.HasTaskGroup dependency) {
         Objects.requireNonNull(dependency);
-        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
-        return dependency.taskGroup().key();
+        this.taskGroup.addDependencyTaskGroup(dependency.getTaskGroup());
+        return dependency.getTaskGroup().getKey();
     }
 
     /**
@@ -158,7 +151,7 @@ public abstract class CreatableUpdatableImpl<
      */
     public String addPostRunDependent(FunctionalTaskItem dependent) {
         Objects.requireNonNull(dependent);
-        return this.taskGroup().addPostRunDependent(dependent);
+        return this.getTaskGroup().addPostRunDependent(dependent);
     }
 
     /**
@@ -170,8 +163,8 @@ public abstract class CreatableUpdatableImpl<
      */
     protected String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
         Objects.requireNonNull(dependent);
-        this.taskGroup.addPostRunDependentTaskGroup(dependent.taskGroup());
-        return dependent.taskGroup().key();
+        this.taskGroup.addPostRunDependentTaskGroup(dependent.getTaskGroup());
+        return dependent.getTaskGroup().getKey();
     }
 
     /**
@@ -218,20 +211,15 @@ public abstract class CreatableUpdatableImpl<
     }
 
     @Override
-    public Observable<Indexable> createAsync() {
-        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext());
+    public Mono<Indexable> createAsync() {
+        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext()).last();
     }
 
     @Override
-    public Observable<FluentModelT> applyAsync() {
+    public Mono<FluentModelT> applyAsync() {
         return taskGroup.invokeAsync(this.taskGroup.newInvocationContext())
                 .last()
-                .map(new Func1<Indexable, FluentModelT>() {
-                    @Override
-                    public FluentModelT call(Indexable indexable) {
-                        return (FluentModelT) indexable;
-                    }
-                });
+                .map(indexable -> (FluentModelT) indexable);
     }
 
     @Override
@@ -242,23 +230,13 @@ public abstract class CreatableUpdatableImpl<
     }
 
     @Override
-    public ServiceFuture<FluentModelT> createAsync(final ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(Utils.<FluentModelT>rootResource(createAsync()), callback);
-    }
-
-    @Override
-    public ServiceFuture<FluentModelT> applyAsync(ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
-    }
-
-    @Override
     public FluentModelT create() {
-        return Utils.<FluentModelT>rootResource(createAsync()).toBlocking().single();
+        return Utils.<FluentModelT>rootResource(createAsync()).block();
     }
 
     @Override
     public FluentModelT apply() {
-        return applyAsync().toBlocking().last();
+        return applyAsync().block();
     }
 
     /**
@@ -272,7 +250,7 @@ public abstract class CreatableUpdatableImpl<
     }
 
     @Override
-    public Observable<FluentModelT> updateResourceAsync() {
+    public Mono<FluentModelT> updateResourceAsync() {
         return this.createResourceAsync();
     }
 
@@ -294,11 +272,10 @@ public abstract class CreatableUpdatableImpl<
         }
     }
 
-    @SuppressWarnings("unchecked")
-    protected Func1<InnerModelT, FluentModelT> innerToFluentMap(final FluentModelImplT fluentModelImplT) {
-        return new Func1<InnerModelT, FluentModelT>() {
+    protected Function<InnerModelT, FluentModelT> innerToFluentMap(final FluentModelImplT fluentModelImplT) {
+        return new Function<InnerModelT, FluentModelT>() {
             @Override
-            public FluentModelT call(InnerModelT innerModel) {
+            public FluentModelT apply(InnerModelT innerModel) {
                 fluentModelImplT.setInner(innerModel);
                 return (FluentModelT) fluentModelImplT;
             }
@@ -306,10 +283,10 @@ public abstract class CreatableUpdatableImpl<
     }
 
     @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
+    public Flux<FluentModelT> afterPostRunAsync(boolean isGroupFaulted) {
         // The types extending from this type can override this method and perform
         // any activities that needs to be done after the processing of all
         // post-run tasks.
-        return Completable.complete();
+        return Flux.empty();
     }
 }

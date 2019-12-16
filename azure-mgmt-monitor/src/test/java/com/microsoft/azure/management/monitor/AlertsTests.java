@@ -295,8 +295,8 @@ public class AlertsTests extends MonitorManagementTest {
     @Test
     public void canCRUDMultipleResourceMetricAlerts() throws Exception {
         try {
-            final String userName = "tirekicker";
-            final String password = "12NewPA$$w0rd!";
+            final String userName = "fluentU$ernameForMonitor";
+            final String password = "fluentPA$$w0rdForMonitor";
 
             String alertName = generateRandomResourceName("jMonitorMA", 18);
             String vmName1 = generateRandomResourceName("jMonitorVM1", 18);

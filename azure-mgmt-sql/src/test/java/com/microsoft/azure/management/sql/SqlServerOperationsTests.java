@@ -40,8 +40,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         final String dbMemberName = "dbMember";
         final String syncGroupName = "groupName";
         final String syncMemberName = "memberName";
-        final String administratorLogin = "sqladmin";
-        final String administratorPassword = "N0t@P@ssw0rd!";
+        final String administratorLogin = "fluentU$ernameForSQL";
+        final String administratorPassword = "fluentPA$$w0rdForSQL";
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlServerName)
@@ -108,8 +108,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         final String dbName = "dbSample";
         final String dbSyncName = "dbSync";
         final String syncGroupName = "groupName";
-        final String administratorLogin = "sqladmin";
-        final String administratorPassword = "N0t@P@ssw0rd!";
+        final String administratorLogin = "fluentU$ernameForSQL";
+        final String administratorPassword = "fluentPA$$w0rdForSQL";
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlServerName)
@@ -161,8 +161,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         final String sqlSecondaryServerName = SdkContext.randomResourceName("sqlsec", 22);
         final String epName = "epSample";
         final String dbName = "dbSample";
-        final String administratorLogin = "sqladmin";
-        final String administratorPassword = "N0t@P@ssw0rd!";
+        final String administratorLogin = "fluentU$ernameForSQL";
+        final String administratorPassword = "fluentPA$$w0rdForSQL";
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlPrimaryServerName)
@@ -208,8 +208,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         final String failoverGroupName = SdkContext.randomResourceName("fg", 22);
         final String failoverGroupName2 = SdkContext.randomResourceName("fg2", 22);
         final String dbName = "dbSample";
-        final String administratorLogin = "sqladmin";
-        final String administratorPassword = "N0t@P@ssw0rd!";
+        final String administratorLogin = "fluentU$ernameForSQL";
+        final String administratorPassword = "fluentPA$$w0rdForSQL";
 
         // Create
         SqlServer sqlPrimaryServer = sqlServerManager.sqlServers().define(sqlPrimaryServerName)
@@ -320,8 +320,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
     public void canChangeSqlServerAndDatabaseAutomaticTuning() throws Exception {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
-        String sqlServerAdminName = "sqladmin";
-        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String sqlServerAdminName = "fluentU$ernameForSQL";
+        String sqlServerAdminPassword = "fluentPA$$w0rdForSQL";
         String databaseName = "db-from-sample";
         String id = SdkContext.randomUuid();
         String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
@@ -390,8 +390,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
         String rgName = RG_NAME;
         String sqlServerName1 = SQL_SERVER_NAME + "1";
         String sqlServerName2 = SQL_SERVER_NAME + "2";
-        String sqlServerAdminName = "sqladmin";
-        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String sqlServerAdminName = "fluentU$ernameForSQL";
+        String sqlServerAdminPassword = "fluentPA$$w0rdForSQL";
 
         // Create
         SqlServer sqlServer1 = sqlServerManager.sqlServers().define(sqlServerName1)
@@ -445,8 +445,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
     public void canGetSqlServerCapabilitiesAndCreateIdentity () throws Exception {
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
-        String sqlServerAdminName = "sqladmin";
-        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String sqlServerAdminName = "fluentU$ernameForSQL";
+        String sqlServerAdminPassword = "fluentPA$$w0rdForSQL";
         String databaseName = "db-from-sample";
 
         RegionCapabilities regionCapabilities = sqlServerManager.sqlServers().getCapabilitiesByRegion(Region.US_EAST);
@@ -500,8 +500,8 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
-        String sqlServerAdminName = "sqladmin";
-        String sqlServerAdminPassword = "N0t@P@ssw0rd!";
+        String sqlServerAdminName = "fluentU$ernameForSQL";
+        String sqlServerAdminPassword = "fluentPA$$w0rdForSQL";
         String id = SdkContext.randomUuid();
         String storageName = SdkContext.randomResourceName(SQL_SERVER_NAME, 22);
 
@@ -564,7 +564,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
 
         String rgName = RG_NAME;
         String sqlServerName = SQL_SERVER_NAME;
-        String sqlServerAdminName = "sqladmin";
+        String sqlServerAdminName = "fluentU$ernameForSQL";
         String id = SdkContext.randomUuid();
 
         SqlServer sqlServer = sqlServerManager
@@ -573,7 +573,7 @@ public class SqlServerOperationsTests extends SqlServerTest {
                     .withRegion(Region.US_EAST)
                     .withNewResourceGroup(RG_NAME)
                     .withAdministratorLogin(sqlServerAdminName)
-                    .withAdministratorPassword("N0t@P@ssw0rd!")
+                    .withAdministratorPassword("fluentPA$$w0rdForSQL")
                     .withActiveDirectoryAdministrator("DSEng", id)
                     .withoutAccessFromAzureServices()
                     .defineFirewallRule("somefirewallrule1")
@@ -581,12 +581,17 @@ public class SqlServerOperationsTests extends SqlServerTest {
                         .attach()
                     .withTag("tag1", "value1")
                     .create();
-        Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
+
+        if (isRecordMode()) {
+            Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
+        }
         Assert.assertEquals("v12.0", sqlServer.kind());
         Assert.assertEquals("12.0", sqlServer.version());
 
         sqlServer = sqlServerManager.sqlServers().getByResourceGroup(RG_NAME, SQL_SERVER_NAME);
-        Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
+        if (isRecordMode()) {
+            Assert.assertEquals(sqlServerAdminName, sqlServer.administratorLogin());
+        }
         Assert.assertEquals("v12.0", sqlServer.kind());
         Assert.assertEquals("12.0", sqlServer.version());
 

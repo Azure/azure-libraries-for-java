@@ -71,8 +71,8 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     @Test
     public void canUpdateVirtualMachineScaleSetWithExtensionProtectedSettings() throws Exception {
         final String vmssName = generateRandomResourceName("vmss", 10);
-        final String uname = "jvuser";
-        final String password = "123OData!@#123";
+        final String uname = "fluentU$ernameForCompute";
+        final String password = "fluentPA$$w0rdForCompute";
 
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
                 .define(RG_NAME)
@@ -204,8 +204,8 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
     @Test
     public void canCreateVirtualMachineScaleSetWithCustomScriptExtension() throws Exception {
         final String vmssName = generateRandomResourceName("vmss", 10);
-        final String uname = "jvuser";
-        final String password = "123OData!@#123";
+        final String uname = "fluentU$ernameForCompute";
+        final String password = "fluentPA$$w0rdForCompute";
         final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-mgmt-compute/src/test/assets/install_apache.sh";
         final String installCommand = "bash install_apache.sh Abc.123x(";
         List<String> fileUris = new ArrayList<>();

@@ -234,8 +234,8 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
     @Test
     public void canCreateVirtualMachineFromCustomImageWithManagedDisks() {
         final String publicIpDnsLabel = generateRandomResourceName("pip", 20);
-        final String uname = "juser";
-        final String password = "123tEst!@|ac";
+        final String uname = "fluentU$ernameForCompute";
+        final String password = "fluentPA$$w0rdForCompute";
         // Create with implicit + explicit empty disks, check default and override
         //
         final String vmName1 = "myvm1";
@@ -395,8 +395,8 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
     @Test
     public void canUpdateVirtualMachineByAddingAndRemovingManagedDisks() {
         final String publicIpDnsLabel = generateRandomResourceName("pip", 20);
-        final String uname = "juser";
-        final String password = "123tEst!@|ac";
+        final String uname = "fluentU$ernameForCompute";
+        final String password = "fluentPA$$w0rdForCompute";
         // Create with implicit + explicit empty disks, check default and override
         //
         final String vmName1 = "myvm1";
@@ -466,8 +466,8 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
 
     @Test
     public void canCreateVirtualMachineByAttachingManagedOsDisk() {
-        final String uname = "juser";
-        final String password = "123tEst!@|ac";
+        final String uname = "fluentU$ernameForCompute";
+        final String password = "fluentPA$$w0rdForCompute";
         final String vmName = "myvm6";
         final String storageAccountName = generateRandomResourceName("stg", 17);
 
@@ -524,8 +524,8 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
     @Test
     public void canCreateVirtualMachineWithManagedDiskInManagedAvailabilitySet() {
         final String availSetName = generateRandomResourceName("av-", 15);
-        final String uname = "juser";
-        final String password = "123tEst!@|ac";
+        final String uname = "fluentU$ernameForCompute";
+        final String password = "fluentPA$$w0rdForCompute";
         final String vmName = "myvm6";
 
         VirtualMachine managedVm = computeManager.virtualMachines()

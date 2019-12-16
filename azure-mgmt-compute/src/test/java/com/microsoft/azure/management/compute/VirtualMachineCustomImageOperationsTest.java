@@ -187,8 +187,8 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
     public void canCreateImageFromManagedDisk() {
         final String vmName = generateRandomResourceName("vm7-", 20);
         final String storageAccountName = generateRandomResourceName("stg", 17);
-        final String uname = "juser";
-        final String password = "123tEst!@|ac";
+        final String uname = "fluentU$ernameForCompute";
+        final String password = "fluentPA$$w0rdForCompute";
 
         VirtualMachine nativeVm = computeManager.virtualMachines()
                 .define(vmName)

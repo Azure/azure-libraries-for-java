@@ -304,7 +304,7 @@ public class BatchAccountOperationsTests extends BatchManagementTest {
 
         //create user accounts
         String userAccountName = "username1";
-        String userAccountPassword = "examplepassword";
+        String userAccountPassword = "fluentPA$$w0rdForBATCH";
         String sshPrivateKey = "sshprivatekeyvalue";
         int uid = 1234;
         int gid = 4567;

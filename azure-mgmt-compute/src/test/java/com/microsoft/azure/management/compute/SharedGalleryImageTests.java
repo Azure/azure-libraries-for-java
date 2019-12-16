@@ -279,8 +279,8 @@ public class SharedGalleryImageTests extends ComputeManagementTest {
                                                                    String vmName,
                                                                    Region region,
                                                                    ComputeManager computeManager) {
-        final String uname = "javauser";
-        final String password = "12NewPA$$w0rd!";
+        final String uname = "fluentU$ernameForCompute";
+        final String password = "fluentPA$$w0rdForCompute";
         final KnownLinuxVirtualMachineImage linuxImage = KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS;
         final String publicIpDnsLabel = generateRandomResourceName("pip", 20);
 

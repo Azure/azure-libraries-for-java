@@ -121,9 +121,9 @@ public class DeployVirtualMachineUsingARMTemplate {
     }
 
     private static String getTemplate() throws IllegalAccessException, JsonProcessingException, IOException {
-        final String adminUsername = "tirekicker";
+        final String adminUsername = "fluentU$ernameForSampleTest";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
-        final String adminPassword = "12NewPA$$w0rd!";
+        final String adminPassword = "fluentPA$$w0rdForSampleTest";
         final String osDiskName = SdkContext.randomResourceName("osdisk-", 24);
 
         final InputStream embeddedTemplate;

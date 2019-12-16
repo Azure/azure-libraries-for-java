@@ -85,7 +85,9 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertTrue(functionAppResource1.appSettings.containsKey(KEY_CONTENT_SHARE));
         Assert.assertEquals(functionAppResource1.appSettings.get(KEY_AZURE_WEB_JOBS_STORAGE).value(), functionAppResource1.appSettings.get(KEY_CONTENT_AZURE_FILE_CONNECTION_STRING).value());
         // verify accountKey
-        //Assert.assertEquals(functionAppResource1.storageAccount.getKeys().get(0).value(), functionAppResource1.accountKey);
+        if (isRecordMode()) {
+            Assert.assertEquals(functionAppResource1.storageAccount.getKeys().get(0).value(), functionAppResource1.accountKey);
+        }
 
         // Create with the same consumption plan
         FunctionApp functionApp2 = appServiceManager.functionApps().define(WEBAPP_NAME_2)

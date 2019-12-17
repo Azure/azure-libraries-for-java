@@ -24,22 +24,22 @@ import java.util.TreeMap;
  * model implementations.
  * (Internal use only)
  *
- * @param <FluentModelT> The fluent model type
- * @param <InnerModelT> Azure inner resource class type
+ * @param <FluentModelT>     The fluent model type
+ * @param <InnerModelT>      Azure inner resource class type
  * @param <FluentModelImplT> the implementation type of the fluent model type
  */
 public abstract class ResourceImpl<
         FluentModelT extends Resource,
-        InnerModelT extends com.microsoft.azure.Resource,
+        InnerModelT extends com.azure.core.management.Resource,
         FluentModelImplT extends ResourceImpl<FluentModelT, InnerModelT, FluentModelImplT>>
-    extends
+        extends
         CreatableUpdatableImpl<FluentModelT, InnerModelT, FluentModelImplT>
-    implements
+        implements
         Resource {
     protected ResourceImpl(String name, InnerModelT innerObject) {
         super(name, innerObject);
         if (innerObject.getTags() == null) {
-            innerObject.withTags(new TreeMap<String, String>());
+            innerObject.setTags(new TreeMap<String, String>());
         }
     }
 
@@ -48,18 +48,18 @@ public abstract class ResourceImpl<
      *******************************************/
 
     @Override
-    public String regionName() {
-        return this.inner().location();
+    public String getRegionName() {
+        return this.getInner().getLocation();
     }
 
     @Override
-    public Region region() {
-        return Region.fromName(this.regionName());
+    public Region getRegion() {
+        return Region.fromName(this.getRegionName());
     }
 
     @Override
-    public Map<String, String> tags() {
-        Map<String, String> tags = this.inner().getTags();
+    public Map<String, String> getTags() {
+        Map<String, String> tags = this.getInner().getTags();
         if (tags == null) {
             tags = new TreeMap<>();
         }
@@ -67,21 +67,21 @@ public abstract class ResourceImpl<
     }
 
     @Override
-    public String id() {
-        return this.inner().id();
+    public String getId() {
+        return this.getInner().getId();
     }
 
     @Override
-    public String type() {
-        return this.inner().type();
+    public String getType() {
+        return this.getInner().getType();
     }
 
     @Override
-    public String name() {
-        if (this.inner().name() == null) {
-            return super.name();
+    public String getName() {
+        if (this.getInner().getName() == null) {
+            return super.getName();
         } else {
-            return this.inner().name();
+            return this.getInner().getName();
         }
     }
 
@@ -91,40 +91,43 @@ public abstract class ResourceImpl<
 
     /**
      * Specifies tags for the resource as a {@link Map}.
+     *
      * @param tags a {@link Map} of tags
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTags(Map<String, String> tags) {
-        this.inner().withTags(new HashMap<>(tags));
+        this.getInner().setTags(new HashMap<>(tags));
         return (FluentModelImplT) this;
     }
 
     /**
      * Adds a tag to the resource.
-     * @param key the key for the tag
+     *
+     * @param key   the key for the tag
      * @param value the value for the tag
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTag(String key, String value) {
-        if (this.inner().getTags() == null) {
-            this.inner().withTags(new HashMap<String, String>());
+        if (this.getInner().getTags() == null) {
+            this.getInner().setTags(new HashMap<String, String>());
         }
-        this.inner().getTags().put(key, value);
-        System.out.println(this.inner().getTags());
+        this.getInner().getTags().put(key, value);
+        System.out.println(this.getInner().getTags());
         return (FluentModelImplT) this;
     }
 
     /**
      * Removes a tag from the resource.
+     *
      * @param key the key of the tag to remove
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withoutTag(String key) {
-        if (this.inner().getTags() != null) {
-            this.inner().getTags().remove(key);
+        if (this.getInner().getTags() != null) {
+            this.getInner().getTags().remove(key);
         }
         return (FluentModelImplT) this;
     }
@@ -135,17 +138,19 @@ public abstract class ResourceImpl<
 
     /**
      * Specifies the region for the resource by name.
+     *
      * @param regionName The name of the region for the resource
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withRegion(String regionName) {
-        this.inner().withLocation(regionName);
+        this.getInner().setLocation(regionName);
         return (FluentModelImplT) this;
     }
 
     /**
      * Specifies the region for the resource.
+     *
      * @param region The location for the resource
      * @return the next stage of the definition
      */
@@ -158,7 +163,7 @@ public abstract class ResourceImpl<
      */
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.getInner().getId() == null;
     }
 
     protected <InnerT> List<InnerT> innersFromWrappers(Collection<? extends HasInner<InnerT>> wrappers) {
@@ -166,7 +171,7 @@ public abstract class ResourceImpl<
     }
 
     protected <InnerT> List<InnerT> innersFromWrappers(Collection<? extends HasInner<InnerT>> wrappers,
-            List<InnerT> inners) {
+                                                       List<InnerT> inners) {
         if (wrappers == null || wrappers.size() == 0) {
             return inners;
         } else {
@@ -174,7 +179,7 @@ public abstract class ResourceImpl<
                 inners = new ArrayList<>();
             }
             for (HasInner<InnerT> wrapper : wrappers) {
-                inners.add(wrapper.inner());
+                inners.add(wrapper.getInner());
             }
             return inners;
         }

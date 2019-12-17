@@ -8,14 +8,10 @@ package com.azure.management.resources.fluentcore.arm.collection.implementation;
 import com.azure.management.resources.fluentcore.arm.models.ExternalChildResource;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
-import rx.Observable;
-import rx.exceptions.CompositeException;
-import rx.functions.Action0;
-import rx.functions.Action1;
-import rx.functions.Action2;
-import rx.functions.Func0;
-import rx.functions.Func1;
-import rx.subjects.PublishSubject;
+import reactor.core.Exceptions;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import reactor.core.publisher.ReplayProcessor;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -30,10 +26,10 @@ import java.util.concurrent.ConcurrentSkipListMap;
  * (Internal use only)
  *
  * @param <FluentModelTImpl> the implementation of {@param FluentModelT}
- * @param <FluentModelT> the fluent model type of the child resource
- * @param <InnerModelT> Azure inner resource class type representing the child resource
- * @param <ParentImplT> <ParentImplT> the parent Azure resource impl class type that implements {@link ParentT}
- * @param <ParentT> the parent interface
+ * @param <FluentModelT>     the fluent model type of the child resource
+ * @param <InnerModelT>      Azure inner resource class type representing the child resource
+ * @param <ParentImplT>      <ParentImplT> the parent Azure resource impl class type that implements {@link ParentT}
+ * @param <ParentT>          the parent interface
  */
 public abstract class ExternalChildResourceCollectionImpl<
         FluentModelTImpl extends ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT>,
@@ -69,8 +65,8 @@ public abstract class ExternalChildResourceCollectionImpl<
     /**
      * Creates a new ExternalChildResourcesImpl.
      *
-     * @param parent the parent Azure resource
-     * @param parentTaskGroup the TaskGroup the parent Azure resource belongs to
+     * @param parent            the parent Azure resource
+     * @param parentTaskGroup   the TaskGroup the parent Azure resource belongs to
      * @param childResourceName the child resource name
      */
     protected ExternalChildResourceCollectionImpl(ParentImplT parent, TaskGroup parentTaskGroup, String childResourceName) {
@@ -92,7 +88,7 @@ public abstract class ExternalChildResourceCollectionImpl<
      * {@link this#commitAsync()}.
      */
     public void enableCommitMode() {
-       this.isPostRunMode = false;
+        this.isPostRunMode = false;
     }
 
     /**
@@ -112,28 +108,26 @@ public abstract class ExternalChildResourceCollectionImpl<
      */
     protected FluentModelTImpl prepareForFutureCommitOrPostRun(FluentModelTImpl childResource) {
         if (this.isPostRunMode) {
-            if (!childResource.taskGroup().dependsOn(this.parentTaskGroup)) {
-                this.parentTaskGroup.addPostRunDependentTaskGroup(childResource.taskGroup());
+            if (!childResource.getTaskGroup().dependsOn(this.parentTaskGroup)) {
+                this.parentTaskGroup.addPostRunDependentTaskGroup(childResource.getTaskGroup());
             }
-            return childResource;
-        } else {
-            return childResource;
         }
+        return childResource;
     }
 
     /**
      * Commits the changes in the external child resource childCollection.
      * <p/>
-     * This method returns an observable stream, its observer's onNext will be called for each successfully
+     * This method returns a Flux stream, its Flux's onNext will be called for each successfully
      * committed resource followed by one call to 'onCompleted' or one call to 'onError' with a
-     * {@link CompositeException } containing the list of exceptions where each exception describes the reason
+     * {@link } containing the list of exceptions where each exception describes the reason
      * for failure of a resource commit.
      *
-     * @return the observable stream
+     * @return the Flux stream
      */
-    public Observable<FluentModelTImpl> commitAsync() {
+    public Flux<FluentModelTImpl> commitAsync() {
         if (this.isPostRunMode) {
-            return Observable.error(new IllegalStateException("commitAsync() cannot be invoked when 'post run' mode is enabled"));
+            return Flux.error(new IllegalStateException("commitAsync() cannot be invoked when 'post run' mode is enabled"));
         }
 
         final ExternalChildResourceCollectionImpl<FluentModelTImpl, FluentModelT, InnerModelT, ParentImplT, ParentT> self = this;
@@ -142,146 +136,76 @@ public abstract class ExternalChildResourceCollectionImpl<
             items.add(item);
         }
 
-        final List<Throwable> exceptionsList = Collections.synchronizedList(new ArrayList<Throwable>());
-        Observable<FluentModelTImpl> deleteStream = Observable.from(items)
-                .filter(new Func1<FluentModelTImpl, Boolean>() {
-                    @Override
-                    public Boolean call(FluentModelTImpl childResource) {
-                        return childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeRemoved;
+        final List<Throwable> exceptionsList = Collections.synchronizedList(new ArrayList<>());
+        final List<FluentModelTImpl> successfullyRemoved = new ArrayList<>();
+
+        ReplayProcessor<FluentModelTImpl> aggregatedErrorStream = ReplayProcessor.create();
+        Flux<FluentModelTImpl> deleteStream = Flux.fromIterable(items)
+                .filter(childResource -> childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeRemoved)
+                .flatMap(childResource -> childResource.deleteResourceAsync()
+                        .map(response -> childResource)
+                        .doOnSuccess(fluentModelT -> {
+                            childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
+                            self.childCollection.remove(childResource.getName());
+                            successfullyRemoved.add(childResource);
+                        })
+                        .onErrorResume(throwable -> {
+                            exceptionsList.add(throwable);
+                            return Mono.empty();
+                        }));
+
+        Flux<FluentModelTImpl> createStream = Flux.fromIterable(items)
+                .filter(childResource -> childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeCreated)
+                .flatMap(childResource -> childResource.createResourceAsync()
+                        .map(fluentModelT -> childResource)
+                        .doOnNext(fluentModelT -> childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None))
+                        .onErrorResume(throwable -> {
+                            self.childCollection.remove(childResource.getName());
+                            exceptionsList.add(throwable);
+                            return Mono.empty();
+                        }));
+
+        Flux<FluentModelTImpl> updateStream = Flux.fromIterable(items)
+                .filter(childResource -> childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeUpdated)
+                .flatMap(childResource -> childResource.updateResourceAsync()
+                        .map(e -> childResource)
+                        .doOnNext(resource -> resource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None))
+                        .onErrorResume(throwable -> {
+                            exceptionsList.add(throwable);
+                            return Mono.empty();
+                        }));
+
+        Flux<FluentModelTImpl> operationsStream = Flux.merge(deleteStream, createStream, updateStream)
+                .doOnTerminate(() -> {
+                    if (clearAfterCommit()) {
+                        self.childCollection.clear();
                     }
-                }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
-                    @Override
-                    public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
-                        return childResource.deleteResourceAsync()
-                                .map(new Func1<Void, FluentModelTImpl>() {
-                                    @Override
-                                    public FluentModelTImpl call(Void response) {
-                                        return childResource;
-                                    }
-                                }).doOnNext(new Action1<FluentModelTImpl>() {
-                                    @Override
-                                    public void call(FluentModelTImpl childResource) {
-                                        childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
-                                        self.childCollection.remove(childResource.name());
-                                    }
-                                })
-                                .onErrorResumeNext(new Func1<Throwable, Observable<FluentModelTImpl>>() {
-                                    @Override
-                                    public Observable<FluentModelTImpl> call(Throwable throwable) {
-                                        exceptionsList.add(throwable);
-                                        return Observable.empty();
-                                    }
-                                });
+                    if (successfullyRemoved.size() > 0) {
+                        for (FluentModelTImpl removed : successfullyRemoved) {
+                            aggregatedErrorStream.sink().next(removed);
+                        }
+                    }
+                    if (!exceptionsList.isEmpty()) {
+                        aggregatedErrorStream.sink().error(Exceptions.multiple(exceptionsList));
+                    } else {
+                        aggregatedErrorStream.sink().complete();
                     }
                 });
-
-        Observable<FluentModelTImpl> createStream = Observable.from(items)
-                .filter(new Func1<FluentModelTImpl, Boolean>() {
-                    @Override
-                    public Boolean call(FluentModelTImpl childResource) {
-                        return childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeCreated;
-                    }
-                }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
-                    @Override
-                    public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
-                        return childResource.createResourceAsync()
-                                .map(new Func1<FluentModelT, FluentModelTImpl>() {
-                                    @Override
-                                    public FluentModelTImpl call(FluentModelT fluentModelT) {
-                                        return childResource;
-                                    }
-                                })
-                                .doOnNext(new Action1<FluentModelTImpl>() {
-                                    @Override
-                                    public void call(FluentModelTImpl fluentModelT) {
-                                        childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
-                                    }
-                                })
-                                .onErrorResumeNext(new Func1<Throwable, Observable<? extends FluentModelTImpl>>() {
-                                    @Override
-                                    public Observable<FluentModelTImpl> call(Throwable throwable) {
-                                        self.childCollection.remove(childResource.name());
-                                        exceptionsList.add(throwable);
-                                        return Observable.empty();
-                                    }
-                                });
-                    }
-                });
-
-        Observable<FluentModelTImpl> updateStream = Observable.from(items)
-                .filter(new Func1<FluentModelTImpl, Boolean>() {
-                    @Override
-                    public Boolean call(FluentModelTImpl childResource) {
-                        return childResource.pendingOperation() == ExternalChildResourceImpl.PendingOperation.ToBeUpdated;
-                    }
-                }).flatMap(new Func1<FluentModelTImpl, Observable<FluentModelTImpl>>() {
-                    @Override
-                    public Observable<FluentModelTImpl> call(final FluentModelTImpl childResource) {
-                        return childResource.updateResourceAsync()
-                                .map(new Func1<FluentModelT, FluentModelTImpl>() {
-                                    @Override
-                                    public FluentModelTImpl call(FluentModelT e) {
-                                        return childResource;
-                                    }
-                                })
-                                .doOnNext(new Action1<FluentModelTImpl>() {
-                                    @Override
-                                    public void call(FluentModelTImpl childResource) {
-                                        childResource.setPendingOperation(ExternalChildResourceImpl.PendingOperation.None);
-                                    }
-                                })
-                                .onErrorResumeNext(new Func1<Throwable, Observable<? extends FluentModelTImpl>>() {
-                                    @Override
-                                    public Observable<FluentModelTImpl> call(Throwable throwable) {
-                                        exceptionsList.add(throwable);
-                                        return Observable.empty();
-                                    }
-                                });
-                    }
-                });
-
-        final PublishSubject<FluentModelTImpl> aggregatedErrorStream = PublishSubject.create();
-        Observable<FluentModelTImpl> operationsStream = Observable.merge(deleteStream,
-                createStream,
-                updateStream).doOnTerminate(new Action0() {
-            @Override
-            public void call() {
-                if (clearAfterCommit()) {
-                    self.childCollection.clear();
-                }
-                if (exceptionsList.isEmpty()) {
-                    aggregatedErrorStream.onCompleted();
-                } else {
-                    aggregatedErrorStream.onError(new CompositeException(exceptionsList));
-                }
-            }
-        });
-
-        Observable<FluentModelTImpl> stream = Observable.concat(operationsStream, aggregatedErrorStream);
-        return stream;
+        return Flux.concat(operationsStream, aggregatedErrorStream);
     }
 
     /**
      * Commits the changes in the external child resource childCollection.
      * <p/>
      * This method returns a observable stream, either its observer's onError will be called with
-     * {@link CompositeException} if some resources failed to commit or onNext will be called if all resources
+     * {@link RuntimeException} if some resources failed to commit or onNext will be called if all resources
      * committed successfully.
      *
-     * @return the observable stream
+     * @return the Mono stream
      */
-    public Observable<List<FluentModelTImpl>> commitAndGetAllAsync() {
-        return commitAsync().collect(
-                new Func0<List<FluentModelTImpl>>() {
-                    public List<FluentModelTImpl> call() {
-                        return new ArrayList<>();
-                    }
-                },
-                new Action2<List<FluentModelTImpl>, FluentModelTImpl>() {
-                    public void call(List<FluentModelTImpl> state, FluentModelTImpl item) {
-                        state.add(item);
-                    }
-                });
+    public Mono<List<FluentModelTImpl>> commitAndGetAllAsync() {
+        return commitAsync().collect(() -> new ArrayList<FluentModelTImpl>(),
+                (state, item) -> state.add(item));
     }
 
 
@@ -303,7 +227,7 @@ public abstract class ExternalChildResourceCollectionImpl<
     /**
      * @return the parent Azure resource of the external child resource
      */
-    protected ParentImplT parent() {
+    protected ParentImplT getParent() {
         return parent;
     }
 

@@ -5,10 +5,11 @@
  */
 package com.azure.management.resources.fluentcore.arm.collection.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.Resource;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.Resource;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
@@ -21,9 +22,9 @@ import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import com.azure.management.resources.fluentcore.collection.SupportsListing;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.fluentcore.utils.RXMapper;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.resources.fluentcore.utils.ReactorMapper;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,11 +33,12 @@ import java.util.Collection;
 /**
  * Base class for resource collection classes.
  * (Internal use only)
- * @param <T> the individual resource type returned
- * @param <ImplT> the individual resource implementation
- * @param <InnerT> the wrapper inner type
+ *
+ * @param <T>                the individual resource type returned
+ * @param <ImplT>            the individual resource implementation
+ * @param <InnerT>           the wrapper inner type
  * @param <InnerCollectionT> the inner type of the collection object
- * @param <ManagerT> the manager type for this resource provider type
+ * @param <ManagerT>         the manager type for this resource provider type
  */
 public abstract class TopLevelModifiableResourcesImpl<
         T extends GroupableResource<ManagerT, InnerT>,
@@ -44,8 +46,8 @@ public abstract class TopLevelModifiableResourcesImpl<
         InnerT extends Resource,
         InnerCollectionT extends InnerSupportsListing<InnerT> & InnerSupportsGet<InnerT> & InnerSupportsDelete<?>,
         ManagerT extends ManagerBase>
-    extends GroupableResourcesImpl<T, ImplT, InnerT, InnerCollectionT, ManagerT>
-    implements
+        extends GroupableResourcesImpl<T, ImplT, InnerT, InnerCollectionT, ManagerT>
+        implements
         SupportsGettingById<T>,
         SupportsGettingByResourceGroup<T>,
         SupportsDeletingByResourceGroup,
@@ -60,66 +62,66 @@ public abstract class TopLevelModifiableResourcesImpl<
     }
 
     @Override
-    protected final Observable<InnerT> getInnerAsync(String resourceGroupName, String name) {
-        return this.inner().getByResourceGroupAsync(resourceGroupName, name);
+    protected final Mono<InnerT> getInnerAsync(String resourceGroupName, String name) {
+        return this.getInner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return inner().deleteAsync(resourceGroupName, name).toCompletable();
+    protected Mono<?> deleteInnerAsync(String resourceGroupName, String name) {
+        return getInner().deleteAsync(resourceGroupName, name);
     }
 
     @Override
-    public Observable<String> deleteByIdsAsync(String...ids) {
+    public Flux<String> deleteByIdsAsync(String... ids) {
         return this.deleteByIdsAsync(new ArrayList<String>(Arrays.asList(ids)));
     }
 
     @Override
-    public Observable<String> deleteByIdsAsync(Collection<String> ids) {
+    public Flux<String> deleteByIdsAsync(Collection<String> ids) {
         if (ids == null || ids.isEmpty()) {
-            return Observable.empty();
+            return Flux.empty();
         }
 
-        Collection<Observable<String>> observables = new ArrayList<>();
+        Collection<Mono<String>> observables = new ArrayList<>();
         for (String id : ids) {
             final String resourceGroupName = ResourceUtils.groupFromResourceId(id);
             final String name = ResourceUtils.nameFromResourceId(id);
-            Observable<String> o = RXMapper.map(this.inner().deleteAsync(resourceGroupName, name), id);
+            Mono<String> o = ReactorMapper.map(this.getInner().deleteAsync(resourceGroupName, name), id);
             observables.add(o);
         }
 
-        return Observable.mergeDelayError(observables);
+        return Flux.mergeDelayError(32, observables.toArray(new Mono[observables.size()]));
     }
 
     @Override
-    public void deleteByIds(String...ids) {
+    public void deleteByIds(String... ids) {
         this.deleteByIds(new ArrayList<String>(Arrays.asList(ids)));
     }
 
     @Override
     public void deleteByIds(Collection<String> ids) {
         if (ids != null && !ids.isEmpty()) {
-            this.deleteByIdsAsync(ids).toBlocking().last();
+            this.deleteByIdsAsync(ids).blockLast();
         }
     }
 
     @Override
-    public Observable<T> listAsync() {
-        return wrapPageAsync(inner().listAsync());
+    public PagedFlux<T> listAsync() {
+        return getInner().listAsync().mapPage(innerT -> wrapModel(innerT));
     }
 
     @Override
-    public Observable<T> listByResourceGroupAsync(String resourceGroupName) {
-        return wrapPageAsync(inner().listByResourceGroupAsync(resourceGroupName));
+    public PagedFlux<T> listByResourceGroupAsync(String resourceGroupName) {
+        return getInner().listByResourceGroupAsync(resourceGroupName).mapPage(innerT -> wrapModel(innerT));
     }
 
     @Override
-    public PagedList<T> list() {
-        return wrapList(inner().list());
+    public PagedIterable<T> list() {
+        return new PagedIterable<>(this.listAsync());
     }
 
     @Override
-    public PagedList<T> listByResourceGroup(String resourceGroupName) {
-        return wrapList(inner().listByResourceGroup(resourceGroupName));
+    public PagedIterable<T> listByResourceGroup(String resourceGroupName) {
+        return new PagedIterable<>(this.listByResourceGroupAsync(resourceGroupName));
     }
 }

@@ -91,7 +91,7 @@ public class RoleAssignmentHelper {
             public Observable<Indexable> call(final Context cxt) {
                 final String principalId = idProvider.principalId();
                 if (principalId == null) {
-                    return cxt.voidObservable();
+                    return cxt.voidMono();
                 }
                 final String roleAssignmentName = SdkContext.randomUuid();
                 final String resourceScope;
@@ -112,7 +112,7 @@ public class RoleAssignmentHelper {
                             @Override
                             public Observable<Indexable> call(Throwable throwable) {
                                 if (isRoleAssignmentExists(throwable)) {
-                                    return cxt.voidObservable();
+                                    return cxt.voidMono();
                                 }
                                 return Observable.<Indexable>error(throwable);
                             }
@@ -150,7 +150,7 @@ public class RoleAssignmentHelper {
             public Observable<Indexable> call(final Context cxt) {
                 final String principalId = idProvider.principalId();
                 if (principalId == null) {
-                    return cxt.voidObservable();
+                    return cxt.voidMono();
                 }
                 final String roleAssignmentName = SdkContext.randomUuid();
                 final String resourceScope;
@@ -171,7 +171,7 @@ public class RoleAssignmentHelper {
                             @Override
                             public Observable<Indexable> call(Throwable throwable) {
                                 if (isRoleAssignmentExists(throwable)) {
-                                    return cxt.voidObservable();
+                                    return cxt.voidMono();
                                 }
                                 return Observable.<Indexable>error(throwable);
                             }
@@ -200,7 +200,7 @@ public class RoleAssignmentHelper {
                         .roleAssignments()
                         .deleteByIdAsync(roleAssignment.id())
                         .<Indexable>toObservable()
-                        .switchIfEmpty(cxt.voidObservable());
+                        .switchIfEmpty(cxt.voidMono());
             }
         };
         this.preRunTaskGroup.addPostRunDependent(remover);
@@ -248,7 +248,7 @@ public class RoleAssignmentHelper {
                                         .roleAssignments()
                                         .deleteByIdAsync(roleAssignment.id())
                                         .<Indexable>toObservable()
-                                        .switchIfEmpty(cxt.voidObservable());
+                                        .switchIfEmpty(cxt.voidMono());
                             }
                         });
             }

@@ -15,6 +15,7 @@ import java.util.UUID;
  * The base implementation for {@link Indexable}.
  */
 abstract class IndexableImpl implements Indexable {
+
     protected String key;
 
     protected IndexableImpl() {
@@ -26,13 +27,13 @@ abstract class IndexableImpl implements Indexable {
     }
 
     @Override
-    public String key() {
+    public String getKey() {
         return this.key;
     }
 
     @Override
     public String toString() {
-        return this.key();
+        return this.getKey();
     }
 }
 

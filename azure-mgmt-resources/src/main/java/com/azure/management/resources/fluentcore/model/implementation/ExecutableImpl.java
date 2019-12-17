@@ -13,14 +13,8 @@ import com.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.azure.management.resources.fluentcore.dag.TaskGroup;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
-import com.azure.management.resources.fluentcore.model.Executable;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
@@ -55,12 +49,11 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     protected ExecutableImpl(String key) {
         super(key);
-        taskGroup = new TaskGroup(this.key(),
-                new ExecuteTask(this));
+        taskGroup = new TaskGroup(this.getKey(), new ExecuteTask(this));
     }
 
     @Override
-    public TaskGroup taskGroup() {
+    public TaskGroup getTaskGroup() {
         return this.taskGroup;
     }
 
@@ -84,8 +77,8 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     protected String addDependency(TaskGroup.HasTaskGroup dependency) {
         Objects.requireNonNull(dependency);
-        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
-        return dependency.taskGroup().key();
+        this.taskGroup.addDependencyTaskGroup(dependency.getTaskGroup());
+        return dependency.getTaskGroup().getKey();
     }
 
     /**
@@ -134,7 +127,7 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     public String addPostRunDependent(FunctionalTaskItem dependent) {
         Objects.requireNonNull(dependent);
-        return this.taskGroup().addPostRunDependent(dependent);
+        return this.getTaskGroup().addPostRunDependent(dependent);
     }
 
     /**
@@ -145,8 +138,8 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
      */
     protected String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
         Objects.requireNonNull(dependent);
-        this.taskGroup.addPostRunDependentTaskGroup(dependent.taskGroup());
-        return dependent.taskGroup().key();
+        this.taskGroup.addPostRunDependentTaskGroup(dependent.getTaskGroup());
+        return dependent.getTaskGroup().getKey();
     }
 
     /**
@@ -211,29 +204,20 @@ public abstract class ExecutableImpl<FluentModelT extends Indexable>
     }
 
     @Override
-    public Observable<FluentModelT> executeAsync() {
+    public Mono<FluentModelT> executeAsync() {
         return taskGroup.invokeAsync(taskGroup.newInvocationContext())
                 .last()
-                .map(new Func1<Indexable, FluentModelT>() {
-                    @Override
-                    public FluentModelT call(Indexable indexable) {
-                        return (FluentModelT) indexable;
-                    }
-                });
+                .map(indexable -> (FluentModelT) indexable);
     }
 
     @Override
     public FluentModelT execute() {
-        return executeAsync().toBlocking().last();
+        return executeAsync().block();
     }
 
-    @Override
-    public ServiceFuture<FluentModelT> executeAsync(ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(executeAsync(), callback);
-    }
 
     @Override
-    public Completable afterPostRunAsync(boolean isGroupFaulted) {
-        return Completable.complete();
+    public Flux<FluentModelT> afterPostRunAsync(boolean isGroupFaulted) {
+        return Flux.empty();
     }
 }

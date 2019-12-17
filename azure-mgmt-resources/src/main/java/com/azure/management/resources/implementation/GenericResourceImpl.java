@@ -7,7 +7,6 @@
 package com.azure.management.resources.implementation;
 
 import com.azure.management.resources.GenericResource;
-import com.azure.management.resources.GenericResource;
 import com.azure.management.resources.Plan;
 import com.azure.management.resources.Provider;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -178,7 +177,7 @@ final class GenericResourceImpl
                                 name,
                                 api,
                                 inner())
-                                .subscribeOn(SdkContext.getRxScheduler())
+                                .subscribeOn(SdkContext.getReactorScheduler())
                                 .map(innerToFluentMap(self));
                     }
                 });

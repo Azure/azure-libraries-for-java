@@ -6,10 +6,8 @@
 
 package com.azure.management.resources.fluentcore.arm.collection;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
-import rx.Observable;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 
 /**
  * Provides access to listing Azure resources of a specific type based on their tag.
@@ -18,25 +16,24 @@ import rx.Observable;
  *
  * @param <T> the fluent type of the resource
  */
-@LangDefinition(ContainerName = "CollectionActions", MethodConversionType = MethodConversion.OnlyMethod)
 public interface SupportsListingInResourceGroupByTag<T> {
     /**
      * Lists all the resources with the specified tag.
      *
      * @param resourceGroupName the name of the resource group
-     * @param tagName tag's name as the key
-     * @param tagValue tag's value
-     * @return list of resources
+     * @param tagName           tag's name as the key
+     * @param tagValue          tag's value
+     * @return the list of resources
      */
-    PagedList<T> listByTag(String resourceGroupName, String tagName, String tagValue);
+    PagedIterable<T> listByTag(String resourceGroupName, String tagName, String tagValue);
 
     /**
      * Lists all the resources with the specified tag.
      *
      * @param resourceGroupName the name of the resource group
-     * @param tagName tag's name as the key
-     * @param tagValue tag's value
-     * @return a representation of the deferred computation of this call, returning the requested resources
+     * @param tagName           tag's name as the key
+     * @param tagValue          tag's value
+     * @return a {@link PagedFlux} of the requested resources
      */
-    Observable<T> listByTagAsync(String resourceGroupName, String tagName, String tagValue);
+    PagedFlux<T> listByTagAsync(String resourceGroupName, String tagName, String tagValue);
 }

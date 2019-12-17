@@ -18,7 +18,7 @@ import java.time.OffsetDateTime;
 public class SdkContext {
     private static ResourceNamerFactory resourceNamerFactory = new ResourceNamerFactory();
     private static DelayProvider delayProvider = new DelayProvider();
-    private static Scheduler rxScheduler = Schedulers.boundedElastic();
+    private static Scheduler reactorScheduler = Schedulers.boundedElastic();
 
     /**
      * Function to override the ResourceNamerFactory.
@@ -120,16 +120,16 @@ public class SdkContext {
      *
      * @return current rx scheduler.
      */
-    public static Scheduler getRxScheduler() {
-        return rxScheduler;
+    public static Scheduler getReactorScheduler() {
+        return reactorScheduler;
     }
 
     /**
      * Sets the Rx Scheduler for SDK framework, by default is Scheduler.io().
      *
-     * @param rxScheduler current Rx Scheduler to be used in SDK framework.
+     * @param reactorScheduler current Rx Scheduler to be used in SDK framework.
      */
-    public static void setRxScheduler(Scheduler rxScheduler) {
-        SdkContext.rxScheduler = rxScheduler;
+    public static void setReactorScheduler(Scheduler reactorScheduler) {
+        SdkContext.reactorScheduler = reactorScheduler;
     }
 }

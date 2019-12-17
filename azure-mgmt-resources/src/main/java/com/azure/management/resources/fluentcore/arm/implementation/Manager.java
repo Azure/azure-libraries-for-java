@@ -7,11 +7,11 @@
 package com.azure.management.resources.fluentcore.arm.implementation;
 
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.RestClient;
 
 /**
  * Generic base class for Azure resource managers.
- * @param <T> specific manager type
+ *
+ * @param <T>      specific manager type
  * @param <InnerT> inner management client implementation type
  */
 public abstract class Manager<T, InnerT> extends ManagerBase implements HasInner<InnerT> {
@@ -24,7 +24,7 @@ public abstract class Manager<T, InnerT> extends ManagerBase implements HasInner
     }
 
     @Override
-    public InnerT inner() {
+    public InnerT getInner() {
         return this.innerManagementClient;
     }
 }

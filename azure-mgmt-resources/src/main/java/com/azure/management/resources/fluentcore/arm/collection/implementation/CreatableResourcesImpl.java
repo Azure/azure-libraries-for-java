@@ -12,10 +12,7 @@ import com.azure.management.resources.fluentcore.model.CreatedResources;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceCallback;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,95 +25,71 @@ import java.util.Map;
  * type and are creatable.
  * (Internal use only)
  *
- * @param <T> the individual resource type returned
- * @param <ImplT> the individual resource implementation
+ * @param <T>      the individual resource type returned
+ * @param <ImplT>  the individual resource implementation
  * @param <InnerT> the wrapper inner type
  */
 public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends T, InnerT>
         extends CreatableWrappersImpl<T, ImplT, InnerT>
         implements
-            SupportsBatchCreation<T> {
+        SupportsBatchCreation<T> {
 
     protected CreatableResourcesImpl() {
     }
 
     @Override
     @SafeVarargs
-    public final CreatedResources<T> create(Creatable<T> ... creatables) {
+    public final CreatedResources<T> create(Creatable<T>... creatables) {
         return createAsyncNonStream(creatables)
-                .toBlocking()
-                .single();
+                .block();
     }
 
     @Override
     public final CreatedResources<T> create(List<Creatable<T>> creatables) {
         return createAsyncNonStream(creatables)
-                .toBlocking()
-                .single();
+                .block();
     }
 
     @Override
     @SafeVarargs
-    public final Observable<Indexable> createAsync(Creatable<T> ... creatables) {
+    public final Mono<Indexable> createAsync(Creatable<T>... creatables) {
         CreatableUpdatableResourcesRootImpl<T> rootResource = new CreatableUpdatableResourcesRootImpl<>();
         rootResource.addCreatableDependencies(creatables);
         return rootResource.createAsync();
     }
 
     @Override
-    public final Observable<Indexable> createAsync(List<Creatable<T>> creatables) {
+    public final Mono<Indexable> createAsync(List<Creatable<T>> creatables) {
         CreatableUpdatableResourcesRootImpl<T> rootResource = new CreatableUpdatableResourcesRootImpl<>();
         rootResource.addCreatableDependencies(creatables);
         return rootResource.createAsync();
     }
 
-    @Override
-    @SafeVarargs
-    public final ServiceFuture<CreatedResources<T>> createAsync(final ServiceCallback<CreatedResources<T>> callback, Creatable<T>... creatables) {
-        return ServiceFuture.fromBody(createAsyncNonStream(creatables), callback);
-    }
-
-    @Override
-    public final ServiceFuture<CreatedResources<T>> createAsync(final ServiceCallback<CreatedResources<T>> callback, List<Creatable<T>> creatables) {
-        return ServiceFuture.fromBody(createAsyncNonStream(creatables), callback);
-    }
-
-
-    private Observable<CreatedResources<T>> createAsyncNonStream(List<Creatable<T>> creatables) {
+    private Mono<CreatedResources<T>> createAsyncNonStream(List<Creatable<T>> creatables) {
         return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables))
-                .map(new Func1<CreatableUpdatableResourcesRoot<T>, CreatedResources<T>>() {
-                    @Override
-                    public CreatedResources<T> call(CreatableUpdatableResourcesRoot<T> tCreatableUpdatableResourcesRoot) {
-                        return new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot);
-                    }
-                });
+                .map(tCreatableUpdatableResourcesRoot -> new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot));
     }
 
-    @SuppressWarnings("unchecked")
-    private Observable<CreatedResources<T>> createAsyncNonStream(Creatable<T>... creatables) {
+    private Mono<CreatedResources<T>> createAsyncNonStream(Creatable<T>... creatables) {
         return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables))
-                .map(new Func1<CreatableUpdatableResourcesRoot<T>, CreatedResources<T>>() {
-                    @Override
-                    public CreatedResources<T> call(CreatableUpdatableResourcesRoot<T> tCreatableUpdatableResourcesRoot) {
-                        return new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot);
-                    }
-                });
+                .map(tCreatableUpdatableResourcesRoot -> new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot));
     }
 
     /**
      * Implements CreatedResources.
+     *
      * @param <ResourceT> the type of the resources in the batch.
      */
     private class CreatedResourcesImpl<ResourceT extends Indexable>
-        extends HashMap<String, ResourceT>
-        implements CreatedResources<ResourceT> {
+            extends HashMap<String, ResourceT>
+            implements CreatedResources<ResourceT> {
         private static final long serialVersionUID = -1360746896732289907L;
         private CreatableUpdatableResourcesRoot<ResourceT> creatableUpdatableResourcesRoot;
 
         CreatedResourcesImpl(CreatableUpdatableResourcesRoot<ResourceT> creatableUpdatableResourcesRoot) {
             this.creatableUpdatableResourcesRoot = creatableUpdatableResourcesRoot;
             for (ResourceT resource : this.creatableUpdatableResourcesRoot.createdTopLevelResources()) {
-                super.put(resource.key(), resource);
+                super.put(resource.getKey(), resource);
             }
         }
 
@@ -146,7 +119,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         }
     }
 
-     /**
+    /**
      * The local root resource that is used as dummy parent resource for the batch creatable resources
      * added via <code>SupportsBatchCreation.create()</code> or <code>CreatableResourcesImpl#createAsync</code>.
      *
@@ -154,6 +127,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
      */
     interface CreatableUpdatableResourcesRoot<ResourceT extends Indexable> extends Indexable {
         List<ResourceT> createdTopLevelResources();
+
         Indexable createdRelatedResource(String key);
     }
 
@@ -191,7 +165,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         }
 
         @SuppressWarnings("unchecked")
-        void addCreatableDependencies(Creatable<T> ... creatables) {
+        void addCreatableDependencies(Creatable<T>... creatables) {
             for (Creatable<T> item : creatables) {
                 this.keys.add(this.addDependency(item));
             }
@@ -204,12 +178,12 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         }
 
         @Override
-        public Observable<CreatableUpdatableResourcesRoot<ResourceT>> createResourceAsync() {
-            return Observable.just((CreatableUpdatableResourcesRoot<ResourceT>) this);
+        public Mono<CreatableUpdatableResourcesRoot<ResourceT>> createResourceAsync() {
+            return Mono.just((CreatableUpdatableResourcesRoot<ResourceT>) this);
         }
 
         @Override
-        public Observable<CreatableUpdatableResourcesRoot<ResourceT>> updateResourceAsync() {
+        public Mono<CreatableUpdatableResourcesRoot<ResourceT>> updateResourceAsync() {
             return createResourceAsync();
         }
 
@@ -222,7 +196,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         // but a dummy resource representing parent of a batch of creatable Azure
         // resources.
         @Override
-        protected Observable<Object> getInnerAsync() {
+        protected Mono<Object> getInnerAsync() {
             return null;
         }
     }

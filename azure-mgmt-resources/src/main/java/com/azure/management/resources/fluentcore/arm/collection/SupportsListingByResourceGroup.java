@@ -6,11 +6,8 @@
 
 package com.azure.management.resources.fluentcore.arm.collection;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
-import rx.Observable;
-
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 
 /**
  * Provides access to listing Azure resources of a specific type in a specific resource group.
@@ -19,7 +16,6 @@ import rx.Observable;
  *
  * @param <T> the type of the resources listed.
  */
-@LangDefinition(ContainerName = "CollectionActions", CreateAsyncMethods = true, MethodConversionType = MethodConversion.OnlyMethod)
 public interface SupportsListingByResourceGroup<T> {
     /**
      * Lists resources of the specified type in the specified resource group.
@@ -27,13 +23,13 @@ public interface SupportsListingByResourceGroup<T> {
      * @param resourceGroupName the name of the resource group to list the resources from
      * @return the list of resources
      */
-    PagedList<T> listByResourceGroup(String resourceGroupName);
+    PagedIterable<T> listByResourceGroup(String resourceGroupName);
 
     /**
      * Lists resources of the specified type in the specified resource group.
      *
      * @param resourceGroupName the name of the resource group to list the resources from
-     * @return the list of resources
+     * @return the {@link PagedFlux} of the resources
      */
-    Observable<T> listByResourceGroupAsync(String resourceGroupName);
+    PagedFlux<T> listByResourceGroupAsync(String resourceGroupName);
 }

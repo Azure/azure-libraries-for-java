@@ -38,7 +38,7 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
     /**
      * Creates a DAG node.
      *
-     * @param key unique id of the node
+     * @param key  unique id of the node
      * @param data data to be stored in the node
      */
     public DAGNode(final String key, final DataT data) {
@@ -74,7 +74,7 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
      * @return a list of keys of nodes in {@link DAGraph} that this node depends on
      */
     public List<String> dependencyKeys() {
-        return this.children();
+        return this.getChildren();
     }
 
     /**
@@ -140,7 +140,7 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
      */
     protected void onSuccessfulResolution(String dependencyKey) {
         if (toBeResolved == 0) {
-            throw new RuntimeException("invalid state - " + this.key() + ": The dependency '" + dependencyKey + "' is already reported or there is no such dependencyKey");
+            throw new RuntimeException("invalid state - " + this.getKey() + ": The dependency '" + dependencyKey + "' is already reported or there is no such dependencyKey");
         }
         toBeResolved--;
     }
@@ -149,11 +149,11 @@ public class DAGNode<DataT, NodeT extends DAGNode<DataT, NodeT>> extends Node<Da
      * Reports a dependency of this node has been faulted.
      *
      * @param dependencyKey the id of the dependency node
-     * @param throwable the reason for unsuccessful resolution
+     * @param throwable     the reason for unsuccessful resolution
      */
     protected void onFaultedResolution(String dependencyKey, Throwable throwable) {
         if (toBeResolved == 0) {
-            throw new RuntimeException("invalid state - " + this.key() + ": The dependency '" + dependencyKey + "' is already reported or there is no such dependencyKey");
+            throw new RuntimeException("invalid state - " + this.getKey() + ": The dependency '" + dependencyKey + "' is already reported or there is no such dependencyKey");
         }
         toBeResolved--;
     }

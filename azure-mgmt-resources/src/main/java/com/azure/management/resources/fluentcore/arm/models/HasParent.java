@@ -5,16 +5,16 @@
  */
 package com.azure.management.resources.fluentcore.arm.models;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 
 /**
  * An interface representing a child that has an immediately available parent.
+ *
  * @param <ParentT> the parent type
  */
-@Fluent
 public interface HasParent<ParentT> {
     /**
      * @return the parent of this child object
      */
-    ParentT parent();
+    ParentT getParent();
 }

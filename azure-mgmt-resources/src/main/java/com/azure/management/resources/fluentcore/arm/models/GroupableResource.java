@@ -6,7 +6,7 @@
 
 package com.azure.management.resources.fluentcore.arm.models;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Creatable;
@@ -14,15 +14,16 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * Base interface for resources in resource groups.
+ *
  * @param <TManager> the manager object type representing the service
- * @param <InnerT> the wrapped, inner, auto-generated implementation object type
+ * @param <InnerT>   the wrapped, inner, auto-generated implementation object type
  */
 @Fluent()
 public interface GroupableResource<TManager, InnerT> extends
-    Resource,
-    HasResourceGroup,
-    HasManager<TManager>,
-    HasInner<InnerT> {
+        Resource,
+        HasResourceGroup,
+        HasManager<TManager>,
+        HasInner<InnerT> {
 
     /**
      * Grouping of all the definition stages.
@@ -36,8 +37,8 @@ public interface GroupableResource<TManager, InnerT> extends
          * @param <T> the next stage of the definition
          */
         interface WithGroup<T> extends
-            WithExistingResourceGroup<T>,
-            WithNewResourceGroup<T> {
+                WithExistingResourceGroup<T>,
+                WithNewResourceGroup<T> {
         }
 
         /**
@@ -64,6 +65,7 @@ public interface GroupableResource<TManager, InnerT> extends
              * Creates a new resource group to put the resource in.
              * <p>
              * The group will be created in the same location as the resource.
+             *
              * @param name the name of the new group
              * @return the next stage of the definition
              */
@@ -74,6 +76,7 @@ public interface GroupableResource<TManager, InnerT> extends
              * <p>
              * The group will be created in the same location as the resource.
              * The group's name is automatically derived from the resource's name.
+             *
              * @return the next stage of the definition
              */
             T withNewResourceGroup();
@@ -92,7 +95,7 @@ public interface GroupableResource<TManager, InnerT> extends
              * <p>
              * The group will be created in the same location as the resource.
              *
-             * @param name the name of the new group
+             * @param name   the name of the new group
              * @param region the region where resource group needs to be created
              * @return the next stage of the definition
              */
@@ -118,6 +121,7 @@ public interface GroupableResource<TManager, InnerT> extends
         interface WithCreatableResourceGroup<T> {
             /**
              * Creates a new resource group to put the resource in, based on the definition specified.
+             *
              * @param groupDefinition a creatable definition for a new resource group
              * @return the next stage of the definition
              */
@@ -132,6 +136,7 @@ public interface GroupableResource<TManager, InnerT> extends
         interface WithExistingResourceGroup<T> {
             /**
              * Associates the resource with an existing resource group.
+             *
              * @param groupName the name of an existing resource group to put this resource in.
              * @return the next stage of the definition
              */
@@ -139,6 +144,7 @@ public interface GroupableResource<TManager, InnerT> extends
 
             /**
              * Associates the resource with an existing resource group.
+             *
              * @param group an existing resource group to put the resource in
              * @return the next stage of the definition
              */

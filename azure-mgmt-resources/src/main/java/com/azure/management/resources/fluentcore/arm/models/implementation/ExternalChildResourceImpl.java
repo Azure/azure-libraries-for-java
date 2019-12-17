@@ -15,43 +15,39 @@ import com.azure.management.resources.fluentcore.model.Executable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
 /**
  * Externalized child resource abstract implementation.
- *
+ * <p>
  * Inorder to be eligible for an external child resource following criteria must be satisfied:
  * 1. It's is always associated with a parent resource and has no existence without parent
- *    i.e. if you delete parent then child resource will be deleted automatically.
+ * i.e. if you delete parent then child resource will be deleted automatically.
  * 2. Parent may or may not contain collection of child resources (i.e. as inline collection property).
  * 3. It's has an ID and can be created, updated, fetched and deleted independent of the parent
- *    i.e. CRUD on child resource does not require CRUD on the parent
+ * i.e. CRUD on child resource does not require CRUD on the parent
  * (Internal use only)
  *
  * @param <FluentModelT> the fluent model type of the child resource
- * @param <InnerModelT> Azure inner resource class type representing the child resource
- * @param <ParentImplT> the parent Azure resource impl class type that implements {@link ParentT}
- * @param <ParentT> parent interface
+ * @param <InnerModelT>  Azure inner resource class type representing the child resource
+ * @param <ParentImplT>  the parent Azure resource impl class type that implements {@link ParentT}
+ * @param <ParentT>      parent interface
  */
 public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
         InnerModelT,
         ParentImplT extends ParentT,
         ParentT>
         extends
-            ChildResourceImpl<InnerModelT, ParentImplT, ParentT>
+        ChildResourceImpl<InnerModelT, ParentImplT, ParentT>
         implements
-            Appliable<FluentModelT>,
-            Creatable<FluentModelT>,
-            TaskGroup.HasTaskGroup,
+        Appliable<FluentModelT>,
+        Creatable<FluentModelT>,
+        TaskGroup.HasTaskGroup,
         ExternalChildResource<FluentModelT, ParentT>,
-            Refreshable<FluentModelT> {
+        Refreshable<FluentModelT> {
     /**
      * State representing any pending action that needs to be performed on this child resource.
      */
@@ -68,8 +64,8 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     /**
      * Creates an instance of external child resource in-memory.
      *
-     * @param name the name of this external child resource
-     * @param parent reference to the parent of this external child resource
+     * @param name        the name of this external child resource
+     * @param parent      reference to the parent of this external child resource
      * @param innerObject reference to the inner object representing this external child resource
      */
     protected ExternalChildResourceImpl(String name,
@@ -83,9 +79,9 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     /**
      * Creates an instance of external child resource in-memory.
      *
-     * @param key the task group key for the task item that perform actions on this child
-     * @param name the name of this external child resource
-     * @param parent reference to the parent of this external child resource
+     * @param key         the task group key for the task item that perform actions on this child
+     * @param name        the name of this external child resource
+     * @param parent      reference to the parent of this external child resource
      * @param innerObject reference to the inner object representing this external child resource
      */
     protected ExternalChildResourceImpl(String key,
@@ -98,7 +94,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return this.name;
     }
 
@@ -132,8 +128,8 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      * @return the task group associated with this external child resource.
      */
     @Override
-    public TaskGroup taskGroup() {
-        return this.childAction.taskGroup();
+    public TaskGroup getTaskGroup() {
+        return this.childAction.getTaskGroup();
     }
 
     /**
@@ -152,43 +148,40 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      *
      * @return the observable to track the create action
      */
-    public abstract Observable<FluentModelT> createResourceAsync();
+    public abstract Mono<FluentModelT> createResourceAsync();
 
     /**
      * Update this external child resource.
      *
      * @return the observable to track the update action
      */
-    public abstract Observable<FluentModelT> updateResourceAsync();
+    public abstract Mono<FluentModelT> updateResourceAsync();
 
     /**
      * Delete this external child resource.
      *
      * @return the observable to track the delete action.
      */
-    public abstract Observable<Void> deleteResourceAsync();
+    public abstract Mono<Void> deleteResourceAsync();
 
     /**
      * @return the key of this child resource in the collection maintained by ExternalChildResourceCollectionImpl
      */
     public String childResourceKey() {
-        return name();
+        return getName();
     }
 
     @Override
     public final FluentModelT refresh() {
-        return refreshAsync().toBlocking().last();
+        return refreshAsync().block();
     }
 
     @Override
-    public Observable<FluentModelT> refreshAsync() {
+    public Mono<FluentModelT> refreshAsync() {
         final ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT> self = this;
-        return this.getInnerAsync().map(new Func1<InnerModelT, FluentModelT>() {
-            @Override
-            public FluentModelT call(InnerModelT innerModelT) {
-                self.setInner(innerModelT);
-                return (FluentModelT) self;
-            }
+        return this.getInnerAsync().map(innerModelT -> {
+            self.setInner(innerModelT);
+            return (FluentModelT) self;
         });
     }
 
@@ -200,7 +193,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     protected String addDependency(FunctionalTaskItem dependency) {
         Objects.requireNonNull(dependency);
-        return this.taskGroup().addDependency(dependency);
+        return this.getTaskGroup().addDependency(dependency);
     }
 
     /**
@@ -212,8 +205,8 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     protected String addDependency(TaskGroup.HasTaskGroup dependency) {
         Objects.requireNonNull(dependency);
-        this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
-        return dependency.taskGroup().key();
+        this.getTaskGroup().addDependencyTaskGroup(dependency.getTaskGroup());
+        return dependency.getTaskGroup().getKey();
     }
 
     /**
@@ -262,7 +255,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     public String addPostRunDependent(FunctionalTaskItem dependent) {
         Objects.requireNonNull(dependent);
-        return this.taskGroup().addPostRunDependent(dependent);
+        return this.getTaskGroup().addPostRunDependent(dependent);
     }
 
     /**
@@ -274,8 +267,8 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     protected String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
         Objects.requireNonNull(dependent);
-        this.taskGroup().addPostRunDependentTaskGroup(dependent.taskGroup());
-        return dependent.taskGroup().key();
+        this.getTaskGroup().addPostRunDependentTaskGroup(dependent.getTaskGroup());
+        return dependent.getTaskGroup().getKey();
     }
 
     /**
@@ -324,46 +317,31 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     }
 
     @Override
-    public Observable<Indexable> createAsync() {
-        return taskGroup().invokeAsync(this.taskGroup().newInvocationContext());
+    public Mono<Indexable> createAsync() {
+        return getTaskGroup().invokeAsync(this.getTaskGroup().newInvocationContext()).last();
     }
 
     @Override
     public FluentModelT create() {
-        return Utils.<FluentModelT>rootResource(createAsync()).toBlocking().single();
+        return Utils.<FluentModelT>rootResource(createAsync()).block();
     }
 
     @Override
-    public ServiceFuture<FluentModelT> createAsync(final ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(Utils.<FluentModelT>rootResource(createAsync()), callback);
-    }
-
-    @Override
-    public Observable<FluentModelT> applyAsync() {
-        return taskGroup().invokeAsync(this.taskGroup().newInvocationContext())
+    public Mono<FluentModelT> applyAsync() {
+        return getTaskGroup().invokeAsync(this.getTaskGroup().newInvocationContext())
                 .last()
-                .map(new Func1<Indexable, FluentModelT>() {
-                    @Override
-                    public FluentModelT call(Indexable indexable) {
-                        return (FluentModelT) indexable;
-                    }
-                });
+                .map(indexable -> (FluentModelT) indexable);
     }
 
     @Override
     public FluentModelT apply() {
-        return applyAsync().toBlocking().last();
+        return applyAsync().block();
     }
 
-    @Override
-    public ServiceFuture<FluentModelT> applyAsync(ServiceCallback<FluentModelT> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
-    }
+    protected abstract Mono<InnerModelT> getInnerAsync();
 
-    protected abstract Observable<InnerModelT> getInnerAsync();
-
-    protected Completable afterPostRunAsync(boolean isGroupFaulted) {
-        return Completable.complete();
+    protected Flux<Indexable> afterPostRunAsync(boolean isGroupFaulted) {
+        return Flux.empty();
     }
 
     /**
@@ -410,7 +388,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
         /**
          * Creates ExternalChildActionTaskItem.
          *
-         * @param key the task group key for this item
+         * @param key           the task group key for this item
          * @param externalChild an external child this TaskItem composes.
          */
         ExternalChildActionTaskItem(final String key, final ExternalChildResourceImpl<FluentModelT, InnerModelT, ParentImplT, ParentT> externalChild) {
@@ -424,36 +402,16 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
         }
 
         @Override
-        public Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+        public Mono<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
             switch (this.externalChild.pendingOperation()) {
                 case ToBeCreated:
                     return this.externalChild.createResourceAsync()
-                            .doOnNext(new Action1<FluentModelT>() {
-                                @Override
-                                public void call(FluentModelT createdExternalChild) {
-                                    externalChild.setPendingOperation(PendingOperation.None);
-                                }
-                            })
-                            .map(new Func1<FluentModelT, Indexable>() {
-                                @Override
-                                public Indexable call(FluentModelT createdExternalChild) {
-                                    return createdExternalChild;
-                                }
-                            });
+                            .doOnNext(createdExternalChild -> externalChild.setPendingOperation(PendingOperation.None))
+                            .map(createdExternalChild -> createdExternalChild);
                 case ToBeUpdated:
                     return this.externalChild.updateResourceAsync()
-                            .doOnNext(new Action1<FluentModelT>() {
-                                @Override
-                                public void call(FluentModelT createdExternalChild) {
-                                    externalChild.setPendingOperation(PendingOperation.None);
-                                }
-                            })
-                            .map(new Func1<FluentModelT, Indexable>() {
-                                @Override
-                                public Indexable call(FluentModelT updatedExternalChild) {
-                                    return updatedExternalChild;
-                                }
-                            });
+                            .doOnNext(createdExternalChild -> externalChild.setPendingOperation(PendingOperation.None))
+                            .map(updatedExternalChild -> updatedExternalChild);
                 case ToBeRemoved:
                     // With 2.0 runtime, deleteResourceAsync() will be returning 'Completable' then use below code instead
                     //
@@ -464,28 +422,19 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
                     //      }
                     //  }).andThen(voidObservable());
                     //
+                    // TODO: Fix void mono result.
                     return this.externalChild.deleteResourceAsync()
-                            .doOnNext(new Action1<Void>() {
-                                @Override
-                                public void call(Void aVoid) {
-                                    externalChild.setPendingOperation(PendingOperation.None);
-                                }
-                            })
-                            .map(new Func1<Void, Indexable>() {
-                                @Override
-                                public Indexable call(Void aVoid) {
-                                    return voidIndexable();
-                                }
-                            });
+                            .doOnSuccess(aVoid -> externalChild.setPendingOperation(PendingOperation.None))
+                            .map(aVoid -> voidIndexable());
                 default:
                     // PendingOperation.None
                     //
-                    return Observable.error(new IllegalStateException("No action pending on child resource: " + externalChild.name + ", invokeAsync should not be called "));
+                    return Mono.error(new IllegalStateException("No action pending on child resource: " + externalChild.name + ", invokeAsync should not be called "));
             }
         }
 
         @Override
-        public Completable invokeAfterPostRunAsync(boolean isGroupFaulted) {
+        public Flux<Indexable> invokeAfterPostRunAsync(boolean isGroupFaulted) {
             return this.externalChild.afterPostRunAsync(isGroupFaulted);
         }
     }

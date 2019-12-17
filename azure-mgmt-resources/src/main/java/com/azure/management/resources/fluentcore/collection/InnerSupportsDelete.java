@@ -6,11 +6,10 @@
 
 package com.azure.management.resources.fluentcore.collection;
 
-import com.microsoft.rest.ServiceResponse;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 /**
- * Provides access to delete Azure resources of a specific type in a subscription.
+ * Provides access to deleting Azure resources of a specific type in a subscription.
  * <p>
  * (Note: this interface is not intended to be implemented by user code)
  *
@@ -21,8 +20,8 @@ public interface InnerSupportsDelete<ResponseT> {
      * Deletes a resource asynchronously.
      *
      * @param resourceGroupName The name of the resource group within the user's subscription.
-     * @param resourceName The name of the resource within specified resource group.
-     * @return the {@link ServiceResponse} object if successful.
+     * @param resourceName      The name of the resource within specified resource group.
+     * @return the {@link Mono} object if successful.
      */
-    Observable<ResponseT> deleteAsync(String resourceGroupName, String resourceName);
+    Mono<ResponseT> deleteAsync(String resourceGroupName, String resourceName);
 }

@@ -6,11 +6,10 @@
 
 package com.azure.management.resources.fluentcore.collection;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.LangDefinition.MethodConversion;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.Region;
-import rx.Observable;
+import reactor.core.publisher.Flux;
 
 /**
  * Provides access to listing Azure resources of a specific type based on their region.
@@ -19,22 +18,22 @@ import rx.Observable;
  *
  * @param <T> the fluent type of the resource
  */
-@LangDefinition(ContainerName = "CollectionActions", MethodConversionType = MethodConversion.OnlyMethod)
 public interface SupportsListingByRegion<T> {
     /**
      * Lists all the resources of the specified type in the specified region.
      *
      * @param region the selected Azure region
-     * @return list of resources
+     * @return a {@link PagedIterable} of resources
      */
-    PagedList<T> listByRegion(Region region);
+    PagedIterable<T> listByRegion(Region region);
 
     /**
      * List all the resources of the specified type in the specified region.
+     *
      * @param regionName the name of an Azure region
-     * @return list of resources
+     * @return a {@link PagedIterable} list of resources
      */
-    PagedList<T> listByRegion(String regionName);
+    PagedIterable<T> listByRegion(String regionName);
 
     /**
      * Lists all the resources of the specified type in the specified region.
@@ -42,12 +41,13 @@ public interface SupportsListingByRegion<T> {
      * @param region the selected Azure region
      * @return a representation of the deferred computation of this call, returning the requested resources
      */
-    Observable<T> listByRegionAsync(Region region);
+    PagedFlux<T> listByRegionAsync(Region region);
 
     /**
      * List all the resources of the specified type in the specified region.
+     *
      * @param regionName the name of an Azure region
      * @return a representation of the deferred computation of this call, returning the requested resources
      */
-    Observable<T> listByRegionAsync(String regionName);
+    PagedFlux<T> listByRegionAsync(String regionName);
 }

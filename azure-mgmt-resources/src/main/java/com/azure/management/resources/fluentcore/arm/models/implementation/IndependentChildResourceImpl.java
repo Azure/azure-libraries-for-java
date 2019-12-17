@@ -8,7 +8,6 @@ package com.azure.management.resources.fluentcore.arm.models.implementation;
 
 import com.azure.management.resources.fluentcore.arm.models.HasResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.IndependentChildResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 
@@ -20,23 +19,23 @@ import java.util.TreeMap;
 /**
  * Implementation for the child resource which can be CRUDed independently from the parent resource.
  * (internal use only)
- * @param <FluentModelT> The fluent model type
+ *
+ * @param <FluentModelT>       The fluent model type
  * @param <FluentParentModelT> the fluent model for parent resource
- * @param <InnerModelT> Azure inner resource class type
- * @param <FluentModelImplT> the implementation type of the fluent model type
- * @param <ManagerT> the client manager type representing the service
+ * @param <InnerModelT>        Azure inner resource class type
+ * @param <FluentModelImplT>   the implementation type of the fluent model type
+ * @param <ManagerT>           the client manager type representing the service
  */
-@LangDefinition
 public abstract class IndependentChildResourceImpl<
-            FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
-            FluentParentModelT extends Resource & HasResourceGroup,
-            InnerModelT extends com.microsoft.azure.Resource,
-            FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
-            ManagerT>
+        FluentModelT extends IndependentChildResource<ManagerT, InnerModelT>,
+        FluentParentModelT extends Resource & HasResourceGroup,
+        InnerModelT extends com.azure.core.management.Resource,
+        FluentModelImplT extends IndependentChildResourceImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>,
+        ManagerT>
         extends
-            IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
+        IndependentChildImpl<FluentModelT, FluentParentModelT, InnerModelT, FluentModelImplT, ManagerT>
         implements
-            IndependentChildResource<ManagerT, InnerModelT> {
+        IndependentChildResource<ManagerT, InnerModelT> {
     /**
      * Creates a new instance of CreatableUpdatableImpl.
      *
@@ -52,18 +51,18 @@ public abstract class IndependentChildResourceImpl<
      *******************************************/
 
     @Override
-    public String regionName() {
-        return this.inner().location();
+    public String getRegionName() {
+        return this.getInner().getLocation();
     }
 
     @Override
-    public Region region() {
-        return Region.fromName(this.regionName());
+    public Region getRegion() {
+        return Region.fromName(this.getRegionName());
     }
 
     @Override
-    public Map<String, String> tags() {
-        Map<String, String> tags = this.inner().getTags();
+    public Map<String, String> getTags() {
+        Map<String, String> tags = this.getInner().getTags();
         if (tags == null) {
             tags = new TreeMap<>();
         }
@@ -71,25 +70,25 @@ public abstract class IndependentChildResourceImpl<
     }
 
     @Override
-    public String id() {
-        if (this.inner() != null) {
-            return this.inner().id();
+    public String getId() {
+        if (this.getInner() != null) {
+            return this.getInner().getId();
         }
 
         return null;
     }
 
     @Override
-    public String type() {
-        return this.inner().type();
+    public String getType() {
+        return this.getInner().getType();
     }
 
     @Override
-    public String name() {
-        if (this.inner().name() == null) {
-            return super.name();
+    public String getName() {
+        if (this.getInner().getName() == null) {
+            return super.getName();
         } else {
-            return this.inner().name();
+            return this.getInner().getName();
         }
     }
 
@@ -99,39 +98,42 @@ public abstract class IndependentChildResourceImpl<
 
     /**
      * Specifies tags for the resource as a {@link Map}.
+     *
      * @param tags a {@link Map} of tags
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTags(Map<String, String> tags) {
-        this.inner().withTags(new HashMap<>(tags));
+        this.getInner().setTags(new HashMap<>(tags));
         return (FluentModelImplT) this;
     }
 
     /**
      * Adds a tag to the resource.
-     * @param key the key for the tag
+     *
+     * @param key   the key for the tag
      * @param value the value for the tag
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withTag(String key, String value) {
-        if (this.inner().getTags() == null) {
-            this.inner().withTags(new HashMap<String, String>());
+        if (this.getInner().getTags() == null) {
+            this.getInner().setTags(new HashMap<String, String>());
         }
-        this.inner().getTags().put(key, value);
+        this.getInner().getTags().put(key, value);
         return (FluentModelImplT) this;
     }
 
     /**
      * Removes a tag from the resource.
+     *
      * @param key the key of the tag to remove
      * @return the next stage of the definition/update
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withoutTag(String key) {
-        if (this.inner().getTags() != null) {
-            this.inner().getTags().remove(key);
+        if (this.getInner().getTags() != null) {
+            this.getInner().getTags().remove(key);
         }
         return (FluentModelImplT) this;
     }
@@ -141,12 +143,12 @@ public abstract class IndependentChildResourceImpl<
      */
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.getInner().getId() == null;
     }
 
     @Override
     public FluentModelImplT withExistingParentResource(FluentParentModelT existingParentResource) {
-        this.inner().withLocation(existingParentResource.regionName());
+        this.getInner().setLocation(existingParentResource.getRegionName());
         return super.withExistingParentResource(existingParentResource);
     }
 }

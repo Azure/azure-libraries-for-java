@@ -8,16 +8,15 @@ package com.azure.management.resources.fluentcore.dag;
 
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
+
+import java.util.function.Function;
 
 /**
  * Simplified functional interface equivalent to abstract class {@link IndexableTaskItem}.
  */
 public interface FunctionalTaskItem
-        extends Func1<FunctionalTaskItem.Context, Observable<Indexable>> {
+        extends Function<FunctionalTaskItem.Context, Mono<Indexable>> {
     /**
      * Type representing context of an {@link FunctionalTaskItem}.
      */
@@ -52,7 +51,7 @@ public interface FunctionalTaskItem
          */
         @SuppressWarnings("unchecked")
         public <T extends Indexable> T taskResult(String key) {
-            Indexable result = this.wrapperTaskItem.taskGroup().taskResult(key);
+            Indexable result = this.wrapperTaskItem.getTaskGroup().taskResult(key);
             if (result == null) {
                 return null;
             } else {
@@ -62,22 +61,22 @@ public interface FunctionalTaskItem
         }
 
         /**
-         * @return an Observable upon subscription emits {@link VoidIndexable} with key same as
+         * @return a {@link Mono} upon subscription emits {@link VoidIndexable} with key same as
          * the key of this TaskItem.
          */
-        public Observable<Indexable> voidObservable() {
-            Indexable voidIndexable = new VoidIndexable(this.wrapperTaskItem.key());
-            return Observable.just(voidIndexable);
+        public Mono<Indexable> voidMono() {
+            Indexable voidIndexable = new VoidIndexable(this.wrapperTaskItem.getKey());
+            return Mono.just(voidIndexable);
         }
 
         @Override
-        public TaskGroup.InvocationContext inner() {
+        public TaskGroup.InvocationContext getInner() {
             return this.innerContext;
         }
 
         @Override
-        public String key() {
-            return this.wrapperTaskItem.key();
+        public String getKey() {
+            return this.wrapperTaskItem.getKey();
         }
     }
 }

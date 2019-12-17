@@ -6,7 +6,6 @@
 
 package com.azure.management.resources.fluentcore.arm.models;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.Indexable;
 
@@ -15,7 +14,6 @@ import java.util.Map;
 /**
  * Base interfaces for fluent resources.
  */
-@LangDefinition()
 public interface Resource extends
         Indexable,
         HasId,
@@ -24,32 +22,32 @@ public interface Resource extends
     /**
      * @return the type of the resource
      */
-    String type();
+    String getType();
 
     /**
      * @return the name of the region the resource is in
      */
-    String regionName();
+    String getRegionName();
 
     /**
      * @return the region the resource is in
      */
-    Region region();
+    Region getRegion();
 
     /**
      * @return the tags for the resource
      */
-    Map<String, String> tags();
+    Map<String, String> getTags();
 
     /**
      * A resource definition allowing a location be selected for the resource.
      *
      * @param <T> the type of the next stage resource definition
      */
-    @LangDefinition(ContainerName = "Resource.Definition", ContainerFileName = "IDefinition")
     interface DefinitionWithRegion<T> {
         /**
          * Specifies the region for the resource by name.
+         *
          * @param regionName The name of the region for the resource
          * @return the next stage of the definition
          */
@@ -57,6 +55,7 @@ public interface Resource extends
 
         /**
          * Specifies the region for the resource.
+         *
          * @param region The location for the resource
          * @return the next stage of the definition
          */
@@ -68,10 +67,10 @@ public interface Resource extends
      *
      * @param <T> the type of the next stage resource definition
      */
-    @LangDefinition(ContainerName = "Resource.Definition", ContainerFileName = "IDefinition")
     interface DefinitionWithTags<T> {
         /**
          * Specifies tags for the resource as a {@link Map}.
+         *
          * @param tags a {@link Map} of tags
          * @return the next stage of the definition
          */
@@ -79,7 +78,8 @@ public interface Resource extends
 
         /**
          * Adds a tag to the resource.
-         * @param key the key for the tag
+         *
+         * @param key   the key for the tag
          * @param value the value for the tag
          * @return the next stage of the definition
          */
@@ -91,10 +91,10 @@ public interface Resource extends
      *
      * @param <T> the type of the next stage resource update
      */
-    @LangDefinition(ContainerName = "Resource.Update", ContainerFileName = "IUpdate")
     interface UpdateWithTags<T> {
         /**
          * Specifies tags for the resource as a {@link Map}.
+         *
          * @param tags a {@link Map} of tags
          * @return the next stage of the resource update
          */
@@ -102,7 +102,8 @@ public interface Resource extends
 
         /**
          * Adds a tag to the resource.
-         * @param key the key for the tag
+         *
+         * @param key   the key for the tag
          * @param value the value for the tag
          * @return the next stage of the resource update
          */
@@ -110,6 +111,7 @@ public interface Resource extends
 
         /**
          * Removes a tag from the resource.
+         *
          * @param key the key of the tag to remove
          * @return the next stage of the resource update
          */

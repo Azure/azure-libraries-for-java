@@ -7,9 +7,8 @@
 package com.azure.management.resources.fluentcore.dag;
 
 import com.azure.management.resources.fluentcore.model.Indexable;
-import com.azure.management.resources.fluentcore.model.Indexable;
-import rx.Completable;
-import rx.Observable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * Type representing a unit of work, upon invocation produces result of {@link Indexable} type.
@@ -20,7 +19,7 @@ public interface TaskItem {
     /**
      * @return the result of the task invocation
      */
-    Indexable result();
+    Indexable getResult();
 
     /**
      * The method that gets called before invoking all the tasks in the {@link TaskGroup}
@@ -29,8 +28,8 @@ public interface TaskItem {
     void beforeGroupInvoke();
 
     /**
-     * @return true if the observable returned by invokeAsync(cxt) is a hot observable,
-     * false if its a cold observable.
+     * @return true if the publisher returned by invokeAsync(cxt) is a hot observable,
+     * false if its a cold publisher.
      */
     boolean isHot();
 
@@ -38,11 +37,11 @@ public interface TaskItem {
      * The method that gets called to perform the unit of work asynchronously.
      *
      * @param context the context shared across the the all task items in the group
-     *               this task item belongs to.
-     * @return an observable upon subscription does the unit of work and produces
+     *                this task item belongs to.
+     * @return a {@lin Mono} upon subscription does the unit of work and produces
      * result of type {@link Indexable}
      */
-    Observable<Indexable> invokeAsync(TaskGroup.InvocationContext context);
+    Mono<Indexable> invokeAsync(TaskGroup.InvocationContext context);
 
     /**
      * The method that gets called after invocation of "post run" task items depends on
@@ -52,7 +51,7 @@ public interface TaskItem {
      *
      * @param isGroupFaulted true if one or more tasks in the group this TaskItem belongs
      *                       to are in faulted state.
-     * @return a completable representing any asynchronous work initiated
+     * @return a {@link Flux} representing any asynchronous work initiated
      */
-    Completable invokeAfterPostRunAsync(boolean isGroupFaulted);
+    Flux invokeAfterPostRunAsync(boolean isGroupFaulted);
 }

@@ -16,5 +16,5 @@ public interface HasInner<T> {
      * @return wrapped inner object providing direct access to the underlying
      * auto-generated API implementation, based on Azure REST API
      */
-    T inner();
+    T getInner();
 }

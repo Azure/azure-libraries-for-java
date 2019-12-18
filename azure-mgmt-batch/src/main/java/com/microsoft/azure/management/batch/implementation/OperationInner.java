@@ -41,7 +41,7 @@ public class OperationInner {
     private Object properties;
 
     /**
-     * Get the name value.
+     * Get this is of the format {provider}/{resource}/{operation}.
      *
      * @return the name value
      */
@@ -50,7 +50,7 @@ public class OperationInner {
     }
 
     /**
-     * Set the name value.
+     * Set this is of the format {provider}/{resource}/{operation}.
      *
      * @param name the name value to set
      * @return the OperationInner object itself.

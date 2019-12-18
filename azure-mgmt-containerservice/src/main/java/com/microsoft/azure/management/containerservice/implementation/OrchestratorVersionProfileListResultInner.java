@@ -43,7 +43,7 @@ public class OrchestratorVersionProfileListResultInner {
     private List<OrchestratorVersionProfile> orchestrators;
 
     /**
-     * Get the id value.
+     * Get id of the orchestrator version profile list result.
      *
      * @return the id value
      */
@@ -52,7 +52,7 @@ public class OrchestratorVersionProfileListResultInner {
     }
 
     /**
-     * Get the name value.
+     * Get name of the orchestrator version profile list result.
      *
      * @return the name value
      */
@@ -61,7 +61,7 @@ public class OrchestratorVersionProfileListResultInner {
     }
 
     /**
-     * Get the type value.
+     * Get type of the orchestrator version profile list result.
      *
      * @return the type value
      */
@@ -70,7 +70,7 @@ public class OrchestratorVersionProfileListResultInner {
     }
 
     /**
-     * Get the orchestrators value.
+     * Get list of orchestrator version profiles.
      *
      * @return the orchestrators value
      */
@@ -79,7 +79,7 @@ public class OrchestratorVersionProfileListResultInner {
     }
 
     /**
-     * Set the orchestrators value.
+     * Set list of orchestrator version profiles.
      *
      * @param orchestrators the orchestrators value to set
      * @return the OrchestratorVersionProfileListResultInner object itself.

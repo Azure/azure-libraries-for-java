@@ -64,7 +64,7 @@ public class VpnClientIPsecParametersInner {
     private IkeIntegrity ikeIntegrity;
 
     /**
-     * The DH Groups used in IKE Phase 1 for initial SA. Possible values
+     * The DH Group used in IKE Phase 1 for initial SA. Possible values
      * include: 'None', 'DHGroup1', 'DHGroup2', 'DHGroup14', 'DHGroup2048',
      * 'ECP256', 'ECP384', 'DHGroup24'.
      */
@@ -72,7 +72,7 @@ public class VpnClientIPsecParametersInner {
     private DhGroup dhGroup;
 
     /**
-     * The Pfs Groups used in IKE Phase 2 for new child SA. Possible values
+     * The Pfs Group used in IKE Phase 2 for new child SA. Possible values
      * include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256', 'ECP384', 'PFS24',
      * 'PFS14', 'PFSMM'.
      */
@@ -80,7 +80,7 @@ public class VpnClientIPsecParametersInner {
     private PfsGroup pfsGroup;
 
     /**
-     * Get the saLifeTimeSeconds value.
+     * Get the IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for P2S client.
      *
      * @return the saLifeTimeSeconds value
      */
@@ -89,7 +89,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Set the saLifeTimeSeconds value.
+     * Set the IPSec Security Association (also called Quick Mode or Phase 2 SA) lifetime in seconds for P2S client.
      *
      * @param saLifeTimeSeconds the saLifeTimeSeconds value to set
      * @return the VpnClientIPsecParametersInner object itself.
@@ -100,7 +100,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Get the saDataSizeKilobytes value.
+     * Get the IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for P2S client..
      *
      * @return the saDataSizeKilobytes value
      */
@@ -109,7 +109,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Set the saDataSizeKilobytes value.
+     * Set the IPSec Security Association (also called Quick Mode or Phase 2 SA) payload size in KB for P2S client..
      *
      * @param saDataSizeKilobytes the saDataSizeKilobytes value to set
      * @return the VpnClientIPsecParametersInner object itself.
@@ -120,7 +120,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Get the ipsecEncryption value.
+     * Get the IPSec encryption algorithm (IKE phase 1). Possible values include: 'None', 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES128', 'GCMAES192', 'GCMAES256'.
      *
      * @return the ipsecEncryption value
      */
@@ -129,7 +129,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Set the ipsecEncryption value.
+     * Set the IPSec encryption algorithm (IKE phase 1). Possible values include: 'None', 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES128', 'GCMAES192', 'GCMAES256'.
      *
      * @param ipsecEncryption the ipsecEncryption value to set
      * @return the VpnClientIPsecParametersInner object itself.
@@ -140,7 +140,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Get the ipsecIntegrity value.
+     * Get the IPSec integrity algorithm (IKE phase 1). Possible values include: 'MD5', 'SHA1', 'SHA256', 'GCMAES128', 'GCMAES192', 'GCMAES256'.
      *
      * @return the ipsecIntegrity value
      */
@@ -149,7 +149,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Set the ipsecIntegrity value.
+     * Set the IPSec integrity algorithm (IKE phase 1). Possible values include: 'MD5', 'SHA1', 'SHA256', 'GCMAES128', 'GCMAES192', 'GCMAES256'.
      *
      * @param ipsecIntegrity the ipsecIntegrity value to set
      * @return the VpnClientIPsecParametersInner object itself.
@@ -160,7 +160,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Get the ikeEncryption value.
+     * Get the IKE encryption algorithm (IKE phase 2). Possible values include: 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES256', 'GCMAES128'.
      *
      * @return the ikeEncryption value
      */
@@ -169,7 +169,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Set the ikeEncryption value.
+     * Set the IKE encryption algorithm (IKE phase 2). Possible values include: 'DES', 'DES3', 'AES128', 'AES192', 'AES256', 'GCMAES256', 'GCMAES128'.
      *
      * @param ikeEncryption the ikeEncryption value to set
      * @return the VpnClientIPsecParametersInner object itself.
@@ -180,7 +180,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Get the ikeIntegrity value.
+     * Get the IKE integrity algorithm (IKE phase 2). Possible values include: 'MD5', 'SHA1', 'SHA256', 'SHA384', 'GCMAES256', 'GCMAES128'.
      *
      * @return the ikeIntegrity value
      */
@@ -189,7 +189,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Set the ikeIntegrity value.
+     * Set the IKE integrity algorithm (IKE phase 2). Possible values include: 'MD5', 'SHA1', 'SHA256', 'SHA384', 'GCMAES256', 'GCMAES128'.
      *
      * @param ikeIntegrity the ikeIntegrity value to set
      * @return the VpnClientIPsecParametersInner object itself.
@@ -200,7 +200,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Get the dhGroup value.
+     * Get the DH Group used in IKE Phase 1 for initial SA. Possible values include: 'None', 'DHGroup1', 'DHGroup2', 'DHGroup14', 'DHGroup2048', 'ECP256', 'ECP384', 'DHGroup24'.
      *
      * @return the dhGroup value
      */
@@ -209,7 +209,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Set the dhGroup value.
+     * Set the DH Group used in IKE Phase 1 for initial SA. Possible values include: 'None', 'DHGroup1', 'DHGroup2', 'DHGroup14', 'DHGroup2048', 'ECP256', 'ECP384', 'DHGroup24'.
      *
      * @param dhGroup the dhGroup value to set
      * @return the VpnClientIPsecParametersInner object itself.
@@ -220,7 +220,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Get the pfsGroup value.
+     * Get the Pfs Group used in IKE Phase 2 for new child SA. Possible values include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256', 'ECP384', 'PFS24', 'PFS14', 'PFSMM'.
      *
      * @return the pfsGroup value
      */
@@ -229,7 +229,7 @@ public class VpnClientIPsecParametersInner {
     }
 
     /**
-     * Set the pfsGroup value.
+     * Set the Pfs Group used in IKE Phase 2 for new child SA. Possible values include: 'None', 'PFS1', 'PFS2', 'PFS2048', 'ECP256', 'ECP384', 'PFS24', 'PFS14', 'PFSMM'.
      *
      * @param pfsGroup the pfsGroup value to set
      * @return the VpnClientIPsecParametersInner object itself.

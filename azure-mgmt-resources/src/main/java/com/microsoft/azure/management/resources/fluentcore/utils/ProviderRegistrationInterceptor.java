@@ -15,9 +15,6 @@ import com.microsoft.azure.serializer.AzureJacksonAdapter;
 import com.microsoft.rest.RestClient;
 import okhttp3.Interceptor;
 import okhttp3.Response;
-import okhttp3.ResponseBody;
-import okio.Buffer;
-import okio.BufferedSource;
 
 import java.io.IOException;
 import java.util.regex.Matcher;
@@ -42,19 +39,22 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Response response = chain.proceed(chain.request());
         if (!response.isSuccessful()) {
-            String content = errorBody(response.body());
+            String content = Utils.getResponseBodyInString(response.body());
             AzureJacksonAdapter jacksonAdapter = new AzureJacksonAdapter();
             CloudError cloudError = jacksonAdapter.deserialize(content, CloudError.class);
             if (cloudError != null && "MissingSubscriptionRegistration".equals(cloudError.code())) {
                 Pattern pattern = Pattern.compile("/subscriptions/([\\w-]+)/", Pattern.CASE_INSENSITIVE);
                 Matcher matcher = pattern.matcher(chain.request().url().toString());
                 matcher.find();
-                RestClient restClient = new RestClient.Builder()
-                        .withBaseUrl("https://" + chain.request().url().host())
+                RestClient.Builder restClientBuilder = new RestClient.Builder();
+                restClientBuilder.withBaseUrl("https://" + chain.request().url().host())
                         .withCredentials(credentials)
                         .withSerializerAdapter(jacksonAdapter)
-                        .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                        .build();
+                        .withResponseBuilderFactory(new AzureResponseBuilder.Factory());
+                if (credentials.proxy() != null) {
+                    restClientBuilder.withProxy(credentials.proxy());
+                }
+                RestClient restClient = restClientBuilder.build();
                 ResourceManager resourceManager = ResourceManager.authenticate(restClient)
                         .withSubscription(matcher.group(1));
                 pattern = Pattern.compile(".*'(.*)'");
@@ -71,16 +71,6 @@ public final class ProviderRegistrationInterceptor implements Interceptor {
             }
         }
         return response;
-    }
-
-    private String errorBody(ResponseBody responseBody) throws IOException {
-        if (responseBody == null) {
-            return null;
-        }
-        BufferedSource source = responseBody.source();
-        source.request(Long.MAX_VALUE); // Buffer the entire body.
-        Buffer buffer = source.buffer();
-        return buffer.clone().readUtf8();
     }
 
     private Provider registerProvider(String namespace, ResourceManager resourceManager) {

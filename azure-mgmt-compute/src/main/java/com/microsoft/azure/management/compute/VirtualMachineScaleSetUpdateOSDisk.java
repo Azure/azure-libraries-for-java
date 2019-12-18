@@ -31,6 +31,15 @@ public class VirtualMachineScaleSetUpdateOSDisk {
     private Boolean writeAcceleratorEnabled;
 
     /**
+     * Specifies the size of the operating system disk in gigabytes. This
+     * element can be used to overwrite the size of the disk in a virtual
+     * machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than
+     * 1023 GB.
+     */
+    @JsonProperty(value = "diskSizeGB")
+    private Integer diskSizeGB;
+
+    /**
      * The Source User Image VirtualHardDisk. This VirtualHardDisk will be
      * copied before using it to attach to the Virtual Machine. If SourceImage
      * is provided, the destination VirtualHardDisk should not exist.
@@ -87,6 +96,26 @@ public class VirtualMachineScaleSetUpdateOSDisk {
      */
     public VirtualMachineScaleSetUpdateOSDisk withWriteAcceleratorEnabled(Boolean writeAcceleratorEnabled) {
         this.writeAcceleratorEnabled = writeAcceleratorEnabled;
+        return this;
+    }
+
+    /**
+     * Get specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     *
+     * @return the diskSizeGB value
+     */
+    public Integer diskSizeGB() {
+        return this.diskSizeGB;
+    }
+
+    /**
+     * Set specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     *
+     * @param diskSizeGB the diskSizeGB value to set
+     * @return the VirtualMachineScaleSetUpdateOSDisk object itself.
+     */
+    public VirtualMachineScaleSetUpdateOSDisk withDiskSizeGB(Integer diskSizeGB) {
+        this.diskSizeGB = diskSizeGB;
         return this;
     }
 

@@ -11,8 +11,10 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.management.compute.SnapshotSku;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.HyperVGeneration;
 import com.microsoft.azure.management.compute.CreationData;
-import com.microsoft.azure.management.compute.EncryptionSettings;
+import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
+import com.microsoft.azure.management.compute.Encryption;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -47,6 +49,13 @@ public class SnapshotInner extends Resource {
     private OperatingSystemTypes osType;
 
     /**
+     * The hypervisor generation of the Virtual Machine. Applicable to OS disks
+     * only. Possible values include: 'V1', 'V2'.
+     */
+    @JsonProperty(value = "properties.hyperVGeneration")
+    private HyperVGeneration hyperVGeneration;
+
+    /**
      * Disk source information. CreationData information cannot be changed
      * after the disk has been created.
      */
@@ -55,7 +64,7 @@ public class SnapshotInner extends Resource {
 
     /**
      * If creationData.createOption is Empty, this field is mandatory and it
-     * indicates the size of the VHD to create. If this field is present for
+     * indicates the size of the disk to create. If this field is present for
      * updates or creation with other options, it indicates a resize. Resizes
      * are only allowed if the disk is not attached to a running VM, and can
      * only increase the disk's size.
@@ -64,16 +73,43 @@ public class SnapshotInner extends Resource {
     private Integer diskSizeGB;
 
     /**
-     * Encryption settings for disk or snapshot.
+     * The size of the disk in bytes. This field is read only.
      */
-    @JsonProperty(value = "properties.encryptionSettings")
-    private EncryptionSettings encryptionSettings;
+    @JsonProperty(value = "properties.diskSizeBytes", access = JsonProperty.Access.WRITE_ONLY)
+    private Long diskSizeBytes;
+
+    /**
+     * Unique Guid identifying the resource.
+     */
+    @JsonProperty(value = "properties.uniqueId", access = JsonProperty.Access.WRITE_ONLY)
+    private String uniqueId;
+
+    /**
+     * Encryption settings collection used be Azure Disk Encryption, can
+     * contain multiple encryption settings per disk or snapshot.
+     */
+    @JsonProperty(value = "properties.encryptionSettingsCollection")
+    private EncryptionSettingsCollection encryptionSettingsCollection;
 
     /**
      * The disk provisioning state.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
+
+    /**
+     * Whether a snapshot is incremental. Incremental snapshots on the same
+     * disk occupy less space than full snapshots and can be diffed.
+     */
+    @JsonProperty(value = "properties.incremental")
+    private Boolean incremental;
+
+    /**
+     * Encryption property can be used to encrypt data at rest with customer
+     * managed keys or platform managed keys.
+     */
+    @JsonProperty(value = "properties.encryption")
+    private Encryption encryption;
 
     /**
      * Get unused. Always Null.
@@ -134,6 +170,26 @@ public class SnapshotInner extends Resource {
     }
 
     /**
+     * Get the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @return the hyperVGeneration value
+     */
+    public HyperVGeneration hyperVGeneration() {
+        return this.hyperVGeneration;
+    }
+
+    /**
+     * Set the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @param hyperVGeneration the hyperVGeneration value to set
+     * @return the SnapshotInner object itself.
+     */
+    public SnapshotInner withHyperVGeneration(HyperVGeneration hyperVGeneration) {
+        this.hyperVGeneration = hyperVGeneration;
+        return this;
+    }
+
+    /**
      * Get disk source information. CreationData information cannot be changed after the disk has been created.
      *
      * @return the creationData value
@@ -154,7 +210,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @return the diskSizeGB value
      */
@@ -163,7 +219,7 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @param diskSizeGB the diskSizeGB value to set
      * @return the SnapshotInner object itself.
@@ -174,22 +230,40 @@ public class SnapshotInner extends Resource {
     }
 
     /**
-     * Get encryption settings for disk or snapshot.
+     * Get the size of the disk in bytes. This field is read only.
      *
-     * @return the encryptionSettings value
+     * @return the diskSizeBytes value
      */
-    public EncryptionSettings encryptionSettings() {
-        return this.encryptionSettings;
+    public Long diskSizeBytes() {
+        return this.diskSizeBytes;
     }
 
     /**
-     * Set encryption settings for disk or snapshot.
+     * Get unique Guid identifying the resource.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @return the uniqueId value
+     */
+    public String uniqueId() {
+        return this.uniqueId;
+    }
+
+    /**
+     * Get encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
+     *
+     * @return the encryptionSettingsCollection value
+     */
+    public EncryptionSettingsCollection encryptionSettingsCollection() {
+        return this.encryptionSettingsCollection;
+    }
+
+    /**
+     * Set encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
+     *
+     * @param encryptionSettingsCollection the encryptionSettingsCollection value to set
      * @return the SnapshotInner object itself.
      */
-    public SnapshotInner withEncryptionSettings(EncryptionSettings encryptionSettings) {
-        this.encryptionSettings = encryptionSettings;
+    public SnapshotInner withEncryptionSettingsCollection(EncryptionSettingsCollection encryptionSettingsCollection) {
+        this.encryptionSettingsCollection = encryptionSettingsCollection;
         return this;
     }
 
@@ -200,6 +274,46 @@ public class SnapshotInner extends Resource {
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
+     *
+     * @return the incremental value
+     */
+    public Boolean incremental() {
+        return this.incremental;
+    }
+
+    /**
+     * Set whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full snapshots and can be diffed.
+     *
+     * @param incremental the incremental value to set
+     * @return the SnapshotInner object itself.
+     */
+    public SnapshotInner withIncremental(Boolean incremental) {
+        this.incremental = incremental;
+        return this;
+    }
+
+    /**
+     * Get encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+     *
+     * @return the encryption value
+     */
+    public Encryption encryption() {
+        return this.encryption;
+    }
+
+    /**
+     * Set encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+     *
+     * @param encryption the encryption value to set
+     * @return the SnapshotInner object itself.
+     */
+    public SnapshotInner withEncryption(Encryption encryption) {
+        this.encryption = encryption;
+        return this;
     }
 
 }

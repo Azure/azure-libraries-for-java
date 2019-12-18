@@ -109,6 +109,9 @@ public class ResourceManagerThrottlingInterceptor implements Interceptor {
         } catch (Throwable t) {
             throw new IOException(t);
         } finally {
+            if (response.body() != null) {
+                response.body().close();
+            }
             synchronized (REENTRANT_LOCK_MAP.get(subscriptionId)) {
                 REENTRANT_LOCK_MAP.get(subscriptionId).unlock();
                 REENTRANT_LOCK_MAP.get(subscriptionId).notifyAll();

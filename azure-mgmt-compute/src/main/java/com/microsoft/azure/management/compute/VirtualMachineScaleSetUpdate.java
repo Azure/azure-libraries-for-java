@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.compute;
 
+import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -36,6 +37,12 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
     private UpgradePolicy upgradePolicy;
 
     /**
+     * Policy for automatic repairs.
+     */
+    @JsonProperty(value = "properties.automaticRepairsPolicy")
+    private AutomaticRepairsPolicy automaticRepairsPolicy;
+
+    /**
      * The virtual machine profile.
      */
     @JsonProperty(value = "properties.virtualMachineProfile")
@@ -49,11 +56,43 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
     private Boolean overprovision;
 
     /**
+     * When Overprovision is enabled, extensions are launched only on the
+     * requested number of VMs which are finally kept. This property will hence
+     * ensure that the extensions do not run on the extra overprovisioned VMs.
+     */
+    @JsonProperty(value = "properties.doNotRunExtensionsOnOverprovisionedVMs")
+    private Boolean doNotRunExtensionsOnOverprovisionedVMs;
+
+    /**
      * When true this limits the scale set to a single placement group, of max
      * size 100 virtual machines.
      */
     @JsonProperty(value = "properties.singlePlacementGroup")
     private Boolean singlePlacementGroup;
+
+    /**
+     * Specifies additional capabilities enabled or disabled on the Virtual
+     * Machines in the Virtual Machine Scale Set. For instance: whether the
+     * Virtual Machines have the capability to support attaching managed data
+     * disks with UltraSSD_LRS storage account type.
+     */
+    @JsonProperty(value = "properties.additionalCapabilities")
+    private AdditionalCapabilities additionalCapabilities;
+
+    /**
+     * Specifies the scale-in policy that decides which virtual machines are
+     * chosen for removal when a Virtual Machine Scale Set is scaled-in.
+     */
+    @JsonProperty(value = "properties.scaleInPolicy")
+    private ScaleInPolicy scaleInPolicy;
+
+    /**
+     * Specifies information about the proximity placement group that the
+     * virtual machine scale set should be assigned to.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     */
+    @JsonProperty(value = "properties.proximityPlacementGroup")
+    private SubResource proximityPlacementGroup;
 
     /**
      * The identity of the virtual machine scale set, if configured.
@@ -122,6 +161,26 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
     }
 
     /**
+     * Get policy for automatic repairs.
+     *
+     * @return the automaticRepairsPolicy value
+     */
+    public AutomaticRepairsPolicy automaticRepairsPolicy() {
+        return this.automaticRepairsPolicy;
+    }
+
+    /**
+     * Set policy for automatic repairs.
+     *
+     * @param automaticRepairsPolicy the automaticRepairsPolicy value to set
+     * @return the VirtualMachineScaleSetUpdate object itself.
+     */
+    public VirtualMachineScaleSetUpdate withAutomaticRepairsPolicy(AutomaticRepairsPolicy automaticRepairsPolicy) {
+        this.automaticRepairsPolicy = automaticRepairsPolicy;
+        return this;
+    }
+
+    /**
      * Get the virtual machine profile.
      *
      * @return the virtualMachineProfile value
@@ -162,6 +221,26 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
     }
 
     /**
+     * Get when Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs.
+     *
+     * @return the doNotRunExtensionsOnOverprovisionedVMs value
+     */
+    public Boolean doNotRunExtensionsOnOverprovisionedVMs() {
+        return this.doNotRunExtensionsOnOverprovisionedVMs;
+    }
+
+    /**
+     * Set when Overprovision is enabled, extensions are launched only on the requested number of VMs which are finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned VMs.
+     *
+     * @param doNotRunExtensionsOnOverprovisionedVMs the doNotRunExtensionsOnOverprovisionedVMs value to set
+     * @return the VirtualMachineScaleSetUpdate object itself.
+     */
+    public VirtualMachineScaleSetUpdate withDoNotRunExtensionsOnOverprovisionedVMs(Boolean doNotRunExtensionsOnOverprovisionedVMs) {
+        this.doNotRunExtensionsOnOverprovisionedVMs = doNotRunExtensionsOnOverprovisionedVMs;
+        return this;
+    }
+
+    /**
      * Get when true this limits the scale set to a single placement group, of max size 100 virtual machines.
      *
      * @return the singlePlacementGroup value
@@ -178,6 +257,66 @@ public class VirtualMachineScaleSetUpdate extends UpdateResource {
      */
     public VirtualMachineScaleSetUpdate withSinglePlacementGroup(Boolean singlePlacementGroup) {
         this.singlePlacementGroup = singlePlacementGroup;
+        return this;
+    }
+
+    /**
+     * Get specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type.
+     *
+     * @return the additionalCapabilities value
+     */
+    public AdditionalCapabilities additionalCapabilities() {
+        return this.additionalCapabilities;
+    }
+
+    /**
+     * Set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with UltraSSD_LRS storage account type.
+     *
+     * @param additionalCapabilities the additionalCapabilities value to set
+     * @return the VirtualMachineScaleSetUpdate object itself.
+     */
+    public VirtualMachineScaleSetUpdate withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
+        this.additionalCapabilities = additionalCapabilities;
+        return this;
+    }
+
+    /**
+     * Get specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
+     *
+     * @return the scaleInPolicy value
+     */
+    public ScaleInPolicy scaleInPolicy() {
+        return this.scaleInPolicy;
+    }
+
+    /**
+     * Set specifies the scale-in policy that decides which virtual machines are chosen for removal when a Virtual Machine Scale Set is scaled-in.
+     *
+     * @param scaleInPolicy the scaleInPolicy value to set
+     * @return the VirtualMachineScaleSetUpdate object itself.
+     */
+    public VirtualMachineScaleSetUpdate withScaleInPolicy(ScaleInPolicy scaleInPolicy) {
+        this.scaleInPolicy = scaleInPolicy;
+        return this;
+    }
+
+    /**
+     * Get specifies information about the proximity placement group that the virtual machine scale set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @return the proximityPlacementGroup value
+     */
+    public SubResource proximityPlacementGroup() {
+        return this.proximityPlacementGroup;
+    }
+
+    /**
+     * Set specifies information about the proximity placement group that the virtual machine scale set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @param proximityPlacementGroup the proximityPlacementGroup value to set
+     * @return the VirtualMachineScaleSetUpdate object itself.
+     */
+    public VirtualMachineScaleSetUpdate withProximityPlacementGroup(SubResource proximityPlacementGroup) {
+        this.proximityPlacementGroup = proximityPlacementGroup;
         return this;
     }
 

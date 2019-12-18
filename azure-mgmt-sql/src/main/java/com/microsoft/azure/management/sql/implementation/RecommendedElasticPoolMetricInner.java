@@ -35,7 +35,7 @@ public class RecommendedElasticPoolMetricInner {
     private Double sizeGB;
 
     /**
-     * Get the dateTimeProperty value.
+     * Get the time of metric (ISO8601 format).
      *
      * @return the dateTimeProperty value
      */
@@ -44,7 +44,7 @@ public class RecommendedElasticPoolMetricInner {
     }
 
     /**
-     * Set the dateTimeProperty value.
+     * Set the time of metric (ISO8601 format).
      *
      * @param dateTimeProperty the dateTimeProperty value to set
      * @return the RecommendedElasticPoolMetricInner object itself.
@@ -55,7 +55,7 @@ public class RecommendedElasticPoolMetricInner {
     }
 
     /**
-     * Get the dtu value.
+     * Get gets or sets the DTUs (Database Transaction Units). See https://azure.microsoft.com/documentation/articles/sql-database-what-is-a-dtu/.
      *
      * @return the dtu value
      */
@@ -64,7 +64,7 @@ public class RecommendedElasticPoolMetricInner {
     }
 
     /**
-     * Set the dtu value.
+     * Set gets or sets the DTUs (Database Transaction Units). See https://azure.microsoft.com/documentation/articles/sql-database-what-is-a-dtu/.
      *
      * @param dtu the dtu value to set
      * @return the RecommendedElasticPoolMetricInner object itself.
@@ -75,7 +75,7 @@ public class RecommendedElasticPoolMetricInner {
     }
 
     /**
-     * Get the sizeGB value.
+     * Get gets or sets size in gigabytes.
      *
      * @return the sizeGB value
      */
@@ -84,7 +84,7 @@ public class RecommendedElasticPoolMetricInner {
     }
 
     /**
-     * Set the sizeGB value.
+     * Set gets or sets size in gigabytes.
      *
      * @param sizeGB the sizeGB value to set
      * @return the RecommendedElasticPoolMetricInner object itself.

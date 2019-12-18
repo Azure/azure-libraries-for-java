@@ -57,7 +57,7 @@ public class PercentileMetricValue extends MetricValue {
     private Double p99;
 
     /**
-     * Get the p10 value.
+     * Get the 10th percentile value for the metric.
      *
      * @return the p10 value
      */
@@ -66,7 +66,7 @@ public class PercentileMetricValue extends MetricValue {
     }
 
     /**
-     * Get the p25 value.
+     * Get the 25th percentile value for the metric.
      *
      * @return the p25 value
      */
@@ -75,7 +75,7 @@ public class PercentileMetricValue extends MetricValue {
     }
 
     /**
-     * Get the p50 value.
+     * Get the 50th percentile value for the metric.
      *
      * @return the p50 value
      */
@@ -84,7 +84,7 @@ public class PercentileMetricValue extends MetricValue {
     }
 
     /**
-     * Get the p75 value.
+     * Get the 75th percentile value for the metric.
      *
      * @return the p75 value
      */
@@ -93,7 +93,7 @@ public class PercentileMetricValue extends MetricValue {
     }
 
     /**
-     * Get the p90 value.
+     * Get the 90th percentile value for the metric.
      *
      * @return the p90 value
      */
@@ -102,7 +102,7 @@ public class PercentileMetricValue extends MetricValue {
     }
 
     /**
-     * Get the p95 value.
+     * Get the 95th percentile value for the metric.
      *
      * @return the p95 value
      */
@@ -111,7 +111,7 @@ public class PercentileMetricValue extends MetricValue {
     }
 
     /**
-     * Get the p99 value.
+     * Get the 99th percentile value for the metric.
      *
      * @return the p99 value
      */

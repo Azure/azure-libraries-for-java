@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
+import com.microsoft.azure.management.resources.ExportTemplateRequest;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.ResourceGroupExportResult;
 import com.microsoft.azure.management.resources.ResourceGroupExportTemplateOptions;
@@ -33,14 +34,9 @@ class ResourceGroupImpl extends
 
     private final ResourceGroupsInner client;
 
-    protected ResourceGroupImpl(final ResourceGroupInner innerModel, final ResourceManagementClientImpl serviceClient) {
-        super(innerModel.name(), innerModel);
+    protected ResourceGroupImpl(final ResourceGroupInner innerModel, String name, final ResourceManagementClientImpl serviceClient) {
+        super(name, innerModel);
         this.client = serviceClient.resourceGroups();
-    }
-
-    @Override
-    public String name() {
-        return this.inner().name();
     }
 
     @Override
@@ -70,7 +66,7 @@ class ResourceGroupImpl extends
 
     @Override
     public Map<String, String> tags() {
-        Map<String, String> tags = this.inner().tags();
+        Map<String, String> tags = this.inner().getTags();
         if (tags == null) {
             tags = new HashMap<>();
         }
@@ -84,7 +80,7 @@ class ResourceGroupImpl extends
 
     @Override
     public Observable<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options) {
-        ExportTemplateRequestInner inner = new ExportTemplateRequestInner()
+        ExportTemplateRequest inner = new ExportTemplateRequest()
                 .withResources(Arrays.asList("*"))
                 .withOptions(options.toString());
         return client.exportTemplateAsync(name(), inner).map(new Func1<ResourceGroupExportResultInner, ResourceGroupExportResult>() {
@@ -119,16 +115,16 @@ class ResourceGroupImpl extends
 
     @Override
     public ResourceGroupImpl withTag(String key, String value) {
-        if (this.inner().tags() == null) {
+        if (this.inner().getTags() == null) {
             this.inner().withTags(new HashMap<String, String>());
         }
-        this.inner().tags().put(key, value);
+        this.inner().getTags().put(key, value);
         return this;
     }
 
     @Override
     public ResourceGroupImpl withoutTag(String key) {
-        this.inner().tags().remove(key);
+        this.inner().getTags().remove(key);
         return this;
     }
 
@@ -136,7 +132,7 @@ class ResourceGroupImpl extends
     public Observable<ResourceGroup> createResourceAsync() {
         ResourceGroupInner params = new ResourceGroupInner();
         params.withLocation(this.inner().location());
-        params.withTags(this.inner().tags());
+        params.withTags(this.inner().getTags());
         return client.createOrUpdateAsync(this.name(), params)
                 .map(innerToFluentMap(this));
     }

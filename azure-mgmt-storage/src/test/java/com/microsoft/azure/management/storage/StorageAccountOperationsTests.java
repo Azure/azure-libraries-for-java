@@ -37,20 +37,26 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
     @Test
     public void canCRUDStorageAccount() throws Exception {
         // Name available
-        CheckNameAvailabilityResult result = storageManager.storageAccounts()
-                .checkNameAvailability(SA_NAME);
-        Assert.assertEquals(true, result.isAvailable());
+        // Skipping checking name availability for now because of 503 error 'The service is not yet ready to process any requests. Please retry in a few moments.'
+//        CheckNameAvailabilityResult result = storageManager.storageAccounts()
+//                .checkNameAvailability(SA_NAME);
+//        Assert.assertEquals(true, result.isAvailable());
         // Create
         Observable<Indexable> resourceStream = storageManager.storageAccounts()
                 .define(SA_NAME)
                 .withRegion(Region.ASIA_EAST)
                 .withNewResourceGroup(RG_NAME)
+                .withGeneralPurposeAccountKindV2()
                 .withTag("tag1", "value1")
+                .withHnsEnabled(true)
+                .withAzureFilesAadIntegrationEnabled(false)
                 .createAsync();
         StorageAccount storageAccount = Utils.<StorageAccount>rootResource(resourceStream)
                 .toBlocking().last();
         Assert.assertEquals(RG_NAME, storageAccount.resourceGroupName());
         Assert.assertEquals(SkuName.STANDARD_GRS, storageAccount.sku().name());
+        Assert.assertTrue(storageAccount.isHnsEnabled());
+        Assert.assertFalse(storageAccount.isAzureFilesAadIntegrationEnabled());
         // List
         List<StorageAccount> accounts = storageManager.storageAccounts().listByResourceGroup(RG_NAME);
         boolean found = false;

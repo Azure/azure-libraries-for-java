@@ -33,7 +33,7 @@ public class SyncGroupSchemaTableColumn {
     private String dataType;
 
     /**
-     * Get the quotedName value.
+     * Get quoted name of sync group table column.
      *
      * @return the quotedName value
      */
@@ -42,7 +42,7 @@ public class SyncGroupSchemaTableColumn {
     }
 
     /**
-     * Set the quotedName value.
+     * Set quoted name of sync group table column.
      *
      * @param quotedName the quotedName value to set
      * @return the SyncGroupSchemaTableColumn object itself.
@@ -53,7 +53,7 @@ public class SyncGroupSchemaTableColumn {
     }
 
     /**
-     * Get the dataSize value.
+     * Get data size of the column.
      *
      * @return the dataSize value
      */
@@ -62,7 +62,7 @@ public class SyncGroupSchemaTableColumn {
     }
 
     /**
-     * Set the dataSize value.
+     * Set data size of the column.
      *
      * @param dataSize the dataSize value to set
      * @return the SyncGroupSchemaTableColumn object itself.
@@ -73,7 +73,7 @@ public class SyncGroupSchemaTableColumn {
     }
 
     /**
-     * Get the dataType value.
+     * Get data type of the column.
      *
      * @return the dataType value
      */
@@ -82,7 +82,7 @@ public class SyncGroupSchemaTableColumn {
     }
 
     /**
-     * Set the dataType value.
+     * Set data type of the column.
      *
      * @param dataType the dataType value to set
      * @return the SyncGroupSchemaTableColumn object itself.

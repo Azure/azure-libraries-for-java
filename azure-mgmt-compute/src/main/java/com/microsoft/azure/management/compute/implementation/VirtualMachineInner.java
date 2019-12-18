@@ -11,14 +11,17 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.management.compute.Plan;
 import com.microsoft.azure.management.compute.HardwareProfile;
 import com.microsoft.azure.management.compute.StorageProfile;
+import com.microsoft.azure.management.compute.AdditionalCapabilities;
 import com.microsoft.azure.management.compute.OSProfile;
 import com.microsoft.azure.management.compute.NetworkProfile;
 import com.microsoft.azure.management.compute.DiagnosticsProfile;
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
+import com.microsoft.azure.management.compute.VirtualMachineEvictionPolicyTypes;
+import com.microsoft.azure.management.compute.BillingProfile;
 import java.util.List;
 import com.microsoft.azure.management.compute.VirtualMachineIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.compute.VirtualMachineInstanceView;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
 
@@ -52,6 +55,13 @@ public class VirtualMachineInner extends Resource {
     private StorageProfile storageProfile;
 
     /**
+     * Specifies additional capabilities enabled or disabled on the virtual
+     * machine.
+     */
+    @JsonProperty(value = "properties.additionalCapabilities")
+    private AdditionalCapabilities additionalCapabilities;
+
+    /**
      * Specifies the operating system settings for the virtual machine.
      */
     @JsonProperty(value = "properties.osProfile")
@@ -77,15 +87,68 @@ public class VirtualMachineInner extends Resource {
      * availability. For more information about availability sets, see [Manage
      * the availability of virtual
      * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
-     * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance,
+     * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance,
      * see [Planned maintenance for virtual machines in
      * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
      * &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability
      * set at creation time. An existing VM cannot be added to an availability
-     * set.
+     * set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a
+     * non-null properties.virtualMachineScaleSet reference.
      */
     @JsonProperty(value = "properties.availabilitySet")
     private SubResource availabilitySet;
+
+    /**
+     * Specifies information about the virtual machine scale set that the
+     * virtual machine should be assigned to. Virtual machines specified in the
+     * same virtual machine scale set are allocated to different nodes to
+     * maximize availability. Currently, a VM can only be added to virtual
+     * machine scale set at creation time. An existing VM cannot be added to a
+     * virtual machine scale set. &lt;br&gt;&lt;br&gt;This property cannot
+     * exist along with a non-null properties.availabilitySet reference.
+     * &lt;br&gt;&lt;br&gt;Minimum api‐version: 2019‐03‐01.
+     */
+    @JsonProperty(value = "properties.virtualMachineScaleSet")
+    private SubResource virtualMachineScaleSet;
+
+    /**
+     * Specifies information about the proximity placement group that the
+     * virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum
+     * api-version: 2018-04-01.
+     */
+    @JsonProperty(value = "properties.proximityPlacementGroup")
+    private SubResource proximityPlacementGroup;
+
+    /**
+     * Specifies the priority for the virtual machine.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values
+     * include: 'Regular', 'Low', 'Spot'.
+     */
+    @JsonProperty(value = "properties.priority")
+    private VirtualMachinePriorityTypes priority;
+
+    /**
+     * Specifies the eviction policy for the Azure Spot virtual machine. Only
+     * supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum
+     * api-version: 2019-03-01. Possible values include: 'Deallocate',
+     * 'Delete'.
+     */
+    @JsonProperty(value = "properties.evictionPolicy")
+    private VirtualMachineEvictionPolicyTypes evictionPolicy;
+
+    /**
+     * Specifies the billing related details of a Azure Spot virtual machine.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     */
+    @JsonProperty(value = "properties.billingProfile")
+    private BillingProfile billingProfile;
+
+    /**
+     * Specifies information about the dedicated host that the virtual machine
+     * resides in. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-10-01.
+     */
+    @JsonProperty(value = "properties.host")
+    private SubResource host;
 
     /**
      * The provisioning state, which only appears in the response.
@@ -97,7 +160,7 @@ public class VirtualMachineInner extends Resource {
      * The virtual machine instance view.
      */
     @JsonProperty(value = "properties.instanceView", access = JsonProperty.Access.WRITE_ONLY)
-    private VirtualMachineInstanceView instanceView;
+    private VirtualMachineInstanceViewInner instanceView;
 
     /**
      * Specifies that the image or disk that is being used was licensed
@@ -201,6 +264,26 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
+     * Get specifies additional capabilities enabled or disabled on the virtual machine.
+     *
+     * @return the additionalCapabilities value
+     */
+    public AdditionalCapabilities additionalCapabilities() {
+        return this.additionalCapabilities;
+    }
+
+    /**
+     * Set specifies additional capabilities enabled or disabled on the virtual machine.
+     *
+     * @param additionalCapabilities the additionalCapabilities value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
+        this.additionalCapabilities = additionalCapabilities;
+        return this;
+    }
+
+    /**
      * Get specifies the operating system settings for the virtual machine.
      *
      * @return the osProfile value
@@ -261,7 +344,7 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Get specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
+     * Get specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
      *
      * @return the availabilitySet value
      */
@@ -270,13 +353,133 @@ public class VirtualMachineInner extends Resource {
     }
 
     /**
-     * Set specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set.
+     * Set specifies information about the availability set that the virtual machine should be assigned to. Virtual machines specified in the same availability set are allocated to different nodes to maximize availability. For more information about availability sets, see [Manage the availability of virtual machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json). &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see [Planned maintenance for virtual machines in Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json) &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set at creation time. An existing VM cannot be added to an availability set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null properties.virtualMachineScaleSet reference.
      *
      * @param availabilitySet the availabilitySet value to set
      * @return the VirtualMachineInner object itself.
      */
     public VirtualMachineInner withAvailabilitySet(SubResource availabilitySet) {
         this.availabilitySet = availabilitySet;
+        return this;
+    }
+
+    /**
+     * Get specifies information about the virtual machine scale set that the virtual machine should be assigned to. Virtual machines specified in the same virtual machine scale set are allocated to different nodes to maximize availability. Currently, a VM can only be added to virtual machine scale set at creation time. An existing VM cannot be added to a virtual machine scale set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null properties.availabilitySet reference. &lt;br&gt;&lt;br&gt;Minimum api‐version: 2019‐03‐01.
+     *
+     * @return the virtualMachineScaleSet value
+     */
+    public SubResource virtualMachineScaleSet() {
+        return this.virtualMachineScaleSet;
+    }
+
+    /**
+     * Set specifies information about the virtual machine scale set that the virtual machine should be assigned to. Virtual machines specified in the same virtual machine scale set are allocated to different nodes to maximize availability. Currently, a VM can only be added to virtual machine scale set at creation time. An existing VM cannot be added to a virtual machine scale set. &lt;br&gt;&lt;br&gt;This property cannot exist along with a non-null properties.availabilitySet reference. &lt;br&gt;&lt;br&gt;Minimum api‐version: 2019‐03‐01.
+     *
+     * @param virtualMachineScaleSet the virtualMachineScaleSet value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withVirtualMachineScaleSet(SubResource virtualMachineScaleSet) {
+        this.virtualMachineScaleSet = virtualMachineScaleSet;
+        return this;
+    }
+
+    /**
+     * Get specifies information about the proximity placement group that the virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @return the proximityPlacementGroup value
+     */
+    public SubResource proximityPlacementGroup() {
+        return this.proximityPlacementGroup;
+    }
+
+    /**
+     * Set specifies information about the proximity placement group that the virtual machine should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @param proximityPlacementGroup the proximityPlacementGroup value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withProximityPlacementGroup(SubResource proximityPlacementGroup) {
+        this.proximityPlacementGroup = proximityPlacementGroup;
+        return this;
+    }
+
+    /**
+     * Get specifies the priority for the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Regular', 'Low', 'Spot'.
+     *
+     * @return the priority value
+     */
+    public VirtualMachinePriorityTypes priority() {
+        return this.priority;
+    }
+
+    /**
+     * Set specifies the priority for the virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Regular', 'Low', 'Spot'.
+     *
+     * @param priority the priority value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withPriority(VirtualMachinePriorityTypes priority) {
+        this.priority = priority;
+        return this;
+    }
+
+    /**
+     * Get specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Deallocate', 'Delete'.
+     *
+     * @return the evictionPolicy value
+     */
+    public VirtualMachineEvictionPolicyTypes evictionPolicy() {
+        return this.evictionPolicy;
+    }
+
+    /**
+     * Set specifies the eviction policy for the Azure Spot virtual machine. Only supported value is 'Deallocate'. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01. Possible values include: 'Deallocate', 'Delete'.
+     *
+     * @param evictionPolicy the evictionPolicy value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withEvictionPolicy(VirtualMachineEvictionPolicyTypes evictionPolicy) {
+        this.evictionPolicy = evictionPolicy;
+        return this;
+    }
+
+    /**
+     * Get specifies the billing related details of a Azure Spot virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     *
+     * @return the billingProfile value
+     */
+    public BillingProfile billingProfile() {
+        return this.billingProfile;
+    }
+
+    /**
+     * Set specifies the billing related details of a Azure Spot virtual machine. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     *
+     * @param billingProfile the billingProfile value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withBillingProfile(BillingProfile billingProfile) {
+        this.billingProfile = billingProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies information about the dedicated host that the virtual machine resides in. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-10-01.
+     *
+     * @return the host value
+     */
+    public SubResource host() {
+        return this.host;
+    }
+
+    /**
+     * Set specifies information about the dedicated host that the virtual machine resides in. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-10-01.
+     *
+     * @param host the host value to set
+     * @return the VirtualMachineInner object itself.
+     */
+    public VirtualMachineInner withHost(SubResource host) {
+        this.host = host;
         return this;
     }
 
@@ -294,7 +497,7 @@ public class VirtualMachineInner extends Resource {
      *
      * @return the instanceView value
      */
-    public VirtualMachineInstanceView instanceView() {
+    public VirtualMachineInstanceViewInner instanceView() {
         return this.instanceView;
     }
 

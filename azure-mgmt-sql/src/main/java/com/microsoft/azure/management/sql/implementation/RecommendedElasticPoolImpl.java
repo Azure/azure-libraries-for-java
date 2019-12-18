@@ -8,7 +8,7 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.management.sql.RecommendedElasticPool;
 import com.microsoft.azure.management.sql.RecommendedElasticPoolMetric;
 import com.microsoft.azure.management.sql.SqlDatabase;
@@ -52,7 +52,7 @@ class RecommendedElasticPoolImpl
     }
 
     @Override
-    public ElasticPoolEditions databaseEdition() {
+    public ElasticPoolEdition databaseEdition() {
         return this.inner().databaseEdition();
     }
 

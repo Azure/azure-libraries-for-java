@@ -15,10 +15,10 @@ import com.fasterxml.jackson.annotation.JsonValue;
  * Defines values for PoolProvisioningState.
  */
 public enum PoolProvisioningState {
-    /** Enum value Succeeded. */
+    /** The pool is available to run tasks subject to the availability of compute nodes. */
     SUCCEEDED("Succeeded"),
 
-    /** Enum value Deleting. */
+    /** The user has requested that the pool be deleted, but the delete operation has not yet completed. */
     DELETING("Deleting");
 
     /** The actual serialized value for a PoolProvisioningState instance. */

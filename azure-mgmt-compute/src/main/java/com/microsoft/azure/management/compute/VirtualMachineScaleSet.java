@@ -14,9 +14,9 @@ import com.microsoft.azure.management.compute.implementation.VirtualMachineScale
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.ApplicationSecurityGroup;
+import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
-import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
@@ -167,7 +167,6 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return result of PowerShell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runPowerShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -178,7 +177,6 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runPowerShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -189,7 +187,6 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return result of shell script execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runShellScriptInVMInstance(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
 
@@ -201,7 +198,6 @@ public interface VirtualMachineScaleSet extends
      * @param scriptParameters script parameters
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runShellScriptInVMInstanceAsync(String vmId, List<String> scriptLines, List<RunCommandInputParameter> scriptParameters);
 
     /**
@@ -211,7 +207,6 @@ public interface VirtualMachineScaleSet extends
      * @param inputCommand command input
      * @return result of execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     RunCommandResult runCommandInVMInstance(String vmId, RunCommandInput inputCommand);
 
     /**
@@ -221,7 +216,6 @@ public interface VirtualMachineScaleSet extends
      * @param inputCommand command input
      * @return handle to the asynchronous execution
      */
-    @Beta(Beta.SinceVersion.V1_14_0)
     Observable<RunCommandResult> runCommandVMInstanceAsync(String vmId, RunCommandInput inputCommand);
 
     // Getters
@@ -360,6 +354,12 @@ public interface VirtualMachineScaleSet extends
     VirtualMachinePriorityTypes virtualMachinePriority();
 
     /**
+     * @return the billing related details of the low priority virtual machines in the scale set.
+     */
+    @Beta(Beta.SinceVersion.V1_25_0)
+    BillingProfile billingProfile();
+
+    /**
      * @return the eviction policy of the virtual machines in the scale set.
      */
     @Beta(Beta.SinceVersion.V1_11_0)
@@ -491,6 +491,29 @@ public interface VirtualMachineScaleSet extends
     List<String> applicationSecurityGroupIds();
 
     /**
+     * @return When Overprovision is enabled, extensions are launched only on the
+     * requested number of VMs which are finally kept. This property will hence
+     * ensure that the extensions do not run on the extra overprovisioned VMs.
+     */
+    Boolean doNotRunExtensionsOnOverprovisionedVMs();
+
+    /**
+     * Get specifies information about the proximity placement group that the virtual machine scale set should be
+     * assigned to.
+     * @return the proximityPlacementGroup.
+     */
+    ProximityPlacementGroup proximityPlacementGroup();
+
+    /**
+     * Get specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine Scale
+     * Set. For instance: whether the Virtual Machines have the capability to support attaching managed data disks with
+     * UltraSSD_LRS storage account type.
+     *
+     * @return the additionalCapabilities value
+     */
+    AdditionalCapabilities additionalCapabilities();
+
+    /**
      * The virtual machine scale set stages shared between managed and unmanaged based
      * virtual machine scale set definitions.
      */
@@ -498,6 +521,7 @@ public interface VirtualMachineScaleSet extends
             DefinitionStages.Blank,
             DefinitionStages.WithGroup,
             DefinitionStages.WithSku,
+            DefinitionStages.WithProximityPlacementGroup,
             DefinitionStages.WithNetworkSubnet,
             DefinitionStages.WithPrimaryInternetFacingLoadBalancer,
             DefinitionStages.WithPrimaryInternalLoadBalancer,
@@ -583,7 +607,7 @@ public interface VirtualMachineScaleSet extends
              * @param skuType the SKU type
              * @return the next stage of the definition
              */
-            WithNetworkSubnet withSku(VirtualMachineScaleSetSkuTypes skuType);
+            WithProximityPlacementGroup withSku(VirtualMachineScaleSetSkuTypes skuType);
 
             /**
              * Specifies the SKU for the virtual machines in the scale set.
@@ -591,7 +615,64 @@ public interface VirtualMachineScaleSet extends
              * @param sku a SKU from the list of available sizes for the virtual machines in this scale set
              * @return the next stage of the definition
              */
-            WithNetworkSubnet withSku(VirtualMachineScaleSetSku sku);
+            WithProximityPlacementGroup withSku(VirtualMachineScaleSetSku sku);
+        }
+
+        /**
+         * The stage of a virtual machine scale set definition allowing to
+         * set information about the proximity placement group that the virtual machine scale set should
+         * be assigned to.
+         */
+        interface WithProximityPlacementGroup extends WithDoNotRunExtensionsOnOverprovisionedVms {
+            /**
+             * Set information about the proximity placement group that the virtual machine scale set should
+             * be assigned to.
+             * @param proximityPlacementGroupId  The Id of the proximity placement group subResource.
+             *
+             * @return the next stage of the definition.
+             */
+            WithDoNotRunExtensionsOnOverprovisionedVms withProximityPlacementGroup(String proximityPlacementGroupId);
+
+            /**
+             * Creates a new proximity placement gruup witht he specified name and then adds it to the VM scale set.
+             * @param proximityPlacementGroupName The name of the group to be created.
+             * @param type the type of the group
+             * @return the next stage of the definition.
+             */
+            WithDoNotRunExtensionsOnOverprovisionedVms withNewProximityPlacementGroup(String proximityPlacementGroupName,
+                                                                                      ProximityPlacementGroupType type);
+        }
+
+        /**
+         * The stage of a virtual machine scale set definition allowing to
+         * set when Overprovision is enabled, extensions are launched only on the requested number of VMs
+         * which are finally kept.
+         */
+        interface WithDoNotRunExtensionsOnOverprovisionedVms extends WithAdditionalCapabilities {
+            /**
+             * Set when Overprovision is enabled, extensions are launched only on the requested number of VMs which are
+             * finally kept. This property will hence ensure that the extensions do not run on the extra overprovisioned
+             * VMs.
+             * @param doNotRunExtensionsOnOverprovisionedVMs the doNotRunExtensionsOnOverprovisionedVMs value to set
+             * @return the next stage of the definition.
+             */
+            WithAdditionalCapabilities withDoNotRunExtensionsOnOverprovisionedVMs(Boolean doNotRunExtensionsOnOverprovisionedVMs);
+        }
+
+        /**
+         * The stage of a virtual machine scale set definition allowing to
+         * set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine
+         * Scale Set.
+         */
+        interface WithAdditionalCapabilities extends WithNetworkSubnet {
+            /**
+             * Set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine
+             * Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed
+             * data disks with UltraSSD_LRS storage account type.
+             * @param additionalCapabilities the additionalCapabilities value to set
+             * @return the next stage of the definition.
+             */
+            WithNetworkSubnet withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities);
         }
 
         /**
@@ -1452,6 +1533,19 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of the virtual machine scale set definition allowing to specify the secrets.
+         */
+        interface WithSecrets {
+            /**
+             *  Specifies set of certificates that should be installed onto the virtual machine.
+             *
+             * @param secrets the secrets value to set
+             * @return the next stage in the definition he secrets value to set
+             */
+            WithCreate withSecrets(List<VaultSecretGroup> secrets);
+        }
+
+        /**
          * The stage of a virtual machine scale set definition allowing to specify extensions.
          */
         interface WithExtension {
@@ -1598,6 +1692,21 @@ public interface VirtualMachineScaleSet extends
              */
             @Beta(Beta.SinceVersion.V1_4_0)
             WithCreate withBootDiagnostics(String storageAccountBlobEndpointUri);
+        }
+
+        /**
+         * The stage of the virtual machine definition allowing to specify billing profile.
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        interface WithBillingProfile {
+
+            /**
+             * Set the billing related details of the low priority virtual machines in the scale set. This price is in US Dollars.
+             * @param maxPrice the maxPrice value to set
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_25_0)
+            WithCreate withMaxPrice(Double maxPrice);
         }
 
         /**
@@ -1821,6 +1930,7 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithSystemAssignedManagedServiceIdentity,
                 DefinitionStages.WithUserAssignedManagedServiceIdentity,
                 DefinitionStages.WithBootDiagnostics,
+                DefinitionStages.WithBillingProfile,
                 DefinitionStages.WithVMPriority,
                 DefinitionStages.WithVirtualMachinePublicIp,
                 DefinitionStages.WithAcceleratedNetworking,
@@ -1829,6 +1939,7 @@ public interface VirtualMachineScaleSet extends
                 DefinitionStages.WithSinglePlacementGroup,
                 DefinitionStages.WithApplicationGateway,
                 DefinitionStages.WithApplicationSecurityGroup,
+                DefinitionStages.WithSecrets,
                 Resource.DefinitionWithTags<VirtualMachineScaleSet.DefinitionStages.WithCreate> {
         }
     }
@@ -1938,6 +2049,22 @@ public interface VirtualMachineScaleSet extends
         }
 
         /**
+         * The stage of a virtual machine scale set update allowing to
+         * set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine
+         * Scale Set.
+         */
+        interface WithAdditionalCapabilities {
+            /**
+             * Set specifies additional capabilities enabled or disabled on the Virtual Machines in the Virtual Machine
+             * Scale Set. For instance: whether the Virtual Machines have the capability to support attaching managed
+             * data disks with UltraSSD_LRS storage account type.
+             * @param additionalCapabilities the additionalCapabilities value to set
+             * @return the next stage of the definition.
+             */
+            WithApply withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities);
+        }
+
+        /**
          * The stage of a virtual machine scale set update allowing to change the SKU for the virtual machines
          * in the scale set.
          */
@@ -1971,6 +2098,41 @@ public interface VirtualMachineScaleSet extends
              * @return the next stage of the update
              */
             WithApply withCapacity(int capacity);
+        }
+
+        /**
+         * The stage of the virtual machine scale set definition allowing to specify the custom data.
+         */
+        interface WithCustomData {
+            /**
+             * Specifies the custom data for the virtual machine scale set.
+             *
+             * @param base64EncodedCustomData the base64 encoded custom data
+             * @return the next stage in the definition
+             */
+            WithApply withCustomData(String base64EncodedCustomData);
+        }
+
+        /**
+         * The stage of the virtual machine definition allowing to specify extensions.
+         */
+        interface WithSecrets {
+            /**
+             * The stage of a virtual machine scale set definition allowing to update secrets from
+             * virtual machines in the scale set.
+             *
+             * @param secrets the list of secrets
+             * @return the next stage of update
+             */
+            WithApply withSecrets(List<VaultSecretGroup> secrets);
+
+            /**
+             * The stage of a virtual machine scale set definition allowing to remove secrets from
+             * virtual machines in the scale set.
+             *
+             * @return the next stage of update
+             */
+            WithApply withoutSecrets();
         }
 
         /**
@@ -2240,6 +2402,19 @@ public interface VirtualMachineScaleSet extends
             Update withoutBootDiagnostics();
         }
 
+        /**
+         * The stage of the virtual machine scale set update allowing to specify billing profile.
+         */
+        @Beta(Beta.SinceVersion.V1_25_0)
+        interface WithBillingProfile {
+            /**
+             * Set the billing related details of the low priority virtual machines in the scale set.
+             *
+             * @param maxPrice max price to set
+             * @return the next stage of update
+             */
+            Update withMaxPrice(Double maxPrice);
+        }
 
         /**
          * The stage of the virtual machine scale set definition allowing to specify unmanaged data disk.
@@ -2549,7 +2724,10 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithManagedDataDisk,
                 UpdateStages.WithUnmanagedDataDisk,
                 UpdateStages.WithSku,
+                UpdateStages.WithAdditionalCapabilities,
                 UpdateStages.WithCapacity,
+                UpdateStages.WithCustomData,
+                UpdateStages.WithSecrets,
                 UpdateStages.WithExtension,
                 UpdateStages.WithoutPrimaryLoadBalancer,
                 UpdateStages.WithoutPrimaryLoadBalancerBackend,
@@ -2557,6 +2735,7 @@ public interface VirtualMachineScaleSet extends
                 UpdateStages.WithSystemAssignedManagedServiceIdentity,
                 UpdateStages.WithUserAssignedManagedServiceIdentity,
                 UpdateStages.WithBootDiagnostics,
+                UpdateStages.WithBillingProfile,
                 UpdateStages.WithAvailabilityZone,
                 UpdateStages.WithVirtualMachinePublicIp,
                 UpdateStages.WithAcceleratedNetworking,

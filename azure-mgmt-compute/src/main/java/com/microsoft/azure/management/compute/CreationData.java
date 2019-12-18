@@ -17,7 +17,7 @@ public class CreationData {
     /**
      * This enumerates the possible sources of a disk's creation. Possible
      * values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy',
-     * 'Restore'.
+     * 'Restore', 'Upload'.
      */
     @JsonProperty(value = "createOption", required = true)
     private DiskCreateOption createOption;
@@ -51,7 +51,23 @@ public class CreationData {
     private String sourceResourceId;
 
     /**
-     * Get this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore'.
+     * If this field is set, this is the unique id identifying the source of
+     * this resource.
+     */
+    @JsonProperty(value = "sourceUniqueId", access = JsonProperty.Access.WRITE_ONLY)
+    private String sourceUniqueId;
+
+    /**
+     * If createOption is Upload, this is the size of the contents of the
+     * upload including the VHD footer. This value should be between 20972032
+     * (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB
+     * + 512 bytes for the VHD footer).
+     */
+    @JsonProperty(value = "uploadSizeBytes")
+    private Long uploadSizeBytes;
+
+    /**
+     * Get this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'.
      *
      * @return the createOption value
      */
@@ -60,7 +76,7 @@ public class CreationData {
     }
 
     /**
-     * Set this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore'.
+     * Set this enumerates the possible sources of a disk's creation. Possible values include: 'Empty', 'Attach', 'FromImage', 'Import', 'Copy', 'Restore', 'Upload'.
      *
      * @param createOption the createOption value to set
      * @return the CreationData object itself.
@@ -147,6 +163,35 @@ public class CreationData {
      */
     public CreationData withSourceResourceId(String sourceResourceId) {
         this.sourceResourceId = sourceResourceId;
+        return this;
+    }
+
+    /**
+     * Get if this field is set, this is the unique id identifying the source of this resource.
+     *
+     * @return the sourceUniqueId value
+     */
+    public String sourceUniqueId() {
+        return this.sourceUniqueId;
+    }
+
+    /**
+     * Get if createOption is Upload, this is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer).
+     *
+     * @return the uploadSizeBytes value
+     */
+    public Long uploadSizeBytes() {
+        return this.uploadSizeBytes;
+    }
+
+    /**
+     * Set if createOption is Upload, this is the size of the contents of the upload including the VHD footer. This value should be between 20972032 (20 MiB + 512 bytes for the VHD footer) and 35183298347520 bytes (32 TiB + 512 bytes for the VHD footer).
+     *
+     * @param uploadSizeBytes the uploadSizeBytes value to set
+     * @return the CreationData object itself.
+     */
+    public CreationData withUploadSizeBytes(Long uploadSizeBytes) {
+        this.uploadSizeBytes = uploadSizeBytes;
         return this;
     }
 

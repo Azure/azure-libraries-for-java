@@ -17,13 +17,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class SecurityRuleAssociations {
     /**
-     * The networkInterfaceAssociation property.
+     * Network interface and it's custom security rules.
      */
     @JsonProperty(value = "networkInterfaceAssociation")
     private NetworkInterfaceAssociation networkInterfaceAssociation;
 
     /**
-     * The subnetAssociation property.
+     * Subnet and it's custom security rules.
      */
     @JsonProperty(value = "subnetAssociation")
     private SubnetAssociation subnetAssociation;
@@ -41,7 +41,7 @@ public class SecurityRuleAssociations {
     private List<EffectiveNetworkSecurityRule> effectiveSecurityRules;
 
     /**
-     * Get the networkInterfaceAssociation value.
+     * Get network interface and it's custom security rules.
      *
      * @return the networkInterfaceAssociation value
      */
@@ -50,7 +50,7 @@ public class SecurityRuleAssociations {
     }
 
     /**
-     * Set the networkInterfaceAssociation value.
+     * Set network interface and it's custom security rules.
      *
      * @param networkInterfaceAssociation the networkInterfaceAssociation value to set
      * @return the SecurityRuleAssociations object itself.
@@ -61,7 +61,7 @@ public class SecurityRuleAssociations {
     }
 
     /**
-     * Get the subnetAssociation value.
+     * Get subnet and it's custom security rules.
      *
      * @return the subnetAssociation value
      */
@@ -70,7 +70,7 @@ public class SecurityRuleAssociations {
     }
 
     /**
-     * Set the subnetAssociation value.
+     * Set subnet and it's custom security rules.
      *
      * @param subnetAssociation the subnetAssociation value to set
      * @return the SecurityRuleAssociations object itself.
@@ -81,7 +81,7 @@ public class SecurityRuleAssociations {
     }
 
     /**
-     * Get the defaultSecurityRules value.
+     * Get collection of default security rules of the network security group.
      *
      * @return the defaultSecurityRules value
      */
@@ -90,7 +90,7 @@ public class SecurityRuleAssociations {
     }
 
     /**
-     * Set the defaultSecurityRules value.
+     * Set collection of default security rules of the network security group.
      *
      * @param defaultSecurityRules the defaultSecurityRules value to set
      * @return the SecurityRuleAssociations object itself.
@@ -101,7 +101,7 @@ public class SecurityRuleAssociations {
     }
 
     /**
-     * Get the effectiveSecurityRules value.
+     * Get collection of effective security rules.
      *
      * @return the effectiveSecurityRules value
      */
@@ -110,7 +110,7 @@ public class SecurityRuleAssociations {
     }
 
     /**
-     * Set the effectiveSecurityRules value.
+     * Set collection of effective security rules.
      *
      * @param effectiveSecurityRules the effectiveSecurityRules value to set
      * @return the SecurityRuleAssociations object itself.

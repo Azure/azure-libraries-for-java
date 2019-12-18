@@ -47,7 +47,7 @@ public class JobStepExecutionOptions {
     private Double retryIntervalBackoffMultiplier;
 
     /**
-     * Get the timeoutSeconds value.
+     * Get execution timeout for the job step.
      *
      * @return the timeoutSeconds value
      */
@@ -56,7 +56,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Set the timeoutSeconds value.
+     * Set execution timeout for the job step.
      *
      * @param timeoutSeconds the timeoutSeconds value to set
      * @return the JobStepExecutionOptions object itself.
@@ -67,7 +67,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Get the retryAttempts value.
+     * Get maximum number of times the job step will be reattempted if the first attempt fails.
      *
      * @return the retryAttempts value
      */
@@ -76,7 +76,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Set the retryAttempts value.
+     * Set maximum number of times the job step will be reattempted if the first attempt fails.
      *
      * @param retryAttempts the retryAttempts value to set
      * @return the JobStepExecutionOptions object itself.
@@ -87,7 +87,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Get the initialRetryIntervalSeconds value.
+     * Get initial delay between retries for job step execution.
      *
      * @return the initialRetryIntervalSeconds value
      */
@@ -96,7 +96,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Set the initialRetryIntervalSeconds value.
+     * Set initial delay between retries for job step execution.
      *
      * @param initialRetryIntervalSeconds the initialRetryIntervalSeconds value to set
      * @return the JobStepExecutionOptions object itself.
@@ -107,7 +107,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Get the maximumRetryIntervalSeconds value.
+     * Get the maximum amount of time to wait between retries for job step execution.
      *
      * @return the maximumRetryIntervalSeconds value
      */
@@ -116,7 +116,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Set the maximumRetryIntervalSeconds value.
+     * Set the maximum amount of time to wait between retries for job step execution.
      *
      * @param maximumRetryIntervalSeconds the maximumRetryIntervalSeconds value to set
      * @return the JobStepExecutionOptions object itself.
@@ -127,7 +127,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Get the retryIntervalBackoffMultiplier value.
+     * Get the backoff multiplier for the time between retries.
      *
      * @return the retryIntervalBackoffMultiplier value
      */
@@ -136,7 +136,7 @@ public class JobStepExecutionOptions {
     }
 
     /**
-     * Set the retryIntervalBackoffMultiplier value.
+     * Set the backoff multiplier for the time between retries.
      *
      * @param retryIntervalBackoffMultiplier the retryIntervalBackoffMultiplier value to set
      * @return the JobStepExecutionOptions object itself.

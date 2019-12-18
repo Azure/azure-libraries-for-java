@@ -21,7 +21,7 @@ public class ActivateApplicationPackageParameters {
     private String format;
 
     /**
-     * Get the format value.
+     * Get the format of the application package binary file.
      *
      * @return the format value
      */
@@ -30,7 +30,7 @@ public class ActivateApplicationPackageParameters {
     }
 
     /**
-     * Set the format value.
+     * Set the format of the application package binary file.
      *
      * @param format the format value to set
      * @return the ActivateApplicationPackageParameters object itself.

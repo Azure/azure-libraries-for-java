@@ -1095,7 +1095,7 @@ public class JobExecutionsInner {
     }
 
     /**
-     * Creates or updatess a job execution.
+     * Creates or updates a job execution.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1112,7 +1112,7 @@ public class JobExecutionsInner {
     }
 
     /**
-     * Creates or updatess a job execution.
+     * Creates or updates a job execution.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1128,7 +1128,7 @@ public class JobExecutionsInner {
     }
 
     /**
-     * Creates or updatess a job execution.
+     * Creates or updates a job execution.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1148,7 +1148,7 @@ public class JobExecutionsInner {
     }
 
     /**
-     * Creates or updatess a job execution.
+     * Creates or updates a job execution.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1183,7 +1183,7 @@ public class JobExecutionsInner {
     }
 
     /**
-     * Creates or updatess a job execution.
+     * Creates or updates a job execution.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1200,7 +1200,7 @@ public class JobExecutionsInner {
     }
 
     /**
-     * Creates or updatess a job execution.
+     * Creates or updates a job execution.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1216,7 +1216,7 @@ public class JobExecutionsInner {
     }
 
     /**
-     * Creates or updatess a job execution.
+     * Creates or updates a job execution.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1236,7 +1236,7 @@ public class JobExecutionsInner {
     }
 
     /**
-     * Creates or updatess a job execution.
+     * Creates or updates a job execution.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.

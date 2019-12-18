@@ -10,6 +10,8 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerGroupInner;
 import com.microsoft.azure.management.containerinstance.implementation.ContainerInstanceManager;
+import com.microsoft.azure.management.graphrbac.BuiltInRole;
+import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
@@ -21,6 +23,7 @@ import rx.Completable;
 import rx.Observable;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -28,11 +31,11 @@ import java.util.Set;
  * An immutable client-side representation of an Azure Container Group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_3_0)
+@Beta(Beta.SinceVersion.V1_23_0)
 public interface ContainerGroup extends
-    GroupableResource<ContainerInstanceManager, ContainerGroupInner>,
-    Refreshable<ContainerGroup>,
-    Updatable<ContainerGroup.Update> {
+        GroupableResource<ContainerInstanceManager, ContainerGroupInner>,
+        Refreshable<ContainerGroup>,
+        Updatable<ContainerGroup.Update> {
 
     /***********************************************************
      * Getters
@@ -99,6 +102,11 @@ public interface ContainerGroup extends
     boolean isIPAddressPublic();
 
     /**
+     * @return true if IP address is private
+     */
+    boolean isIPAddressPrivate();
+
+    /**
      * @return the base level OS type required by the containers in the group
      */
     OperatingSystemTypes osType();
@@ -119,6 +127,55 @@ public interface ContainerGroup extends
     @Beta(Beta.SinceVersion.V1_5_0)
     Set<Event> events();
 
+    /**
+     * @return the DNS configuration for the container group
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    DnsConfiguration dnsConfig();
+
+    /**
+     * @return the id of the network profile for the container group
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    String networkProfileId();
+
+    /**
+     * @return whether managed service identity is enabled for the container group
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    boolean isManagedServiceIdentityEnabled();
+
+    /**
+     * @return the tenant id of the system assigned managed service identity. Null if managed
+     * service identity is not configured.
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    String systemAssignedManagedServiceIdentityTenantId();
+
+    /**
+     * @return the principal id of the system assigned managed service identity. Null if managed
+     * service identity is not configured.
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    String systemAssignedManagedServiceIdentityPrincipalId();
+
+    /**
+     * @return whether managed service identity is system assigned, user assigned, both, or neither
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    ResourceIdentityType managedServiceIdentityType();
+
+    /**
+     * @return the ids of the user assigned managed service identities. Returns an empty set if no
+     * MSIs are set.
+     */
+    @Beta(Beta.SinceVersion.V1_23_0)
+    Set<String> userAssignedManagedServiceIdentityIds();
+
+    /**
+     * @return the log analytics information of the container group.
+     */
+    LogAnalytics logAnalytics();
 
     /***********************************************************
      * Actions
@@ -225,15 +282,18 @@ public interface ContainerGroup extends
      * Starts the exec command for a specific container instance within the current group asynchronously.
      */
     interface Definition extends
-        DefinitionStages.Blank,
-        DefinitionStages.WithGroup,
-        DefinitionStages.WithOsType,
-        DefinitionStages.WithPublicOrPrivateImageRegistry,
-        DefinitionStages.WithPrivateImageRegistryOrVolume,
-        DefinitionStages.WithVolume,
-        DefinitionStages.WithFirstContainerInstance,
-        DefinitionStages.WithNextContainerInstance,
-        DefinitionStages.WithCreate {
+            DefinitionStages.Blank,
+            DefinitionStages.WithGroup,
+            DefinitionStages.WithOsType,
+            DefinitionStages.WithPublicOrPrivateImageRegistry,
+            DefinitionStages.WithPrivateImageRegistryOrVolume,
+            DefinitionStages.WithVolume,
+            DefinitionStages.WithFirstContainerInstance,
+            DefinitionStages.WithSystemAssignedManagedServiceIdentity,
+            DefinitionStages.WithSystemAssignedIdentityBasedAccessOrCreate,
+            DefinitionStages.WithNextContainerInstance,
+            DefinitionStages.DnsConfigFork,
+            DefinitionStages.WithCreate {
     }
 
     /**
@@ -244,14 +304,14 @@ public interface ContainerGroup extends
          * The first stage of the container group definition.
          */
         interface Blank
-            extends GroupableResource.DefinitionWithRegion<WithGroup> {
+                extends GroupableResource.DefinitionWithRegion<WithGroup> {
         }
 
         /**
          * The stage of the container group definition allowing to specify the resource group.
          */
         interface WithGroup
-            extends GroupableResource.DefinitionStages.WithGroup<DefinitionStages.WithOsType> {
+                extends GroupableResource.DefinitionStages.WithGroup<DefinitionStages.WithOsType> {
         }
 
         /**
@@ -505,7 +565,7 @@ public interface ContainerGroup extends
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithVolumeAttach<ParentT> extends
-                Attachable.InDefinition<ParentT> {
+                    Attachable.InDefinition<ParentT> {
             }
 
             /**
@@ -600,8 +660,8 @@ public interface ContainerGroup extends
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithOrWithoutPorts<ParentT> extends
-                WithPorts<ParentT>,
-                WithoutPorts<ParentT> {
+                    WithPorts<ParentT>,
+                    WithoutPorts<ParentT> {
             }
 
             /**
@@ -624,7 +684,7 @@ public interface ContainerGroup extends
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithPortsOrContainerInstanceAttach<ParentT> extends
-                WithPorts<ParentT>,
+                    WithPorts<ParentT>,
                     WithContainerInstanceAttach<ParentT> {
             }
 
@@ -752,6 +812,10 @@ public interface ContainerGroup extends
                  * @return the next stage of the definition
                  */
                 WithContainerInstanceAttach<ParentT> withCpuCoreCount(double cpuCoreCount);
+            }
+
+            interface WithGpuResource<ParentT> {
+                WithContainerInstanceAttach<ParentT> withGpuResource(int gpuCoreCount, GpuSku gpuSku);
             }
 
             /**
@@ -908,12 +972,13 @@ public interface ContainerGroup extends
              * @param <ParentT> the stage of the parent definition to return to after attaching this definition
              */
             interface WithContainerInstanceAttach<ParentT> extends
-                WithCpuCoreCount<ParentT>,
-                WithMemorySize<ParentT>,
-                WithStartingCommandLine<ParentT>,
-                WithEnvironmentVariables<ParentT>,
-                WithVolumeMountSetting<ParentT>,
-                Attachable.InDefinition<ParentT> {
+                    WithCpuCoreCount<ParentT>,
+                    WithGpuResource<ParentT>,
+                    WithMemorySize<ParentT>,
+                    WithStartingCommandLine<ParentT>,
+                    WithEnvironmentVariables<ParentT>,
+                    WithVolumeMountSetting<ParentT>,
+                    Attachable.InDefinition<ParentT> {
             }
 
             /**
@@ -926,6 +991,86 @@ public interface ContainerGroup extends
                     WithPortsOrContainerInstanceAttach<ParentT>,
                     WithContainerInstanceAttach<ParentT> {
             }
+        }
+
+        /**
+         * The stage of the container instance definition allowing to specify having system assigned managed service identity.
+         */
+        interface WithSystemAssignedManagedServiceIdentity {
+            /**
+             * Specifies a system assigned managed service identity for the container group.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedManagedServiceIdentity();
+        }
+
+        /**
+         * The stage of the container instance definition allowing to specify system assigned managed service identity with specific
+         * role based access.
+         */
+        interface WithSystemAssignedIdentityBasedAccessOrCreate extends WithCreate {
+            /**
+             * Specifies a system assigned managed service identity with access to a specific resource with a specified role.
+             *
+             * @param resourceId the id of the resource you are setting up access to
+             * @param role access role to be assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, BuiltInRole role);
+
+            /**
+             * Specifies a system assigned managed service identity with access to the current resource group and with the specified role.
+             *
+             * @param role access role to be assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole role);
+
+            /**
+             * Specifies a system assigned managed service identity with access to a specific resource with a specified role from the id.
+             *
+             * @param resourceId the id of the resource you are setting up access to
+             * @param roleDefinitionId id of the access role to be assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessTo(String resourceId, String roleDefinitionId);
+
+            /**
+             * Specifies a system assigned managed service identity with access to the current resource group and with the specified role from the id.
+             *
+             * @param roleDefinitionId id of the access role to be assigned to the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithSystemAssignedIdentityBasedAccessOrCreate withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(String roleDefinitionId);
+        }
+
+        /**
+         * The stage of the container instance definition allowing to specify user assigned managed service identity.
+         */
+        interface WithUserAssignedManagedServiceIdentity {
+            /**
+             * Specifies the definition of a not-yet-created user assigned identity to be associated with the virtual machine.
+             *
+             * @param creatableIdentity a creatable identity definition
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCreate withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity);
+
+            /**
+             * Specifies an existing user assigned identity to be associate with the container group.
+             *
+             * @param identity the identity
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCreate withExistingUserAssignedManagedServiceIdentity(Identity identity);
         }
 
         /**
@@ -956,14 +1101,90 @@ public interface ContainerGroup extends
         }
 
         /**
+         * The stage of the container group definition allowing to specify the network profile id.
+         */
+        interface WithNetworkProfile {
+            /**
+             * Specifies the network profile information for a container group.
+             *
+             * @param subscriptionId the ID of the subscription of the network profile
+             * @param resourceGroupName the name of the resource group of the network profile
+             * @param networkProfileName the name of the network profile
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            DnsConfigFork withNetworkProfileId(String subscriptionId, String resourceGroupName, String networkProfileName);
+        }
+
+        interface DnsConfigFork extends WithDnsConfig, WithCreate {
+
+        }
+
+        /**
+         * The stage of the container group definition allowing to specify the DNS configuration of the container group.
+         */
+        interface WithDnsConfig {
+            /**
+             * Specifies the DNS servers for the container group.
+             *
+             * @param dnsServerNames the names of the DNS servers
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCreate withDnsServerNames(List<String> dnsServerNames);
+
+            /**
+             * Specifies the DNS configuration for the container group.
+             *
+             * @param dnsServerNames the names of the DNS servers for the container group
+             * @param dnsSearchDomains the DNS search domains for hostname lookup in the container group
+             * @param dnsOptions the DNS options for the container group
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCreate withDnsConfiguration(List<String> dnsServerNames, String dnsSearchDomains, String dnsOptions);
+        }
+
+        /**
+         * The stage of the container group definition allowing to specify the log analytics platform for the container group.
+         */
+        interface WithLogAnalytics {
+            /**
+             * Specifies the log analytics workspace to use for the container group.
+             *
+             * @param workspaceId the id of the previously-created log analytics workspace
+             * @param workspaceKey the key of the previously-created log analytics workspace
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCreate withLogAnalytics(String workspaceId, String workspaceKey);
+
+            /**
+             * Specifies the log analytics workspace with optional add-ons for the container group.
+             *
+             * @param workspaceId the id of the previously-created log analytics workspace
+             * @param workspaceKey the key of the previously-created log analytics workspace
+             * @param logType the log type to be used. Possible values include: 'ContainerInsights', 'ContainerInstanceLogs'.
+             * @param metadata the metadata for log analytics
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_23_0)
+            WithCreate withLogAnalytics(String workspaceId, String workspaceKey, LogAnalyticsLogType logType, Map<String, String> metadata);
+        }
+
+        /**
          * The stage of the definition which contains all the minimum required inputs for the resource to be created
          *   (via {@link WithCreate#create()}), but also allows for any other optional settings to be specified.
          */
         interface WithCreate extends
-            WithRestartPolicy,
-            WithDnsPrefix,
-            Creatable<ContainerGroup>,
-            Resource.DefinitionWithTags<WithCreate> {
+                WithRestartPolicy,
+                WithSystemAssignedManagedServiceIdentity,
+                WithUserAssignedManagedServiceIdentity,
+                WithDnsPrefix,
+                WithNetworkProfile,
+                WithLogAnalytics,
+                Creatable<ContainerGroup>,
+                Resource.DefinitionWithTags<WithCreate> {
         }
     }
 
@@ -971,8 +1192,8 @@ public interface ContainerGroup extends
      * The template for an update operation, containing all the settings that can be modified.
      */
     interface Update extends
-        Resource.UpdateWithTags<Update>,
-        Appliable<ContainerGroup> {
+            Resource.UpdateWithTags<Update>,
+            Appliable<ContainerGroup> {
     }
 
 }

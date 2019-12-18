@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.compute;
 
 import java.util.List;
+import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -41,6 +42,12 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
      */
     @JsonProperty(value = "properties.ipTags")
     private List<VirtualMachineScaleSetIpTag> ipTags;
+
+    /**
+     * The PublicIPPrefix from which to allocate publicIP addresses.
+     */
+    @JsonProperty(value = "properties.publicIPPrefix")
+    private SubResource publicIPPrefix;
 
     /**
      * Get the publicIP address configuration name.
@@ -119,6 +126,26 @@ public class VirtualMachineScaleSetPublicIPAddressConfiguration {
      */
     public VirtualMachineScaleSetPublicIPAddressConfiguration withIpTags(List<VirtualMachineScaleSetIpTag> ipTags) {
         this.ipTags = ipTags;
+        return this;
+    }
+
+    /**
+     * Get the PublicIPPrefix from which to allocate publicIP addresses.
+     *
+     * @return the publicIPPrefix value
+     */
+    public SubResource publicIPPrefix() {
+        return this.publicIPPrefix;
+    }
+
+    /**
+     * Set the PublicIPPrefix from which to allocate publicIP addresses.
+     *
+     * @param publicIPPrefix the publicIPPrefix value to set
+     * @return the VirtualMachineScaleSetPublicIPAddressConfiguration object itself.
+     */
+    public VirtualMachineScaleSetPublicIPAddressConfiguration withPublicIPPrefix(SubResource publicIPPrefix) {
+        this.publicIPPrefix = publicIPPrefix;
         return this;
     }
 

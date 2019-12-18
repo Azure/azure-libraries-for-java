@@ -138,19 +138,21 @@ public class PercentileSourceTargetsInner {
         if (targetRegion == null) {
             throw new IllegalArgumentException("Parameter targetRegion is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (filter == null) {
             throw new IllegalArgumentException("Parameter filter is required and cannot be null.");
         }
-        return service.listMetrics(this.client.subscriptionId(), resourceGroupName, accountName, sourceRegion, targetRegion, this.client.apiVersion(), filter, this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listMetrics(this.client.subscriptionId(), resourceGroupName, accountName, sourceRegion, targetRegion, apiVersion, filter, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<PercentileMetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<PercentileMetricInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<PercentileMetricInner>> result = listMetricsDelegate(response);
-                        ServiceResponse<List<PercentileMetricInner>> clientResponse = new ServiceResponse<List<PercentileMetricInner>>(result.body().items(), result.response());
+                        List<PercentileMetricInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<PercentileMetricInner>> clientResponse = new ServiceResponse<List<PercentileMetricInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

@@ -22,7 +22,13 @@ public enum Kind {
     STORAGE_V2("StorageV2"),
 
     /** Enum value BlobStorage. */
-    BLOB_STORAGE("BlobStorage");
+    BLOB_STORAGE("BlobStorage"),
+
+    /** Enum value FileStorage. */
+    FILE_STORAGE("FileStorage"),
+
+    /** Enum value BlockBlobStorage. */
+    BLOCK_BLOB_STORAGE("BlockBlobStorage");
 
     /** The actual serialized value for a Kind instance. */
     private String value;

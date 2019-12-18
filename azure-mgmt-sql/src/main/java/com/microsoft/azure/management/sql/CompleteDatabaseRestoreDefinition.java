@@ -22,7 +22,7 @@ public class CompleteDatabaseRestoreDefinition {
     private String lastBackupName;
 
     /**
-     * Get the lastBackupName value.
+     * Get the last backup name to apply.
      *
      * @return the lastBackupName value
      */
@@ -31,7 +31,7 @@ public class CompleteDatabaseRestoreDefinition {
     }
 
     /**
-     * Set the lastBackupName value.
+     * Set the last backup name to apply.
      *
      * @param lastBackupName the lastBackupName value to set
      * @return the CompleteDatabaseRestoreDefinition object itself.

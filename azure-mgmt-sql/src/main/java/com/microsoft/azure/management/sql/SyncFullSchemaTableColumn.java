@@ -57,7 +57,7 @@ public class SyncFullSchemaTableColumn {
     private String quotedName;
 
     /**
-     * Get the dataSize value.
+     * Get data size of the column.
      *
      * @return the dataSize value
      */
@@ -66,7 +66,7 @@ public class SyncFullSchemaTableColumn {
     }
 
     /**
-     * Get the dataType value.
+     * Get data type of the column.
      *
      * @return the dataType value
      */
@@ -75,7 +75,7 @@ public class SyncFullSchemaTableColumn {
     }
 
     /**
-     * Get the errorId value.
+     * Get error id of the column.
      *
      * @return the errorId value
      */
@@ -84,7 +84,7 @@ public class SyncFullSchemaTableColumn {
     }
 
     /**
-     * Get the hasError value.
+     * Get if there is error in the table.
      *
      * @return the hasError value
      */
@@ -93,7 +93,7 @@ public class SyncFullSchemaTableColumn {
     }
 
     /**
-     * Get the isPrimaryKey value.
+     * Get if it is the primary key of the table.
      *
      * @return the isPrimaryKey value
      */
@@ -102,7 +102,7 @@ public class SyncFullSchemaTableColumn {
     }
 
     /**
-     * Get the name value.
+     * Get name of the column.
      *
      * @return the name value
      */
@@ -111,7 +111,7 @@ public class SyncFullSchemaTableColumn {
     }
 
     /**
-     * Get the quotedName value.
+     * Get quoted name of the column.
      *
      * @return the quotedName value
      */

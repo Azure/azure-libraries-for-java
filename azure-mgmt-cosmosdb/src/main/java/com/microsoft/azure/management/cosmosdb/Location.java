@@ -50,7 +50,14 @@ public class Location {
     private Integer failoverPriority;
 
     /**
-     * Get the id value.
+     * Flag to indicate whether or not this region is an AvailabilityZone
+     * region.
+     */
+    @JsonProperty(value = "isZoneRedundant")
+    private Boolean isZoneRedundant;
+
+    /**
+     * Get the unique identifier of the region within the database account. Example: &amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.
      *
      * @return the id value
      */
@@ -59,7 +66,7 @@ public class Location {
     }
 
     /**
-     * Get the locationName value.
+     * Get the name of the region.
      *
      * @return the locationName value
      */
@@ -68,7 +75,7 @@ public class Location {
     }
 
     /**
-     * Set the locationName value.
+     * Set the name of the region.
      *
      * @param locationName the locationName value to set
      * @return the Location object itself.
@@ -79,7 +86,7 @@ public class Location {
     }
 
     /**
-     * Get the documentEndpoint value.
+     * Get the connection endpoint for the specific region. Example: https://&amp;lt;accountName&amp;gt;-&amp;lt;locationName&amp;gt;.documents.azure.com:443/.
      *
      * @return the documentEndpoint value
      */
@@ -108,7 +115,7 @@ public class Location {
     }
 
     /**
-     * Get the failoverPriority value.
+     * Get the failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
      *
      * @return the failoverPriority value
      */
@@ -117,13 +124,33 @@ public class Location {
     }
 
     /**
-     * Set the failoverPriority value.
+     * Set the failover priority of the region. A failover priority of 0 indicates a write region. The maximum value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the regions in which the database account exists.
      *
      * @param failoverPriority the failoverPriority value to set
      * @return the Location object itself.
      */
     public Location withFailoverPriority(Integer failoverPriority) {
         this.failoverPriority = failoverPriority;
+        return this;
+    }
+
+    /**
+     * Get flag to indicate whether or not this region is an AvailabilityZone region.
+     *
+     * @return the isZoneRedundant value
+     */
+    public Boolean isZoneRedundant() {
+        return this.isZoneRedundant;
+    }
+
+    /**
+     * Set flag to indicate whether or not this region is an AvailabilityZone region.
+     *
+     * @param isZoneRedundant the isZoneRedundant value to set
+     * @return the Location object itself.
+     */
+    public Location withIsZoneRedundant(Boolean isZoneRedundant) {
+        this.isZoneRedundant = isZoneRedundant;
         return this;
     }
 

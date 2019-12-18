@@ -10,12 +10,13 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A server DNS alias.
  */
 @JsonFlatten
-public class ServerDnsAliasInner extends ProxyResourceInner {
+public class ServerDnsAliasInner extends ProxyResource {
     /**
      * The fully qualified DNS record for alias.
      */
@@ -23,7 +24,7 @@ public class ServerDnsAliasInner extends ProxyResourceInner {
     private String azureDnsRecord;
 
     /**
-     * Get the azureDnsRecord value.
+     * Get the fully qualified DNS record for alias.
      *
      * @return the azureDnsRecord value
      */

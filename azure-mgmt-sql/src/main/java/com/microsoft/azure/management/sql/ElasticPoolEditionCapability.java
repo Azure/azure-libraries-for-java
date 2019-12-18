@@ -41,7 +41,7 @@ public class ElasticPoolEditionCapability {
     private Boolean zoneRedundant;
 
     /**
-     * Get the name value.
+     * Get the elastic pool edition name.
      *
      * @return the name value
      */
@@ -50,7 +50,7 @@ public class ElasticPoolEditionCapability {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the elastic pool edition. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */
@@ -59,7 +59,7 @@ public class ElasticPoolEditionCapability {
     }
 
     /**
-     * Get the supportedElasticPoolDtus value.
+     * Get the list of supported elastic pool DTU levels for the edition.
      *
      * @return the supportedElasticPoolDtus value
      */
@@ -68,7 +68,7 @@ public class ElasticPoolEditionCapability {
     }
 
     /**
-     * Get the zoneRedundant value.
+     * Get whether or not zone redundancy is supported for the edition.
      *
      * @return the zoneRedundant value
      */

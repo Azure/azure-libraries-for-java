@@ -6,12 +6,14 @@
 
 package com.microsoft.azure.management.storage;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.List;
 
 public class UsageOperationsTests extends StorageManagementTest {
     @Test
+    @Ignore("Service is no longer supporting listing")
     public void canGetUsages() throws Exception {
         List<StorageUsage> usages = storageManager.usages().list();
         System.out.println(usages.size());

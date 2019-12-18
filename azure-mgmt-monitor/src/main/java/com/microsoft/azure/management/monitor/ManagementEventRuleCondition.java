@@ -11,12 +11,14 @@ package com.microsoft.azure.management.monitor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * A management event rule condition.
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("Microsoft.Azure.Management.Insights.Models.ManagementEventRuleCondition")
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class ManagementEventRuleCondition extends RuleCondition {
     /**
      * How the data that is collected should be combined over time and when the

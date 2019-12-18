@@ -13,12 +13,14 @@ import com.google.common.io.CharStreams;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
+import com.microsoft.azure.management.appservice.CsmPublishingProfileOptions;
 import com.microsoft.azure.management.appservice.CsmSlotEntity;
 import com.microsoft.azure.management.appservice.HostNameBinding;
 import com.microsoft.azure.management.appservice.MSDeploy;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.PublishingProfile;
+import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.WebAppBase;
 import com.microsoft.azure.management.appservice.WebAppSourceControl;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
@@ -52,6 +54,11 @@ abstract class AppServiceBaseImpl<
     FluentUpdateT>
         extends WebAppBaseImpl<FluentT, FluentImplT> {
 
+    protected static final String SETTING_DOCKER_IMAGE = "DOCKER_CUSTOM_IMAGE_NAME";
+    protected static final String SETTING_REGISTRY_SERVER = "DOCKER_REGISTRY_SERVER_URL";
+    protected static final String SETTING_REGISTRY_USERNAME = "DOCKER_REGISTRY_SERVER_USERNAME";
+    protected static final String SETTING_REGISTRY_PASSWORD = "DOCKER_REGISTRY_SERVER_PASSWORD";
+
     AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, siteConfig, logConfig, manager);
     }
@@ -59,6 +66,11 @@ abstract class AppServiceBaseImpl<
     @Override
     Observable<SiteInner> createOrUpdateInner(SiteInner site) {
         return this.manager().inner().webApps().createOrUpdateAsync(resourceGroupName(), name(), site);
+    }
+
+    @Override
+    Observable<SiteInner> updateInner(SitePatchResource siteUpdate) {
+        return this.manager().inner().webApps().updateAsync(resourceGroupName(), name(), siteUpdate);
     }
 
     @Override
@@ -176,7 +188,7 @@ abstract class AppServiceBaseImpl<
     }
 
     public Observable<PublishingProfile> getPublishingProfileAsync() {
-        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name())
+        return manager().inner().webApps().listPublishingProfileXmlWithSecretsAsync(resourceGroupName(), name(), new CsmPublishingProfileOptions())
                 .map(new Func1<InputStream, PublishingProfile>() {
                     @Override
                     public PublishingProfile call(InputStream stream) {
@@ -421,6 +433,10 @@ abstract class AppServiceBaseImpl<
     public FluentImplT withExistingAppServicePlan(AppServicePlan appServicePlan) {
         inner().withServerFarmId(appServicePlan.id());
         this.withRegion(appServicePlan.regionName());
-        return withOperatingSystem(appServicePlan.operatingSystem());
+        return withOperatingSystem(appServicePlanOperatingSystem(appServicePlan));
+    }
+
+    protected OperatingSystem appServicePlanOperatingSystem(AppServicePlan appServicePlan) {
+        return appServicePlan.operatingSystem();
     }
 }

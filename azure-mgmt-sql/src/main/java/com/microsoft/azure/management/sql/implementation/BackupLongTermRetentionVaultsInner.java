@@ -399,7 +399,11 @@ public class BackupLongTermRetentionVaultsInner {
                 public Observable<ServiceResponse<List<BackupLongTermRetentionVaultInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<BackupLongTermRetentionVaultInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<BackupLongTermRetentionVaultInner>> clientResponse = new ServiceResponse<List<BackupLongTermRetentionVaultInner>>(result.body().items(), result.response());
+                        List<BackupLongTermRetentionVaultInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<BackupLongTermRetentionVaultInner>> clientResponse = new ServiceResponse<List<BackupLongTermRetentionVaultInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

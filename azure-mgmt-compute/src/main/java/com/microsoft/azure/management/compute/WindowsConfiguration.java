@@ -26,7 +26,10 @@ public class WindowsConfiguration {
     private Boolean provisionVMAgent;
 
     /**
-     * Indicates whether virtual machine is enabled for automatic updates.
+     * Indicates whether Automatic Updates is enabled for the Windows virtual
+     * machine. Default value is true. &lt;br&gt;&lt;br&gt; For virtual machine
+     * scale sets, this property can be updated and updates will take effect on
+     * OS reprovisioning.
      */
     @JsonProperty(value = "enableAutomaticUpdates")
     private Boolean enableAutomaticUpdates;
@@ -73,7 +76,7 @@ public class WindowsConfiguration {
     }
 
     /**
-     * Get indicates whether virtual machine is enabled for automatic updates.
+     * Get indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value is true. &lt;br&gt;&lt;br&gt; For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning.
      *
      * @return the enableAutomaticUpdates value
      */
@@ -82,7 +85,7 @@ public class WindowsConfiguration {
     }
 
     /**
-     * Set indicates whether virtual machine is enabled for automatic updates.
+     * Set indicates whether Automatic Updates is enabled for the Windows virtual machine. Default value is true. &lt;br&gt;&lt;br&gt; For virtual machine scale sets, this property can be updated and updates will take effect on OS reprovisioning.
      *
      * @param enableAutomaticUpdates the enableAutomaticUpdates value to set
      * @return the WindowsConfiguration object itself.

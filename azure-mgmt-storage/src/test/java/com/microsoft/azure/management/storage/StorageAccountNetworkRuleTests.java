@@ -85,7 +85,7 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
         StorageAccount storageAccount3 = storageManager.storageAccounts()
                 .define(SA_NAME3)
                 .withRegion(Region.US_EAST)
-                .withExistingResourceGroup(resourceGroup)
+                .withNewResourceGroup(RG_NAME)
                 .withAccessFromAllNetworks()
                 .withAccessFromIpAddress("23.20.0.0")
                 .create();

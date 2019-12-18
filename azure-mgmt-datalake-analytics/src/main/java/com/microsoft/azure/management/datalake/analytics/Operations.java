@@ -37,7 +37,7 @@ public interface Operations {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<OperationListResult> listAsync(final ServiceCallback<OperationListResult> serviceCallback);
+    ServiceFuture<OperationListResult> listAsync(ServiceCallback<OperationListResult> serviceCallback);
 
     /**
      * Lists all of the available Data Lake Analytics REST API operations.

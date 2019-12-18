@@ -52,7 +52,7 @@ public class FixedScaleSettings {
     private ComputeNodeDeallocationOption nodeDeallocationOption;
 
     /**
-     * Get the resizeTimeout value.
+     * Get the default value is 15 minutes. Timeout values use ISO 8601 format. For example, use PT10M for 10 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service rejects the request with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
      *
      * @return the resizeTimeout value
      */
@@ -61,7 +61,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Set the resizeTimeout value.
+     * Set the default value is 15 minutes. Timeout values use ISO 8601 format. For example, use PT10M for 10 minutes. The minimum value is 5 minutes. If you specify a value less than 5 minutes, the Batch service rejects the request with an error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
      *
      * @param resizeTimeout the resizeTimeout value to set
      * @return the FixedScaleSettings object itself.
@@ -72,7 +72,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Get the targetDedicatedNodes value.
+     * Get at least one of targetDedicatedNodes, targetLowPriority nodes must be set.
      *
      * @return the targetDedicatedNodes value
      */
@@ -81,7 +81,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Set the targetDedicatedNodes value.
+     * Set at least one of targetDedicatedNodes, targetLowPriority nodes must be set.
      *
      * @param targetDedicatedNodes the targetDedicatedNodes value to set
      * @return the FixedScaleSettings object itself.
@@ -92,7 +92,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Get the targetLowPriorityNodes value.
+     * Get at least one of targetDedicatedNodes, targetLowPriority nodes must be set.
      *
      * @return the targetLowPriorityNodes value
      */
@@ -101,7 +101,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Set the targetLowPriorityNodes value.
+     * Set at least one of targetDedicatedNodes, targetLowPriority nodes must be set.
      *
      * @param targetLowPriorityNodes the targetLowPriorityNodes value to set
      * @return the FixedScaleSettings object itself.
@@ -112,7 +112,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Get the nodeDeallocationOption value.
+     * Get if omitted, the default value is Requeue. Possible values include: 'Requeue', 'Terminate', 'TaskCompletion', 'RetainedData'.
      *
      * @return the nodeDeallocationOption value
      */
@@ -121,7 +121,7 @@ public class FixedScaleSettings {
     }
 
     /**
-     * Set the nodeDeallocationOption value.
+     * Set if omitted, the default value is Requeue. Possible values include: 'Requeue', 'Terminate', 'TaskCompletion', 'RetainedData'.
      *
      * @param nodeDeallocationOption the nodeDeallocationOption value to set
      * @return the FixedScaleSettings object itself.

@@ -28,7 +28,7 @@ public class ManagedClusterAddonProfile {
     private Map<String, String> config;
 
     /**
-     * Get the enabled value.
+     * Get whether the add-on is enabled or not.
      *
      * @return the enabled value
      */
@@ -37,7 +37,7 @@ public class ManagedClusterAddonProfile {
     }
 
     /**
-     * Set the enabled value.
+     * Set whether the add-on is enabled or not.
      *
      * @param enabled the enabled value to set
      * @return the ManagedClusterAddonProfile object itself.
@@ -48,7 +48,7 @@ public class ManagedClusterAddonProfile {
     }
 
     /**
-     * Get the config value.
+     * Get key-value pairs for configuring an add-on.
      *
      * @return the config value
      */
@@ -57,7 +57,7 @@ public class ManagedClusterAddonProfile {
     }
 
     /**
-     * Set the config value.
+     * Set key-value pairs for configuring an add-on.
      *
      * @param config the config value to set
      * @return the ManagedClusterAddonProfile object itself.

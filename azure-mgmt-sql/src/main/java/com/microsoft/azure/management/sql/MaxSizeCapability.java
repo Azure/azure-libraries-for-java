@@ -35,7 +35,7 @@ public class MaxSizeCapability {
     private CapabilityStatus status;
 
     /**
-     * Get the limit value.
+     * Get the maximum size of the database (see 'unit' for the units).
      *
      * @return the limit value
      */
@@ -44,7 +44,7 @@ public class MaxSizeCapability {
     }
 
     /**
-     * Get the unit value.
+     * Get the units that the limit is expressed in. Possible values include: 'Megabytes', 'Gigabytes', 'Terabytes', 'Petabytes'.
      *
      * @return the unit value
      */
@@ -53,7 +53,7 @@ public class MaxSizeCapability {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the maximum size capability. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */

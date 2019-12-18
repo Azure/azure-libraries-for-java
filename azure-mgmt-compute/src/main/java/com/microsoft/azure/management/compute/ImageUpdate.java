@@ -36,6 +36,13 @@ public class ImageUpdate extends UpdateResource {
     private String provisioningState;
 
     /**
+     * Gets the HyperVGenerationType of the VirtualMachine created from the
+     * image. Possible values include: 'V1', 'V2'.
+     */
+    @JsonProperty(value = "properties.hyperVGeneration")
+    private HyperVGenerationTypes hyperVGeneration;
+
+    /**
      * Get the source virtual machine from which Image is created.
      *
      * @return the sourceVirtualMachine value
@@ -82,6 +89,26 @@ public class ImageUpdate extends UpdateResource {
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values include: 'V1', 'V2'.
+     *
+     * @return the hyperVGeneration value
+     */
+    public HyperVGenerationTypes hyperVGeneration() {
+        return this.hyperVGeneration;
+    }
+
+    /**
+     * Set gets the HyperVGenerationType of the VirtualMachine created from the image. Possible values include: 'V1', 'V2'.
+     *
+     * @param hyperVGeneration the hyperVGeneration value to set
+     * @return the ImageUpdate object itself.
+     */
+    public ImageUpdate withHyperVGeneration(HyperVGenerationTypes hyperVGeneration) {
+        this.hyperVGeneration = hyperVGeneration;
+        return this;
     }
 
 }

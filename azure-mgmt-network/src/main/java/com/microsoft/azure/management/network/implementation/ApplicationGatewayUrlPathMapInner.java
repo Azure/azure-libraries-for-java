@@ -32,6 +32,12 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     private SubResource defaultBackendHttpSettings;
 
     /**
+     * Default Rewrite rule set resource of URL path map.
+     */
+    @JsonProperty(value = "properties.defaultRewriteRuleSet")
+    private SubResource defaultRewriteRuleSet;
+
+    /**
      * Default redirect configuration resource of URL path map.
      */
     @JsonProperty(value = "properties.defaultRedirectConfiguration")
@@ -69,7 +75,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     private String type;
 
     /**
-     * Get the defaultBackendAddressPool value.
+     * Get default backend address pool resource of URL path map.
      *
      * @return the defaultBackendAddressPool value
      */
@@ -78,7 +84,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Set the defaultBackendAddressPool value.
+     * Set default backend address pool resource of URL path map.
      *
      * @param defaultBackendAddressPool the defaultBackendAddressPool value to set
      * @return the ApplicationGatewayUrlPathMapInner object itself.
@@ -89,7 +95,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Get the defaultBackendHttpSettings value.
+     * Get default backend http settings resource of URL path map.
      *
      * @return the defaultBackendHttpSettings value
      */
@@ -98,7 +104,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Set the defaultBackendHttpSettings value.
+     * Set default backend http settings resource of URL path map.
      *
      * @param defaultBackendHttpSettings the defaultBackendHttpSettings value to set
      * @return the ApplicationGatewayUrlPathMapInner object itself.
@@ -109,7 +115,27 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Get the defaultRedirectConfiguration value.
+     * Get default Rewrite rule set resource of URL path map.
+     *
+     * @return the defaultRewriteRuleSet value
+     */
+    public SubResource defaultRewriteRuleSet() {
+        return this.defaultRewriteRuleSet;
+    }
+
+    /**
+     * Set default Rewrite rule set resource of URL path map.
+     *
+     * @param defaultRewriteRuleSet the defaultRewriteRuleSet value to set
+     * @return the ApplicationGatewayUrlPathMapInner object itself.
+     */
+    public ApplicationGatewayUrlPathMapInner withDefaultRewriteRuleSet(SubResource defaultRewriteRuleSet) {
+        this.defaultRewriteRuleSet = defaultRewriteRuleSet;
+        return this;
+    }
+
+    /**
+     * Get default redirect configuration resource of URL path map.
      *
      * @return the defaultRedirectConfiguration value
      */
@@ -118,7 +144,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Set the defaultRedirectConfiguration value.
+     * Set default redirect configuration resource of URL path map.
      *
      * @param defaultRedirectConfiguration the defaultRedirectConfiguration value to set
      * @return the ApplicationGatewayUrlPathMapInner object itself.
@@ -129,7 +155,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Get the pathRules value.
+     * Get path rule of URL path map resource.
      *
      * @return the pathRules value
      */
@@ -138,7 +164,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Set the pathRules value.
+     * Set path rule of URL path map resource.
      *
      * @param pathRules the pathRules value to set
      * @return the ApplicationGatewayUrlPathMapInner object itself.
@@ -149,7 +175,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning state of the backend http settings resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -158,7 +184,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set provisioning state of the backend http settings resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the ApplicationGatewayUrlPathMapInner object itself.
@@ -169,7 +195,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Get the name value.
+     * Get name of the URL path map that is unique within an Application Gateway.
      *
      * @return the name value
      */
@@ -178,7 +204,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Set the name value.
+     * Set name of the URL path map that is unique within an Application Gateway.
      *
      * @param name the name value to set
      * @return the ApplicationGatewayUrlPathMapInner object itself.
@@ -189,7 +215,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -198,7 +224,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Set the etag value.
+     * Set a unique read-only string that changes whenever the resource is updated.
      *
      * @param etag the etag value to set
      * @return the ApplicationGatewayUrlPathMapInner object itself.
@@ -209,7 +235,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Get the type value.
+     * Get type of the resource.
      *
      * @return the type value
      */
@@ -218,7 +244,7 @@ public class ApplicationGatewayUrlPathMapInner extends SubResource {
     }
 
     /**
-     * Set the type value.
+     * Set type of the resource.
      *
      * @param type the type value to set
      * @return the ApplicationGatewayUrlPathMapInner object itself.

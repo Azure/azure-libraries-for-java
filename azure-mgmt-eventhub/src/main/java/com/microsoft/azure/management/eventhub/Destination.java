@@ -44,7 +44,7 @@ public class Destination {
     private String archiveNameFormat;
 
     /**
-     * Get the name value.
+     * Get name for capture destination.
      *
      * @return the name value
      */
@@ -53,7 +53,7 @@ public class Destination {
     }
 
     /**
-     * Set the name value.
+     * Set name for capture destination.
      *
      * @param name the name value to set
      * @return the Destination object itself.
@@ -64,7 +64,7 @@ public class Destination {
     }
 
     /**
-     * Get the storageAccountResourceId value.
+     * Get resource id of the storage account to be used to create the blobs.
      *
      * @return the storageAccountResourceId value
      */
@@ -73,7 +73,7 @@ public class Destination {
     }
 
     /**
-     * Set the storageAccountResourceId value.
+     * Set resource id of the storage account to be used to create the blobs.
      *
      * @param storageAccountResourceId the storageAccountResourceId value to set
      * @return the Destination object itself.
@@ -84,7 +84,7 @@ public class Destination {
     }
 
     /**
-     * Get the blobContainer value.
+     * Get blob container Name.
      *
      * @return the blobContainer value
      */
@@ -93,7 +93,7 @@ public class Destination {
     }
 
     /**
-     * Set the blobContainer value.
+     * Set blob container Name.
      *
      * @param blobContainer the blobContainer value to set
      * @return the Destination object itself.
@@ -104,7 +104,7 @@ public class Destination {
     }
 
     /**
-     * Get the archiveNameFormat value.
+     * Get blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order.
      *
      * @return the archiveNameFormat value
      */
@@ -113,7 +113,7 @@ public class Destination {
     }
 
     /**
-     * Set the archiveNameFormat value.
+     * Set blob naming convention for archive, e.g. {Namespace}/{EventHub}/{PartitionId}/{Year}/{Month}/{Day}/{Hour}/{Minute}/{Second}. Here all the parameters (Namespace,EventHub .. etc) are mandatory irrespective of order.
      *
      * @param archiveNameFormat the archiveNameFormat value to set
      * @return the Destination object itself.

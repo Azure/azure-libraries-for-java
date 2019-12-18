@@ -52,7 +52,7 @@ public class Event {
     private String type;
 
     /**
-     * Get the count value.
+     * Get the count of the event.
      *
      * @return the count value
      */
@@ -61,7 +61,7 @@ public class Event {
     }
 
     /**
-     * Set the count value.
+     * Set the count of the event.
      *
      * @param count the count value to set
      * @return the Event object itself.
@@ -72,7 +72,7 @@ public class Event {
     }
 
     /**
-     * Get the firstTimestamp value.
+     * Get the date-time of the earliest logged event.
      *
      * @return the firstTimestamp value
      */
@@ -81,7 +81,7 @@ public class Event {
     }
 
     /**
-     * Set the firstTimestamp value.
+     * Set the date-time of the earliest logged event.
      *
      * @param firstTimestamp the firstTimestamp value to set
      * @return the Event object itself.
@@ -92,7 +92,7 @@ public class Event {
     }
 
     /**
-     * Get the lastTimestamp value.
+     * Get the date-time of the latest logged event.
      *
      * @return the lastTimestamp value
      */
@@ -101,7 +101,7 @@ public class Event {
     }
 
     /**
-     * Set the lastTimestamp value.
+     * Set the date-time of the latest logged event.
      *
      * @param lastTimestamp the lastTimestamp value to set
      * @return the Event object itself.
@@ -112,7 +112,7 @@ public class Event {
     }
 
     /**
-     * Get the name value.
+     * Get the event name.
      *
      * @return the name value
      */
@@ -121,7 +121,7 @@ public class Event {
     }
 
     /**
-     * Set the name value.
+     * Set the event name.
      *
      * @param name the name value to set
      * @return the Event object itself.
@@ -132,7 +132,7 @@ public class Event {
     }
 
     /**
-     * Get the message value.
+     * Get the event message.
      *
      * @return the message value
      */
@@ -141,7 +141,7 @@ public class Event {
     }
 
     /**
-     * Set the message value.
+     * Set the event message.
      *
      * @param message the message value to set
      * @return the Event object itself.
@@ -152,7 +152,7 @@ public class Event {
     }
 
     /**
-     * Get the type value.
+     * Get the event type.
      *
      * @return the type value
      */
@@ -161,7 +161,7 @@ public class Event {
     }
 
     /**
-     * Set the type value.
+     * Set the event type.
      *
      * @param type the type value to set
      * @return the Event object itself.

@@ -14,9 +14,12 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountCreateUpdateParameters;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountRegenerateKeyParameters;
+import com.microsoft.azure.management.cosmosdb.DatabaseAccountUpdateParameters;
 import com.microsoft.azure.management.cosmosdb.ErrorResponseException;
 import com.microsoft.azure.management.cosmosdb.FailoverPolicies;
+import com.microsoft.azure.management.cosmosdb.FailoverPolicy;
 import com.microsoft.azure.management.cosmosdb.KeyKind;
 import com.microsoft.azure.management.cosmosdb.RegionForOnlineOffline;
 import com.microsoft.azure.Page;
@@ -47,7 +50,7 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in DatabaseAccounts.
  */
-public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountInner>, InnerSupportsDelete<Void>, InnerSupportsListing<DatabaseAccountInner> {
+public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountGetResultsInner>, InnerSupportsDelete<Void>, InnerSupportsListing<DatabaseAccountGetResultsInner> {
     /** The Retrofit service to perform REST calls. */
     private DatabaseAccountsService service;
     /** The service client containing this operation class. */
@@ -73,21 +76,21 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
         Observable<Response<ResponseBody>> getByResourceGroup(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts patch" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
-        Observable<Response<ResponseBody>> patch(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Body DatabaseAccountPatchParametersInner updateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Body DatabaseAccountUpdateParameters updateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts beginPatch" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
-        Observable<Response<ResponseBody>> beginPatch(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Body DatabaseAccountPatchParametersInner updateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Body DatabaseAccountUpdateParameters updateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts createOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
-        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Body DatabaseAccountCreateUpdateParametersInner createUpdateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Body DatabaseAccountCreateUpdateParameters createUpdateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}")
-        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Body DatabaseAccountCreateUpdateParametersInner createUpdateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Body DatabaseAccountCreateUpdateParameters createUpdateParameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}", method = "DELETE", hasBody = true)
@@ -137,8 +140,12 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion")
         Observable<Response<ResponseBody>> beginOnlineRegion(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body RegionForOnlineOffline regionParameterForOnline, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts listReadOnlyKeys" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts getReadOnlyKeys" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys")
+        Observable<Response<ResponseBody>> getReadOnlyKeys(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts listReadOnlyKeys" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys")
         Observable<Response<ResponseBody>> listReadOnlyKeys(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("accountName") String accountName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cosmosdb.DatabaseAccounts regenerateKey" })
@@ -175,9 +182,9 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DatabaseAccountInner object if successful.
+     * @return the DatabaseAccountGetResultsInner object if successful.
      */
-    public DatabaseAccountInner getByResourceGroup(String resourceGroupName, String accountName) {
+    public DatabaseAccountGetResultsInner getByResourceGroup(String resourceGroupName, String accountName) {
         return getByResourceGroupWithServiceResponseAsync(resourceGroupName, accountName).toBlocking().single().body();
     }
 
@@ -190,7 +197,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseAccountInner> getByResourceGroupAsync(String resourceGroupName, String accountName, final ServiceCallback<DatabaseAccountInner> serviceCallback) {
+    public ServiceFuture<DatabaseAccountGetResultsInner> getByResourceGroupAsync(String resourceGroupName, String accountName, final ServiceCallback<DatabaseAccountGetResultsInner> serviceCallback) {
         return ServiceFuture.fromResponse(getByResourceGroupWithServiceResponseAsync(resourceGroupName, accountName), serviceCallback);
     }
 
@@ -200,12 +207,12 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseAccountInner object
+     * @return the observable to the DatabaseAccountGetResultsInner object
      */
-    public Observable<DatabaseAccountInner> getByResourceGroupAsync(String resourceGroupName, String accountName) {
-        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<DatabaseAccountInner>, DatabaseAccountInner>() {
+    public Observable<DatabaseAccountGetResultsInner> getByResourceGroupAsync(String resourceGroupName, String accountName) {
+        return getByResourceGroupWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<DatabaseAccountGetResultsInner>, DatabaseAccountGetResultsInner>() {
             @Override
-            public DatabaseAccountInner call(ServiceResponse<DatabaseAccountInner> response) {
+            public DatabaseAccountGetResultsInner call(ServiceResponse<DatabaseAccountGetResultsInner> response) {
                 return response.body();
             }
         });
@@ -217,9 +224,9 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseAccountInner object
+     * @return the observable to the DatabaseAccountGetResultsInner object
      */
-    public Observable<ServiceResponse<DatabaseAccountInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String accountName) {
+    public Observable<ServiceResponse<DatabaseAccountGetResultsInner>> getByResourceGroupWithServiceResponseAsync(String resourceGroupName, String accountName) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -229,15 +236,13 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountInner>>>() {
+        final String apiVersion = "2019-08-01";
+        return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountGetResultsInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DatabaseAccountInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<DatabaseAccountGetResultsInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DatabaseAccountInner> clientResponse = getByResourceGroupDelegate(response);
+                        ServiceResponse<DatabaseAccountGetResultsInner> clientResponse = getByResourceGroupDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -246,70 +251,70 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
             });
     }
 
-    private ServiceResponse<DatabaseAccountInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DatabaseAccountInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DatabaseAccountInner>() { }.getType())
+    private ServiceResponse<DatabaseAccountGetResultsInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DatabaseAccountGetResultsInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DatabaseAccountGetResultsInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
 
     /**
-     * Patches the properties of an existing Azure Cosmos DB database account.
+     * Updates the properties of an existing Azure Cosmos DB database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
-     * @param updateParameters The tags parameter to patch for the current database account.
+     * @param updateParameters The parameters to provide for the current database account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DatabaseAccountInner object if successful.
+     * @return the DatabaseAccountGetResultsInner object if successful.
      */
-    public DatabaseAccountInner patch(String resourceGroupName, String accountName, DatabaseAccountPatchParametersInner updateParameters) {
-        return patchWithServiceResponseAsync(resourceGroupName, accountName, updateParameters).toBlocking().last().body();
+    public DatabaseAccountGetResultsInner update(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, updateParameters).toBlocking().last().body();
     }
 
     /**
-     * Patches the properties of an existing Azure Cosmos DB database account.
+     * Updates the properties of an existing Azure Cosmos DB database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
-     * @param updateParameters The tags parameter to patch for the current database account.
+     * @param updateParameters The parameters to provide for the current database account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseAccountInner> patchAsync(String resourceGroupName, String accountName, DatabaseAccountPatchParametersInner updateParameters, final ServiceCallback<DatabaseAccountInner> serviceCallback) {
-        return ServiceFuture.fromResponse(patchWithServiceResponseAsync(resourceGroupName, accountName, updateParameters), serviceCallback);
+    public ServiceFuture<DatabaseAccountGetResultsInner> updateAsync(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters, final ServiceCallback<DatabaseAccountGetResultsInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, accountName, updateParameters), serviceCallback);
     }
 
     /**
-     * Patches the properties of an existing Azure Cosmos DB database account.
+     * Updates the properties of an existing Azure Cosmos DB database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
-     * @param updateParameters The tags parameter to patch for the current database account.
+     * @param updateParameters The parameters to provide for the current database account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<DatabaseAccountInner> patchAsync(String resourceGroupName, String accountName, DatabaseAccountPatchParametersInner updateParameters) {
-        return patchWithServiceResponseAsync(resourceGroupName, accountName, updateParameters).map(new Func1<ServiceResponse<DatabaseAccountInner>, DatabaseAccountInner>() {
+    public Observable<DatabaseAccountGetResultsInner> updateAsync(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters) {
+        return updateWithServiceResponseAsync(resourceGroupName, accountName, updateParameters).map(new Func1<ServiceResponse<DatabaseAccountGetResultsInner>, DatabaseAccountGetResultsInner>() {
             @Override
-            public DatabaseAccountInner call(ServiceResponse<DatabaseAccountInner> response) {
+            public DatabaseAccountGetResultsInner call(ServiceResponse<DatabaseAccountGetResultsInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Patches the properties of an existing Azure Cosmos DB database account.
+     * Updates the properties of an existing Azure Cosmos DB database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
-     * @param updateParameters The tags parameter to patch for the current database account.
+     * @param updateParameters The parameters to provide for the current database account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<DatabaseAccountInner>> patchWithServiceResponseAsync(String resourceGroupName, String accountName, DatabaseAccountPatchParametersInner updateParameters) {
+    public Observable<ServiceResponse<DatabaseAccountGetResultsInner>> updateWithServiceResponseAsync(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -319,74 +324,72 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (updateParameters == null) {
             throw new IllegalArgumentException("Parameter updateParameters is required and cannot be null.");
         }
         Validator.validate(updateParameters);
-        Observable<Response<ResponseBody>> observable = service.patch(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), updateParameters, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DatabaseAccountInner>() { }.getType());
+        final String apiVersion = "2019-08-01";
+        Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, updateParameters, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DatabaseAccountGetResultsInner>() { }.getType());
     }
 
     /**
-     * Patches the properties of an existing Azure Cosmos DB database account.
+     * Updates the properties of an existing Azure Cosmos DB database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
-     * @param updateParameters The tags parameter to patch for the current database account.
+     * @param updateParameters The parameters to provide for the current database account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DatabaseAccountInner object if successful.
+     * @return the DatabaseAccountGetResultsInner object if successful.
      */
-    public DatabaseAccountInner beginPatch(String resourceGroupName, String accountName, DatabaseAccountPatchParametersInner updateParameters) {
-        return beginPatchWithServiceResponseAsync(resourceGroupName, accountName, updateParameters).toBlocking().single().body();
+    public DatabaseAccountGetResultsInner beginUpdate(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, accountName, updateParameters).toBlocking().single().body();
     }
 
     /**
-     * Patches the properties of an existing Azure Cosmos DB database account.
+     * Updates the properties of an existing Azure Cosmos DB database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
-     * @param updateParameters The tags parameter to patch for the current database account.
+     * @param updateParameters The parameters to provide for the current database account.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseAccountInner> beginPatchAsync(String resourceGroupName, String accountName, DatabaseAccountPatchParametersInner updateParameters, final ServiceCallback<DatabaseAccountInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginPatchWithServiceResponseAsync(resourceGroupName, accountName, updateParameters), serviceCallback);
+    public ServiceFuture<DatabaseAccountGetResultsInner> beginUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters, final ServiceCallback<DatabaseAccountGetResultsInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, accountName, updateParameters), serviceCallback);
     }
 
     /**
-     * Patches the properties of an existing Azure Cosmos DB database account.
+     * Updates the properties of an existing Azure Cosmos DB database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
-     * @param updateParameters The tags parameter to patch for the current database account.
+     * @param updateParameters The parameters to provide for the current database account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseAccountInner object
+     * @return the observable to the DatabaseAccountGetResultsInner object
      */
-    public Observable<DatabaseAccountInner> beginPatchAsync(String resourceGroupName, String accountName, DatabaseAccountPatchParametersInner updateParameters) {
-        return beginPatchWithServiceResponseAsync(resourceGroupName, accountName, updateParameters).map(new Func1<ServiceResponse<DatabaseAccountInner>, DatabaseAccountInner>() {
+    public Observable<DatabaseAccountGetResultsInner> beginUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, accountName, updateParameters).map(new Func1<ServiceResponse<DatabaseAccountGetResultsInner>, DatabaseAccountGetResultsInner>() {
             @Override
-            public DatabaseAccountInner call(ServiceResponse<DatabaseAccountInner> response) {
+            public DatabaseAccountGetResultsInner call(ServiceResponse<DatabaseAccountGetResultsInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Patches the properties of an existing Azure Cosmos DB database account.
+     * Updates the properties of an existing Azure Cosmos DB database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
-     * @param updateParameters The tags parameter to patch for the current database account.
+     * @param updateParameters The parameters to provide for the current database account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseAccountInner object
+     * @return the observable to the DatabaseAccountGetResultsInner object
      */
-    public Observable<ServiceResponse<DatabaseAccountInner>> beginPatchWithServiceResponseAsync(String resourceGroupName, String accountName, DatabaseAccountPatchParametersInner updateParameters) {
+    public Observable<ServiceResponse<DatabaseAccountGetResultsInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, DatabaseAccountUpdateParameters updateParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -396,19 +399,17 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (updateParameters == null) {
             throw new IllegalArgumentException("Parameter updateParameters is required and cannot be null.");
         }
         Validator.validate(updateParameters);
-        return service.beginPatch(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), updateParameters, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountInner>>>() {
+        final String apiVersion = "2019-08-01";
+        return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, updateParameters, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountGetResultsInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DatabaseAccountInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<DatabaseAccountGetResultsInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DatabaseAccountInner> clientResponse = beginPatchDelegate(response);
+                        ServiceResponse<DatabaseAccountGetResultsInner> clientResponse = beginUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -417,15 +418,15 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
             });
     }
 
-    private ServiceResponse<DatabaseAccountInner> beginPatchDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DatabaseAccountInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DatabaseAccountInner>() { }.getType())
+    private ServiceResponse<DatabaseAccountGetResultsInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DatabaseAccountGetResultsInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DatabaseAccountGetResultsInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
 
     /**
-     * Creates or updates an Azure Cosmos DB database account.
+     * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -433,14 +434,14 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DatabaseAccountInner object if successful.
+     * @return the DatabaseAccountGetResultsInner object if successful.
      */
-    public DatabaseAccountInner createOrUpdate(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParametersInner createUpdateParameters) {
+    public DatabaseAccountGetResultsInner createOrUpdate(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters) {
         return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, createUpdateParameters).toBlocking().last().body();
     }
 
     /**
-     * Creates or updates an Azure Cosmos DB database account.
+     * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -449,12 +450,12 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseAccountInner> createOrUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParametersInner createUpdateParameters, final ServiceCallback<DatabaseAccountInner> serviceCallback) {
+    public ServiceFuture<DatabaseAccountGetResultsInner> createOrUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters, final ServiceCallback<DatabaseAccountGetResultsInner> serviceCallback) {
         return ServiceFuture.fromResponse(createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, createUpdateParameters), serviceCallback);
     }
 
     /**
-     * Creates or updates an Azure Cosmos DB database account.
+     * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -462,17 +463,17 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<DatabaseAccountInner> createOrUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParametersInner createUpdateParameters) {
-        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, createUpdateParameters).map(new Func1<ServiceResponse<DatabaseAccountInner>, DatabaseAccountInner>() {
+    public Observable<DatabaseAccountGetResultsInner> createOrUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters) {
+        return createOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, createUpdateParameters).map(new Func1<ServiceResponse<DatabaseAccountGetResultsInner>, DatabaseAccountGetResultsInner>() {
             @Override
-            public DatabaseAccountInner call(ServiceResponse<DatabaseAccountInner> response) {
+            public DatabaseAccountGetResultsInner call(ServiceResponse<DatabaseAccountGetResultsInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Creates or updates an Azure Cosmos DB database account.
+     * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -480,7 +481,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<DatabaseAccountInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParametersInner createUpdateParameters) {
+    public Observable<ServiceResponse<DatabaseAccountGetResultsInner>> createOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -490,19 +491,17 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (createUpdateParameters == null) {
             throw new IllegalArgumentException("Parameter createUpdateParameters is required and cannot be null.");
         }
         Validator.validate(createUpdateParameters);
-        Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), createUpdateParameters, this.client.acceptLanguage(), this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DatabaseAccountInner>() { }.getType());
+        final String apiVersion = "2019-08-01";
+        Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, createUpdateParameters, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DatabaseAccountGetResultsInner>() { }.getType());
     }
 
     /**
-     * Creates or updates an Azure Cosmos DB database account.
+     * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -510,14 +509,14 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DatabaseAccountInner object if successful.
+     * @return the DatabaseAccountGetResultsInner object if successful.
      */
-    public DatabaseAccountInner beginCreateOrUpdate(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParametersInner createUpdateParameters) {
+    public DatabaseAccountGetResultsInner beginCreateOrUpdate(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters) {
         return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, createUpdateParameters).toBlocking().single().body();
     }
 
     /**
-     * Creates or updates an Azure Cosmos DB database account.
+     * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -526,38 +525,38 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseAccountInner> beginCreateOrUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParametersInner createUpdateParameters, final ServiceCallback<DatabaseAccountInner> serviceCallback) {
+    public ServiceFuture<DatabaseAccountGetResultsInner> beginCreateOrUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters, final ServiceCallback<DatabaseAccountGetResultsInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, createUpdateParameters), serviceCallback);
     }
 
     /**
-     * Creates or updates an Azure Cosmos DB database account.
+     * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
      * @param createUpdateParameters The parameters to provide for the current database account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseAccountInner object
+     * @return the observable to the DatabaseAccountGetResultsInner object
      */
-    public Observable<DatabaseAccountInner> beginCreateOrUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParametersInner createUpdateParameters) {
-        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, createUpdateParameters).map(new Func1<ServiceResponse<DatabaseAccountInner>, DatabaseAccountInner>() {
+    public Observable<DatabaseAccountGetResultsInner> beginCreateOrUpdateAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters) {
+        return beginCreateOrUpdateWithServiceResponseAsync(resourceGroupName, accountName, createUpdateParameters).map(new Func1<ServiceResponse<DatabaseAccountGetResultsInner>, DatabaseAccountGetResultsInner>() {
             @Override
-            public DatabaseAccountInner call(ServiceResponse<DatabaseAccountInner> response) {
+            public DatabaseAccountGetResultsInner call(ServiceResponse<DatabaseAccountGetResultsInner> response) {
                 return response.body();
             }
         });
     }
 
     /**
-     * Creates or updates an Azure Cosmos DB database account.
+     * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
      * @param createUpdateParameters The parameters to provide for the current database account.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DatabaseAccountInner object
+     * @return the observable to the DatabaseAccountGetResultsInner object
      */
-    public Observable<ServiceResponse<DatabaseAccountInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParametersInner createUpdateParameters) {
+    public Observable<ServiceResponse<DatabaseAccountGetResultsInner>> beginCreateOrUpdateWithServiceResponseAsync(String resourceGroupName, String accountName, DatabaseAccountCreateUpdateParameters createUpdateParameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -567,19 +566,17 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (createUpdateParameters == null) {
             throw new IllegalArgumentException("Parameter createUpdateParameters is required and cannot be null.");
         }
         Validator.validate(createUpdateParameters);
-        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), createUpdateParameters, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountInner>>>() {
+        final String apiVersion = "2019-08-01";
+        return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, createUpdateParameters, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountGetResultsInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DatabaseAccountInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<DatabaseAccountGetResultsInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DatabaseAccountInner> clientResponse = beginCreateOrUpdateDelegate(response);
+                        ServiceResponse<DatabaseAccountGetResultsInner> clientResponse = beginCreateOrUpdateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -588,9 +585,9 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
             });
     }
 
-    private ServiceResponse<DatabaseAccountInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DatabaseAccountInner, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DatabaseAccountInner>() { }.getType())
+    private ServiceResponse<DatabaseAccountGetResultsInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DatabaseAccountGetResultsInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DatabaseAccountGetResultsInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -656,10 +653,8 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent());
+        final String apiVersion = "2019-08-01";
+        Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -724,10 +719,8 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.beginDelete(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -759,7 +752,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void failoverPriorityChange(String resourceGroupName, String accountName, List<FailoverPolicyInner> failoverPolicies) {
+    public void failoverPriorityChange(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies) {
         failoverPriorityChangeWithServiceResponseAsync(resourceGroupName, accountName, failoverPolicies).toBlocking().last().body();
     }
 
@@ -773,7 +766,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> failoverPriorityChangeAsync(String resourceGroupName, String accountName, List<FailoverPolicyInner> failoverPolicies, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> failoverPriorityChangeAsync(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(failoverPriorityChangeWithServiceResponseAsync(resourceGroupName, accountName, failoverPolicies), serviceCallback);
     }
 
@@ -786,7 +779,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<Void> failoverPriorityChangeAsync(String resourceGroupName, String accountName, List<FailoverPolicyInner> failoverPolicies) {
+    public Observable<Void> failoverPriorityChangeAsync(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies) {
         return failoverPriorityChangeWithServiceResponseAsync(resourceGroupName, accountName, failoverPolicies).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -804,7 +797,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<Void>> failoverPriorityChangeWithServiceResponseAsync(String resourceGroupName, String accountName, List<FailoverPolicyInner> failoverPolicies) {
+    public Observable<ServiceResponse<Void>> failoverPriorityChangeWithServiceResponseAsync(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -814,16 +807,14 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (failoverPolicies == null) {
             throw new IllegalArgumentException("Parameter failoverPolicies is required and cannot be null.");
         }
         Validator.validate(failoverPolicies);
+        final String apiVersion = "2019-08-01";
         FailoverPolicies failoverParameters = new FailoverPolicies();
         failoverParameters.withFailoverPolicies(failoverPolicies);
-        Observable<Response<ResponseBody>> observable = service.failoverPriorityChange(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), failoverParameters, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.failoverPriorityChange(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), failoverParameters, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -837,7 +828,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
-    public void beginFailoverPriorityChange(String resourceGroupName, String accountName, List<FailoverPolicyInner> failoverPolicies) {
+    public void beginFailoverPriorityChange(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies) {
         beginFailoverPriorityChangeWithServiceResponseAsync(resourceGroupName, accountName, failoverPolicies).toBlocking().single().body();
     }
 
@@ -851,7 +842,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<Void> beginFailoverPriorityChangeAsync(String resourceGroupName, String accountName, List<FailoverPolicyInner> failoverPolicies, final ServiceCallback<Void> serviceCallback) {
+    public ServiceFuture<Void> beginFailoverPriorityChangeAsync(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies, final ServiceCallback<Void> serviceCallback) {
         return ServiceFuture.fromResponse(beginFailoverPriorityChangeWithServiceResponseAsync(resourceGroupName, accountName, failoverPolicies), serviceCallback);
     }
 
@@ -864,7 +855,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<Void> beginFailoverPriorityChangeAsync(String resourceGroupName, String accountName, List<FailoverPolicyInner> failoverPolicies) {
+    public Observable<Void> beginFailoverPriorityChangeAsync(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies) {
         return beginFailoverPriorityChangeWithServiceResponseAsync(resourceGroupName, accountName, failoverPolicies).map(new Func1<ServiceResponse<Void>, Void>() {
             @Override
             public Void call(ServiceResponse<Void> response) {
@@ -882,7 +873,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
      */
-    public Observable<ServiceResponse<Void>> beginFailoverPriorityChangeWithServiceResponseAsync(String resourceGroupName, String accountName, List<FailoverPolicyInner> failoverPolicies) {
+    public Observable<ServiceResponse<Void>> beginFailoverPriorityChangeWithServiceResponseAsync(String resourceGroupName, String accountName, List<FailoverPolicy> failoverPolicies) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -892,16 +883,14 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (failoverPolicies == null) {
             throw new IllegalArgumentException("Parameter failoverPolicies is required and cannot be null.");
         }
         Validator.validate(failoverPolicies);
+        final String apiVersion = "2019-08-01";
         FailoverPolicies failoverParameters = new FailoverPolicies();
         failoverParameters.withFailoverPolicies(failoverPolicies);
-        return service.beginFailoverPriorityChange(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), failoverParameters, this.client.userAgent())
+        return service.beginFailoverPriorityChange(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), failoverParameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -926,15 +915,15 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
     /**
      * Lists all the Azure Cosmos DB database accounts available under the subscription.
      *
-     * @return the PagedList<DatabaseAccountInner> object if successful.
+     * @return the PagedList<DatabaseAccountGetResultsInner> object if successful.
      */
-    public PagedList<DatabaseAccountInner> list() {
-        PageImpl<DatabaseAccountInner> page = new PageImpl<>();
+    public PagedList<DatabaseAccountGetResultsInner> list() {
+        PageImpl<DatabaseAccountGetResultsInner> page = new PageImpl<>();
         page.setItems(listWithServiceResponseAsync().toBlocking().single().body());
         page.setNextPageLink(null);
-        return new PagedList<DatabaseAccountInner>(page) {
+        return new PagedList<DatabaseAccountGetResultsInner>(page) {
             @Override
-            public Page<DatabaseAccountInner> nextPage(String nextPageLink) {
+            public Page<DatabaseAccountGetResultsInner> nextPage(String nextPageLink) {
                 return null;
             }
         };
@@ -946,20 +935,20 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<DatabaseAccountInner>> listAsync(final ServiceCallback<List<DatabaseAccountInner>> serviceCallback) {
+    public ServiceFuture<List<DatabaseAccountGetResultsInner>> listAsync(final ServiceCallback<List<DatabaseAccountGetResultsInner>> serviceCallback) {
         return ServiceFuture.fromResponse(listWithServiceResponseAsync(), serviceCallback);
     }
 
     /**
      * Lists all the Azure Cosmos DB database accounts available under the subscription.
      *
-     * @return the observable to the List&lt;DatabaseAccountInner&gt; object
+     * @return the observable to the List&lt;DatabaseAccountGetResultsInner&gt; object
      */
-    public Observable<Page<DatabaseAccountInner>> listAsync() {
-        return listWithServiceResponseAsync().map(new Func1<ServiceResponse<List<DatabaseAccountInner>>, Page<DatabaseAccountInner>>() {
+    public Observable<Page<DatabaseAccountGetResultsInner>> listAsync() {
+        return listWithServiceResponseAsync().map(new Func1<ServiceResponse<List<DatabaseAccountGetResultsInner>>, Page<DatabaseAccountGetResultsInner>>() {
             @Override
-            public Page<DatabaseAccountInner> call(ServiceResponse<List<DatabaseAccountInner>> response) {
-                PageImpl<DatabaseAccountInner> page = new PageImpl<>();
+            public Page<DatabaseAccountGetResultsInner> call(ServiceResponse<List<DatabaseAccountGetResultsInner>> response) {
+                PageImpl<DatabaseAccountGetResultsInner> page = new PageImpl<>();
                 page.setItems(response.body());
                 return page;
             }
@@ -969,22 +958,24 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
     /**
      * Lists all the Azure Cosmos DB database accounts available under the subscription.
      *
-     * @return the observable to the List&lt;DatabaseAccountInner&gt; object
+     * @return the observable to the List&lt;DatabaseAccountGetResultsInner&gt; object
      */
-    public Observable<ServiceResponse<List<DatabaseAccountInner>>> listWithServiceResponseAsync() {
+    public Observable<ServiceResponse<List<DatabaseAccountGetResultsInner>>> listWithServiceResponseAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.list(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<DatabaseAccountInner>>>>() {
+        final String apiVersion = "2019-08-01";
+        return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<DatabaseAccountGetResultsInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<List<DatabaseAccountInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<List<DatabaseAccountGetResultsInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<DatabaseAccountInner>> result = listDelegate(response);
-                        ServiceResponse<List<DatabaseAccountInner>> clientResponse = new ServiceResponse<List<DatabaseAccountInner>>(result.body().items(), result.response());
+                        ServiceResponse<PageImpl<DatabaseAccountGetResultsInner>> result = listDelegate(response);
+                        List<DatabaseAccountGetResultsInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DatabaseAccountGetResultsInner>> clientResponse = new ServiceResponse<List<DatabaseAccountGetResultsInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -993,9 +984,9 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
             });
     }
 
-    private ServiceResponse<PageImpl<DatabaseAccountInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DatabaseAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DatabaseAccountInner>>() { }.getType())
+    private ServiceResponse<PageImpl<DatabaseAccountGetResultsInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DatabaseAccountGetResultsInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<DatabaseAccountGetResultsInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1004,15 +995,15 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * Lists all the Azure Cosmos DB database accounts available under the given resource group.
      *
      * @param resourceGroupName Name of an Azure resource group.
-     * @return the PagedList<DatabaseAccountInner> object if successful.
+     * @return the PagedList<DatabaseAccountGetResultsInner> object if successful.
      */
-    public PagedList<DatabaseAccountInner> listByResourceGroup(String resourceGroupName) {
-        PageImpl<DatabaseAccountInner> page = new PageImpl<>();
+    public PagedList<DatabaseAccountGetResultsInner> listByResourceGroup(String resourceGroupName) {
+        PageImpl<DatabaseAccountGetResultsInner> page = new PageImpl<>();
         page.setItems(listByResourceGroupWithServiceResponseAsync(resourceGroupName).toBlocking().single().body());
         page.setNextPageLink(null);
-        return new PagedList<DatabaseAccountInner>(page) {
+        return new PagedList<DatabaseAccountGetResultsInner>(page) {
             @Override
-            public Page<DatabaseAccountInner> nextPage(String nextPageLink) {
+            public Page<DatabaseAccountGetResultsInner> nextPage(String nextPageLink) {
                 return null;
             }
         };
@@ -1025,7 +1016,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<DatabaseAccountInner>> listByResourceGroupAsync(String resourceGroupName, final ServiceCallback<List<DatabaseAccountInner>> serviceCallback) {
+    public ServiceFuture<List<DatabaseAccountGetResultsInner>> listByResourceGroupAsync(String resourceGroupName, final ServiceCallback<List<DatabaseAccountGetResultsInner>> serviceCallback) {
         return ServiceFuture.fromResponse(listByResourceGroupWithServiceResponseAsync(resourceGroupName), serviceCallback);
     }
 
@@ -1033,13 +1024,13 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * Lists all the Azure Cosmos DB database accounts available under the given resource group.
      *
      * @param resourceGroupName Name of an Azure resource group.
-     * @return the observable to the List&lt;DatabaseAccountInner&gt; object
+     * @return the observable to the List&lt;DatabaseAccountGetResultsInner&gt; object
      */
-    public Observable<Page<DatabaseAccountInner>> listByResourceGroupAsync(String resourceGroupName) {
-        return listByResourceGroupWithServiceResponseAsync(resourceGroupName).map(new Func1<ServiceResponse<List<DatabaseAccountInner>>, Page<DatabaseAccountInner>>() {
+    public Observable<Page<DatabaseAccountGetResultsInner>> listByResourceGroupAsync(String resourceGroupName) {
+        return listByResourceGroupWithServiceResponseAsync(resourceGroupName).map(new Func1<ServiceResponse<List<DatabaseAccountGetResultsInner>>, Page<DatabaseAccountGetResultsInner>>() {
             @Override
-            public Page<DatabaseAccountInner> call(ServiceResponse<List<DatabaseAccountInner>> response) {
-                PageImpl<DatabaseAccountInner> page = new PageImpl<>();
+            public Page<DatabaseAccountGetResultsInner> call(ServiceResponse<List<DatabaseAccountGetResultsInner>> response) {
+                PageImpl<DatabaseAccountGetResultsInner> page = new PageImpl<>();
                 page.setItems(response.body());
                 return page;
             }
@@ -1050,25 +1041,27 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
      * Lists all the Azure Cosmos DB database accounts available under the given resource group.
      *
      * @param resourceGroupName Name of an Azure resource group.
-     * @return the observable to the List&lt;DatabaseAccountInner&gt; object
+     * @return the observable to the List&lt;DatabaseAccountGetResultsInner&gt; object
      */
-    public Observable<ServiceResponse<List<DatabaseAccountInner>>> listByResourceGroupWithServiceResponseAsync(String resourceGroupName) {
+    public Observable<ServiceResponse<List<DatabaseAccountGetResultsInner>>> listByResourceGroupWithServiceResponseAsync(String resourceGroupName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<DatabaseAccountInner>>>>() {
+        final String apiVersion = "2019-08-01";
+        return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<DatabaseAccountGetResultsInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<List<DatabaseAccountInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<List<DatabaseAccountGetResultsInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<DatabaseAccountInner>> result = listByResourceGroupDelegate(response);
-                        ServiceResponse<List<DatabaseAccountInner>> clientResponse = new ServiceResponse<List<DatabaseAccountInner>>(result.body().items(), result.response());
+                        ServiceResponse<PageImpl<DatabaseAccountGetResultsInner>> result = listByResourceGroupDelegate(response);
+                        List<DatabaseAccountGetResultsInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DatabaseAccountGetResultsInner>> clientResponse = new ServiceResponse<List<DatabaseAccountGetResultsInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1077,9 +1070,9 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
             });
     }
 
-    private ServiceResponse<PageImpl<DatabaseAccountInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DatabaseAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DatabaseAccountInner>>() { }.getType())
+    private ServiceResponse<PageImpl<DatabaseAccountGetResultsInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<DatabaseAccountGetResultsInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<DatabaseAccountGetResultsInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1146,10 +1139,8 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listKeys(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listKeys(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountListKeysResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DatabaseAccountListKeysResultInner>> call(Response<ResponseBody> response) {
@@ -1232,10 +1223,8 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listConnectionStrings(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listConnectionStrings(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountListConnectionStringsResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DatabaseAccountListConnectionStringsResultInner>> call(Response<ResponseBody> response) {
@@ -1321,15 +1310,13 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (region == null) {
             throw new IllegalArgumentException("Parameter region is required and cannot be null.");
         }
+        final String apiVersion = "2019-08-01";
         RegionForOnlineOffline regionParameterForOffline = new RegionForOnlineOffline();
         regionParameterForOffline.withRegion(region);
-        Observable<Response<ResponseBody>> observable = service.offlineRegion(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), regionParameterForOffline, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.offlineRegion(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), regionParameterForOffline, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -1398,15 +1385,13 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (region == null) {
             throw new IllegalArgumentException("Parameter region is required and cannot be null.");
         }
+        final String apiVersion = "2019-08-01";
         RegionForOnlineOffline regionParameterForOffline = new RegionForOnlineOffline();
         regionParameterForOffline.withRegion(region);
-        return service.beginOfflineRegion(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), regionParameterForOffline, this.client.userAgent())
+        return service.beginOfflineRegion(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), regionParameterForOffline, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1493,15 +1478,13 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (region == null) {
             throw new IllegalArgumentException("Parameter region is required and cannot be null.");
         }
+        final String apiVersion = "2019-08-01";
         RegionForOnlineOffline regionParameterForOnline = new RegionForOnlineOffline();
         regionParameterForOnline.withRegion(region);
-        Observable<Response<ResponseBody>> observable = service.onlineRegion(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), regionParameterForOnline, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.onlineRegion(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), regionParameterForOnline, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -1570,15 +1553,13 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (region == null) {
             throw new IllegalArgumentException("Parameter region is required and cannot be null.");
         }
+        final String apiVersion = "2019-08-01";
         RegionForOnlineOffline regionParameterForOnline = new RegionForOnlineOffline();
         regionParameterForOnline.withRegion(region);
-        return service.beginOnlineRegion(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), regionParameterForOnline, this.client.userAgent())
+        return service.beginOnlineRegion(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), regionParameterForOnline, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1597,6 +1578,90 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(ErrorResponseException.class)
+                .build(response);
+    }
+
+    /**
+     * Lists the read-only access keys for the specified Azure Cosmos DB database account.
+     *
+     * @param resourceGroupName Name of an Azure resource group.
+     * @param accountName Cosmos DB database account name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the DatabaseAccountListReadOnlyKeysResultInner object if successful.
+     */
+    public DatabaseAccountListReadOnlyKeysResultInner getReadOnlyKeys(String resourceGroupName, String accountName) {
+        return getReadOnlyKeysWithServiceResponseAsync(resourceGroupName, accountName).toBlocking().single().body();
+    }
+
+    /**
+     * Lists the read-only access keys for the specified Azure Cosmos DB database account.
+     *
+     * @param resourceGroupName Name of an Azure resource group.
+     * @param accountName Cosmos DB database account name.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<DatabaseAccountListReadOnlyKeysResultInner> getReadOnlyKeysAsync(String resourceGroupName, String accountName, final ServiceCallback<DatabaseAccountListReadOnlyKeysResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getReadOnlyKeysWithServiceResponseAsync(resourceGroupName, accountName), serviceCallback);
+    }
+
+    /**
+     * Lists the read-only access keys for the specified Azure Cosmos DB database account.
+     *
+     * @param resourceGroupName Name of an Azure resource group.
+     * @param accountName Cosmos DB database account name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DatabaseAccountListReadOnlyKeysResultInner object
+     */
+    public Observable<DatabaseAccountListReadOnlyKeysResultInner> getReadOnlyKeysAsync(String resourceGroupName, String accountName) {
+        return getReadOnlyKeysWithServiceResponseAsync(resourceGroupName, accountName).map(new Func1<ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner>, DatabaseAccountListReadOnlyKeysResultInner>() {
+            @Override
+            public DatabaseAccountListReadOnlyKeysResultInner call(ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Lists the read-only access keys for the specified Azure Cosmos DB database account.
+     *
+     * @param resourceGroupName Name of an Azure resource group.
+     * @param accountName Cosmos DB database account name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the DatabaseAccountListReadOnlyKeysResultInner object
+     */
+    public Observable<ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner>> getReadOnlyKeysWithServiceResponseAsync(String resourceGroupName, String accountName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (accountName == null) {
+            throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
+        }
+        final String apiVersion = "2019-08-01";
+        return service.getReadOnlyKeys(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner> clientResponse = getReadOnlyKeysDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner> getReadOnlyKeysDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DatabaseAccountListReadOnlyKeysResultInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DatabaseAccountListReadOnlyKeysResultInner>() { }.getType())
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1662,10 +1727,8 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listReadOnlyKeys(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listReadOnlyKeys(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DatabaseAccountListReadOnlyKeysResultInner>> call(Response<ResponseBody> response) {
@@ -1751,15 +1814,13 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (keyKind == null) {
             throw new IllegalArgumentException("Parameter keyKind is required and cannot be null.");
         }
+        final String apiVersion = "2019-08-01";
         DatabaseAccountRegenerateKeyParameters keyToRegenerate = new DatabaseAccountRegenerateKeyParameters();
         keyToRegenerate.withKeyKind(keyKind);
-        Observable<Response<ResponseBody>> observable = service.regenerateKey(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), keyToRegenerate, this.client.userAgent());
+        Observable<Response<ResponseBody>> observable = service.regenerateKey(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), keyToRegenerate, this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
 
@@ -1828,15 +1889,13 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (keyKind == null) {
             throw new IllegalArgumentException("Parameter keyKind is required and cannot be null.");
         }
+        final String apiVersion = "2019-08-01";
         DatabaseAccountRegenerateKeyParameters keyToRegenerate = new DatabaseAccountRegenerateKeyParameters();
         keyToRegenerate.withKeyKind(keyKind);
-        return service.beginRegenerateKey(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), keyToRegenerate, this.client.userAgent())
+        return service.beginRegenerateKey(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), keyToRegenerate, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
                 public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
@@ -1910,10 +1969,8 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.checkNameExists(accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.checkNameExists(accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<Void>, Observable<ServiceResponse<Boolean>>>() {
                 @Override
                 public Observable<ServiceResponse<Boolean>> call(Response<Void> response) {
@@ -2001,19 +2058,21 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
         if (filter == null) {
             throw new IllegalArgumentException("Parameter filter is required and cannot be null.");
         }
-        return service.listMetrics(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), filter, this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listMetrics(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, filter, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<MetricInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<MetricInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<MetricInner>> result = listMetricsDelegate(response);
-                        ServiceResponse<List<MetricInner>> clientResponse = new ServiceResponse<List<MetricInner>>(result.body().items(), result.response());
+                        List<MetricInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<MetricInner>> clientResponse = new ServiceResponse<List<MetricInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2091,17 +2150,19 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
+        final String apiVersion = "2019-08-01";
         final String filter = null;
-        return service.listUsages(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), filter, this.client.acceptLanguage(), this.client.userAgent())
+        return service.listUsages(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, filter, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<UsageInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<UsageInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<UsageInner>> result = listUsagesDelegate(response);
-                        ServiceResponse<List<UsageInner>> clientResponse = new ServiceResponse<List<UsageInner>>(result.body().items(), result.response());
+                        List<UsageInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<UsageInner>> clientResponse = new ServiceResponse<List<UsageInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2176,16 +2237,18 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listUsages(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), filter, this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listUsages(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, filter, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<UsageInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<UsageInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<UsageInner>> result = listUsagesDelegate(response);
-                        ServiceResponse<List<UsageInner>> clientResponse = new ServiceResponse<List<UsageInner>>(result.body().items(), result.response());
+                        List<UsageInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<UsageInner>> clientResponse = new ServiceResponse<List<UsageInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2202,7 +2265,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
     }
 
     /**
-     * Retrieves metric defintions for the given database account.
+     * Retrieves metric definitions for the given database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -2216,7 +2279,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
     }
 
     /**
-     * Retrieves metric defintions for the given database account.
+     * Retrieves metric definitions for the given database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -2229,7 +2292,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
     }
 
     /**
-     * Retrieves metric defintions for the given database account.
+     * Retrieves metric definitions for the given database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -2246,7 +2309,7 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
     }
 
     /**
-     * Retrieves metric defintions for the given database account.
+     * Retrieves metric definitions for the given database account.
      *
      * @param resourceGroupName Name of an Azure resource group.
      * @param accountName Cosmos DB database account name.
@@ -2263,16 +2326,18 @@ public class DatabaseAccountsInner implements InnerSupportsGet<DatabaseAccountIn
         if (accountName == null) {
             throw new IllegalArgumentException("Parameter accountName is required and cannot be null.");
         }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listMetricDefinitions(this.client.subscriptionId(), resourceGroupName, accountName, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        final String apiVersion = "2019-08-01";
+        return service.listMetricDefinitions(this.client.subscriptionId(), resourceGroupName, accountName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<List<MetricDefinitionInner>>>>() {
                 @Override
                 public Observable<ServiceResponse<List<MetricDefinitionInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<MetricDefinitionInner>> result = listMetricDefinitionsDelegate(response);
-                        ServiceResponse<List<MetricDefinitionInner>> clientResponse = new ServiceResponse<List<MetricDefinitionInner>>(result.body().items(), result.response());
+                        List<MetricDefinitionInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<MetricDefinitionInner>> clientResponse = new ServiceResponse<List<MetricDefinitionInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

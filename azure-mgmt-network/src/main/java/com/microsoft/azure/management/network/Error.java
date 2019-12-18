@@ -12,41 +12,41 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The Error model.
+ * Common error representation.
  */
 public class Error {
     /**
-     * The code property.
+     * Error code.
      */
     @JsonProperty(value = "code")
     private String code;
 
     /**
-     * The message property.
+     * Error message.
      */
     @JsonProperty(value = "message")
     private String message;
 
     /**
-     * The target property.
+     * Error target.
      */
     @JsonProperty(value = "target")
     private String target;
 
     /**
-     * The details property.
+     * Error details.
      */
     @JsonProperty(value = "details")
     private List<ErrorDetails> details;
 
     /**
-     * The innerError property.
+     * Inner error message.
      */
     @JsonProperty(value = "innerError")
     private String innerError;
 
     /**
-     * Get the code value.
+     * Get error code.
      *
      * @return the code value
      */
@@ -55,7 +55,7 @@ public class Error {
     }
 
     /**
-     * Set the code value.
+     * Set error code.
      *
      * @param code the code value to set
      * @return the Error object itself.
@@ -66,7 +66,7 @@ public class Error {
     }
 
     /**
-     * Get the message value.
+     * Get error message.
      *
      * @return the message value
      */
@@ -75,7 +75,7 @@ public class Error {
     }
 
     /**
-     * Set the message value.
+     * Set error message.
      *
      * @param message the message value to set
      * @return the Error object itself.
@@ -86,7 +86,7 @@ public class Error {
     }
 
     /**
-     * Get the target value.
+     * Get error target.
      *
      * @return the target value
      */
@@ -95,7 +95,7 @@ public class Error {
     }
 
     /**
-     * Set the target value.
+     * Set error target.
      *
      * @param target the target value to set
      * @return the Error object itself.
@@ -106,7 +106,7 @@ public class Error {
     }
 
     /**
-     * Get the details value.
+     * Get error details.
      *
      * @return the details value
      */
@@ -115,7 +115,7 @@ public class Error {
     }
 
     /**
-     * Set the details value.
+     * Set error details.
      *
      * @param details the details value to set
      * @return the Error object itself.
@@ -126,7 +126,7 @@ public class Error {
     }
 
     /**
-     * Get the innerError value.
+     * Get inner error message.
      *
      * @return the innerError value
      */
@@ -135,7 +135,7 @@ public class Error {
     }
 
     /**
-     * Set the innerError value.
+     * Set inner error message.
      *
      * @param innerError the innerError value to set
      * @return the Error object itself.

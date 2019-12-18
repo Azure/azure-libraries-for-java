@@ -7,14 +7,17 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.compute.implementation.VirtualMachineScaleSetVMInner;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
+import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
+import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import rx.Completable;
 import rx.Observable;
 
@@ -29,6 +32,7 @@ public interface VirtualMachineScaleSetVM extends
         Resource,
         ChildResource<VirtualMachineScaleSet>,
         Refreshable<VirtualMachineScaleSetVM>,
+        Updatable<VirtualMachineScaleSetVM.Update>,
         HasInner<VirtualMachineScaleSetVMInner> {
     /**
      * @return the instance ID assigned to this virtual machine instance
@@ -330,4 +334,56 @@ public interface VirtualMachineScaleSetVM extends
      * @return the network interfaces associated with this virtual machine instance.
      */
     PagedList<VirtualMachineScaleSetNetworkInterface> listNetworkInterfaces();
+
+    /**
+     * @return Get specifies whether the model applied to the virtual machine is the model of the virtual machine scale set or the customized model for the virtual machine.
+     */
+    String modelDefinitionApplied();
+
+    /**
+     * @return The specific protection policy for the vm.
+     */
+    VirtualMachineScaleSetVMProtectionPolicy protectionPolicy();
+
+    /**
+     * @return The network profile config for the vm.
+     */
+    VirtualMachineScaleSetVMNetworkProfileConfiguration networkProfileConfiguration();
+
+    /**
+     * The template for an update operation, containing all the settings that can be modified.
+     */
+    interface Update extends Appliable<VirtualMachineScaleSetVM> {
+        /**
+         * Attaches an existing data disk to this VMSS virtual machine.
+         *
+         * @param dataDisk data disk, need to be in DiskState.UNATTACHED state
+         * @param lun the disk LUN, cannot conflict with existing LUNs
+         * @param cachingTypes the caching type
+         * @return the next stage of the update
+         */
+        @Beta(Beta.SinceVersion.V1_24_0)
+        Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes);
+
+        /**
+         * Attaches an existing data disk to this VMSS virtual machine.
+         *
+         * @param dataDisk data disk, need to be in DiskState.UNATTACHED state
+         * @param lun the disk LUN, cannot conflict with existing LUNs
+         * @param cachingTypes the caching type
+         * @param storageAccountTypes the storage account type
+         * @return the next stage of the update
+         */
+        @Beta(Beta.SinceVersion.V1_24_0)
+        Update withExistingDataDisk(Disk dataDisk, int lun, CachingTypes cachingTypes, StorageAccountTypes storageAccountTypes);
+
+        /**
+         * Detaches an existing data disk from this VMSS virtual machine.
+         *
+         * @param lun the disk LUN
+         * @return the next stage of the update
+         */
+        @Beta(Beta.SinceVersion.V1_24_0)
+        Update withoutDataDisk(int lun);
+    }
 }

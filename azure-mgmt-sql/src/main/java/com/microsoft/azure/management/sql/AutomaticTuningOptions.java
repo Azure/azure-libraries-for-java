@@ -44,7 +44,7 @@ public class AutomaticTuningOptions {
     private AutomaticTuningDisabledReason reasonDesc;
 
     /**
-     * Get the desiredState value.
+     * Get automatic tuning option desired state. Possible values include: 'Off', 'On', 'Default'.
      *
      * @return the desiredState value
      */
@@ -53,7 +53,7 @@ public class AutomaticTuningOptions {
     }
 
     /**
-     * Set the desiredState value.
+     * Set automatic tuning option desired state. Possible values include: 'Off', 'On', 'Default'.
      *
      * @param desiredState the desiredState value to set
      * @return the AutomaticTuningOptions object itself.
@@ -64,7 +64,7 @@ public class AutomaticTuningOptions {
     }
 
     /**
-     * Get the actualState value.
+     * Get automatic tuning option actual state. Possible values include: 'Off', 'On'.
      *
      * @return the actualState value
      */
@@ -73,7 +73,7 @@ public class AutomaticTuningOptions {
     }
 
     /**
-     * Get the reasonCode value.
+     * Get reason code if desired and actual state are different.
      *
      * @return the reasonCode value
      */
@@ -82,7 +82,7 @@ public class AutomaticTuningOptions {
     }
 
     /**
-     * Get the reasonDesc value.
+     * Get reason description if desired and actual state are different. Possible values include: 'Default', 'Disabled', 'AutoConfigured', 'InheritedFromServer', 'QueryStoreOff', 'QueryStoreReadOnly', 'NotSupported'.
      *
      * @return the reasonDesc value
      */

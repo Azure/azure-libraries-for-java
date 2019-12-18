@@ -42,7 +42,7 @@ public class AutomaticTuningServerOptions {
     private AutomaticTuningServerReason reasonDesc;
 
     /**
-     * Get the desiredState value.
+     * Get automatic tuning option desired state. Possible values include: 'Off', 'On', 'Default'.
      *
      * @return the desiredState value
      */
@@ -51,7 +51,7 @@ public class AutomaticTuningServerOptions {
     }
 
     /**
-     * Set the desiredState value.
+     * Set automatic tuning option desired state. Possible values include: 'Off', 'On', 'Default'.
      *
      * @param desiredState the desiredState value to set
      * @return the AutomaticTuningServerOptions object itself.
@@ -62,7 +62,7 @@ public class AutomaticTuningServerOptions {
     }
 
     /**
-     * Get the actualState value.
+     * Get automatic tuning option actual state. Possible values include: 'Off', 'On'.
      *
      * @return the actualState value
      */
@@ -71,7 +71,7 @@ public class AutomaticTuningServerOptions {
     }
 
     /**
-     * Get the reasonCode value.
+     * Get reason code if desired and actual state are different.
      *
      * @return the reasonCode value
      */
@@ -80,7 +80,7 @@ public class AutomaticTuningServerOptions {
     }
 
     /**
-     * Get the reasonDesc value.
+     * Get reason description if desired and actual state are different. Possible values include: 'Default', 'Disabled', 'AutoConfigured'.
      *
      * @return the reasonDesc value
      */

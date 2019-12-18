@@ -22,6 +22,9 @@ public final class AccessLevel extends ExpandableStringEnum<AccessLevel> {
     /** Static value Read for AccessLevel. */
     public static final AccessLevel READ = fromString("Read");
 
+    /** Static value Write for AccessLevel. */
+    public static final AccessLevel WRITE = fromString("Write");
+
     /**
      * Creates or finds a AccessLevel from its string representation.
      * @param name a name to look for

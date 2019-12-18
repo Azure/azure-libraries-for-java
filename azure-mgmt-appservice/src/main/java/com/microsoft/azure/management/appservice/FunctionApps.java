@@ -6,6 +6,7 @@
 
 package com.microsoft.azure.management.appservice;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.appservice.implementation.AppServiceManager;
@@ -36,4 +37,13 @@ public interface FunctionApps extends
         SupportsDeletingByResourceGroup,
         HasManager<AppServiceManager>,
         HasInner<WebAppsInner> {
+
+    /**
+     * List function information elements.
+     *
+     * @param resourceGroupName resource group name
+     * @param name              function app name
+     * @return list of function information elements
+     */
+    PagedList<FunctionEnvelope> listFunctions(String resourceGroupName, String name);
 }

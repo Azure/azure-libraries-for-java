@@ -19,7 +19,7 @@ public class MetricValue {
      * The number of values for the metric.
      */
     @JsonProperty(value = "_count", access = JsonProperty.Access.WRITE_ONLY)
-    private Double count;
+    private Double _count;
 
     /**
      * The average value of the metric.
@@ -52,16 +52,16 @@ public class MetricValue {
     private Double total;
 
     /**
-     * Get the count value.
+     * Get the number of values for the metric.
      *
-     * @return the count value
+     * @return the _count value
      */
-    public Double count() {
-        return this.count;
+    public Double _count() {
+        return this._count;
     }
 
     /**
-     * Get the average value.
+     * Get the average value of the metric.
      *
      * @return the average value
      */
@@ -70,7 +70,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the maximum value.
+     * Get the max value of the metric.
      *
      * @return the maximum value
      */
@@ -79,7 +79,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the minimum value.
+     * Get the min value of the metric.
      *
      * @return the minimum value
      */
@@ -88,7 +88,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the timestamp value.
+     * Get the metric timestamp (ISO-8601 format).
      *
      * @return the timestamp value
      */
@@ -97,7 +97,7 @@ public class MetricValue {
     }
 
     /**
-     * Get the total value.
+     * Get the total value of the metric.
      *
      * @return the total value
      */

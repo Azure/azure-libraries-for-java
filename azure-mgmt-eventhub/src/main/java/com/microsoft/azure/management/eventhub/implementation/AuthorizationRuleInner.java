@@ -12,12 +12,13 @@ import java.util.List;
 import com.microsoft.azure.management.eventhub.AccessRights;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Single item in a List or Get AuthorizationRule operation.
  */
 @JsonFlatten
-public class AuthorizationRuleInner extends NestedResourceInner {
+public class AuthorizationRuleInner extends ProxyResource {
     /**
      * The rights associated with the rule.
      */
@@ -25,7 +26,7 @@ public class AuthorizationRuleInner extends NestedResourceInner {
     private List<AccessRights> rights;
 
     /**
-     * Get the rights value.
+     * Get the rights associated with the rule.
      *
      * @return the rights value
      */
@@ -34,7 +35,7 @@ public class AuthorizationRuleInner extends NestedResourceInner {
     }
 
     /**
-     * Set the rights value.
+     * Set the rights associated with the rule.
      *
      * @param rights the rights value to set
      * @return the AuthorizationRuleInner object itself.

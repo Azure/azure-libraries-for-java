@@ -66,18 +66,31 @@ public class VirtualMachineScaleSetVMProfile {
     /**
      * Specifies the priority for the virtual machines in the scale set.
      * &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible
-     * values include: 'Regular', 'Low'.
+     * values include: 'Regular', 'Low', 'Spot'.
      */
     @JsonProperty(value = "priority")
     private VirtualMachinePriorityTypes priority;
 
     /**
-     * Specifies the eviction policy for virtual machines in a low priority
-     * scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview.
+     * Specifies the eviction policy for virtual machines in a Azure Spot scale
+     * set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview.
      * Possible values include: 'Deallocate', 'Delete'.
      */
     @JsonProperty(value = "evictionPolicy")
     private VirtualMachineEvictionPolicyTypes evictionPolicy;
+
+    /**
+     * Specifies the billing related details of a Azure Spot VMSS.
+     * &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     */
+    @JsonProperty(value = "billingProfile")
+    private BillingProfile billingProfile;
+
+    /**
+     * Specifies Scheduled Event related configurations.
+     */
+    @JsonProperty(value = "scheduledEventsProfile")
+    private ScheduledEventsProfile scheduledEventsProfile;
 
     /**
      * Get specifies the operating system settings for the virtual machines in the scale set.
@@ -200,7 +213,7 @@ public class VirtualMachineScaleSetVMProfile {
     }
 
     /**
-     * Get specifies the priority for the virtual machines in the scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible values include: 'Regular', 'Low'.
+     * Get specifies the priority for the virtual machines in the scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible values include: 'Regular', 'Low', 'Spot'.
      *
      * @return the priority value
      */
@@ -209,7 +222,7 @@ public class VirtualMachineScaleSetVMProfile {
     }
 
     /**
-     * Set specifies the priority for the virtual machines in the scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible values include: 'Regular', 'Low'.
+     * Set specifies the priority for the virtual machines in the scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible values include: 'Regular', 'Low', 'Spot'.
      *
      * @param priority the priority value to set
      * @return the VirtualMachineScaleSetVMProfile object itself.
@@ -220,7 +233,7 @@ public class VirtualMachineScaleSetVMProfile {
     }
 
     /**
-     * Get specifies the eviction policy for virtual machines in a low priority scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
+     * Get specifies the eviction policy for virtual machines in a Azure Spot scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
      *
      * @return the evictionPolicy value
      */
@@ -229,13 +242,53 @@ public class VirtualMachineScaleSetVMProfile {
     }
 
     /**
-     * Set specifies the eviction policy for virtual machines in a low priority scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
+     * Set specifies the eviction policy for virtual machines in a Azure Spot scale set. &lt;br&gt;&lt;br&gt;Minimum api-version: 2017-10-30-preview. Possible values include: 'Deallocate', 'Delete'.
      *
      * @param evictionPolicy the evictionPolicy value to set
      * @return the VirtualMachineScaleSetVMProfile object itself.
      */
     public VirtualMachineScaleSetVMProfile withEvictionPolicy(VirtualMachineEvictionPolicyTypes evictionPolicy) {
         this.evictionPolicy = evictionPolicy;
+        return this;
+    }
+
+    /**
+     * Get specifies the billing related details of a Azure Spot VMSS. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     *
+     * @return the billingProfile value
+     */
+    public BillingProfile billingProfile() {
+        return this.billingProfile;
+    }
+
+    /**
+     * Set specifies the billing related details of a Azure Spot VMSS. &lt;br&gt;&lt;br&gt;Minimum api-version: 2019-03-01.
+     *
+     * @param billingProfile the billingProfile value to set
+     * @return the VirtualMachineScaleSetVMProfile object itself.
+     */
+    public VirtualMachineScaleSetVMProfile withBillingProfile(BillingProfile billingProfile) {
+        this.billingProfile = billingProfile;
+        return this;
+    }
+
+    /**
+     * Get specifies Scheduled Event related configurations.
+     *
+     * @return the scheduledEventsProfile value
+     */
+    public ScheduledEventsProfile scheduledEventsProfile() {
+        return this.scheduledEventsProfile;
+    }
+
+    /**
+     * Set specifies Scheduled Event related configurations.
+     *
+     * @param scheduledEventsProfile the scheduledEventsProfile value to set
+     * @return the VirtualMachineScaleSetVMProfile object itself.
+     */
+    public VirtualMachineScaleSetVMProfile withScheduledEventsProfile(ScheduledEventsProfile scheduledEventsProfile) {
+        this.scheduledEventsProfile = scheduledEventsProfile;
         return this;
     }
 

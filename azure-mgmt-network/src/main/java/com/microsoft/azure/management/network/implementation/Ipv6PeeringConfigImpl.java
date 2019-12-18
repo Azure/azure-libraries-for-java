@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringConfig;
 import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeering;
@@ -69,7 +70,7 @@ class Ipv6PeeringConfigImpl
 
     @Override
     public Ipv6PeeringConfigImpl withRouteFilter(String routeFilterId) {
-        inner().withRouteFilter(new RouteFilterInner().withId(routeFilterId));
+        inner().withRouteFilter(new SubResource().withId(routeFilterId));
         return this;
     }
 

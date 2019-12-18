@@ -12,13 +12,13 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * This is the replication status of the gallery image version.
+ * This is the replication status of the gallery Image Version.
  */
 public class ReplicationStatus {
     /**
-     * This is the aggregated replication status based on the regional
-     * replication status. Possible values include: 'Unknown', 'InProgress',
-     * 'Completed', 'Failed'.
+     * This is the aggregated replication status based on all the regional
+     * replication status flags. Possible values include: 'Unknown',
+     * 'InProgress', 'Completed', 'Failed'.
      */
     @JsonProperty(value = "aggregatedState", access = JsonProperty.Access.WRITE_ONLY)
     private AggregatedReplicationState aggregatedState;
@@ -30,7 +30,7 @@ public class ReplicationStatus {
     private List<RegionalReplicationStatus> summary;
 
     /**
-     * Get this is the aggregated replication status based on the regional replication status. Possible values include: 'Unknown', 'InProgress', 'Completed', 'Failed'.
+     * Get this is the aggregated replication status based on all the regional replication status flags. Possible values include: 'Unknown', 'InProgress', 'Completed', 'Failed'.
      *
      * @return the aggregatedState value
      */

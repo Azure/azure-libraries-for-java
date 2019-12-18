@@ -15,20 +15,32 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class GalleryDataDiskImage extends GalleryDiskImage {
     /**
-     * Specifies the logical unit number of the data disk. This value is used
-     * to identify data disks within the VM and therefore must be unique for
-     * each data disk attached to a VM.
+     * This property specifies the logical unit number of the data disk. This
+     * value is used to identify data disks within the Virtual Machine and
+     * therefore must be unique for each data disk attached to the Virtual
+     * Machine.
      */
-    @JsonProperty(value = "lun", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer lun;
+    @JsonProperty(value = "lun", required = true)
+    private int lun;
 
     /**
-     * Get specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
+     * Get this property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
      *
      * @return the lun value
      */
-    public Integer lun() {
+    public int lun() {
         return this.lun;
+    }
+
+    /**
+     * Set this property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
+     *
+     * @param lun the lun value to set
+     * @return the GalleryDataDiskImage object itself.
+     */
+    public GalleryDataDiskImage withLun(int lun) {
+        this.lun = lun;
+        return this;
     }
 
 }

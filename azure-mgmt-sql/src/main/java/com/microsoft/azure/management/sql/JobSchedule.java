@@ -40,14 +40,14 @@ public class JobSchedule {
     private Boolean enabled;
 
     /**
-     * Value of the schedule's recurring interval, if the scheduletype is
+     * Value of the schedule's recurring interval, if the schedule type is
      * recurring. ISO8601 duration format.
      */
     @JsonProperty(value = "interval")
     private String interval;
 
     /**
-     * Get the startTime value.
+     * Get schedule start time.
      *
      * @return the startTime value
      */
@@ -56,7 +56,7 @@ public class JobSchedule {
     }
 
     /**
-     * Set the startTime value.
+     * Set schedule start time.
      *
      * @param startTime the startTime value to set
      * @return the JobSchedule object itself.
@@ -67,7 +67,7 @@ public class JobSchedule {
     }
 
     /**
-     * Get the endTime value.
+     * Get schedule end time.
      *
      * @return the endTime value
      */
@@ -76,7 +76,7 @@ public class JobSchedule {
     }
 
     /**
-     * Set the endTime value.
+     * Set schedule end time.
      *
      * @param endTime the endTime value to set
      * @return the JobSchedule object itself.
@@ -87,7 +87,7 @@ public class JobSchedule {
     }
 
     /**
-     * Get the type value.
+     * Get schedule interval type. Possible values include: 'Once', 'Recurring'.
      *
      * @return the type value
      */
@@ -96,7 +96,7 @@ public class JobSchedule {
     }
 
     /**
-     * Set the type value.
+     * Set schedule interval type. Possible values include: 'Once', 'Recurring'.
      *
      * @param type the type value to set
      * @return the JobSchedule object itself.
@@ -107,7 +107,7 @@ public class JobSchedule {
     }
 
     /**
-     * Get the enabled value.
+     * Get whether or not the schedule is enabled.
      *
      * @return the enabled value
      */
@@ -116,7 +116,7 @@ public class JobSchedule {
     }
 
     /**
-     * Set the enabled value.
+     * Set whether or not the schedule is enabled.
      *
      * @param enabled the enabled value to set
      * @return the JobSchedule object itself.
@@ -127,7 +127,7 @@ public class JobSchedule {
     }
 
     /**
-     * Get the interval value.
+     * Get value of the schedule's recurring interval, if the schedule type is recurring. ISO8601 duration format.
      *
      * @return the interval value
      */
@@ -136,7 +136,7 @@ public class JobSchedule {
     }
 
     /**
-     * Set the interval value.
+     * Set value of the schedule's recurring interval, if the schedule type is recurring. ISO8601 duration format.
      *
      * @param interval the interval value to set
      * @return the JobSchedule object itself.

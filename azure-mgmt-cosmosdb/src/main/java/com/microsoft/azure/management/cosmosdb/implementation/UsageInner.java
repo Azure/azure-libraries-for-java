@@ -40,16 +40,16 @@ public class UsageInner {
      * Maximum value for this metric.
      */
     @JsonProperty(value = "limit", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer limit;
+    private Long limit;
 
     /**
      * Current value for this metric.
      */
     @JsonProperty(value = "currentValue", access = JsonProperty.Access.WRITE_ONLY)
-    private Integer currentValue;
+    private Long currentValue;
 
     /**
-     * Get the unit value.
+     * Get the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'.
      *
      * @return the unit value
      */
@@ -58,7 +58,7 @@ public class UsageInner {
     }
 
     /**
-     * Set the unit value.
+     * Set the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond', 'BytesPerSecond', 'Milliseconds'.
      *
      * @param unit the unit value to set
      * @return the UsageInner object itself.
@@ -69,7 +69,7 @@ public class UsageInner {
     }
 
     /**
-     * Get the name value.
+     * Get the name information for the metric.
      *
      * @return the name value
      */
@@ -78,7 +78,7 @@ public class UsageInner {
     }
 
     /**
-     * Get the quotaPeriod value.
+     * Get the quota period used to summarize the usage values.
      *
      * @return the quotaPeriod value
      */
@@ -87,20 +87,20 @@ public class UsageInner {
     }
 
     /**
-     * Get the limit value.
+     * Get maximum value for this metric.
      *
      * @return the limit value
      */
-    public Integer limit() {
+    public Long limit() {
         return this.limit;
     }
 
     /**
-     * Get the currentValue value.
+     * Get current value for this metric.
      *
      * @return the currentValue value
      */
-    public Integer currentValue() {
+    public Long currentValue() {
         return this.currentValue;
     }
 

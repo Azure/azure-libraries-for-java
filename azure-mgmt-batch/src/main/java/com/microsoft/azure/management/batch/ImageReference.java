@@ -33,7 +33,7 @@ public class ImageReference {
 
     /**
      * The SKU of the Azure Virtual Machines Marketplace image.
-     * For example, 14.04.0-LTS or 2012-R2-Datacenter.
+     * For example, 18.04-LTS or 2019-Datacenter.
      */
     @JsonProperty(value = "sku")
     private String sku;
@@ -47,21 +47,26 @@ public class ImageReference {
     private String version;
 
     /**
-     * The ARM resource identifier of the virtual machine image. Computes nodes
-     * of the pool will be created using this custom image. This is of the form
-     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}.
-     * This property is mutually exclusive with other properties. The virtual
-     * machine image must be in the same region and subscription as the Azure
-     * Batch account. For information about the firewall settings for Batch
-     * node agent to communicate with Batch service see
-     * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
-     * .
+     * The ARM resource identifier of the Virtual Machine Image or Shared Image
+     * Gallery Image. Compute Nodes of the Pool will be created using this
+     * Image Id. This is of either the form
+     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}
+     * for Virtual Machine Image or
+     * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionId}
+     * for SIG image.
+     * This property is mutually exclusive with other properties. For Virtual
+     * Machine Image it must be in the same region and subscription as the
+     * Azure Batch account. For SIG image it must have replicas in the same
+     * region as the Azure Batch account. For information about the firewall
+     * settings for the Batch node agent to communicate with the Batch service
+     * see
+     * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
      */
     @JsonProperty(value = "id")
     private String id;
 
     /**
-     * Get the publisher value.
+     * Get for example, Canonical or MicrosoftWindowsServer.
      *
      * @return the publisher value
      */
@@ -70,7 +75,7 @@ public class ImageReference {
     }
 
     /**
-     * Set the publisher value.
+     * Set for example, Canonical or MicrosoftWindowsServer.
      *
      * @param publisher the publisher value to set
      * @return the ImageReference object itself.
@@ -81,7 +86,7 @@ public class ImageReference {
     }
 
     /**
-     * Get the offer value.
+     * Get for example, UbuntuServer or WindowsServer.
      *
      * @return the offer value
      */
@@ -90,7 +95,7 @@ public class ImageReference {
     }
 
     /**
-     * Set the offer value.
+     * Set for example, UbuntuServer or WindowsServer.
      *
      * @param offer the offer value to set
      * @return the ImageReference object itself.
@@ -101,7 +106,7 @@ public class ImageReference {
     }
 
     /**
-     * Get the sku value.
+     * Get for example, 18.04-LTS or 2019-Datacenter.
      *
      * @return the sku value
      */
@@ -110,7 +115,7 @@ public class ImageReference {
     }
 
     /**
-     * Set the sku value.
+     * Set for example, 18.04-LTS or 2019-Datacenter.
      *
      * @param sku the sku value to set
      * @return the ImageReference object itself.
@@ -121,7 +126,7 @@ public class ImageReference {
     }
 
     /**
-     * Get the version value.
+     * Get a value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'.
      *
      * @return the version value
      */
@@ -130,7 +135,7 @@ public class ImageReference {
     }
 
     /**
-     * Set the version value.
+     * Set a value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'.
      *
      * @param version the version value to set
      * @return the ImageReference object itself.
@@ -141,7 +146,7 @@ public class ImageReference {
     }
 
     /**
-     * Get the id value.
+     * Get this property is mutually exclusive with other properties. For Virtual Machine Image it must be in the same region and subscription as the Azure Batch account. For SIG image it must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
      *
      * @return the id value
      */
@@ -150,7 +155,7 @@ public class ImageReference {
     }
 
     /**
-     * Set the id value.
+     * Set this property is mutually exclusive with other properties. For Virtual Machine Image it must be in the same region and subscription as the Azure Batch account. For SIG image it must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
      *
      * @param id the id value to set
      * @return the ImageReference object itself.

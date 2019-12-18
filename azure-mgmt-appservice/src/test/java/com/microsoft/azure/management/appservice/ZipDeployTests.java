@@ -5,6 +5,7 @@
  */
 package com.microsoft.azure.management.appservice;
 
+import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
@@ -41,5 +42,10 @@ public class ZipDeployTests extends AppServiceTest {
         String response = post("http://" + WEBAPP_NAME_4 + ".azurewebsites.net" + "/api/square", "25");
         Assert.assertNotNull(response);
         Assert.assertEquals("625", response);
+
+        PagedList<FunctionEnvelope> envelopes = appServiceManager.functionApps().listFunctions(RG_NAME, functionApp.name());
+        Assert.assertNotNull(envelopes);
+        Assert.assertEquals(1, envelopes.size());
+        Assert.assertEquals(envelopes.get(0).href(), "https://" + WEBAPP_NAME_4 +".scm.azurewebsites.net/api/functions/square");
     }
 }

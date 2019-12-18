@@ -44,19 +44,19 @@ public class PacketCaptureInner {
     private Integer timeLimitInSeconds;
 
     /**
-     * The storageLocation property.
+     * Describes the storage location for a packet capture session.
      */
     @JsonProperty(value = "properties.storageLocation", required = true)
     private PacketCaptureStorageLocation storageLocation;
 
     /**
-     * The filters property.
+     * A list of packet capture filters.
      */
     @JsonProperty(value = "properties.filters")
     private List<PacketCaptureFilter> filters;
 
     /**
-     * Get the target value.
+     * Get the ID of the targeted resource, only VM is currently supported.
      *
      * @return the target value
      */
@@ -65,7 +65,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Set the target value.
+     * Set the ID of the targeted resource, only VM is currently supported.
      *
      * @param target the target value to set
      * @return the PacketCaptureInner object itself.
@@ -76,7 +76,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Get the bytesToCapturePerPacket value.
+     * Get number of bytes captured per packet, the remaining bytes are truncated.
      *
      * @return the bytesToCapturePerPacket value
      */
@@ -85,7 +85,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Set the bytesToCapturePerPacket value.
+     * Set number of bytes captured per packet, the remaining bytes are truncated.
      *
      * @param bytesToCapturePerPacket the bytesToCapturePerPacket value to set
      * @return the PacketCaptureInner object itself.
@@ -96,7 +96,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Get the totalBytesPerSession value.
+     * Get maximum size of the capture output.
      *
      * @return the totalBytesPerSession value
      */
@@ -105,7 +105,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Set the totalBytesPerSession value.
+     * Set maximum size of the capture output.
      *
      * @param totalBytesPerSession the totalBytesPerSession value to set
      * @return the PacketCaptureInner object itself.
@@ -116,7 +116,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Get the timeLimitInSeconds value.
+     * Get maximum duration of the capture session in seconds.
      *
      * @return the timeLimitInSeconds value
      */
@@ -125,7 +125,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Set the timeLimitInSeconds value.
+     * Set maximum duration of the capture session in seconds.
      *
      * @param timeLimitInSeconds the timeLimitInSeconds value to set
      * @return the PacketCaptureInner object itself.
@@ -136,7 +136,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Get the storageLocation value.
+     * Get describes the storage location for a packet capture session.
      *
      * @return the storageLocation value
      */
@@ -145,7 +145,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Set the storageLocation value.
+     * Set describes the storage location for a packet capture session.
      *
      * @param storageLocation the storageLocation value to set
      * @return the PacketCaptureInner object itself.
@@ -156,7 +156,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Get the filters value.
+     * Get a list of packet capture filters.
      *
      * @return the filters value
      */
@@ -165,7 +165,7 @@ public class PacketCaptureInner {
     }
 
     /**
-     * Set the filters value.
+     * Set a list of packet capture filters.
      *
      * @param filters the filters value to set
      * @return the PacketCaptureInner object itself.

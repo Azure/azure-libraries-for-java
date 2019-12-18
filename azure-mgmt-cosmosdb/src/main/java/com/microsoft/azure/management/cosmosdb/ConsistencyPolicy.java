@@ -41,7 +41,7 @@ public class ConsistencyPolicy {
     private Integer maxIntervalInSeconds;
 
     /**
-     * Get the defaultConsistencyLevel value.
+     * Get the default consistency level and configuration settings of the Cosmos DB account. Possible values include: 'Eventual', 'Session', 'BoundedStaleness', 'Strong', 'ConsistentPrefix'.
      *
      * @return the defaultConsistencyLevel value
      */
@@ -50,7 +50,7 @@ public class ConsistencyPolicy {
     }
 
     /**
-     * Set the defaultConsistencyLevel value.
+     * Set the default consistency level and configuration settings of the Cosmos DB account. Possible values include: 'Eventual', 'Session', 'BoundedStaleness', 'Strong', 'ConsistentPrefix'.
      *
      * @param defaultConsistencyLevel the defaultConsistencyLevel value to set
      * @return the ConsistencyPolicy object itself.
@@ -61,7 +61,7 @@ public class ConsistencyPolicy {
     }
 
     /**
-     * Get the maxStalenessPrefix value.
+     * Get when used with the Bounded Staleness consistency level, this value represents the number of stale requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set to 'BoundedStaleness'.
      *
      * @return the maxStalenessPrefix value
      */
@@ -70,7 +70,7 @@ public class ConsistencyPolicy {
     }
 
     /**
-     * Set the maxStalenessPrefix value.
+     * Set when used with the Bounded Staleness consistency level, this value represents the number of stale requests tolerated. Accepted range for this value is 1 – 2,147,483,647. Required when defaultConsistencyPolicy is set to 'BoundedStaleness'.
      *
      * @param maxStalenessPrefix the maxStalenessPrefix value to set
      * @return the ConsistencyPolicy object itself.
@@ -81,7 +81,7 @@ public class ConsistencyPolicy {
     }
 
     /**
-     * Get the maxIntervalInSeconds value.
+     * Get when used with the Bounded Staleness consistency level, this value represents the time amount of staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is set to 'BoundedStaleness'.
      *
      * @return the maxIntervalInSeconds value
      */
@@ -90,7 +90,7 @@ public class ConsistencyPolicy {
     }
 
     /**
-     * Set the maxIntervalInSeconds value.
+     * Set when used with the Bounded Staleness consistency level, this value represents the time amount of staleness (in seconds) tolerated. Accepted range for this value is 5 - 86400. Required when defaultConsistencyPolicy is set to 'BoundedStaleness'.
      *
      * @param maxIntervalInSeconds the maxIntervalInSeconds value to set
      * @return the ConsistencyPolicy object itself.

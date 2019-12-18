@@ -8,10 +8,10 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
-import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetInstanceViewStatusesSummary;
 import java.util.List;
 import com.microsoft.azure.management.compute.VirtualMachineScaleSetVMExtensionsSummary;
+import com.microsoft.azure.management.compute.InstanceViewStatus;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**

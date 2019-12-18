@@ -21,8 +21,8 @@ public class CloudServiceConfiguration {
      * Possible values are: 2 - OS Family 2, equivalent to Windows Server 2008
      * R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS
      * Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5,
-     * equivalent to Windows Server 2016. For more information, see Azure Guest
-     * OS Releases
+     * equivalent to Windows Server 2016. 6 - OS Family 6, equivalent to
+     * Windows Server 2019. For more information, see Azure Guest OS Releases
      * (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases).
      */
     @JsonProperty(value = "osFamily", required = true)
@@ -34,23 +34,11 @@ public class CloudServiceConfiguration {
      * The default value is * which specifies the latest operating system
      * version for the specified OS family.
      */
-    @JsonProperty(value = "targetOSVersion")
-    private String targetOSVersion;
+    @JsonProperty(value = "osVersion")
+    private String osVersion;
 
     /**
-     * The Azure Guest OS Version currently installed on the virtual machines
-     * in the pool.
-     * This may differ from targetOSVersion if the pool state is Upgrading. In
-     * this case some virtual machines may be on the targetOSVersion and some
-     * may be on the currentOSVersion during the upgrade process. Once all
-     * virtual machines have upgraded, currentOSVersion is updated to be the
-     * same as targetOSVersion.
-     */
-    @JsonProperty(value = "currentOSVersion")
-    private String currentOSVersion;
-
-    /**
-     * Get the osFamily value.
+     * Get possible values are: 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5, equivalent to Windows Server 2016. 6 - OS Family 6, equivalent to Windows Server 2019. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases).
      *
      * @return the osFamily value
      */
@@ -59,7 +47,7 @@ public class CloudServiceConfiguration {
     }
 
     /**
-     * Set the osFamily value.
+     * Set possible values are: 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5, equivalent to Windows Server 2016. 6 - OS Family 6, equivalent to Windows Server 2019. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases).
      *
      * @param osFamily the osFamily value to set
      * @return the CloudServiceConfiguration object itself.
@@ -70,42 +58,22 @@ public class CloudServiceConfiguration {
     }
 
     /**
-     * Get the targetOSVersion value.
+     * Get the default value is * which specifies the latest operating system version for the specified OS family.
      *
-     * @return the targetOSVersion value
+     * @return the osVersion value
      */
-    public String targetOSVersion() {
-        return this.targetOSVersion;
+    public String osVersion() {
+        return this.osVersion;
     }
 
     /**
-     * Set the targetOSVersion value.
+     * Set the default value is * which specifies the latest operating system version for the specified OS family.
      *
-     * @param targetOSVersion the targetOSVersion value to set
+     * @param osVersion the osVersion value to set
      * @return the CloudServiceConfiguration object itself.
      */
-    public CloudServiceConfiguration withTargetOSVersion(String targetOSVersion) {
-        this.targetOSVersion = targetOSVersion;
-        return this;
-    }
-
-    /**
-     * Get the currentOSVersion value.
-     *
-     * @return the currentOSVersion value
-     */
-    public String currentOSVersion() {
-        return this.currentOSVersion;
-    }
-
-    /**
-     * Set the currentOSVersion value.
-     *
-     * @param currentOSVersion the currentOSVersion value to set
-     * @return the CloudServiceConfiguration object itself.
-     */
-    public CloudServiceConfiguration withCurrentOSVersion(String currentOSVersion) {
-        this.currentOSVersion = currentOSVersion;
+    public CloudServiceConfiguration withOsVersion(String osVersion) {
+        this.osVersion = osVersion;
         return this;
     }
 

@@ -36,7 +36,7 @@ public interface ComputePolicies {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ComputePolicy&gt; object if successful.
      */
-    PagedList<ComputePolicy> listByAccount(final String resourceGroupName, final String accountName);
+    PagedList<ComputePolicy> listByAccount(String resourceGroupName, String accountName);
 
     /**
      * Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies.
@@ -47,7 +47,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<ComputePolicy>> listByAccountAsync(final String resourceGroupName, final String accountName, final ListOperationCallback<ComputePolicy> serviceCallback);
+    ServiceFuture<List<ComputePolicy>> listByAccountAsync(String resourceGroupName, String accountName, ListOperationCallback<ComputePolicy> serviceCallback);
 
     /**
      * Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies.
@@ -57,7 +57,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ComputePolicy&gt; object
      */
-    Observable<Page<ComputePolicy>> listByAccountAsync(final String resourceGroupName, final String accountName);
+    Observable<Page<ComputePolicy>> listByAccountAsync(String resourceGroupName, String accountName);
 
     /**
      * Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies.
@@ -67,7 +67,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ComputePolicy&gt; object
      */
-    Observable<ServiceResponse<Page<ComputePolicy>>> listByAccountWithServiceResponseAsync(final String resourceGroupName, final String accountName);
+    Observable<ServiceResponse<Page<ComputePolicy>>> listByAccountWithServiceResponseAsync(String resourceGroupName, String accountName);
 
     /**
      * Creates or updates the specified compute policy. During update, the compute policy with the specified name will be replaced with this new compute policy. An account supports, at most, 50 policies.
@@ -94,7 +94,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<ComputePolicy> createOrUpdateAsync(String resourceGroupName, String accountName, String computePolicyName, CreateOrUpdateComputePolicyParameters parameters, final ServiceCallback<ComputePolicy> serviceCallback);
+    ServiceFuture<ComputePolicy> createOrUpdateAsync(String resourceGroupName, String accountName, String computePolicyName, CreateOrUpdateComputePolicyParameters parameters, ServiceCallback<ComputePolicy> serviceCallback);
 
     /**
      * Creates or updates the specified compute policy. During update, the compute policy with the specified name will be replaced with this new compute policy. An account supports, at most, 50 policies.
@@ -143,7 +143,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<ComputePolicy> getAsync(String resourceGroupName, String accountName, String computePolicyName, final ServiceCallback<ComputePolicy> serviceCallback);
+    ServiceFuture<ComputePolicy> getAsync(String resourceGroupName, String accountName, String computePolicyName, ServiceCallback<ComputePolicy> serviceCallback);
 
     /**
      * Gets the specified Data Lake Analytics compute policy.
@@ -190,7 +190,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, final ServiceCallback<ComputePolicy> serviceCallback);
+    ServiceFuture<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, ServiceCallback<ComputePolicy> serviceCallback);
 
     /**
      * Updates the specified compute policy.
@@ -238,7 +238,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, UpdateComputePolicyParameters parameters, final ServiceCallback<ComputePolicy> serviceCallback);
+    ServiceFuture<ComputePolicy> updateAsync(String resourceGroupName, String accountName, String computePolicyName, UpdateComputePolicyParameters parameters, ServiceCallback<ComputePolicy> serviceCallback);
 
     /**
      * Updates the specified compute policy.
@@ -286,7 +286,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String computePolicyName, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String computePolicyName, ServiceCallback<Void> serviceCallback);
 
     /**
      * Deletes the specified compute policy from the specified Data Lake Analytics account.
@@ -319,7 +319,7 @@ public interface ComputePolicies {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;ComputePolicy&gt; object if successful.
      */
-    PagedList<ComputePolicy> listByAccountNext(final String nextPageLink);
+    PagedList<ComputePolicy> listByAccountNext(String nextPageLink);
 
     /**
      * Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies.
@@ -330,7 +330,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<ComputePolicy>> listByAccountNextAsync(final String nextPageLink, final ServiceFuture<List<ComputePolicy>> serviceFuture, final ListOperationCallback<ComputePolicy> serviceCallback);
+    ServiceFuture<List<ComputePolicy>> listByAccountNextAsync(String nextPageLink, ServiceFuture<List<ComputePolicy>> serviceFuture, ListOperationCallback<ComputePolicy> serviceCallback);
 
     /**
      * Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies.
@@ -339,7 +339,7 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ComputePolicy&gt; object
      */
-    Observable<Page<ComputePolicy>> listByAccountNextAsync(final String nextPageLink);
+    Observable<Page<ComputePolicy>> listByAccountNextAsync(String nextPageLink);
 
     /**
      * Lists the Data Lake Analytics compute policies within the specified Data Lake Analytics account. An account supports, at most, 50 policies.
@@ -348,6 +348,6 @@ public interface ComputePolicies {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ComputePolicy&gt; object
      */
-    Observable<ServiceResponse<Page<ComputePolicy>>> listByAccountNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<ComputePolicy>>> listByAccountNextWithServiceResponseAsync(String nextPageLink);
 
 }

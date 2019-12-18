@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
+
 import java.util.Map;
 
 public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementTest {
@@ -468,6 +469,7 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
         final String uname = "juser";
         final String password = "123tEst!@|ac";
         final String vmName = "myvm6";
+        final String storageAccountName = generateRandomResourceName("stg", 17);
 
         // Creates a native virtual machine
         //
@@ -483,7 +485,7 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withRootPassword(password)
                 .withUnmanagedDisks()                  /* UN-MANAGED OS and DATA DISKS */
                 .withSize(VirtualMachineSizeTypes.STANDARD_D5_V2)
-                .withNewStorageAccount(generateRandomResourceName("stg", 17))
+                .withNewStorageAccount(storageAccountName)
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
@@ -498,6 +500,7 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withRegion(region)
                 .withExistingResourceGroup(RG_NAME)
                 .withLinuxFromVhd(osVhdUri)
+                .withStorageAccountName(storageAccountName)
                 .create();
 
         // Creates a managed virtual machine
@@ -546,6 +549,6 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
         Assert.assertNotNull(managedVm.availabilitySetId());
         AvailabilitySet availabilitySet = computeManager.availabilitySets().getById(managedVm.availabilitySetId());
         Assert.assertTrue(availabilitySet.virtualMachineIds().size() > 0);
-        Assert.assertEquals(availabilitySet.sku(), AvailabilitySetSkuTypes.MANAGED);
+        Assert.assertEquals(availabilitySet.sku(), AvailabilitySetSkuTypes.ALIGNED);
     }
 }

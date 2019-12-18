@@ -10,15 +10,16 @@ package com.microsoft.azure.management.sql.implementation;
 
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.sql.ElasticPoolState;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * Represents a database elastic pool.
  */
 @JsonFlatten
-public class ElasticPoolInner extends TrackedResourceInner {
+public class ElasticPoolInner extends Resource {
     /**
      * The creation date of the elastic pool (ISO8601 format).
      */
@@ -34,10 +35,10 @@ public class ElasticPoolInner extends TrackedResourceInner {
 
     /**
      * The edition of the elastic pool. Possible values include: 'Basic',
-     * 'Standard', 'Premium'.
+     * 'Standard', 'Premium', 'GeneralPurpose', 'BusinessCritical'.
      */
     @JsonProperty(value = "properties.edition")
-    private ElasticPoolEditions edition;
+    private ElasticPoolEdition edition;
 
     /**
      * The total shared DTU for the database elastic pool.
@@ -79,7 +80,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     private String kind;
 
     /**
-     * Get the creationDate value.
+     * Get the creation date of the elastic pool (ISO8601 format).
      *
      * @return the creationDate value
      */
@@ -88,7 +89,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the state value.
+     * Get the state of the elastic pool. Possible values include: 'Creating', 'Ready', 'Disabled'.
      *
      * @return the state value
      */
@@ -97,27 +98,27 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the edition value.
+     * Get the edition of the elastic pool. Possible values include: 'Basic', 'Standard', 'Premium', 'GeneralPurpose', 'BusinessCritical'.
      *
      * @return the edition value
      */
-    public ElasticPoolEditions edition() {
+    public ElasticPoolEdition edition() {
         return this.edition;
     }
 
     /**
-     * Set the edition value.
+     * Set the edition of the elastic pool. Possible values include: 'Basic', 'Standard', 'Premium', 'GeneralPurpose', 'BusinessCritical'.
      *
      * @param edition the edition value to set
      * @return the ElasticPoolInner object itself.
      */
-    public ElasticPoolInner withEdition(ElasticPoolEditions edition) {
+    public ElasticPoolInner withEdition(ElasticPoolEdition edition) {
         this.edition = edition;
         return this;
     }
 
     /**
-     * Get the dtu value.
+     * Get the total shared DTU for the database elastic pool.
      *
      * @return the dtu value
      */
@@ -126,7 +127,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the dtu value.
+     * Set the total shared DTU for the database elastic pool.
      *
      * @param dtu the dtu value to set
      * @return the ElasticPoolInner object itself.
@@ -137,7 +138,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the databaseDtuMax value.
+     * Get the maximum DTU any one database can consume.
      *
      * @return the databaseDtuMax value
      */
@@ -146,7 +147,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the databaseDtuMax value.
+     * Set the maximum DTU any one database can consume.
      *
      * @param databaseDtuMax the databaseDtuMax value to set
      * @return the ElasticPoolInner object itself.
@@ -157,7 +158,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the databaseDtuMin value.
+     * Get the minimum DTU all databases are guaranteed.
      *
      * @return the databaseDtuMin value
      */
@@ -166,7 +167,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the databaseDtuMin value.
+     * Set the minimum DTU all databases are guaranteed.
      *
      * @param databaseDtuMin the databaseDtuMin value to set
      * @return the ElasticPoolInner object itself.
@@ -177,7 +178,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the storageMB value.
+     * Get gets storage limit for the database elastic pool in MB.
      *
      * @return the storageMB value
      */
@@ -186,7 +187,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the storageMB value.
+     * Set gets storage limit for the database elastic pool in MB.
      *
      * @param storageMB the storageMB value to set
      * @return the ElasticPoolInner object itself.
@@ -197,7 +198,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the zoneRedundant value.
+     * Get whether or not this database elastic pool is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
      *
      * @return the zoneRedundant value
      */
@@ -206,7 +207,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the zoneRedundant value.
+     * Set whether or not this database elastic pool is zone redundant, which means the replicas of this database will be spread across multiple availability zones.
      *
      * @param zoneRedundant the zoneRedundant value to set
      * @return the ElasticPoolInner object itself.
@@ -217,7 +218,7 @@ public class ElasticPoolInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the kind value.
+     * Get kind of elastic pool.  This is metadata used for the Azure portal experience.
      *
      * @return the kind value
      */

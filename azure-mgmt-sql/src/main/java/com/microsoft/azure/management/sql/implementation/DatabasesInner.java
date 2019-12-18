@@ -11,6 +11,10 @@ package com.microsoft.azure.management.sql.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.sql.DatabaseUpdate;
+import com.microsoft.azure.management.sql.ExportRequest;
+import com.microsoft.azure.management.sql.ImportExtensionRequest;
+import com.microsoft.azure.management.sql.ImportRequest;
 import com.microsoft.azure.management.sql.ResourceMoveDefinition;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
@@ -85,11 +89,11 @@ public class DatabasesInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Body DatabaseUpdateInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Body DatabaseUpdate parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Body DatabaseUpdateInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Body DatabaseUpdate parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}", method = "DELETE", hasBody = true)
@@ -121,27 +125,27 @@ public class DatabasesInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases importMethod" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/import")
-        Observable<Response<ResponseBody>> importMethod(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Body ImportRequestInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> importMethod(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Body ImportRequest parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases beginImportMethod" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/import")
-        Observable<Response<ResponseBody>> beginImportMethod(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Body ImportRequestInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginImportMethod(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Query("api-version") String apiVersion, @Body ImportRequest parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases createImportOperation" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}")
-        Observable<Response<ResponseBody>> createImportOperation(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("extensionName") String extensionName, @Query("api-version") String apiVersion, @Body ImportExtensionRequestInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> createImportOperation(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("extensionName") String extensionName, @Query("api-version") String apiVersion, @Body ImportExtensionRequest parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases beginCreateImportOperation" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}")
-        Observable<Response<ResponseBody>> beginCreateImportOperation(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("extensionName") String extensionName, @Query("api-version") String apiVersion, @Body ImportExtensionRequestInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginCreateImportOperation(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("extensionName") String extensionName, @Query("api-version") String apiVersion, @Body ImportExtensionRequest parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases export" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/export")
-        Observable<Response<ResponseBody>> export(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Body ExportRequestInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> export(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Body ExportRequest parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases beginExport" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/export")
-        Observable<Response<ResponseBody>> beginExport(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Body ExportRequestInner parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginExport(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Query("api-version") String apiVersion, @Body ExportRequest parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases listMetrics" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/metrics")
@@ -154,6 +158,14 @@ public class DatabasesInner {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases rename" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/move")
         Observable<Response<ResponseBody>> rename(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body ResourceMoveDefinition parameters, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases failover" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/failover")
+        Observable<Response<ResponseBody>> failover(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.sql.Databases beginFailover" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/failover")
+        Observable<Response<ResponseBody>> beginFailover(@Path("resourceGroupName") String resourceGroupName, @Path("serverName") String serverName, @Path("databaseName") String databaseName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -680,7 +692,7 @@ public class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DatabaseInner object if successful.
      */
-    public DatabaseInner update(String resourceGroupName, String serverName, String databaseName, DatabaseUpdateInner parameters) {
+    public DatabaseInner update(String resourceGroupName, String serverName, String databaseName, DatabaseUpdate parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().last().body();
     }
 
@@ -695,7 +707,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseInner> updateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdateInner parameters, final ServiceCallback<DatabaseInner> serviceCallback) {
+    public ServiceFuture<DatabaseInner> updateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdate parameters, final ServiceCallback<DatabaseInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
@@ -709,7 +721,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<DatabaseInner> updateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdateInner parameters) {
+    public Observable<DatabaseInner> updateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdate parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<DatabaseInner>, DatabaseInner>() {
             @Override
             public DatabaseInner call(ServiceResponse<DatabaseInner> response) {
@@ -728,7 +740,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<DatabaseInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdateInner parameters) {
+    public Observable<ServiceResponse<DatabaseInner>> updateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdate parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -762,7 +774,7 @@ public class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the DatabaseInner object if successful.
      */
-    public DatabaseInner beginUpdate(String resourceGroupName, String serverName, String databaseName, DatabaseUpdateInner parameters) {
+    public DatabaseInner beginUpdate(String resourceGroupName, String serverName, String databaseName, DatabaseUpdate parameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().single().body();
     }
 
@@ -777,7 +789,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DatabaseInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdateInner parameters, final ServiceCallback<DatabaseInner> serviceCallback) {
+    public ServiceFuture<DatabaseInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdate parameters, final ServiceCallback<DatabaseInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
@@ -791,7 +803,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DatabaseInner object
      */
-    public Observable<DatabaseInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdateInner parameters) {
+    public Observable<DatabaseInner> beginUpdateAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdate parameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<DatabaseInner>, DatabaseInner>() {
             @Override
             public DatabaseInner call(ServiceResponse<DatabaseInner> response) {
@@ -810,7 +822,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DatabaseInner object
      */
-    public Observable<ServiceResponse<DatabaseInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdateInner parameters) {
+    public Observable<ServiceResponse<DatabaseInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, DatabaseUpdate parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -1192,7 +1204,11 @@ public class DatabasesInner {
                 public Observable<ServiceResponse<List<DatabaseInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<DatabaseInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<DatabaseInner>> clientResponse = new ServiceResponse<List<DatabaseInner>>(result.body().items(), result.response());
+                        List<DatabaseInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DatabaseInner>> clientResponse = new ServiceResponse<List<DatabaseInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1278,7 +1294,11 @@ public class DatabasesInner {
                 public Observable<ServiceResponse<List<DatabaseInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<DatabaseInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<DatabaseInner>> clientResponse = new ServiceResponse<List<DatabaseInner>>(result.body().items(), result.response());
+                        List<DatabaseInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DatabaseInner>> clientResponse = new ServiceResponse<List<DatabaseInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1468,7 +1488,11 @@ public class DatabasesInner {
                 public Observable<ServiceResponse<List<DatabaseInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<DatabaseInner>> result = listByElasticPoolDelegate(response);
-                        ServiceResponse<List<DatabaseInner>> clientResponse = new ServiceResponse<List<DatabaseInner>>(result.body().items(), result.response());
+                        List<DatabaseInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DatabaseInner>> clientResponse = new ServiceResponse<List<DatabaseInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1485,7 +1509,7 @@ public class DatabasesInner {
     }
 
     /**
-     * Gets a database inside of a recommented elastic pool.
+     * Gets a database inside of a recommended elastic pool.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1501,7 +1525,7 @@ public class DatabasesInner {
     }
 
     /**
-     * Gets a database inside of a recommented elastic pool.
+     * Gets a database inside of a recommended elastic pool.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1516,7 +1540,7 @@ public class DatabasesInner {
     }
 
     /**
-     * Gets a database inside of a recommented elastic pool.
+     * Gets a database inside of a recommended elastic pool.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1535,7 +1559,7 @@ public class DatabasesInner {
     }
 
     /**
-     * Gets a database inside of a recommented elastic pool.
+     * Gets a database inside of a recommended elastic pool.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1583,7 +1607,7 @@ public class DatabasesInner {
     }
 
     /**
-     * Returns a list of databases inside a recommented elastic pool.
+     * Returns a list of databases inside a recommended elastic pool.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1598,7 +1622,7 @@ public class DatabasesInner {
     }
 
     /**
-     * Returns a list of databases inside a recommented elastic pool.
+     * Returns a list of databases inside a recommended elastic pool.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1612,7 +1636,7 @@ public class DatabasesInner {
     }
 
     /**
-     * Returns a list of databases inside a recommented elastic pool.
+     * Returns a list of databases inside a recommended elastic pool.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1630,7 +1654,7 @@ public class DatabasesInner {
     }
 
     /**
-     * Returns a list of databases inside a recommented elastic pool.
+     * Returns a list of databases inside a recommended elastic pool.
      *
      * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
      * @param serverName The name of the server.
@@ -1658,7 +1682,11 @@ public class DatabasesInner {
                 public Observable<ServiceResponse<List<DatabaseInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<DatabaseInner>> result = listByRecommendedElasticPoolDelegate(response);
-                        ServiceResponse<List<DatabaseInner>> clientResponse = new ServiceResponse<List<DatabaseInner>>(result.body().items(), result.response());
+                        List<DatabaseInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DatabaseInner>> clientResponse = new ServiceResponse<List<DatabaseInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1685,7 +1713,7 @@ public class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ImportExportResponseInner object if successful.
      */
-    public ImportExportResponseInner importMethod(String resourceGroupName, String serverName, ImportRequestInner parameters) {
+    public ImportExportResponseInner importMethod(String resourceGroupName, String serverName, ImportRequest parameters) {
         return importMethodWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().last().body();
     }
 
@@ -1699,7 +1727,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ImportExportResponseInner> importMethodAsync(String resourceGroupName, String serverName, ImportRequestInner parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
+    public ServiceFuture<ImportExportResponseInner> importMethodAsync(String resourceGroupName, String serverName, ImportRequest parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(importMethodWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
@@ -1712,7 +1740,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ImportExportResponseInner> importMethodAsync(String resourceGroupName, String serverName, ImportRequestInner parameters) {
+    public Observable<ImportExportResponseInner> importMethodAsync(String resourceGroupName, String serverName, ImportRequest parameters) {
         return importMethodWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ImportExportResponseInner>, ImportExportResponseInner>() {
             @Override
             public ImportExportResponseInner call(ServiceResponse<ImportExportResponseInner> response) {
@@ -1730,7 +1758,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ImportExportResponseInner>> importMethodWithServiceResponseAsync(String resourceGroupName, String serverName, ImportRequestInner parameters) {
+    public Observable<ServiceResponse<ImportExportResponseInner>> importMethodWithServiceResponseAsync(String resourceGroupName, String serverName, ImportRequest parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -1760,7 +1788,7 @@ public class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ImportExportResponseInner object if successful.
      */
-    public ImportExportResponseInner beginImportMethod(String resourceGroupName, String serverName, ImportRequestInner parameters) {
+    public ImportExportResponseInner beginImportMethod(String resourceGroupName, String serverName, ImportRequest parameters) {
         return beginImportMethodWithServiceResponseAsync(resourceGroupName, serverName, parameters).toBlocking().single().body();
     }
 
@@ -1774,7 +1802,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ImportExportResponseInner> beginImportMethodAsync(String resourceGroupName, String serverName, ImportRequestInner parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
+    public ServiceFuture<ImportExportResponseInner> beginImportMethodAsync(String resourceGroupName, String serverName, ImportRequest parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginImportMethodWithServiceResponseAsync(resourceGroupName, serverName, parameters), serviceCallback);
     }
 
@@ -1787,7 +1815,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ImportExportResponseInner object
      */
-    public Observable<ImportExportResponseInner> beginImportMethodAsync(String resourceGroupName, String serverName, ImportRequestInner parameters) {
+    public Observable<ImportExportResponseInner> beginImportMethodAsync(String resourceGroupName, String serverName, ImportRequest parameters) {
         return beginImportMethodWithServiceResponseAsync(resourceGroupName, serverName, parameters).map(new Func1<ServiceResponse<ImportExportResponseInner>, ImportExportResponseInner>() {
             @Override
             public ImportExportResponseInner call(ServiceResponse<ImportExportResponseInner> response) {
@@ -1805,7 +1833,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ImportExportResponseInner object
      */
-    public Observable<ServiceResponse<ImportExportResponseInner>> beginImportMethodWithServiceResponseAsync(String resourceGroupName, String serverName, ImportRequestInner parameters) {
+    public Observable<ServiceResponse<ImportExportResponseInner>> beginImportMethodWithServiceResponseAsync(String resourceGroupName, String serverName, ImportRequest parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -1854,7 +1882,7 @@ public class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ImportExportResponseInner object if successful.
      */
-    public ImportExportResponseInner createImportOperation(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequestInner parameters) {
+    public ImportExportResponseInner createImportOperation(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequest parameters) {
         return createImportOperationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().last().body();
     }
 
@@ -1869,7 +1897,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ImportExportResponseInner> createImportOperationAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequestInner parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
+    public ServiceFuture<ImportExportResponseInner> createImportOperationAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequest parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(createImportOperationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
@@ -1883,7 +1911,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ImportExportResponseInner> createImportOperationAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequestInner parameters) {
+    public Observable<ImportExportResponseInner> createImportOperationAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequest parameters) {
         return createImportOperationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<ImportExportResponseInner>, ImportExportResponseInner>() {
             @Override
             public ImportExportResponseInner call(ServiceResponse<ImportExportResponseInner> response) {
@@ -1902,7 +1930,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ImportExportResponseInner>> createImportOperationWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequestInner parameters) {
+    public Observable<ServiceResponse<ImportExportResponseInner>> createImportOperationWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequest parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -1937,7 +1965,7 @@ public class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ImportExportResponseInner object if successful.
      */
-    public ImportExportResponseInner beginCreateImportOperation(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequestInner parameters) {
+    public ImportExportResponseInner beginCreateImportOperation(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequest parameters) {
         return beginCreateImportOperationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().single().body();
     }
 
@@ -1952,7 +1980,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ImportExportResponseInner> beginCreateImportOperationAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequestInner parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
+    public ServiceFuture<ImportExportResponseInner> beginCreateImportOperationAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequest parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginCreateImportOperationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
@@ -1966,7 +1994,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ImportExportResponseInner object
      */
-    public Observable<ImportExportResponseInner> beginCreateImportOperationAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequestInner parameters) {
+    public Observable<ImportExportResponseInner> beginCreateImportOperationAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequest parameters) {
         return beginCreateImportOperationWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<ImportExportResponseInner>, ImportExportResponseInner>() {
             @Override
             public ImportExportResponseInner call(ServiceResponse<ImportExportResponseInner> response) {
@@ -1985,7 +2013,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ImportExportResponseInner object
      */
-    public Observable<ServiceResponse<ImportExportResponseInner>> beginCreateImportOperationWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequestInner parameters) {
+    public Observable<ServiceResponse<ImportExportResponseInner>> beginCreateImportOperationWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ImportExtensionRequest parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -2038,7 +2066,7 @@ public class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ImportExportResponseInner object if successful.
      */
-    public ImportExportResponseInner export(String resourceGroupName, String serverName, String databaseName, ExportRequestInner parameters) {
+    public ImportExportResponseInner export(String resourceGroupName, String serverName, String databaseName, ExportRequest parameters) {
         return exportWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().last().body();
     }
 
@@ -2053,7 +2081,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ImportExportResponseInner> exportAsync(String resourceGroupName, String serverName, String databaseName, ExportRequestInner parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
+    public ServiceFuture<ImportExportResponseInner> exportAsync(String resourceGroupName, String serverName, String databaseName, ExportRequest parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(exportWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
@@ -2067,7 +2095,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ImportExportResponseInner> exportAsync(String resourceGroupName, String serverName, String databaseName, ExportRequestInner parameters) {
+    public Observable<ImportExportResponseInner> exportAsync(String resourceGroupName, String serverName, String databaseName, ExportRequest parameters) {
         return exportWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<ImportExportResponseInner>, ImportExportResponseInner>() {
             @Override
             public ImportExportResponseInner call(ServiceResponse<ImportExportResponseInner> response) {
@@ -2086,7 +2114,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<ImportExportResponseInner>> exportWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ExportRequestInner parameters) {
+    public Observable<ServiceResponse<ImportExportResponseInner>> exportWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ExportRequest parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -2120,7 +2148,7 @@ public class DatabasesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ImportExportResponseInner object if successful.
      */
-    public ImportExportResponseInner beginExport(String resourceGroupName, String serverName, String databaseName, ExportRequestInner parameters) {
+    public ImportExportResponseInner beginExport(String resourceGroupName, String serverName, String databaseName, ExportRequest parameters) {
         return beginExportWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).toBlocking().single().body();
     }
 
@@ -2135,7 +2163,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ImportExportResponseInner> beginExportAsync(String resourceGroupName, String serverName, String databaseName, ExportRequestInner parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
+    public ServiceFuture<ImportExportResponseInner> beginExportAsync(String resourceGroupName, String serverName, String databaseName, ExportRequest parameters, final ServiceCallback<ImportExportResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginExportWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters), serviceCallback);
     }
 
@@ -2149,7 +2177,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ImportExportResponseInner object
      */
-    public Observable<ImportExportResponseInner> beginExportAsync(String resourceGroupName, String serverName, String databaseName, ExportRequestInner parameters) {
+    public Observable<ImportExportResponseInner> beginExportAsync(String resourceGroupName, String serverName, String databaseName, ExportRequest parameters) {
         return beginExportWithServiceResponseAsync(resourceGroupName, serverName, databaseName, parameters).map(new Func1<ServiceResponse<ImportExportResponseInner>, ImportExportResponseInner>() {
             @Override
             public ImportExportResponseInner call(ServiceResponse<ImportExportResponseInner> response) {
@@ -2168,7 +2196,7 @@ public class DatabasesInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ImportExportResponseInner object
      */
-    public Observable<ServiceResponse<ImportExportResponseInner>> beginExportWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ExportRequestInner parameters) {
+    public Observable<ServiceResponse<ImportExportResponseInner>> beginExportWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName, ExportRequest parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -2291,7 +2319,11 @@ public class DatabasesInner {
                 public Observable<ServiceResponse<List<MetricInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<MetricInner>> result = listMetricsDelegate(response);
-                        ServiceResponse<List<MetricInner>> clientResponse = new ServiceResponse<List<MetricInner>>(result.body().items(), result.response());
+                        List<MetricInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<MetricInner>> clientResponse = new ServiceResponse<List<MetricInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2383,7 +2415,11 @@ public class DatabasesInner {
                 public Observable<ServiceResponse<List<MetricDefinitionInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<MetricDefinitionInner>> result = listMetricDefinitionsDelegate(response);
-                        ServiceResponse<List<MetricDefinitionInner>> clientResponse = new ServiceResponse<List<MetricDefinitionInner>>(result.body().items(), result.response());
+                        List<MetricDefinitionInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<MetricDefinitionInner>> clientResponse = new ServiceResponse<List<MetricDefinitionInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2494,6 +2530,170 @@ public class DatabasesInner {
     private ServiceResponse<Void> renameDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void failover(String resourceGroupName, String serverName, String databaseName) {
+        failoverWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().last().body();
+    }
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> failoverAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(failoverWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    }
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> failoverAsync(String resourceGroupName, String serverName, String databaseName) {
+        return failoverWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> failoverWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01-preview";
+        Observable<Response<ResponseBody>> observable = service.failover(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginFailover(String resourceGroupName, String serverName, String databaseName) {
+        beginFailoverWithServiceResponseAsync(resourceGroupName, serverName, databaseName).toBlocking().single().body();
+    }
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginFailoverAsync(String resourceGroupName, String serverName, String databaseName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginFailoverWithServiceResponseAsync(resourceGroupName, serverName, databaseName), serviceCallback);
+    }
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginFailoverAsync(String resourceGroupName, String serverName, String databaseName) {
+        return beginFailoverWithServiceResponseAsync(resourceGroupName, serverName, databaseName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Failovers a database.
+     *
+     * @param resourceGroupName The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+     * @param serverName The name of the server.
+     * @param databaseName The name of the database to failover.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginFailoverWithServiceResponseAsync(String resourceGroupName, String serverName, String databaseName) {
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (serverName == null) {
+            throw new IllegalArgumentException("Parameter serverName is required and cannot be null.");
+        }
+        if (databaseName == null) {
+            throw new IllegalArgumentException("Parameter databaseName is required and cannot be null.");
+        }
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        final String apiVersion = "2018-06-01-preview";
+        return service.beginFailover(resourceGroupName, serverName, databaseName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginFailoverDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginFailoverDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

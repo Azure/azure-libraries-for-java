@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.containerinstance;
 
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -27,7 +28,20 @@ public class LogAnalytics {
     private String workspaceKey;
 
     /**
-     * Get the workspaceId value.
+     * The log type to be used. Possible values include: 'ContainerInsights',
+     * 'ContainerInstanceLogs'.
+     */
+    @JsonProperty(value = "logType")
+    private LogAnalyticsLogType logType;
+
+    /**
+     * Metadata for log analytics.
+     */
+    @JsonProperty(value = "metadata")
+    private Map<String, String> metadata;
+
+    /**
+     * Get the workspace id for log analytics.
      *
      * @return the workspaceId value
      */
@@ -36,7 +50,7 @@ public class LogAnalytics {
     }
 
     /**
-     * Set the workspaceId value.
+     * Set the workspace id for log analytics.
      *
      * @param workspaceId the workspaceId value to set
      * @return the LogAnalytics object itself.
@@ -47,7 +61,7 @@ public class LogAnalytics {
     }
 
     /**
-     * Get the workspaceKey value.
+     * Get the workspace key for log analytics.
      *
      * @return the workspaceKey value
      */
@@ -56,13 +70,53 @@ public class LogAnalytics {
     }
 
     /**
-     * Set the workspaceKey value.
+     * Set the workspace key for log analytics.
      *
      * @param workspaceKey the workspaceKey value to set
      * @return the LogAnalytics object itself.
      */
     public LogAnalytics withWorkspaceKey(String workspaceKey) {
         this.workspaceKey = workspaceKey;
+        return this;
+    }
+
+    /**
+     * Get the log type to be used. Possible values include: 'ContainerInsights', 'ContainerInstanceLogs'.
+     *
+     * @return the logType value
+     */
+    public LogAnalyticsLogType logType() {
+        return this.logType;
+    }
+
+    /**
+     * Set the log type to be used. Possible values include: 'ContainerInsights', 'ContainerInstanceLogs'.
+     *
+     * @param logType the logType value to set
+     * @return the LogAnalytics object itself.
+     */
+    public LogAnalytics withLogType(LogAnalyticsLogType logType) {
+        this.logType = logType;
+        return this;
+    }
+
+    /**
+     * Get metadata for log analytics.
+     *
+     * @return the metadata value
+     */
+    public Map<String, String> metadata() {
+        return this.metadata;
+    }
+
+    /**
+     * Set metadata for log analytics.
+     *
+     * @param metadata the metadata value to set
+     * @return the LogAnalytics object itself.
+     */
+    public LogAnalytics withMetadata(Map<String, String> metadata) {
+        this.metadata = metadata;
         return this;
     }
 

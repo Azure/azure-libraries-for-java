@@ -31,7 +31,7 @@ public class FailoverGroupReadWriteEndpoint {
     private Integer failoverWithDataLossGracePeriodMinutes;
 
     /**
-     * Get the failoverPolicy value.
+     * Get failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. Possible values include: 'Manual', 'Automatic'.
      *
      * @return the failoverPolicy value
      */
@@ -40,7 +40,7 @@ public class FailoverGroupReadWriteEndpoint {
     }
 
     /**
-     * Set the failoverPolicy value.
+     * Set failover policy of the read-write endpoint for the failover group. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required. Possible values include: 'Manual', 'Automatic'.
      *
      * @param failoverPolicy the failoverPolicy value to set
      * @return the FailoverGroupReadWriteEndpoint object itself.
@@ -51,7 +51,7 @@ public class FailoverGroupReadWriteEndpoint {
     }
 
     /**
-     * Get the failoverWithDataLossGracePeriodMinutes value.
+     * Get grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
      *
      * @return the failoverWithDataLossGracePeriodMinutes value
      */
@@ -60,7 +60,7 @@ public class FailoverGroupReadWriteEndpoint {
     }
 
     /**
-     * Set the failoverWithDataLossGracePeriodMinutes value.
+     * Set grace period before failover with data loss is attempted for the read-write endpoint. If failoverPolicy is Automatic then failoverWithDataLossGracePeriodMinutes is required.
      *
      * @param failoverWithDataLossGracePeriodMinutes the failoverWithDataLossGracePeriodMinutes value to set
      * @return the FailoverGroupReadWriteEndpoint object itself.

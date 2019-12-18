@@ -6,14 +6,15 @@
 
 package com.microsoft.azure.management.cosmosdb.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccount;
 import com.microsoft.azure.management.cosmosdb.CosmosDBAccounts;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountListConnectionStringsResult;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountListKeysResult;
 import com.microsoft.azure.management.cosmosdb.DatabaseAccountListReadOnlyKeysResult;
 import com.microsoft.azure.management.cosmosdb.Location;
+import com.microsoft.azure.management.cosmosdb.FailoverPolicy;
 import com.microsoft.azure.management.cosmosdb.KeyKind;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
@@ -34,7 +35,7 @@ class CosmosDBAccountsImpl
         GroupableResourcesImpl<
                 CosmosDBAccount,
                 CosmosDBAccountImpl,
-                DatabaseAccountInner,
+                DatabaseAccountGetResultsInner,
                 DatabaseAccountsInner,
                 CosmosDBManager>
         implements CosmosDBAccounts {
@@ -65,7 +66,7 @@ class CosmosDBAccountsImpl
     }
 
     @Override
-    protected Observable<DatabaseAccountInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Observable<DatabaseAccountGetResultsInner> getInnerAsync(String resourceGroupName, String name) {
         return this.inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
@@ -86,12 +87,12 @@ class CosmosDBAccountsImpl
     @Override
     protected CosmosDBAccountImpl wrapModel(String name) {
         return new CosmosDBAccountImpl(name,
-                new DatabaseAccountInner(),
+                new DatabaseAccountGetResultsInner(),
                 this.manager());
     }
 
     @Override
-    protected CosmosDBAccountImpl wrapModel(DatabaseAccountInner containerServiceInner) {
+    protected CosmosDBAccountImpl wrapModel(DatabaseAccountGetResultsInner containerServiceInner) {
         if (containerServiceInner == null) {
             return null;
         }
@@ -108,10 +109,10 @@ class CosmosDBAccountsImpl
 
     @Override
     public Observable<Void> failoverPriorityChangeAsync(String groupName, String accountName, List<Location> failoverLocations) {
-        List<FailoverPolicyInner> policyInners = new ArrayList<FailoverPolicyInner>();
+        List<FailoverPolicy> policyInners = new ArrayList<FailoverPolicy>();
         for (int i = 0; i < failoverLocations.size(); i++) {
             Location location  = failoverLocations.get(i);
-            FailoverPolicyInner policyInner = new FailoverPolicyInner();
+            FailoverPolicy policyInner = new FailoverPolicy();
             policyInner.withLocationName(location.locationName());
             policyInner.withFailoverPriority(i);
             policyInners.add(policyInner);

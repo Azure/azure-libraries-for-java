@@ -16,8 +16,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableR
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
 import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 
 import java.util.Map;
 
@@ -32,6 +32,11 @@ public interface VirtualMachineCustomImage extends
      * @return true if this image was created by capturing a virtual machine
      */
     boolean isCreatedFromVirtualMachine();
+
+    /**
+     * @return the hyper v Generation
+     */
+    HyperVGenerationTypes hyperVGeneration();
 
     /**
      * @return ID of the virtual machine if this image was created by capturing that virtual machine
@@ -54,6 +59,7 @@ public interface VirtualMachineCustomImage extends
     interface Definition extends
             DefinitionStages.Blank,
             DefinitionStages.WithGroup,
+            DefinitionStages.WithHyperVGeneration,
             DefinitionStages.WithOSDiskImageSourceAltVirtualMachineSource,
             DefinitionStages.WithOSDiskImageSource,
             DefinitionStages.WithSourceVirtualMachine,
@@ -75,7 +81,7 @@ public interface VirtualMachineCustomImage extends
          * The stage of the image definition allowing to specify the resource group.
          */
         interface WithGroup
-                extends GroupableResource.DefinitionStages.WithGroup<WithOSDiskImageSourceAltVirtualMachineSource> {
+                extends GroupableResource.DefinitionStages.WithGroup<WithHyperVGeneration> {
         }
 
         /**
@@ -84,6 +90,14 @@ public interface VirtualMachineCustomImage extends
          */
         interface WithOSDiskImageSourceAltVirtualMachineSource
                 extends WithOSDiskImageSource, WithSourceVirtualMachine {
+        }
+
+        /**
+         * The stage of the image definition that allows us to choose a hyper V generation.
+         * Default, if this stage is not added will be hyperV gen 1.
+         */
+        interface WithHyperVGeneration extends WithOSDiskImageSourceAltVirtualMachineSource {
+            WithOSDiskImageSourceAltVirtualMachineSource withHyperVGeneration(HyperVGenerationTypes hyperVGeneration);
         }
 
         /**

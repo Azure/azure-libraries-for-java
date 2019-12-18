@@ -8,7 +8,7 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.microsoft.azure.management.resources.ResourceManagementErrorWithDetails;
+import com.microsoft.azure.management.resources.ErrorResponse;
 import com.microsoft.azure.management.resources.DeploymentPropertiesExtended;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,10 +17,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class DeploymentValidateResultInner {
     /**
-     * Validation error.
+     * The deployment validation error.
      */
     @JsonProperty(value = "error")
-    private ResourceManagementErrorWithDetails error;
+    private ErrorResponse error;
 
     /**
      * The template deployment properties.
@@ -29,27 +29,27 @@ public class DeploymentValidateResultInner {
     private DeploymentPropertiesExtended properties;
 
     /**
-     * Get the error value.
+     * Get the deployment validation error.
      *
      * @return the error value
      */
-    public ResourceManagementErrorWithDetails error() {
+    public ErrorResponse error() {
         return this.error;
     }
 
     /**
-     * Set the error value.
+     * Set the deployment validation error.
      *
      * @param error the error value to set
      * @return the DeploymentValidateResultInner object itself.
      */
-    public DeploymentValidateResultInner withError(ResourceManagementErrorWithDetails error) {
+    public DeploymentValidateResultInner withError(ErrorResponse error) {
         this.error = error;
         return this;
     }
 
     /**
-     * Get the properties value.
+     * Get the template deployment properties.
      *
      * @return the properties value
      */
@@ -58,7 +58,7 @@ public class DeploymentValidateResultInner {
     }
 
     /**
-     * Set the properties value.
+     * Set the template deployment properties.
      *
      * @param properties the properties value to set
      * @return the DeploymentValidateResultInner object itself.

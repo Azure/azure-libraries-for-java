@@ -222,7 +222,11 @@ public class RecoverableDatabasesInner {
                 public Observable<ServiceResponse<List<RecoverableDatabaseInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<RecoverableDatabaseInner>> result = listByServerDelegate(response);
-                        ServiceResponse<List<RecoverableDatabaseInner>> clientResponse = new ServiceResponse<List<RecoverableDatabaseInner>>(result.body().items(), result.response());
+                        List<RecoverableDatabaseInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<RecoverableDatabaseInner>> clientResponse = new ServiceResponse<List<RecoverableDatabaseInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

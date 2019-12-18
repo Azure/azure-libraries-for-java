@@ -16,6 +16,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.network.PatchRouteFilter;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -87,11 +88,11 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilters update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("subscriptionId") String subscriptionId, @Body PatchRouteFilterInner routeFilterParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("subscriptionId") String subscriptionId, @Body PatchRouteFilter routeFilterParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilters beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("subscriptionId") String subscriptionId, @Body PatchRouteFilterInner routeFilterParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("routeFilterName") String routeFilterName, @Path("subscriptionId") String subscriptionId, @Body PatchRouteFilter routeFilterParameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.RouteFilters listByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters")
@@ -172,7 +173,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, routeFilterName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -238,7 +239,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginDelete(resourceGroupName, routeFilterName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -324,7 +325,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         final String expand = null;
         return service.getByResourceGroup(resourceGroupName, routeFilterName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteFilterInner>>>() {
@@ -406,7 +407,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.getByResourceGroup(resourceGroupName, routeFilterName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteFilterInner>>>() {
                 @Override
@@ -498,7 +499,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
             throw new IllegalArgumentException("Parameter routeFilterParameters is required and cannot be null.");
         }
         Validator.validate(routeFilterParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, routeFilterName, this.client.subscriptionId(), routeFilterParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<RouteFilterInner>() { }.getType());
     }
@@ -573,7 +574,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
             throw new IllegalArgumentException("Parameter routeFilterParameters is required and cannot be null.");
         }
         Validator.validate(routeFilterParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginCreateOrUpdate(resourceGroupName, routeFilterName, this.client.subscriptionId(), routeFilterParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteFilterInner>>>() {
                 @Override
@@ -607,7 +608,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RouteFilterInner object if successful.
      */
-    public RouteFilterInner update(String resourceGroupName, String routeFilterName, PatchRouteFilterInner routeFilterParameters) {
+    public RouteFilterInner update(String resourceGroupName, String routeFilterName, PatchRouteFilter routeFilterParameters) {
         return updateWithServiceResponseAsync(resourceGroupName, routeFilterName, routeFilterParameters).toBlocking().last().body();
     }
 
@@ -621,7 +622,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RouteFilterInner> updateAsync(String resourceGroupName, String routeFilterName, PatchRouteFilterInner routeFilterParameters, final ServiceCallback<RouteFilterInner> serviceCallback) {
+    public ServiceFuture<RouteFilterInner> updateAsync(String resourceGroupName, String routeFilterName, PatchRouteFilter routeFilterParameters, final ServiceCallback<RouteFilterInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, routeFilterName, routeFilterParameters), serviceCallback);
     }
 
@@ -634,7 +635,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<RouteFilterInner> updateAsync(String resourceGroupName, String routeFilterName, PatchRouteFilterInner routeFilterParameters) {
+    public Observable<RouteFilterInner> updateAsync(String resourceGroupName, String routeFilterName, PatchRouteFilter routeFilterParameters) {
         return updateWithServiceResponseAsync(resourceGroupName, routeFilterName, routeFilterParameters).map(new Func1<ServiceResponse<RouteFilterInner>, RouteFilterInner>() {
             @Override
             public RouteFilterInner call(ServiceResponse<RouteFilterInner> response) {
@@ -652,7 +653,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<RouteFilterInner>> updateWithServiceResponseAsync(String resourceGroupName, String routeFilterName, PatchRouteFilterInner routeFilterParameters) {
+    public Observable<ServiceResponse<RouteFilterInner>> updateWithServiceResponseAsync(String resourceGroupName, String routeFilterName, PatchRouteFilter routeFilterParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -666,7 +667,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
             throw new IllegalArgumentException("Parameter routeFilterParameters is required and cannot be null.");
         }
         Validator.validate(routeFilterParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, routeFilterName, this.client.subscriptionId(), routeFilterParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<RouteFilterInner>() { }.getType());
     }
@@ -682,7 +683,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the RouteFilterInner object if successful.
      */
-    public RouteFilterInner beginUpdate(String resourceGroupName, String routeFilterName, PatchRouteFilterInner routeFilterParameters) {
+    public RouteFilterInner beginUpdate(String resourceGroupName, String routeFilterName, PatchRouteFilter routeFilterParameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, routeFilterParameters).toBlocking().single().body();
     }
 
@@ -696,7 +697,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<RouteFilterInner> beginUpdateAsync(String resourceGroupName, String routeFilterName, PatchRouteFilterInner routeFilterParameters, final ServiceCallback<RouteFilterInner> serviceCallback) {
+    public ServiceFuture<RouteFilterInner> beginUpdateAsync(String resourceGroupName, String routeFilterName, PatchRouteFilter routeFilterParameters, final ServiceCallback<RouteFilterInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, routeFilterParameters), serviceCallback);
     }
 
@@ -709,7 +710,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RouteFilterInner object
      */
-    public Observable<RouteFilterInner> beginUpdateAsync(String resourceGroupName, String routeFilterName, PatchRouteFilterInner routeFilterParameters) {
+    public Observable<RouteFilterInner> beginUpdateAsync(String resourceGroupName, String routeFilterName, PatchRouteFilter routeFilterParameters) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, routeFilterName, routeFilterParameters).map(new Func1<ServiceResponse<RouteFilterInner>, RouteFilterInner>() {
             @Override
             public RouteFilterInner call(ServiceResponse<RouteFilterInner> response) {
@@ -727,7 +728,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the RouteFilterInner object
      */
-    public Observable<ServiceResponse<RouteFilterInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String routeFilterName, PatchRouteFilterInner routeFilterParameters) {
+    public Observable<ServiceResponse<RouteFilterInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String routeFilterName, PatchRouteFilter routeFilterParameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -741,7 +742,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
             throw new IllegalArgumentException("Parameter routeFilterParameters is required and cannot be null.");
         }
         Validator.validate(routeFilterParameters);
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.beginUpdate(resourceGroupName, routeFilterName, this.client.subscriptionId(), routeFilterParameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<RouteFilterInner>>>() {
                 @Override
@@ -854,7 +855,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RouteFilterInner>>>>() {
                 @Override
@@ -959,7 +960,7 @@ public class RouteFiltersInner implements InnerSupportsGet<RouteFilterInner>, In
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-06-01";
+        final String apiVersion = "2019-06-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<RouteFilterInner>>>>() {
                 @Override

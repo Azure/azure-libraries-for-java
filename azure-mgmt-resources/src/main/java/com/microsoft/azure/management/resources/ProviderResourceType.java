@@ -41,13 +41,19 @@ public class ProviderResourceType {
     private List<String> apiVersions;
 
     /**
+     * The additional capabilities offered by this resource type.
+     */
+    @JsonProperty(value = "capabilities")
+    private String capabilities;
+
+    /**
      * The properties.
      */
     @JsonProperty(value = "properties")
     private Map<String, String> properties;
 
     /**
-     * Get the resourceType value.
+     * Get the resource type.
      *
      * @return the resourceType value
      */
@@ -56,7 +62,7 @@ public class ProviderResourceType {
     }
 
     /**
-     * Set the resourceType value.
+     * Set the resource type.
      *
      * @param resourceType the resourceType value to set
      * @return the ProviderResourceType object itself.
@@ -67,7 +73,7 @@ public class ProviderResourceType {
     }
 
     /**
-     * Get the locations value.
+     * Get the collection of locations where this resource type can be created.
      *
      * @return the locations value
      */
@@ -76,7 +82,7 @@ public class ProviderResourceType {
     }
 
     /**
-     * Set the locations value.
+     * Set the collection of locations where this resource type can be created.
      *
      * @param locations the locations value to set
      * @return the ProviderResourceType object itself.
@@ -87,7 +93,7 @@ public class ProviderResourceType {
     }
 
     /**
-     * Get the aliases value.
+     * Get the aliases that are supported by this resource type.
      *
      * @return the aliases value
      */
@@ -96,7 +102,7 @@ public class ProviderResourceType {
     }
 
     /**
-     * Set the aliases value.
+     * Set the aliases that are supported by this resource type.
      *
      * @param aliases the aliases value to set
      * @return the ProviderResourceType object itself.
@@ -107,7 +113,7 @@ public class ProviderResourceType {
     }
 
     /**
-     * Get the apiVersions value.
+     * Get the API version.
      *
      * @return the apiVersions value
      */
@@ -116,7 +122,7 @@ public class ProviderResourceType {
     }
 
     /**
-     * Set the apiVersions value.
+     * Set the API version.
      *
      * @param apiVersions the apiVersions value to set
      * @return the ProviderResourceType object itself.
@@ -127,7 +133,27 @@ public class ProviderResourceType {
     }
 
     /**
-     * Get the properties value.
+     * Get the additional capabilities offered by this resource type.
+     *
+     * @return the capabilities value
+     */
+    public String capabilities() {
+        return this.capabilities;
+    }
+
+    /**
+     * Set the additional capabilities offered by this resource type.
+     *
+     * @param capabilities the capabilities value to set
+     * @return the ProviderResourceType object itself.
+     */
+    public ProviderResourceType withCapabilities(String capabilities) {
+        this.capabilities = capabilities;
+        return this;
+    }
+
+    /**
+     * Get the properties.
      *
      * @return the properties value
      */
@@ -136,7 +162,7 @@ public class ProviderResourceType {
     }
 
     /**
-     * Set the properties value.
+     * Set the properties.
      *
      * @param properties the properties value to set
      * @return the ProviderResourceType object itself.

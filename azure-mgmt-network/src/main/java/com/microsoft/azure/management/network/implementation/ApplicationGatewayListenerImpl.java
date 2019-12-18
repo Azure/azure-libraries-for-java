@@ -13,6 +13,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayFrontend;
 import com.microsoft.azure.management.network.ApplicationGatewayListener;
+import com.microsoft.azure.management.network.ApplicationGatewayHttpListener;
 import com.microsoft.azure.management.network.ApplicationGatewayProtocol;
 import com.microsoft.azure.management.network.ApplicationGatewaySslCertificate;
 import com.microsoft.azure.management.network.PublicIPAddress;
@@ -25,14 +26,14 @@ import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
  */
 @LangDefinition
 class ApplicationGatewayListenerImpl
-    extends ChildResourceImpl<ApplicationGatewayHttpListenerInner, ApplicationGatewayImpl, ApplicationGateway>
+    extends ChildResourceImpl<ApplicationGatewayHttpListener, ApplicationGatewayImpl, ApplicationGateway>
     implements
         ApplicationGatewayListener,
         ApplicationGatewayListener.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayListener.UpdateDefinition<ApplicationGateway.Update>,
         ApplicationGatewayListener.Update {
 
-    ApplicationGatewayListenerImpl(ApplicationGatewayHttpListenerInner inner, ApplicationGatewayImpl parent) {
+    ApplicationGatewayListenerImpl(ApplicationGatewayHttpListener inner, ApplicationGatewayImpl parent) {
         super(inner, parent);
     }
 
@@ -189,6 +190,21 @@ class ApplicationGatewayListenerImpl
         SubResource certRef = new SubResource()
                 .withId(this.parent().futureResourceId() + "/sslCertificates/" + name);
         this.inner().withSslCertificate(certRef);
+        return this;
+    }
+
+    @Override
+    public ApplicationGatewayListenerImpl withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId) {
+        return withSslCertificateFromKeyVaultSecretId(keyVaultSecretId, null);
+    }
+
+    private ApplicationGatewayListenerImpl withSslCertificateFromKeyVaultSecretId(String keyVaultSecretId, String name) {
+        if (name == null) {
+            name = SdkContext.randomResourceName("cert", 10);
+        }
+        this.parent().defineSslCertificate(name)
+            .withKeyVaultSecretId(keyVaultSecretId)
+            .attach();
         return this;
     }
 

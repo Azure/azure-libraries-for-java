@@ -27,7 +27,7 @@ public class MetricAvailability {
     private String timeGrain;
 
     /**
-     * Get the retention value.
+     * Get the length of retention for the database metric.
      *
      * @return the retention value
      */
@@ -36,7 +36,7 @@ public class MetricAvailability {
     }
 
     /**
-     * Get the timeGrain value.
+     * Get the granularity of the database metric.
      *
      * @return the timeGrain value
      */

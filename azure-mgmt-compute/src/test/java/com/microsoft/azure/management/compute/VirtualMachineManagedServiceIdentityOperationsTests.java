@@ -148,13 +148,13 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
         Assert.assertNotNull(virtualMachine.systemAssignedManagedServiceIdentityTenantId());
 
         // Validate service created service principal
+        // TODO: Renable the below code snippet: https://github.com/Azure/azure-libraries-for-net/issues/739
+        //        ServicePrincipal servicePrincipal = rbacManager
+        //                .servicePrincipals()
+        //                .getById(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
         //
-        ServicePrincipal servicePrincipal = rbacManager
-                .servicePrincipals()
-                .getById(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
-
-        Assert.assertNotNull(servicePrincipal);
-        Assert.assertNotNull(servicePrincipal.inner());
+        //        Assert.assertNotNull(servicePrincipal);
+        //        Assert.assertNotNull(servicePrincipal.inner());
 
         // Ensure role assigned
         //
@@ -225,12 +225,15 @@ public class VirtualMachineManagedServiceIdentityOperationsTests extends Compute
 
         // Validate service created service principal
         //
-        ServicePrincipal servicePrincipal = rbacManager
-                .servicePrincipals()
-                .getById(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
 
-        Assert.assertNotNull(servicePrincipal);
-        Assert.assertNotNull(servicePrincipal.inner());
+        // TODO: Renable the below code snippet: https://github.com/Azure/azure-libraries-for-net/issues/739
+
+        //        ServicePrincipal servicePrincipal = rbacManager
+        //                .servicePrincipals()
+        //                .getById(virtualMachine.systemAssignedManagedServiceIdentityPrincipalId());
+        //
+        //        Assert.assertNotNull(servicePrincipal);
+        //        Assert.assertNotNull(servicePrincipal.inner());
 
         // Ensure role assigned for resource group
         //

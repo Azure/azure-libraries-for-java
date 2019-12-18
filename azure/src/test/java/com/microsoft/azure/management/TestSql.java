@@ -10,7 +10,7 @@ import com.google.common.util.concurrent.SettableFuture;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.management.sql.SqlServer;
 import com.microsoft.azure.management.sql.SqlServers;
 import org.junit.Assert;
@@ -24,12 +24,12 @@ public class TestSql extends TestTemplate<SqlServer, SqlServers>  {
         final SqlServer[] sqlServers = new SqlServer[1];
         final SettableFuture<SqlServer> future = SettableFuture.create();
         Observable<Indexable> resourceStream = resources.define(sqlServerName)
-                .withRegion(Region.INDIA_CENTRAL)
+                .withRegion(Region.US_EAST)
                 .withNewResourceGroup()
                 .withAdministratorLogin("admin32")
                 .withAdministratorPassword("Password~1")
                 .withNewDatabase("database1")
-                .withNewElasticPool("elasticPool1", ElasticPoolEditions.STANDARD, "databaseInEP")
+                .withNewElasticPool("elasticPool1", ElasticPoolEdition.STANDARD, "databaseInEP")
                 .withNewFirewallRule("10.10.10.10")
                 .withTag("mytag", "testtag")
                 .createAsync();

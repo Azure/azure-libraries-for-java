@@ -11,6 +11,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
 import com.microsoft.azure.management.sql.AuthenticationType;
+import com.microsoft.azure.management.sql.ExportRequest;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlDatabaseExportRequest;
 import com.microsoft.azure.management.sql.SqlDatabaseImportExportResponse;
@@ -40,12 +41,12 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
 
     private final SqlDatabaseImpl sqlDatabase;
     private final SqlServerManager sqlServerManager;
-    private ExportRequestInner inner;
+    private ExportRequest inner;
 
     SqlDatabaseExportRequestImpl(SqlDatabaseImpl sqlDatabase, SqlServerManager sqlServerManager) {
         this.sqlDatabase = sqlDatabase;
         this.sqlServerManager = sqlServerManager;
-        this.inner = new ExportRequestInner();
+        this.inner = new ExportRequest();
     }
 
     @Override
@@ -54,7 +55,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     }
 
     @Override
-    public ExportRequestInner inner() {
+    public ExportRequest inner() {
         return this.inner;
     }
 
@@ -73,7 +74,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     @Override
     public SqlDatabaseExportRequestImpl exportTo(String storageUri) {
         if (this.inner == null) {
-            this.inner = new ExportRequestInner();
+            this.inner = new ExportRequest();
         }
         this.inner.withStorageUri(storageUri);
         return this;
@@ -120,7 +121,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
         Objects.requireNonNull(containerName);
         Objects.requireNonNull(fileName);
         if (this.inner == null) {
-            this.inner = new ExportRequestInner();
+            this.inner = new ExportRequest();
         }
         final SqlDatabaseExportRequestImpl self = this;
         this.addDependency(new FunctionalTaskItem() {
@@ -135,7 +136,7 @@ public class SqlDatabaseExportRequestImpl extends ExecutableImpl<SqlDatabaseImpo
     @Override
     public SqlDatabaseExportRequestImpl exportTo(final Creatable<StorageAccount> storageAccountCreatable, final String containerName, final String fileName) {
         if (this.inner == null) {
-            this.inner = new ExportRequestInner();
+            this.inner = new ExportRequest();
         }
         this.addDependency(new FunctionalTaskItem() {
             @Override

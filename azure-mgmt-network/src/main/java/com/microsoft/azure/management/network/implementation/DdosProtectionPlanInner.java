@@ -12,14 +12,12 @@ import java.util.List;
 import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
 import com.microsoft.azure.Resource;
 
 /**
  * A DDoS protection plan in a resource group.
  */
 @JsonFlatten
-@SkipParentValidation
 public class DdosProtectionPlanInner extends Resource {
     /**
      * The resource GUID property of the DDoS protection plan resource. It
@@ -50,13 +48,7 @@ public class DdosProtectionPlanInner extends Resource {
     private String etag;
 
     /**
-     * Resource ID.
-     */
-    @JsonProperty(value = "id")
-    private String id;
-
-    /**
-     * Get the resourceGuid value.
+     * Get the resource GUID property of the DDoS protection plan resource. It uniquely identifies the resource, even if the user changes its name or migrate the resource across subscriptions or resource groups.
      *
      * @return the resourceGuid value
      */
@@ -65,7 +57,7 @@ public class DdosProtectionPlanInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the DDoS protection plan resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -74,7 +66,7 @@ public class DdosProtectionPlanInner extends Resource {
     }
 
     /**
-     * Get the virtualNetworks value.
+     * Get the list of virtual networks associated with the DDoS protection plan resource. This list is read-only.
      *
      * @return the virtualNetworks value
      */
@@ -83,7 +75,7 @@ public class DdosProtectionPlanInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -91,23 +83,4 @@ public class DdosProtectionPlanInner extends Resource {
         return this.etag;
     }
 
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Set the id value.
-     *
-     * @param id the id value to set
-     * @return the DdosProtectionPlanInner object itself.
-     */
-    public DdosProtectionPlanInner withId(String id) {
-        this.id = id;
-        return this;
-    }
 }

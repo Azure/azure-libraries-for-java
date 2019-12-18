@@ -16,6 +16,8 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.containerservice.ManagedClusterAADProfile;
+import com.microsoft.azure.management.containerservice.ManagedClusterServicePrincipalProfile;
 import com.microsoft.azure.management.containerservice.TagsObject;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
@@ -120,6 +122,22 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> beginDelete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters resetServicePrincipalProfile" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile")
+        Observable<Response<ResponseBody>> resetServicePrincipalProfile(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Body ManagedClusterServicePrincipalProfile parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters beginResetServicePrincipalProfile" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile")
+        Observable<Response<ResponseBody>> beginResetServicePrincipalProfile(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Body ManagedClusterServicePrincipalProfile parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters resetAADProfile" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile")
+        Observable<Response<ResponseBody>> resetAADProfile(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Body ManagedClusterAADProfile parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters beginResetAADProfile" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetAADProfile")
+        Observable<Response<ResponseBody>> beginResetAADProfile(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("resourceName") String resourceName, @Query("api-version") String apiVersion, @Body ManagedClusterAADProfile parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerservice.ManagedClusters listNext" })
         @GET
         Observable<Response<ResponseBody>> listNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -218,7 +236,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ManagedClusterInner>>>>() {
                 @Override
@@ -336,7 +354,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ManagedClusterInner>>>>() {
                 @Override
@@ -424,7 +442,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.getUpgradeProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedClusterUpgradeProfileInner>>>() {
                 @Override
@@ -519,7 +537,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (roleName == null) {
             throw new IllegalArgumentException("Parameter roleName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.getAccessProfile(this.client.subscriptionId(), resourceGroupName, resourceName, roleName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedClusterAccessProfileInner>>>() {
                 @Override
@@ -542,8 +560,8 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     /**
-     * Gets clusteradmin credential of a managed cluster.
-     * Gets clusteradmin credential of the managed cluster with a specified resource group and name.
+     * Gets cluster admin credential of a managed cluster.
+     * Gets cluster admin credential of the managed cluster with a specified resource group and name.
      *
      * @param resourceGroupName The name of the resource group.
      * @param resourceName The name of the managed cluster resource.
@@ -557,8 +575,8 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     /**
-     * Gets clusteradmin credential of a managed cluster.
-     * Gets clusteradmin credential of the managed cluster with a specified resource group and name.
+     * Gets cluster admin credential of a managed cluster.
+     * Gets cluster admin credential of the managed cluster with a specified resource group and name.
      *
      * @param resourceGroupName The name of the resource group.
      * @param resourceName The name of the managed cluster resource.
@@ -571,8 +589,8 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     /**
-     * Gets clusteradmin credential of a managed cluster.
-     * Gets clusteradmin credential of the managed cluster with a specified resource group and name.
+     * Gets cluster admin credential of a managed cluster.
+     * Gets cluster admin credential of the managed cluster with a specified resource group and name.
      *
      * @param resourceGroupName The name of the resource group.
      * @param resourceName The name of the managed cluster resource.
@@ -589,8 +607,8 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     /**
-     * Gets clusteradmin credential of a managed cluster.
-     * Gets clusteradmin credential of the managed cluster with a specified resource group and name.
+     * Gets cluster admin credential of a managed cluster.
+     * Gets cluster admin credential of the managed cluster with a specified resource group and name.
      *
      * @param resourceGroupName The name of the resource group.
      * @param resourceName The name of the managed cluster resource.
@@ -607,7 +625,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.listClusterAdminCredentials(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CredentialResultsInner>>>() {
                 @Override
@@ -630,8 +648,8 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     /**
-     * Gets clusteruser credential of a managed cluster.
-     * Gets clusteruser credential of the managed cluster with a specified resource group and name.
+     * Gets cluster user credential of a managed cluster.
+     * Gets cluster user credential of the managed cluster with a specified resource group and name.
      *
      * @param resourceGroupName The name of the resource group.
      * @param resourceName The name of the managed cluster resource.
@@ -645,8 +663,8 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     /**
-     * Gets clusteruser credential of a managed cluster.
-     * Gets clusteruser credential of the managed cluster with a specified resource group and name.
+     * Gets cluster user credential of a managed cluster.
+     * Gets cluster user credential of the managed cluster with a specified resource group and name.
      *
      * @param resourceGroupName The name of the resource group.
      * @param resourceName The name of the managed cluster resource.
@@ -659,8 +677,8 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     /**
-     * Gets clusteruser credential of a managed cluster.
-     * Gets clusteruser credential of the managed cluster with a specified resource group and name.
+     * Gets cluster user credential of a managed cluster.
+     * Gets cluster user credential of the managed cluster with a specified resource group and name.
      *
      * @param resourceGroupName The name of the resource group.
      * @param resourceName The name of the managed cluster resource.
@@ -677,8 +695,8 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
     }
 
     /**
-     * Gets clusteruser credential of a managed cluster.
-     * Gets clusteruser credential of the managed cluster with a specified resource group and name.
+     * Gets cluster user credential of a managed cluster.
+     * Gets cluster user credential of the managed cluster with a specified resource group and name.
      *
      * @param resourceGroupName The name of the resource group.
      * @param resourceName The name of the managed cluster resource.
@@ -695,7 +713,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.listClusterUserCredentials(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<CredentialResultsInner>>>() {
                 @Override
@@ -783,7 +801,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedClusterInner>>>() {
                 @Override
@@ -879,7 +897,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ManagedClusterInner>() { }.getType());
     }
@@ -958,7 +976,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ManagedClusterInner>>>() {
                 @Override
@@ -1047,7 +1065,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -1125,7 +1143,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -1198,7 +1216,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
@@ -1287,7 +1305,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
         return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1376,7 +1394,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -1446,7 +1464,7 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         if (resourceName == null) {
             throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
         }
-        final String apiVersion = "2018-03-31";
+        final String apiVersion = "2019-08-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -1465,6 +1483,354 @@ public class ManagedClustersInner implements InnerSupportsGet<ManagedClusterInne
         return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Reset Service Principal Profile of a managed cluster.
+     * Update the service principal Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void resetServicePrincipalProfile(String resourceGroupName, String resourceName, ManagedClusterServicePrincipalProfile parameters) {
+        resetServicePrincipalProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters).toBlocking().last().body();
+    }
+
+    /**
+     * Reset Service Principal Profile of a managed cluster.
+     * Update the service principal Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a Managed Cluster.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> resetServicePrincipalProfileAsync(String resourceGroupName, String resourceName, ManagedClusterServicePrincipalProfile parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(resetServicePrincipalProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters), serviceCallback);
+    }
+
+    /**
+     * Reset Service Principal Profile of a managed cluster.
+     * Update the service principal Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> resetServicePrincipalProfileAsync(String resourceGroupName, String resourceName, ManagedClusterServicePrincipalProfile parameters) {
+        return resetServicePrincipalProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Reset Service Principal Profile of a managed cluster.
+     * Update the service principal Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> resetServicePrincipalProfileWithServiceResponseAsync(String resourceGroupName, String resourceName, ManagedClusterServicePrincipalProfile parameters) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (resourceName == null) {
+            throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2019-08-01";
+        Observable<Response<ResponseBody>> observable = service.resetServicePrincipalProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Reset Service Principal Profile of a managed cluster.
+     * Update the service principal Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginResetServicePrincipalProfile(String resourceGroupName, String resourceName, ManagedClusterServicePrincipalProfile parameters) {
+        beginResetServicePrincipalProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Reset Service Principal Profile of a managed cluster.
+     * Update the service principal Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a Managed Cluster.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginResetServicePrincipalProfileAsync(String resourceGroupName, String resourceName, ManagedClusterServicePrincipalProfile parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginResetServicePrincipalProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters), serviceCallback);
+    }
+
+    /**
+     * Reset Service Principal Profile of a managed cluster.
+     * Update the service principal Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginResetServicePrincipalProfileAsync(String resourceGroupName, String resourceName, ManagedClusterServicePrincipalProfile parameters) {
+        return beginResetServicePrincipalProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Reset Service Principal Profile of a managed cluster.
+     * Update the service principal Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset Service Principal Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginResetServicePrincipalProfileWithServiceResponseAsync(String resourceGroupName, String resourceName, ManagedClusterServicePrincipalProfile parameters) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (resourceName == null) {
+            throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2019-08-01";
+        return service.beginResetServicePrincipalProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginResetServicePrincipalProfileDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginResetServicePrincipalProfileDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Reset AAD Profile of a managed cluster.
+     * Update the AAD Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void resetAADProfile(String resourceGroupName, String resourceName, ManagedClusterAADProfile parameters) {
+        resetAADProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters).toBlocking().last().body();
+    }
+
+    /**
+     * Reset AAD Profile of a managed cluster.
+     * Update the AAD Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> resetAADProfileAsync(String resourceGroupName, String resourceName, ManagedClusterAADProfile parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(resetAADProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters), serviceCallback);
+    }
+
+    /**
+     * Reset AAD Profile of a managed cluster.
+     * Update the AAD Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> resetAADProfileAsync(String resourceGroupName, String resourceName, ManagedClusterAADProfile parameters) {
+        return resetAADProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Reset AAD Profile of a managed cluster.
+     * Update the AAD Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> resetAADProfileWithServiceResponseAsync(String resourceGroupName, String resourceName, ManagedClusterAADProfile parameters) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (resourceName == null) {
+            throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2019-08-01";
+        Observable<Response<ResponseBody>> observable = service.resetAADProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Reset AAD Profile of a managed cluster.
+     * Update the AAD Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginResetAADProfile(String resourceGroupName, String resourceName, ManagedClusterAADProfile parameters) {
+        beginResetAADProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Reset AAD Profile of a managed cluster.
+     * Update the AAD Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginResetAADProfileAsync(String resourceGroupName, String resourceName, ManagedClusterAADProfile parameters, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginResetAADProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters), serviceCallback);
+    }
+
+    /**
+     * Reset AAD Profile of a managed cluster.
+     * Update the AAD Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginResetAADProfileAsync(String resourceGroupName, String resourceName, ManagedClusterAADProfile parameters) {
+        return beginResetAADProfileWithServiceResponseAsync(resourceGroupName, resourceName, parameters).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Reset AAD Profile of a managed cluster.
+     * Update the AAD Profile for a managed cluster.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param resourceName The name of the managed cluster resource.
+     * @param parameters Parameters supplied to the Reset AAD Profile operation for a Managed Cluster.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginResetAADProfileWithServiceResponseAsync(String resourceGroupName, String resourceName, ManagedClusterAADProfile parameters) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (resourceName == null) {
+            throw new IllegalArgumentException("Parameter resourceName is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        final String apiVersion = "2019-08-01";
+        return service.beginResetAADProfile(this.client.subscriptionId(), resourceGroupName, resourceName, apiVersion, parameters, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginResetAADProfileDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginResetAADProfileDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

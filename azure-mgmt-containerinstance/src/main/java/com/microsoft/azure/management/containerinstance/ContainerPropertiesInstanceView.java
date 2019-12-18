@@ -40,7 +40,7 @@ public class ContainerPropertiesInstanceView {
     private List<Event> events;
 
     /**
-     * Get the restartCount value.
+     * Get the number of times that the container instance has been restarted.
      *
      * @return the restartCount value
      */
@@ -49,7 +49,7 @@ public class ContainerPropertiesInstanceView {
     }
 
     /**
-     * Get the currentState value.
+     * Get current container instance state.
      *
      * @return the currentState value
      */
@@ -58,7 +58,7 @@ public class ContainerPropertiesInstanceView {
     }
 
     /**
-     * Get the previousState value.
+     * Get previous container instance state.
      *
      * @return the previousState value
      */
@@ -67,7 +67,7 @@ public class ContainerPropertiesInstanceView {
     }
 
     /**
-     * Get the events value.
+     * Get the events of the container instance.
      *
      * @return the events value
      */

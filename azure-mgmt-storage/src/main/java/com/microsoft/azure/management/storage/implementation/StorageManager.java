@@ -14,6 +14,9 @@ import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Az
 import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
+import com.microsoft.azure.management.storage.BlobContainers;
+import com.microsoft.azure.management.storage.BlobServices;
+import com.microsoft.azure.management.storage.ManagementPolicies;
 import com.microsoft.azure.management.storage.StorageAccounts;
 import com.microsoft.azure.management.storage.StorageSkus;
 import com.microsoft.azure.management.storage.Usages;
@@ -28,6 +31,9 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
     private StorageAccounts storageAccounts;
     private Usages storageUsages;
     private StorageSkus storageSkus;
+    private BlobContainers blobContainers;
+    private BlobServices blobServices;
+    private ManagementPolicies managementPolicies;
 
     /**
      * Get a Configurable instance that can be used to create StorageManager with optional configuration.
@@ -125,5 +131,35 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
             storageSkus = new StorageSkusImpl(this);
         }
         return storageSkus;
+    }
+
+    /**
+     * @return the blob container management API entry point
+     */
+    public BlobContainers blobContainers() {
+        if (blobContainers == null) {
+            blobContainers = new BlobContainersImpl(this);
+        }
+        return blobContainers;
+    }
+
+    /**
+     * @return the blob service management API entry point
+     */
+    public BlobServices blobServices() {
+        if (blobServices == null) {
+            blobServices = new BlobServicesImpl(this);
+        }
+        return blobServices;
+    }
+
+    /**
+     * @return the management policy management API entry point
+     */
+    public ManagementPolicies managementPolicies() {
+        if (managementPolicies == null) {
+            managementPolicies = new ManagementPoliciesImpl(this);
+        }
+        return managementPolicies;
     }
 }

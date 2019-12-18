@@ -13,12 +13,13 @@ import com.microsoft.azure.management.sql.JobStepOutput;
 import com.microsoft.azure.management.sql.JobStepExecutionOptions;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A job step.
  */
 @JsonFlatten
-public class JobStepInner extends ProxyResourceInner {
+public class JobStepInner extends ProxyResource {
     /**
      * The job step's index within the job. If not specified when creating the
      * job step, it will be created as the last step. If not specified when
@@ -60,7 +61,7 @@ public class JobStepInner extends ProxyResourceInner {
     private JobStepExecutionOptions executionOptions;
 
     /**
-     * Get the stepId value.
+     * Get the job step's index within the job. If not specified when creating the job step, it will be created as the last step. If not specified when updating the job step, the step id is not modified.
      *
      * @return the stepId value
      */
@@ -69,7 +70,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the stepId value.
+     * Set the job step's index within the job. If not specified when creating the job step, it will be created as the last step. If not specified when updating the job step, the step id is not modified.
      *
      * @param stepId the stepId value to set
      * @return the JobStepInner object itself.
@@ -80,7 +81,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the targetGroup value.
+     * Get the resource ID of the target group that the job step will be executed on.
      *
      * @return the targetGroup value
      */
@@ -89,7 +90,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the targetGroup value.
+     * Set the resource ID of the target group that the job step will be executed on.
      *
      * @param targetGroup the targetGroup value to set
      * @return the JobStepInner object itself.
@@ -100,7 +101,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the credential value.
+     * Get the resource ID of the job credential that will be used to connect to the targets.
      *
      * @return the credential value
      */
@@ -109,7 +110,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the credential value.
+     * Set the resource ID of the job credential that will be used to connect to the targets.
      *
      * @param credential the credential value to set
      * @return the JobStepInner object itself.
@@ -120,7 +121,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the action value.
+     * Get the action payload of the job step.
      *
      * @return the action value
      */
@@ -129,7 +130,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the action value.
+     * Set the action payload of the job step.
      *
      * @param action the action value to set
      * @return the JobStepInner object itself.
@@ -140,7 +141,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the output value.
+     * Get output destination properties of the job step.
      *
      * @return the output value
      */
@@ -149,7 +150,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the output value.
+     * Set output destination properties of the job step.
      *
      * @param output the output value to set
      * @return the JobStepInner object itself.
@@ -160,7 +161,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the executionOptions value.
+     * Get execution options for the job step.
      *
      * @return the executionOptions value
      */
@@ -169,7 +170,7 @@ public class JobStepInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the executionOptions value.
+     * Set execution options for the job step.
      *
      * @param executionOptions the executionOptions value to set
      * @return the JobStepInner object itself.

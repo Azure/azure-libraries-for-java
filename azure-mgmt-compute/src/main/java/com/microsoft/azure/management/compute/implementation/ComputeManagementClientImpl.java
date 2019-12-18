@@ -147,6 +147,45 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The ProximityPlacementGroupsInner object to access its operations.
+     */
+    private ProximityPlacementGroupsInner proximityPlacementGroups;
+
+    /**
+     * Gets the ProximityPlacementGroupsInner object to access its operations.
+     * @return the ProximityPlacementGroupsInner object.
+     */
+    public ProximityPlacementGroupsInner proximityPlacementGroups() {
+        return this.proximityPlacementGroups;
+    }
+
+    /**
+     * The DedicatedHostGroupsInner object to access its operations.
+     */
+    private DedicatedHostGroupsInner dedicatedHostGroups;
+
+    /**
+     * Gets the DedicatedHostGroupsInner object to access its operations.
+     * @return the DedicatedHostGroupsInner object.
+     */
+    public DedicatedHostGroupsInner dedicatedHostGroups() {
+        return this.dedicatedHostGroups;
+    }
+
+    /**
+     * The DedicatedHostsInner object to access its operations.
+     */
+    private DedicatedHostsInner dedicatedHosts;
+
+    /**
+     * Gets the DedicatedHostsInner object to access its operations.
+     * @return the DedicatedHostsInner object.
+     */
+    public DedicatedHostsInner dedicatedHosts() {
+        return this.dedicatedHosts;
+    }
+
+    /**
      * The VirtualMachineExtensionImagesInner object to access its operations.
      */
     private VirtualMachineExtensionImagesInner virtualMachineExtensionImages;
@@ -199,6 +238,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The VirtualMachinesInner object to access its operations.
+     */
+    private VirtualMachinesInner virtualMachines;
+
+    /**
+     * Gets the VirtualMachinesInner object to access its operations.
+     * @return the VirtualMachinesInner object.
+     */
+    public VirtualMachinesInner virtualMachines() {
+        return this.virtualMachines;
+    }
+
+    /**
      * The VirtualMachineSizesInner object to access its operations.
      */
     private VirtualMachineSizesInner virtualMachineSizes;
@@ -222,19 +274,6 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
      */
     public ImagesInner images() {
         return this.images;
-    }
-
-    /**
-     * The VirtualMachinesInner object to access its operations.
-     */
-    private VirtualMachinesInner virtualMachines;
-
-    /**
-     * Gets the VirtualMachinesInner object to access its operations.
-     * @return the VirtualMachinesInner object.
-     */
-    public VirtualMachinesInner virtualMachines() {
-        return this.virtualMachines;
     }
 
     /**
@@ -355,6 +394,19 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The DiskEncryptionSetsInner object to access its operations.
+     */
+    private DiskEncryptionSetsInner diskEncryptionSets;
+
+    /**
+     * Gets the DiskEncryptionSetsInner object to access its operations.
+     * @return the DiskEncryptionSetsInner object.
+     */
+    public DiskEncryptionSetsInner diskEncryptionSets() {
+        return this.diskEncryptionSets;
+    }
+
+    /**
      * The GalleriesInner object to access its operations.
      */
     private GalleriesInner galleries;
@@ -394,6 +446,45 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The GalleryApplicationsInner object to access its operations.
+     */
+    private GalleryApplicationsInner galleryApplications;
+
+    /**
+     * Gets the GalleryApplicationsInner object to access its operations.
+     * @return the GalleryApplicationsInner object.
+     */
+    public GalleryApplicationsInner galleryApplications() {
+        return this.galleryApplications;
+    }
+
+    /**
+     * The GalleryApplicationVersionsInner object to access its operations.
+     */
+    private GalleryApplicationVersionsInner galleryApplicationVersions;
+
+    /**
+     * Gets the GalleryApplicationVersionsInner object to access its operations.
+     * @return the GalleryApplicationVersionsInner object.
+     */
+    public GalleryApplicationVersionsInner galleryApplicationVersions() {
+        return this.galleryApplicationVersions;
+    }
+
+    /**
+     * The ContainerServicesInner object to access its operations.
+     */
+    private ContainerServicesInner containerServices;
+
+    /**
+     * Gets the ContainerServicesInner object to access its operations.
+     * @return the ContainerServicesInner object.
+     */
+    public ContainerServicesInner containerServices() {
+        return this.containerServices;
+    }
+
+    /**
      * Initializes an instance of ComputeManagementClient client.
      *
      * @param credentials the management credentials for Azure
@@ -429,13 +520,16 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.generateClientRequestId = true;
         this.operations = new OperationsInner(restClient().retrofit(), this);
         this.availabilitySets = new AvailabilitySetsInner(restClient().retrofit(), this);
+        this.proximityPlacementGroups = new ProximityPlacementGroupsInner(restClient().retrofit(), this);
+        this.dedicatedHostGroups = new DedicatedHostGroupsInner(restClient().retrofit(), this);
+        this.dedicatedHosts = new DedicatedHostsInner(restClient().retrofit(), this);
         this.virtualMachineExtensionImages = new VirtualMachineExtensionImagesInner(restClient().retrofit(), this);
         this.virtualMachineExtensions = new VirtualMachineExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineImages = new VirtualMachineImagesInner(restClient().retrofit(), this);
         this.usages = new UsagesInner(restClient().retrofit(), this);
+        this.virtualMachines = new VirtualMachinesInner(restClient().retrofit(), this);
         this.virtualMachineSizes = new VirtualMachineSizesInner(restClient().retrofit(), this);
         this.images = new ImagesInner(restClient().retrofit(), this);
-        this.virtualMachines = new VirtualMachinesInner(restClient().retrofit(), this);
         this.virtualMachineScaleSets = new VirtualMachineScaleSetsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetExtensions = new VirtualMachineScaleSetExtensionsInner(restClient().retrofit(), this);
         this.virtualMachineScaleSetRollingUpgrades = new VirtualMachineScaleSetRollingUpgradesInner(restClient().retrofit(), this);
@@ -445,9 +539,13 @@ public class ComputeManagementClientImpl extends AzureServiceClient {
         this.resourceSkus = new ResourceSkusInner(restClient().retrofit(), this);
         this.disks = new DisksInner(restClient().retrofit(), this);
         this.snapshots = new SnapshotsInner(restClient().retrofit(), this);
+        this.diskEncryptionSets = new DiskEncryptionSetsInner(restClient().retrofit(), this);
         this.galleries = new GalleriesInner(restClient().retrofit(), this);
         this.galleryImages = new GalleryImagesInner(restClient().retrofit(), this);
         this.galleryImageVersions = new GalleryImageVersionsInner(restClient().retrofit(), this);
+        this.galleryApplications = new GalleryApplicationsInner(restClient().retrofit(), this);
+        this.galleryApplicationVersions = new GalleryApplicationVersionsInner(restClient().retrofit(), this);
+        this.containerServices = new ContainerServicesInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 

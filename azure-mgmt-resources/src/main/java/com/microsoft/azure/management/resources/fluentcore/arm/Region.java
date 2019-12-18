@@ -9,17 +9,17 @@ package com.microsoft.azure.management.resources.fluentcore.arm;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * Enumeration of the Azure datacenter regions. See https://azure.microsoft.com/regions/
  */
 public final class Region {
     // This needs to be at the beginning for the initialization to happen correctly
-    private static final Map<String, Region> VALUES_BY_NAME = new HashMap<>();
+    private static final ConcurrentMap<String, Region> VALUES_BY_NAME = new ConcurrentHashMap<>();
 
-    // CHECKSTYLE IGNORE Javadoc FOR NEXT 52 LINES
+    // CHECKSTYLE IGNORE Javadoc FOR NEXT 67 LINES
     /**************************************************
      * Azure Cloud - Americas
      **************************************************/
@@ -43,6 +43,12 @@ public final class Region {
     public static final Region UK_WEST = new Region("ukwest", "UK West");
     public static final Region FRANCE_CENTRAL = new Region("francecentral", "France Central");
     public static final Region FRANCE_SOUTH = new Region("francesouth", "France South");
+    public static final Region SWITZERLAND_NORTH = new Region("switzerlandnorth", "Switzerland North");
+    public static final Region SWITZERLAND_WEST = new Region("switzerlandwest", "Switzerland West");
+    public static final Region GERMANY_NORTH = new Region("germanynorth", "Germany North");
+    public static final Region GERMANY_WESTCENTRAL = new Region("germanywestcentral", "Germany West Central");
+    public static final Region NORWAY_WEST = new Region("norwaywest", "Norway West");
+    public static final Region NORWAY_EAST = new Region("norwayeast", "Norway East");
     /**************************************************
      * Azure Cloud - Asia
      **************************************************/
@@ -59,6 +65,13 @@ public final class Region {
     public static final Region INDIA_WEST = new Region("westindia", "West India");
     public static final Region KOREA_CENTRAL = new Region("koreacentral", "Korea Central");
     public static final Region KOREA_SOUTH = new Region("koreasouth", "Korea South");
+    /**************************************************
+     * Azure Cloud - Middle East and Africa
+     **************************************************/
+    public static final Region UAE_CENTRAL = new Region("uaecentral", "UAE Central");
+    public static final Region UAE_NORTH = new Region("uaenorth", "UAE North");
+    public static final Region SOUTHAFRICA_NORTH = new Region("southafricanorth", "South Africa North");
+    public static final Region SOUTHAFRICA_WEST = new Region("southafricawest", "South Africa West");
     /**************************************************
      * Azure China Cloud
      **************************************************/

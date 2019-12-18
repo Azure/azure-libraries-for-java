@@ -75,7 +75,7 @@ public class DataDisk {
 
     /**
      * Specifies the size of an empty data disk in gigabytes. This element can
-     * be used to overwrite the name of the disk in a virtual machine image.
+     * be used to overwrite the size of the disk in a virtual machine image.
      * &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      */
     @JsonProperty(value = "diskSizeGB")
@@ -86,6 +86,13 @@ public class DataDisk {
      */
     @JsonProperty(value = "managedDisk")
     private ManagedDiskParameters managedDisk;
+
+    /**
+     * Specifies whether the data disk is in process of detachment from the
+     * VirtualMachine/VirtualMachineScaleset.
+     */
+    @JsonProperty(value = "toBeDetached")
+    private Boolean toBeDetached;
 
     /**
      * Get specifies the logical unit number of the data disk. This value is used to identify data disks within the VM and therefore must be unique for each data disk attached to a VM.
@@ -228,7 +235,7 @@ public class DataDisk {
     }
 
     /**
-     * Get specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Get specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      *
      * @return the diskSizeGB value
      */
@@ -237,7 +244,7 @@ public class DataDisk {
     }
 
     /**
-     * Set specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the name of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     * Set specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
      *
      * @param diskSizeGB the diskSizeGB value to set
      * @return the DataDisk object itself.
@@ -264,6 +271,26 @@ public class DataDisk {
      */
     public DataDisk withManagedDisk(ManagedDiskParameters managedDisk) {
         this.managedDisk = managedDisk;
+        return this;
+    }
+
+    /**
+     * Get specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset.
+     *
+     * @return the toBeDetached value
+     */
+    public Boolean toBeDetached() {
+        return this.toBeDetached;
+    }
+
+    /**
+     * Set specifies whether the data disk is in process of detachment from the VirtualMachine/VirtualMachineScaleset.
+     *
+     * @param toBeDetached the toBeDetached value to set
+     * @return the DataDisk object itself.
+     */
+    public DataDisk withToBeDetached(Boolean toBeDetached) {
+        this.toBeDetached = toBeDetached;
         return this;
     }
 

@@ -13,17 +13,17 @@ import com.microsoft.azure.management.network.ApplicationGatewayBackendHealthPoo
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * List of ApplicationGatewayBackendHealthPool resources.
+ * Response for ApplicationGatewayBackendHealth API service call.
  */
 public class ApplicationGatewayBackendHealthInner {
     /**
-     * The backendAddressPools property.
+     * A list of ApplicationGatewayBackendHealthPool resources.
      */
     @JsonProperty(value = "backendAddressPools")
     private List<ApplicationGatewayBackendHealthPool> backendAddressPools;
 
     /**
-     * Get the backendAddressPools value.
+     * Get a list of ApplicationGatewayBackendHealthPool resources.
      *
      * @return the backendAddressPools value
      */
@@ -32,7 +32,7 @@ public class ApplicationGatewayBackendHealthInner {
     }
 
     /**
-     * Set the backendAddressPools value.
+     * Set a list of ApplicationGatewayBackendHealthPool resources.
      *
      * @param backendAddressPools the backendAddressPools value to set
      * @return the ApplicationGatewayBackendHealthInner object itself.

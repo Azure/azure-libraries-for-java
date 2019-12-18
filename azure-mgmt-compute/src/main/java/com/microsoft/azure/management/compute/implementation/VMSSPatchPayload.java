@@ -33,6 +33,7 @@ class VMSSPatchPayload {
         updateParameter.withSku(scaleSet.inner().sku());
         updateParameter.withTags(scaleSet.inner().getTags());
         updateParameter.withUpgradePolicy(scaleSet.inner().upgradePolicy());
+        updateParameter.withAdditionalCapabilities(scaleSet.inner().additionalCapabilities());
         //
         if (scaleSet.inner().virtualMachineProfile() != null) {
             // --
@@ -40,6 +41,7 @@ class VMSSPatchPayload {
             updateVMProfile.withDiagnosticsProfile(scaleSet.inner().virtualMachineProfile().diagnosticsProfile());
             updateVMProfile.withExtensionProfile(scaleSet.inner().virtualMachineProfile().extensionProfile());
             updateVMProfile.withLicenseType(scaleSet.inner().virtualMachineProfile().licenseType());
+            updateVMProfile.withBillingProfile(scaleSet.inner().virtualMachineProfile().billingProfile());
             //
             if (scaleSet.inner().virtualMachineProfile().storageProfile() != null) {
                 // -- --

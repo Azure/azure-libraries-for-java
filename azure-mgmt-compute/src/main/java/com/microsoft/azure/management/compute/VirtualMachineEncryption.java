@@ -7,7 +7,6 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.management.apigeneration.Fluent;
-
 import rx.Observable;
 
 /**
@@ -17,6 +16,7 @@ import rx.Observable;
 public interface VirtualMachineEncryption {
     /**
      * Enable encryption for virtual machine disks.
+     * Legacy encryption extension will be used to enable encryption.
      *
      * @param keyVaultId resource ID of the key vault to store the disk encryption key
      * @param aadClientId  client ID of an AAD application which has permission to the key vault
@@ -25,6 +25,15 @@ public interface VirtualMachineEncryption {
      * @return a representation of the deferred computation of this call, returning the current volume encryption status
      */
     Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId, String aadClientId, String aadSecret);
+
+    /**
+     * Enable encryption for virtual machine disks.
+     * NoAAD encryption extension will be used to enable encryption.
+     *
+     * @param keyVaultId resource ID of the key vault to store the disk encryption key
+     * @return a representation of the deferred computation of this call, returning the current volume encryption status
+     */
+    Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId);
 
     /**
      * Enable encryption for Windows virtual machine disks.

@@ -22,7 +22,7 @@ public class InstanceFailoverGroupReadOnlyEndpoint {
     private ReadOnlyEndpointFailoverPolicy failoverPolicy;
 
     /**
-     * Get the failoverPolicy value.
+     * Get failover policy of the read-only endpoint for the failover group. Possible values include: 'Disabled', 'Enabled'.
      *
      * @return the failoverPolicy value
      */
@@ -31,7 +31,7 @@ public class InstanceFailoverGroupReadOnlyEndpoint {
     }
 
     /**
-     * Set the failoverPolicy value.
+     * Set failover policy of the read-only endpoint for the failover group. Possible values include: 'Disabled', 'Enabled'.
      *
      * @param failoverPolicy the failoverPolicy value to set
      * @return the InstanceFailoverGroupReadOnlyEndpoint object itself.

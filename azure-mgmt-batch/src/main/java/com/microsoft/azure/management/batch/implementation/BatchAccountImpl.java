@@ -7,14 +7,16 @@
 package com.microsoft.azure.management.batch.implementation;
 
 import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.batch.AccountKeyType;
-import com.microsoft.azure.management.batch.Application;
-import com.microsoft.azure.management.batch.AutoStorageBaseProperties;
-import com.microsoft.azure.management.batch.AutoStorageProperties;
 import com.microsoft.azure.management.batch.BatchAccount;
 import com.microsoft.azure.management.batch.BatchAccountCreateParameters;
-import com.microsoft.azure.management.batch.BatchAccountKeys;
+import com.microsoft.azure.management.batch.AutoStorageProperties;
 import com.microsoft.azure.management.batch.ProvisioningState;
+import com.microsoft.azure.management.batch.BatchAccountKeys;
+import com.microsoft.azure.management.batch.VirtualMachineFamilyCoreQuota;
+import com.microsoft.azure.management.batch.AccountKeyType;
+import com.microsoft.azure.management.batch.Application;
+import com.microsoft.azure.management.batch.Pool;
+import com.microsoft.azure.management.batch.AutoStorageBaseProperties;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -46,6 +48,7 @@ public class BatchAccountImpl
     private StorageAccount existingStorageAccountToAssociate;
     private ApplicationsImpl applicationsImpl;
     private AutoStorageProperties autoStorage;
+    private PoolsImpl poolsImpl;
 
     protected BatchAccountImpl(String name,
                                BatchAccountInner innerObject,
@@ -55,6 +58,8 @@ public class BatchAccountImpl
         this.storageManager = storageManager;
         this.applicationsImpl = new ApplicationsImpl(this);
         this.applicationsImpl.enableCommitMode();
+        this.poolsImpl = new PoolsImpl(this);
+        this.poolsImpl.enableCommitMode();
     }
 
     @Override
@@ -64,6 +69,7 @@ public class BatchAccountImpl
             public BatchAccount call(BatchAccount batchAccount) {
                 BatchAccountImpl impl = (BatchAccountImpl) batchAccount;
                 impl.applicationsImpl.refresh();
+                impl.poolsImpl.refresh();
                 return impl;
             }
         });
@@ -107,6 +113,17 @@ public class BatchAccountImpl
                                 .map(new Func1<List<ApplicationImpl>, BatchAccount>() {
                                     @Override
                                     public BatchAccount call(List<ApplicationImpl> applications) {
+                                        return self;
+                                    }
+                                });
+                    }
+                }).flatMap(new Func1<BatchAccount, Observable<? extends BatchAccount>>() {
+                    @Override
+                    public Observable<? extends BatchAccount> call(BatchAccount batchAccount) {
+                        return self.poolsImpl.commitAndGetAllAsync()
+                                .map(new Func1<List<PoolImpl>, BatchAccount>() {
+                                    @Override
+                                    public BatchAccount call(List<PoolImpl> pools) {
                                         return self;
                                     }
                                 });
@@ -198,6 +215,31 @@ public class BatchAccountImpl
     }
 
     @Override
+    public Map<String, Pool> pools() {
+        return this.poolsImpl.asMap();
+    }
+
+    @Override
+    public boolean dedicatedCoreQuotaPerVMFamilyEnforced() {
+        return this.inner().dedicatedCoreQuotaPerVMFamilyEnforced();
+    }
+
+    @Override
+    public List<VirtualMachineFamilyCoreQuota> dedicatedCoreQuotaPerVMFamily() {
+        return this.inner().dedicatedCoreQuotaPerVMFamily();
+    }
+
+    @Override
+    public Integer dedicatedCoreQuota() {
+        return this.inner().dedicatedCoreQuota();
+    }
+
+    @Override
+    public Integer lowPriorityCoreQuota() {
+        return this.inner().lowPriorityCoreQuota();
+    }
+
+    @Override
     public BatchAccountImpl withExistingStorageAccount(StorageAccount storageAccount) {
         this.existingStorageAccountToAssociate = storageAccount;
         this.creatableStorageAccountKey = null;
@@ -273,6 +315,27 @@ public class BatchAccountImpl
 
     BatchAccountImpl withApplication(ApplicationImpl application) {
         this.applicationsImpl.addApplication(application);
+        return this;
+    }
+
+    BatchAccountImpl withPool(PoolImpl pool) {
+        this.poolsImpl.addPool(pool);
+        return this;
+    }
+
+    @Override
+    public PoolImpl defineNewPool(String poolId) {
+        return this.poolsImpl.define(poolId);
+    }
+
+    @Override
+    public PoolImpl updatePool(String poolId) {
+        return this.poolsImpl.update(poolId);
+    }
+
+    @Override
+    public Update withoutPool(String poolId) {
+        this.poolsImpl.remove(poolId);
         return this;
     }
 }

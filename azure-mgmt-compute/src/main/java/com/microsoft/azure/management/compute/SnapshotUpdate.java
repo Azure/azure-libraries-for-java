@@ -25,7 +25,7 @@ public class SnapshotUpdate {
 
     /**
      * If creationData.createOption is Empty, this field is mandatory and it
-     * indicates the size of the VHD to create. If this field is present for
+     * indicates the size of the disk to create. If this field is present for
      * updates or creation with other options, it indicates a resize. Resizes
      * are only allowed if the disk is not attached to a running VM, and can
      * only increase the disk's size.
@@ -34,10 +34,11 @@ public class SnapshotUpdate {
     private Integer diskSizeGB;
 
     /**
-     * Encryption settings for disk or snapshot.
+     * Encryption settings collection used be Azure Disk Encryption, can
+     * contain multiple encryption settings per disk or snapshot.
      */
-    @JsonProperty(value = "properties.encryptionSettings")
-    private EncryptionSettings encryptionSettings;
+    @JsonProperty(value = "properties.encryptionSettingsCollection")
+    private EncryptionSettingsCollection encryptionSettingsCollection;
 
     /**
      * Resource tags.
@@ -72,7 +73,7 @@ public class SnapshotUpdate {
     }
 
     /**
-     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Get if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @return the diskSizeGB value
      */
@@ -81,7 +82,7 @@ public class SnapshotUpdate {
     }
 
     /**
-     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the VHD to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
+     * Set if creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only allowed if the disk is not attached to a running VM, and can only increase the disk's size.
      *
      * @param diskSizeGB the diskSizeGB value to set
      * @return the SnapshotUpdate object itself.
@@ -92,22 +93,22 @@ public class SnapshotUpdate {
     }
 
     /**
-     * Get encryption settings for disk or snapshot.
+     * Get encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
      *
-     * @return the encryptionSettings value
+     * @return the encryptionSettingsCollection value
      */
-    public EncryptionSettings encryptionSettings() {
-        return this.encryptionSettings;
+    public EncryptionSettingsCollection encryptionSettingsCollection() {
+        return this.encryptionSettingsCollection;
     }
 
     /**
-     * Set encryption settings for disk or snapshot.
+     * Set encryption settings collection used be Azure Disk Encryption, can contain multiple encryption settings per disk or snapshot.
      *
-     * @param encryptionSettings the encryptionSettings value to set
+     * @param encryptionSettingsCollection the encryptionSettingsCollection value to set
      * @return the SnapshotUpdate object itself.
      */
-    public SnapshotUpdate withEncryptionSettings(EncryptionSettings encryptionSettings) {
-        this.encryptionSettings = encryptionSettings;
+    public SnapshotUpdate withEncryptionSettingsCollection(EncryptionSettingsCollection encryptionSettingsCollection) {
+        this.encryptionSettingsCollection = encryptionSettingsCollection;
         return this;
     }
 

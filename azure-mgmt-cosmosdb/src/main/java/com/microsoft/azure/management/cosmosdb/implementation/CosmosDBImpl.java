@@ -51,23 +51,34 @@ public class CosmosDBImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Version of the API to be used with the client request. The current version is 2015-04-08. */
-    private String apiVersion;
+    /** The ID of the target subscription. */
+    private String subscriptionId1;
 
     /**
-     * Gets Version of the API to be used with the client request. The current version is 2015-04-08.
+     * Gets The ID of the target subscription.
      *
-     * @return the apiVersion value.
+     * @return the subscriptionId1 value.
      */
-    public String apiVersion() {
-        return this.apiVersion;
+    public String subscriptionId1() {
+        return this.subscriptionId1;
     }
 
-    /** Gets or sets the preferred language for the response. */
+    /**
+     * Sets The ID of the target subscription.
+     *
+     * @param subscriptionId1 the subscriptionId1 value.
+     * @return the service client itself
+     */
+    public CosmosDBImpl withSubscriptionId1(String subscriptionId1) {
+        this.subscriptionId1 = subscriptionId1;
+        return this;
+    }
+
+    /** The preferred language for the response. */
     private String acceptLanguage;
 
     /**
-     * Gets Gets or sets the preferred language for the response.
+     * Gets The preferred language for the response.
      *
      * @return the acceptLanguage value.
      */
@@ -76,7 +87,7 @@ public class CosmosDBImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the preferred language for the response.
+     * Sets The preferred language for the response.
      *
      * @param acceptLanguage the acceptLanguage value.
      * @return the service client itself
@@ -86,11 +97,11 @@ public class CosmosDBImpl extends AzureServiceClient {
         return this;
     }
 
-    /** Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30. */
+    /** The retry timeout in seconds for Long Running Operations. Default value is 30. */
     private int longRunningOperationRetryTimeout;
 
     /**
-     * Gets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Gets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @return the longRunningOperationRetryTimeout value.
      */
@@ -99,7 +110,7 @@ public class CosmosDBImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets Gets or sets the retry timeout in seconds for Long Running Operations. Default value is 30.
+     * Sets The retry timeout in seconds for Long Running Operations. Default value is 30.
      *
      * @param longRunningOperationRetryTimeout the longRunningOperationRetryTimeout value.
      * @return the service client itself
@@ -109,11 +120,11 @@ public class CosmosDBImpl extends AzureServiceClient {
         return this;
     }
 
-    /** When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
+    /** Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true. */
     private boolean generateClientRequestId;
 
     /**
-     * Gets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Gets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @return the generateClientRequestId value.
      */
@@ -122,7 +133,7 @@ public class CosmosDBImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
+     * Sets Whether a unique x-ms-client-request-id should be generated. When set to true a unique x-ms-client-request-id value is generated and included in each request. Default is true.
      *
      * @param generateClientRequestId the generateClientRequestId value.
      * @return the service client itself
@@ -302,6 +313,97 @@ public class CosmosDBImpl extends AzureServiceClient {
     }
 
     /**
+     * The SqlResourcesInner object to access its operations.
+     */
+    private SqlResourcesInner sqlResources;
+
+    /**
+     * Gets the SqlResourcesInner object to access its operations.
+     * @return the SqlResourcesInner object.
+     */
+    public SqlResourcesInner sqlResources() {
+        return this.sqlResources;
+    }
+
+    /**
+     * The MongoDBResourcesInner object to access its operations.
+     */
+    private MongoDBResourcesInner mongoDBResources;
+
+    /**
+     * Gets the MongoDBResourcesInner object to access its operations.
+     * @return the MongoDBResourcesInner object.
+     */
+    public MongoDBResourcesInner mongoDBResources() {
+        return this.mongoDBResources;
+    }
+
+    /**
+     * The TableResourcesInner object to access its operations.
+     */
+    private TableResourcesInner tableResources;
+
+    /**
+     * Gets the TableResourcesInner object to access its operations.
+     * @return the TableResourcesInner object.
+     */
+    public TableResourcesInner tableResources() {
+        return this.tableResources;
+    }
+
+    /**
+     * The CassandraResourcesInner object to access its operations.
+     */
+    private CassandraResourcesInner cassandraResources;
+
+    /**
+     * Gets the CassandraResourcesInner object to access its operations.
+     * @return the CassandraResourcesInner object.
+     */
+    public CassandraResourcesInner cassandraResources() {
+        return this.cassandraResources;
+    }
+
+    /**
+     * The GremlinResourcesInner object to access its operations.
+     */
+    private GremlinResourcesInner gremlinResources;
+
+    /**
+     * Gets the GremlinResourcesInner object to access its operations.
+     * @return the GremlinResourcesInner object.
+     */
+    public GremlinResourcesInner gremlinResources() {
+        return this.gremlinResources;
+    }
+
+    /**
+     * The PrivateLinkResourcesInner object to access its operations.
+     */
+    private PrivateLinkResourcesInner privateLinkResources;
+
+    /**
+     * Gets the PrivateLinkResourcesInner object to access its operations.
+     * @return the PrivateLinkResourcesInner object.
+     */
+    public PrivateLinkResourcesInner privateLinkResources() {
+        return this.privateLinkResources;
+    }
+
+    /**
+     * The PrivateEndpointConnectionsInner object to access its operations.
+     */
+    private PrivateEndpointConnectionsInner privateEndpointConnections;
+
+    /**
+     * Gets the PrivateEndpointConnectionsInner object to access its operations.
+     * @return the PrivateEndpointConnectionsInner object.
+     */
+    public PrivateEndpointConnectionsInner privateEndpointConnections() {
+        return this.privateEndpointConnections;
+    }
+
+    /**
      * Initializes an instance of CosmosDB client.
      *
      * @param credentials the management credentials for Azure
@@ -332,7 +434,6 @@ public class CosmosDBImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2015-04-08";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -349,6 +450,13 @@ public class CosmosDBImpl extends AzureServiceClient {
         this.collectionPartitions = new CollectionPartitionsInner(restClient().retrofit(), this);
         this.partitionKeyRangeIds = new PartitionKeyRangeIdsInner(restClient().retrofit(), this);
         this.partitionKeyRangeIdRegions = new PartitionKeyRangeIdRegionsInner(restClient().retrofit(), this);
+        this.sqlResources = new SqlResourcesInner(restClient().retrofit(), this);
+        this.mongoDBResources = new MongoDBResourcesInner(restClient().retrofit(), this);
+        this.tableResources = new TableResourcesInner(restClient().retrofit(), this);
+        this.cassandraResources = new CassandraResourcesInner(restClient().retrofit(), this);
+        this.gremlinResources = new GremlinResourcesInner(restClient().retrofit(), this);
+        this.privateLinkResources = new PrivateLinkResourcesInner(restClient().retrofit(), this);
+        this.privateEndpointConnections = new PrivateEndpointConnectionsInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -359,6 +467,6 @@ public class CosmosDBImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "CosmosDB", "2015-04-08");
+        return String.format("%s (%s)", super.userAgent(), "CosmosDB");
     }
 }

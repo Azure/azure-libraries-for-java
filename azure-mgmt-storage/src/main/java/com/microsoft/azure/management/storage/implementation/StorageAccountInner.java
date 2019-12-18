@@ -18,6 +18,7 @@ import com.microsoft.azure.management.storage.CustomDomain;
 import com.microsoft.azure.management.storage.Encryption;
 import com.microsoft.azure.management.storage.AccessTier;
 import com.microsoft.azure.management.storage.NetworkRuleSet;
+import com.microsoft.azure.management.storage.GeoReplicationStats;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -35,7 +36,7 @@ public class StorageAccountInner extends Resource {
 
     /**
      * Gets the Kind. Possible values include: 'Storage', 'StorageV2',
-     * 'BlobStorage'.
+     * 'BlobStorage', 'FileStorage', 'BlockBlobStorage'.
      */
     @JsonProperty(value = "kind", access = JsonProperty.Access.WRITE_ONLY)
     private Kind kind;
@@ -137,6 +138,12 @@ public class StorageAccountInner extends Resource {
     private AccessTier accessTier;
 
     /**
+     * Enables Azure Files AAD Integration for SMB if sets to true.
+     */
+    @JsonProperty(value = "properties.azureFilesAadIntegration")
+    private Boolean enableAzureFilesAadIntegration;
+
+    /**
      * Allows https traffic only to storage service if sets to true.
      */
     @JsonProperty(value = "properties.supportsHttpsTrafficOnly")
@@ -149,7 +156,26 @@ public class StorageAccountInner extends Resource {
     private NetworkRuleSet networkRuleSet;
 
     /**
-     * Get the sku value.
+     * Account HierarchicalNamespace enabled if sets to true.
+     */
+    @JsonProperty(value = "properties.isHnsEnabled")
+    private Boolean isHnsEnabled;
+
+    /**
+     * Geo Replication Stats.
+     */
+    @JsonProperty(value = "properties.geoReplicationStats", access = JsonProperty.Access.WRITE_ONLY)
+    private GeoReplicationStats geoReplicationStats;
+
+    /**
+     * If the failover is in progress, the value will be true, otherwise, it
+     * will be null.
+     */
+    @JsonProperty(value = "properties.failoverInProgress", access = JsonProperty.Access.WRITE_ONLY)
+    private Boolean failoverInProgress;
+
+    /**
+     * Get gets the SKU.
      *
      * @return the sku value
      */
@@ -158,7 +184,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the kind value.
+     * Get gets the Kind. Possible values include: 'Storage', 'StorageV2', 'BlobStorage', 'FileStorage', 'BlockBlobStorage'.
      *
      * @return the kind value
      */
@@ -167,7 +193,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the identity value.
+     * Get the identity of the resource.
      *
      * @return the identity value
      */
@@ -176,7 +202,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Set the identity value.
+     * Set the identity of the resource.
      *
      * @param identity the identity value to set
      * @return the StorageAccountInner object itself.
@@ -187,7 +213,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get gets the status of the storage account at the time the operation was called. Possible values include: 'Creating', 'ResolvingDNS', 'Succeeded'.
      *
      * @return the provisioningState value
      */
@@ -196,7 +222,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the primaryEndpoints value.
+     * Get gets the URLs that are used to perform a retrieval of a public blob, queue, or table object. Note that Standard_ZRS and Premium_LRS accounts only return the blob endpoint.
      *
      * @return the primaryEndpoints value
      */
@@ -205,7 +231,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the primaryLocation value.
+     * Get gets the location of the primary data center for the storage account.
      *
      * @return the primaryLocation value
      */
@@ -214,7 +240,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the statusOfPrimary value.
+     * Get gets the status indicating whether the primary location of the storage account is available or unavailable. Possible values include: 'available', 'unavailable'.
      *
      * @return the statusOfPrimary value
      */
@@ -223,7 +249,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the lastGeoFailoverTime value.
+     * Get gets the timestamp of the most recent instance of a failover to the secondary location. Only the most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only available if the accountType is Standard_GRS or Standard_RAGRS.
      *
      * @return the lastGeoFailoverTime value
      */
@@ -232,7 +258,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the secondaryLocation value.
+     * Get gets the location of the geo-replicated secondary for the storage account. Only available if the accountType is Standard_GRS or Standard_RAGRS.
      *
      * @return the secondaryLocation value
      */
@@ -241,7 +267,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the statusOfSecondary value.
+     * Get gets the status indicating whether the secondary location of the storage account is available or unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS. Possible values include: 'available', 'unavailable'.
      *
      * @return the statusOfSecondary value
      */
@@ -250,7 +276,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the creationTime value.
+     * Get gets the creation date and time of the storage account in UTC.
      *
      * @return the creationTime value
      */
@@ -259,7 +285,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the customDomain value.
+     * Get gets the custom domain the user assigned to this storage account.
      *
      * @return the customDomain value
      */
@@ -268,7 +294,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the secondaryEndpoints value.
+     * Get gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.
      *
      * @return the secondaryEndpoints value
      */
@@ -277,7 +303,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the encryption value.
+     * Get gets the encryption settings on the account. If unspecified, the account is unencrypted.
      *
      * @return the encryption value
      */
@@ -286,7 +312,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the accessTier value.
+     * Get required for storage accounts where kind = BlobStorage. The access tier used for billing. Possible values include: 'Hot', 'Cool'.
      *
      * @return the accessTier value
      */
@@ -295,7 +321,27 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the enableHttpsTrafficOnly value.
+     * Get enables Azure Files AAD Integration for SMB if sets to true.
+     *
+     * @return the enableAzureFilesAadIntegration value
+     */
+    public Boolean enableAzureFilesAadIntegration() {
+        return this.enableAzureFilesAadIntegration;
+    }
+
+    /**
+     * Set enables Azure Files AAD Integration for SMB if sets to true.
+     *
+     * @param enableAzureFilesAadIntegration the enableAzureFilesAadIntegration value to set
+     * @return the StorageAccountInner object itself.
+     */
+    public StorageAccountInner withEnableAzureFilesAadIntegration(Boolean enableAzureFilesAadIntegration) {
+        this.enableAzureFilesAadIntegration = enableAzureFilesAadIntegration;
+        return this;
+    }
+
+    /**
+     * Get allows https traffic only to storage service if sets to true.
      *
      * @return the enableHttpsTrafficOnly value
      */
@@ -304,7 +350,7 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Set the enableHttpsTrafficOnly value.
+     * Set allows https traffic only to storage service if sets to true.
      *
      * @param enableHttpsTrafficOnly the enableHttpsTrafficOnly value to set
      * @return the StorageAccountInner object itself.
@@ -315,12 +361,50 @@ public class StorageAccountInner extends Resource {
     }
 
     /**
-     * Get the networkRuleSet value.
+     * Get network rule set.
      *
      * @return the networkRuleSet value
      */
     public NetworkRuleSet networkRuleSet() {
         return this.networkRuleSet;
+    }
+
+    /**
+     * Get account HierarchicalNamespace enabled if sets to true.
+     *
+     * @return the isHnsEnabled value
+     */
+    public Boolean isHnsEnabled() {
+        return this.isHnsEnabled;
+    }
+
+    /**
+     * Set account HierarchicalNamespace enabled if sets to true.
+     *
+     * @param isHnsEnabled the isHnsEnabled value to set
+     * @return the StorageAccountInner object itself.
+     */
+    public StorageAccountInner withIsHnsEnabled(Boolean isHnsEnabled) {
+        this.isHnsEnabled = isHnsEnabled;
+        return this;
+    }
+
+    /**
+     * Get geo Replication Stats.
+     *
+     * @return the geoReplicationStats value
+     */
+    public GeoReplicationStats geoReplicationStats() {
+        return this.geoReplicationStats;
+    }
+
+    /**
+     * Get if the failover is in progress, the value will be true, otherwise, it will be null.
+     *
+     * @return the failoverInProgress value
+     */
+    public Boolean failoverInProgress() {
+        return this.failoverInProgress;
     }
 
 }

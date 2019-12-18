@@ -6,6 +6,8 @@
 
 package com.microsoft.azure.management.network;
 
+import com.microsoft.azure.management.keyvault.implementation.KeyVaultManager;
+import com.microsoft.azure.management.msi.implementation.MSIManager;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.core.TestBase;
 import com.microsoft.azure.management.resources.implementation.ResourceManager;
@@ -14,6 +16,8 @@ import com.microsoft.rest.RestClient;
 public class NetworkManagementTest extends TestBase {
     protected static ResourceManager resourceManager;
     protected static NetworkManager networkManager;
+    protected static KeyVaultManager keyVaultManager;
+    protected static MSIManager msiManager;
     protected static String RG_NAME = "";
 
     @Override
@@ -25,6 +29,12 @@ public class NetworkManagementTest extends TestBase {
                 .withSubscription(defaultSubscription);
 
         networkManager = NetworkManager
+                .authenticate(restClient, defaultSubscription);
+
+        keyVaultManager = KeyVaultManager
+                .authenticate(restClient, domain, defaultSubscription);
+
+        msiManager = MSIManager
                 .authenticate(restClient, defaultSubscription);
     }
 

@@ -17,7 +17,7 @@ public class OrchestratorProfile {
     /**
      * Orchestrator type.
      */
-    @JsonProperty(value = "orchestratorType", required = true)
+    @JsonProperty(value = "orchestratorType")
     private String orchestratorType;
 
     /**
@@ -27,7 +27,13 @@ public class OrchestratorProfile {
     private String orchestratorVersion;
 
     /**
-     * Get the orchestratorType value.
+     * Whether Kubernetes version is currently in preview.
+     */
+    @JsonProperty(value = "isPreview")
+    private Boolean isPreview;
+
+    /**
+     * Get orchestrator type.
      *
      * @return the orchestratorType value
      */
@@ -36,7 +42,7 @@ public class OrchestratorProfile {
     }
 
     /**
-     * Set the orchestratorType value.
+     * Set orchestrator type.
      *
      * @param orchestratorType the orchestratorType value to set
      * @return the OrchestratorProfile object itself.
@@ -47,7 +53,7 @@ public class OrchestratorProfile {
     }
 
     /**
-     * Get the orchestratorVersion value.
+     * Get orchestrator version (major, minor, patch).
      *
      * @return the orchestratorVersion value
      */
@@ -56,13 +62,33 @@ public class OrchestratorProfile {
     }
 
     /**
-     * Set the orchestratorVersion value.
+     * Set orchestrator version (major, minor, patch).
      *
      * @param orchestratorVersion the orchestratorVersion value to set
      * @return the OrchestratorProfile object itself.
      */
     public OrchestratorProfile withOrchestratorVersion(String orchestratorVersion) {
         this.orchestratorVersion = orchestratorVersion;
+        return this;
+    }
+
+    /**
+     * Get whether Kubernetes version is currently in preview.
+     *
+     * @return the isPreview value
+     */
+    public Boolean isPreview() {
+        return this.isPreview;
+    }
+
+    /**
+     * Set whether Kubernetes version is currently in preview.
+     *
+     * @param isPreview the isPreview value to set
+     * @return the OrchestratorProfile object itself.
+     */
+    public OrchestratorProfile withIsPreview(Boolean isPreview) {
+        this.isPreview = isPreview;
         return this;
     }
 

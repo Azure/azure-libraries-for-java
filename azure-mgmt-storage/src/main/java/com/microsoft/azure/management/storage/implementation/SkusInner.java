@@ -121,7 +121,11 @@ public class SkusInner {
                 public Observable<ServiceResponse<List<SkuInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<SkuInner>> result = listDelegate(response);
-                        ServiceResponse<List<SkuInner>> clientResponse = new ServiceResponse<List<SkuInner>>(result.body().items(), result.response());
+                        List<SkuInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<SkuInner>> clientResponse = new ServiceResponse<List<SkuInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

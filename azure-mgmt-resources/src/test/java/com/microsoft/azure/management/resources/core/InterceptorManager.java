@@ -8,8 +8,11 @@ package com.microsoft.azure.management.resources.core;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import okhttp3.*;
-import okhttp3.internal.Util;
+import okhttp3.Interceptor;
+import okhttp3.MediaType;
+import okhttp3.Request;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
 import okio.Buffer;
 import okio.BufferedSource;
 import org.apache.commons.io.IOUtils;
@@ -20,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -251,7 +255,7 @@ public class InterceptorManager {
             String content = null;
 
             if (response.header("Content-Encoding") == null) {
-                content = new String(buffer.readString(Util.UTF_8));
+                content = new String(buffer.readString(StandardCharsets.UTF_8));
             } else if (response.header("Content-Encoding").equalsIgnoreCase("gzip")) {
                 GZIPInputStream gis = new GZIPInputStream(buffer.inputStream());
                 content = IOUtils.toString(gis);

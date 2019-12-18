@@ -58,7 +58,7 @@ public class DatabaseUsageInner {
     private DateTime nextResetTime;
 
     /**
-     * Get the name value.
+     * Get the name of the usage metric.
      *
      * @return the name value
      */
@@ -67,7 +67,7 @@ public class DatabaseUsageInner {
     }
 
     /**
-     * Get the resourceName value.
+     * Get the name of the resource.
      *
      * @return the resourceName value
      */
@@ -76,7 +76,7 @@ public class DatabaseUsageInner {
     }
 
     /**
-     * Get the displayName value.
+     * Get the usage metric display name.
      *
      * @return the displayName value
      */
@@ -85,7 +85,7 @@ public class DatabaseUsageInner {
     }
 
     /**
-     * Get the currentValue value.
+     * Get the current value of the usage metric.
      *
      * @return the currentValue value
      */
@@ -94,7 +94,7 @@ public class DatabaseUsageInner {
     }
 
     /**
-     * Get the limit value.
+     * Get the current limit of the usage metric.
      *
      * @return the limit value
      */
@@ -103,7 +103,7 @@ public class DatabaseUsageInner {
     }
 
     /**
-     * Get the unit value.
+     * Get the units of the usage metric.
      *
      * @return the unit value
      */
@@ -112,7 +112,7 @@ public class DatabaseUsageInner {
     }
 
     /**
-     * Get the nextResetTime value.
+     * Get the next reset time for the usage metric (ISO8601 format).
      *
      * @return the nextResetTime value
      */

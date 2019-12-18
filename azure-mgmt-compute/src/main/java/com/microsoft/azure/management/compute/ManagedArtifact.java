@@ -17,7 +17,7 @@ public class ManagedArtifact {
     /**
      * The managed artifact id.
      */
-    @JsonProperty(value = "id")
+    @JsonProperty(value = "id", required = true)
     private String id;
 
     /**

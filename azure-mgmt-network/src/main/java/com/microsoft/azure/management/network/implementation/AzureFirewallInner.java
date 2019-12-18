@@ -9,7 +9,12 @@
 package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.network.AzureFirewallApplicationRuleCollection;
+import com.microsoft.azure.management.network.AzureFirewallNatRuleCollection;
+import com.microsoft.azure.management.network.AzureFirewallNetworkRuleCollection;
+import com.microsoft.azure.management.network.AzureFirewallIPConfiguration;
 import com.microsoft.azure.management.network.ProvisioningState;
+import com.microsoft.azure.management.network.AzureFirewallThreatIntelMode;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -22,22 +27,28 @@ import com.microsoft.azure.Resource;
 @SkipParentValidation
 public class AzureFirewallInner extends Resource {
     /**
-     * Collection of application rule collections used by a Azure Firewall.
+     * Collection of application rule collections used by Azure Firewall.
      */
     @JsonProperty(value = "properties.applicationRuleCollections")
-    private List<AzureFirewallApplicationRuleCollectionInner> applicationRuleCollections;
+    private List<AzureFirewallApplicationRuleCollection> applicationRuleCollections;
 
     /**
-     * Collection of network rule collections used by a Azure Firewall.
+     * Collection of NAT rule collections used by Azure Firewall.
+     */
+    @JsonProperty(value = "properties.natRuleCollections")
+    private List<AzureFirewallNatRuleCollection> natRuleCollections;
+
+    /**
+     * Collection of network rule collections used by Azure Firewall.
      */
     @JsonProperty(value = "properties.networkRuleCollections")
-    private List<AzureFirewallNetworkRuleCollectionInner> networkRuleCollections;
+    private List<AzureFirewallNetworkRuleCollection> networkRuleCollections;
 
     /**
      * IP configuration of the Azure Firewall resource.
      */
     @JsonProperty(value = "properties.ipConfigurations")
-    private List<AzureFirewallIPConfigurationInner> ipConfigurations;
+    private List<AzureFirewallIPConfiguration> ipConfigurations;
 
     /**
      * The provisioning state of the resource. Possible values include:
@@ -45,6 +56,20 @@ public class AzureFirewallInner extends Resource {
      */
     @JsonProperty(value = "properties.provisioningState")
     private ProvisioningState provisioningState;
+
+    /**
+     * The operation mode for Threat Intelligence. Possible values include:
+     * 'Alert', 'Deny', 'Off'.
+     */
+    @JsonProperty(value = "properties.threatIntelMode")
+    private AzureFirewallThreatIntelMode threatIntelMode;
+
+    /**
+     * A list of availability zones denoting where the resource needs to come
+     * from.
+     */
+    @JsonProperty(value = "zones")
+    private List<String> zones;
 
     /**
      * Gets a unique read-only string that changes whenever the resource is
@@ -60,67 +85,87 @@ public class AzureFirewallInner extends Resource {
     private String id;
 
     /**
-     * Get the applicationRuleCollections value.
+     * Get collection of application rule collections used by Azure Firewall.
      *
      * @return the applicationRuleCollections value
      */
-    public List<AzureFirewallApplicationRuleCollectionInner> applicationRuleCollections() {
+    public List<AzureFirewallApplicationRuleCollection> applicationRuleCollections() {
         return this.applicationRuleCollections;
     }
 
     /**
-     * Set the applicationRuleCollections value.
+     * Set collection of application rule collections used by Azure Firewall.
      *
      * @param applicationRuleCollections the applicationRuleCollections value to set
      * @return the AzureFirewallInner object itself.
      */
-    public AzureFirewallInner withApplicationRuleCollections(List<AzureFirewallApplicationRuleCollectionInner> applicationRuleCollections) {
+    public AzureFirewallInner withApplicationRuleCollections(List<AzureFirewallApplicationRuleCollection> applicationRuleCollections) {
         this.applicationRuleCollections = applicationRuleCollections;
         return this;
     }
 
     /**
-     * Get the networkRuleCollections value.
+     * Get collection of NAT rule collections used by Azure Firewall.
+     *
+     * @return the natRuleCollections value
+     */
+    public List<AzureFirewallNatRuleCollection> natRuleCollections() {
+        return this.natRuleCollections;
+    }
+
+    /**
+     * Set collection of NAT rule collections used by Azure Firewall.
+     *
+     * @param natRuleCollections the natRuleCollections value to set
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withNatRuleCollections(List<AzureFirewallNatRuleCollection> natRuleCollections) {
+        this.natRuleCollections = natRuleCollections;
+        return this;
+    }
+
+    /**
+     * Get collection of network rule collections used by Azure Firewall.
      *
      * @return the networkRuleCollections value
      */
-    public List<AzureFirewallNetworkRuleCollectionInner> networkRuleCollections() {
+    public List<AzureFirewallNetworkRuleCollection> networkRuleCollections() {
         return this.networkRuleCollections;
     }
 
     /**
-     * Set the networkRuleCollections value.
+     * Set collection of network rule collections used by Azure Firewall.
      *
      * @param networkRuleCollections the networkRuleCollections value to set
      * @return the AzureFirewallInner object itself.
      */
-    public AzureFirewallInner withNetworkRuleCollections(List<AzureFirewallNetworkRuleCollectionInner> networkRuleCollections) {
+    public AzureFirewallInner withNetworkRuleCollections(List<AzureFirewallNetworkRuleCollection> networkRuleCollections) {
         this.networkRuleCollections = networkRuleCollections;
         return this;
     }
 
     /**
-     * Get the ipConfigurations value.
+     * Get iP configuration of the Azure Firewall resource.
      *
      * @return the ipConfigurations value
      */
-    public List<AzureFirewallIPConfigurationInner> ipConfigurations() {
+    public List<AzureFirewallIPConfiguration> ipConfigurations() {
         return this.ipConfigurations;
     }
 
     /**
-     * Set the ipConfigurations value.
+     * Set iP configuration of the Azure Firewall resource.
      *
      * @param ipConfigurations the ipConfigurations value to set
      * @return the AzureFirewallInner object itself.
      */
-    public AzureFirewallInner withIpConfigurations(List<AzureFirewallIPConfigurationInner> ipConfigurations) {
+    public AzureFirewallInner withIpConfigurations(List<AzureFirewallIPConfiguration> ipConfigurations) {
         this.ipConfigurations = ipConfigurations;
         return this;
     }
 
     /**
-     * Get the provisioningState value.
+     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
@@ -129,7 +174,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Set the provisioningState value.
+     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @param provisioningState the provisioningState value to set
      * @return the AzureFirewallInner object itself.
@@ -140,7 +185,47 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get the etag value.
+     * Get the operation mode for Threat Intelligence. Possible values include: 'Alert', 'Deny', 'Off'.
+     *
+     * @return the threatIntelMode value
+     */
+    public AzureFirewallThreatIntelMode threatIntelMode() {
+        return this.threatIntelMode;
+    }
+
+    /**
+     * Set the operation mode for Threat Intelligence. Possible values include: 'Alert', 'Deny', 'Off'.
+     *
+     * @param threatIntelMode the threatIntelMode value to set
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withThreatIntelMode(AzureFirewallThreatIntelMode threatIntelMode) {
+        this.threatIntelMode = threatIntelMode;
+        return this;
+    }
+
+    /**
+     * Get a list of availability zones denoting where the resource needs to come from.
+     *
+     * @return the zones value
+     */
+    public List<String> zones() {
+        return this.zones;
+    }
+
+    /**
+     * Set a list of availability zones denoting where the resource needs to come from.
+     *
+     * @param zones the zones value to set
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withZones(List<String> zones) {
+        this.zones = zones;
+        return this;
+    }
+
+    /**
+     * Get gets a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -149,7 +234,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get the id value.
+     * Get resource ID.
      *
      * @return the id value
      */
@@ -158,7 +243,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Set the id value.
+     * Set resource ID.
      *
      * @param id the id value to set
      * @return the AzureFirewallInner object itself.

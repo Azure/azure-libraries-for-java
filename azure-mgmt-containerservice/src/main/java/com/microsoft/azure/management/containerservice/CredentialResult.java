@@ -27,7 +27,7 @@ public class CredentialResult {
     private byte[] value;
 
     /**
-     * Get the name value.
+     * Get the name of the credential.
      *
      * @return the name value
      */
@@ -36,7 +36,7 @@ public class CredentialResult {
     }
 
     /**
-     * Get the value value.
+     * Get base64-encoded Kubernetes configuration file.
      *
      * @return the value value
      */

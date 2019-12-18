@@ -8,10 +8,13 @@ package com.microsoft.azure.management.containerinstance.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.containerinstance.Container;
 import com.microsoft.azure.management.containerinstance.ContainerGroup;
+import com.microsoft.azure.management.containerinstance.ContainerGroupIpAddressType;
 import com.microsoft.azure.management.containerinstance.ContainerGroupNetworkProtocol;
 import com.microsoft.azure.management.containerinstance.ContainerNetworkProtocol;
 import com.microsoft.azure.management.containerinstance.ContainerPort;
 import com.microsoft.azure.management.containerinstance.EnvironmentVariable;
+import com.microsoft.azure.management.containerinstance.GpuResource;
+import com.microsoft.azure.management.containerinstance.GpuSku;
 import com.microsoft.azure.management.containerinstance.IpAddress;
 import com.microsoft.azure.management.containerinstance.Port;
 import com.microsoft.azure.management.containerinstance.ResourceRequests;
@@ -26,18 +29,18 @@ import java.util.Map;
  */
 @LangDefinition
 class ContainerImpl implements
-    ContainerGroup.DefinitionStages.ContainerInstanceDefinitionStages.ContainerInstanceDefinition<ContainerGroup.DefinitionStages.WithNextContainerInstance> {
+        ContainerGroup.DefinitionStages.ContainerInstanceDefinitionStages.ContainerInstanceDefinition<ContainerGroup.DefinitionStages.WithNextContainerInstance> {
     private Container innerContainer;
     private ContainerGroupImpl parent;
 
     ContainerImpl(ContainerGroupImpl parent, String containerName) {
         this.parent = parent;
         this.innerContainer = new Container()
-            .withName(containerName)
-            .withResources(new ResourceRequirements()
-                .withRequests(new ResourceRequests()
-                    .withCpu(1)
-                    .withMemoryInGB(1.5)));
+                .withName(containerName)
+                .withResources(new ResourceRequirements()
+                        .withRequests(new ResourceRequests()
+                                .withCpu(1)
+                                .withMemoryInGB(1.5)));
     }
 
     @Override
@@ -75,8 +78,8 @@ class ContainerImpl implements
     @Override
     public ContainerImpl withExternalTcpPort(int port) {
         ensureParentIpAddress().ports().add(new Port()
-            .withPort(port)
-            .withProtocol(ContainerGroupNetworkProtocol.TCP));
+                .withPort(port)
+                .withProtocol(ContainerGroupNetworkProtocol.TCP));
         this.withInternalTcpPort(port);
 
         return this;
@@ -86,7 +89,11 @@ class ContainerImpl implements
         if (parent.inner().ipAddress() == null) {
             parent.inner().withIpAddress(new IpAddress());
         }
-        parent.inner().ipAddress().withType("Public");
+        if (parent.inner().ipAddress().type() == null && parent.inner().ipAddress().dnsNameLabel() == null) {
+            parent.inner().ipAddress().withType(ContainerGroupIpAddressType.PRIVATE);
+        } else {
+            parent.inner().ipAddress().withType(ContainerGroupIpAddressType.PUBLIC);
+        }
         if (parent.inner().ipAddress().ports() == null) {
             parent.inner().ipAddress().withPorts(new ArrayList<Port>());
         }
@@ -106,8 +113,8 @@ class ContainerImpl implements
     @Override
     public ContainerImpl withExternalUdpPort(int port) {
         ensureParentIpAddress().ports().add(new Port()
-            .withPort(port)
-            .withProtocol(ContainerGroupNetworkProtocol.UDP));
+                .withPort(port)
+                .withProtocol(ContainerGroupNetworkProtocol.UDP));
         this.withInternalUdpPort(port);
 
         return this;
@@ -154,7 +161,12 @@ class ContainerImpl implements
     @Override
     public ContainerImpl withCpuCoreCount(double cpuCoreCount) {
         innerContainer.resources().requests().withCpu(cpuCoreCount);
+        return this;
+    }
 
+    @Override
+    public ContainerImpl withGpuResource(int gpuCoreCount, GpuSku gpuSku) {
+        innerContainer.resources().requests().withGpu(new GpuResource().withCount(gpuCoreCount).withSku(gpuSku));
         return this;
     }
 
@@ -203,8 +215,8 @@ class ContainerImpl implements
         }
 
         innerContainer.environmentVariables().add(new EnvironmentVariable()
-            .withName(envName)
-            .withValue(envValue));
+                .withName(envName)
+                .withValue(envValue));
 
         return this;
     }
@@ -225,8 +237,8 @@ class ContainerImpl implements
         }
 
         innerContainer.environmentVariables().add(new EnvironmentVariable()
-            .withName(envName)
-            .withSecureValue(securedValue));
+                .withName(envName)
+                .withSecureValue(securedValue));
 
         return this;
     }
@@ -237,9 +249,9 @@ class ContainerImpl implements
             innerContainer.withVolumeMounts(new ArrayList<VolumeMount>());
         }
         innerContainer.volumeMounts().add(new VolumeMount()
-            .withName(volumeName)
-            .withMountPath(mountPath)
-            .withReadOnly(false));
+                .withName(volumeName)
+                .withMountPath(mountPath)
+                .withReadOnly(false));
 
         return this;
     }
@@ -259,9 +271,9 @@ class ContainerImpl implements
             innerContainer.withVolumeMounts(new ArrayList<VolumeMount>());
         }
         innerContainer.volumeMounts().add(new VolumeMount()
-            .withName(volumeName)
-            .withMountPath(mountPath)
-            .withReadOnly(true));
+                .withName(volumeName)
+                .withMountPath(mountPath)
+                .withReadOnly(true));
 
         return this;
     }

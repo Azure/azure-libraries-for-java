@@ -8,7 +8,6 @@
 
 package com.microsoft.azure.management.network;
 
-import com.microsoft.azure.management.network.implementation.ApplicationGatewayBackendAddressPoolInner;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,7 +19,7 @@ public class ApplicationGatewayBackendHealthPool {
      * Reference of an ApplicationGatewayBackendAddressPool resource.
      */
     @JsonProperty(value = "backendAddressPool")
-    private ApplicationGatewayBackendAddressPoolInner backendAddressPool;
+    private ApplicationGatewayBackendAddressPool backendAddressPool;
 
     /**
      * List of ApplicationGatewayBackendHealthHttpSettings resources.
@@ -29,27 +28,27 @@ public class ApplicationGatewayBackendHealthPool {
     private List<ApplicationGatewayBackendHealthHttpSettings> backendHttpSettingsCollection;
 
     /**
-     * Get the backendAddressPool value.
+     * Get reference of an ApplicationGatewayBackendAddressPool resource.
      *
      * @return the backendAddressPool value
      */
-    public ApplicationGatewayBackendAddressPoolInner backendAddressPool() {
+    public ApplicationGatewayBackendAddressPool backendAddressPool() {
         return this.backendAddressPool;
     }
 
     /**
-     * Set the backendAddressPool value.
+     * Set reference of an ApplicationGatewayBackendAddressPool resource.
      *
      * @param backendAddressPool the backendAddressPool value to set
      * @return the ApplicationGatewayBackendHealthPool object itself.
      */
-    public ApplicationGatewayBackendHealthPool withBackendAddressPool(ApplicationGatewayBackendAddressPoolInner backendAddressPool) {
+    public ApplicationGatewayBackendHealthPool withBackendAddressPool(ApplicationGatewayBackendAddressPool backendAddressPool) {
         this.backendAddressPool = backendAddressPool;
         return this;
     }
 
     /**
-     * Get the backendHttpSettingsCollection value.
+     * Get list of ApplicationGatewayBackendHealthHttpSettings resources.
      *
      * @return the backendHttpSettingsCollection value
      */
@@ -58,7 +57,7 @@ public class ApplicationGatewayBackendHealthPool {
     }
 
     /**
-     * Set the backendHttpSettingsCollection value.
+     * Set list of ApplicationGatewayBackendHealthHttpSettings resources.
      *
      * @param backendHttpSettingsCollection the backendHttpSettingsCollection value to set
      * @return the ApplicationGatewayBackendHealthPool object itself.

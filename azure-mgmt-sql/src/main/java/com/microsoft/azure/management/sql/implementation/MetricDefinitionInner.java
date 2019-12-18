@@ -47,13 +47,13 @@ public class MetricDefinitionInner {
     private UnitDefinitionType unit;
 
     /**
-     * The list of database metric availabities for the metric.
+     * The list of database metric availabilities for the metric.
      */
     @JsonProperty(value = "metricAvailabilities", access = JsonProperty.Access.WRITE_ONLY)
     private List<MetricAvailability> metricAvailabilities;
 
     /**
-     * Get the name value.
+     * Get the name information for the metric.
      *
      * @return the name value
      */
@@ -62,7 +62,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the primaryAggregationType value.
+     * Get the primary aggregation type defining how metric values are displayed. Possible values include: 'None', 'Average', 'Count', 'Minimum', 'Maximum', 'Total'.
      *
      * @return the primaryAggregationType value
      */
@@ -71,7 +71,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the resourceUri value.
+     * Get the resource uri of the database.
      *
      * @return the resourceUri value
      */
@@ -80,7 +80,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the unit value.
+     * Get the unit of the metric. Possible values include: 'Count', 'Bytes', 'Seconds', 'Percent', 'CountPerSecond', 'BytesPerSecond'.
      *
      * @return the unit value
      */
@@ -89,7 +89,7 @@ public class MetricDefinitionInner {
     }
 
     /**
-     * Get the metricAvailabilities value.
+     * Get the list of database metric availabilities for the metric.
      *
      * @return the metricAvailabilities value
      */

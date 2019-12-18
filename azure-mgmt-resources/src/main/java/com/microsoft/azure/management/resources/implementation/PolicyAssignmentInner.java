@@ -8,17 +8,17 @@
 
 package com.microsoft.azure.management.resources.implementation;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.microsoft.azure.management.resources.PolicySku;
-import com.microsoft.rest.serializer.JsonFlatten;
-
 import java.util.List;
+import com.microsoft.azure.management.resources.PolicySku;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * The policy assignment.
  */
 @JsonFlatten
-public class PolicyAssignmentInner {
+public class PolicyAssignmentInner extends ProxyResource {
     /**
      * The display name of the policy assignment.
      */
@@ -62,31 +62,13 @@ public class PolicyAssignmentInner {
     private Object metadata;
 
     /**
-     * The ID of the policy assignment.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * The type of the policy assignment.
-     */
-    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
-    private String type;
-
-    /**
-     * The name of the policy assignment.
-     */
-    @JsonProperty(value = "name", access = JsonProperty.Access.WRITE_ONLY)
-    private String name;
-
-    /**
      * The policy sku.
      */
     @JsonProperty(value = "sku")
     private PolicySku sku;
 
     /**
-     * Get the displayName value.
+     * Get the display name of the policy assignment.
      *
      * @return the displayName value
      */
@@ -95,7 +77,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Set the displayName value.
+     * Set the display name of the policy assignment.
      *
      * @param displayName the displayName value to set
      * @return the PolicyAssignmentInner object itself.
@@ -106,7 +88,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Get the policyDefinitionId value.
+     * Get the ID of the policy definition.
      *
      * @return the policyDefinitionId value
      */
@@ -115,7 +97,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Set the policyDefinitionId value.
+     * Set the ID of the policy definition.
      *
      * @param policyDefinitionId the policyDefinitionId value to set
      * @return the PolicyAssignmentInner object itself.
@@ -126,7 +108,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Get the scope value.
+     * Get the scope for the policy assignment.
      *
      * @return the scope value
      */
@@ -135,7 +117,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Set the scope value.
+     * Set the scope for the policy assignment.
      *
      * @param scope the scope value to set
      * @return the PolicyAssignmentInner object itself.
@@ -146,7 +128,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Get the notScopes value.
+     * Get the policy's excluded scopes.
      *
      * @return the notScopes value
      */
@@ -155,7 +137,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Set the notScopes value.
+     * Set the policy's excluded scopes.
      *
      * @param notScopes the notScopes value to set
      * @return the PolicyAssignmentInner object itself.
@@ -166,7 +148,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Get the parameters value.
+     * Get required if a parameter is used in policy rule.
      *
      * @return the parameters value
      */
@@ -175,7 +157,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Set the parameters value.
+     * Set required if a parameter is used in policy rule.
      *
      * @param parameters the parameters value to set
      * @return the PolicyAssignmentInner object itself.
@@ -186,7 +168,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Get the description value.
+     * Get this message will be part of response in case of policy violation.
      *
      * @return the description value
      */
@@ -195,7 +177,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Set the description value.
+     * Set this message will be part of response in case of policy violation.
      *
      * @param description the description value to set
      * @return the PolicyAssignmentInner object itself.
@@ -206,7 +188,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Get the metadata value.
+     * Get the policy assignment metadata.
      *
      * @return the metadata value
      */
@@ -215,7 +197,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Set the metadata value.
+     * Set the policy assignment metadata.
      *
      * @param metadata the metadata value to set
      * @return the PolicyAssignmentInner object itself.
@@ -226,34 +208,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Get the type value.
-     *
-     * @return the type value
-     */
-    public String type() {
-        return this.type;
-    }
-
-    /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Get the sku value.
+     * Get the policy sku.
      *
      * @return the sku value
      */
@@ -262,7 +217,7 @@ public class PolicyAssignmentInner {
     }
 
     /**
-     * Set the sku value.
+     * Set the policy sku.
      *
      * @param sku the sku value to set
      * @return the PolicyAssignmentInner object itself.

@@ -11,8 +11,8 @@ package com.microsoft.azure.management.eventhub;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Error reponse indicates EventHub service is not able to process the incoming
- * request. The reason is provided in the error message.
+ * Error response indicates EventHub service is not able to process the
+ * incoming request. The reason is provided in the error message.
  */
 public class ErrorResponse {
     /**
@@ -28,7 +28,7 @@ public class ErrorResponse {
     private String message;
 
     /**
-     * Get the code value.
+     * Get error code.
      *
      * @return the code value
      */
@@ -37,7 +37,7 @@ public class ErrorResponse {
     }
 
     /**
-     * Set the code value.
+     * Set error code.
      *
      * @param code the code value to set
      * @return the ErrorResponse object itself.
@@ -48,7 +48,7 @@ public class ErrorResponse {
     }
 
     /**
-     * Get the message value.
+     * Get error message indicating why the operation failed.
      *
      * @return the message value
      */
@@ -57,7 +57,7 @@ public class ErrorResponse {
     }
 
     /**
-     * Set the message value.
+     * Set error message indicating why the operation failed.
      *
      * @param message the message value to set
      * @return the ErrorResponse object itself.

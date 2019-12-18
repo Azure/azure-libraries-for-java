@@ -22,7 +22,7 @@ import com.microsoft.azure.Resource;
  * set are allocated to different nodes to maximize availability. For more
  * information about availability sets, see [Manage the availability of virtual
  * machines](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-manage-availability?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json).
- * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintainance, see
+ * &lt;br&gt;&lt;br&gt; For more information on Azure planned maintenance, see
  * [Planned maintenance for virtual machines in
  * Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-planned-maintenance?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
  * &lt;br&gt;&lt;br&gt; Currently, a VM can only be added to availability set
@@ -49,13 +49,24 @@ public class AvailabilitySetInner extends Resource {
     private List<SubResource> virtualMachines;
 
     /**
+     * Specifies information about the proximity placement group that the
+     * availability set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum
+     * api-version: 2018-04-01.
+     */
+    @JsonProperty(value = "properties.proximityPlacementGroup")
+    private SubResource proximityPlacementGroup;
+
+    /**
      * The resource status information.
      */
     @JsonProperty(value = "properties.statuses", access = JsonProperty.Access.WRITE_ONLY)
     private List<InstanceViewStatus> statuses;
 
     /**
-     * Sku of the availability set.
+     * Sku of the availability set, only name is required to be set. See
+     * AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for
+     * virtual machines with managed disks and 'Classic' for virtual machines
+     * with unmanaged disks. Default value is 'Classic'.
      */
     @JsonProperty(value = "sku")
     private Sku sku;
@@ -121,6 +132,26 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
+     * Get specifies information about the proximity placement group that the availability set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @return the proximityPlacementGroup value
+     */
+    public SubResource proximityPlacementGroup() {
+        return this.proximityPlacementGroup;
+    }
+
+    /**
+     * Set specifies information about the proximity placement group that the availability set should be assigned to. &lt;br&gt;&lt;br&gt;Minimum api-version: 2018-04-01.
+     *
+     * @param proximityPlacementGroup the proximityPlacementGroup value to set
+     * @return the AvailabilitySetInner object itself.
+     */
+    public AvailabilitySetInner withProximityPlacementGroup(SubResource proximityPlacementGroup) {
+        this.proximityPlacementGroup = proximityPlacementGroup;
+        return this;
+    }
+
+    /**
      * Get the resource status information.
      *
      * @return the statuses value
@@ -130,7 +161,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Get sku of the availability set.
+     * Get sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'.
      *
      * @return the sku value
      */
@@ -139,7 +170,7 @@ public class AvailabilitySetInner extends Resource {
     }
 
     /**
-     * Set sku of the availability set.
+     * Set sku of the availability set, only name is required to be set. See AvailabilitySetSkuTypes for possible set of values. Use 'Aligned' for virtual machines with managed disks and 'Classic' for virtual machines with unmanaged disks. Default value is 'Classic'.
      *
      * @param sku the sku value to set
      * @return the AvailabilitySetInner object itself.

@@ -10,7 +10,6 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
 import com.microsoft.azure.management.resources.fluentcore.model.Executable;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.sql.implementation.ImportExtensionRequestInner;
 import com.microsoft.azure.management.storage.StorageAccount;
 
 /**
@@ -19,7 +18,7 @@ import com.microsoft.azure.management.storage.StorageAccount;
 @Fluent
 @Beta(Beta.SinceVersion.V1_7_0)
 public interface SqlDatabaseImportRequest extends
-    HasInner<ImportExtensionRequestInner>,
+    HasInner<ImportExtensionRequest>,
     Executable<SqlDatabaseImportExportResponse>,
     HasParent<SqlDatabase> {
 

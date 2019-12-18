@@ -12,6 +12,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * Specifies the metric alert criteria for a single resource that has multiple
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("Microsoft.Azure.Monitor.SingleResourceMultipleMetricCriteria")
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class MetricAlertSingleResourceMultipleMetricCriteria extends MetricAlertCriteria {
     /**
      * The list of metric criteria for this 'all of' operation.

@@ -11,29 +11,29 @@ package com.microsoft.azure.management.network;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The ErrorDetails model.
+ * Common error details representation.
  */
 public class ErrorDetails {
     /**
-     * The code property.
+     * Error code.
      */
     @JsonProperty(value = "code")
     private String code;
 
     /**
-     * The target property.
+     * Error target.
      */
     @JsonProperty(value = "target")
     private String target;
 
     /**
-     * The message property.
+     * Error message.
      */
     @JsonProperty(value = "message")
     private String message;
 
     /**
-     * Get the code value.
+     * Get error code.
      *
      * @return the code value
      */
@@ -42,7 +42,7 @@ public class ErrorDetails {
     }
 
     /**
-     * Set the code value.
+     * Set error code.
      *
      * @param code the code value to set
      * @return the ErrorDetails object itself.
@@ -53,7 +53,7 @@ public class ErrorDetails {
     }
 
     /**
-     * Get the target value.
+     * Get error target.
      *
      * @return the target value
      */
@@ -62,7 +62,7 @@ public class ErrorDetails {
     }
 
     /**
-     * Set the target value.
+     * Set error target.
      *
      * @param target the target value to set
      * @return the ErrorDetails object itself.
@@ -73,7 +73,7 @@ public class ErrorDetails {
     }
 
     /**
-     * Get the message value.
+     * Get error message.
      *
      * @return the message value
      */
@@ -82,7 +82,7 @@ public class ErrorDetails {
     }
 
     /**
-     * Set the message value.
+     * Set error message.
      *
      * @param message the message value to set
      * @return the ErrorDetails object itself.

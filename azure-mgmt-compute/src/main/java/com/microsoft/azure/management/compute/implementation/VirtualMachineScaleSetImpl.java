@@ -9,7 +9,9 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.microsoft.azure.management.compute.AdditionalCapabilities;
 import com.microsoft.azure.management.compute.ApiEntityReference;
+import com.microsoft.azure.management.compute.BillingProfile;
 import com.microsoft.azure.management.compute.BootDiagnostics;
 import com.microsoft.azure.management.compute.CachingTypes;
 import com.microsoft.azure.management.compute.DiagnosticsProfile;
@@ -19,6 +21,8 @@ import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.KnownWindowsVirtualMachineImage;
 import com.microsoft.azure.management.compute.LinuxConfiguration;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
+import com.microsoft.azure.management.compute.ProximityPlacementGroup;
+import com.microsoft.azure.management.compute.ProximityPlacementGroupType;
 import com.microsoft.azure.management.compute.ResourceIdentityType;
 import com.microsoft.azure.management.compute.RunCommandInput;
 import com.microsoft.azure.management.compute.RunCommandInputParameter;
@@ -28,6 +32,7 @@ import com.microsoft.azure.management.compute.SshPublicKey;
 import com.microsoft.azure.management.compute.StorageAccountTypes;
 import com.microsoft.azure.management.compute.UpgradeMode;
 import com.microsoft.azure.management.compute.UpgradePolicy;
+import com.microsoft.azure.management.compute.VaultSecretGroup;
 import com.microsoft.azure.management.compute.VirtualHardDisk;
 import com.microsoft.azure.management.compute.VirtualMachineEvictionPolicyTypes;
 import com.microsoft.azure.management.compute.VirtualMachinePriorityTypes;
@@ -56,15 +61,16 @@ import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
 import com.microsoft.azure.management.msi.Identity;
 import com.microsoft.azure.management.network.ApplicationSecurityGroup;
+import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.LoadBalancerBackend;
 import com.microsoft.azure.management.network.LoadBalancerInboundNatPool;
 import com.microsoft.azure.management.network.LoadBalancerPrivateFrontend;
-import com.microsoft.azure.management.network.LoadBalancer;
 import com.microsoft.azure.management.network.Network;
 import com.microsoft.azure.management.network.NetworkSecurityGroup;
 import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.microsoft.azure.management.network.implementation.NetworkManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
@@ -153,6 +159,11 @@ public class VirtualMachineScaleSetImpl
     VirtualMachineScaleSetMsiHandler virtualMachineScaleSetMsiHandler;
     // To manage boot diagnostics specific operations
     private final BootDiagnosticsHandler bootDiagnosticsHandler;
+    // Name of the new proximity placement group
+    private String newProximityPlacementGroupName;
+    // Type fo the new proximity placement group
+    private ProximityPlacementGroupType newProximityPlacementGroupType;
+
 
     VirtualMachineScaleSetImpl(
             String name,
@@ -174,6 +185,8 @@ public class VirtualMachineScaleSetImpl
         this.managedDataDisks = new ManagedDataDiskCollection(this);
         this.virtualMachineScaleSetMsiHandler = new VirtualMachineScaleSetMsiHandler(rbacManager, this);
         this.bootDiagnosticsHandler = new BootDiagnosticsHandler(this);
+        this.newProximityPlacementGroupName = null;
+        this.newProximityPlacementGroupType = null;
     }
 
     @Override
@@ -451,6 +464,15 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public BillingProfile billingProfile() {
+        if (this.inner().virtualMachineProfile() != null) {
+            return this.inner().virtualMachineProfile().billingProfile();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     public VirtualMachineScaleSetPublicIPAddressConfiguration virtualMachinePublicIpConfig() {
         VirtualMachineScaleSetIPConfiguration nicConfig = this.primaryNicDefaultIPConfiguration();
         if (nicConfig != null) {
@@ -532,6 +554,27 @@ public class VirtualMachineScaleSetImpl
             }
         }
         return asgIds;
+    }
+
+    @Override
+    public Boolean doNotRunExtensionsOnOverprovisionedVMs() {
+        return this.inner().doNotRunExtensionsOnOverprovisionedVMs();
+    }
+
+    @Override
+    public ProximityPlacementGroup proximityPlacementGroup() {
+        ResourceId id = ResourceId.fromString(inner().proximityPlacementGroup().id());
+        ProximityPlacementGroupInner plgInner = manager().inner().proximityPlacementGroups().getByResourceGroup(id.resourceGroupName(), id.name());
+        if (plgInner == null) {
+            return null;
+        } else {
+            return new ProximityPlacementGroupImpl(plgInner);
+        }
+    }
+
+    @Override
+    public AdditionalCapabilities additionalCapabilities() {
+        return this.inner().additionalCapabilities();
     }
 
     @Override
@@ -1097,6 +1140,24 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public VirtualMachineScaleSetImpl withSecrets(List<VaultSecretGroup> secrets) {
+        this.inner()
+                .virtualMachineProfile()
+                .osProfile()
+                .withSecrets(secrets);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withoutSecrets() {
+        this.inner()
+                .virtualMachineProfile()
+                .osProfile()
+                .withSecrets(new ArrayList<VaultSecretGroup>());
+        return this;
+    }
+
+    @Override
     public VirtualMachineScaleSetExtensionImpl defineNewExtension(String name) {
         return new VirtualMachineScaleSetExtensionImpl(new VirtualMachineScaleSetExtensionInner().withName(name), this);
     }
@@ -1475,6 +1536,7 @@ public class VirtualMachineScaleSetImpl
         this.bootDiagnosticsHandler.handleDiagnosticsSettings();
         this.virtualMachineScaleSetMsiHandler.processCreatedExternalIdentities();
         this.virtualMachineScaleSetMsiHandler.handleExternalIdentities();
+        this.createNewProximityPlacementGroup();
         return this.manager().inner().virtualMachineScaleSets()
                 .createOrUpdateAsync(resourceGroupName(), name(), inner());
     }
@@ -2311,6 +2373,12 @@ public class VirtualMachineScaleSetImpl
     }
 
     @Override
+    public VirtualMachineScaleSetImpl withMaxPrice(Double maxPrice) {
+        this.inner().virtualMachineProfile().withBillingProfile(new BillingProfile().withMaxPrice(maxPrice));
+        return this;
+    }
+
+    @Override
     public VirtualMachineScaleSetImpl withVirtualMachinePriority(VirtualMachinePriorityTypes priority) {
         this.inner().virtualMachineProfile().withPriority(priority);
         return this;
@@ -2517,6 +2585,49 @@ public class VirtualMachineScaleSetImpl
                 nicIpConfig.applicationSecurityGroups().remove(foundIndex);
             }
             return this;
+        }
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withProximityPlacementGroup(String proximityPlacementGroupId) {
+        this.inner().withProximityPlacementGroup(new SubResource().withId(proximityPlacementGroupId));
+        this.newProximityPlacementGroupName = null;
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withNewProximityPlacementGroup(String proximityPlacementGroupName, ProximityPlacementGroupType type) {
+        this.newProximityPlacementGroupName = proximityPlacementGroupName;
+        this.newProximityPlacementGroupType = type;
+
+        this.inner().withProximityPlacementGroup(null);
+
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withDoNotRunExtensionsOnOverprovisionedVMs(Boolean doNotRunExtensionsOnOverprovisionedVMs) {
+        this.inner().withDoNotRunExtensionsOnOverprovisionedVMs(doNotRunExtensionsOnOverprovisionedVMs);
+        return this;
+    }
+
+    @Override
+    public VirtualMachineScaleSetImpl withAdditionalCapabilities(AdditionalCapabilities additionalCapabilities) {
+        this.inner().withAdditionalCapabilities(additionalCapabilities);
+        return this;
+    }
+
+    private void createNewProximityPlacementGroup() {
+        if (isInCreateMode()) {
+            if (this.newProximityPlacementGroupName != null && !this.newProximityPlacementGroupName.isEmpty()) {
+                ProximityPlacementGroupInner plgInner = new ProximityPlacementGroupInner();
+                plgInner.withProximityPlacementGroupType(this.newProximityPlacementGroupType);
+                plgInner.withLocation(this.inner().location());
+                plgInner = this.manager().inner().proximityPlacementGroups().createOrUpdate(this.resourceGroupName(),
+                        this.newProximityPlacementGroupName, plgInner);
+
+                this.inner().withProximityPlacementGroup((new SubResource().withId(plgInner.id())));
+            }
         }
     }
 

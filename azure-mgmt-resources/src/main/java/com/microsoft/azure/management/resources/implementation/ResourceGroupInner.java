@@ -9,38 +9,18 @@
 package com.microsoft.azure.management.resources.implementation;
 
 import com.microsoft.azure.management.resources.ResourceGroupProperties;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.azure.Resource;
 
 /**
  * Resource group information.
  */
-public class ResourceGroupInner {
+public class ResourceGroupInner extends Resource {
     /**
-     * The ID of the resource group.
-     */
-    @JsonProperty(value = "id", access = JsonProperty.Access.WRITE_ONLY)
-    private String id;
-
-    /**
-     * The name of the resource group.
-     */
-    @JsonProperty(value = "name")
-    private String name;
-
-    /**
-     * The properties property.
+     * The resource group properties.
      */
     @JsonProperty(value = "properties")
     private ResourceGroupProperties properties;
-
-    /**
-     * The location of the resource group. It cannot be changed after the
-     * resource group has been created. It must be one of the supported Azure
-     * locations.
-     */
-    @JsonProperty(value = "location", required = true)
-    private String location;
 
     /**
      * The ID of the resource that manages this resource group.
@@ -49,42 +29,7 @@ public class ResourceGroupInner {
     private String managedBy;
 
     /**
-     * The tags attached to the resource group.
-     */
-    @JsonProperty(value = "tags")
-    private Map<String, String> tags;
-
-    /**
-     * Get the id value.
-     *
-     * @return the id value
-     */
-    public String id() {
-        return this.id;
-    }
-
-    /**
-     * Get the name value.
-     *
-     * @return the name value
-     */
-    public String name() {
-        return this.name;
-    }
-
-    /**
-     * Set the name value.
-     *
-     * @param name the name value to set
-     * @return the ResourceGroupInner object itself.
-     */
-    public ResourceGroupInner withName(String name) {
-        this.name = name;
-        return this;
-    }
-
-    /**
-     * Get the properties value.
+     * Get the resource group properties.
      *
      * @return the properties value
      */
@@ -93,7 +38,7 @@ public class ResourceGroupInner {
     }
 
     /**
-     * Set the properties value.
+     * Set the resource group properties.
      *
      * @param properties the properties value to set
      * @return the ResourceGroupInner object itself.
@@ -104,27 +49,7 @@ public class ResourceGroupInner {
     }
 
     /**
-     * Get the location value.
-     *
-     * @return the location value
-     */
-    public String location() {
-        return this.location;
-    }
-
-    /**
-     * Set the location value.
-     *
-     * @param location the location value to set
-     * @return the ResourceGroupInner object itself.
-     */
-    public ResourceGroupInner withLocation(String location) {
-        this.location = location;
-        return this;
-    }
-
-    /**
-     * Get the managedBy value.
+     * Get the ID of the resource that manages this resource group.
      *
      * @return the managedBy value
      */
@@ -133,33 +58,13 @@ public class ResourceGroupInner {
     }
 
     /**
-     * Set the managedBy value.
+     * Set the ID of the resource that manages this resource group.
      *
      * @param managedBy the managedBy value to set
      * @return the ResourceGroupInner object itself.
      */
     public ResourceGroupInner withManagedBy(String managedBy) {
         this.managedBy = managedBy;
-        return this;
-    }
-
-    /**
-     * Get the tags value.
-     *
-     * @return the tags value
-     */
-    public Map<String, String> tags() {
-        return this.tags;
-    }
-
-    /**
-     * Set the tags value.
-     *
-     * @param tags the tags value to set
-     * @return the ResourceGroupInner object itself.
-     */
-    public ResourceGroupInner withTags(Map<String, String> tags) {
-        this.tags = tags;
         return this;
     }
 

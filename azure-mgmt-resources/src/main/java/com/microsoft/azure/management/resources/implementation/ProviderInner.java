@@ -29,10 +29,16 @@ public class ProviderInner {
     private String namespace;
 
     /**
-     * The registration state of the provider.
+     * The registration state of the resource provider.
      */
     @JsonProperty(value = "registrationState", access = JsonProperty.Access.WRITE_ONLY)
     private String registrationState;
+
+    /**
+     * The registration policy of the resource provider.
+     */
+    @JsonProperty(value = "registrationPolicy", access = JsonProperty.Access.WRITE_ONLY)
+    private String registrationPolicy;
 
     /**
      * The collection of provider resource types.
@@ -41,7 +47,7 @@ public class ProviderInner {
     private List<ProviderResourceType> resourceTypes;
 
     /**
-     * Get the id value.
+     * Get the provider ID.
      *
      * @return the id value
      */
@@ -50,7 +56,7 @@ public class ProviderInner {
     }
 
     /**
-     * Get the namespace value.
+     * Get the namespace of the resource provider.
      *
      * @return the namespace value
      */
@@ -59,7 +65,7 @@ public class ProviderInner {
     }
 
     /**
-     * Set the namespace value.
+     * Set the namespace of the resource provider.
      *
      * @param namespace the namespace value to set
      * @return the ProviderInner object itself.
@@ -70,7 +76,7 @@ public class ProviderInner {
     }
 
     /**
-     * Get the registrationState value.
+     * Get the registration state of the resource provider.
      *
      * @return the registrationState value
      */
@@ -79,7 +85,16 @@ public class ProviderInner {
     }
 
     /**
-     * Get the resourceTypes value.
+     * Get the registration policy of the resource provider.
+     *
+     * @return the registrationPolicy value
+     */
+    public String registrationPolicy() {
+        return this.registrationPolicy;
+    }
+
+    /**
+     * Get the collection of provider resource types.
      *
      * @return the resourceTypes value
      */

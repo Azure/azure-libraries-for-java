@@ -7,6 +7,7 @@
 package com.microsoft.azure.management.resources.samples;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
 import com.microsoft.azure.management.Azure;
@@ -56,11 +57,12 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
 
             // Template only needs an SSH Key parameter
 
-            ObjectMapper mapper = new ObjectMapper();
-            final String parameters = mapper.createObjectNode()
-                    .set("sshKeyData", mapper.createObjectNode()
-                            .put("value", sshKey)).toString();
-
+            final ObjectMapper mapper = new ObjectMapper();
+            final ObjectNode rootNode = mapper.createObjectNode();
+            rootNode.set("adminPublicKey", mapper.createObjectNode().put("value", sshKey));
+            rootNode.set("projectName", mapper.createObjectNode().put("value", "fluenttest"));
+            rootNode.set("adminUsername", mapper.createObjectNode().put("value", "fluenttesting"));
+            final String parameters = rootNode.toString();
             System.out.println("Starting VM deployments...");
 
             // Store all deployments in a list
@@ -74,7 +76,8 @@ public final class DeployUsingARMTemplateWithDeploymentOperations {
                             try {
                                 String params;
                                 if (integer == numDeployments) {
-                                    params = "{\"sshKeyData\":{\"value\":\"bad content\"}}"; // Invalid parameters as a negative path
+                                    rootNode.set("adminPublicKey", mapper.createObjectNode().put("value", "bad content"));
+                                    params = rootNode.toString(); // Invalid parameters as a negative path
                                 } else {
                                     params = parameters;
                                 }

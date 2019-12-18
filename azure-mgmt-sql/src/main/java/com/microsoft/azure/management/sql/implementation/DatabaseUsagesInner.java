@@ -134,7 +134,11 @@ public class DatabaseUsagesInner {
                 public Observable<ServiceResponse<List<DatabaseUsageInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<DatabaseUsageInner>> result = listByDatabaseDelegate(response);
-                        ServiceResponse<List<DatabaseUsageInner>> clientResponse = new ServiceResponse<List<DatabaseUsageInner>>(result.body().items(), result.response());
+                        List<DatabaseUsageInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<DatabaseUsageInner>> clientResponse = new ServiceResponse<List<DatabaseUsageInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

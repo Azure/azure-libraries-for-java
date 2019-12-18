@@ -7,14 +7,17 @@
 package com.microsoft.azure.management.monitor;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.management.compute.KnownLinuxVirtualMachineImage;
 import com.microsoft.azure.management.compute.VirtualMachine;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
+import org.joda.time.DateTime;
 import org.joda.time.Period;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Iterator;
 
 public class AlertsTests extends MonitorManagementTest {
@@ -285,6 +288,92 @@ public class AlertsTests extends MonitorManagementTest {
             monitorManager.alertRules().metricAlerts().deleteById(ma.id());
         }
         finally {
+            resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
+        }
+    }
+
+    @Test
+    public void canCRUDMultipleResourceMetricAlerts() throws Exception {
+        try {
+            final String userName = "tirekicker";
+            final String password = "12NewPA$$w0rd!";
+
+            String alertName = generateRandomResourceName("jMonitorMA", 18);
+            String vmName1 = generateRandomResourceName("jMonitorVM1", 18);
+            String vmName2 = generateRandomResourceName("jMonitorVM2", 18);
+
+            VirtualMachine vm1 = computeManager.virtualMachines().define(vmName1)
+                    .withRegion(Region.US_EAST2)
+                    .withNewResourceGroup(RG_NAME)
+                    .withNewPrimaryNetwork("10.0.0.0/28")
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
+                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                    .withRootUsername(userName)
+                    .withRootPassword(password)
+                    .create();
+
+            VirtualMachine vm2 = computeManager.virtualMachines().define(vmName2)
+                    .withRegion(Region.US_EAST2)
+                    .withExistingResourceGroup(RG_NAME)
+                    .withNewPrimaryNetwork("10.0.0.0/28")
+                    .withPrimaryPrivateIPAddressDynamic()
+                    .withoutPrimaryPublicIPAddress()
+                    .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                    .withRootUsername(userName)
+                    .withRootPassword(password)
+                    .create();
+
+            MetricAlert ma = monitorManager.alertRules().metricAlerts().define(alertName)
+                    .withExistingResourceGroup(RG_NAME)
+                    .withMultipleTargetResources(Arrays.asList(vm1, vm2))
+                    .withPeriod(Period.minutes(15))
+                    .withFrequency(Period.minutes(5))
+                    .withAlertDetails(3, "This alert rule is for U3 - Multiple resource, static criteria")
+                    .withActionGroups()
+                    .defineAlertCriteria("Metric1")
+                        .withMetricName("Percentage CPU", vm1.type())
+                        .withCondition(MetricAlertRuleTimeAggregation.AVERAGE, MetricAlertRuleCondition.GREATER_THAN, 80)
+                        .attach()
+                    .create();
+
+            ma.refresh();
+            Assert.assertEquals(2, ma.scopes().size());
+            Assert.assertEquals(vm1.type(), ma.inner().targetResourceType());
+            Assert.assertEquals(vm1.regionName(), ma.inner().targetResourceRegion());
+            Assert.assertEquals(1, ma.alertCriterias().size());
+            Assert.assertEquals(0, ma.dynamicAlertCriterias().size());
+            Assert.assertEquals("Percentage CPU", ma.alertCriterias().get("Metric1").metricName());
+
+            DateTime time30MinBefore = DateTime.now().minusMinutes(30);
+            ma.update()
+                    .withDescription("This alert rule is for U3 - Multiple resource, dynamic criteria")
+                    .withoutAlertCriteria("Metric1")
+                    .defineDynamicAlertCriteria("Metric2")
+                        .withMetricName("Percentage CPU", vm1.type())
+                        .withCondition(MetricAlertRuleTimeAggregation.AVERAGE, DynamicThresholdOperator.GREATER_THAN, DynamicThresholdSensitivity.HIGH)
+                        .withFailingPeriods(new DynamicThresholdFailingPeriods().withNumberOfEvaluationPeriods(4).withMinFailingPeriodsToAlert(2))
+                        .withIgnoreDataBefore(time30MinBefore)
+                        .attach()
+                    .apply();
+
+            ma.refresh();
+            Assert.assertEquals(2, ma.scopes().size());
+            Assert.assertEquals(vm1.type(), ma.inner().targetResourceType());
+            Assert.assertEquals(vm1.regionName(), ma.inner().targetResourceRegion());
+            Assert.assertEquals(0, ma.alertCriterias().size());
+            Assert.assertEquals(1, ma.dynamicAlertCriterias().size());
+            MetricDynamicAlertCondition condition = ma.dynamicAlertCriterias().get("Metric2");
+            Assert.assertEquals("Percentage CPU", condition.metricName());
+            Assert.assertEquals(MetricAlertRuleTimeAggregation.AVERAGE, condition.timeAggregation());
+            Assert.assertEquals(DynamicThresholdOperator.GREATER_THAN, condition.condition());
+            Assert.assertEquals(DynamicThresholdSensitivity.HIGH, condition.alertSensitivity());
+            Assert.assertEquals(4, (int) condition.failingPeriods().numberOfEvaluationPeriods());
+            Assert.assertEquals(2, (int) condition.failingPeriods().minFailingPeriodsToAlert());
+            Assert.assertEquals(time30MinBefore, condition.ignoreDataBefore());
+
+            monitorManager.alertRules().metricAlerts().deleteById(ma.id());
+        } finally {
             resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
         }
     }

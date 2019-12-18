@@ -50,7 +50,7 @@ public final class ManageNetworkInterface {
         final String rgName = SdkContext.randomResourceName("rgNEMI", 24);
         final String userName = "tirekicker";
         // [SuppressMessage("Microsoft.Security", "CS002:SecretInNextLine", Justification="Serves as an example, not for deployment. Please change when using this in your code.")]
-        final String password = "12NewPA$$w0rd!";
+        final String password = SdkContext.randomResourceName("Pa5$", 24);
         try {
 
             //============================================================

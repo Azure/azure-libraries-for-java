@@ -42,6 +42,15 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
     }
 
     @Override
+    public Observable<DiskVolumeEncryptionMonitor> enableAsync(String keyVaultId) {
+        if (this.virtualMachine.osType() == OperatingSystemTypes.LINUX) {
+            return enableAsync(new LinuxVMDiskEncryptionConfiguration(keyVaultId));
+        } else {
+            return enableAsync(new WindowsVMDiskEncryptionConfiguration(keyVaultId));
+        }
+    }
+
+    @Override
     public Observable<DiskVolumeEncryptionMonitor> enableAsync(WindowsVMDiskEncryptionConfiguration encryptionSettings) {
         return virtualMachineEncryptionHelper.enableEncryptionAsync(encryptionSettings);
     }
@@ -58,11 +67,7 @@ class VirtualMachineEncryptionImpl implements VirtualMachineEncryption {
 
     @Override
     public Observable<DiskVolumeEncryptionMonitor> getMonitorAsync() {
-        if (this.virtualMachine.osType() == OperatingSystemTypes.LINUX) {
-            return new LinuxDiskVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
-        } else {
-            return new WindowsVolumeEncryptionMonitorImpl(virtualMachine.id(), virtualMachine.manager()).refreshAsync();
-        }
+        return new ProxyEncryptionMonitorImpl(this.virtualMachine).refreshAsync();
     }
 
     @Override

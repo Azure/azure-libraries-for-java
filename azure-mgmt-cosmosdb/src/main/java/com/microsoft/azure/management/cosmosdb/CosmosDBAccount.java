@@ -10,7 +10,7 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
 import com.microsoft.azure.management.apigeneration.Method;
 import com.microsoft.azure.management.cosmosdb.implementation.CosmosDBManager;
-import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountInner;
+import com.microsoft.azure.management.cosmosdb.implementation.DatabaseAccountGetResultsInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
@@ -22,6 +22,7 @@ import rx.Completable;
 import rx.Observable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * An immutable client-side representation of an Azure Cosmos DB.
@@ -29,7 +30,7 @@ import java.util.List;
 @Fluent
 @Beta(SinceVersion.V1_2_0)
 public interface CosmosDBAccount extends
-    GroupableResource<CosmosDBManager, DatabaseAccountInner>,
+    GroupableResource<CosmosDBManager, DatabaseAccountGetResultsInner>,
     Refreshable<CosmosDBAccount>,
     Updatable<CosmosDBAccount.Update> {
 
@@ -102,6 +103,80 @@ public interface CosmosDBAccount extends
      * @return the connection strings for the specified Azure CosmosDB database account
      */
     Observable<DatabaseAccountListConnectionStringsResult> listConnectionStringsAsync();
+
+    /**
+     * @return the list of Azure Cosmos DB SQL databases
+     */
+    List<SqlDatabase> listSqlDatabases();
+
+    /**
+     * @return the list of Azure Cosmos DB SQL databases
+     */
+    Observable<List<SqlDatabase>> listSqlDatabasesAsync();
+
+    /**
+     * @return whether write is enabled for multiple locations or not
+     */
+    boolean multipleWriteLocationsEnabled();
+
+    /**
+     * @return whether cassandra connector is enabled or not.
+     */
+    boolean cassandraConnectorEnabled();
+
+    /**
+     * @return the current cassandra connector offer.
+     */
+    ConnectorOffer cassandraConnectorOffer();
+
+    /**
+     * @return whether metadata write access is disabled or not.
+     */
+    boolean keyBasedMetadataWriteAccessDisabled();
+
+    /**
+     * @return all private link resources in the account.
+     */
+    Observable<List<PrivateLinkResource>> listPrivateLinkResourcesAsync();
+
+    /**
+     * @return all private link resources in the account.
+     */
+    List<PrivateLinkResource> listPrivateLinkResources();
+
+    /**
+     * @param groupName group name of private link resource
+     * @return the specific private link resource group
+     */
+    Observable<PrivateLinkResource> getPrivateLinkResourceAsync(String groupName);
+
+    /**
+     * @param groupName group name of private link resource
+     * @return the specific private link resource group
+     */
+    PrivateLinkResource getPrivateLinkResource(String groupName);
+
+    /**
+     * @return all private endpoint connection in the account.
+     */
+    Observable<Map<String, PrivateEndpointConnection>> listPrivateEndpointConnectionAsync();
+
+    /**
+     * @return all private endpoint connection in the account.
+     */
+    Map<String, PrivateEndpointConnection> listPrivateEndpointConnection();
+
+    /**
+     * @param name name of private endpoint connection
+     * @return the specific private endpoint connection
+     */
+    Observable<PrivateEndpointConnection> getPrivateEndpointConnectionAsync(String name);
+
+    /**
+     * @param name name of private endpoint connection
+     * @return the specific private endpoint connection
+     */
+    PrivateEndpointConnection getPrivateEndpointConnection(String name);
 
     /**
      * @return a list that contains the Cosmos DB capabilities
@@ -356,6 +431,57 @@ public interface CosmosDBAccount extends
         }
 
         /**
+         * The stage of the cosmos db definition allowing to specify whether multiple write locations will be enabled.
+         */
+        interface WithMultipleLocations {
+
+            /**
+             * Specifies whether multiple write locations are enabled for this cosmos db account.
+             *
+             * @param enabled whether multiple write locations are enabled or not.
+             * @return the next stage
+             */
+            WithCreate withMultipleWriteLocationsEnabled(boolean enabled);
+        }
+
+        /**
+         * The stage of the cosmos db definition allowing to specify cassandra connector offer.
+         */
+        interface WithConnector {
+            /**
+             * Specifies a connector offer for cassandra connector.
+             * @param connectorOffer connector offer to specify.
+             * @return the next stage
+             */
+            WithCreate withCassandraConnector(ConnectorOffer connectorOffer);
+        }
+
+        /**
+         * The stage of the cosmos db definition allowing to specify metadata write access.
+         */
+        interface WithKeyBasedMetadataWriteAccess {
+            /**
+             * Specifies whether metadata write access should be disabled.
+             * @param disabled whether metadata write access is disabled or not.
+             * @return the next stage
+             */
+            WithCreate withDisableKeyBaseMetadataWriteAccess(boolean disabled);
+        }
+
+        /**
+         * The stage of the cosmos db definition allowing to specify private endpoint connection.
+         */
+        interface WithPrivateEndpointConnection {
+            /**
+             * Starts the definition of a private endpoint connection to be attached
+             * to the cosmos db account.
+             *
+             * @param name the reference name for the private endpoint connection
+             * @return the first stage of a private endpoint connection definition
+             */
+            PrivateEndpointConnection.DefinitionStages.Blank<WithCreate> defineNewPrivateEndpointConnection(String name);
+        }
+        /**
          * The stage of the definition which contains all the minimum required inputs for
          * the resource to be created, but also allows
          * for any other optional settings to be specified.
@@ -366,6 +492,10 @@ public interface CosmosDBAccount extends
                 WithReadReplication,
                 WithIpRangeFilter,
                 WithVirtualNetworkRule,
+                WithMultipleLocations,
+                WithConnector,
+                WithKeyBasedMetadataWriteAccess,
+                WithPrivateEndpointConnection,
                 DefinitionWithTags<WithCreate> {
         }
     }
@@ -390,6 +520,10 @@ public interface CosmosDBAccount extends
             Appliable<CosmosDBAccount>,
             UpdateStages.WithConsistencyPolicy,
             UpdateStages.WithVirtualNetworkRule,
+            UpdateStages.WithMultipleLocations,
+            UpdateStages.WithConnector,
+            UpdateStages.WithKeyBasedMetadataWriteAccess,
+            UpdateStages.WithPrivateEndpointConnection,
             UpdateStages.WithIpRangeFilter {
         }
 
@@ -490,11 +624,86 @@ public interface CosmosDBAccount extends
              *
              * @param virtualNetworkRules the list of Virtual Network ACL Rules (an empty list value
              *                            will remove all the rules)
-             * @return the next stage of the update definition
+             * @return the next stage of the update definition-
              */
             @Beta(SinceVersion.V1_11_0)
             WithOptionals withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules);
         }
 
+        /**
+         * The stage of the Cosmos DB update definition allowing to specify whether multiple write locations are enabled or not.
+         */
+        interface WithMultipleLocations {
+
+            /**
+             * Specifies whether multiple write locations are enabled or not for this cosmos db account.
+             *
+             * @param enabled whether multiple write locatiosn are enabled or not.
+             * @return the next stage of the update definition
+             */
+            WithOptionals withMultipleWriteLocationsEnabled(boolean enabled);
+        }
+
+        /**
+         * The stage of the cosmos db update allowing to specify cassandra connector offer.
+         */
+        interface WithConnector {
+            /**
+             * Specifies a connector offer for cassandra connector.
+             *
+             * @param connectorOffer connector offer to specify.
+             * @return the next stage
+             */
+            WithOptionals withCassandraConnector(ConnectorOffer connectorOffer);
+
+            /**
+             * Remove the connector offer.
+             *
+             * @return the next stage
+             */
+            WithOptionals withoutCassandraConnector();
+        }
+
+        /**
+         * The stage of the cosmos db update allowing to specify metadata write access.
+         */
+        interface WithKeyBasedMetadataWriteAccess {
+            /**
+             * Specifies whether metadata write access should be disabled.
+             * @param disabled whether metadata write access is disabled or not.
+             * @return the next stage
+             */
+            WithOptionals withDisableKeyBaseMetadataWriteAccess(boolean disabled);
+        }
+
+        /**
+         * The stage of the cosmos db update allowing to specify private endpoint connection.
+         */
+        interface WithPrivateEndpointConnection {
+            /**
+             * Start the definition of a private endpoint connection to be attached
+             * to the cosmos db account.
+             *
+             * @param name the reference name for the private endpoint connection
+             * @return the first stage of a private endpoint connection definition
+             */
+            PrivateEndpointConnection.UpdateDefinitionStages.Blank<WithOptionals> defineNewPrivateEndpointConnection(String name);
+
+            /**
+             * Start the update of an existing private endpoint connection.
+             *
+             * @param name the reference name for the private endpoint connection
+             * @return the first stage of a private endpoint connection update
+             */
+            PrivateEndpointConnection.Update updatePrivateEndpointConnection(String name);
+
+            /**
+             * Remove an existing private endpoint connection.
+             *
+             * @param name the reference name for the private endpoint connection
+             * @return the next stage
+             */
+            WithOptionals withoutPrivateEndpointConnection(String name);
+        }
     }
 }

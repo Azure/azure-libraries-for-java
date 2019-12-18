@@ -274,7 +274,7 @@ public final class ManageWebAppWithTrafficManager {
         return azure.appServices().appServicePlans().define(name)
                 .withRegion(region)
                 .withExistingResourceGroup(RG_NAME)
-                .withPricingTier(PricingTier.BASIC_B1)
+                .withPricingTier(PricingTier.STANDARD_S1)
                 .withOperatingSystem(OperatingSystem.WINDOWS)
                 .create();
     }

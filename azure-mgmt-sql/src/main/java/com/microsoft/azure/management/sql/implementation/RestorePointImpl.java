@@ -10,7 +10,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.sql.RestorePoint;
-import com.microsoft.azure.management.sql.RestorePointTypes;
+import com.microsoft.azure.management.sql.RestorePointType;
 import org.joda.time.DateTime;
 
 /**
@@ -62,7 +62,7 @@ class RestorePointImpl
     }
 
     @Override
-    public RestorePointTypes restorePointType() {
+    public RestorePointType restorePointType() {
         return this.inner().restorePointType();
     }
 

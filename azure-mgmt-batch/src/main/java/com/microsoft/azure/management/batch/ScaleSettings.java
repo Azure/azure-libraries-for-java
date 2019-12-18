@@ -35,7 +35,7 @@ public class ScaleSettings {
     private AutoScaleSettings autoScale;
 
     /**
-     * Get the fixedScale value.
+     * Get this property and autoScale are mutually exclusive and one of the properties must be specified.
      *
      * @return the fixedScale value
      */
@@ -44,7 +44,7 @@ public class ScaleSettings {
     }
 
     /**
-     * Set the fixedScale value.
+     * Set this property and autoScale are mutually exclusive and one of the properties must be specified.
      *
      * @param fixedScale the fixedScale value to set
      * @return the ScaleSettings object itself.
@@ -55,7 +55,7 @@ public class ScaleSettings {
     }
 
     /**
-     * Get the autoScale value.
+     * Get this property and fixedScale are mutually exclusive and one of the properties must be specified.
      *
      * @return the autoScale value
      */
@@ -64,7 +64,7 @@ public class ScaleSettings {
     }
 
     /**
-     * Set the autoScale value.
+     * Set this property and fixedScale are mutually exclusive and one of the properties must be specified.
      *
      * @param autoScale the autoScale value to set
      * @return the ScaleSettings object itself.

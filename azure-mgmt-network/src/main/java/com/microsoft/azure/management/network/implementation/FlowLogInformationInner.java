@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.RetentionPolicyParameters;
+import com.microsoft.azure.management.network.FlowLogFormatParameters;
 import com.microsoft.azure.management.network.TrafficAnalyticsProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -39,19 +40,25 @@ public class FlowLogInformationInner {
     private boolean enabled;
 
     /**
-     * The retentionPolicy property.
+     * Parameters that define the retention policy for flow log.
      */
     @JsonProperty(value = "properties.retentionPolicy")
     private RetentionPolicyParameters retentionPolicy;
 
     /**
-     * The flowAnalyticsConfiguration property.
+     * Parameters that define the flow log format.
+     */
+    @JsonProperty(value = "properties.format")
+    private FlowLogFormatParameters format;
+
+    /**
+     * Parameters that define the configuration of traffic analytics.
      */
     @JsonProperty(value = "flowAnalyticsConfiguration")
     private TrafficAnalyticsProperties flowAnalyticsConfiguration;
 
     /**
-     * Get the targetResourceId value.
+     * Get the ID of the resource to configure for flow log and traffic analytics (optional) .
      *
      * @return the targetResourceId value
      */
@@ -60,7 +67,7 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Set the targetResourceId value.
+     * Set the ID of the resource to configure for flow log and traffic analytics (optional) .
      *
      * @param targetResourceId the targetResourceId value to set
      * @return the FlowLogInformationInner object itself.
@@ -71,7 +78,7 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Get the storageId value.
+     * Get iD of the storage account which is used to store the flow log.
      *
      * @return the storageId value
      */
@@ -80,7 +87,7 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Set the storageId value.
+     * Set iD of the storage account which is used to store the flow log.
      *
      * @param storageId the storageId value to set
      * @return the FlowLogInformationInner object itself.
@@ -91,7 +98,7 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Get the enabled value.
+     * Get flag to enable/disable flow logging.
      *
      * @return the enabled value
      */
@@ -100,7 +107,7 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Set the enabled value.
+     * Set flag to enable/disable flow logging.
      *
      * @param enabled the enabled value to set
      * @return the FlowLogInformationInner object itself.
@@ -111,7 +118,7 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Get the retentionPolicy value.
+     * Get parameters that define the retention policy for flow log.
      *
      * @return the retentionPolicy value
      */
@@ -120,7 +127,7 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Set the retentionPolicy value.
+     * Set parameters that define the retention policy for flow log.
      *
      * @param retentionPolicy the retentionPolicy value to set
      * @return the FlowLogInformationInner object itself.
@@ -131,7 +138,27 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Get the flowAnalyticsConfiguration value.
+     * Get parameters that define the flow log format.
+     *
+     * @return the format value
+     */
+    public FlowLogFormatParameters format() {
+        return this.format;
+    }
+
+    /**
+     * Set parameters that define the flow log format.
+     *
+     * @param format the format value to set
+     * @return the FlowLogInformationInner object itself.
+     */
+    public FlowLogInformationInner withFormat(FlowLogFormatParameters format) {
+        this.format = format;
+        return this;
+    }
+
+    /**
+     * Get parameters that define the configuration of traffic analytics.
      *
      * @return the flowAnalyticsConfiguration value
      */
@@ -140,7 +167,7 @@ public class FlowLogInformationInner {
     }
 
     /**
-     * Set the flowAnalyticsConfiguration value.
+     * Set parameters that define the configuration of traffic analytics.
      *
      * @param flowAnalyticsConfiguration the flowAnalyticsConfiguration value to set
      * @return the FlowLogInformationInner object itself.

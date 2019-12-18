@@ -11,6 +11,7 @@ package com.microsoft.azure.management.monitor;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeResolver;
 
 /**
  * A rule metric data source. The discriminator value is always
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
  */
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "odata.type")
 @JsonTypeName("Microsoft.Azure.Management.Insights.Models.RuleMetricDataSource")
+@JsonTypeResolver(OdataTypeDiscriminatorTypeResolver.class)
 public class RuleMetricDataSource extends RuleDataSource {
     /**
      * the name of the metric that defines what the rule monitors.

@@ -28,7 +28,7 @@ public class ManagedClusterServicePrincipalProfile {
     private String secret;
 
     /**
-     * Get the clientId value.
+     * Get the ID for the service principal.
      *
      * @return the clientId value
      */
@@ -37,7 +37,7 @@ public class ManagedClusterServicePrincipalProfile {
     }
 
     /**
-     * Set the clientId value.
+     * Set the ID for the service principal.
      *
      * @param clientId the clientId value to set
      * @return the ManagedClusterServicePrincipalProfile object itself.
@@ -48,7 +48,7 @@ public class ManagedClusterServicePrincipalProfile {
     }
 
     /**
-     * Get the secret value.
+     * Get the secret password associated with the service principal in plain text.
      *
      * @return the secret value
      */
@@ -57,7 +57,7 @@ public class ManagedClusterServicePrincipalProfile {
     }
 
     /**
-     * Set the secret value.
+     * Set the secret password associated with the service principal in plain text.
      *
      * @param secret the secret value to set
      * @return the ManagedClusterServicePrincipalProfile object itself.

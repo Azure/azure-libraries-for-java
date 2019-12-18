@@ -23,7 +23,7 @@ public class DatabaseAccountListConnectionStringsResultInner {
     private List<DatabaseAccountConnectionString> connectionStrings;
 
     /**
-     * Get the connectionStrings value.
+     * Get an array that contains the connection strings for the Cosmos DB account.
      *
      * @return the connectionStrings value
      */
@@ -32,7 +32,7 @@ public class DatabaseAccountListConnectionStringsResultInner {
     }
 
     /**
-     * Set the connectionStrings value.
+     * Set an array that contains the connection strings for the Cosmos DB account.
      *
      * @param connectionStrings the connectionStrings value to set
      * @return the DatabaseAccountListConnectionStringsResultInner object itself.

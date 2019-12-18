@@ -9,7 +9,6 @@
 package com.microsoft.azure.management.cosmosdb;
 
 import java.util.List;
-import com.microsoft.azure.management.cosmosdb.implementation.FailoverPolicyInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -20,24 +19,24 @@ public class FailoverPolicies {
      * List of failover policies.
      */
     @JsonProperty(value = "failoverPolicies", required = true)
-    private List<FailoverPolicyInner> failoverPolicies;
+    private List<FailoverPolicy> failoverPolicies;
 
     /**
-     * Get the failoverPolicies value.
+     * Get list of failover policies.
      *
      * @return the failoverPolicies value
      */
-    public List<FailoverPolicyInner> failoverPolicies() {
+    public List<FailoverPolicy> failoverPolicies() {
         return this.failoverPolicies;
     }
 
     /**
-     * Set the failoverPolicies value.
+     * Set list of failover policies.
      *
      * @param failoverPolicies the failoverPolicies value to set
      * @return the FailoverPolicies object itself.
      */
-    public FailoverPolicies withFailoverPolicies(List<FailoverPolicyInner> failoverPolicies) {
+    public FailoverPolicies withFailoverPolicies(List<FailoverPolicy> failoverPolicies) {
         this.failoverPolicies = failoverPolicies;
         return this;
     }

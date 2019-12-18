@@ -12,7 +12,7 @@ import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.Azure;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.samples.Utils;
-import com.microsoft.azure.management.sql.DatabaseEditions;
+import com.microsoft.azure.management.sql.DatabaseEdition;
 import com.microsoft.azure.management.sql.DatabaseMetric;
 import com.microsoft.azure.management.sql.ServiceObjectiveName;
 import com.microsoft.azure.management.sql.SqlDatabase;
@@ -81,8 +81,9 @@ public final class ManageSqlDatabase {
             // Update the edition of database.
             System.out.println("Updating a database");
             database = database.update()
-                    .withEdition(DatabaseEditions.STANDARD)
+                    .withEdition(DatabaseEdition.STANDARD)
                     .withServiceObjective(ServiceObjectiveName.S3)
+                    .withMaxSizeBytes(1024 * 1024 * 1024 * 20)
                     .apply();
             Utils.print(database);
 

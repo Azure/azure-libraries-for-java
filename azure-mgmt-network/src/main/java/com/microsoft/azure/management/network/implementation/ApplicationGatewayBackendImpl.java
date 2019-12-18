@@ -16,6 +16,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayBackend;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendAddress;
+import com.microsoft.azure.management.network.ApplicationGatewayBackendAddressPool;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
@@ -24,14 +25,14 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
  */
 @LangDefinition
 class ApplicationGatewayBackendImpl
-    extends ChildResourceImpl<ApplicationGatewayBackendAddressPoolInner, ApplicationGatewayImpl, ApplicationGateway>
+    extends ChildResourceImpl<ApplicationGatewayBackendAddressPool, ApplicationGatewayImpl, ApplicationGateway>
     implements
         ApplicationGatewayBackend,
         ApplicationGatewayBackend.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayBackend.UpdateDefinition<ApplicationGateway.Update>,
         ApplicationGatewayBackend.Update {
 
-    ApplicationGatewayBackendImpl(ApplicationGatewayBackendAddressPoolInner inner, ApplicationGatewayImpl parent) {
+    ApplicationGatewayBackendImpl(ApplicationGatewayBackendAddressPool inner, ApplicationGatewayImpl parent) {
         super(inner, parent);
     }
 

@@ -22,6 +22,7 @@ import com.microsoft.azure.management.storage.implementation.StorageAccountsInne
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
+import rx.Completable;
 import rx.Observable;
 
 /**
@@ -64,4 +65,41 @@ public interface StorageAccounts extends
      * @return a handle to cancel the request
      */
     ServiceFuture<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name, ServiceCallback<CheckNameAvailabilityResult> callback);
+
+    /**
+     * Creates an Sas token for the storage account.
+     *
+     * @param resourceGroupName the name of the account's resource group
+     * @param accountName the account name to check
+     * @param parameters the parameters to list service SAS credentials of a specific resource
+     * @return the created Sas token
+     */
+    String createSasToken(String resourceGroupName, String accountName, ServiceSasParameters parameters);
+
+    /**
+     * Creates an Sas token for the storage account asynchronously.
+     *
+     * @param resourceGroupName the name of the account's resource group
+     * @param accountName the account name to check
+     * @param parameters the parameters to list service SAS credentials of a specific resource
+     * @return an observable of the created Sas token
+     */
+    Observable<String> createSasTokenAsync(String resourceGroupName, String accountName, ServiceSasParameters parameters);
+
+    /**
+     * Sets a failover request that can be triggered for a storage account in case of availability issues.
+     *
+     * @param resourceGroupName the resource group name of the storage account
+     * @param accountName the account name to check
+     */
+    void failover(String resourceGroupName, String accountName);
+
+    /**
+     * Sets a failover request asynchronously that can be triggered for a storage account in case of availability issues.
+     *
+     * @param resourceGroupName the resource group name of the storage account
+     * @param accountName the account name to check
+     * @return a completable
+     */
+    Completable failoverAsync(String resourceGroupName, String accountName);
 }

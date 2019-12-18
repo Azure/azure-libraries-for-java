@@ -11,6 +11,8 @@ import com.microsoft.azure.management.storage.Bypass;
 import com.microsoft.azure.management.storage.DefaultAction;
 import com.microsoft.azure.management.storage.IPRule;
 import com.microsoft.azure.management.storage.NetworkRuleSet;
+import com.microsoft.azure.management.storage.StorageAccountCreateParameters;
+import com.microsoft.azure.management.storage.StorageAccountUpdateParameters;
 import com.microsoft.azure.management.storage.VirtualNetworkRule;
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,15 +29,15 @@ final class StorageNetworkRulesHelper {
     private static final String BYPASS_NONE_STR = Bypass.NONE.toString().toLowerCase();
     private final boolean isInCreateMode;
     private final StorageAccountInner inner;
-    private final StorageAccountCreateParametersInner createParameters;
-    private final StorageAccountUpdateParametersInner updateParameters;
+    private final StorageAccountCreateParameters createParameters;
+    private final StorageAccountUpdateParameters updateParameters;
 
     /**
      * Creates StorageNetworkRulesHelper.
      *
      * @param createParameters the model representing payload for storage account create.
      */
-    StorageNetworkRulesHelper(StorageAccountCreateParametersInner createParameters) {
+    StorageNetworkRulesHelper(StorageAccountCreateParameters createParameters) {
         this.isInCreateMode = true;
         this.createParameters = createParameters;
         this.updateParameters = null;
@@ -48,7 +50,7 @@ final class StorageNetworkRulesHelper {
      * @param updateParameters the model representing payload for storage account update
      * @param inner the current state of storage account
      */
-    StorageNetworkRulesHelper(StorageAccountUpdateParametersInner updateParameters, final StorageAccountInner inner) {
+    StorageNetworkRulesHelper(StorageAccountUpdateParameters updateParameters, final StorageAccountInner inner) {
         this.isInCreateMode = false;
         this.createParameters = null;
         this.updateParameters = updateParameters;

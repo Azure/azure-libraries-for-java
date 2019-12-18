@@ -10,13 +10,14 @@ package com.microsoft.azure.management.sql.implementation;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * A stored credential that can be used by a job to connect to target
  * databases.
  */
 @JsonFlatten
-public class JobCredentialInner extends ProxyResourceInner {
+public class JobCredentialInner extends ProxyResource {
     /**
      * The credential user name.
      */
@@ -30,7 +31,7 @@ public class JobCredentialInner extends ProxyResourceInner {
     private String password;
 
     /**
-     * Get the username value.
+     * Get the credential user name.
      *
      * @return the username value
      */
@@ -39,7 +40,7 @@ public class JobCredentialInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the username value.
+     * Set the credential user name.
      *
      * @param username the username value to set
      * @return the JobCredentialInner object itself.
@@ -50,7 +51,7 @@ public class JobCredentialInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the password value.
+     * Get the credential password.
      *
      * @return the password value
      */
@@ -59,7 +60,7 @@ public class JobCredentialInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the password value.
+     * Set the credential password.
      *
      * @param password the password value to set
      * @return the JobCredentialInner object itself.

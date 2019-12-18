@@ -27,7 +27,7 @@ public class ResourceRequirements {
     private ResourceLimits limits;
 
     /**
-     * Get the requests value.
+     * Get the resource requests of this container instance.
      *
      * @return the requests value
      */
@@ -36,7 +36,7 @@ public class ResourceRequirements {
     }
 
     /**
-     * Set the requests value.
+     * Set the resource requests of this container instance.
      *
      * @param requests the requests value to set
      * @return the ResourceRequirements object itself.
@@ -47,7 +47,7 @@ public class ResourceRequirements {
     }
 
     /**
-     * Get the limits value.
+     * Get the resource limits of this container instance.
      *
      * @return the limits value
      */
@@ -56,7 +56,7 @@ public class ResourceRequirements {
     }
 
     /**
-     * Set the limits value.
+     * Set the resource limits of this container instance.
      *
      * @param limits the limits value to set
      * @return the ResourceRequirements object itself.

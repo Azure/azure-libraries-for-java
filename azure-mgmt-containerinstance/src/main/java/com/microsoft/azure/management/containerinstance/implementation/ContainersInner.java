@@ -11,6 +11,7 @@ package com.microsoft.azure.management.containerinstance.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.CloudException;
+import com.microsoft.azure.management.containerinstance.ContainerExecRequest;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
@@ -60,7 +61,7 @@ public class ContainersInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.containerinstance.Containers executeCommand" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/exec")
-        Observable<Response<ResponseBody>> executeCommand(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("containerGroupName") String containerGroupName, @Path("containerName") String containerName, @Query("api-version") String apiVersion, @Body ContainerExecRequestInner containerExecRequest, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> executeCommand(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("containerGroupName") String containerGroupName, @Path("containerName") String containerName, @Query("api-version") String apiVersion, @Body ContainerExecRequest containerExecRequest, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
     }
 
@@ -269,7 +270,7 @@ public class ContainersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ContainerExecResponseInner object if successful.
      */
-    public ContainerExecResponseInner executeCommand(String resourceGroupName, String containerGroupName, String containerName, ContainerExecRequestInner containerExecRequest) {
+    public ContainerExecResponseInner executeCommand(String resourceGroupName, String containerGroupName, String containerName, ContainerExecRequest containerExecRequest) {
         return executeCommandWithServiceResponseAsync(resourceGroupName, containerGroupName, containerName, containerExecRequest).toBlocking().single().body();
     }
 
@@ -285,7 +286,7 @@ public class ContainersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ContainerExecResponseInner> executeCommandAsync(String resourceGroupName, String containerGroupName, String containerName, ContainerExecRequestInner containerExecRequest, final ServiceCallback<ContainerExecResponseInner> serviceCallback) {
+    public ServiceFuture<ContainerExecResponseInner> executeCommandAsync(String resourceGroupName, String containerGroupName, String containerName, ContainerExecRequest containerExecRequest, final ServiceCallback<ContainerExecResponseInner> serviceCallback) {
         return ServiceFuture.fromResponse(executeCommandWithServiceResponseAsync(resourceGroupName, containerGroupName, containerName, containerExecRequest), serviceCallback);
     }
 
@@ -300,7 +301,7 @@ public class ContainersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ContainerExecResponseInner object
      */
-    public Observable<ContainerExecResponseInner> executeCommandAsync(String resourceGroupName, String containerGroupName, String containerName, ContainerExecRequestInner containerExecRequest) {
+    public Observable<ContainerExecResponseInner> executeCommandAsync(String resourceGroupName, String containerGroupName, String containerName, ContainerExecRequest containerExecRequest) {
         return executeCommandWithServiceResponseAsync(resourceGroupName, containerGroupName, containerName, containerExecRequest).map(new Func1<ServiceResponse<ContainerExecResponseInner>, ContainerExecResponseInner>() {
             @Override
             public ContainerExecResponseInner call(ServiceResponse<ContainerExecResponseInner> response) {
@@ -320,7 +321,7 @@ public class ContainersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ContainerExecResponseInner object
      */
-    public Observable<ServiceResponse<ContainerExecResponseInner>> executeCommandWithServiceResponseAsync(String resourceGroupName, String containerGroupName, String containerName, ContainerExecRequestInner containerExecRequest) {
+    public Observable<ServiceResponse<ContainerExecResponseInner>> executeCommandWithServiceResponseAsync(String resourceGroupName, String containerGroupName, String containerName, ContainerExecRequest containerExecRequest) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }

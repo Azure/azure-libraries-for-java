@@ -41,7 +41,7 @@ public class EditionCapability {
     private Boolean zoneRedundant;
 
     /**
-     * Get the name value.
+     * Get the edition name.
      *
      * @return the name value
      */
@@ -50,7 +50,7 @@ public class EditionCapability {
     }
 
     /**
-     * Get the status value.
+     * Get the status of the edition. Possible values include: 'Visible', 'Available', 'Default', 'Disabled'.
      *
      * @return the status value
      */
@@ -59,7 +59,7 @@ public class EditionCapability {
     }
 
     /**
-     * Get the supportedServiceLevelObjectives value.
+     * Get the list of supported service objectives for the edition.
      *
      * @return the supportedServiceLevelObjectives value
      */
@@ -68,7 +68,7 @@ public class EditionCapability {
     }
 
     /**
-     * Get the zoneRedundant value.
+     * Get whether or not zone redundancy is supported for the edition.
      *
      * @return the zoneRedundant value
      */

@@ -12,7 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.models.implementa
 import com.microsoft.azure.management.resources.fluentcore.dag.FunctionalTaskItem;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.management.sql.IdentityType;
 import com.microsoft.azure.management.sql.RecommendedElasticPool;
 import com.microsoft.azure.management.sql.ResourceIdentity;
@@ -490,7 +490,7 @@ public class SqlServerImpl
     }
 
     @Override
-    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition) {
+    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEdition elasticPoolEdition) {
         return this.sqlElasticPools
             .defineInlineElasticPool(elasticPoolName)
             .withEdition(elasticPoolEdition)
@@ -504,7 +504,7 @@ public class SqlServerImpl
     }
 
     @Override
-    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEditions elasticPoolEdition, String... databaseNames) {
+    public SqlServerImpl withNewElasticPool(String elasticPoolName, ElasticPoolEdition elasticPoolEdition, String... databaseNames) {
         this.withNewElasticPool(elasticPoolName, elasticPoolEdition);
         for (String dbName : databaseNames) {
             this.defineDatabase(dbName)

@@ -10,6 +10,7 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.OperatingSystemStateTypes;
+import com.microsoft.azure.management.compute.HyperVGeneration;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.compute.GalleryImageIdentifier;
 import com.microsoft.azure.management.compute.RecommendedMachineConfiguration;
@@ -20,19 +21,20 @@ import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
 
 /**
- * Specifies information about the gallery image that you want to create or
- * update.
+ * Specifies information about the gallery Image Definition that you want to
+ * create or update.
  */
 @JsonFlatten
 public class GalleryImageInner extends Resource {
     /**
-     * The description of this gallery image resource.
+     * The description of this gallery Image Definition resource. This property
+     * is updatable.
      */
     @JsonProperty(value = "properties.description")
     private String description;
 
     /**
-     * The Eula agreement for the gallery image.
+     * The Eula agreement for the gallery Image Definition.
      */
     @JsonProperty(value = "properties.eula")
     private String eula;
@@ -51,22 +53,32 @@ public class GalleryImageInner extends Resource {
 
     /**
      * This property allows you to specify the type of the OS that is included
-     * in the disk if creating a VM from user-image or a specialized VHD.
+     * in the disk when creating a VM from a managed image.
      * &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt;
      * **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include:
      * 'Windows', 'Linux'.
      */
-    @JsonProperty(value = "properties.osType")
+    @JsonProperty(value = "properties.osType", required = true)
     private OperatingSystemTypes osType;
 
     /**
-     * The OS State. Possible values include: 'Generalized', 'Specialized'.
+     * This property allows the user to specify whether the virtual machines
+     * created under this image are 'Generalized' or 'Specialized'. Possible
+     * values include: 'Generalized', 'Specialized'.
      */
-    @JsonProperty(value = "properties.osState")
+    @JsonProperty(value = "properties.osState", required = true)
     private OperatingSystemStateTypes osState;
 
     /**
-     * The end of life of this gallery image.
+     * The hypervisor generation of the Virtual Machine. Applicable to OS disks
+     * only. Possible values include: 'V1', 'V2'.
+     */
+    @JsonProperty(value = "properties.hyperVGeneration")
+    private HyperVGeneration hyperVGeneration;
+
+    /**
+     * The end of life date of the gallery Image Definition. This property can
+     * be used for decommissioning purposes. This property is updatable.
      */
     @JsonProperty(value = "properties.endOfLifeDate")
     private DateTime endOfLifeDate;
@@ -74,7 +86,7 @@ public class GalleryImageInner extends Resource {
     /**
      * The identifier property.
      */
-    @JsonProperty(value = "properties.identifier")
+    @JsonProperty(value = "properties.identifier", required = true)
     private GalleryImageIdentifier identifier;
 
     /**
@@ -96,7 +108,7 @@ public class GalleryImageInner extends Resource {
     private ImagePurchasePlan purchasePlan;
 
     /**
-     * The current state of the gallery image.
+     * The current state of the gallery Image Definition.
      * The provisioning state, which only appears in the response. Possible
      * values include: 'Creating', 'Updating', 'Failed', 'Succeeded',
      * 'Deleting', 'Migrating'.
@@ -105,7 +117,7 @@ public class GalleryImageInner extends Resource {
     private String provisioningState;
 
     /**
-     * Get the description of this gallery image resource.
+     * Get the description of this gallery Image Definition resource. This property is updatable.
      *
      * @return the description value
      */
@@ -114,7 +126,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Set the description of this gallery image resource.
+     * Set the description of this gallery Image Definition resource. This property is updatable.
      *
      * @param description the description value to set
      * @return the GalleryImageInner object itself.
@@ -125,7 +137,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the Eula agreement for the gallery image.
+     * Get the Eula agreement for the gallery Image Definition.
      *
      * @return the eula value
      */
@@ -134,7 +146,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Set the Eula agreement for the gallery image.
+     * Set the Eula agreement for the gallery Image Definition.
      *
      * @param eula the eula value to set
      * @return the GalleryImageInner object itself.
@@ -185,7 +197,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get this property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Get this property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
      *
      * @return the osType value
      */
@@ -194,7 +206,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Set this property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
+     * Set this property allows you to specify the type of the OS that is included in the disk when creating a VM from a managed image. &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt; **Windows** &lt;br&gt;&lt;br&gt; **Linux**. Possible values include: 'Windows', 'Linux'.
      *
      * @param osType the osType value to set
      * @return the GalleryImageInner object itself.
@@ -205,7 +217,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the OS State. Possible values include: 'Generalized', 'Specialized'.
+     * Get this property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'.
      *
      * @return the osState value
      */
@@ -214,7 +226,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Set the OS State. Possible values include: 'Generalized', 'Specialized'.
+     * Set this property allows the user to specify whether the virtual machines created under this image are 'Generalized' or 'Specialized'. Possible values include: 'Generalized', 'Specialized'.
      *
      * @param osState the osState value to set
      * @return the GalleryImageInner object itself.
@@ -225,7 +237,27 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Get the end of life of this gallery image.
+     * Get the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @return the hyperVGeneration value
+     */
+    public HyperVGeneration hyperVGeneration() {
+        return this.hyperVGeneration;
+    }
+
+    /**
+     * Set the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @param hyperVGeneration the hyperVGeneration value to set
+     * @return the GalleryImageInner object itself.
+     */
+    public GalleryImageInner withHyperVGeneration(HyperVGeneration hyperVGeneration) {
+        this.hyperVGeneration = hyperVGeneration;
+        return this;
+    }
+
+    /**
+     * Get the end of life date of the gallery Image Definition. This property can be used for decommissioning purposes. This property is updatable.
      *
      * @return the endOfLifeDate value
      */
@@ -234,7 +266,7 @@ public class GalleryImageInner extends Resource {
     }
 
     /**
-     * Set the end of life of this gallery image.
+     * Set the end of life date of the gallery Image Definition. This property can be used for decommissioning purposes. This property is updatable.
      *
      * @param endOfLifeDate the endOfLifeDate value to set
      * @return the GalleryImageInner object itself.

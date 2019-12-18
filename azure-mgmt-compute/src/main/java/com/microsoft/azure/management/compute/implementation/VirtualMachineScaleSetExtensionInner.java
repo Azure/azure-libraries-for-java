@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.compute.implementation;
 
+import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.management.compute.SubResourceReadOnly;
@@ -77,6 +78,13 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private String provisioningState;
+
+    /**
+     * Collection of extension names after which this extension needs to be
+     * provisioned.
+     */
+    @JsonProperty(value = "properties.provisionAfterExtensions")
+    private List<String> provisionAfterExtensions;
 
     /**
      * Get the name of the extension.
@@ -245,6 +253,26 @@ public class VirtualMachineScaleSetExtensionInner extends SubResourceReadOnly {
      */
     public String provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get collection of extension names after which this extension needs to be provisioned.
+     *
+     * @return the provisionAfterExtensions value
+     */
+    public List<String> provisionAfterExtensions() {
+        return this.provisionAfterExtensions;
+    }
+
+    /**
+     * Set collection of extension names after which this extension needs to be provisioned.
+     *
+     * @param provisionAfterExtensions the provisionAfterExtensions value to set
+     * @return the VirtualMachineScaleSetExtensionInner object itself.
+     */
+    public VirtualMachineScaleSetExtensionInner withProvisionAfterExtensions(List<String> provisionAfterExtensions) {
+        this.provisionAfterExtensions = provisionAfterExtensions;
+        return this;
     }
 
 }

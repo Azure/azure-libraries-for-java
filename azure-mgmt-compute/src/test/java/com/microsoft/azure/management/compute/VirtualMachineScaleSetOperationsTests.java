@@ -7,14 +7,28 @@
 package com.microsoft.azure.management.compute;
 
 import com.microsoft.azure.PagedList;
+import com.microsoft.azure.SubResource;
+import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.microsoft.azure.management.graphrbac.BuiltInRole;
 import com.microsoft.azure.management.graphrbac.RoleAssignment;
 import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.network.*;
+import com.microsoft.azure.management.keyvault.Secret;
+import com.microsoft.azure.management.keyvault.Vault;
+import com.microsoft.azure.management.network.ApplicationSecurityGroup;
+import com.microsoft.azure.management.network.LoadBalancer;
+import com.microsoft.azure.management.network.LoadBalancerBackend;
+import com.microsoft.azure.management.network.LoadBalancerInboundNatRule;
+import com.microsoft.azure.management.network.LoadBalancerSkuType;
+import com.microsoft.azure.management.network.LoadBalancingRule;
+import com.microsoft.azure.management.network.Network;
+import com.microsoft.azure.management.network.NetworkSecurityGroup;
+import com.microsoft.azure.management.network.PublicIPAddress;
+import com.microsoft.azure.management.network.SecurityRuleProtocol;
+import com.microsoft.azure.management.network.VirtualMachineScaleSetNetworkInterface;
+import com.microsoft.azure.management.network.VirtualMachineScaleSetNicIPConfiguration;
 import com.microsoft.azure.management.resources.ResourceGroup;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
 import com.microsoft.azure.storage.CloudStorageAccount;
@@ -25,10 +39,13 @@ import com.microsoft.rest.RestClient;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import org.apache.commons.io.IOUtils;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -37,7 +54,7 @@ import java.util.Map;
 
 public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest {
     private static String RG_NAME = "";
-    private static final Region REGION = Region.US_EAST;
+    private static final Region REGION = Region.US_WEST;
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
@@ -357,7 +374,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
                     .withProtocol(SecurityRuleProtocol.TCP)
                     .attach()
                 .create();
-
+        virtualMachineScaleSet.deallocate();
         virtualMachineScaleSet.update()
                 .withIpForwarding()
                 .withAcceleratedNetworking()
@@ -384,7 +401,93 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertNull(virtualMachineScaleSet.networkSecurityGroupId());
     }
 
+
     @Test
+    @Ignore("Mock framework doesn't support data plane")
+    public void canCreateVirtualMachineScaleSetWithSecret() throws Exception {
+        final String vmss_name = generateRandomResourceName("vmss", 10);
+        final String vaultName = generateRandomResourceName("vlt", 10);
+        final String secretName = generateRandomResourceName("srt", 10);
+
+
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        Network network = this.networkManager
+                .networks()
+                .define("vmssvnet")
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+
+        LoadBalancer publicLoadBalancer = createInternetFacingLoadBalancer(REGION,
+                resourceGroup,
+                "1",
+                LoadBalancerSkuType.BASIC);
+
+        List<String> backends = new ArrayList<>();
+        for (String backend : publicLoadBalancer.backends().keySet()) {
+            backends.add(backend);
+        }
+        Assert.assertTrue(backends.size() == 2);
+
+        ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
+        Vault vault = this.keyVaultManager.vaults().define(vaultName)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .defineAccessPolicy()
+                .forServicePrincipal(credentials.clientId())
+                .allowSecretAllPermissions()
+                .attach()
+                .withDeploymentEnabled()
+                .create();
+        final InputStream embeddedJsonConfig = VirtualMachineExtensionOperationsTests.class.getResourceAsStream("/myTest.txt");
+        String secretValue = IOUtils.toString(embeddedJsonConfig);
+        Secret secret = vault.secrets().define(secretName)
+                .withValue(secretValue)
+                .create();
+        List<VaultCertificate> certs = new ArrayList<>();
+        certs.add(new VaultCertificate().withCertificateUrl(secret.id()));
+        List<VaultSecretGroup> group = new ArrayList<>();
+        group.add(new VaultSecretGroup().withSourceVault(new SubResource().withId(vault.id()))
+                .withVaultCertificates(certs));
+
+        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets()
+                .define(vmss_name)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_A0)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withExistingPrimaryInternetFacingLoadBalancer(publicLoadBalancer)
+                .withPrimaryInternetFacingLoadBalancerBackends(backends.get(0), backends.get(1))
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("jvuser")
+                .withRootPassword("123OData!@#123")
+                .withSecrets(group)
+                .withNewStorageAccount(generateRandomResourceName("stg", 15))
+                .withNewStorageAccount(generateRandomResourceName("stg3", 15))
+                .withUpgradeMode(UpgradeMode.MANUAL)
+                .create();
+
+        for (VirtualMachineScaleSetVM vm : virtualMachineScaleSet.virtualMachines().list()) {
+            Assert.assertTrue(vm.osProfile().secrets().size() > 0);
+        }
+
+        virtualMachineScaleSet
+                .update()
+                .withoutSecrets()
+                .apply();
+
+        for (VirtualMachineScaleSetVM vm : virtualMachineScaleSet.virtualMachines().list()) {
+            Assert.assertTrue(vm.osProfile().secrets().size() == 0);
+        }
+    }
     public void canCreateVirtualMachineScaleSet() throws Exception {
         final String vmss_name = generateRandomResourceName("vmss", 10);
         ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
@@ -812,12 +915,14 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         // Validate service created service principal
         //
-        ServicePrincipal servicePrincipal = rbacManager
-                .servicePrincipals()
-                .getById(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
+        // TODO: Renable the below code snippet: https://github.com/Azure/azure-libraries-for-net/issues/739
 
-        Assert.assertNotNull(servicePrincipal);
-        Assert.assertNotNull(servicePrincipal.inner());
+        //        ServicePrincipal servicePrincipal = rbacManager
+        //                .servicePrincipals()
+        //                .getById(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
+        //
+        //        Assert.assertNotNull(servicePrincipal);
+        //        Assert.assertNotNull(servicePrincipal.inner());
 
         // Ensure role assigned for resource group
         //
@@ -888,12 +993,14 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
 
         // Validate service created service principal
         //
-        ServicePrincipal servicePrincipal = rbacManager
-                .servicePrincipals()
-                .getById(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
+        // TODO: Renable the below code snippet: https://github.com/Azure/azure-libraries-for-net/issues/739
 
-        Assert.assertNotNull(servicePrincipal);
-        Assert.assertNotNull(servicePrincipal.inner());
+        //        ServicePrincipal servicePrincipal = rbacManager
+        //                .servicePrincipals()
+        //                .getById(virtualMachineScaleSet.systemAssignedManagedServiceIdentityPrincipalId());
+        //
+        //        Assert.assertNotNull(servicePrincipal);
+        //        Assert.assertNotNull(servicePrincipal.inner());
 
         // Ensure role assigned for resource group
         //
@@ -920,6 +1027,155 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
             }
         }
         Assert.assertTrue("Storage account should have a role assignment with virtual machine scale set MSI principal", found);
+    }
+
+    @Test
+    public void canGetSingleVMSSInstance() throws Exception {
+
+        final String vmss_name = generateRandomResourceName("vmss", 10);
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        Network network = this.networkManager
+                .networks()
+                .define("vmssvnet")
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+
+        LoadBalancer publicLoadBalancer = createInternetFacingLoadBalancer(REGION,
+                resourceGroup,
+                "1",
+                LoadBalancerSkuType.BASIC);
+
+        List<String> backends = new ArrayList<>();
+        for (String backend : publicLoadBalancer.backends().keySet()) {
+            backends.add(backend);
+        }
+        Assert.assertTrue(backends.size() == 2);
+
+        this.computeManager.virtualMachineScaleSets()
+                .define(vmss_name)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_A0)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withExistingPrimaryInternetFacingLoadBalancer(publicLoadBalancer)
+                .withPrimaryInternetFacingLoadBalancerBackends(backends.get(0), backends.get(1))
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("jvuser")
+                .withRootPassword("123OData!@#123")
+                .withNewStorageAccount(generateRandomResourceName("stg", 15))
+                .withNewStorageAccount(generateRandomResourceName("stg3", 15))
+                .withUpgradeMode(UpgradeMode.MANUAL)
+                .create();
+
+        VirtualMachineScaleSet virtualMachineScaleSet = this.computeManager.virtualMachineScaleSets().getByResourceGroup(RG_NAME, vmss_name);
+        VirtualMachineScaleSetVMs virtualMachineScaleSetVMs = virtualMachineScaleSet.virtualMachines();
+        VirtualMachineScaleSetVM firstVm = virtualMachineScaleSetVMs.list().get(0);
+        VirtualMachineScaleSetVM fetchedVm = virtualMachineScaleSetVMs.getInstance(firstVm.instanceId());
+        this.checkVmsEqual(firstVm, fetchedVm);
+        VirtualMachineScaleSetVM fetchedAsyncVm = virtualMachineScaleSetVMs.getInstanceAsync(firstVm.instanceId()).toBlocking().single();
+        this.checkVmsEqual(firstVm, fetchedAsyncVm);
+    }
+
+    @Test
+    public void canCreateLowPriorityVMSSInstance() throws Exception {
+        final String vmss_name = generateRandomResourceName("vmss", 10);
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups()
+                .define(RG_NAME)
+                .withRegion(REGION)
+                .create();
+
+        Network network = this.networkManager
+                .networks()
+                .define("vmssvnet")
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withAddressSpace("10.0.0.0/28")
+                .withSubnet("subnet1", "10.0.0.0/28")
+                .create();
+
+
+        LoadBalancer publicLoadBalancer = createInternetFacingLoadBalancer(REGION,
+                resourceGroup,
+                "1",
+                LoadBalancerSkuType.STANDARD);
+
+        List<String> backends = new ArrayList<>();
+        for (String backend : publicLoadBalancer.backends().keySet()) {
+            backends.add(backend);
+        }
+        Assert.assertTrue(backends.size() == 2);
+
+        VirtualMachineScaleSet vmss = this.computeManager.virtualMachineScaleSets()
+                .define(vmss_name)
+                .withRegion(REGION)
+                .withExistingResourceGroup(resourceGroup)
+                .withSku(VirtualMachineScaleSetSkuTypes.STANDARD_D3_V2)
+                .withExistingPrimaryNetworkSubnet(network, "subnet1")
+                .withExistingPrimaryInternetFacingLoadBalancer(publicLoadBalancer)
+                .withPrimaryInternetFacingLoadBalancerBackends(backends.get(0), backends.get(1))
+                .withoutPrimaryInternalLoadBalancer()
+                .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
+                .withRootUsername("jvuser")
+                .withRootPassword("123OData!@#123")
+                .withNewStorageAccount(generateRandomResourceName("stg", 15))
+                .withNewStorageAccount(generateRandomResourceName("stg3", 15))
+                .withUpgradeMode(UpgradeMode.MANUAL)
+                .withLowPriorityVirtualMachine(VirtualMachineEvictionPolicyTypes.DEALLOCATE)
+                .withMaxPrice(-1.0)
+                .create();
+
+        Assert.assertEquals(vmss.virtualMachinePriority(), VirtualMachinePriorityTypes.LOW);
+        Assert.assertEquals(vmss.virtualMachineEvictionPolicy(), VirtualMachineEvictionPolicyTypes.DEALLOCATE);
+        Assert.assertEquals(vmss.billingProfile().maxPrice(), (Double)(-1.0));
+
+        vmss.update()
+                .withMaxPrice(2000.0)
+                .apply();
+        Assert.assertEquals(vmss.billingProfile().maxPrice(), (Double)2000.0);
+    }
+
+
+    private void checkVmsEqual(VirtualMachineScaleSetVM original, VirtualMachineScaleSetVM fetched)
+    {
+        Assert.assertEquals(original.administratorUserName(), fetched.administratorUserName());
+        Assert.assertEquals(original.availabilitySetId(), fetched.availabilitySetId());
+        Assert.assertEquals(original.bootDiagnosticEnabled(), fetched.bootDiagnosticEnabled());
+        Assert.assertEquals(original.bootDiagnosticStorageAccountUri(), fetched.bootDiagnosticStorageAccountUri());
+        Assert.assertEquals(original.computerName(), fetched.computerName());
+        Assert.assertEquals(original.dataDisks().size(), fetched.dataDisks().size());
+        Assert.assertEquals(original.extensions().size(), fetched.extensions().size());
+        Assert.assertEquals(original.instanceId(), fetched.instanceId());
+        Assert.assertEquals(original.isLatestScaleSetUpdateApplied(), fetched.isLatestScaleSetUpdateApplied());
+        Assert.assertEquals(original.isLinuxPasswordAuthenticationEnabled(), fetched.isLatestScaleSetUpdateApplied());
+        Assert.assertEquals(original.isManagedDiskEnabled(), fetched.isManagedDiskEnabled());
+        Assert.assertEquals(original.isOSBasedOnCustomImage(), fetched.isOSBasedOnCustomImage());
+        Assert.assertEquals(original.isOSBasedOnPlatformImage(), fetched.isOSBasedOnPlatformImage());
+        Assert.assertEquals(original.isOSBasedOnStoredImage(), fetched.isOSBasedOnStoredImage());
+        Assert.assertEquals(original.isWindowsAutoUpdateEnabled(), fetched.isWindowsAutoUpdateEnabled());
+        Assert.assertEquals(original.isWindowsVMAgentProvisioned(), original.isWindowsVMAgentProvisioned());
+        Assert.assertEquals(original.networkInterfaceIds().size(), fetched.networkInterfaceIds().size());
+        Assert.assertEquals(original.osDiskCachingType(), fetched.osDiskCachingType());
+        Assert.assertEquals(original.osDiskId(), fetched.osDiskId());
+        Assert.assertEquals(original.osDiskName(), fetched.osDiskName());
+        Assert.assertEquals(original.osDiskSizeInGB(), fetched.osDiskSizeInGB());
+        Assert.assertEquals(original.osType(), fetched.osType());
+        Assert.assertEquals(original.osUnmanagedDiskVhdUri(), fetched.osUnmanagedDiskVhdUri());
+        Assert.assertEquals(original.powerState(), fetched.powerState());
+        Assert.assertEquals(original.primaryNetworkInterfaceId(), fetched.primaryNetworkInterfaceId());
+        Assert.assertEquals(original.size(), fetched.size());
+        Assert.assertEquals(original.sku().name(), fetched.sku().name());
+        Assert.assertEquals(original.storedImageUnmanagedVhdUri(), fetched.storedImageUnmanagedVhdUri());
+        Assert.assertEquals(original.unmanagedDataDisks().size(), fetched.unmanagedDataDisks().size());
+        Assert.assertEquals(original.windowsTimeZone(), fetched.windowsTimeZone());
     }
 
 

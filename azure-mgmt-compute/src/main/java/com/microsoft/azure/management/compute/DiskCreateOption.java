@@ -34,6 +34,9 @@ public final class DiskCreateOption extends ExpandableStringEnum<DiskCreateOptio
     /** Static value Restore for DiskCreateOption. */
     public static final DiskCreateOption RESTORE = fromString("Restore");
 
+    /** Static value Upload for DiskCreateOption. */
+    public static final DiskCreateOption UPLOAD = fromString("Upload");
+
     /**
      * Creates or finds a DiskCreateOption from its string representation.
      * @param name a name to look for

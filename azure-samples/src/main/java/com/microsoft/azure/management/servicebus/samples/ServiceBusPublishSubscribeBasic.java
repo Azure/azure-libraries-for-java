@@ -68,7 +68,7 @@ public final class ServiceBusPublishSubscribeBasic {
                     .define(namespaceName)
                     .withRegion(Region.US_WEST)
                     .withNewResourceGroup(rgName)
-                    .withSku(NamespaceSku.PREMIUM_CAPACITY1)
+                    .withSku(NamespaceSku.STANDARD)
                     .create();
 
             System.out.println("Created service bus " + serviceBusNamespace.name());

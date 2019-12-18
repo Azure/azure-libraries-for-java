@@ -1,241 +1,275 @@
 {
   "networkCallRecords" : [ {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/networkWatchers?api-version=2018-06-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/networkWatchers?api-version=2019-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:36 GMT",
-      "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "517",
+      "date" : "Thu, 17 Oct 2019 14:54:40 GMT",
+      "content-length" : "5232",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
+      "x-ms-original-request-ids" : "aa611a29-9317-43c2-b832-7c4d6f91647a",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11999",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11970",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "23e79623-a727-4cdf-a073-91841c49b82a",
+      "x-ms-correlation-request-id" : "8481dafb-6a00-4bf6-816b-462024a7ea3b",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193337Z:23e79623-a727-4cdf-a073-91841c49b82a",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145440Z:8481dafb-6a00-4bf6-816b-462024a7ea3b",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "156bb4c6-6cff-4d71-bbb8-04643d68fae8",
-      "Body" : "{\r\n  \"value\": [\r\n    {\r\n      \"name\": \"nw57931\",\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg61069/providers/Microsoft.Network/networkWatchers/nw57931\",\r\n      \"etag\": \"W/\\\"19176ac7-76c2-433a-bdaa-20e30d8f095a\\\"\",\r\n      \"type\": \"Microsoft.Network/networkWatchers\",\r\n      \"location\": \"southcentralus\",\r\n      \"tags\": {},\r\n      \"properties\": {\r\n        \"provisioningState\": \"Succeeded\",\r\n        \"flowLogs\": [],\r\n        \"runningOperationIds\": []\r\n      }\r\n    }\r\n  ]\r\n}"
+      "x-ms-request-id" : "8481dafb-6a00-4bf6-816b-462024a7ea3b",
+      "Body" : "{\"value\":[{\"name\":\"NetworkWatcher_westus\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_westus\",\"etag\":\"W/\\\"972b874f-8391-404a-ae6c-f47b604a1c9f\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_eastus\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_eastus\",\"etag\":\"W/\\\"3988e6ce-7c03-412b-be05-f6b556618190\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"eastus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_northeurope\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_northeurope\",\"etag\":\"W/\\\"f4c5320f-ba2e-49ea-9756-8fbe91bcda13\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"northeurope\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_westeurope\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_westeurope\",\"etag\":\"W/\\\"301840f1-d9e8-439d-b5ae-3e5cc5f829cf\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westeurope\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_eastasia\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_eastasia\",\"etag\":\"W/\\\"cd7c390b-bdc1-4253-986e-abb98c9d8ca4\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"eastasia\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_southeastasia\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_southeastasia\",\"etag\":\"W/\\\"20dd9097-448a-42a2-a996-b9021a028933\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"southeastasia\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_northcentralus\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_northcentralus\",\"etag\":\"W/\\\"f55349a3-2444-4a92-9744-d892f92cf335\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"northcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_southcentralus\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_southcentralus\",\"etag\":\"W/\\\"6b26caac-b37c-4b04-8ed1-55189c3efa90\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"southcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_eastus2\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_eastus2\",\"etag\":\"W/\\\"642f4776-37d9-4eae-becf-7ebf55fff331\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"eastus2\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_japaneast\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_japaneast\",\"etag\":\"W/\\\"64ac6138-2469-4674-9bbe-ff332e3ab824\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"japaneast\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_westcentralus\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_westcentralus\",\"etag\":\"W/\\\"f7f3b650-ba8e-4e1f-9a9a-4e6fd0ea45e0\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westcentralus\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_westus2\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_westus2\",\"etag\":\"W/\\\"1c635b05-c1c6-41f2-9b21-68694613f405\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"westus2\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}},{\"name\":\"NetworkWatcher_ukwest\",\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_ukwest\",\"etag\":\"W/\\\"f274f7da-614d-47f3-88d2-061af97e7654\\\"\",\"type\":\"Microsoft.Network/networkWatchers\",\"location\":\"ukwest\",\"properties\":{\"provisioningState\":\"Succeeded\",\"flowLogs\":[],\"runningOperationIds\":[]}}]}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg61069/providers/Microsoft.Network/networkWatchers/nw57931?api-version=2018-06-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/NetworkWatcherRG/providers/Microsoft.Network/networkWatchers/NetworkWatcher_southcentralus?api-version=2019-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:37 GMT",
+      "date" : "Thu, 17 Oct 2019 14:54:40 GMT",
       "content-length" : "0",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14999",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14997",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "896e5a84-e107-4f9e-8fe4-2812c78d8c14",
+      "x-ms-correlation-request-id" : "ca78e523-897a-4583-acfa-039306fc753d",
+      "x-ms-arm-service-request-id" : "bc846010-695f-4930-b511-0866e9dc57a8",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193337Z:896e5a84-e107-4f9e-8fe4-2812c78d8c14",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/1d3c9480-4c71-4496-8423-33262cdf7acd?api-version=2018-06-01",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145441Z:ca78e523-897a-4583-acfa-039306fc753d",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/98c0e997-e40f-4775-9783-31ffe8179db9?api-version=2019-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "1d3c9480-4c71-4496-8423-33262cdf7acd",
+      "x-ms-request-id" : "98c0e997-e40f-4775-9783-31ffe8179db9",
       "Body" : "",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/1d3c9480-4c71-4496-8423-33262cdf7acd?api-version=2018-06-01"
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/98c0e997-e40f-4775-9783-31ffe8179db9?api-version=2019-06-01"
     }
   }, {
     "Method" : "GET",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/1d3c9480-4c71-4496-8423-33262cdf7acd?api-version=2018-06-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/98c0e997-e40f-4775-9783-31ffe8179db9?api-version=2019-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)"
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (NetworkManagementClient)"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:37 GMT",
+      "date" : "Thu, 17 Oct 2019 14:54:41 GMT",
       "server" : "Microsoft-HTTPAPI/2.0",
       "content-length" : "29",
       "expires" : "-1",
       "transfer-encoding" : "chunked",
       "vary" : "Accept-Encoding",
       "retry-after" : "0",
-      "x-ms-ratelimit-remaining-subscription-reads" : "11998",
+      "x-ms-ratelimit-remaining-subscription-reads" : "11969",
       "StatusCode" : "200",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "0d33a2f0-8689-484d-8d6b-77b984276b9b",
+      "x-ms-correlation-request-id" : "9d4572a6-3282-46dd-968c-f10b1a0bad8f",
+      "x-ms-arm-service-request-id" : "6830ff42-a490-404e-82a4-bcbf0ddee002",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193338Z:0d33a2f0-8689-484d-8d6b-77b984276b9b",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145442Z:9d4572a6-3282-46dd-968c-f10b1a0bad8f",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "b1d74089-4dbe-48f7-8b45-0d231ffd704a",
+      "x-ms-request-id" : "e90e01a1-800d-4068-9ac9-11f0b9127489",
       "Body" : "{\r\n  \"status\": \"Succeeded\"\r\n}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javanwmrg03683?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javanwmrg82929?api-version=2019-08-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (ResourceManagementClient, 2017-05-10)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:38 GMT",
-      "content-length" : "273",
+      "date" : "Thu, 17 Oct 2019 14:54:46 GMT",
+      "content-length" : "317",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1191",
       "retry-after" : "0",
       "StatusCode" : "201",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "8b4feb76-65f3-430e-a814-e148318af973",
+      "x-ms-correlation-request-id" : "da139d7d-6d4e-4e14-b609-c55128d4ff78",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193339Z:8b4feb76-65f3-430e-a814-e148318af973",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145447Z:da139d7d-6d4e-4e14-b609-c55128d4ff78",
       "content-type" : "application/json; charset=utf-8",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "8b4feb76-65f3-430e-a814-e148318af973",
-      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg03683\",\"name\":\"javanwmrg03683\",\"location\":\"southcentralus\",\"tags\":{\"date\":\"2018-08-08T19:33:38.398Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
+      "x-ms-request-id" : "da139d7d-6d4e-4e14-b609-c55128d4ff78",
+      "Body" : "{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg82929\",\"name\":\"javanwmrg82929\",\"type\":\"Microsoft.Resources/resourceGroups\",\"location\":\"southcentralus\",\"tags\":{\"date\":\"2019-10-17T14:54:42.082Z\",\"product\":\"javasdk\",\"cause\":\"automation\"},\"properties\":{\"provisioningState\":\"Succeeded\"}}"
     }
   }, {
     "Method" : "PUT",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg03683/providers/Microsoft.Network/networkWatchers/nw76776?api-version=2018-06-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg82929/providers/Microsoft.Network/networkWatchers/nw05035?api-version=2019-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:39 GMT",
+      "date" : "Thu, 17 Oct 2019 14:54:49 GMT",
       "content-length" : "440",
+      "server" : "Microsoft-HTTPAPI/2.0",
+      "expires" : "-1",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1190",
+      "retry-after" : "0",
+      "StatusCode" : "201",
+      "pragma" : "no-cache",
+      "strict-transport-security" : "max-age=31536000; includeSubDomains",
+      "x-ms-correlation-request-id" : "7d284df5-21dc-490b-8103-83668f85829d",
+      "x-ms-arm-service-request-id" : "7b681e55-86ae-4cdc-8faa-ac54e72b85b7",
+      "x-content-type-options" : "nosniff",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145450Z:7d284df5-21dc-490b-8103-83668f85829d",
+      "content-type" : "application/json; charset=utf-8",
+      "cache-control" : "no-cache",
+      "x-ms-request-id" : "b81a37f1-5265-4ace-a316-ea7ae6ee93a7",
+      "Body" : "{\r\n  \"name\": \"nw05035\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg82929/providers/Microsoft.Network/networkWatchers/nw05035\",\r\n  \"etag\": \"W/\\\"4301f600-2039-4308-b897-f6edd195561a\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}",
+      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/b81a37f1-5265-4ace-a316-ea7ae6ee93a7?api-version=2019-06-01"
+    }
+  }, {
+    "Method" : "POST",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg82929/providers/Microsoft.Network/networkWatchers/nw05035/availableProvidersList?api-version=2019-06-01",
+    "Headers" : {
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (NetworkManagementClient)",
+      "Content-Type" : "application/json; charset=utf-8"
+    },
+    "Response" : {
+      "date" : "Thu, 17 Oct 2019 14:54:50 GMT",
+      "content-length" : "116",
       "server" : "Microsoft-HTTPAPI/2.0",
       "expires" : "-1",
       "x-ms-ratelimit-remaining-subscription-writes" : "1198",
       "retry-after" : "0",
-      "StatusCode" : "201",
+      "StatusCode" : "500",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "983b4a95-d195-4374-a477-488d034e2730",
+      "x-ms-correlation-request-id" : "fe708a92-c0b4-4b7d-883d-7924ace64c54",
+      "x-ms-arm-service-request-id" : "e4155e2d-6d8f-4dd8-ac0d-032f8edc90bb",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193340Z:983b4a95-d195-4374-a477-488d034e2730",
+      "x-ms-failure-cause" : "service",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145451Z:fe708a92-c0b4-4b7d-883d-7924ace64c54",
+      "connection" : "close",
       "content-type" : "application/json; charset=utf-8",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/46107380-9c53-4c4d-873d-d4865e690367?api-version=2019-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "aaf992ac-896d-4417-8bd0-049009e4475b",
-      "Body" : "{\r\n  \"name\": \"nw76776\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg03683/providers/Microsoft.Network/networkWatchers/nw76776\",\r\n  \"etag\": \"W/\\\"3ba59601-ffed-485f-8e14-f7ac96bd5a55\\\"\",\r\n  \"type\": \"Microsoft.Network/networkWatchers\",\r\n  \"location\": \"southcentralus\",\r\n  \"tags\": {},\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"flowLogs\": [],\r\n    \"runningOperationIds\": []\r\n  }\r\n}",
-      "azure-asyncoperation" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operations/aaf992ac-896d-4417-8bd0-049009e4475b?api-version=2018-06-01"
+      "x-ms-request-id" : "46107380-9c53-4c4d-873d-d4865e690367",
+      "Body" : "{\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n    \"message\": \"An error occurred.\",\r\n    \"details\": []\r\n  }\r\n}"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg03683/providers/Microsoft.Network/networkWatchers/nw76776/availableProvidersList?api-version=2018-06-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg82929/providers/Microsoft.Network/networkWatchers/nw05035/availableProvidersList?api-version=2019-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:40 GMT",
+      "date" : "Thu, 17 Oct 2019 14:54:52 GMT",
+      "content-length" : "116",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "24394",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1197",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
       "retry-after" : "0",
-      "StatusCode" : "200",
+      "StatusCode" : "500",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "5b156ff8-2d62-4609-ab0e-f372d5372172",
+      "x-ms-correlation-request-id" : "be4ef909-df4f-4c5d-8050-7d15c20d50e1",
+      "x-ms-arm-service-request-id" : "e121c7fb-8bac-4fcd-8dd7-746f21981fc9",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193340Z:5b156ff8-2d62-4609-ab0e-f372d5372172",
+      "x-ms-failure-cause" : "service",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145453Z:be4ef909-df4f-4c5d-8050-7d15c20d50e1",
+      "connection" : "close",
       "content-type" : "application/json; charset=utf-8",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/823af7d0-1b8f-4b4b-b855-9c88643ca8d3?api-version=2018-06-01",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/c71f4a3f-b8ab-410b-930f-4dcbc1aa494c?api-version=2019-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "823af7d0-1b8f-4b4b-b855-9c88643ca8d3",
-      "Body" : "{\r\n  \"countries\": [\r\n    {\r\n      \"countryName\": \"Australia\",\r\n      \"providers\": [\r\n        \"Internode Pty Ltd - ASN 4739\",\r\n        \"Microplex PTY LTD - ASN 4804\",\r\n        \"TPG Telecom Limited - ASN 7545\"\r\n      ],\r\n      \"states\": []\r\n    },\r\n    {\r\n      \"countryName\": \"Brazil\",\r\n      \"providers\": [\r\n        \"Brasil Telecom S/A - Filial Distrito Federal - ASN 8167\",\r\n        \"CLARO S.A. - ASN 28573\",\r\n        \"TELEFNICA BRASIL S.A - ASN 18881\",\r\n        \"TELEFNICA BRASIL S.A - ASN 27699\",\r\n        \"Telemar Norte Leste S.A. - ASN 7738\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"minas gerais\",\r\n          \"providers\": [\r\n            \"Telemar Norte Leste S.A. - ASN 7738\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"rio de janeiro\",\r\n          \"providers\": [\r\n            \"CLARO S.A. - ASN 28573\",\r\n            \"Telemar Norte Leste S.A. - ASN 7738\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"sao paulo\",\r\n          \"providers\": [\r\n            \"CLARO S.A. - ASN 28573\",\r\n            \"TELEFNICA BRASIL S.A - ASN 27699\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"sao paulo\",\r\n              \"providers\": [\r\n                \"CLARO S.A. - ASN 28573\",\r\n                \"TELEFNICA BRASIL S.A - ASN 27699\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"são paulo\",\r\n          \"providers\": [\r\n            \"CLARO S.A. - ASN 28573\",\r\n            \"TELEFNICA BRASIL S.A - ASN 27699\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"Canada\",\r\n      \"providers\": [\r\n        \"Bell Canada - ASN 577\",\r\n        \"Cogeco Cable - ASN 7992\",\r\n        \"Rogers Communications Canada Inc. - ASN 812\",\r\n        \"Shaw Communications Inc. - ASN 6327\",\r\n        \"TELUS Communications Inc. - ASN 852\",\r\n        \"Videotron Telecom Ltee - ASN 5769\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"alberta\",\r\n          \"providers\": [\r\n            \"Shaw Communications Inc. - ASN 6327\",\r\n            \"TELUS Communications Inc. - ASN 852\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"british columbia\",\r\n          \"providers\": [\r\n            \"Shaw Communications Inc. - ASN 6327\",\r\n            \"TELUS Communications Inc. - ASN 852\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"ontario\",\r\n          \"providers\": [\r\n            \"Bell Canada - ASN 577\",\r\n            \"Cogeco Cable - ASN 7992\",\r\n            \"Rogers Communications Canada Inc. - ASN 812\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"toronto\",\r\n              \"providers\": [\r\n                \"Bell Canada - ASN 577\",\r\n                \"Rogers Communications Canada Inc. - ASN 812\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"quebec\",\r\n          \"providers\": [\r\n            \"Bell Canada - ASN 577\",\r\n            \"Videotron Telecom Ltee - ASN 5769\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"China\",\r\n      \"providers\": [\r\n        \"China Telecom Backbone - ASN 4134\",\r\n        \"China Unicom Backbone - ASN 4837\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"fujian\",\r\n          \"providers\": [\r\n            \"China Telecom Backbone - ASN 4134\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"guangdong\",\r\n          \"providers\": [\r\n            \"China Telecom Backbone - ASN 4134\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"guangxi zhuang\",\r\n          \"providers\": [\r\n            \"China Telecom Backbone - ASN 4134\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"hubei\",\r\n          \"providers\": [\r\n            \"China Telecom Backbone - ASN 4134\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"hunan\",\r\n          \"providers\": [\r\n            \"China Telecom Backbone - ASN 4134\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"jiangsu\",\r\n          \"providers\": [\r\n            \"China Telecom Backbone - ASN 4134\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"shandong\",\r\n          \"providers\": [\r\n            \"China Unicom Backbone - ASN 4837\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"sichuan\",\r\n          \"providers\": [\r\n            \"China Telecom Backbone - ASN 4134\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"zhejiang\",\r\n          \"providers\": [\r\n            \"China Telecom Backbone - ASN 4134\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"France\",\r\n      \"providers\": [\r\n        \"COMPLETEL SAS France - ASN 12670\",\r\n        \"Free SAS - ASN 12322\",\r\n        \"Orange S.A. - ASN 3215\",\r\n        \"Renater - ASN 2200\",\r\n        \"SFR SA - ASN 15557\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"auvergne-rhone-alpes\",\r\n          \"providers\": [\r\n            \"Orange S.A. - ASN 3215\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"grand est\",\r\n          \"providers\": [\r\n            \"Orange S.A. - ASN 3215\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"ile-de-france\",\r\n          \"providers\": [\r\n            \"Free SAS - ASN 12322\",\r\n            \"Orange S.A. - ASN 3215\",\r\n            \"SFR SA - ASN 15557\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"paris\",\r\n              \"providers\": [\r\n                \"Orange S.A. - ASN 3215\",\r\n                \"SFR SA - ASN 15557\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"nouvelle-aquitaine\",\r\n          \"providers\": [\r\n            \"Orange S.A. - ASN 3215\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"occitanie\",\r\n          \"providers\": [\r\n            \"Orange S.A. - ASN 3215\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"provence-alpes-cote d'azur\",\r\n          \"providers\": [\r\n            \"Orange S.A. - ASN 3215\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"Germany\",\r\n      \"providers\": [\r\n        \"1&1 Versatel Deutschland GmbH - ASN 8881\",\r\n        \"Deutsche Telekom AG - ASN 3320\",\r\n        \"Kabel BW GmbH - ASN 29562\",\r\n        \"Liberty Global Operations B.V. - ASN 6830\",\r\n        \"Telefonica Germany GmbH & Co.OHG - ASN 6805\",\r\n        \"Vodafone GmbH - ASN 3209\",\r\n        \"Vodafone Kabel Deutschland GmbH - ASN 31334\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"baden-württemberg\",\r\n          \"providers\": [\r\n            \"Deutsche Telekom AG - ASN 3320\",\r\n            \"Kabel BW GmbH - ASN 29562\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"bavaria\",\r\n          \"providers\": [\r\n            \"Deutsche Telekom AG - ASN 3320\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"hesse\",\r\n          \"providers\": [\r\n            \"Deutsche Telekom AG - ASN 3320\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"lower saxony\",\r\n          \"providers\": [\r\n            \"Deutsche Telekom AG - ASN 3320\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"north rhine-westphalia\",\r\n          \"providers\": [\r\n            \"Deutsche Telekom AG - ASN 3320\",\r\n            \"Liberty Global Operations B.V. - ASN 6830\",\r\n            \"Vodafone GmbH - ASN 3209\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"rhineland-palatinate\",\r\n          \"providers\": [\r\n            \"Deutsche Telekom AG - ASN 3320\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"saxony\",\r\n          \"providers\": [\r\n            \"Deutsche Telekom AG - ASN 3320\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"India\",\r\n      \"providers\": [\r\n        \"Atria Convergence Technologies Pvt. Ltd.  Broadband Internet Service Provider INDIA - ASN 24309\",\r\n        \"Atria Convergence Technologies pvt ltd - ASN 18209\",\r\n        \"Hathway IP Over Cable Internet - ASN 17488\",\r\n        \"Tata Communications (formerly VSNL) - ASN 4755\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"karnataka\",\r\n          \"providers\": [\r\n            \"Atria Convergence Technologies Pvt. Ltd.  Broadband Internet Service Provider INDIA - ASN 24309\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"bengaluru\",\r\n              \"providers\": [\r\n                \"Atria Convergence Technologies Pvt. Ltd.  Broadband Internet Service Provider INDIA - ASN 24309\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"telangana\",\r\n          \"providers\": [\r\n            \"Atria Convergence Technologies pvt ltd - ASN 18209\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"Italy\",\r\n      \"providers\": [\r\n        \"Fastweb SpA - ASN 12874\",\r\n        \"Wind Telecomunicazioni SpA - ASN 1267\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"lombardy\",\r\n          \"providers\": [\r\n            \"Fastweb SpA - ASN 12874\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"Japan\",\r\n      \"providers\": [\r\n        \"ARTERIA Networks Corporation - ASN 2519\",\r\n        \"AT TOKYO Corporation - ASN 9999\",\r\n        \"BIGLOBE Inc. - ASN 2518\",\r\n        \"Chubu Telecommunications Company, Inc. - ASN 18126\",\r\n        \"FUJITSU LIMITED - ASN 2510\",\r\n        \"Internet Initiative Japan Inc. - ASN 2497\",\r\n        \"Jupiter Telecommunication Co. Ltd - ASN 9824\",\r\n        \"K-Opticom Corporation - ASN 17511\",\r\n        \"KDDI Corporation - ASN 2516\",\r\n        \"NTT Communications Corporation - ASN 4713\",\r\n        \"NTT PC Communications, Inc. - ASN 2514\",\r\n        \"So-net Entertainment Corporation - ASN 2527\",\r\n        \"Softbank BB Corp. - ASN 17676\",\r\n        \"TOKAI Communications Corporation - ASN 10010\",\r\n        \"TOYOTA DIGITAL CRUISE.INCORPORATED - ASN 7687\",\r\n        \"UCOM Corp. - ASN 17506\",\r\n        \"for assignment to JPNIC members - ASN 2907\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"aichi\",\r\n          \"providers\": [\r\n            \"NTT Communications Corporation - ASN 4713\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"chiba\",\r\n          \"providers\": [\r\n            \"NTT Communications Corporation - ASN 4713\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"kanagawa\",\r\n          \"providers\": [\r\n            \"NTT Communications Corporation - ASN 4713\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"osaka\",\r\n          \"providers\": [\r\n            \"Internet Initiative Japan Inc. - ASN 2497\",\r\n            \"K-Opticom Corporation - ASN 17511\",\r\n            \"NTT Communications Corporation - ASN 4713\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"osaka\",\r\n              \"providers\": [\r\n                \"Internet Initiative Japan Inc. - ASN 2497\",\r\n                \"NTT Communications Corporation - ASN 4713\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"tokyo\",\r\n          \"providers\": [\r\n            \"AT TOKYO Corporation - ASN 9999\",\r\n            \"Internet Initiative Japan Inc. - ASN 2497\",\r\n            \"KDDI Corporation - ASN 2516\",\r\n            \"NTT Communications Corporation - ASN 4713\",\r\n            \"NTT PC Communications, Inc. - ASN 2514\",\r\n            \"So-net Entertainment Corporation - ASN 2527\",\r\n            \"Softbank BB Corp. - ASN 17676\",\r\n            \"UCOM Corp. - ASN 17506\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"chiyoda-ku\",\r\n              \"providers\": [\r\n                \"AT TOKYO Corporation - ASN 9999\",\r\n                \"KDDI Corporation - ASN 2516\",\r\n                \"NTT Communications Corporation - ASN 4713\"\r\n              ]\r\n            },\r\n            {\r\n              \"cityName\": \"minato-ku tokyo\",\r\n              \"providers\": [\r\n                \"Softbank BB Corp. - ASN 17676\",\r\n                \"UCOM Corp. - ASN 17506\"\r\n              ]\r\n            },\r\n            {\r\n              \"cityName\": \"tokyo\",\r\n              \"providers\": [\r\n                \"Internet Initiative Japan Inc. - ASN 2497\",\r\n                \"KDDI Corporation - ASN 2516\",\r\n                \"NTT Communications Corporation - ASN 4713\",\r\n                \"So-net Entertainment Corporation - ASN 2527\",\r\n                \"Softbank BB Corp. - ASN 17676\",\r\n                \"UCOM Corp. - ASN 17506\"\r\n              ]\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"Norway\",\r\n      \"providers\": [\r\n        \"Telenor Norge AS - ASN 2119\"\r\n      ],\r\n      \"states\": []\r\n    },\r\n    {\r\n      \"countryName\": \"South Africa\",\r\n      \"providers\": [\r\n        \"Internet Solutions - ASN 3741\",\r\n        \"Telkom SA Ltd. - ASN 37457\"\r\n      ],\r\n      \"states\": []\r\n    },\r\n    {\r\n      \"countryName\": \"Spain\",\r\n      \"providers\": [\r\n        \"VODAFONE ONO, S.A. - ASN 6739\"\r\n      ],\r\n      \"states\": []\r\n    },\r\n    {\r\n      \"countryName\": \"Sweden\",\r\n      \"providers\": [\r\n        \"Internetport Sweden AB - ASN 49770\",\r\n        \"Telia Company AB - ASN 3301\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"stockholm county\",\r\n          \"providers\": [\r\n            \"Internetport Sweden AB - ASN 49770\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"stockholm\",\r\n              \"providers\": [\r\n                \"Internetport Sweden AB - ASN 49770\"\r\n              ]\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"Switzerland\",\r\n      \"providers\": [\r\n        \"Swisscom (Switzerland) Ltd - ASN 3303\"\r\n      ],\r\n      \"states\": []\r\n    },\r\n    {\r\n      \"countryName\": \"United Kingdom\",\r\n      \"providers\": [\r\n        \"British Telecommunications plc - ASN 2856\",\r\n        \"British Telecommunications plc - ASN 6871\",\r\n        \"Exponential-E Ltd. - ASN 25180\",\r\n        \"Jisc Services Limited - ASN 786\",\r\n        \"Now maintained by Cable & Wireless Worldwide - ASN 2529\",\r\n        \"Sky UK Limited - ASN 5607\",\r\n        \"TalkTalk Communications Limited - ASN 13285\",\r\n        \"Virgin Media Limited - ASN 5089\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"hertfordshire\",\r\n          \"providers\": [\r\n            \"Now maintained by Cable & Wireless Worldwide - ASN 2529\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"watford\",\r\n              \"providers\": [\r\n                \"Now maintained by Cable & Wireless Worldwide - ASN 2529\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"london\",\r\n          \"providers\": [\r\n            \"British Telecommunications plc - ASN 2856\",\r\n            \"Virgin Media Limited - ASN 5089\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"london\",\r\n              \"providers\": [\r\n                \"British Telecommunications plc - ASN 2856\",\r\n                \"Virgin Media Limited - ASN 5089\"\r\n              ]\r\n            }\r\n          ]\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \"countryName\": \"United States\",\r\n      \"providers\": [\r\n        \"AT&T Services, Inc. - ASN 7018\",\r\n        \"Charter Communications - ASN 20115\",\r\n        \"Cogent Communications - ASN 174\",\r\n        \"Comcast Cable Communications, LLC - ASN 7922\",\r\n        \"Cox Communications Inc. - ASN 22773\",\r\n        \"Frontier Communications of America, Inc. - ASN 5650\",\r\n        \"Google Fiber Inc. - ASN 16591\",\r\n        \"Level 3 Communications, Inc. (GBLX) - ASN 3549\",\r\n        \"Level 3 Parent, LLC - ASN 3356\",\r\n        \"Mediacom Communications Corp - ASN 30036\",\r\n        \"PenTeleData Inc. - ASN 3737\",\r\n        \"Qwest Communications Company, LLC - ASN 209\",\r\n        \"Suddenlink Communications - ASN 19108\",\r\n        \"Time Warner Cable Internet LLC - ASN 10796\",\r\n        \"Time Warner Cable Internet LLC - ASN 11351\",\r\n        \"Time Warner Cable Internet LLC - ASN 11426\",\r\n        \"Time Warner Cable Internet LLC - ASN 11427\",\r\n        \"Time Warner Cable Internet LLC - ASN 12271\",\r\n        \"Verizon Business/UUnet - ASN 701\",\r\n        \"WideOpenWest Finance LLC - ASN 12083\",\r\n        \"Windstream Communications LLC - ASN 7029\"\r\n      ],\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"arizona\",\r\n          \"providers\": [\r\n            \"Cox Communications Inc. - ASN 22773\",\r\n            \"Qwest Communications Company, LLC - ASN 209\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"arkansas\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"california\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Charter Communications - ASN 20115\",\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Cox Communications Inc. - ASN 22773\",\r\n            \"Frontier Communications of America, Inc. - ASN 5650\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"colorado\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Qwest Communications Company, LLC - ASN 209\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"florida\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Frontier Communications of America, Inc. - ASN 5650\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"georgia\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Comcast Cable Communications, LLC - ASN 7922\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"illinois\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Comcast Cable Communications, LLC - ASN 7922\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"indiana\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"kentucky\",\r\n          \"providers\": [\r\n            \"Time Warner Cable Internet LLC - ASN 10796\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"maryland\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Verizon Business/UUnet - ASN 701\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"massachusetts\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Verizon Business/UUnet - ASN 701\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"michigan\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Charter Communications - ASN 20115\",\r\n            \"Comcast Cable Communications, LLC - ASN 7922\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"minnesota\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"missouri\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Charter Communications - ASN 20115\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"nevada\",\r\n          \"providers\": [\r\n            \"Cox Communications Inc. - ASN 22773\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"las vegas\",\r\n              \"providers\": [\r\n                \"Cox Communications Inc. - ASN 22773\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"new jersey\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Verizon Business/UUnet - ASN 701\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"new york\",\r\n          \"providers\": [\r\n            \"Time Warner Cable Internet LLC - ASN 11351\",\r\n            \"Time Warner Cable Internet LLC - ASN 12271\",\r\n            \"Verizon Business/UUnet - ASN 701\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"new york\",\r\n              \"providers\": [\r\n                \"Time Warner Cable Internet LLC - ASN 12271\"\r\n              ]\r\n            },\r\n            {\r\n              \"cityName\": \"rochester\",\r\n              \"providers\": [\r\n                \"Time Warner Cable Internet LLC - ASN 11351\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"north carolina\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Time Warner Cable Internet LLC - ASN 11426\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"ohio\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Time Warner Cable Internet LLC - ASN 10796\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"oklahoma\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Cox Communications Inc. - ASN 22773\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"oklahoma city\",\r\n              \"providers\": [\r\n                \"AT&T Services, Inc. - ASN 7018\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"oregon\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"pennsylvania\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"PenTeleData Inc. - ASN 3737\",\r\n            \"Verizon Business/UUnet - ASN 701\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"tennessee\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Comcast Cable Communications, LLC - ASN 7922\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"texas\",\r\n          \"providers\": [\r\n            \"AT&T Services, Inc. - ASN 7018\",\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Frontier Communications of America, Inc. - ASN 5650\",\r\n            \"Suddenlink Communications - ASN 19108\",\r\n            \"Time Warner Cable Internet LLC - ASN 11427\"\r\n          ],\r\n          \"cities\": [\r\n            {\r\n              \"cityName\": \"houston\",\r\n              \"providers\": [\r\n                \"Comcast Cable Communications, LLC - ASN 7922\"\r\n              ]\r\n            }\r\n          ]\r\n        },\r\n        {\r\n          \"stateName\": \"virginia\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Cox Communications Inc. - ASN 22773\",\r\n            \"Verizon Business/UUnet - ASN 701\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"washington\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\",\r\n            \"Qwest Communications Company, LLC - ASN 209\"\r\n          ],\r\n          \"cities\": []\r\n        },\r\n        {\r\n          \"stateName\": \"wisconsin\",\r\n          \"providers\": [\r\n            \"Charter Communications - ASN 20115\",\r\n            \"Time Warner Cable Internet LLC - ASN 10796\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      "x-ms-request-id" : "c71f4a3f-b8ab-410b-930f-4dcbc1aa494c",
+      "Body" : "{\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n    \"message\": \"An error occurred.\",\r\n    \"details\": []\r\n  }\r\n}"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg03683/providers/Microsoft.Network/networkWatchers/nw76776/availableProvidersList?api-version=2018-06-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg82929/providers/Microsoft.Network/networkWatchers/nw05035/availableProvidersList?api-version=2019-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:40 GMT",
+      "date" : "Thu, 17 Oct 2019 14:54:53 GMT",
+      "content-length" : "116",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "292",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1196",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
       "retry-after" : "0",
-      "StatusCode" : "200",
+      "StatusCode" : "500",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "eaa273fd-e976-4980-b3ea-d05a161767da",
+      "x-ms-correlation-request-id" : "37f19b40-1f51-4caf-ab08-03d65df765c6",
+      "x-ms-arm-service-request-id" : "f72df84f-cbeb-40fa-a1c1-90bf89907c11",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193341Z:eaa273fd-e976-4980-b3ea-d05a161767da",
+      "x-ms-failure-cause" : "service",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145454Z:37f19b40-1f51-4caf-ab08-03d65df765c6",
+      "connection" : "close",
       "content-type" : "application/json; charset=utf-8",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/2eada91c-6517-4967-94bc-186a8969d6df?api-version=2018-06-01",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/ed0725b5-4ac5-45c2-a8cd-553886a42cac?api-version=2019-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "2eada91c-6517-4967-94bc-186a8969d6df",
-      "Body" : "{\r\n  \"countries\": [\r\n    {\r\n      \"countryName\": \"United States\",\r\n      \"states\": [\r\n        {\r\n          \"stateName\": \"washington\",\r\n          \"providers\": [\r\n            \"Comcast Cable Communications, LLC - ASN 7922\"\r\n          ],\r\n          \"cities\": []\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      "x-ms-request-id" : "ed0725b5-4ac5-45c2-a8cd-553886a42cac",
+      "Body" : "{\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n    \"message\": \"An error occurred.\",\r\n    \"details\": []\r\n  }\r\n}"
     }
   }, {
     "Method" : "POST",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg03683/providers/Microsoft.Network/networkWatchers/nw76776/azureReachabilityReport?api-version=2018-06-01",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/javanwmrg82929/providers/Microsoft.Network/networkWatchers/nw05035/availableProvidersList?api-version=2019-06-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (NetworkManagementClient)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (NetworkManagementClient)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:41 GMT",
+      "date" : "Thu, 17 Oct 2019 14:54:54 GMT",
+      "content-length" : "116",
       "server" : "Microsoft-HTTPAPI/2.0",
-      "content-length" : "196",
       "expires" : "-1",
-      "transfer-encoding" : "chunked",
-      "vary" : "Accept-Encoding",
-      "x-ms-ratelimit-remaining-subscription-writes" : "1195",
+      "x-ms-ratelimit-remaining-subscription-writes" : "1199",
       "retry-after" : "0",
-      "StatusCode" : "200",
+      "StatusCode" : "500",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "60e3fd30-e8a4-4632-bdc2-d0cd337bd381",
+      "x-ms-correlation-request-id" : "10ac130b-d99d-45ec-8011-79d6b478ad80",
+      "x-ms-arm-service-request-id" : "85da301b-adeb-4b98-aa27-6c3b9ce6a762",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193342Z:60e3fd30-e8a4-4632-bdc2-d0cd337bd381",
+      "x-ms-failure-cause" : "service",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145455Z:10ac130b-d99d-45ec-8011-79d6b478ad80",
+      "connection" : "close",
       "content-type" : "application/json; charset=utf-8",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/09ff3e20-3b39-44c4-a4f4-61ced49e9229?api-version=2018-06-01",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/southcentralus/operationResults/77d94c5d-2510-4db7-bc7d-3a50c30e0838?api-version=2019-06-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "09ff3e20-3b39-44c4-a4f4-61ced49e9229",
-      "Body" : "{\r\n  \"aggregationLevel\": \"State\",\r\n  \"providerLocation\": {\r\n    \"country\": \"United States\",\r\n    \"state\": \"washington\"\r\n  },\r\n  \"reachabilityReport\": [\r\n    {\r\n      \"latencies\": []\r\n    }\r\n  ]\r\n}"
+      "x-ms-request-id" : "77d94c5d-2510-4db7-bc7d-3a50c30e0838",
+      "Body" : "{\r\n  \"error\": {\r\n    \"code\": \"InternalServerError\",\r\n    \"message\": \"An error occurred.\",\r\n    \"details\": []\r\n  }\r\n}"
     }
   }, {
     "Method" : "DELETE",
-    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javanwmrg03683?api-version=2017-05-10",
+    "Uri" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/javanwmrg82929?api-version=2019-08-01",
     "Headers" : {
-      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:a22cb572fdf361c1a65341471ca9c2d9987ac77426088d08234fc437795e9194 Java:1.8.0_171 (ResourceManagementClient, 2017-05-10)",
+      "User-Agent" : "Azure-SDK-For-Java/null OS:Windows 10/10.0 MacAddressHash:d3fc60ad002f4c863d99d3beb851e8edf973a5248d395e580e9f144e262d969c Java:1.8.0_221 (ResourceManagementClient, 2019-08-01)",
       "Content-Type" : "application/json; charset=utf-8"
     },
     "Response" : {
-      "date" : "Wed, 08 Aug 2018 19:33:42 GMT",
+      "date" : "Thu, 17 Oct 2019 14:55:02 GMT",
       "content-length" : "0",
       "expires" : "-1",
-      "x-ms-ratelimit-remaining-subscription-deletes" : "14998",
+      "x-ms-ratelimit-remaining-subscription-deletes" : "14996",
       "retry-after" : "0",
       "StatusCode" : "202",
       "pragma" : "no-cache",
       "strict-transport-security" : "max-age=31536000; includeSubDomains",
-      "x-ms-correlation-request-id" : "579767a4-7919-4472-91f6-97349a7e654d",
+      "x-ms-correlation-request-id" : "060ef17e-96c7-4f8f-9be9-c9fb1b9a7a24",
       "x-content-type-options" : "nosniff",
-      "x-ms-routing-request-id" : "WESTUS2:20180808T193342Z:579767a4-7919-4472-91f6-97349a7e654d",
-      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KQVZBTldNUkcwMzY4My1TT1VUSENFTlRSQUxVUyIsImpvYkxvY2F0aW9uIjoic291dGhjZW50cmFsdXMifQ?api-version=2017-05-10",
+      "x-ms-routing-request-id" : "SOUTHEASTASIA:20191017T145502Z:060ef17e-96c7-4f8f-9be9-c9fb1b9a7a24",
+      "location" : "http://localhost:1234/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1KQVZBTldNUkc4MjkyOS1TT1VUSENFTlRSQUxVUyIsImpvYkxvY2F0aW9uIjoic291dGhjZW50cmFsdXMifQ?api-version=2019-08-01",
       "cache-control" : "no-cache",
-      "x-ms-request-id" : "579767a4-7919-4472-91f6-97349a7e654d",
+      "x-ms-request-id" : "060ef17e-96c7-4f8f-9be9-c9fb1b9a7a24",
       "Body" : ""
     }
   } ],
-  "variables" : [ "javanwmrg03683", "nw76776", "05c7bb87-facd-464c-a1a1-0883870db161", "a52826ad-5c9a-4590-984b-0d8a1e73862c", "8df8ae6a-5c7f-4fed-8140-9ed2484b2fdf", "e6015ddd-059e-435e-85c9-59b6102b3c9b", "4e7458d5-2684-4d19-a6bb-063ae185c25d", "26ef71c7-2e1d-404f-a8ea-413c661170fe" ]
+  "variables" : [ "javanwmrg82929", "nw05035", "754ab225-8e8e-415d-82a6-7c005809c0bc", "4771478e-f050-45c7-9673-38265279f943", "cca0de87-e998-4d0b-ac82-69c14e5bee61", "a53961cb-60ae-4a33-8ee2-cbad81ae7e71", "7ec5fd25-e224-47c1-a7bb-fc376aa3b313", "23c9ab3e-bcc4-4c85-90e5-b6f8bfc6ee93", "7b0f8a2e-c486-44b8-841e-0f6aee424573", "22e69a8a-10cd-4742-8190-670b34a38c30", "af89e8e1-ee10-4c5c-929f-a33bd493e213", "b7c0b67b-4dc8-4348-a0b0-c87c9387d2c8", "181aa933-eb45-41f3-ac48-e0fa458f2526", "bbae68c4-ab52-4f0e-8f22-1421d4c33afe", "544a6cf9-0bdf-433a-bfc0-d036260de1d3", "59884cc7-f4d7-4297-953d-f8629583f7ab", "ddbce525-c475-41c0-b240-9959698c572d", "bddfba30-c6ae-4966-a02d-868dc1b162bb" ]
 }

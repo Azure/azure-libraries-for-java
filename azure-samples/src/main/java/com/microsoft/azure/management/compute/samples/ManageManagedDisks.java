@@ -69,7 +69,7 @@ public final class ManageManagedDisks {
                     .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                     .withRootUsername(userName)
                     .withSsh(sshkey)
-                    .withNewDataDisk(100)
+                    .withNewDataDisk(50)
                     .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
                     .create();
 
@@ -93,13 +93,16 @@ public final class ManageManagedDisks {
                         .withPopularLinuxImage(KnownLinuxVirtualMachineImage.UBUNTU_SERVER_16_04_LTS)
                         .withRootUsername("tirekicker")
                         .withSsh(sshkey)
-                        .withNewDataDisk(100)
-                        .withNewDataDisk(100, 1, CachingTypes.READ_WRITE)
-                        .withNewDataDisk(100, 2, CachingTypes.READ_ONLY)
+                        .withNewDataDisk(50)
+                        .withNewDataDisk(50, 1, CachingTypes.READ_WRITE)
+                        .withNewDataDisk(50, 2, CachingTypes.READ_ONLY)
                         .withCapacity(3)
                         .create();
 
             System.out.println("Created VMSS [with implicit managed OS disks and explicit managed data disks]");
+            System.out.println("Created VMSS [with implicit managed OS disks and explicit managed data disks]");
+
+            azure.virtualMachineScaleSets().deleteById(vmScaleSet.id());
 
             // Create an empty disk and attach to a VM (Manage Virtual Machine With Disk)
 
@@ -129,8 +132,8 @@ public final class ManageManagedDisks {
                     .withRootUsername(userName)
                     .withSsh(sshkey)
                     // Begin: Managed data disks
-                    .withNewDataDisk(100)
-                    .withNewDataDisk(100, 1, CachingTypes.READ_WRITE)
+                    .withNewDataDisk(50)
+                    .withNewDataDisk(50, 1, CachingTypes.READ_WRITE)
                     .withExistingDataDisk(dataDisk)
                     // End: Managed data disks
                     .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
@@ -245,7 +248,7 @@ public final class ManageManagedDisks {
                     .withRegion(region)
                     .withExistingResourceGroup(rgName)
                     .withLinuxFromSnapshot(osSnapshot)
-                    .withSizeInGB(100)
+                    .withSizeInGB(50)
                     .create();
 
             System.out.println("Created managed OS disk [from snapshot]");
@@ -308,7 +311,7 @@ public final class ManageManagedDisks {
                     .withRootUsername("tirekicker")
                     .withSsh(sshkey)
                     .withUnmanagedDisks() // uses storage accounts
-                    .withNewUnmanagedDataDisk(100)
+                    .withNewUnmanagedDataDisk(50)
                     .withSize(VirtualMachineSizeTypes.STANDARD_D3_V2)
                     .create();
 

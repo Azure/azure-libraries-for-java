@@ -135,7 +135,11 @@ public class TransparentDataEncryptionActivitiesInner {
                 public Observable<ServiceResponse<List<TransparentDataEncryptionActivityInner>>> call(Response<ResponseBody> response) {
                     try {
                         ServiceResponse<PageImpl<TransparentDataEncryptionActivityInner>> result = listByConfigurationDelegate(response);
-                        ServiceResponse<List<TransparentDataEncryptionActivityInner>> clientResponse = new ServiceResponse<List<TransparentDataEncryptionActivityInner>>(result.body().items(), result.response());
+                        List<TransparentDataEncryptionActivityInner> items = null;
+                        if (result.body() != null) {
+                            items = result.body().items();
+                        }
+                        ServiceResponse<List<TransparentDataEncryptionActivityInner>> clientResponse = new ServiceResponse<List<TransparentDataEncryptionActivityInner>>(items, result.response());
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);

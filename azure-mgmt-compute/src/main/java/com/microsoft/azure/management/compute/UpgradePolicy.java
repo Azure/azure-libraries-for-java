@@ -33,18 +33,10 @@ public class UpgradePolicy {
     private RollingUpgradePolicy rollingUpgradePolicy;
 
     /**
-     * Whether OS upgrades should automatically be applied to scale set
-     * instances in a rolling fashion when a newer version of the image becomes
-     * available.
-     */
-    @JsonProperty(value = "automaticOSUpgrade")
-    private Boolean automaticOSUpgrade;
-
-    /**
      * Configuration parameters used for performing automatic OS Upgrade.
      */
-    @JsonProperty(value = "autoOSUpgradePolicy")
-    private AutoOSUpgradePolicy autoOSUpgradePolicy;
+    @JsonProperty(value = "automaticOSUpgradePolicy")
+    private AutomaticOSUpgradePolicy automaticOSUpgradePolicy;
 
     /**
      * Get specifies the mode of an upgrade to virtual machines in the scale set.&lt;br /&gt;&lt;br /&gt; Possible values are:&lt;br /&gt;&lt;br /&gt; **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.&lt;br /&gt;&lt;br /&gt; **Automatic** - All virtual machines in the scale set are  automatically updated at the same time. Possible values include: 'Automatic', 'Manual', 'Rolling'.
@@ -87,42 +79,22 @@ public class UpgradePolicy {
     }
 
     /**
-     * Get whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the image becomes available.
-     *
-     * @return the automaticOSUpgrade value
-     */
-    public Boolean automaticOSUpgrade() {
-        return this.automaticOSUpgrade;
-    }
-
-    /**
-     * Set whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the image becomes available.
-     *
-     * @param automaticOSUpgrade the automaticOSUpgrade value to set
-     * @return the UpgradePolicy object itself.
-     */
-    public UpgradePolicy withAutomaticOSUpgrade(Boolean automaticOSUpgrade) {
-        this.automaticOSUpgrade = automaticOSUpgrade;
-        return this;
-    }
-
-    /**
      * Get configuration parameters used for performing automatic OS Upgrade.
      *
-     * @return the autoOSUpgradePolicy value
+     * @return the automaticOSUpgradePolicy value
      */
-    public AutoOSUpgradePolicy autoOSUpgradePolicy() {
-        return this.autoOSUpgradePolicy;
+    public AutomaticOSUpgradePolicy automaticOSUpgradePolicy() {
+        return this.automaticOSUpgradePolicy;
     }
 
     /**
      * Set configuration parameters used for performing automatic OS Upgrade.
      *
-     * @param autoOSUpgradePolicy the autoOSUpgradePolicy value to set
+     * @param automaticOSUpgradePolicy the automaticOSUpgradePolicy value to set
      * @return the UpgradePolicy object itself.
      */
-    public UpgradePolicy withAutoOSUpgradePolicy(AutoOSUpgradePolicy autoOSUpgradePolicy) {
-        this.autoOSUpgradePolicy = autoOSUpgradePolicy;
+    public UpgradePolicy withAutomaticOSUpgradePolicy(AutomaticOSUpgradePolicy automaticOSUpgradePolicy) {
+        this.automaticOSUpgradePolicy = automaticOSUpgradePolicy;
         return this;
     }
 

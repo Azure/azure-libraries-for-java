@@ -9,18 +9,20 @@ package com.microsoft.azure.management.compute.implementation;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.compute.AccessLevel;
 import com.microsoft.azure.management.compute.CreationData;
+import com.microsoft.azure.management.compute.CreationSource;
 import com.microsoft.azure.management.compute.Disk;
 import com.microsoft.azure.management.compute.DiskCreateOption;
-import com.microsoft.azure.management.compute.CreationSource;
 import com.microsoft.azure.management.compute.DiskSku;
 import com.microsoft.azure.management.compute.DiskSkuTypes;
-import com.microsoft.azure.management.compute.EncryptionSettings;
+import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
 import com.microsoft.azure.management.compute.GrantAccessData;
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.Snapshot;
 import com.microsoft.azure.management.resources.fluentcore.arm.AvailabilityZoneId;
+import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import rx.Completable;
@@ -77,6 +79,12 @@ class DiskImpl
     }
 
     @Override
+    public long sizeInByte() {
+        return this.inner().diskSizeBytes();
+    }
+
+
+    @Override
     public OperatingSystemTypes osType() {
         return this.inner().osType();
     }
@@ -98,8 +106,8 @@ class DiskImpl
     }
 
     @Override
-    public EncryptionSettings encryptionSettings() {
-        return this.inner().encryptionSettings();
+    public EncryptionSettingsCollection encryptionSettings() {
+        return this.inner().encryptionSettingsCollection();
     }
 
     @Override
@@ -271,6 +279,16 @@ class DiskImpl
     }
 
     @Override
+    public DiskImpl withUploadSizeInMB(long uploadSizeInMB) {
+        this.inner()
+                .withCreationData(new CreationData())
+                .creationData()
+                .withCreateOption(DiskCreateOption.UPLOAD)
+                .withUploadSizeBytes(uploadSizeInMB * 1024 * 1024 + 512);
+        return this;
+    }
+
+    @Override
     public DiskImpl fromSnapshot(String snapshotId) {
         this.inner()
                 .withCreationData(new CreationData())
@@ -318,6 +336,29 @@ class DiskImpl
     public DiskImpl withSku(DiskSkuTypes sku) {
         this.inner().withSku((new DiskSku()).withName(sku.accountType()));
         return this;
+    }
+
+    @Override
+    public DiskImpl withStorageAccountId(String storageAccountId) {
+        this.inner().creationData().withStorageAccountId(storageAccountId);
+        return this;
+    }
+
+    @Override
+    public DiskImpl withStorageAccountName(String storageAccountName) {
+        String id = ResourceUtils.constructResourceId(this.myManager.subscriptionId(),
+                this.resourceGroupName(),
+                "Microsoft.Storage",
+                "storageAccounts",
+                storageAccountName,
+                ""
+                );
+        return this.withStorageAccountId(id);
+    }
+
+    @Override
+    public DiskImpl withStorageAccount(StorageAccount account) {
+        return this.withStorageAccountId(account.id());
     }
 
     @Override

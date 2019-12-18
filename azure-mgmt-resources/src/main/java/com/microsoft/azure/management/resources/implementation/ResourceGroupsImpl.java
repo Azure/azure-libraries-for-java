@@ -88,9 +88,7 @@ final class ResourceGroupsImpl
 
     @Override
     protected ResourceGroupImpl wrapModel(String name) {
-        return new ResourceGroupImpl(
-                new ResourceGroupInner().withName(name),
-                serviceClient);
+        return new ResourceGroupImpl(new ResourceGroupInner(), name, serviceClient);
     }
 
     @Override
@@ -98,7 +96,7 @@ final class ResourceGroupsImpl
         if (inner == null) {
             return null;
         }
-        return new ResourceGroupImpl(inner, serviceClient);
+        return new ResourceGroupImpl(inner, inner.name(), serviceClient);
     }
 
     @Override

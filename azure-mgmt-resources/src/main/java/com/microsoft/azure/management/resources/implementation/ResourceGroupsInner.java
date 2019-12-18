@@ -13,6 +13,8 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.resources.ExportTemplateRequest;
+import com.microsoft.azure.management.resources.ResourceGroupPatchable;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -37,6 +39,8 @@ import retrofit2.http.Url;
 import retrofit2.Response;
 import rx.functions.Func1;
 import rx.Observable;
+import com.microsoft.azure.LongRunningFinalState;
+import com.microsoft.azure.LongRunningOperationOptions;
 
 /**
  * An instance of this class provides access to all the operations defined
@@ -86,11 +90,15 @@ public class ResourceGroupsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.ResourceGroups update" })
         @PATCH("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Body ResourceGroupPatchableInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Body ResourceGroupPatchable parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.ResourceGroups exportTemplate" })
         @POST("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate")
-        Observable<Response<ResponseBody>> exportTemplate(@Path("resourceGroupName") String resourceGroupName, @Path("subscriptionId") String subscriptionId, @Body ExportTemplateRequestInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> exportTemplate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Query("api-version") String apiVersion, @Body ExportTemplateRequest parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.ResourceGroups beginExportTemplate" })
+        @POST("subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate")
+        Observable<Response<ResponseBody>> beginExportTemplate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Query("api-version") String apiVersion, @Body ExportTemplateRequest parameters, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.resources.ResourceGroups list" })
         @GET("subscriptions/{subscriptionId}/resourcegroups")
@@ -185,7 +193,7 @@ public class ResourceGroupsInner {
     /**
      * Creates or updates a resource group.
      *
-     * @param resourceGroupName The name of the resource group to create or update.
+     * @param resourceGroupName The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.
      * @param parameters Parameters supplied to the create or update a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -199,7 +207,7 @@ public class ResourceGroupsInner {
     /**
      * Creates or updates a resource group.
      *
-     * @param resourceGroupName The name of the resource group to create or update.
+     * @param resourceGroupName The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.
      * @param parameters Parameters supplied to the create or update a resource group.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -212,7 +220,7 @@ public class ResourceGroupsInner {
     /**
      * Creates or updates a resource group.
      *
-     * @param resourceGroupName The name of the resource group to create or update.
+     * @param resourceGroupName The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.
      * @param parameters Parameters supplied to the create or update a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceGroupInner object
@@ -229,7 +237,7 @@ public class ResourceGroupsInner {
     /**
      * Creates or updates a resource group.
      *
-     * @param resourceGroupName The name of the resource group to create or update.
+     * @param resourceGroupName The name of the resource group to create or update. Can include alphanumeric, underscore, parentheses, hyphen, period (except at end), and Unicode characters that match the allowed characters.
      * @param parameters Parameters supplied to the create or update a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceGroupInner object
@@ -508,7 +516,7 @@ public class ResourceGroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ResourceGroupInner object if successful.
      */
-    public ResourceGroupInner update(String resourceGroupName, ResourceGroupPatchableInner parameters) {
+    public ResourceGroupInner update(String resourceGroupName, ResourceGroupPatchable parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, parameters).toBlocking().single().body();
     }
 
@@ -522,7 +530,7 @@ public class ResourceGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ResourceGroupInner> updateAsync(String resourceGroupName, ResourceGroupPatchableInner parameters, final ServiceCallback<ResourceGroupInner> serviceCallback) {
+    public ServiceFuture<ResourceGroupInner> updateAsync(String resourceGroupName, ResourceGroupPatchable parameters, final ServiceCallback<ResourceGroupInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, parameters), serviceCallback);
     }
 
@@ -535,7 +543,7 @@ public class ResourceGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceGroupInner object
      */
-    public Observable<ResourceGroupInner> updateAsync(String resourceGroupName, ResourceGroupPatchableInner parameters) {
+    public Observable<ResourceGroupInner> updateAsync(String resourceGroupName, ResourceGroupPatchable parameters) {
         return updateWithServiceResponseAsync(resourceGroupName, parameters).map(new Func1<ServiceResponse<ResourceGroupInner>, ResourceGroupInner>() {
             @Override
             public ResourceGroupInner call(ServiceResponse<ResourceGroupInner> response) {
@@ -553,7 +561,7 @@ public class ResourceGroupsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the ResourceGroupInner object
      */
-    public Observable<ServiceResponse<ResourceGroupInner>> updateWithServiceResponseAsync(String resourceGroupName, ResourceGroupPatchableInner parameters) {
+    public Observable<ServiceResponse<ResourceGroupInner>> updateWithServiceResponseAsync(String resourceGroupName, ResourceGroupPatchable parameters) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -591,39 +599,39 @@ public class ResourceGroupsInner {
     /**
      * Captures the specified resource group as a template.
      *
-     * @param resourceGroupName The name of the resource group to export as a template.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Parameters for exporting the template.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ResourceGroupExportResultInner object if successful.
      */
-    public ResourceGroupExportResultInner exportTemplate(String resourceGroupName, ExportTemplateRequestInner parameters) {
-        return exportTemplateWithServiceResponseAsync(resourceGroupName, parameters).toBlocking().single().body();
+    public ResourceGroupExportResultInner exportTemplate(String resourceGroupName, ExportTemplateRequest parameters) {
+        return exportTemplateWithServiceResponseAsync(resourceGroupName, parameters).toBlocking().last().body();
     }
 
     /**
      * Captures the specified resource group as a template.
      *
-     * @param resourceGroupName The name of the resource group to export as a template.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Parameters for exporting the template.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ResourceGroupExportResultInner> exportTemplateAsync(String resourceGroupName, ExportTemplateRequestInner parameters, final ServiceCallback<ResourceGroupExportResultInner> serviceCallback) {
+    public ServiceFuture<ResourceGroupExportResultInner> exportTemplateAsync(String resourceGroupName, ExportTemplateRequest parameters, final ServiceCallback<ResourceGroupExportResultInner> serviceCallback) {
         return ServiceFuture.fromResponse(exportTemplateWithServiceResponseAsync(resourceGroupName, parameters), serviceCallback);
     }
 
     /**
      * Captures the specified resource group as a template.
      *
-     * @param resourceGroupName The name of the resource group to export as a template.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Parameters for exporting the template.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceGroupExportResultInner object
+     * @return the observable for the request
      */
-    public Observable<ResourceGroupExportResultInner> exportTemplateAsync(String resourceGroupName, ExportTemplateRequestInner parameters) {
+    public Observable<ResourceGroupExportResultInner> exportTemplateAsync(String resourceGroupName, ExportTemplateRequest parameters) {
         return exportTemplateWithServiceResponseAsync(resourceGroupName, parameters).map(new Func1<ServiceResponse<ResourceGroupExportResultInner>, ResourceGroupExportResultInner>() {
             @Override
             public ResourceGroupExportResultInner call(ServiceResponse<ResourceGroupExportResultInner> response) {
@@ -635,31 +643,101 @@ public class ResourceGroupsInner {
     /**
      * Captures the specified resource group as a template.
      *
-     * @param resourceGroupName The name of the resource group to export as a template.
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
      * @param parameters Parameters for exporting the template.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ResourceGroupExportResultInner object
+     * @return the observable for the request
      */
-    public Observable<ServiceResponse<ResourceGroupExportResultInner>> exportTemplateWithServiceResponseAsync(String resourceGroupName, ExportTemplateRequestInner parameters) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
+    public Observable<ServiceResponse<ResourceGroupExportResultInner>> exportTemplateWithServiceResponseAsync(String resourceGroupName, ExportTemplateRequest parameters) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        if (parameters == null) {
-            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
         Validator.validate(parameters);
-        return service.exportTemplate(resourceGroupName, this.client.subscriptionId(), parameters, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        Observable<Response<ResponseBody>> observable = service.exportTemplate(this.client.subscriptionId(), resourceGroupName, this.client.apiVersion(), parameters, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<ResourceGroupExportResultInner>() { }.getType());
+    }
+
+    /**
+     * Captures the specified resource group as a template.
+     *
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param parameters Parameters for exporting the template.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the ResourceGroupExportResultInner object if successful.
+     */
+    public ResourceGroupExportResultInner beginExportTemplate(String resourceGroupName, ExportTemplateRequest parameters) {
+        return beginExportTemplateWithServiceResponseAsync(resourceGroupName, parameters).toBlocking().single().body();
+    }
+
+    /**
+     * Captures the specified resource group as a template.
+     *
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param parameters Parameters for exporting the template.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<ResourceGroupExportResultInner> beginExportTemplateAsync(String resourceGroupName, ExportTemplateRequest parameters, final ServiceCallback<ResourceGroupExportResultInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginExportTemplateWithServiceResponseAsync(resourceGroupName, parameters), serviceCallback);
+    }
+
+    /**
+     * Captures the specified resource group as a template.
+     *
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param parameters Parameters for exporting the template.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ResourceGroupExportResultInner object
+     */
+    public Observable<ResourceGroupExportResultInner> beginExportTemplateAsync(String resourceGroupName, ExportTemplateRequest parameters) {
+        return beginExportTemplateWithServiceResponseAsync(resourceGroupName, parameters).map(new Func1<ServiceResponse<ResourceGroupExportResultInner>, ResourceGroupExportResultInner>() {
+            @Override
+            public ResourceGroupExportResultInner call(ServiceResponse<ResourceGroupExportResultInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Captures the specified resource group as a template.
+     *
+     * @param resourceGroupName The name of the resource group. The name is case insensitive.
+     * @param parameters Parameters for exporting the template.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the ResourceGroupExportResultInner object
+     */
+    public Observable<ServiceResponse<ResourceGroupExportResultInner>> beginExportTemplateWithServiceResponseAsync(String resourceGroupName, ExportTemplateRequest parameters) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (this.client.apiVersion() == null) {
+            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
+        }
+        if (parameters == null) {
+            throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
+        }
+        Validator.validate(parameters);
+        return service.beginExportTemplate(this.client.subscriptionId(), resourceGroupName, this.client.apiVersion(), parameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ResourceGroupExportResultInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ResourceGroupExportResultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ResourceGroupExportResultInner> clientResponse = exportTemplateDelegate(response);
+                        ServiceResponse<ResourceGroupExportResultInner> clientResponse = beginExportTemplateDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -668,9 +746,10 @@ public class ResourceGroupsInner {
             });
     }
 
-    private ServiceResponse<ResourceGroupExportResultInner> exportTemplateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<ResourceGroupExportResultInner> beginExportTemplateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ResourceGroupExportResultInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ResourceGroupExportResultInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -780,7 +859,7 @@ public class ResourceGroupsInner {
     /**
      * Gets all the resource groups for a subscription.
      *
-     * @param filter The filter to apply on the operation.
+     * @param filter The filter to apply on the operation.&lt;br&gt;&lt;br&gt;You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'
      * @param top The number of results to return. If null is passed, returns all resource groups.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws CloudException thrown if the request is rejected by server
@@ -800,7 +879,7 @@ public class ResourceGroupsInner {
     /**
      * Gets all the resource groups for a subscription.
      *
-     * @param filter The filter to apply on the operation.
+     * @param filter The filter to apply on the operation.&lt;br&gt;&lt;br&gt;You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'
      * @param top The number of results to return. If null is passed, returns all resource groups.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -821,7 +900,7 @@ public class ResourceGroupsInner {
     /**
      * Gets all the resource groups for a subscription.
      *
-     * @param filter The filter to apply on the operation.
+     * @param filter The filter to apply on the operation.&lt;br&gt;&lt;br&gt;You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'
      * @param top The number of results to return. If null is passed, returns all resource groups.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceGroupInner&gt; object
@@ -839,7 +918,7 @@ public class ResourceGroupsInner {
     /**
      * Gets all the resource groups for a subscription.
      *
-     * @param filter The filter to apply on the operation.
+     * @param filter The filter to apply on the operation.&lt;br&gt;&lt;br&gt;You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'
      * @param top The number of results to return. If null is passed, returns all resource groups.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;ResourceGroupInner&gt; object
@@ -861,7 +940,7 @@ public class ResourceGroupsInner {
     /**
      * Gets all the resource groups for a subscription.
      *
-    ServiceResponse<PageImpl<ResourceGroupInner>> * @param filter The filter to apply on the operation.
+    ServiceResponse<PageImpl<ResourceGroupInner>> * @param filter The filter to apply on the operation.&lt;br&gt;&lt;br&gt;You can filter by tag names and values. For example, to filter for a tag name and value, use $filter=tagName eq 'tag1' and tagValue eq 'Value1'
     ServiceResponse<PageImpl<ResourceGroupInner>> * @param top The number of results to return. If null is passed, returns all resource groups.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;ResourceGroupInner&gt; object wrapped in {@link ServiceResponse} if successful.

@@ -42,7 +42,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
 
     @Override
     @SafeVarargs
-    public final CreatedResources<T> create(Creatable<T> ... creatables) {
+    public final CreatedResources<T> create(Creatable<T>... creatables) {
         return createAsyncNonStream(creatables)
                 .toBlocking()
                 .single();
@@ -57,7 +57,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
 
     @Override
     @SafeVarargs
-    public final Observable<Indexable> createAsync(Creatable<T> ... creatables) {
+    public final Observable<Indexable> createAsync(Creatable<T>... creatables) {
         CreatableUpdatableResourcesRootImpl<T> rootResource = new CreatableUpdatableResourcesRootImpl<>();
         rootResource.addCreatableDependencies(creatables);
         return rootResource.createAsync();
@@ -191,7 +191,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         }
 
         @SuppressWarnings("unchecked")
-        void addCreatableDependencies(Creatable<T> ... creatables) {
+        void addCreatableDependencies(Creatable<T>... creatables) {
             for (Creatable<T> item : creatables) {
                 this.keys.add(this.addDependency(item));
             }

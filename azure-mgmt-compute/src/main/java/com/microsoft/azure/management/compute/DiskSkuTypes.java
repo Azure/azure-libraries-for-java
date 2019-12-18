@@ -18,14 +18,20 @@ public final class DiskSkuTypes {
     // This needs to be at the beginning for the initialization to happen correctly
     private static final Map<String, DiskSkuTypes> VALUES_BY_NAME = new HashMap<>();
 
-    /** Static value Aligned for DiskSkuTypes. */
-    public static final DiskSkuTypes STANDARD_LRS = new DiskSkuTypes(StorageAccountTypes.STANDARD_LRS);
+    /** Static value STANDARD_LRS for DiskSkuTypes. */
+    public static final DiskSkuTypes STANDARD_LRS = new DiskSkuTypes(DiskStorageAccountTypes.STANDARD_LRS);
 
-    /** Static value Classic for DiskSkuTypes. */
-    public static final DiskSkuTypes PREMIUM_LRS = new DiskSkuTypes(StorageAccountTypes.PREMIUM_LRS);
+    /** Static value PREMIUM_LRS for DiskSkuTypes. */
+    public static final DiskSkuTypes PREMIUM_LRS = new DiskSkuTypes(DiskStorageAccountTypes.PREMIUM_LRS);
+
+    /** Static value STANDARD_SSD_LRS for DiskSkuTypes. */
+    public static final DiskSkuTypes STANDARD_SSD_LRS = new DiskSkuTypes(DiskStorageAccountTypes.STANDARD_SSD_LRS);
+
+    /** Static value ULTRA_SSD_LRS for DiskSkuTypes. */
+    public static final DiskSkuTypes ULTRA_SSD_LRS = new DiskSkuTypes(DiskStorageAccountTypes.ULTRA_SSD_LRS);
 
     /** The actual serialized value for a DiskSkuTypes instance. */
-    private StorageAccountTypes value;
+    private DiskStorageAccountTypes value;
 
     /**
      * @return predefined disk SKU types
@@ -39,7 +45,7 @@ public final class DiskSkuTypes {
      * Creates a custom value for DiskSkuTypes.
      * @param value the custom value
      */
-    public DiskSkuTypes(StorageAccountTypes value) {
+    public DiskSkuTypes(DiskStorageAccountTypes value) {
         // TODO: This constructor should be private, but keeping as is for now to keep 1.0.0 back compat
         this.value = value;
         if (value != null) {
@@ -53,7 +59,7 @@ public final class DiskSkuTypes {
      * @param value a disk SKU type name
      * @return the parsed or created disk SKU type
      */
-    public static DiskSkuTypes fromStorageAccountType(StorageAccountTypes value) {
+    public static DiskSkuTypes fromStorageAccountType(DiskStorageAccountTypes value) {
         if (value == null) {
             return null;
         }
@@ -82,7 +88,7 @@ public final class DiskSkuTypes {
     /**
      * @return the account type associated with the SKU.
      */
-    public StorageAccountTypes accountType() {
+    public DiskStorageAccountTypes accountType() {
         return this.value;
     }
 

@@ -51,6 +51,22 @@ public class VirtualMachineScaleSetOSDisk {
     private DiskCreateOptionTypes createOption;
 
     /**
+     * Specifies the ephemeral disk Settings for the operating system disk used
+     * by the virtual machine scale set.
+     */
+    @JsonProperty(value = "diffDiskSettings")
+    private DiffDiskSettings diffDiskSettings;
+
+    /**
+     * Specifies the size of the operating system disk in gigabytes. This
+     * element can be used to overwrite the size of the disk in a virtual
+     * machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than
+     * 1023 GB.
+     */
+    @JsonProperty(value = "diskSizeGB")
+    private Integer diskSizeGB;
+
+    /**
      * This property allows you to specify the type of the OS that is included
      * in the disk if creating a VM from user-image or a specialized VHD.
      * &lt;br&gt;&lt;br&gt; Possible values are: &lt;br&gt;&lt;br&gt;
@@ -157,6 +173,46 @@ public class VirtualMachineScaleSetOSDisk {
      */
     public VirtualMachineScaleSetOSDisk withCreateOption(DiskCreateOptionTypes createOption) {
         this.createOption = createOption;
+        return this;
+    }
+
+    /**
+     * Get specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set.
+     *
+     * @return the diffDiskSettings value
+     */
+    public DiffDiskSettings diffDiskSettings() {
+        return this.diffDiskSettings;
+    }
+
+    /**
+     * Set specifies the ephemeral disk Settings for the operating system disk used by the virtual machine scale set.
+     *
+     * @param diffDiskSettings the diffDiskSettings value to set
+     * @return the VirtualMachineScaleSetOSDisk object itself.
+     */
+    public VirtualMachineScaleSetOSDisk withDiffDiskSettings(DiffDiskSettings diffDiskSettings) {
+        this.diffDiskSettings = diffDiskSettings;
+        return this;
+    }
+
+    /**
+     * Get specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     *
+     * @return the diskSizeGB value
+     */
+    public Integer diskSizeGB() {
+        return this.diskSizeGB;
+    }
+
+    /**
+     * Set specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. &lt;br&gt;&lt;br&gt; This value cannot be larger than 1023 GB.
+     *
+     * @param diskSizeGB the diskSizeGB value to set
+     * @return the VirtualMachineScaleSetOSDisk object itself.
+     */
+    public VirtualMachineScaleSetOSDisk withDiskSizeGB(Integer diskSizeGB) {
+        this.diskSizeGB = diskSizeGB;
         return this;
     }
 

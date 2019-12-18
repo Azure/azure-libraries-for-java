@@ -34,7 +34,7 @@ public class ImageRegistryCredential {
     private String password;
 
     /**
-     * Get the server value.
+     * Get the Docker image registry server without a protocol such as "http" and "https".
      *
      * @return the server value
      */
@@ -43,7 +43,7 @@ public class ImageRegistryCredential {
     }
 
     /**
-     * Set the server value.
+     * Set the Docker image registry server without a protocol such as "http" and "https".
      *
      * @param server the server value to set
      * @return the ImageRegistryCredential object itself.
@@ -54,7 +54,7 @@ public class ImageRegistryCredential {
     }
 
     /**
-     * Get the username value.
+     * Get the username for the private registry.
      *
      * @return the username value
      */
@@ -63,7 +63,7 @@ public class ImageRegistryCredential {
     }
 
     /**
-     * Set the username value.
+     * Set the username for the private registry.
      *
      * @param username the username value to set
      * @return the ImageRegistryCredential object itself.
@@ -74,7 +74,7 @@ public class ImageRegistryCredential {
     }
 
     /**
-     * Get the password value.
+     * Get the password for the private registry.
      *
      * @return the password value
      */
@@ -83,7 +83,7 @@ public class ImageRegistryCredential {
     }
 
     /**
-     * Set the password value.
+     * Set the password for the private registry.
      *
      * @param password the password value to set
      * @return the ImageRegistryCredential object itself.

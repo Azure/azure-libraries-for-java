@@ -78,7 +78,7 @@ public final class CreateSimpleInternetFacingLoadBalancer {
             Creatable<AvailabilitySet> availabilitySetDefinition = azure.availabilitySets().define(availabilitySetName)
                     .withRegion(region)
                     .withNewResourceGroup(resourceGroupName)
-                    .withSku(AvailabilitySetSkuTypes.MANAGED);
+                    .withSku(AvailabilitySetSkuTypes.ALIGNED);
 
             //=============================================================
             // Define a common virtual network for the virtual machines

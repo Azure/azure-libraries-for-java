@@ -20,6 +20,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.network.ApplicationGateway;
 import com.microsoft.azure.management.network.ApplicationGatewayAuthenticationCertificate;
 import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpConfiguration;
+import com.microsoft.azure.management.network.ApplicationGatewayBackendHttpSettings;
 import com.microsoft.azure.management.network.ApplicationGatewayConnectionDraining;
 import com.microsoft.azure.management.network.ApplicationGatewayCookieBasedAffinity;
 import com.microsoft.azure.management.network.ApplicationGatewayProbe;
@@ -35,14 +36,14 @@ import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 @LangDefinition
 class ApplicationGatewayBackendHttpConfigurationImpl
     extends
-        ChildResourceImpl<ApplicationGatewayBackendHttpSettingsInner, ApplicationGatewayImpl, ApplicationGateway>
+        ChildResourceImpl<ApplicationGatewayBackendHttpSettings, ApplicationGatewayImpl, ApplicationGateway>
     implements
         ApplicationGatewayBackendHttpConfiguration,
         ApplicationGatewayBackendHttpConfiguration.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayBackendHttpConfiguration.UpdateDefinition<ApplicationGateway.Update>,
         ApplicationGatewayBackendHttpConfiguration.Update {
 
-    ApplicationGatewayBackendHttpConfigurationImpl(ApplicationGatewayBackendHttpSettingsInner inner, ApplicationGatewayImpl parent) {
+    ApplicationGatewayBackendHttpConfigurationImpl(ApplicationGatewayBackendHttpSettings inner, ApplicationGatewayImpl parent) {
         super(inner, parent);
     }
 

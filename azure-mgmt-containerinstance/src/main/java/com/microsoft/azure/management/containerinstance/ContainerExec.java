@@ -22,7 +22,7 @@ public class ContainerExec {
     private List<String> command;
 
     /**
-     * Get the command value.
+     * Get the commands to execute within the container.
      *
      * @return the command value
      */
@@ -31,7 +31,7 @@ public class ContainerExec {
     }
 
     /**
-     * Set the command value.
+     * Set the commands to execute within the container.
      *
      * @param command the command value to set
      * @return the ContainerExec object itself.

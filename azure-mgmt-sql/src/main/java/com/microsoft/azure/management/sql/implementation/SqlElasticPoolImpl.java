@@ -10,9 +10,10 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ExternalChildResourceImpl;
 import com.microsoft.azure.management.resources.fluentcore.dag.TaskGroup;
+import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import com.microsoft.azure.management.sql.ElasticPoolActivity;
 import com.microsoft.azure.management.sql.ElasticPoolDatabaseActivity;
-import com.microsoft.azure.management.sql.ElasticPoolEditions;
+import com.microsoft.azure.management.sql.ElasticPoolEdition;
 import com.microsoft.azure.management.sql.ElasticPoolState;
 import com.microsoft.azure.management.sql.SqlDatabase;
 import com.microsoft.azure.management.sql.SqlDatabaseMetric;
@@ -148,33 +149,33 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public ElasticPoolEditions edition() {
+    public ElasticPoolEdition edition() {
         return this.inner().edition();
     }
 
     @Override
     public int dtu() {
-        return this.inner().dtu();
+        return Utils.toPrimitiveInt(this.inner().dtu());
     }
 
     @Override
     public int databaseDtuMax() {
-        return this.inner().databaseDtuMax();
+        return Utils.toPrimitiveInt(this.inner().databaseDtuMax());
     }
 
     @Override
     public int databaseDtuMin() {
-        return this.inner().databaseDtuMin();
+        return Utils.toPrimitiveInt(this.inner().databaseDtuMin());
     }
 
     @Override
     public int storageMB() {
-        return this.inner().storageMB();
+        return Utils.toPrimitiveInt(this.inner().storageMB());
     }
 
     @Override
     public int storageCapacityInMB() {
-        return this.inner().storageMB();
+        return Utils.toPrimitiveInt(this.inner().storageMB());
     }
 
     @Override
@@ -475,26 +476,26 @@ public class SqlElasticPoolImpl
     }
 
     @Override
-    public SqlElasticPoolImpl withEdition(ElasticPoolEditions edition) {
+    public SqlElasticPoolImpl withEdition(ElasticPoolEdition edition) {
         this.inner().withEdition(edition);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withBasicPool() {
-        this.inner().withEdition(ElasticPoolEditions.BASIC);
+        this.inner().withEdition(ElasticPoolEdition.BASIC);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withStandardPool() {
-        this.inner().withEdition(ElasticPoolEditions.STANDARD);
+        this.inner().withEdition(ElasticPoolEdition.STANDARD);
         return this;
     }
 
     @Override
     public SqlElasticPoolImpl withPremiumPool() {
-        this.inner().withEdition(ElasticPoolEditions.PREMIUM);
+        this.inner().withEdition(ElasticPoolEdition.PREMIUM);
         return this;
     }
 

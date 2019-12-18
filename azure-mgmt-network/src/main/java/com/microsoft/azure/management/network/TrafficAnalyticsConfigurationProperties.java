@@ -23,23 +23,30 @@ public class TrafficAnalyticsConfigurationProperties {
     /**
      * The resource guid of the attached workspace.
      */
-    @JsonProperty(value = "workspaceId", required = true)
+    @JsonProperty(value = "workspaceId")
     private String workspaceId;
 
     /**
      * The location of the attached workspace.
      */
-    @JsonProperty(value = "workspaceRegion", required = true)
+    @JsonProperty(value = "workspaceRegion")
     private String workspaceRegion;
 
     /**
      * Resource Id of the attached workspace.
      */
-    @JsonProperty(value = "workspaceResourceId", required = true)
+    @JsonProperty(value = "workspaceResourceId")
     private String workspaceResourceId;
 
     /**
-     * Get the enabled value.
+     * The interval in minutes which would decide how frequently TA service
+     * should do flow analytics.
+     */
+    @JsonProperty(value = "trafficAnalyticsInterval")
+    private Integer trafficAnalyticsInterval;
+
+    /**
+     * Get flag to enable/disable traffic analytics.
      *
      * @return the enabled value
      */
@@ -48,7 +55,7 @@ public class TrafficAnalyticsConfigurationProperties {
     }
 
     /**
-     * Set the enabled value.
+     * Set flag to enable/disable traffic analytics.
      *
      * @param enabled the enabled value to set
      * @return the TrafficAnalyticsConfigurationProperties object itself.
@@ -59,7 +66,7 @@ public class TrafficAnalyticsConfigurationProperties {
     }
 
     /**
-     * Get the workspaceId value.
+     * Get the resource guid of the attached workspace.
      *
      * @return the workspaceId value
      */
@@ -68,7 +75,7 @@ public class TrafficAnalyticsConfigurationProperties {
     }
 
     /**
-     * Set the workspaceId value.
+     * Set the resource guid of the attached workspace.
      *
      * @param workspaceId the workspaceId value to set
      * @return the TrafficAnalyticsConfigurationProperties object itself.
@@ -79,7 +86,7 @@ public class TrafficAnalyticsConfigurationProperties {
     }
 
     /**
-     * Get the workspaceRegion value.
+     * Get the location of the attached workspace.
      *
      * @return the workspaceRegion value
      */
@@ -88,7 +95,7 @@ public class TrafficAnalyticsConfigurationProperties {
     }
 
     /**
-     * Set the workspaceRegion value.
+     * Set the location of the attached workspace.
      *
      * @param workspaceRegion the workspaceRegion value to set
      * @return the TrafficAnalyticsConfigurationProperties object itself.
@@ -99,7 +106,7 @@ public class TrafficAnalyticsConfigurationProperties {
     }
 
     /**
-     * Get the workspaceResourceId value.
+     * Get resource Id of the attached workspace.
      *
      * @return the workspaceResourceId value
      */
@@ -108,13 +115,33 @@ public class TrafficAnalyticsConfigurationProperties {
     }
 
     /**
-     * Set the workspaceResourceId value.
+     * Set resource Id of the attached workspace.
      *
      * @param workspaceResourceId the workspaceResourceId value to set
      * @return the TrafficAnalyticsConfigurationProperties object itself.
      */
     public TrafficAnalyticsConfigurationProperties withWorkspaceResourceId(String workspaceResourceId) {
         this.workspaceResourceId = workspaceResourceId;
+        return this;
+    }
+
+    /**
+     * Get the interval in minutes which would decide how frequently TA service should do flow analytics.
+     *
+     * @return the trafficAnalyticsInterval value
+     */
+    public Integer trafficAnalyticsInterval() {
+        return this.trafficAnalyticsInterval;
+    }
+
+    /**
+     * Set the interval in minutes which would decide how frequently TA service should do flow analytics.
+     *
+     * @param trafficAnalyticsInterval the trafficAnalyticsInterval value to set
+     * @return the TrafficAnalyticsConfigurationProperties object itself.
+     */
+    public TrafficAnalyticsConfigurationProperties withTrafficAnalyticsInterval(Integer trafficAnalyticsInterval) {
+        this.trafficAnalyticsInterval = trafficAnalyticsInterval;
         return this;
     }
 

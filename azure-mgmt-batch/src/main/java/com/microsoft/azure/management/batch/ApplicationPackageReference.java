@@ -54,7 +54,7 @@ public class ApplicationPackageReference {
     }
 
     /**
-     * Get the version value.
+     * Get if this is omitted, and no default version is specified for this application, the request fails with the error code InvalidApplicationPackageReferences. If you are calling the REST API directly, the HTTP status code is 409.
      *
      * @return the version value
      */
@@ -63,7 +63,7 @@ public class ApplicationPackageReference {
     }
 
     /**
-     * Set the version value.
+     * Set if this is omitted, and no default version is specified for this application, the request fails with the error code InvalidApplicationPackageReferences. If you are calling the REST API directly, the HTTP status code is 409.
      *
      * @param version the version value to set
      * @return the ApplicationPackageReference object itself.

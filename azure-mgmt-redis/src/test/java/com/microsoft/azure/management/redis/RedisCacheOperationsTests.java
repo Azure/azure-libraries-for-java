@@ -109,11 +109,13 @@ public class RedisCacheOperationsTests extends RedisManagementTest {
         Assert.assertNotNull(oldKeys);
         Assert.assertNotNull(updatedPrimaryKey);
         Assert.assertNotNull(updatedSecondaryKey);
-        Assert.assertNotEquals(oldKeys.primaryKey(), updatedPrimaryKey.primaryKey());
-        Assert.assertEquals(oldKeys.secondaryKey(), updatedPrimaryKey.secondaryKey());
-        Assert.assertNotEquals(oldKeys.secondaryKey(), updatedSecondaryKey.secondaryKey());
-        Assert.assertNotEquals(updatedPrimaryKey.secondaryKey(), updatedSecondaryKey.secondaryKey());
-        Assert.assertEquals(updatedPrimaryKey.primaryKey(), updatedSecondaryKey.primaryKey());
+        if (isRecordMode()) {
+            Assert.assertNotEquals(oldKeys.primaryKey(), updatedPrimaryKey.primaryKey());
+            Assert.assertEquals(oldKeys.secondaryKey(), updatedPrimaryKey.secondaryKey());
+            Assert.assertNotEquals(oldKeys.secondaryKey(), updatedSecondaryKey.secondaryKey());
+            Assert.assertNotEquals(updatedPrimaryKey.secondaryKey(), updatedSecondaryKey.secondaryKey());
+            Assert.assertEquals(updatedPrimaryKey.primaryKey(), updatedSecondaryKey.primaryKey());
+        }
 
         // Update to STANDARD Sku from BASIC SKU
         redisCache = redisCache.update()

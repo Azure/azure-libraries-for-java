@@ -239,7 +239,7 @@ public class BlobContainersInner {
                 @Override
                 public Observable<ServiceResponse<Page<ListContainerItemInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<ListContainerItemInner>> result = listDelegate(response);
+                        ServiceResponse<PageImpl<ListContainerItemInner>> result = listDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ListContainerItemInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -365,7 +365,7 @@ public class BlobContainersInner {
                 @Override
                 public Observable<ServiceResponse<Page<ListContainerItemInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<ListContainerItemInner>> result = listDelegate(response);
+                        ServiceResponse<PageImpl<ListContainerItemInner>> result = listDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ListContainerItemInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -374,9 +374,9 @@ public class BlobContainersInner {
             });
     }
 
-    private ServiceResponse<PageImpl1<ListContainerItemInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ListContainerItemInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ListContainerItemInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ListContainerItemInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ListContainerItemInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ListContainerItemInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -2137,7 +2137,7 @@ public class BlobContainersInner {
                 @Override
                 public Observable<ServiceResponse<Page<ListContainerItemInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<ListContainerItemInner>> result = listNextDelegate(response);
+                        ServiceResponse<PageImpl<ListContainerItemInner>> result = listNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<ListContainerItemInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2146,9 +2146,9 @@ public class BlobContainersInner {
             });
     }
 
-    private ServiceResponse<PageImpl1<ListContainerItemInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<ListContainerItemInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<ListContainerItemInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ListContainerItemInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ListContainerItemInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ListContainerItemInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

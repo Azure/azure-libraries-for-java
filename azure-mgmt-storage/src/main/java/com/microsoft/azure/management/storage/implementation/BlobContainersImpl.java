@@ -6,13 +6,14 @@
 
 package com.microsoft.azure.management.storage.implementation;
 
+import com.microsoft.azure.Page;
 import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.microsoft.azure.management.storage.BlobContainer;
 import com.microsoft.azure.management.storage.BlobContainers;
 import com.microsoft.azure.management.storage.ImmutabilityPolicy;
 import com.microsoft.azure.management.storage.LegalHold;
-import com.microsoft.azure.management.storage.ListContainerItems;
+import com.microsoft.azure.management.storage.ListContainerItem;
 import rx.Completable;
 import rx.Observable;
 import rx.functions.Func1;
@@ -51,11 +52,11 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     }
 
     private BlobContainerImpl wrapBlobContainerModel(BlobContainerInner inner) {
-        return  new BlobContainerImpl(inner, manager());
+        return new BlobContainerImpl(inner, manager());
     }
 
     private ImmutabilityPolicyImpl wrapImmutabilityPolicyModel(ImmutabilityPolicyInner inner) {
-        return  new ImmutabilityPolicyImpl(inner, manager());
+        return new ImmutabilityPolicyImpl(inner, manager());
     }
 
     private Observable<ImmutabilityPolicyInner> getImmutabilityPolicyInnerUsingBlobContainersInnerAsync(String id) {
@@ -67,13 +68,19 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     }
 
     @Override
-    public Observable<ListContainerItems> listAsync(String resourceGroupName, String accountName) {
+    public Observable<ListContainerItem> listAsync(String resourceGroupName, String accountName) {
         BlobContainersInner client = this.inner();
         return client.listAsync(resourceGroupName, accountName)
-                .map(new Func1<ListContainerItemsInner, ListContainerItems>() {
+                .flatMap(new Func1<Page<ListContainerItemInner>, Observable<ListContainerItemInner>>() {
                     @Override
-                    public ListContainerItems call(ListContainerItemsInner inner) {
-                        return new ListContainerItemsImpl(inner, manager());
+                    public Observable<ListContainerItemInner> call(Page<ListContainerItemInner> pageInner) {
+                        return Observable.from(pageInner.items());
+                    }
+                })
+                .map(new Func1<ListContainerItemInner, ListContainerItem>() {
+                    @Override
+                    public ListContainerItem call(ListContainerItemInner inner) {
+                        return new ListContainerItemImpl(inner, manager());
                     }
                 });
     }

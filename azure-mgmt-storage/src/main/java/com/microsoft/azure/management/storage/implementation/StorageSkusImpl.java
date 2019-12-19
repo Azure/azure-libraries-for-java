@@ -19,7 +19,7 @@ import rx.Observable;
 @LangDefinition
 class StorageSkusImpl
         extends
-        ReadableWrappersImpl<StorageSku, StorageSkuImpl, SkuInner>
+        ReadableWrappersImpl<StorageSku, StorageSkuImpl, SkuInformationInner>
         implements
         StorageSkus {
 
@@ -30,7 +30,7 @@ class StorageSkusImpl
     }
 
     @Override
-    protected StorageSkuImpl wrapModel(SkuInner inner) {
+    protected StorageSkuImpl wrapModel(SkuInformationInner inner) {
         return new StorageSkuImpl(inner);
     }
 

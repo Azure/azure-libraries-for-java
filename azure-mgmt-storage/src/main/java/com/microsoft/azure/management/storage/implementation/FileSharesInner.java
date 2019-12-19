@@ -198,7 +198,7 @@ public class FileSharesInner {
                 @Override
                 public Observable<ServiceResponse<Page<FileShareItemInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<FileShareItemInner>> result = listDelegate(response);
+                        ServiceResponse<PageImpl<FileShareItemInner>> result = listDelegate(response);
                         return Observable.just(new ServiceResponse<Page<FileShareItemInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -324,7 +324,7 @@ public class FileSharesInner {
                 @Override
                 public Observable<ServiceResponse<Page<FileShareItemInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<FileShareItemInner>> result = listDelegate(response);
+                        ServiceResponse<PageImpl<FileShareItemInner>> result = listDelegate(response);
                         return Observable.just(new ServiceResponse<Page<FileShareItemInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -333,9 +333,9 @@ public class FileSharesInner {
             });
     }
 
-    private ServiceResponse<PageImpl1<FileShareItemInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<FileShareItemInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<FileShareItemInner>>() { }.getType())
+    private ServiceResponse<PageImpl<FileShareItemInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<FileShareItemInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<FileShareItemInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1014,7 +1014,7 @@ public class FileSharesInner {
                 @Override
                 public Observable<ServiceResponse<Page<FileShareItemInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<FileShareItemInner>> result = listNextDelegate(response);
+                        ServiceResponse<PageImpl<FileShareItemInner>> result = listNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<FileShareItemInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1023,9 +1023,9 @@ public class FileSharesInner {
             });
     }
 
-    private ServiceResponse<PageImpl1<FileShareItemInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<FileShareItemInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<FileShareItemInner>>() { }.getType())
+    private ServiceResponse<PageImpl<FileShareItemInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<FileShareItemInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<FileShareItemInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

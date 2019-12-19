@@ -10,6 +10,7 @@ import com.microsoft.azure.management.apigeneration.Beta;
 import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.microsoft.azure.management.storage.implementation.SkuInformationInner;
 import com.microsoft.azure.management.storage.implementation.SkuInner;
 
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
  */
 @Fluent
 @Beta(Beta.SinceVersion.V1_5_0)
-public interface StorageSku extends HasInner<SkuInner> {
+public interface StorageSku extends HasInner<SkuInformationInner> {
     /**
      * @return the sku name
      */

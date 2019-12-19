@@ -73,22 +73,22 @@ public interface PolicyRule extends
     /**
      * @return the number of days after a filtered base blob is last modified when the tier to cool action is enacted
      */
-    Integer daysAfterBaseBlobModificationUntilCooling();
+    Double daysAfterBaseBlobModificationUntilCooling();
 
     /**
      * @return the number of days after a filtered base blob is last modified when the tier to archive action is enacted
      */
-    Integer daysAfterBaseBlobModificationUntilArchiving();
+    Double daysAfterBaseBlobModificationUntilArchiving();
 
     /**
      * @return the number of days after a filtered base blob is last modified when the delete action is enacted
      */
-    Integer daysAfterBaseBlobModificationUntilDeleting();
+    Double daysAfterBaseBlobModificationUntilDeleting();
 
     /**
      * @return the number of days after a filtered snapshot is created when the delete action is enacted
      */
-    Integer daysAfterSnapShotCreationUntilDeleting();
+    Double daysAfterSnapShotCreationUntilDeleting();
 
     /**
      * Container interface for all of the definitions related to a rule in a management policy.
@@ -194,7 +194,7 @@ public interface PolicyRule extends
              * @param daysAfterBaseBlobModificationUntilCooling the number of days after a base blob is last modified until it is cooled.
              * @return the next stage of the management policy rule definition.
              */
-            WithPolicyRuleAttachable withTierToCoolActionOnBaseBlob(int daysAfterBaseBlobModificationUntilCooling);
+            WithPolicyRuleAttachable withTierToCoolActionOnBaseBlob(double daysAfterBaseBlobModificationUntilCooling);
 
             /**
              * The function that specifies a tier to archive action on the selected base blobs.
@@ -202,7 +202,7 @@ public interface PolicyRule extends
              * @param daysAfterBaseBlobModificationUntilArchiving the number of days after a base blob is last modified until it is archived.
              * @return the next stage of the management policy rule definition.
              */
-            WithPolicyRuleAttachable withTierToArchiveActionOnBaseBlob(int daysAfterBaseBlobModificationUntilArchiving);
+            WithPolicyRuleAttachable withTierToArchiveActionOnBaseBlob(double daysAfterBaseBlobModificationUntilArchiving);
 
             /**
              * The function that specifies a delete action on the selected base blobs.
@@ -210,7 +210,7 @@ public interface PolicyRule extends
              * @param daysAfterBaseBlobModificationUntilDeleting the number of days after a base blob is last modified until it is deleted.
              * @return the next stage of the management policy rule definition.
              */
-            WithPolicyRuleAttachable withDeleteActionOnBaseBlob(int daysAfterBaseBlobModificationUntilDeleting);
+            WithPolicyRuleAttachable withDeleteActionOnBaseBlob(double daysAfterBaseBlobModificationUntilDeleting);
 
             /**
              * The function that specifies a delete action on the selected snapshots.
@@ -218,7 +218,7 @@ public interface PolicyRule extends
              * @param daysAfterSnapShotCreationUntilDeleting the number of days after a snapshot is created until it is deleted.
              * @return the next stage of the management policy rule definition
              */
-            WithPolicyRuleAttachable withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting);
+            WithPolicyRuleAttachable withDeleteActionOnSnapShot(double daysAfterSnapShotCreationUntilDeleting);
 
             /**
              * The function that specifies all of the actions to apply to selected base blobs.
@@ -319,7 +319,7 @@ public interface PolicyRule extends
              * @param daysAfterBaseBlobModificationUntilCooling the number of days after a base blob is last modified until it is cooled.
              * @return the next stage of the management policy rule update.
              */
-            Update withTierToCoolActionOnBaseBlob(int daysAfterBaseBlobModificationUntilCooling);
+            Update withTierToCoolActionOnBaseBlob(double daysAfterBaseBlobModificationUntilCooling);
 
             /**
              * The function that specifies a tier to archive action on the selected base blobs.
@@ -327,7 +327,7 @@ public interface PolicyRule extends
              * @param daysAfterBaseBlobModificationUntilArchiving the number of days after a base blob is last modified until it is archived.
              * @return the next stage of the management policy rule update.
              */
-            Update withTierToArchiveActionOnBaseBlob(int daysAfterBaseBlobModificationUntilArchiving);
+            Update withTierToArchiveActionOnBaseBlob(double daysAfterBaseBlobModificationUntilArchiving);
 
             /**
              * The function that specifies a delete action on the selected base blobs.
@@ -335,7 +335,7 @@ public interface PolicyRule extends
              * @param daysAfterBaseBlobModificationUntilDeleting the number of days after a base blob is last modified until it is deleted.
              * @return the next stage of the management policy rule update.
              */
-            Update withDeleteActionOnBaseBlob(int daysAfterBaseBlobModificationUntilDeleting);
+            Update withDeleteActionOnBaseBlob(double daysAfterBaseBlobModificationUntilDeleting);
 
             /**
              * The function that specifies a delete action on the selected snapshots.
@@ -343,7 +343,7 @@ public interface PolicyRule extends
              * @param daysAfterSnapShotCreationUntilDeleting the number of days after a snapshot is created until it is deleted.
              * @return the next stage of the management policy rule update
              */
-            Update withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting);
+            Update withDeleteActionOnSnapShot(double daysAfterSnapShotCreationUntilDeleting);
 
             /**
              * The function that specifies all of the actions to apply to selected base blobs.

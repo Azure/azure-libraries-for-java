@@ -836,7 +836,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
                 @Override
                 public Observable<ServiceResponse<Page<StorageAccountInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<StorageAccountInner>> result = listDelegate(response);
+                        ServiceResponse<PageImpl<StorageAccountInner>> result = listDelegate(response);
                         return Observable.just(new ServiceResponse<Page<StorageAccountInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -845,9 +845,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
             });
     }
 
-    private ServiceResponse<PageImpl1<StorageAccountInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<StorageAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<StorageAccountInner>>() { }.getType())
+    private ServiceResponse<PageImpl<StorageAccountInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<StorageAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<StorageAccountInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -1727,7 +1727,7 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
                 @Override
                 public Observable<ServiceResponse<Page<StorageAccountInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl1<StorageAccountInner>> result = listNextDelegate(response);
+                        ServiceResponse<PageImpl<StorageAccountInner>> result = listNextDelegate(response);
                         return Observable.just(new ServiceResponse<Page<StorageAccountInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1736,9 +1736,9 @@ public class StorageAccountsInner implements InnerSupportsGet<StorageAccountInne
             });
     }
 
-    private ServiceResponse<PageImpl1<StorageAccountInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl1<StorageAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl1<StorageAccountInner>>() { }.getType())
+    private ServiceResponse<PageImpl<StorageAccountInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<StorageAccountInner>, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<StorageAccountInner>>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }

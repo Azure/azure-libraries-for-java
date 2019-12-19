@@ -334,6 +334,34 @@ public interface StorageAccount extends
             WithCreate withGeneralPurposeAccountKindV2();
         }
 
+
+        /**
+         * The stage of a storage account definition allowing to specify account kind as block blob storage.
+         */
+        interface WithBlockBlobStorageAccountKind
+        {
+            /**
+             * Specifies the storage account kind to be "BlockBlobStorage".
+             *
+             * @return The next stage of storage account definition.
+             */
+            WithCreate withBlockBlobStorageAccountKind();
+        }
+
+        /**
+         * The stage of a storage account definition allowing to specify account kind as file storage.
+         */
+        interface WithFileStorageAccountKind
+        {
+            /**
+             * Specifies the storage account kind to be "FileStorage".
+             *
+             * @return the next stage of storage account definition.
+             *
+             */
+            WithCreate withFileStorageAccountKind();
+        }
+
         /**
          * The stage of a storage account definition allowing to specify encryption settings.
          */
@@ -578,6 +606,8 @@ public interface StorageAccount extends
                 DefinitionStages.WithSku,
                 DefinitionStages.WithBlobStorageAccountKind,
                 DefinitionStages.WithGeneralPurposeAccountKind,
+                DefinitionStages.WithBlockBlobStorageAccountKind,
+                DefinitionStages.WithFileStorageAccountKind,
                 DefinitionStages.WithEncryption,
                 DefinitionStages.WithCustomDomain,
                 DefinitionStages.WithManagedServiceIdentity,

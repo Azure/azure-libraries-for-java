@@ -8,55 +8,43 @@
 
 package com.microsoft.azure.management.storage;
 
+import java.util.Collection;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import com.microsoft.rest.ExpandableStringEnum;
 
 /**
  * Defines values for Kind.
  */
-public enum Kind {
-    /** Enum value Storage. */
-    STORAGE("Storage"),
+public final class Kind extends ExpandableStringEnum<Kind> {
+    /** Static value Storage for Kind. */
+    public static final Kind STORAGE = fromString("Storage");
 
-    /** Enum value StorageV2. */
-    STORAGE_V2("StorageV2"),
+    /** Static value StorageV2 for Kind. */
+    public static final Kind STORAGE_V2 = fromString("StorageV2");
 
-    /** Enum value BlobStorage. */
-    BLOB_STORAGE("BlobStorage"),
+    /** Static value BlobStorage for Kind. */
+    public static final Kind BLOB_STORAGE = fromString("BlobStorage");
 
-    /** Enum value FileStorage. */
-    FILE_STORAGE("FileStorage"),
+    /** Static value FileStorage for Kind. */
+    public static final Kind FILE_STORAGE = fromString("FileStorage");
 
-    /** Enum value BlockBlobStorage. */
-    BLOCK_BLOB_STORAGE("BlockBlobStorage");
+    /** Static value BlockBlobStorage for Kind. */
+    public static final Kind BLOCK_BLOB_STORAGE = fromString("BlockBlobStorage");
 
-    /** The actual serialized value for a Kind instance. */
-    private String value;
-
-    Kind(String value) {
-        this.value = value;
+    /**
+     * Creates or finds a Kind from its string representation.
+     * @param name a name to look for
+     * @return the corresponding Kind
+     */
+    @JsonCreator
+    public static Kind fromString(String name) {
+        return fromString(name, Kind.class);
     }
 
     /**
-     * Parses a serialized value to a Kind instance.
-     *
-     * @param value the serialized value to parse.
-     * @return the parsed Kind object, or null if unable to parse.
+     * @return known Kind values
      */
-    @JsonCreator
-    public static Kind fromString(String value) {
-        Kind[] items = Kind.values();
-        for (Kind item : items) {
-            if (item.toString().equalsIgnoreCase(value)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.value;
+    public static Collection<Kind> values() {
+        return values(Kind.class);
     }
 }

@@ -6,10 +6,7 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMethodType;
-import com.microsoft.azure.management.apigeneration.Method;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
@@ -21,13 +18,8 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.resources.implementation.DeploymentExtendedInner;
 import com.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.resources.models.DeploymentExtendedInner;
 
 import java.io.IOException;
 import java.util.List;
@@ -109,37 +101,25 @@ public interface Deployment extends
     /**
      * @return the operations related to this deployment
      */
-    @LangMethodDefinition(AsType = LangMethodType.Property)
     DeploymentOperations deploymentOperations();
 
     /**
      * Cancel a currently running template deployment.
      */
-    @Method
     void cancel();
 
     /**
      * Cancel a currently running template deployment asynchronously.
      * @return a representation of the deferred computation of this call
      */
-    @Method
     Completable cancelAsync();
 
-    /**
-     * Cancel a currently running template deployment asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    @Method
-    ServiceFuture<Void> cancelAsync(ServiceCallback<Void> callback);
 
     /**
      * Exports a deployment template.
      *
      * @return the export result
      */
-    @Method
     DeploymentExportResult exportTemplate();
 
     /**
@@ -147,24 +127,13 @@ public interface Deployment extends
      *
      * @return a representation of the deferred computation of this call returning the export result
      */
-    @Method
     Observable<DeploymentExportResult> exportTemplateAsync();
-
-    /**
-     * Exports a deployment template asynchronously.
-     *
-     * @param callback the callback to call on success or failure with export result as parameter
-     * @return a handle to cancel the request
-     */
-    @Method
-    ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback);
 
     /**
      * Prepares a What-if operation.
      *
      * @return the What-if execution.
      */
-    @Method
     Execution prepareWhatIf();
 
     /**
@@ -288,10 +257,8 @@ public interface Deployment extends
          * deployment in the cloud, but exposing additional optional inputs to specify.
          */
         interface WithCreate extends Creatable<Deployment> {
-            @Method
             Deployment beginCreate();
 
-            @Method
             Observable<Deployment> beginCreateAsync();
         }
     }
@@ -562,7 +529,6 @@ public interface Deployment extends
              *
              * @return the next stage of the execution.
              */
-            @Method
             WhatIfOperationResult whatIf();
 
             /**
@@ -570,24 +536,14 @@ public interface Deployment extends
              *
              * @return the next stage of the execution.
              */
-            @Method
             Observable<WhatIfOperationResult> whatIfAsync();
 
-            /**
-             * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
-             *
-             * @param callback the callback to call on success or failure with export result as parameter
-             * @return the next stage of the execution.
-             */
-            @Method
-            ServiceFuture<WhatIfOperationResult> whatIfAsync(ServiceCallback<WhatIfOperationResult> callback);
 
             /**
              * Gets changes that will be made by the deployment if executed at the scope of the subscription.
              *
              * @return the next stage of the execution.
              */
-            @Method
             WhatIfOperationResult whatIfAtSubscriptionScope();
 
             /**
@@ -595,17 +551,7 @@ public interface Deployment extends
              *
              * @return the next stage of the execution.
              */
-            @Method
             Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync();
-
-            /**
-             * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
-             *
-             * @param callback the callback to call on success or failure with export result as parameter
-             * @return the next stage of the execution.
-             */
-            @Method
-            ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(ServiceCallback<WhatIfOperationResult> callback);
         }
     }
 }

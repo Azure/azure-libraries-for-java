@@ -469,6 +469,7 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
         final String uname = "juser";
         final String password = "123tEst!@|ac";
         final String vmName = "myvm6";
+        final String storageAccountName = generateRandomResourceName("stg", 17);
 
         // Creates a native virtual machine
         //
@@ -484,7 +485,7 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withRootPassword(password)
                 .withUnmanagedDisks()                  /* UN-MANAGED OS and DATA DISKS */
                 .withSize(VirtualMachineSizeTypes.STANDARD_D5_V2)
-                .withNewStorageAccount(generateRandomResourceName("stg", 17))
+                .withNewStorageAccount(storageAccountName)
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
@@ -499,6 +500,7 @@ public class VirtualMachineManagedDiskOperationsTests extends ComputeManagementT
                 .withRegion(region)
                 .withExistingResourceGroup(RG_NAME)
                 .withLinuxFromVhd(osVhdUri)
+                .withStorageAccountName(storageAccountName)
                 .create();
 
         // Creates a managed virtual machine

@@ -19,8 +19,8 @@ import java.util.Objects;
 public class FunctionRuntimeStack {
 
     /** JAVA 8. */
-    public static final FunctionRuntimeStack JAVA_8 = new FunctionRuntimeStack("java", "~2",
-            "java|8", "DOCKER|mcr.microsoft.com/azure-functions/java:2.0-java8-appservice");
+    public static final FunctionRuntimeStack JAVA_8 = new FunctionRuntimeStack("java", "~3",
+            "java|8", "DOCKER|mcr.microsoft.com/azure-functions/java:3.0-java8-appservice");
 
     private final String runtime;
     private final String version;

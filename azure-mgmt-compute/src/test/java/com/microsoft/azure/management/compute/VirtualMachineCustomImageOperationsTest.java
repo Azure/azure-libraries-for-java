@@ -9,6 +9,7 @@ package com.microsoft.azure.management.compute;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.compute.implementation.ComputeManager;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
+import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
@@ -185,6 +186,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
     @Test
     public void canCreateImageFromManagedDisk() {
         final String vmName = generateRandomResourceName("vm7-", 20);
+        final String storageAccountName = generateRandomResourceName("stg", 17);
         final String uname = "juser";
         final String password = "123tEst!@|ac";
 
@@ -205,7 +207,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                     .attach()
                 .withNewUnmanagedDataDisk(100)
                 .withSize(VirtualMachineSizeTypes.STANDARD_D5_V2)
-                .withNewStorageAccount(generateRandomResourceName("stg", 17))
+                .withNewStorageAccount(storageAccountName)
                 .withOSDiskCaching(CachingTypes.READ_WRITE)
                 .create();
 
@@ -224,10 +226,13 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .withRegion(region)
                 .withNewResourceGroup(RG_NAME)
                 .withLinuxFromVhd(osVhdUri)
+                .withStorageAccountName(storageAccountName)
                 .create();
 
         // Create managed disk with Data from vm's lun0 data disk
         //
+        StorageAccount storageAccount = storageManager.storageAccounts().getByResourceGroup(RG_NAME, storageAccountName);
+
         final String dataDiskName1 = generateRandomResourceName("dsk", 15);
         VirtualMachineUnmanagedDataDisk vmNativeDataDisk1 = dataDisks.get(0);
         Disk managedDataDisk1 = computeManager.disks().define(dataDiskName1)
@@ -235,6 +240,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .withNewResourceGroup(RG_NAME)
                 .withData()
                 .fromVhd(vmNativeDataDisk1.vhdUri())
+                .withStorageAccount(storageAccount)
                 .create();
 
         // Create managed disk with Data from vm's lun1 data disk
@@ -246,6 +252,7 @@ public class VirtualMachineCustomImageOperationsTest extends ComputeManagementTe
                 .withNewResourceGroup(RG_NAME)
                 .withData()
                 .fromVhd(vmNativeDataDisk2.vhdUri())
+                .withStorageAccountId(storageAccount.id())
                 .create();
 
         // Create an image from the above managed disks

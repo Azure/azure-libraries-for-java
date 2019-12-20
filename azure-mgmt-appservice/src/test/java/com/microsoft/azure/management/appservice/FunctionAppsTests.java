@@ -180,7 +180,7 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertTrue(plan1.inner().reserved());
         Assert.assertTrue(Arrays.asList(functionApp1.inner().kind().split(",")).containsAll(Arrays.asList("linux", "functionapp")));
 
-        // deploy
+        // deploy (zip deploy is not recommended for linux consumption plan)
         functionApp1.update()
                 .withAppSetting("SCM_DO_BUILD_DURING_DEPLOYMENT", "false")
                 .apply();
@@ -222,7 +222,7 @@ public class FunctionAppsTests extends AppServiceTest {
         if (!isPlaybackMode()) {
             functionApp2.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
             functionApp3.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
-            SdkContext.sleep(10000);
+            SdkContext.sleep(180000);
         }
 
         functionApps = appServiceManager.functionApps().listByResourceGroup(RG_NAME_1);
@@ -247,7 +247,6 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withNewResourceGroup(RG_NAME_1)
                 .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
                 .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
-                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
                 .create();
         Assert.assertNotNull(functionApp1);
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(functionApp1.appServicePlanId());
@@ -256,7 +255,7 @@ public class FunctionAppsTests extends AppServiceTest {
         Assert.assertTrue(plan1.inner().reserved());
         assertLinuxJava8(functionApp1, FunctionRuntimeStack.JAVA_8.getLinuxFxVersionForDedicatedPlan());
 
-        // deploy
+        // deploy (zip deploy is not recommended for linux premium plan)
         if (!isPlaybackMode()) {
             functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
             SdkContext.sleep(180000);
@@ -278,8 +277,7 @@ public class FunctionAppsTests extends AppServiceTest {
                 .withPrivateRegistryImage("weidxuregistry.azurecr.io/az-func-java:v1", "https://weidxuregistry.azurecr.io")
                 .withCredentials("weidxuregistry", "PASSWORD")
                 .withRuntime("java")
-                .withRuntimeVersion("~2")
-                .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", "1")
+                .withRuntimeVersion("~3")
                 .create();
 
         // deploy

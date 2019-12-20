@@ -16,6 +16,7 @@ import com.microsoft.azure.management.compute.HyperVGeneration;
 import com.microsoft.azure.management.compute.CreationData;
 import com.microsoft.azure.management.compute.EncryptionSettingsCollection;
 import com.microsoft.azure.management.compute.DiskState;
+import com.microsoft.azure.management.compute.Encryption;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.Resource;
@@ -125,6 +126,13 @@ public class DiskInner extends Resource {
      */
     @JsonProperty(value = "properties.diskState", access = JsonProperty.Access.WRITE_ONLY)
     private DiskState diskState;
+
+    /**
+     * Encryption property can be used to encrypt data at rest with customer
+     * managed keys or platform managed keys.
+     */
+    @JsonProperty(value = "properties.encryption")
+    private Encryption encryption;
 
     /**
      * Get a relative URI containing the ID of the VM that has the disk attached.
@@ -358,6 +366,26 @@ public class DiskInner extends Resource {
      */
     public DiskState diskState() {
         return this.diskState;
+    }
+
+    /**
+     * Get encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+     *
+     * @return the encryption value
+     */
+    public Encryption encryption() {
+        return this.encryption;
+    }
+
+    /**
+     * Set encryption property can be used to encrypt data at rest with customer managed keys or platform managed keys.
+     *
+     * @param encryption the encryption value to set
+     * @return the DiskInner object itself.
+     */
+    public DiskInner withEncryption(Encryption encryption) {
+        this.encryption = encryption;
+        return this;
     }
 
 }

@@ -40,7 +40,7 @@ public interface Jobs {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobInformationBasic&gt; object if successful.
      */
-    PagedList<JobInformationBasic> list(final String accountName);
+    PagedList<JobInformationBasic> list(String accountName);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -50,7 +50,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobInformationBasic>> listAsync(final String accountName, final ListOperationCallback<JobInformationBasic> serviceCallback);
+    ServiceFuture<List<JobInformationBasic>> listAsync(String accountName, ListOperationCallback<JobInformationBasic> serviceCallback);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -59,7 +59,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInformationBasic&gt; object
      */
-    Observable<Page<JobInformationBasic>> listAsync(final String accountName);
+    Observable<Page<JobInformationBasic>> listAsync(String accountName);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -68,7 +68,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInformationBasic&gt; object
      */
-    Observable<ServiceResponse<Page<JobInformationBasic>>> listWithServiceResponseAsync(final String accountName);
+    Observable<ServiceResponse<Page<JobInformationBasic>>> listWithServiceResponseAsync(String accountName);
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
      *
@@ -84,7 +84,7 @@ public interface Jobs {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobInformationBasic&gt; object if successful.
      */
-    PagedList<JobInformationBasic> list(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    PagedList<JobInformationBasic> list(String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -100,7 +100,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobInformationBasic>> listAsync(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count, final ListOperationCallback<JobInformationBasic> serviceCallback);
+    ServiceFuture<List<JobInformationBasic>> listAsync(String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count, ListOperationCallback<JobInformationBasic> serviceCallback);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -115,7 +115,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInformationBasic&gt; object
      */
-    Observable<Page<JobInformationBasic>> listAsync(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    Observable<Page<JobInformationBasic>> listAsync(String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -130,7 +130,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInformationBasic&gt; object
      */
-    Observable<ServiceResponse<Page<JobInformationBasic>>> listWithServiceResponseAsync(final String accountName, final String filter, final Integer top, final Integer skip, final String select, final String orderby, final Boolean count);
+    Observable<ServiceResponse<Page<JobInformationBasic>>> listWithServiceResponseAsync(String accountName, String filter, Integer top, Integer skip, String select, String orderby, Boolean count);
 
     /**
      * Submits a job to the specified Data Lake Analytics account.
@@ -155,7 +155,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobInformation> createAsync(String accountName, UUID jobIdentity, CreateJobParameters parameters, final ServiceCallback<JobInformation> serviceCallback);
+    ServiceFuture<JobInformation> createAsync(String accountName, UUID jobIdentity, CreateJobParameters parameters, ServiceCallback<JobInformation> serviceCallback);
 
     /**
      * Submits a job to the specified Data Lake Analytics account.
@@ -200,7 +200,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobInformation> getAsync(String accountName, UUID jobIdentity, final ServiceCallback<JobInformation> serviceCallback);
+    ServiceFuture<JobInformation> getAsync(String accountName, UUID jobIdentity, ServiceCallback<JobInformation> serviceCallback);
 
     /**
      * Gets the job information for the specified job ID.
@@ -243,7 +243,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobInformation> updateAsync(String accountName, UUID jobIdentity, final ServiceCallback<JobInformation> serviceCallback);
+    ServiceFuture<JobInformation> updateAsync(String accountName, UUID jobIdentity, ServiceCallback<JobInformation> serviceCallback);
 
     /**
      * Updates the job information for the specified job ID. (Only for use internally with Scope job type.).
@@ -287,7 +287,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobInformation> updateAsync(String accountName, UUID jobIdentity, UpdateJobParameters parameters, final ServiceCallback<JobInformation> serviceCallback);
+    ServiceFuture<JobInformation> updateAsync(String accountName, UUID jobIdentity, UpdateJobParameters parameters, ServiceCallback<JobInformation> serviceCallback);
 
     /**
      * Updates the job information for the specified job ID. (Only for use internally with Scope job type.).
@@ -332,7 +332,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobInformation> beginUpdateAsync(String accountName, UUID jobIdentity, final ServiceCallback<JobInformation> serviceCallback);
+    ServiceFuture<JobInformation> beginUpdateAsync(String accountName, UUID jobIdentity, ServiceCallback<JobInformation> serviceCallback);
 
     /**
      * Updates the job information for the specified job ID. (Only for use internally with Scope job type.).
@@ -376,7 +376,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobInformation> beginUpdateAsync(String accountName, UUID jobIdentity, UpdateJobParameters parameters, final ServiceCallback<JobInformation> serviceCallback);
+    ServiceFuture<JobInformation> beginUpdateAsync(String accountName, UUID jobIdentity, UpdateJobParameters parameters, ServiceCallback<JobInformation> serviceCallback);
 
     /**
      * Updates the job information for the specified job ID. (Only for use internally with Scope job type.).
@@ -421,7 +421,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobStatistics> getStatisticsAsync(String accountName, UUID jobIdentity, final ServiceCallback<JobStatistics> serviceCallback);
+    ServiceFuture<JobStatistics> getStatisticsAsync(String accountName, UUID jobIdentity, ServiceCallback<JobStatistics> serviceCallback);
 
     /**
      * Gets statistics of the specified job.
@@ -464,7 +464,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobDataPath> getDebugDataPathAsync(String accountName, UUID jobIdentity, final ServiceCallback<JobDataPath> serviceCallback);
+    ServiceFuture<JobDataPath> getDebugDataPathAsync(String accountName, UUID jobIdentity, ServiceCallback<JobDataPath> serviceCallback);
 
     /**
      * Gets the job debug data information specified by the job ID.
@@ -506,7 +506,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> cancelAsync(String accountName, UUID jobIdentity, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> cancelAsync(String accountName, UUID jobIdentity, ServiceCallback<Void> serviceCallback);
 
     /**
      * Cancels the running job specified by the job ID.
@@ -548,7 +548,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> beginCancelAsync(String accountName, UUID jobIdentity, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> beginCancelAsync(String accountName, UUID jobIdentity, ServiceCallback<Void> serviceCallback);
 
     /**
      * Cancels the running job specified by the job ID.
@@ -590,7 +590,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> yieldAsync(String accountName, UUID jobIdentity, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> yieldAsync(String accountName, UUID jobIdentity, ServiceCallback<Void> serviceCallback);
 
     /**
      * Pauses the specified job and places it back in the job queue, behind other jobs of equal or higher importance, based on priority. (Only for use internally with Scope job type.).
@@ -632,7 +632,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> beginYieldAsync(String accountName, UUID jobIdentity, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> beginYieldAsync(String accountName, UUID jobIdentity, ServiceCallback<Void> serviceCallback);
 
     /**
      * Pauses the specified job and places it back in the job queue, behind other jobs of equal or higher importance, based on priority. (Only for use internally with Scope job type.).
@@ -675,7 +675,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobInformation> buildAsync(String accountName, BuildJobParameters parameters, final ServiceCallback<JobInformation> serviceCallback);
+    ServiceFuture<JobInformation> buildAsync(String accountName, BuildJobParameters parameters, ServiceCallback<JobInformation> serviceCallback);
 
     /**
      * Builds (compiles) the specified job in the specified Data Lake Analytics account for job correctness and validation.
@@ -706,7 +706,7 @@ public interface Jobs {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobInformationBasic&gt; object if successful.
      */
-    PagedList<JobInformationBasic> listNext(final String nextPageLink);
+    PagedList<JobInformationBasic> listNext(String nextPageLink);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -717,7 +717,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobInformationBasic>> listNextAsync(final String nextPageLink, final ServiceFuture<List<JobInformationBasic>> serviceFuture, final ListOperationCallback<JobInformationBasic> serviceCallback);
+    ServiceFuture<List<JobInformationBasic>> listNextAsync(String nextPageLink, ServiceFuture<List<JobInformationBasic>> serviceFuture, ListOperationCallback<JobInformationBasic> serviceCallback);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -726,7 +726,7 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInformationBasic&gt; object
      */
-    Observable<Page<JobInformationBasic>> listNextAsync(final String nextPageLink);
+    Observable<Page<JobInformationBasic>> listNextAsync(String nextPageLink);
 
     /**
      * Lists the jobs, if any, associated with the specified Data Lake Analytics account. The response includes a link to the next page of results, if any.
@@ -735,6 +735,6 @@ public interface Jobs {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobInformationBasic&gt; object
      */
-    Observable<ServiceResponse<Page<JobInformationBasic>>> listNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<JobInformationBasic>>> listNextWithServiceResponseAsync(String nextPageLink);
 
 }

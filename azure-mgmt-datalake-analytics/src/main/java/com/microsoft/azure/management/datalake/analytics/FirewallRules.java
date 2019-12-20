@@ -34,7 +34,7 @@ public interface FirewallRules {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;FirewallRule&gt; object if successful.
      */
-    PagedList<FirewallRule> listByAccount(final String resourceGroupName, final String accountName);
+    PagedList<FirewallRule> listByAccount(String resourceGroupName, String accountName);
 
     /**
      * Lists the Data Lake Analytics firewall rules within the specified Data Lake Analytics account.
@@ -45,7 +45,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<FirewallRule>> listByAccountAsync(final String resourceGroupName, final String accountName, final ListOperationCallback<FirewallRule> serviceCallback);
+    ServiceFuture<List<FirewallRule>> listByAccountAsync(String resourceGroupName, String accountName, ListOperationCallback<FirewallRule> serviceCallback);
 
     /**
      * Lists the Data Lake Analytics firewall rules within the specified Data Lake Analytics account.
@@ -55,7 +55,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FirewallRule&gt; object
      */
-    Observable<Page<FirewallRule>> listByAccountAsync(final String resourceGroupName, final String accountName);
+    Observable<Page<FirewallRule>> listByAccountAsync(String resourceGroupName, String accountName);
 
     /**
      * Lists the Data Lake Analytics firewall rules within the specified Data Lake Analytics account.
@@ -65,7 +65,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FirewallRule&gt; object
      */
-    Observable<ServiceResponse<Page<FirewallRule>>> listByAccountWithServiceResponseAsync(final String resourceGroupName, final String accountName);
+    Observable<ServiceResponse<Page<FirewallRule>>> listByAccountWithServiceResponseAsync(String resourceGroupName, String accountName);
 
     /**
      * Creates or updates the specified firewall rule. During update, the firewall rule with the specified name will be replaced with this new firewall rule.
@@ -94,7 +94,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<FirewallRule> createOrUpdateAsync(String resourceGroupName, String accountName, String firewallRuleName, String startIpAddress, String endIpAddress, final ServiceCallback<FirewallRule> serviceCallback);
+    ServiceFuture<FirewallRule> createOrUpdateAsync(String resourceGroupName, String accountName, String firewallRuleName, String startIpAddress, String endIpAddress, ServiceCallback<FirewallRule> serviceCallback);
 
     /**
      * Creates or updates the specified firewall rule. During update, the firewall rule with the specified name will be replaced with this new firewall rule.
@@ -145,7 +145,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<FirewallRule> getAsync(String resourceGroupName, String accountName, String firewallRuleName, final ServiceCallback<FirewallRule> serviceCallback);
+    ServiceFuture<FirewallRule> getAsync(String resourceGroupName, String accountName, String firewallRuleName, ServiceCallback<FirewallRule> serviceCallback);
 
     /**
      * Gets the specified Data Lake Analytics firewall rule.
@@ -192,7 +192,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<FirewallRule> updateAsync(String resourceGroupName, String accountName, String firewallRuleName, final ServiceCallback<FirewallRule> serviceCallback);
+    ServiceFuture<FirewallRule> updateAsync(String resourceGroupName, String accountName, String firewallRuleName, ServiceCallback<FirewallRule> serviceCallback);
 
     /**
      * Updates the specified firewall rule.
@@ -242,7 +242,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<FirewallRule> updateAsync(String resourceGroupName, String accountName, String firewallRuleName, String startIpAddress, String endIpAddress, final ServiceCallback<FirewallRule> serviceCallback);
+    ServiceFuture<FirewallRule> updateAsync(String resourceGroupName, String accountName, String firewallRuleName, String startIpAddress, String endIpAddress, ServiceCallback<FirewallRule> serviceCallback);
 
     /**
      * Updates the specified firewall rule.
@@ -292,7 +292,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String firewallRuleName, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String firewallRuleName, ServiceCallback<Void> serviceCallback);
 
     /**
      * Deletes the specified firewall rule from the specified Data Lake Analytics account.
@@ -325,7 +325,7 @@ public interface FirewallRules {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;FirewallRule&gt; object if successful.
      */
-    PagedList<FirewallRule> listByAccountNext(final String nextPageLink);
+    PagedList<FirewallRule> listByAccountNext(String nextPageLink);
 
     /**
      * Lists the Data Lake Analytics firewall rules within the specified Data Lake Analytics account.
@@ -336,7 +336,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<FirewallRule>> listByAccountNextAsync(final String nextPageLink, final ServiceFuture<List<FirewallRule>> serviceFuture, final ListOperationCallback<FirewallRule> serviceCallback);
+    ServiceFuture<List<FirewallRule>> listByAccountNextAsync(String nextPageLink, ServiceFuture<List<FirewallRule>> serviceFuture, ListOperationCallback<FirewallRule> serviceCallback);
 
     /**
      * Lists the Data Lake Analytics firewall rules within the specified Data Lake Analytics account.
@@ -345,7 +345,7 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FirewallRule&gt; object
      */
-    Observable<Page<FirewallRule>> listByAccountNextAsync(final String nextPageLink);
+    Observable<Page<FirewallRule>> listByAccountNextAsync(String nextPageLink);
 
     /**
      * Lists the Data Lake Analytics firewall rules within the specified Data Lake Analytics account.
@@ -354,6 +354,6 @@ public interface FirewallRules {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;FirewallRule&gt; object
      */
-    Observable<ServiceResponse<Page<FirewallRule>>> listByAccountNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<FirewallRule>>> listByAccountNextWithServiceResponseAsync(String nextPageLink);
 
 }

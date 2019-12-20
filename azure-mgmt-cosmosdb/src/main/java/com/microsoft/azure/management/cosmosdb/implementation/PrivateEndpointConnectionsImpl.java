@@ -34,7 +34,6 @@ class PrivateEndpointConnectionsImpl extends
     PrivateEndpointConnectionsImpl(PrivateEndpointConnectionsInner client, CosmosDBAccountImpl parent) {
         super(parent, parent.taskGroup(), "PrivateEndpointConnection");
         this.client = client;
-        this.cacheCollection();
     }
 
     public PrivateEndpointConnectionImpl define(String name) {
@@ -42,10 +41,16 @@ class PrivateEndpointConnectionsImpl extends
     }
 
     public PrivateEndpointConnectionImpl update(String name) {
+        if (this.collection().size() == 0) {
+            this.cacheCollection();
+        }
         return this.prepareInlineUpdate(name);
     }
 
     public void remove(String name) {
+        if (this.collection().size() == 0) {
+            this.cacheCollection();
+        }
         this.prepareInlineRemove(name);
     }
 
@@ -67,13 +72,16 @@ class PrivateEndpointConnectionsImpl extends
     }
     
     public Observable<List<PrivateEndpointConnectionImpl>> listAsync() {
+        final PrivateEndpointConnectionsImpl self = this;
         return this.client.listByDatabaseAccountAsync(parent().resourceGroupName(), parent().name())
                 .map(new Func1<List<PrivateEndpointConnectionInner>, List<PrivateEndpointConnectionImpl>>() {
                     @Override
                     public List<PrivateEndpointConnectionImpl> call(List<PrivateEndpointConnectionInner> privateEndpointConnectionInners) {
                         List<PrivateEndpointConnectionImpl> privateEndpointConnections = new ArrayList<>();
                         for (PrivateEndpointConnectionInner inner : privateEndpointConnectionInners) {
-                            privateEndpointConnections.add(new PrivateEndpointConnectionImpl(inner.name(), parent(), inner, client));
+                            PrivateEndpointConnectionImpl childResource = new PrivateEndpointConnectionImpl(inner.name(), parent(), inner, client);
+                            self.addPrivateEndpointConnection(childResource);
+                            privateEndpointConnections.add(childResource);
                         }
                         return Collections.unmodifiableList(privateEndpointConnections);
                     }
@@ -81,25 +89,32 @@ class PrivateEndpointConnectionsImpl extends
     }
 
     public Observable<PrivateEndpointConnectionImpl> getImplAsync(String name) {
+        final PrivateEndpointConnectionsImpl self = this;
         return this.client.getAsync(parent().resourceGroupName(), parent().name(), name)
                 .map(new Func1<PrivateEndpointConnectionInner, PrivateEndpointConnectionImpl>() {
                     @Override
                     public PrivateEndpointConnectionImpl call(PrivateEndpointConnectionInner privateEndpointConnectionInner) {
-                        return new PrivateEndpointConnectionImpl(privateEndpointConnectionInner.name(),
+                        PrivateEndpointConnectionImpl childResource = new PrivateEndpointConnectionImpl(privateEndpointConnectionInner.name(),
                                 parent(),
                                 privateEndpointConnectionInner,
                                 client);
+                        self.addPrivateEndpointConnection(childResource);
+                        return childResource;
                     }
                 });
     }
 
     @Override
     protected List<PrivateEndpointConnectionImpl> listChildResources() {
-        return new ArrayList<>();
+        return listAsync().toBlocking().last();
     }
 
     @Override
     protected PrivateEndpointConnectionImpl newChildResource(String name) {
         return new PrivateEndpointConnectionImpl(name, parent(), new PrivateEndpointConnectionInner(), this.client);
+    }
+
+    public void addPrivateEndpointConnection(PrivateEndpointConnectionImpl privateEndpointConnection) {
+        this.addChildResource(privateEndpointConnection);
     }
 }

@@ -6,9 +6,9 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.implementation.WhatIfOperationResultInner;
+import com.azure.management.resources.models.WhatIfOperationResultInner;
 
 import java.util.List;
 

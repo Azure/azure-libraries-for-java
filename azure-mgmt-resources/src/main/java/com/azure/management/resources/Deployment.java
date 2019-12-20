@@ -20,8 +20,10 @@ import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
 import com.azure.management.resources.implementation.ResourceManager;
 import com.azure.management.resources.models.DeploymentExtendedInner;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -55,7 +57,7 @@ public interface Deployment extends
     /**
      * @return the timestamp of the template deployment
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return key/value pairs that represent deployment output
@@ -110,9 +112,10 @@ public interface Deployment extends
 
     /**
      * Cancel a currently running template deployment asynchronously.
+     *
      * @return a representation of the deferred computation of this call
      */
-    Completable cancelAsync();
+    Mono<Void> cancelAsync();
 
 
     /**
@@ -127,7 +130,7 @@ public interface Deployment extends
      *
      * @return a representation of the deferred computation of this call returning the export result
      */
-    Observable<DeploymentExportResult> exportTemplateAsync();
+    Mono<DeploymentExportResult> exportTemplateAsync();
 
     /**
      * Prepares a What-if operation.
@@ -140,12 +143,12 @@ public interface Deployment extends
      * Container interface for all the deployment definitions.
      */
     interface Definition extends
-        DefinitionStages.Blank,
-        DefinitionStages.WithGroup,
-        DefinitionStages.WithTemplate,
-        DefinitionStages.WithParameters,
-        DefinitionStages.WithMode,
-        DefinitionStages.WithCreate {
+            DefinitionStages.Blank,
+            DefinitionStages.WithGroup,
+            DefinitionStages.WithTemplate,
+            DefinitionStages.WithParameters,
+            DefinitionStages.WithMode,
+            DefinitionStages.WithCreate {
     }
 
     /**
@@ -164,7 +167,8 @@ public interface Deployment extends
         interface WithGroup extends GroupableResource.DefinitionStages.WithExistingResourceGroup<WithTemplate> {
             /**
              * Creates a new resource group to put the deployment in.
-             * @param name the name of the new group
+             *
+             * @param name   the name of the new group
              * @param region the region to create the resource group in
              * @return the next stage of the definition
              */
@@ -172,6 +176,7 @@ public interface Deployment extends
 
             /**
              * Creates a new resource group to put the resource in, based on the definition specified.
+             *
              * @param groupDefinition a creatable definition for a new resource group
              * @return the next stage of the definition
              */
@@ -202,7 +207,7 @@ public interface Deployment extends
             /**
              * Specifies the template as a URL.
              *
-             * @param uri the location of the remote template file
+             * @param uri            the location of the remote template file
              * @param contentVersion the version of the template file
              * @return the next stage of the definition
              */
@@ -223,6 +228,7 @@ public interface Deployment extends
 
             /**
              * Specifies the parameters as a JSON string.
+             *
              * @param parametersJson the JSON string
              * @return the next stage of the definition
              * @throws IOException exception thrown from serialization/deserialization
@@ -232,7 +238,7 @@ public interface Deployment extends
             /**
              * Specifies the parameters as a URL.
              *
-             * @param uri the location of the remote parameters file
+             * @param uri            the location of the remote parameters file
              * @param contentVersion the version of the parameters file
              * @return the next stage of the definition
              */
@@ -259,7 +265,7 @@ public interface Deployment extends
         interface WithCreate extends Creatable<Deployment> {
             Deployment beginCreate();
 
-            Observable<Deployment> beginCreateAsync();
+            Mono<Deployment> beginCreateAsync();
         }
     }
 
@@ -304,7 +310,7 @@ public interface Deployment extends
             /**
              * Specifies the template as a URL.
              *
-             * @param uri the location of the remote template file
+             * @param uri            the location of the remote template file
              * @param contentVersion the version of the template file
              * @return the next stage of the deployment update
              */
@@ -335,7 +341,7 @@ public interface Deployment extends
             /**
              * Specifies the parameters as a URL.
              *
-             * @param uri the location of the remote parameters file
+             * @param uri            the location of the remote parameters file
              * @param contentVersion the version of the parameters file
              * @return the next stage of the deployment update
              */
@@ -475,7 +481,7 @@ public interface Deployment extends
             /**
              * Specifies the uri and content version of template.
              *
-             * @param uri the uri value to set.
+             * @param uri            the uri value to set.
              * @param contentVersion the content version value to set.
              * @return the next stage of the execution.
              */
@@ -497,7 +503,7 @@ public interface Deployment extends
             /**
              * Specifies the uri and content version of parameters file.
              *
-             * @param uri the uri value to set.
+             * @param uri            the uri value to set.
              * @param contentVersion the content version value to set.
              * @return the next stage of the execution.
              */
@@ -536,7 +542,7 @@ public interface Deployment extends
              *
              * @return the next stage of the execution.
              */
-            Observable<WhatIfOperationResult> whatIfAsync();
+            Mono<WhatIfOperationResult> whatIfAsync();
 
 
             /**
@@ -551,7 +557,7 @@ public interface Deployment extends
              *
              * @return the next stage of the execution.
              */
-            Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync();
+            Mono<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync();
         }
     }
 }

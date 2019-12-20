@@ -6,15 +6,15 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.resources.implementation.GenericResourceInner;
 import com.azure.management.resources.implementation.ResourceManager;
+import com.azure.management.resources.models.GenericResourceInner;
 
 /**
  * An immutable client-side representation of an Azure generic resource.
@@ -117,9 +117,9 @@ public interface GenericResource extends
             /**
              * Specifies the plan of the resource. The plan can only be set for 3rd party resources.
              *
-             * @param name the name of the plan
-             * @param publisher the publisher of the plan
-             * @param product the name of the product
+             * @param name          the name of the plan
+             * @param publisher     the publisher of the plan
+             * @param product       the name of the product
              * @param promotionCode the promotion code, if any
              * @return the next stage of the definition
              */

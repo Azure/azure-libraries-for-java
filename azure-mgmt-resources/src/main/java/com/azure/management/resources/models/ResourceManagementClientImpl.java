@@ -12,7 +12,7 @@ import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.management.AzureEnvironment;
-import com.microsoft.azure.management.AzureServiceClient;
+import com.azure.management.AzureServiceClient;
 
 /**
  * Initializes a new instance of the ResourceManagementClientImpl type.

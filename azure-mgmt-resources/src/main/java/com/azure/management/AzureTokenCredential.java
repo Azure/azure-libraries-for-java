@@ -12,13 +12,12 @@ import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.management.AzureEnvironment;
 import reactor.core.publisher.Mono;
 
-import javax.net.ssl.SSLSocketFactory;
 import java.io.IOException;
 import java.net.Proxy;
 import java.util.Map;
 
 /**
- * AzureTokenCredential represents a credentials object with access to Azure Resource management.
+ * AzureTokenCredential represents a credential object with access to Azure Resource management.
  */
 public abstract class AzureTokenCredential implements TokenCredential {
 
@@ -30,16 +29,13 @@ public abstract class AzureTokenCredential implements TokenCredential {
 
     private Proxy proxy;
 
-    private SSLSocketFactory sslSocketFactory;
-
     /**
-     * Initializes a new instance of the AzureTokenCredentials.
+     * Initializes a new instance of the AzureTokenCredential.
      *
      * @param environment the Azure environment to use
      * @param domain      the tenant or domain the credential is authorized to
      */
     public AzureTokenCredential(AzureEnvironment environment, String domain) {
-        //  super("Bearer", null);
         this.environment = (environment == null) ? AzureEnvironment.AZURE : environment;
         this.domain = domain;
     }
@@ -53,24 +49,24 @@ public abstract class AzureTokenCredential implements TokenCredential {
     @Override
     public final Mono<AccessToken> getToken(TokenRequestContext request) {
         String host = request.toString().toLowerCase();
-        String resource = environment().getManagementEndpoint();
-        for (Map.Entry<String, String> endpoint : environment().endpoints().entrySet()) {
+        String resource = getEnvironment().getManagementEndpoint();
+        for (Map.Entry<String, String> endpoint : getEnvironment().endpoints().entrySet()) {
             if (host.contains(endpoint.getValue())) {
                 if (endpoint.getKey().equals(AzureEnvironment.Endpoint.KEYVAULT.identifier())) {
                     resource = String.format("https://%s/", endpoint.getValue().replaceAll("^\\.*", ""));
                     break;
                 } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.GRAPH.identifier())) {
-                    resource = environment().getGraphEndpoint();
+                    resource = getEnvironment().getGraphEndpoint();
                     break;
                 } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.LOG_ANALYTICS.identifier())) {
-                    resource = environment().getLogAnalyticsEndpoint();
+                    resource = getEnvironment().getLogAnalyticsEndpoint();
                     break;
                 } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.APPLICATION_INSIGHTS.identifier())) {
-                    resource = environment().getApplicationInsightsEndpoint();
+                    resource = getEnvironment().getApplicationInsightsEndpoint();
                     break;
                 } else if (endpoint.getKey().equals(AzureEnvironment.Endpoint.DATA_LAKE_STORE.identifier())
                         || endpoint.getKey().equals(AzureEnvironment.Endpoint.DATA_LAKE_ANALYTICS.identifier())) {
-                    resource = environment().getDataLakeEndpointResourceId();
+                    resource = getEnvironment().getDataLakeEndpointResourceId();
                     break;
                 }
             }
@@ -87,26 +83,36 @@ public abstract class AzureTokenCredential implements TokenCredential {
      */
     public abstract Mono<AccessToken> getToken(String resource);
 
+
+    /**
+     * Get default scope of MSAL for ARM
+     *
+     * @return default scope in string
+     */
+    public String getDefaultScope() {
+        return this.getEnvironment().getResourceManagerEndpoint() + "/.default";
+    }
+
     /**
      * Override this method to provide the domain or tenant ID the token is valid in.
      *
      * @return the domain or tenant ID string
      */
-    public String domain() {
+    public String getDomain() {
         return domain;
     }
 
     /**
      * @return the environment details the credential has access to.
      */
-    public AzureEnvironment environment() {
+    public AzureEnvironment getEnvironment() {
         return environment;
     }
 
     /**
      * @return The default subscription ID, if any
      */
-    public String defaultSubscriptionId() {
+    public String getDefaultSubscriptionId() {
         return defaultSubscription;
     }
 
@@ -116,7 +122,7 @@ public abstract class AzureTokenCredential implements TokenCredential {
      * @param subscriptionId the default subscription ID.
      * @return the credentials object itself.
      */
-    public AzureTokenCredential withDefaultSubscriptionId(String subscriptionId) {
+    public AzureTokenCredential setDefaultSubscriptionId(String subscriptionId) {
         this.defaultSubscription = subscriptionId;
         return this;
     }
@@ -124,32 +130,16 @@ public abstract class AzureTokenCredential implements TokenCredential {
     /**
      * @return the proxy being used for accessing Active Directory.
      */
-    public Proxy proxy() {
+    public Proxy getProxy() {
         return proxy;
-    }
-
-    /**
-     * @return the ssl socket factory.
-     */
-    public SSLSocketFactory sslSocketFactory() {
-        return sslSocketFactory;
     }
 
     /**
      * @param proxy the proxy being used for accessing Active Directory
      * @return the credential itself
      */
-    public AzureTokenCredential withProxy(Proxy proxy) {
+    public AzureTokenCredential setProxy(Proxy proxy) {
         this.proxy = proxy;
-        return this;
-    }
-
-    /**
-     * @param sslSocketFactory the ssl socket factory
-     * @return the credential itself
-     */
-    public AzureTokenCredential withSslSocketFactory(SSLSocketFactory sslSocketFactory) {
-        this.sslSocketFactory = sslSocketFactory;
         return this;
     }
 }

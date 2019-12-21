@@ -9,12 +9,10 @@ package com.azure.management.resources.implementation;
 import com.azure.management.resources.DeploymentExportResult;
 import com.azure.management.resources.ErrorResponse;
 import com.azure.management.resources.ResourceGroupExportResult;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.models.ResourceGroupExportResultInner;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.azure.management.resources.DeploymentExportResult;
-import com.azure.management.resources.ErrorResponse;
-import com.azure.management.resources.ResourceGroupExportResult;
-import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * Implementation for {@link DeploymentExportResult}.
@@ -33,7 +31,7 @@ final class ResourceGroupExportResultImpl extends
 
     @Override
     public Object template() {
-        return inner().template();
+        return getInner().getTemplate();
     }
 
     @Override
@@ -47,6 +45,6 @@ final class ResourceGroupExportResultImpl extends
 
     @Override
     public ErrorResponse error() {
-        return inner().error();
+        return getInner().getError();
     }
 }

@@ -6,13 +6,12 @@
 
 package com.azure.management;
 
+import com.azure.core.implementation.TypeUtil;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
-import com.azure.core.util.serializer.JacksonAdapter;
 import com.azure.core.util.serializer.SerializerAdapter;
 import com.azure.core.util.serializer.SerializerEncoding;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.azure.core.implementation.TypeUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -107,7 +106,7 @@ final class AuthFile {
                     clientId,
                     tenantId,
                     clientSecret,
-                    environment).withDefaultSubscriptionId(subscriptionId);
+                    environment).setDefaultSubscriptionId(subscriptionId);
         } else if (clientCertificate != null) {
             byte[] certData;
             File f = new File(clientCertificate);
@@ -121,7 +120,7 @@ final class AuthFile {
                     tenantId,
                     certData,
                     clientCertificatePassword,
-                    environment).withDefaultSubscriptionId(subscriptionId);
+                    environment).setDefaultSubscriptionId(subscriptionId);
         } else {
             throw new IllegalArgumentException("Please specify either a client key or a client certificate.");
         }

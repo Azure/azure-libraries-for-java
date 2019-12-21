@@ -79,8 +79,4 @@ public abstract class AzureServiceClient extends ServiceClient {
         String version = System.getProperty("java.version");
         JAVA_VERSION = version != null ? version : "Unknown";
     }
-
-    public void getPutOrPatchResultAsync() {
-
-    }
 }

@@ -34,11 +34,11 @@ public final class RestClientBuilder {
     private URL baseUrl;
     private HttpClient httpClient;
     private HttpLogOptions httpLogOptions;
-    private final RetryPolicy retryPolicy;
     private Configuration configuration;
     private RestServiceVersion version;
-
     private SerializerAdapter serializerAdapter;
+
+    private final RetryPolicy retryPolicy;
 
     /**
      * The constructor with defaults.
@@ -54,7 +54,6 @@ public final class RestClientBuilder {
     }
 
     public RestAsyncClient buildAsyncClient() {
-
         if (pipeline != null) {
             return new RestAsyncClient(baseUrl, pipeline, this);
         }
@@ -125,7 +124,7 @@ public final class RestClientBuilder {
         throw new NotImplementedException();
     }
 
-    public RestClientBuilder addPolicy(HttpPipelinePolicy policy) {
+    public RestClientBuilder withPolicy(HttpPipelinePolicy policy) {
         Objects.requireNonNull(policy);
         policies.add(policy);
         return this;

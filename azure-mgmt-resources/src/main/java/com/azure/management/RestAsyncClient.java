@@ -9,6 +9,7 @@ import java.net.URL;
 public class RestAsyncClient {
 
     private HttpPipeline pipeline;
+
     private final URL baseUrl;
 
     /**

@@ -10,16 +10,12 @@ import com.azure.management.resources.ExportTemplateRequest;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.ResourceGroupExportResult;
 import com.azure.management.resources.ResourceGroupExportTemplateOptions;
-import com.azure.management.resources.ExportTemplateRequest;
-import com.azure.management.resources.ResourceGroup;
-import com.azure.management.resources.ResourceGroupExportResult;
-import com.azure.management.resources.ResourceGroupExportTemplateOptions;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.resources.models.ResourceGroupInner;
+import com.azure.management.resources.models.ResourceGroupsInner;
+import com.azure.management.resources.models.ResourceManagementClientImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,7 +30,7 @@ class ResourceGroupImpl extends
         implements
         ResourceGroup,
         ResourceGroup.Definition,
-        ResourceGroup.Update  {
+        ResourceGroup.Update {
 
     private final ResourceGroupsInner client;
 
@@ -45,32 +41,32 @@ class ResourceGroupImpl extends
 
     @Override
     public String provisioningState() {
-        return this.inner().properties().provisioningState();
+        return this.getInner().getProperties().getProvisioningState();
     }
 
     @Override
-    public String regionName() {
-        return this.inner().location();
+    public String getRegionName() {
+        return this.getInner().getLocation();
     }
 
     @Override
-    public Region region() {
-        return Region.fromName(this.regionName());
+    public Region getRegion() {
+        return Region.fromName(this.getRegionName());
     }
 
     @Override
-    public String id() {
-        return this.inner().id();
+    public String getId() {
+        return this.getInner().getId();
     }
 
     @Override
-    public String type() {
+    public String getType() {
         return null;
     }
 
     @Override
-    public Map<String, String> tags() {
-        Map<String, String> tags = this.inner().getTags();
+    public Map<String, String> getTags() {
+        Map<String, String> tags = this.getInner().getTags();
         if (tags == null) {
             tags = new HashMap<>();
         }
@@ -79,30 +75,20 @@ class ResourceGroupImpl extends
 
     @Override
     public ResourceGroupExportResult exportTemplate(ResourceGroupExportTemplateOptions options) {
-        return this.exportTemplateAsync(options).toBlocking().last();
+        return this.exportTemplateAsync(options).block();
     }
 
     @Override
-    public Observable<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options) {
+    public Mono<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options) {
         ExportTemplateRequest inner = new ExportTemplateRequest()
-                .withResources(Arrays.asList("*"))
-                .withOptions(options.toString());
-        return client.exportTemplateAsync(name(), inner).map(new Func1<ResourceGroupExportResultInner, ResourceGroupExportResult>() {
-            @Override
-            public ResourceGroupExportResult call(ResourceGroupExportResultInner resourceGroupExportResultInner) {
-                return new ResourceGroupExportResultImpl(resourceGroupExportResultInner);
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<ResourceGroupExportResult> exportTemplateAsync(ResourceGroupExportTemplateOptions options, ServiceCallback<ResourceGroupExportResult> callback) {
-        return ServiceFuture.fromBody(this.exportTemplateAsync(options), callback);
+                .setResources(Arrays.asList("*"))
+                .setOptions(options.toString());
+        return client.exportTemplateAsync(getName(), inner).map(resourceGroupExportResultInner -> new ResourceGroupExportResultImpl(resourceGroupExportResultInner));
     }
 
     @Override
     public ResourceGroupImpl withRegion(String regionName) {
-        this.inner().withLocation(regionName);
+        this.getInner().setLocation(regionName);
         return this;
     }
 
@@ -113,46 +99,46 @@ class ResourceGroupImpl extends
 
     @Override
     public ResourceGroupImpl withTags(Map<String, String> tags) {
-        this.inner().withTags(new HashMap<>(tags));
+        this.getInner().setTags(new HashMap<>(tags));
         return this;
     }
 
     @Override
     public ResourceGroupImpl withTag(String key, String value) {
-        if (this.inner().getTags() == null) {
-            this.inner().withTags(new HashMap<String, String>());
+        if (this.getInner().getTags() == null) {
+            this.getInner().setTags(new HashMap<String, String>());
         }
-        this.inner().getTags().put(key, value);
+        this.getInner().getTags().put(key, value);
         return this;
     }
 
     @Override
     public ResourceGroupImpl withoutTag(String key) {
-        this.inner().getTags().remove(key);
+        this.getInner().getTags().remove(key);
         return this;
     }
 
     @Override
-    public Observable<ResourceGroup> createResourceAsync() {
+    public Mono<ResourceGroup> createResourceAsync() {
         ResourceGroupInner params = new ResourceGroupInner();
-        params.withLocation(this.inner().location());
-        params.withTags(this.inner().getTags());
-        return client.createOrUpdateAsync(this.name(), params)
+        params.setLocation(this.getInner().getLocation());
+        params.setTags(this.getInner().getTags());
+        return client.createOrUpdateAsync(this.getName(), params)
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    public Observable<ResourceGroup> updateResourceAsync() {
+    public Mono<ResourceGroup> updateResourceAsync() {
         return createResourceAsync();
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.getInner().getId() == null;
     }
 
     @Override
-    protected Observable<ResourceGroupInner> getInnerAsync() {
+    protected Mono<ResourceGroupInner> getInnerAsync() {
         return client.getAsync(this.key);
     }
 }

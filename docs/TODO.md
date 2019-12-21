@@ -21,3 +21,13 @@
   - Componentsschemasidentitypropertiesuserassignedidentitiesadditionalproperties what's this? 
   
   
+ ### FIXME
+ 
+  - ProvidersImpl: What's the value for expand and top
+  
+  - ResourceGroupsImpl: checkExistence should return boolean value instead of void
+  
+  - QUESTION: beginDeleteByNameAsync - Does the method begin with beginXXX is deprecated? 
+  
+  
+  

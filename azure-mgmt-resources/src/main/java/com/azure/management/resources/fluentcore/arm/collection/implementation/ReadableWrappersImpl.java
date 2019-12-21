@@ -6,6 +6,7 @@
 package com.azure.management.resources.fluentcore.arm.collection.implementation;
 
 import com.azure.core.http.rest.Page;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.implementation.PageImpl;
 import reactor.core.publisher.Flux;
@@ -32,6 +33,11 @@ public abstract class ReadableWrappersImpl<
 
     protected PagedIterable<T> wrapList(PagedIterable<InnerT> pagedList) {
         return pagedList.mapPage(innerT -> wrapModel(innerT));
+    }
+
+
+    protected PagedFlux<T> wrapPageAsync(PagedFlux<InnerT> innerPage) {
+        return innerPage.mapPage(innerT -> wrapModel(innerT));
     }
 
 //    protected PagedIterable<T> wrapList(List<InnerT> list) {

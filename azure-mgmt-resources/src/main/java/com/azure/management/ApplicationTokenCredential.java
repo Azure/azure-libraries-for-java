@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class ApplicationTokenCredential extends AzureTokenCredential {
+
     private String clientId;
 
     private String clientSecret;
@@ -43,29 +44,29 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
         return AuthFile.parse(credentialsFile).generateCredentials();
     }
 
-    public String clientId() {
+    public String getClientId() {
         return this.clientId;
     }
 
-    String clientSecret() {
+    String getClientSecret() {
         return this.clientSecret;
     }
 
-    byte[] clientCertificate() {
+    byte[] getClientCertificate() {
         return this.clientCertificate;
     }
 
-    String clientCertificatePassword() {
+    String getClientCertificatePassword() {
         return this.clientCertificatePassword;
     }
 
     @Override
     public synchronized Mono<AccessToken> getToken(String resource) {
         ClientSecretCredential clientSecretCredential = new ClientSecretCredentialBuilder()
-                .clientId(this.clientId)
-                .clientSecret(this.clientSecret)
-                .tenantId(domain())
+                .clientId(this.getClientId())
+                .clientSecret(this.getClientSecret())
+                .tenantId(getDomain())
                 .build();
-        return clientSecretCredential.getToken(new TokenRequestContext().addScopes(this.environment().getResourceManagerEndpoint() + "/.default"));
+        return clientSecretCredential.getToken(new TokenRequestContext().addScopes(this.getDefaultScope()));
     }
 }

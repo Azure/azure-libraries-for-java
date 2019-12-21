@@ -7,6 +7,7 @@
 package com.azure.management.resources.fluentcore.arm;
 
 import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.management.AzureTokenCredential;
 
@@ -27,7 +28,7 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      * @param level the HttpLogDetailLevel logging level
      * @return the configurable object itself
      */
-    T withLogLevel(HttpLogDetailLevel level);
+    T withLogOptions(HttpLogOptions level);
 
     /**
      * Plug in a policy into the HTTP pipeline.
@@ -80,13 +81,6 @@ public interface AzureConfigurable<T extends AzureConfigurable<T>> {
      */
     T useHttpClientThreadPool(boolean useHttpClientThreadPool);
 
-    /**
-     * Sets the executor for async callbacks to run on.
-     *
-     * @param executor the executor to execute the callbacks.
-     * @return the configurable object itself for chaining
-     */
-    T withCallbackExecutor(Executor executor);
 
     /**
      * Sets the proxy for the HTTP client.

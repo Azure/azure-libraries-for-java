@@ -25,11 +25,6 @@ public interface WhatIfOperationResult extends
     String status();
 
     /**
-     * @return list of resource changes predicted by What-If operation.
-     */
-    List<WhatIfChange> changes();
-
-    /**
      * @return error when What-If operation fails.
      */
     ErrorResponse error();

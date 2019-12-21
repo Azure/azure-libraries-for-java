@@ -23,18 +23,18 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.resources.Operation;
+import com.azure.management.resources.TenantIdDescription;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
- * Operations.
+ * Tenants.
  */
-public final class OperationsInner {
+public final class TenantsInner {
     /**
      * The proxy service used to perform REST calls.
      */
-    private OperationsService service;
+    private TenantsService service;
 
     /**
      * The service client containing this operation class.
@@ -42,35 +42,35 @@ public final class OperationsInner {
     private SubscriptionClientImpl client;
 
     /**
-     * Initializes an instance of OperationsInner.
+     * Initializes an instance of TenantsInner.
      * 
      * @param client the instance of the service client containing this operation class.
      */
-    public OperationsInner(SubscriptionClientImpl client) {
-        this.service = RestProxy.create(OperationsService.class, client.getHttpPipeline());
+    public TenantsInner(SubscriptionClientImpl client) {
+        this.service = RestProxy.create(TenantsService.class, client.getHttpPipeline());
         this.client = client;
     }
 
     /**
-     * The interface defining all the services for SubscriptionClientOperations
-     * to be used by the proxy service to perform REST calls.
+     * The interface defining all the services for SubscriptionClientTenants to
+     * be used by the proxy service to perform REST calls.
      */
     @Host("{$host}")
-    @ServiceInterface(name = "SubscriptionClientOperations")
-    private interface OperationsService {
-        @Get("/providers/Microsoft.Resources/operations")
+    @ServiceInterface(name = "SubscriptionClientTenants")
+    private interface TenantsService {
+        @Get("/tenants")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<OperationListResultInner>> list(@HostParam("$host") String host, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<TenantListResultInner>> list(@HostParam("$host") String host, @QueryParam("api-version") String apiVersion);
 
         @Get("{nextLink}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<OperationListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
+        Mono<SimpleResponse<TenantListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Operation>> listSinglePageAsync() {
+    public Mono<PagedResponse<TenantIdDescription>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -81,7 +81,7 @@ public final class OperationsInner {
     }
 
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Operation> listAsync() {
+    public PagedFlux<TenantIdDescription> listAsync() {
         return new PagedFlux<>(
             () -> listSinglePageAsync(),
             nextLink -> listNextSinglePageAsync(nextLink));
@@ -92,12 +92,12 @@ public final class OperationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Operation> list() {
+    public PagedIterable<TenantIdDescription> list() {
         return new PagedIterable<>(listAsync());
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Operation>> listNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<TenantIdDescription>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

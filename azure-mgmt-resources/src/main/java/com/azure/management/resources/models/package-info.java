@@ -6,7 +6,10 @@
 
 /**
  * Package containing the implementations and inner classes for
- * ResourceManagementClient.
- * Provides operations for working with resources and resource groups.
+ * SubscriptionClient.
+ * All resource groups and resources exist within subscriptions. These
+ * operation enable you get information about your subscriptions and tenants. A
+ * tenant is a dedicated instance of Azure Active Directory (Azure AD) for your
+ * organization.
  */
 package com.azure.management.resources.models;

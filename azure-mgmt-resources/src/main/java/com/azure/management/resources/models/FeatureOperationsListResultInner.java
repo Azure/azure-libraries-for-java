@@ -7,50 +7,49 @@
 package com.azure.management.resources.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.resources.Operation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
- * The OperationListResult model.
+ * The FeatureOperationsListResult model.
  */
 @Fluent
-public final class OperationListResultInner {
+public final class FeatureOperationsListResultInner {
     /*
-     * List of Microsoft.Features operations.
+     * The array of features.
      */
     @JsonProperty(value = "value")
-    private List<Operation> value;
+    private List<FeatureResultInner> value;
 
     /*
-     * URL to get the next set of operation list results if there are any.
+     * The URL to use for getting the next set of results.
      */
     @JsonProperty(value = "nextLink")
     private String nextLink;
 
     /**
-     * Get the value property: List of Microsoft.Features operations.
+     * Get the value property: The array of features.
      * 
      * @return the value value.
      */
-    public List<Operation> getValue() {
+    public List<FeatureResultInner> getValue() {
         return this.value;
     }
 
     /**
-     * Set the value property: List of Microsoft.Features operations.
+     * Set the value property: The array of features.
      * 
      * @param value the value value to set.
-     * @return the OperationListResultInner object itself.
+     * @return the FeatureOperationsListResultInner object itself.
      */
-    public OperationListResultInner setValue(List<Operation> value) {
+    public FeatureOperationsListResultInner setValue(List<FeatureResultInner> value) {
         this.value = value;
         return this;
     }
 
     /**
-     * Get the nextLink property: URL to get the next set of operation list
-     * results if there are any.
+     * Get the nextLink property: The URL to use for getting the next set of
+     * results.
      * 
      * @return the nextLink value.
      */
@@ -59,13 +58,13 @@ public final class OperationListResultInner {
     }
 
     /**
-     * Set the nextLink property: URL to get the next set of operation list
-     * results if there are any.
+     * Set the nextLink property: The URL to use for getting the next set of
+     * results.
      * 
      * @param nextLink the nextLink value to set.
-     * @return the OperationListResultInner object itself.
+     * @return the FeatureOperationsListResultInner object itself.
      */
-    public OperationListResultInner setNextLink(String nextLink) {
+    public FeatureOperationsListResultInner setNextLink(String nextLink) {
         this.nextLink = nextLink;
         return this;
     }

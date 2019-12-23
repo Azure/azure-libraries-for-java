@@ -1,6 +1,6 @@
 # Update Log
 
-## Base framework 
+## Base framework - Design Consideration 
 
  - Attachable.InDefinitionAlt, Attachable.InUpdateAlt: What're these two interface methods here.
  
@@ -10,7 +10,11 @@
  
  - GroupPagedIterable: Need refine this class in the Fluent V2 usage scenarios.
  
- ## ARM generator
+## Service Client Design consideration 
+   
+   - AzureEnvironment: How to play with this object
+ 
+## ARM generator
  
   - The Deployment.java/ResourceGroup.java/ResourceGroups.java is overwritten by the fluent generator.
     * Fix by generate inner class into the models folder
@@ -20,8 +24,7 @@
   
   - Componentsschemasidentitypropertiesuserassignedidentitiesadditionalproperties what's this? 
   
-  
- ### FIXME
+### FIXME
  
   - ProvidersImpl: What's the value for expand and top
   
@@ -29,5 +32,6 @@
   
   - QUESTION: beginDeleteByNameAsync - Does the method begin with beginXXX is deprecated? 
   
+  - ResourceManagerClientImpl & SubscriptionClientImpl both have OperationsInner
   
   

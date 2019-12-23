@@ -39,14 +39,14 @@ public final class OperationsInner {
     /**
      * The service client containing this operation class.
      */
-    private SubscriptionClientImpl client;
+    private ResourceManagementClientImpl client;
 
     /**
      * Initializes an instance of OperationsInner.
      * 
      * @param client the instance of the service client containing this operation class.
      */
-    public OperationsInner(SubscriptionClientImpl client) {
+    public OperationsInner(ResourceManagementClientImpl client) {
         this.service = RestProxy.create(OperationsService.class, client.getHttpPipeline());
         this.client = client;
     }

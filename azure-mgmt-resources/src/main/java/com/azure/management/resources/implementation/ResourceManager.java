@@ -141,7 +141,7 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
 
         AuthenticatedImpl(RestClient restClient) {
             this.restClient = restClient;
-            this.subscriptionClient = new SubscriptionClientImpl(restClient);
+            this.subscriptionClient = new SubscriptionClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
         }
 
         public Subscriptions subscriptions() {
@@ -167,10 +167,11 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private ResourceManager(RestClient restClient, String subscriptionId) {
         super(null, subscriptionId);
         super.setResourceManager(this);
-        this.resourceManagementClient = new ResourceManagementClientImpl(restClient.getHttpPipeline(), restClient.get);
-        this.resourceManagementClient.withSubscriptionId(subscriptionId);
-        this.featureClient = new FeatureClientImpl(restClient);
-        this.featureClient.withSubscriptionId(subscriptionId);
+        this.resourceManagementClient = new ResourceManagementClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
+        // this.resourceManagementClient.withSubscriptionId(subscriptionId);
+        this.featureClient = new FeatureClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
+        // this.featureClient.withSubscriptionId(subscriptionId);
+        this.subscriptionClientClient = new SubscriptionClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
 //        this.policyClient = new PolicyClientImpl(restClient);
 //        this.policyClient.withSubscriptionId(subscriptionId);
     }

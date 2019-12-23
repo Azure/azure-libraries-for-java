@@ -32,7 +32,7 @@ public class RestClient {
         return this.client.getCredential();
     }
 
-    public URL getBaseURL() {
+    public URL getBaseUrl() {
         return this.client.getBaseUrl();
     }
 }

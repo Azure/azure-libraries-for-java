@@ -28,8 +28,8 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.CloudException;
+import com.azure.management.AzureServiceClient;
 import com.azure.management.resources.Operation;
-import com.microsoft.azure.management.AzureServiceClient;
 import reactor.core.publisher.Mono;
 
 /**
@@ -42,12 +42,13 @@ public final class FeatureClientImpl extends AzureServiceClient {
     private FeatureClientService service;
 
     /**
+     *
      */
     private String subscriptionId;
 
     /**
      * Gets null.
-     * 
+     *
      * @return the subscriptionId value.
      */
     public String getSubscriptionId() {
@@ -56,7 +57,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Sets null.
-     * 
+     *
      * @param subscriptionId the subscriptionId value.
      * @return the service client itself.
      */
@@ -72,7 +73,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Gets https://management.azure.com.
-     * 
+     *
      * @return the host value.
      */
     public String getHost() {
@@ -81,7 +82,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Sets https://management.azure.com.
-     * 
+     *
      * @param host the host value.
      * @return the service client itself.
      */
@@ -97,7 +98,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Gets 2015-12-01.
-     * 
+     *
      * @return the apiVersion value.
      */
     public String getApiVersion() {
@@ -106,7 +107,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Sets 2015-12-01.
-     * 
+     *
      * @param apiVersion the apiVersion value.
      * @return the service client itself.
      */
@@ -122,7 +123,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Gets The HTTP pipeline to send requests through.
-     * 
+     *
      * @return the httpPipeline value.
      */
     public HttpPipeline getHttpPipeline() {
@@ -136,7 +137,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Gets the FeaturesInner object to access its operations.
-     * 
+     *
      * @return the FeaturesInner object.
      */
     public FeaturesInner features() {
@@ -152,7 +153,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Initializes an instance of FeatureClient client.
-     * 
+     *
      * @param httpPipeline The HTTP pipeline to send requests through.
      */
     public FeatureClientImpl(HttpPipeline httpPipeline) {
@@ -161,9 +162,9 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     /**
      * Initializes an instance of FeatureClient client.
-     * 
+     *
      * @param httpPipeline The HTTP pipeline to send requests through.
-     * @param environment The Azure environment.
+     * @param environment  The Azure environment.
      */
     public FeatureClientImpl(HttpPipeline httpPipeline, AzureEnvironment environment) {
         super(httpPipeline, environment);
@@ -193,23 +194,23 @@ public final class FeatureClientImpl extends AzureServiceClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Operation>> listOperationsSinglePageAsync() {
         return service.listOperations(this.client.getHost(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
-            res.getRequest(),
-            res.getStatusCode(),
-            res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
-            null));
+                res.getRequest(),
+                res.getStatusCode(),
+                res.getHeaders(),
+                res.getValue().getValue(),
+                res.getValue().getNextLink(),
+                null));
     }
 
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<Operation> listOperationsAsync() {
         return new PagedFlux<>(
-            () -> listOperationsSinglePageAsync(),
-            nextLink -> listOperationsNextSinglePageAsync(nextLink));
+                () -> listOperationsSinglePageAsync(),
+                nextLink -> listOperationsNextSinglePageAsync(nextLink));
     }
 
     /**
-     * @throws CloudException thrown if the request is rejected by server.
+     * @throws CloudException   thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
@@ -220,11 +221,11 @@ public final class FeatureClientImpl extends AzureServiceClient {
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Operation>> listOperationsNextSinglePageAsync(String nextLink) {
         return service.listOperationsNext(nextLink).map(res -> new PagedResponseBase<>(
-            res.getRequest(),
-            res.getStatusCode(),
-            res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().getNextLink(),
-            null));
+                res.getRequest(),
+                res.getStatusCode(),
+                res.getHeaders(),
+                res.getValue().getValue(),
+                res.getValue().getNextLink(),
+                null));
     }
 }

@@ -7,37 +7,42 @@
 package com.azure.management;
 
 import com.azure.core.credential.TokenCredential;
+import com.azure.core.http.HttpPipeline;
+import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
+//import com.google.common.hash.Hashing;
 
 import java.net.NetworkInterface;
-import java.security.MessageDigest;
 import java.util.Enumeration;
 
 /**
  * ServiceClient is the abstraction for accessing REST operations and their payload data types.
  */
-public abstract class AzureServiceClient extends ServiceClient {
-    /**
-     * Initializes a new instance of the ServiceClient class.
-     *
-     * @param baseUrl     the service base uri
-     * @param credentials the credentials
-     */
-    protected AzureServiceClient(String baseUrl, TokenCredential credentials) {
-        this(new RestClientBuilder()
-                .withBaseUrl(baseUrl)
-                .withCredential(credentials)
-                .withSerializerAdapter(new AzureJacksonAdapter())
-                .buildClient());
-    }
+public abstract class AzureServiceClient {
+//    /**
+//     * Initializes a new instance of the ServiceClient class.
+//     *
+//     * @param baseUrl     the service base uri
+//     * @param credentials the credentials
+//     */
+//    protected AzureServiceClient(String baseUrl, TokenCredential credentials) {
+//        this(new RestClientBuilder()
+//                .withBaseUrl(baseUrl)
+//                .withCredential(credentials)
+//                .withSerializerAdapter(new AzureJacksonAdapter())
+//                .buildClient());
+//    }
+//
+//    /**
+//     * Initializes a new instance of the ServiceClient class.
+//     *
+//     * @param restClient the REST client
+//     */
+//    protected AzureServiceClient(RestClient restClient) {
+//        super(restClient);
+//    }
 
-    /**
-     * Initializes a new instance of the ServiceClient class.
-     *
-     * @param restClient the REST client
-     */
-    protected AzureServiceClient(RestClient restClient) {
-        super(restClient);
+    protected AzureServiceClient(HttpPipeline httpPipeline, AzureEnvironment environment) {
     }
 
     /**
@@ -60,23 +65,23 @@ public abstract class AzureServiceClient extends ServiceClient {
     static {
         OS = System.getProperty("os.name") + "/" + System.getProperty("os.version");
         String macAddress = "Unknown";
-        try {
-            Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
-            while (networks.hasMoreElements()) {
-                NetworkInterface network = networks.nextElement();
-                byte[] mac = network.getHardwareAddress();
-
-                if (mac != null) {
-                    MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                    macAddress = digest.digest(mac).toString();
-                    break;
-                }
-            }
-        } catch (Throwable t) {
-            // It's okay ignore mac address hash telemetry
-        }
+//        try {
+//            Enumeration<NetworkInterface> networks = NetworkInterface.getNetworkInterfaces();
+//            while (networks.hasMoreElements()) {
+//                NetworkInterface network = networks.nextElement();
+//                byte[] mac = network.getHardwareAddress();
+//
+//                if (mac != null) {
+//                    macAddress = Hashing.sha256().hashBytes(mac).toString();
+//                    break;
+//                }
+//            }
+//        } catch (Throwable t) {
+//            // It's okay ignore mac address hash telemetry
+//        }
         MAC_ADDRESS_HASH = macAddress;
         String version = System.getProperty("java.version");
         JAVA_VERSION = version != null ? version : "Unknown";
     }
+
 }

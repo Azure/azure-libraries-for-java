@@ -8,6 +8,7 @@ package com.azure.management.resources.implementation;
 
 import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 import com.azure.management.resources.Feature;
+import com.azure.management.resources.models.FeatureResultInner;
 
 /**
  * The implementation of {@link Feature}.
@@ -22,20 +23,20 @@ final class FeatureImpl extends
     }
 
     @Override
-    public String name() {
-        return inner().name();
+    public String getName() {
+        return getInner().getName();
     }
 
     @Override
     public String type() {
-        return inner().type();
+        return getInner().getType();
     }
 
     @Override
     public String state() {
-        if (inner().properties() == null) {
+        if (getInner().getProperties() == null) {
             return null;
         }
-        return inner().properties().state();
+        return getInner().getProperties().getState();
     }
 }

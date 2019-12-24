@@ -6,7 +6,7 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.azure.management.resources.fluentcore.collection.SupportsListing;
 

@@ -9,10 +9,8 @@ package com.azure.management.resources.implementation;
 import com.azure.management.resources.ErrorResponse;
 import com.azure.management.resources.WhatIfChange;
 import com.azure.management.resources.WhatIfOperationResult;
-import com.azure.management.resources.ErrorResponse;
-import com.azure.management.resources.WhatIfChange;
-import com.azure.management.resources.WhatIfOperationResult;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.models.WhatIfOperationResultInner;
 
 import java.util.Collections;
 import java.util.List;
@@ -31,16 +29,12 @@ public class WhatIfOperationResultImpl extends
 
     @Override
     public String status() {
-        return this.inner().status();
+        return this.getInner().getStatus();
     }
 
-    @Override
-    public List<WhatIfChange> changes() {
-        return Collections.unmodifiableList(this.inner().changes());
-    }
 
     @Override
     public ErrorResponse error() {
-        return this.inner().error();
+        return this.getInner().getError();
     }
 }

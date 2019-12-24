@@ -6,14 +6,14 @@
 
 package com.azure.management.resources.implementation;
 
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.Feature;
 import com.azure.management.resources.Features;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.resources.models.FeatureResultInner;
+import com.azure.management.resources.models.FeaturesInner;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation of {@link Features}.
@@ -28,28 +28,19 @@ final class FeaturesImpl
     }
 
     @Override
-    public PagedList<Feature> list() {
-        return wrapList(client.list());
+    public PagedIterable<Feature> list() {
+        // FIXME: resourceProviderNamespace value
+        return wrapList(client.list(null));
     }
 
     @Override
     public Feature register(String resourceProviderName, String featureName) {
-        return this.registerAsync(resourceProviderName, featureName).toBlocking().last();
+        return this.registerAsync(resourceProviderName, featureName).block();
     }
 
     @Override
-    public Observable<Feature> registerAsync(String resourceProviderName, String featureName) {
-        return client.registerAsync(resourceProviderName, featureName).map(new Func1<FeatureResultInner, Feature>() {
-            @Override
-            public Feature call(FeatureResultInner featureResultInner) {
-                return wrapModel(featureResultInner);
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<Feature> registerAsync(String resourceProviderName, String featureName, ServiceCallback<Feature> callback) {
-        return ServiceFuture.fromBody(this.registerAsync(resourceProviderName, featureName), callback);
+    public Mono<Feature> registerAsync(String resourceProviderName, String featureName) {
+        return client.registerAsync(resourceProviderName, featureName).map(featureResultInner -> wrapModel(featureResultInner));
     }
 
     @Override
@@ -61,7 +52,8 @@ final class FeaturesImpl
     }
 
     @Override
-    public Observable<Feature> listAsync() {
-        return wrapPageAsync(client.listAsync());
+    public PagedFlux<Feature> listAsync() {
+        // FIXME: resourceProviderNamespace value
+        return wrapPageAsync(client.listAsync(null));
     }
 }

@@ -6,11 +6,10 @@
 
 package com.azure.management.resources;
 
-import com.azure.management.resources.core.TestBase;
+import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 

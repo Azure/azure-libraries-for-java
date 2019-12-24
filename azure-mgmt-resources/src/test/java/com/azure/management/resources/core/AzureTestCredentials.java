@@ -6,13 +6,16 @@
 
 package com.azure.management.resources.core;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 
-import java.io.IOException;
+import com.azure.core.credential.AccessToken;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.management.ApplicationTokenCredential;
+import reactor.core.publisher.Mono;
+
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 
-public class AzureTestCredentials extends ApplicationTokenCredentials {
+public class AzureTestCredentials extends ApplicationTokenCredential {
     boolean isPlaybackMode;
 
     public AzureTestCredentials(final String mockUrl, String mockTenant, boolean isPlaybackMode) {
@@ -30,10 +33,10 @@ public class AzureTestCredentials extends ApplicationTokenCredentials {
     }
 
     @Override
-    public String getToken(String resource) throws IOException {
+    public Mono<AccessToken> getToken(String resource) {
         if (!isPlaybackMode) {
             super.getToken(resource);
         }
-        return "https:/asdd.com";
+        return Mono.just(new AccessToken("https:/asdd.com", OffsetDateTime.MAX));
     }
 }

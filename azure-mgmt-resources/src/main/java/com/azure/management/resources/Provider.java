@@ -6,11 +6,10 @@
 
 package com.azure.management.resources;
 
-import com.azure.management.resources.implementation.ProviderInner;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.implementation.ProviderInner;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.models.ProviderInner;
 
 import java.util.List;
 
@@ -29,7 +28,7 @@ public interface Provider extends
 
     /**
      * @return the registration state of the provider, indicating whether this
-     *         resource provider is registered in the current subscription
+     * resource provider is registered in the current subscription
      */
     String registrationState();
 

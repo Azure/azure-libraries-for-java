@@ -6,12 +6,12 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.implementation.SubscriptionInner;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.models.SubscriptionInner;
 
 /**
  * An immutable client-side representation of an Azure subscription.
@@ -47,10 +47,11 @@ public interface Subscription extends
      * @return the lazy list of locations
      */
 
-    PagedList<Location> listLocations();
+    PagedIterable<Location> listLocations();
 
     /**
      * Gets the data center location for the specified region, if the selected subscription has access to it.
+     *
      * @param region an Azure region
      * @return an Azure data center location, or null if the location is not accessible to this subscription
      */

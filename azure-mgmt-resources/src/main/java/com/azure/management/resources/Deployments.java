@@ -6,11 +6,11 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.models.HasManager;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;

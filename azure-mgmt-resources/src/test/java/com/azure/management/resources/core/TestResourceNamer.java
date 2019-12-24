@@ -7,7 +7,8 @@
 package com.azure.management.resources.core;
 
 import com.azure.management.resources.fluentcore.utils.ResourceNamer;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 public class TestResourceNamer extends ResourceNamer {
     private final InterceptorManager interceptorManager;
@@ -49,12 +50,11 @@ public class TestResourceNamer extends ResourceNamer {
     }
 
     @Override
-    public DateTime dateTimeNow() {
+    public OffsetDateTime dateTimeNow() {
         if (interceptorManager.isPlaybackMode()) {
-            return DateTime.parse(interceptorManager.popVariable());
+            return OffsetDateTime.parse(interceptorManager.popVariable());
         }
-        DateTime dateTime = super.dateTimeNow();
-
+        OffsetDateTime dateTime = super.dateTimeNow();
         interceptorManager.pushVariable(dateTime.toString());
 
         return dateTime;

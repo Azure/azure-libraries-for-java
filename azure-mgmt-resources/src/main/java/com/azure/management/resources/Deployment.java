@@ -6,10 +6,7 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition;
-import com.microsoft.azure.management.apigeneration.LangMethodDefinition.LangMethodType;
-import com.microsoft.azure.management.apigeneration.Method;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
@@ -21,15 +18,12 @@ import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.Refreshable;
 import com.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.resources.implementation.DeploymentExtendedInner;
 import com.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.resources.models.DeploymentExtendedInner;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
@@ -63,7 +57,7 @@ public interface Deployment extends
     /**
      * @return the timestamp of the template deployment
      */
-    DateTime timestamp();
+    OffsetDateTime timestamp();
 
     /**
      * @return key/value pairs that represent deployment output
@@ -109,37 +103,26 @@ public interface Deployment extends
     /**
      * @return the operations related to this deployment
      */
-    @LangMethodDefinition(AsType = LangMethodType.Property)
     DeploymentOperations deploymentOperations();
 
     /**
      * Cancel a currently running template deployment.
      */
-    @Method
     void cancel();
 
     /**
      * Cancel a currently running template deployment asynchronously.
+     *
      * @return a representation of the deferred computation of this call
      */
-    @Method
-    Completable cancelAsync();
+    Mono<Void> cancelAsync();
 
-    /**
-     * Cancel a currently running template deployment asynchronously.
-     *
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    @Method
-    ServiceFuture<Void> cancelAsync(ServiceCallback<Void> callback);
 
     /**
      * Exports a deployment template.
      *
      * @return the export result
      */
-    @Method
     DeploymentExportResult exportTemplate();
 
     /**
@@ -147,36 +130,25 @@ public interface Deployment extends
      *
      * @return a representation of the deferred computation of this call returning the export result
      */
-    @Method
-    Observable<DeploymentExportResult> exportTemplateAsync();
-
-    /**
-     * Exports a deployment template asynchronously.
-     *
-     * @param callback the callback to call on success or failure with export result as parameter
-     * @return a handle to cancel the request
-     */
-    @Method
-    ServiceFuture<DeploymentExportResult> exportTemplateAsync(ServiceCallback<DeploymentExportResult> callback);
+    Mono<DeploymentExportResult> exportTemplateAsync();
 
     /**
      * Prepares a What-if operation.
      *
      * @return the What-if execution.
      */
-    @Method
     Execution prepareWhatIf();
 
     /**
      * Container interface for all the deployment definitions.
      */
     interface Definition extends
-        DefinitionStages.Blank,
-        DefinitionStages.WithGroup,
-        DefinitionStages.WithTemplate,
-        DefinitionStages.WithParameters,
-        DefinitionStages.WithMode,
-        DefinitionStages.WithCreate {
+            DefinitionStages.Blank,
+            DefinitionStages.WithGroup,
+            DefinitionStages.WithTemplate,
+            DefinitionStages.WithParameters,
+            DefinitionStages.WithMode,
+            DefinitionStages.WithCreate {
     }
 
     /**
@@ -195,7 +167,8 @@ public interface Deployment extends
         interface WithGroup extends GroupableResource.DefinitionStages.WithExistingResourceGroup<WithTemplate> {
             /**
              * Creates a new resource group to put the deployment in.
-             * @param name the name of the new group
+             *
+             * @param name   the name of the new group
              * @param region the region to create the resource group in
              * @return the next stage of the definition
              */
@@ -203,6 +176,7 @@ public interface Deployment extends
 
             /**
              * Creates a new resource group to put the resource in, based on the definition specified.
+             *
              * @param groupDefinition a creatable definition for a new resource group
              * @return the next stage of the definition
              */
@@ -233,7 +207,7 @@ public interface Deployment extends
             /**
              * Specifies the template as a URL.
              *
-             * @param uri the location of the remote template file
+             * @param uri            the location of the remote template file
              * @param contentVersion the version of the template file
              * @return the next stage of the definition
              */
@@ -254,6 +228,7 @@ public interface Deployment extends
 
             /**
              * Specifies the parameters as a JSON string.
+             *
              * @param parametersJson the JSON string
              * @return the next stage of the definition
              * @throws IOException exception thrown from serialization/deserialization
@@ -263,7 +238,7 @@ public interface Deployment extends
             /**
              * Specifies the parameters as a URL.
              *
-             * @param uri the location of the remote parameters file
+             * @param uri            the location of the remote parameters file
              * @param contentVersion the version of the parameters file
              * @return the next stage of the definition
              */
@@ -288,11 +263,9 @@ public interface Deployment extends
          * deployment in the cloud, but exposing additional optional inputs to specify.
          */
         interface WithCreate extends Creatable<Deployment> {
-            @Method
             Deployment beginCreate();
 
-            @Method
-            Observable<Deployment> beginCreateAsync();
+            Mono<Deployment> beginCreateAsync();
         }
     }
 
@@ -337,7 +310,7 @@ public interface Deployment extends
             /**
              * Specifies the template as a URL.
              *
-             * @param uri the location of the remote template file
+             * @param uri            the location of the remote template file
              * @param contentVersion the version of the template file
              * @return the next stage of the deployment update
              */
@@ -368,7 +341,7 @@ public interface Deployment extends
             /**
              * Specifies the parameters as a URL.
              *
-             * @param uri the location of the remote parameters file
+             * @param uri            the location of the remote parameters file
              * @param contentVersion the version of the parameters file
              * @return the next stage of the deployment update
              */
@@ -508,7 +481,7 @@ public interface Deployment extends
             /**
              * Specifies the uri and content version of template.
              *
-             * @param uri the uri value to set.
+             * @param uri            the uri value to set.
              * @param contentVersion the content version value to set.
              * @return the next stage of the execution.
              */
@@ -530,7 +503,7 @@ public interface Deployment extends
             /**
              * Specifies the uri and content version of parameters file.
              *
-             * @param uri the uri value to set.
+             * @param uri            the uri value to set.
              * @param contentVersion the content version value to set.
              * @return the next stage of the execution.
              */
@@ -562,7 +535,6 @@ public interface Deployment extends
              *
              * @return the next stage of the execution.
              */
-            @Method
             WhatIfOperationResult whatIf();
 
             /**
@@ -570,24 +542,14 @@ public interface Deployment extends
              *
              * @return the next stage of the execution.
              */
-            @Method
-            Observable<WhatIfOperationResult> whatIfAsync();
+            Mono<WhatIfOperationResult> whatIfAsync();
 
-            /**
-             * Gets changes that will be made by the deployment if executed at the scope of the resource group asynchronously.
-             *
-             * @param callback the callback to call on success or failure with export result as parameter
-             * @return the next stage of the execution.
-             */
-            @Method
-            ServiceFuture<WhatIfOperationResult> whatIfAsync(ServiceCallback<WhatIfOperationResult> callback);
 
             /**
              * Gets changes that will be made by the deployment if executed at the scope of the subscription.
              *
              * @return the next stage of the execution.
              */
-            @Method
             WhatIfOperationResult whatIfAtSubscriptionScope();
 
             /**
@@ -595,17 +557,7 @@ public interface Deployment extends
              *
              * @return the next stage of the execution.
              */
-            @Method
-            Observable<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync();
-
-            /**
-             * Gets changes that will be made by the deployment if executed at the scope of the subscription asynchronously.
-             *
-             * @param callback the callback to call on success or failure with export result as parameter
-             * @return the next stage of the execution.
-             */
-            @Method
-            ServiceFuture<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync(ServiceCallback<WhatIfOperationResult> callback);
+            Mono<WhatIfOperationResult> whatIfAtSubscriptionScopeAsync();
         }
     }
 }

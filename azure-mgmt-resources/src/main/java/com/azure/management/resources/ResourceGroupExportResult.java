@@ -6,9 +6,9 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.implementation.ResourceGroupExportResultInner;
+import com.azure.management.resources.models.ResourceGroupExportResultInner;
 
 /**
  * An immutable client-side representation of an Azure deployment template export result.

@@ -6,10 +6,19 @@
 
 package com.azure.management.resources.fluentcore.arm.implementation;
 
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpPipelinePolicy;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
+import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
+import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
 
 import java.net.Proxy;
-import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,125 +29,83 @@ import java.util.concurrent.TimeUnit;
  */
 public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
         implements AzureConfigurable<T> {
-    protected RestClient.Builder restClientBuilder;
+    protected RestClientBuilder restClientBuilder;
 
     protected AzureConfigurableImpl() {
-        this.restClientBuilder = new RestClient.Builder()
-            .withSerializerAdapter(new AzureJacksonAdapter())
-            .withResponseBuilderFactory(new AzureResponseBuilder.Factory());
+        this.restClientBuilder = new RestClientBuilder()
+                .withSerializerAdapter(new AzureJacksonAdapter());
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public T withLogLevel(LogLevel level) {
-        this.restClientBuilder = this.restClientBuilder.withLogLevel(level);
+    public T withLogOptions(HttpLogOptions level) {
+        this.restClientBuilder = this.restClientBuilder.withHttpLogOptions(level);
         return (T) this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public T withInterceptor(Interceptor interceptor) {
-        this.restClientBuilder = this.restClientBuilder.withInterceptor(interceptor);
+    public T withPolicy(HttpPipelinePolicy policy) {
+        this.restClientBuilder = this.restClientBuilder.withPolicy(policy);
         return (T) this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public T withAuxiliaryCredentials(AzureTokenCredentials... tokens) {
-        if (tokens != null) {
-            if (tokens.length > 3) {
-                throw new IllegalArgumentException("Only can hold up to three auxiliary tokens.");
-            }
-            AuxiliaryCredentialsInterceptor interceptor = new AuxiliaryCredentialsInterceptor(tokens);
-            this.restClientBuilder = this.restClientBuilder.withInterceptor(interceptor);
-        }
-        return (T) this;
+    public T withAuxiliaryCredentials(AzureTokenCredential... tokens) {
+        return null;
     }
 
-    @SuppressWarnings("unchecked")
+//    @Override
+//    public T withAuxiliaryCredentials(AzureTokenCredentials... tokens) {
+//        if (tokens != null) {
+//            if (tokens.length > 3) {
+//                throw new IllegalArgumentException("Only can hold up to three auxiliary tokens.");
+//            }
+//            AuxiliaryCredentialsInterceptor interceptor = new AuxiliaryCredentialsInterceptor(tokens);
+//            this.restClientBuilder = this.restClientBuilder.withInterceptor(interceptor);
+//        }
+//        return (T) this;
+//    }
+
     @Override
     public T withUserAgent(String userAgent) {
         this.restClientBuilder = this.restClientBuilder.withUserAgent(userAgent);
         return (T) this;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public T withReadTimeout(long timeout, TimeUnit unit) {
-        this.restClientBuilder = restClientBuilder.withReadTimeout(timeout, unit);
-        return (T) this;
+        return null;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public T withConnectionTimeout(long timeout, TimeUnit unit) {
-        this.restClientBuilder = restClientBuilder.withConnectionTimeout(timeout, unit);
-        return (T) this;
+        return null;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public T withMaxIdleConnections(int maxIdleConnections) {
-        this.restClientBuilder = restClientBuilder.withMaxIdleConnections(maxIdleConnections);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public T withConnectionPool(ConnectionPool connectionPool) {
-        this.restClientBuilder = restClientBuilder.withConnectionPool(connectionPool);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
     @Override
     public T useHttpClientThreadPool(boolean useHttpClientThreadPool) {
-        this.restClientBuilder = restClientBuilder.useHttpClientThreadPool(useHttpClientThreadPool);
-        return (T) this;
+        return null;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public T withDispatcher(Dispatcher dispatcher) {
-        this.restClientBuilder = restClientBuilder.withDispatcher(dispatcher);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public T withCallbackExecutor(Executor executor) {
-        this.restClientBuilder = restClientBuilder.withCallbackExecutor(executor);
-        return (T) this;
-    }
-
-    @SuppressWarnings("unchecked")
     @Override
     public T withProxy(Proxy proxy) {
-        this.restClientBuilder = restClientBuilder.withProxy(proxy);
-        return (T) this;
+        return null;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public T withProxyAuthenticator(Authenticator proxyAuthenticator) {
-        this.restClientBuilder = restClientBuilder.withProxyAuthenticator(proxyAuthenticator);
-        return (T) this;
-    }
-
-    protected RestClient buildRestClient(AzureTokenCredentials credentials, AzureEnvironment.Endpoint endpoint) {
-        RestClient client =  restClientBuilder
-                .withBaseUrl(credentials.environment(), endpoint)
-                .withCredentials(credentials)
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build();
-        if (client.httpClient().proxy() != null) {
-            credentials.withProxy(client.httpClient().proxy());
-        }
+    protected RestClient buildRestClient(AzureTokenCredential credential, AzureEnvironment.Endpoint endpoint) {
+        RestClient client = restClientBuilder
+                .withBaseUrl(credential.getEnvironment(), endpoint)
+                .withCredential(credential)
+                .withPolicy(new ProviderRegistrationPolicy())
+                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .buildClient();
+        // TODO: Add proxy support
+//        if (client.httpClient().proxy() != null) {
+//            credentials.withProxy(client.httpClient().proxy());
+//        }
         return client;
     }
 
-    protected RestClient buildRestClient(AzureTokenCredentials credentials) {
-        return buildRestClient(credentials, AzureEnvironment.Endpoint.RESOURCE_MANAGER);
+    protected RestClient buildRestClient(AzureTokenCredential credential) {
+        return buildRestClient(credential, AzureEnvironment.Endpoint.RESOURCE_MANAGER);
     }
 }

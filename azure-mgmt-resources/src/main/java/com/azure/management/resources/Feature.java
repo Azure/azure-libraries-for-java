@@ -6,12 +6,11 @@
 
 package com.azure.management.resources;
 
-import com.azure.management.resources.implementation.FeatureResultInner;
-import com.microsoft.azure.management.apigeneration.Fluent;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
-import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.implementation.FeatureResultInner;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.models.FeatureResultInner;
 
 /**
  * An immutable client-side representation of an Azure feature.

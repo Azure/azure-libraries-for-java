@@ -6,18 +6,15 @@
 
 package com.azure.management.resources.implementation;
 
-import com.azure.management.resources.Deployment;
-import com.azure.management.resources.DeploymentOperation;
-import com.azure.management.resources.DeploymentOperations;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.Deployment;
 import com.azure.management.resources.DeploymentOperation;
 import com.azure.management.resources.DeploymentOperations;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.resources.models.DeploymentOperationInner;
+import com.azure.management.resources.models.DeploymentOperationsInner;
+import reactor.core.publisher.Mono;
 
 /**
  * The implementation of {@link DeploymentOperations}.
@@ -29,34 +26,25 @@ final class DeploymentOperationsImpl
     private final Deployment deployment;
 
     DeploymentOperationsImpl(final DeploymentOperationsInner client,
-                                    final Deployment deployment) {
+                             final Deployment deployment) {
         this.client = client;
         this.deployment = deployment;
     }
 
     @Override
-    public PagedList<DeploymentOperation> list() {
-        return wrapList(client.listByResourceGroup(deployment.resourceGroupName(), deployment.name()));
+    public PagedIterable<DeploymentOperation> list() {
+        // FIXME: THe top parameter
+        return wrapList(client.listAtManagementGroupScope(deployment.resourceGroupName(), deployment.getName(), null));
     }
 
     @Override
     public DeploymentOperation getById(String operationId) {
-        return getByIdAsync(operationId).toBlocking().last();
+        return getByIdAsync(operationId).block();
     }
 
     @Override
-    public Observable<DeploymentOperation> getByIdAsync(String operationId) {
-        return client.getAsync(deployment.resourceGroupName(), deployment.name(), operationId).map(new Func1<DeploymentOperationInner, DeploymentOperation>() {
-            @Override
-            public DeploymentOperation call(DeploymentOperationInner deploymentOperationInner) {
-                return wrapModel(deploymentOperationInner);
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<DeploymentOperation> getByIdAsync(String id, ServiceCallback<DeploymentOperation> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
+    public Mono<DeploymentOperation> getByIdAsync(String operationId) {
+        return client.getAsync(deployment.resourceGroupName(), deployment.getName(), operationId).map(deploymentOperationInner -> wrapModel(deploymentOperationInner));
     }
 
     @Override
@@ -68,7 +56,8 @@ final class DeploymentOperationsImpl
     }
 
     @Override
-    public Observable<DeploymentOperation> listAsync() {
-        return wrapPageAsync(this.client.listByResourceGroupAsync(deployment.resourceGroupName(), deployment.name()));
+    public PagedFlux<DeploymentOperation> listAsync() {
+        // FIXME:  The top parameter.
+        return wrapPageAsync(this.client.listAtManagementGroupScopeAsync(deployment.resourceGroupName(), deployment.getName(), null));
     }
 }

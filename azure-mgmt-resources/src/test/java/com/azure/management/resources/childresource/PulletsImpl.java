@@ -35,16 +35,16 @@ class PulletsImpl extends ExternalChildResourcesCachedImpl<PulletImpl, Pullet, O
     @Override
     protected List<PulletImpl> listChildResources() {
         List<PulletImpl> resources = new ArrayList<>();
-        resources.add(new PulletImpl("Tilly", this.parent()));
-        resources.add(new PulletImpl("Clover", this.parent()));
-        resources.add(new PulletImpl("Savvy", this.parent()));
-        resources.add(new PulletImpl("Pinky", this.parent()));
-        resources.add(new PulletImpl("Goldilocks", this.parent()));
+        resources.add(new PulletImpl("Tilly", this.getParent()));
+        resources.add(new PulletImpl("Clover", this.getParent()));
+        resources.add(new PulletImpl("Savvy", this.getParent()));
+        resources.add(new PulletImpl("Pinky", this.getParent()));
+        resources.add(new PulletImpl("Goldilocks", this.getParent()));
         return resources;
     }
 
     @Override
     protected PulletImpl newChildResource(String name) {
-        return new PulletImpl(name, this.parent());
+        return new PulletImpl(name, this.getParent());
     }
 }

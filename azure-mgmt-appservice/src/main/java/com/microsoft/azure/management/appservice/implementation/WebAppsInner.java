@@ -41451,6 +41451,7 @@ public class WebAppsInner implements InnerSupportsGet<SiteInner>, InnerSupportsD
 
     private ServiceResponse<Void> syncFunctionTriggersDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);

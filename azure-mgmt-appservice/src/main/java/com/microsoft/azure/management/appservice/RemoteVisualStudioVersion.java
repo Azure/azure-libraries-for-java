@@ -14,16 +14,16 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringE
  * Defines values for remote visual studio version for remote debugging.
  */
 public final class RemoteVisualStudioVersion extends ExpandableStringEnum<RemoteVisualStudioVersion> {
-    @Deprecated
     /** Static value VS2012 for RemoteVisualStudioVersion. */
+    @Deprecated
     public static final RemoteVisualStudioVersion VS2012 = RemoteVisualStudioVersion.fromString("VS2012");
 
-    @Deprecated
     /** Static value VS2013 for RemoteVisualStudioVersion. */
+    @Deprecated
     public static final RemoteVisualStudioVersion VS2013 = RemoteVisualStudioVersion.fromString("VS2013");
 
-    @Deprecated
     /** Static value VS2015 for RemoteVisualStudioVersion. */
+    @Deprecated
     public static final RemoteVisualStudioVersion VS2015 = RemoteVisualStudioVersion.fromString("VS2015");
 
     /** Static value VS2017 for RemoteVisualStudioVersion. */

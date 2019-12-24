@@ -16,6 +16,7 @@ import com.microsoft.azure.management.storage.DirectoryServiceOptions;
 import com.microsoft.azure.management.storage.Encryption;
 import com.microsoft.azure.management.storage.Identity;
 import com.microsoft.azure.management.storage.Kind;
+import com.microsoft.azure.management.storage.LargeFileSharesState;
 import com.microsoft.azure.management.storage.ProvisioningState;
 import com.microsoft.azure.management.storage.PublicEndpoints;
 import com.microsoft.azure.management.storage.Sku;
@@ -200,12 +201,18 @@ class StorageAccountImpl
 
     @Override
     public boolean isAzureFilesAadIntegrationEnabled() {
-        return this.inner().azureFilesIdentityBasedAuthentication().directoryServiceOptions() == DirectoryServiceOptions.AADDS;
+        return this.inner().azureFilesIdentityBasedAuthentication() != null
+                && this.inner().azureFilesIdentityBasedAuthentication().directoryServiceOptions() == DirectoryServiceOptions.AADDS;
     }
 
     @Override
     public boolean isHnsEnabled() {
         return Utils.toPrimitiveBoolean(this.inner().isHnsEnabled());
+    }
+
+    @Override
+    public boolean isLargeFileSharesEnabled() {
+        return this.inner().largeFileSharesState() == LargeFileSharesState.ENABLED;
     }
 
     @Override
@@ -563,9 +570,30 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl withAzureFilesAadIntegrationEnabled(boolean enabled) {
         if (isInCreateMode()) {
-            this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS));
+            if (enabled) {
+                this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS));
+            }
         } else {
-            this.updateParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS));
+            if (this.createParameters.azureFilesIdentityBasedAuthentication() == null) {
+                this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication());
+            }
+            if (enabled) {
+                this.updateParameters.azureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS);
+            } else {
+                this.updateParameters.azureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.NONE);
+            }
+        }
+        return this;
+    }
+
+    @Override
+    public StorageAccountImpl withLargeFileShares(boolean enabled) {
+        if (isInCreateMode()) {
+            if (enabled) {
+                this.createParameters.withLargeFileSharesState(LargeFileSharesState.ENABLED);
+            } else {
+                this.createParameters.withLargeFileSharesState(LargeFileSharesState.DISABLED);
+            }
         }
         return this;
     }

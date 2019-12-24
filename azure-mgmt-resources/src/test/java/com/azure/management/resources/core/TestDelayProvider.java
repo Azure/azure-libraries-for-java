@@ -7,13 +7,15 @@
 package com.azure.management.resources.core;
 
 import com.azure.management.resources.fluentcore.utils.DelayProvider;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 public class TestDelayProvider extends DelayProvider {
     private boolean isLiveMode;
+
     public TestDelayProvider(boolean isLiveMode) {
         this.isLiveMode = isLiveMode;
     }
+
     @Override
     public void sleep(int milliseconds) {
         if (isLiveMode) {
@@ -22,11 +24,11 @@ public class TestDelayProvider extends DelayProvider {
     }
 
     @Override
-    public <T> Observable<T> delayedEmitAsync(T event, int milliseconds) {
+    public <T> Mono<T> delayedEmitAsync(T event, int milliseconds) {
         if (isLiveMode) {
             return super.delayedEmitAsync(event, milliseconds);
         } else {
-            return Observable.just(event);
+            return Mono.just(event);
         }
     }
 

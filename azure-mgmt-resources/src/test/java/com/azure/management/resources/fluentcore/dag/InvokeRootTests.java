@@ -10,8 +10,7 @@ import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import org.junit.Assert;
 import org.junit.Test;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 
@@ -25,20 +24,17 @@ public class InvokeRootTests {
 
         final HashMap<String, Integer> seen = new HashMap<>();
 
-        taskItem1.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable item) {
-                        SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                        if (seen.containsKey(c.name())) {
-                            Integer a = seen.get(c.name()) + 1;
-                            seen.put(c.name(), a);
-                        } else {
-                            seen.put(c.name(), 1);
-                        }
-                        return item;
+        taskItem1.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+                .map(item -> {
+                    SupportCountingAndHasName c = (SupportCountingAndHasName) item;
+                    if (seen.containsKey(c.getName())) {
+                        Integer a = seen.get(c.getName()) + 1;
+                        seen.put(c.getName(), a);
+                    } else {
+                        seen.put(c.getName(), 1);
                     }
-                }).toBlocking().last();
+                    return item;
+                }).blockLast();
 
         Assert.assertEquals(2, seen.size());
         Assert.assertTrue(seen.containsKey("A"));
@@ -52,20 +48,17 @@ public class InvokeRootTests {
 
         seen.clear();
 
-        taskItem1.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable item) {
-                        SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                        if (seen.containsKey(c.name())) {
-                            Integer a = seen.get(c.name()) + 1;
-                            seen.put(c.name(), a);
-                        } else {
-                            seen.put(c.name(), 1);
-                        }
-                        return item;
+        taskItem1.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+                .map(item -> {
+                    SupportCountingAndHasName c = (SupportCountingAndHasName) item;
+                    if (seen.containsKey(c.getName())) {
+                        Integer a = seen.get(c.getName()) + 1;
+                        seen.put(c.getName(), a);
+                    } else {
+                        seen.put(c.getName(), 1);
                     }
-                }).toBlocking().last();
+                    return item;
+                }).blockLast();
 
         Assert.assertEquals(2, seen.size());
         Assert.assertTrue(seen.containsKey("A"));
@@ -89,20 +82,17 @@ public class InvokeRootTests {
 
         final HashMap<String, Integer> seen = new HashMap<>();
 
-        taskItem1.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable item) {
-                        SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                        if (seen.containsKey(c.name())) {
-                            Integer a = seen.get(c.name()) + 1;
-                            seen.put(c.name(), a);
-                        } else {
-                            seen.put(c.name(), 1);
-                        }
-                        return item;
+        taskItem1.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+                .map(item -> {
+                    SupportCountingAndHasName c = (SupportCountingAndHasName) item;
+                    if (seen.containsKey(c.getName())) {
+                        Integer a = seen.get(c.getName()) + 1;
+                        seen.put(c.getName(), a);
+                    } else {
+                        seen.put(c.getName(), 1);
                     }
-                }).toBlocking().last();
+                    return item;
+                }).blockLast();
 
         Assert.assertEquals(3, seen.size()); // X, Y, Z
 
@@ -119,20 +109,17 @@ public class InvokeRootTests {
 
         seen.clear();
 
-        taskItem1.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable item) {
-                        SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                        if (seen.containsKey(c.name())) {
-                            Integer a = seen.get(c.name()) + 1;
-                            seen.put(c.name(), a);
-                        } else {
-                            seen.put(c.name(), 1);
-                        }
-                        return item;
+        taskItem1.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+                .map(item -> {
+                    SupportCountingAndHasName c = (SupportCountingAndHasName) item;
+                    if (seen.containsKey(c.getName())) {
+                        Integer a = seen.get(c.getName()) + 1;
+                        seen.put(c.getName(), a);
+                    } else {
+                        seen.put(c.getName(), 1);
                     }
-                }).toBlocking().last();
+                    return item;
+                }).blockLast();
 
         Assert.assertEquals(3, seen.size());
 
@@ -165,20 +152,17 @@ public class InvokeRootTests {
 
         final HashMap<String, Integer> seen = new HashMap<>();
 
-        taskItem4.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable item) {
-                        SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                        if (seen.containsKey(c.name())) {
-                            Integer a = seen.get(c.name()) + 1;
-                            seen.put(c.name(), a);
-                        } else {
-                            seen.put(c.name(), 1);
-                        }
-                        return item;
+        taskItem4.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+                .map(item -> {
+                    SupportCountingAndHasName c = (SupportCountingAndHasName) item;
+                    if (seen.containsKey(c.getName())) {
+                        Integer a = seen.get(c.getName()) + 1;
+                        seen.put(c.getName(), a);
+                    } else {
+                        seen.put(c.getName(), 1);
                     }
-                }).toBlocking().last();
+                    return item;
+                }).blockLast();
 
         Assert.assertEquals(5, seen.size());
 
@@ -202,20 +186,17 @@ public class InvokeRootTests {
 
         seen.clear();
 
-        taskItem4.taskGroup().invokeAsync(taskItem1.taskGroup().newInvocationContext())
-                .map(new Func1<Indexable, Indexable>() {
-                    @Override
-                    public Indexable call(Indexable item) {
-                        SupportCountingAndHasName c = (SupportCountingAndHasName) item;
-                        if (seen.containsKey(c.name())) {
-                            Integer a = seen.get(c.name()) + 1;
-                            seen.put(c.name(), a);
-                        } else {
-                            seen.put(c.name(), 1);
-                        }
-                        return item;
+        taskItem4.getTaskGroup().invokeAsync(taskItem1.getTaskGroup().newInvocationContext())
+                .map(item -> {
+                    SupportCountingAndHasName c = (SupportCountingAndHasName) item;
+                    if (seen.containsKey(c.getName())) {
+                        Integer a = seen.get(c.getName()) + 1;
+                        seen.put(c.getName(), a);
+                    } else {
+                        seen.put(c.getName(), 1);
                     }
-                }).toBlocking().last();
+                    return item;
+                }).blockLast();
 
         Assert.assertEquals(5, seen.size());
 
@@ -248,7 +229,7 @@ public class InvokeRootTests {
         }
 
         @Override
-        public String name() {
+        public String getName() {
             return this.name;
         }
 
@@ -258,14 +239,11 @@ public class InvokeRootTests {
         }
 
         @Override
-        protected Observable<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
-            return Observable.just(this)
-                    .map(new Func1<IndexableTaskItem, Indexable>() {
-                        @Override
-                        public Indexable call(IndexableTaskItem r) {
-                            callCount++;
-                            return r;
-                        }
+        protected Mono<Indexable> invokeTaskAsync(TaskGroup.InvocationContext context) {
+            return Mono.just(this)
+                    .map(r -> {
+                        callCount++;
+                        return r;
                     });
         }
     }

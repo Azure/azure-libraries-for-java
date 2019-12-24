@@ -6,10 +6,9 @@
 
 package com.azure.management.resources;
 
-import com.azure.management.resources.core.TestBase;
+import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
 
 /**
  * The base for resource manager tests.

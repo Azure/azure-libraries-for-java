@@ -6,11 +6,11 @@
 
 package com.azure.management.resources;
 
-import com.azure.management.resources.core.TestBase;
-import com.microsoft.azure.PagedList;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.management.PagedList;
+import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.implementation.ResourceManager;
-import com.microsoft.rest.RestClient;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -30,13 +30,13 @@ public class SubscriptionsTests extends TestBase {
 
     @Test
     public void canListSubscriptions() throws Exception {
-        PagedList<Subscription> subscriptions = resourceManager.subscriptions().list();
+        PagedIterable<Subscription> subscriptions = resourceManager.subscriptions().list();
         Assert.assertTrue(subscriptions.size() > 0);
     }
 
     @Test
     public void canListLocations() throws Exception {
-        PagedList<Location> locations = resourceManager.subscriptions().list().get(0).listLocations();
+        PagedIterable<Location> locations = resourceManager.subscriptions().list().get(0).listLocations();
         Assert.assertTrue(locations.size() > 0);
     }
 }

@@ -10,9 +10,9 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.model.implementation.CreateUpdateTask;
 import org.junit.Assert;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -73,37 +73,27 @@ class PastaImpl
     public void beforeGroupCreateOrUpdate() {
         Assert.assertFalse("PastaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
         prepareCalled = true;
-        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        for(Creatable<IPasta> pancake : this.delayedPastas) {
+        int oldCount = this.getTaskGroup().getNode(this.getKey()).dependencyKeys().size();
+        for (Creatable<IPasta> pancake : this.delayedPastas) {
             this.addDependency(pancake);
         }
-        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
-        System.out.println("Pasta(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPastas.size()
+        int newCount = this.getTaskGroup().getNode(this.getKey()).dependencyKeys().size();
+        System.out.println("Pasta(" + this.getName() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPastas.size()
                 + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
-    public Observable<IPasta> createResourceAsync() {
+    public Mono<IPasta> createResourceAsync() {
         if (this.errorToThrow == null) {
-            System.out.println("Pasta(" + this.name() + ")::createResourceAsync() 'onNext()'");
-            return Observable.just(this)
-                    .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .map(new Func1<PastaImpl, IPasta>() {
-                        @Override
-                        public IPasta call(PastaImpl pasta) {
-                            return pasta;
-                        }
-                    });
+            System.out.println("Pasta(" + this.getName() + ")::createResourceAsync() 'onNext()'");
+            return Mono.just(this)
+                    .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
+                    .map(pasta -> pasta);
         } else {
-            System.out.println("Pasta(" + this.name() + ")::createResourceAsync() 'onError()'");
-            return Observable.just(this)
-                    .delay(this.eventDelayInMilliseconds, TimeUnit.MILLISECONDS)
-                    .flatMap(new Func1<PastaImpl, Observable<IPasta>>() {
-                        @Override
-                        public Observable<IPasta> call(PastaImpl pasta) {
-                            return toErrorObservable(errorToThrow);
-                        }
-                    });
+            System.out.println("Pasta(" + this.getName() + ")::createResourceAsync() 'onError()'");
+            return Mono.just(this)
+                    .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
+                    .flatMap(pasta -> toErrorObservable(errorToThrow));
         }
     }
 
@@ -113,11 +103,11 @@ class PastaImpl
     }
 
     @Override
-    protected Observable<PastaInner> getInnerAsync() {
-        return Observable.just(this.inner());
+    protected Mono<PastaInner> getInnerAsync() {
+        return Mono.just(this.getInner());
     }
 
-    private Observable<IPasta> toErrorObservable(Throwable throwable) {
-        return Observable.error(throwable);
+    private Mono<IPasta> toErrorObservable(Throwable throwable) {
+        return Mono.error(throwable);
     }
 }

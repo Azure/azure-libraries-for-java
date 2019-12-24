@@ -6,10 +6,9 @@
 
 package com.azure.management.resources;
 
-import com.microsoft.azure.PagedList;
+import com.azure.management.RestClient;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
 import org.junit.*;
 
 import java.util.List;

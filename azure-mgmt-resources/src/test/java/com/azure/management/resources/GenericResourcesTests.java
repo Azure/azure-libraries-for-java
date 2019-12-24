@@ -6,10 +6,10 @@
 
 package com.azure.management.resources;
 
+import com.azure.management.RestClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.rest.RestClient;
 
 import java.util.Arrays;
 import java.util.List;
@@ -65,26 +65,26 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
         List<GenericResource> resourceList = genericResources.listByResourceGroup(rgName);
         boolean found = false;
         for (GenericResource gr: resourceList) {
-            if (gr.name().equals(resource.name())) {
+            if (gr.getName().equals(resource.getName())) {
                 found = true;
                 break;
             }
         }
         Assert.assertTrue(found);
         // Get
-        Assert.assertNotNull(genericResources.get(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
+        Assert.assertNotNull(genericResources.get(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.getName(), resource.apiVersion()));
         // Move
-        genericResources.moveResources(rgName, resourceGroups.getByName(newRgName), Arrays.asList(resource.id()));
-        Assert.assertFalse(genericResources.checkExistence(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
-        resource = genericResources.get(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion());
+        genericResources.moveResources(rgName, resourceGroups.getByName(newRgName), Arrays.asList(resource.getId()));
+        Assert.assertFalse(genericResources.checkExistence(rgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.getName(), resource.apiVersion()));
+        resource = genericResources.get(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.getName(), resource.apiVersion());
         Assert.assertNotNull(resource);
         // Update
         resource.update()
                 .withProperties(new ObjectMapper().readTree("{\"SiteMode\":\"Limited\",\"ComputeMode\":\"Dynamic\"}"))
                 .apply();
         // Delete
-        genericResources.deleteById(resource.id());
-        Assert.assertFalse(genericResources.checkExistence(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.name(), resource.apiVersion()));
-        Assert.assertFalse(genericResources.checkExistenceById(resource.id()));
+        genericResources.deleteById(resource.getId());
+        Assert.assertFalse(genericResources.checkExistence(newRgName, resource.resourceProviderNamespace(), resource.parentResourcePath(), resource.resourceType(), resource.getName(), resource.apiVersion()));
+        Assert.assertFalse(genericResources.checkExistenceById(resource.getId()));
     }
 }

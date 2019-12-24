@@ -90,7 +90,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertTrue(keys.size() > 0);
         String storageAccountKey = keys.get(0).value();
 
-        final String storageConnectionString = String.format("DefaultEndpointsProtocol=http;AccountName=%s;AccountKey=%s",
+        final String storageConnectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                 storageAccount.name(),
                 storageAccountKey);
         // Get the script to upload

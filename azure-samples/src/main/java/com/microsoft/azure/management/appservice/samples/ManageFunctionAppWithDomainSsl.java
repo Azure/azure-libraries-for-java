@@ -119,8 +119,8 @@ public final class ManageFunctionAppWithDomainSsl {
             //============================================================
             // Create a self-singed SSL certificate
 
-            String pfxPath = ManageFunctionAppWithDomainSsl.class.getResource("/").getPath() + app2Name + "." + domainName + ".pfx";
-            String cerPath = ManageFunctionAppWithDomainSsl.class.getResource("/").getPath() + app2Name + "." + domainName + ".cer";
+            String pfxPath = ManageFunctionAppWithDomainSsl.class.getResource("/").getPath() + "webapp_" + ManageFunctionAppWithDomainSsl.class.getSimpleName().toLowerCase() + ".pfx";
+            String cerPath = ManageFunctionAppWithDomainSsl.class.getResource("/").getPath() + "webapp_" + ManageFunctionAppWithDomainSsl.class.getSimpleName().toLowerCase() + ".cer";
 
             System.out.println("Creating a self-signed certificate " + pfxPath + "...");
 

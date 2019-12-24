@@ -11,6 +11,9 @@ import rx.Observable;
 import rx.Scheduler;
 import rx.schedulers.Schedulers;
 
+import java.io.File;
+import java.io.IOException;
+
 /**
  * The class to contain the common factory methods required for SDK framework.
  */
@@ -18,6 +21,7 @@ public class SdkContext {
     private static ResourceNamerFactory resourceNamerFactory = new ResourceNamerFactory();
     private static DelayProvider delayProvider = new DelayProvider();
     private static Scheduler rxScheduler = Schedulers.io();
+    private static FileProvider fileProvider = new FileProvider();
 
     /**
      * Function to override the ResourceNamerFactory.
@@ -106,7 +110,7 @@ public class SdkContext {
      * @param <T> the type of event
      * @return delayed observable
      */
-    public static <T> Observable<T>  delayedEmitAsync(T event, int milliseconds) {
+    public static <T> Observable<T> delayedEmitAsync(T event, int milliseconds) {
         return delayProvider.delayedEmitAsync(event, milliseconds);
     }
 
@@ -124,5 +128,22 @@ public class SdkContext {
      */
     public static void setRxScheduler(Scheduler rxScheduler) {
         SdkContext.rxScheduler = rxScheduler;
+    }
+
+    /**
+     * Sets the FileProvider for SDK framework, by default it does nothing.
+     * @param fileProvider the FileProvider to override.
+     */
+    public static void setFileProvider(FileProvider fileProvider) {
+        SdkContext.fileProvider = fileProvider;
+    }
+
+    /**
+     * Prepares the location for file to be created.
+     * @param files the files to be created.
+     * @throws IOException thrown when failed on IO.
+     */
+    public static void prepareFileLocation(File... files) throws IOException {
+        fileProvider.prepareFileLocation(files);
     }
 }

@@ -103,8 +103,8 @@ public final class ManageWebAppWithTrafficManager {
             //============================================================
             // Create a self-singed SSL certificate
 
-            pfxPath = ManageWebAppWithTrafficManager.class.getResource("/").getPath() + app2Name + "." + domainName + ".pfx";
-            String cerPath = ManageWebAppWithTrafficManager.class.getResource("/").getPath() + app2Name + "." + domainName + ".cer";
+            pfxPath = ManageWebAppWithTrafficManager.class.getResource("/").getPath() + "webapp_" + ManageWebAppWithTrafficManager.class.getSimpleName().toLowerCase() + ".pfx";
+            String cerPath = ManageWebAppWithTrafficManager.class.getResource("/").getPath() + "webapp_" + ManageWebAppWithTrafficManager.class.getSimpleName().toLowerCase() + ".cer";
 
             System.out.println("Creating a self-signed certificate " + pfxPath + "...");
 

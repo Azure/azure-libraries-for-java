@@ -383,7 +383,7 @@ public class CertificatePatchResource extends ProxyOnlyResource {
     }
 
     /**
-     * Get cNAME of the certificate to be issued via free certificate.
+     * Get CNAME of the certificate to be issued via free certificate.
      *
      * @return the canonicalName value
      */
@@ -392,7 +392,7 @@ public class CertificatePatchResource extends ProxyOnlyResource {
     }
 
     /**
-     * Set cNAME of the certificate to be issued via free certificate.
+     * Set CNAME of the certificate to be issued via free certificate.
      *
      * @param canonicalName the canonicalName value to set
      * @return the CertificatePatchResource object itself.

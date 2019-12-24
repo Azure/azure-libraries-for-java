@@ -77,11 +77,6 @@ public final class SubscriptionsInner {
         @Get("{nextLink}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<LocationListResultInner>> listLocationsNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
-
-        @Get("{nextLink}")
-        @ExpectedResponses({200})
-        @UnexpectedResponseExceptionType(CloudException.class)
         Mono<SimpleResponse<SubscriptionListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
@@ -92,15 +87,14 @@ public final class SubscriptionsInner {
             res.getStatusCode(),
             res.getHeaders(),
             res.getValue().getValue(),
-            res.getValue().get(),
+            null,
             null));
     }
 
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<Location> listLocationsAsync(String subscriptionId) {
         return new PagedFlux<>(
-            () -> listLocationsSinglePageAsync(subscriptionId),
-            nextLink -> listLocationsNextSinglePageAsync(nextLink));
+            () -> listLocationsSinglePageAsync(subscriptionId));
     }
 
     /**
@@ -161,17 +155,6 @@ public final class SubscriptionsInner {
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedIterable<SubscriptionInner> list() {
         return new PagedIterable<>(listAsync());
-    }
-
-    @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Location>> listLocationsNextSinglePageAsync(String nextLink) {
-        return service.listLocationsNext(nextLink).map(res -> new PagedResponseBase<>(
-            res.getRequest(),
-            res.getStatusCode(),
-            res.getHeaders(),
-            res.getValue().getValue(),
-            res.getValue().get(),
-            null));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)

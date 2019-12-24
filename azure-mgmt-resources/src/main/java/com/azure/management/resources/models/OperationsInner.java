@@ -52,11 +52,12 @@ public final class OperationsInner {
     }
 
     /**
-     * The interface defining all the services for SubscriptionClientOperations
-     * to be used by the proxy service to perform REST calls.
+     * The interface defining all the services for
+     * ResourceManagementClientOperations to be used by the proxy service to
+     * perform REST calls.
      */
     @Host("{$host}")
-    @ServiceInterface(name = "SubscriptionClientOperations")
+    @ServiceInterface(name = "ResourceManagementClientOperations")
     private interface OperationsService {
         @Get("/providers/Microsoft.Resources/operations")
         @ExpectedResponses({200})

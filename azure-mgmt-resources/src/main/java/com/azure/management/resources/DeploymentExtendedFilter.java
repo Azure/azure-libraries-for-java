@@ -22,7 +22,7 @@ public final class DeploymentExtendedFilter {
 
     /**
      * Get the provisioningState property: The provisioning state.
-     *
+     * 
      * @return the provisioningState value.
      */
     public String getProvisioningState() {
@@ -31,7 +31,7 @@ public final class DeploymentExtendedFilter {
 
     /**
      * Set the provisioningState property: The provisioning state.
-     *
+     * 
      * @param provisioningState the provisioningState value to set.
      * @return the DeploymentExtendedFilter object itself.
      */

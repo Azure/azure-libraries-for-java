@@ -25,6 +25,7 @@ import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.PagedResponseBase;
+import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.CloudException;
@@ -170,7 +171,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
         super(httpPipeline, environment);
         this.httpPipeline = httpPipeline;
         this.features = new FeaturesInner(this);
-        this.service = AzureProxy.create(FeatureClientService.class, httpPipeline);
+        this.service = RestProxy.create(FeatureClientService.class, httpPipeline);
     }
 
     /**
@@ -193,7 +194,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
 
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Operation>> listOperationsSinglePageAsync() {
-        return service.listOperations(this.client.getHost(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
+        return service.listOperations(this.getHost(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
                 res.getRequest(),
                 res.getStatusCode(),
                 res.getHeaders(),

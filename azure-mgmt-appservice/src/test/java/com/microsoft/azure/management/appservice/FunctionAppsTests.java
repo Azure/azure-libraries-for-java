@@ -12,6 +12,7 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.management.storage.StorageAccountSkuType;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
@@ -128,7 +129,7 @@ public class FunctionAppsTests extends AppServiceTest {
 
         // Update
         functionApp2.update()
-                .withNewStorageAccount(STORAGE_ACCOUNT_NAME_1, SkuName.STANDARD_GRS)
+                .withNewStorageAccount(STORAGE_ACCOUNT_NAME_1, StorageAccountSkuType.STANDARD_GRS)
                 .apply();
         Assert.assertEquals(STORAGE_ACCOUNT_NAME_1, functionApp2.storageAccount().name());
 

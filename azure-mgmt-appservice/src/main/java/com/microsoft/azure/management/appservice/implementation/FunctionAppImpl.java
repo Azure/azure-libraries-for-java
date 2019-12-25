@@ -360,6 +360,24 @@ class FunctionAppImpl
     }
 
     @Override
+    public FunctionAppImpl withPublicDockerHubImage(String imageAndTag) {
+        ensureLinuxPlan();
+        return super.withPublicDockerHubImage(imageAndTag);
+    }
+
+    @Override
+    public FunctionAppImpl withPrivateDockerHubImage(String imageAndTag) {
+        ensureLinuxPlan();
+        return super.withPublicDockerHubImage(imageAndTag);
+    }
+
+    @Override
+    public FunctionAppImpl withPrivateRegistryImage(String imageAndTag, String serverUrl) {
+        ensureLinuxPlan();
+        return super.withPrivateRegistryImage(imageAndTag, serverUrl);
+    }
+
+    @Override
     protected void cleanUpContainerSettings() {
         linuxFxVersionSetter = null;
         if (siteConfig != null && siteConfig.linuxFxVersion() != null) {

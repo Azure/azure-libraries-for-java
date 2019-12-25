@@ -25,6 +25,9 @@ public class UtilsTests {
         // completion
         Assert.assertEquals("weidxuregistry.azurecr.io:5000/weidxu/az-func-java:v1", Utils.smartCompletionPrivateRegistryImage("weidxu/az-func-java:v1", "https://weidxuregistry.azurecr.io:5000"));
 
+        // completion
+        Assert.assertEquals("weidxuregistry.azurecr.io/weidxu/az-func-java:v1", Utils.smartCompletionPrivateRegistryImage("az-func-java:v1", "https://weidxuregistry.azurecr.io/weidxu"));
+
         // completion not happen due to possible host
         Assert.assertEquals("host.name/az-func-java:v1", Utils.smartCompletionPrivateRegistryImage("host.name/az-func-java:v1", "https://weidxuregistry.azurecr.io"));
 

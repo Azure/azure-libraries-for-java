@@ -437,7 +437,6 @@ abstract class AppServiceBaseImpl<
     }
 
     public FluentImplT withPublicDockerHubImage(String imageAndTag) {
-        ensureLinuxPlan();
         cleanUpContainerSettings();
         if (siteConfig == null) {
             siteConfig = new SiteConfigResourceInner();
@@ -454,7 +453,6 @@ abstract class AppServiceBaseImpl<
     public FluentImplT withPrivateRegistryImage(String imageAndTag, String serverUrl) {
         imageAndTag = Utils.smartCompletionPrivateRegistryImage(imageAndTag, serverUrl);
 
-        ensureLinuxPlan();
         cleanUpContainerSettings();
         if (siteConfig == null) {
             siteConfig = new SiteConfigResourceInner();

@@ -201,6 +201,13 @@ class FunctionAppImpl
         }
     }
 
+    @Override
+    public OperatingSystem operatingSystem() {
+        return (inner().reserved() == null || !inner().reserved())
+                ? OperatingSystem.WINDOWS
+                : OperatingSystem.LINUX;
+    }
+
     private void addAppSettingIfNotModified(String key, String value) {
         if (!appSettingModified(key)) {
             withAppSetting(key, value);

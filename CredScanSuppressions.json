@@ -1,0 +1,213 @@
+{
+  "tool": "Credential Scanner",
+  "suppressions": [
+    {
+      "placeholder": "ebc6e170-72b2-4b6f-9de2-99410964d2d0",
+      "_justification": "[Auth] Example of client secret used in auth file format."
+    },
+    {
+      "file": [
+        "azure-mgmt-graph-rbac\\src\\test\\resources\\myTest.pfx",
+        "azure-mgmt-network\\src\\test\\resources\\myTest.pfx",
+        "azure-samples\\src\\main\\resources\\myTest.pfx",
+        "azure-samples\\src\\main\\resources\\myTest2.pfx",
+        "azure-samples\\src\\test\\resources\\webapp_managefunctionappwithdomainssl.pfx",
+        "azure-samples\\src\\test\\resources\\webapp_managelinuxwebappwithdomainssl.pfx",
+        "azure-samples\\src\\test\\resources\\webapp_managelinuxwebappwithtrafficmanager.pfx",
+        "azure-samples\\src\\test\\resources\\webapp_managewebappwithdomainssl.pfx",
+        "azure-samples\\src\\test\\resources\\webapp_managewebappwithtrafficmanager.pfx",
+        "azure\\src\\test\\resources\\myTest.pfx",
+        "azure\\src\\test\\resources\\myTest2.pfx"
+      ],
+      "_justification": "[Cert] Certificates used in test scenarios."
+    },
+    {
+      "file": [
+        "azure-mgmt-appservice\\src\\test\\resources\\session-records\\canCRUDFunctionApp.json",
+        "azure-mgmt-appservice\\src\\test\\resources\\session-records\\canCRUDLinuxFunctionApp.json",
+        "azure-mgmt-appservice\\src\\test\\resources\\session-records\\canCRUDLinuxFunctionAppPremium.json",
+        "azure-mgmt-appservice\\src\\test\\resources\\session-records\\canZipDeployFunction.json"
+      ],
+      "_justification": "[AppService] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-compute\\src\\test\\resources\\session-records\\canEnableDiagnosticsExtension.json",
+        "azure-mgmt-compute\\src\\test\\resources\\session-records\\canOperateOnEmptyManagedDisk.json",
+        "azure-mgmt-compute\\src\\test\\resources\\session-records\\canUpdateVirtualMachineScaleSetWithExtensionProtectedSettings.json",
+        "azure-mgmt-compute\\src\\test\\resources\\session-records\\testCreateVirtualMachineUsingSpecializedDiskFromVhd.json"
+      ],
+      "_justification": "[Compute] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-datalake-analytics\\src\\test\\resources\\session-records\\canCreateGetUpdateDeleteAdlaAccount.json"
+      ],
+      "_justification": "[DatalakeAnalytics] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-eventhub\\src\\test\\resources\\session-records\\canConfigureEventHubDataCapturing.json",
+        "azure-mgmt-eventhub\\src\\test\\resources\\session-records\\canEnableEventHubDataCaptureOnUpdate.json"
+      ],
+      "_justification": "[EventHub] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-eventhub\\src\\test\\resources\\session-records\\canConfigureEventHubDataCapturing.json",
+        "azure-mgmt-eventhub\\src\\test\\resources\\session-records\\canEnableEventHubDataCaptureOnUpdate.json"
+      ],
+      "_justification": "[EventHub] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-network\\src\\test\\resources\\session-records\\canCreateApplicationGatewayWithSecret.json"
+      ],
+      "_justification": "[Network] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-redis\\src\\test\\resources\\session-records\\canCRUDLinkedServers.json",
+        "azure-mgmt-redis\\src\\test\\resources\\session-records\\canCRUDRedisCache.json"
+      ],
+      "_justification": "[Redis] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testCreateVirtualMachineUsingCustomImageFromVHD.json",
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testCreateVirtualMachineUsingCustomImageFromVM.json",
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testCreateVirtualMachineUsingSpecializedDiskFromVhd.json",
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testDeployVirtualMachineUsingARMTemplate.json",
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageBatchAccount.json",
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageRedisCache.json",
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageStorageAccount.json",
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageWebAppStorageAccountConnection.json"
+      ],
+      "_justification": "[Resources] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-servicebus\\src\\test\\resources\\session-records\\canOperateOnAuthorizationRules.json"
+      ],
+      "_justification": "[ServiceBus] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-sql\\src\\test\\resources\\session-records\\canCRUDSqlServerWithImportDatabase.json"
+      ],
+      "_justification": "[Sql] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-storage\\src\\test\\resources\\session-records\\canCRUDStorageAccount.json"
+      ],
+      "_justification": "[Storage] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-samples\\src\\test\\resources\\session-records\\testCreateCosmosDBTableWithVirtualNetworkRule.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testCreateCosmosDBWithEventualConsistency.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testCreateCosmosDBWithIPRange.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testCreateCosmosDBWithKindMongoDB.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testCreateVirtualMachineUsingCustomImageFromVHD.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testCreateVirtualMachineUsingSpecializedDiskFromSnapshot.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testCreateVirtualMachineUsingSpecializedDiskFromVhd.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testDeployVirtualMachineUsingARMTemplate.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageBatchAccount.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageContainerInstanceWithAzureFileShareMount.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageContainerInstanceWithManualAzureFileShareMountCreation.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageEventHub.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageEventHubEvents.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageEventHubGeoDisasterRecovery.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageFunctionAppBasic.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageFunctionAppLogs.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageFunctionAppSourceControl.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageFunctionAppWithAuthentication.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageFunctionAppWithDomainSsl.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageHACosmosDB.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageLinuxWebAppCosmosDbByMsi.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageLinuxWebAppStorageAccountConnection.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageRedisCache.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageSqlServerSecurityAlertPolicy.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageStorageAccount.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageStorageAccountAsync.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageWebAppCosmosDbByMsi.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageWebAppCosmosDbThroughKeyVault.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageWebAppStorageAccountConnection.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testQueryMetricsAndActivityLogs.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testServiceBusPublishSubscribeAdvanceFeatures.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testServiceBusPublishSubscribeBasic.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testServiceBusQueueAdvanceFeatures.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testServiceBusQueueBasic.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testServiceBusWithClaimBasedAuthorization.json",
+        "azure\\src\\test\\resources\\session-records\\testBatchAI.json",
+        "azure\\src\\test\\resources\\session-records\\testRedis.json"
+      ],
+      "_justification": "[Sample] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "placeholder": "examplepassword",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "123OData!@#123",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "12NewPA$$w0rd!",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "123tEst!@|ac",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "tirekicker",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "N0t@P@ssw0rd!",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "StrongPass!12",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "StrongPass!123",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "12NewPA23w0rd!",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "12NewPA!!w0rd!",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "12NewPAwX0rd!",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "muy!234OR",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "B12a6@12xyz!",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "12xyz!B12a6@",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "myS3curePwd",
+      "_justification": "Transient secret for the short-lived resources."
+    },
+    {
+      "placeholder": "myS3cureP@ssword",
+      "_justification": "Transient secret for the short-lived resources."
+    }
+  ]
+}

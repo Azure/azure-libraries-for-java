@@ -474,7 +474,7 @@ abstract class AppServiceBaseImpl<
         return (FluentImplT) this;
     }
 
-    abstract protected void cleanUpContainerSettings();
+    protected abstract void cleanUpContainerSettings();
 
     private static String smartCompletionPrivateRegistryImage(String imageAndTag, String serverUrl) {
         try {

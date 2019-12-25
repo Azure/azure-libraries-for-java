@@ -289,7 +289,7 @@ public interface FunctionApp extends
              * @param sku the sku of the storage account
              * @return the next stage of the function app update
              */
-            Update withNewStorageAccount(String name, StorageAccountSkuType sku);
+            WithCreate withNewStorageAccount(String name, StorageAccountSkuType sku);
 
             /**
              * Specifies the storage account to use for the function app.

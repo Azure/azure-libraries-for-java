@@ -71,6 +71,8 @@ class FunctionAppImpl
     private static final String SETTING_FUNCTIONS_EXTENSION_VERSION = "FUNCTIONS_EXTENSION_VERSION";
     private static final String SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING";
     private static final String SETTING_WEBSITE_CONTENTSHARE = "WEBSITE_CONTENTSHARE";
+    private static final String SETTING_WEB_JOBS_STORAGE = "AzureWebJobsStorage";
+    private static final String SETTING_WEB_JOBS_DASHBOARD = "AzureWebJobsDashboard";
 
     private Creatable<StorageAccount> storageAccountCreatable;
     private StorageAccount storageAccountToSet;
@@ -177,12 +179,12 @@ class FunctionAppImpl
                     public Observable<Indexable> call(StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) {
                         String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                                 storageAccountToSet.name(), storageAccountKey.value());
-                        withAppSetting("AzureWebJobsStorage", connectionString);
-                        withAppSetting("AzureWebJobsDashboard", connectionString);
+                        addAppSettingIfNotModified(SETTING_WEB_JOBS_STORAGE, connectionString);
+                        addAppSettingIfNotModified(SETTING_WEB_JOBS_DASHBOARD, connectionString);
                         if (OperatingSystem.WINDOWS.equals(operatingSystem()) && // as Portal logic, only Windows plan would have following appSettings
                                 (appServicePlan == null || isConsumptionOrPremiumAppServicePlan(appServicePlan.pricingTier()))) {
-                            withAppSetting(SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING, connectionString);
-                            withAppSetting(SETTING_WEBSITE_CONTENTSHARE, SdkContext.randomResourceName(name(), 32));
+                            addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING, connectionString);
+                            addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTSHARE, SdkContext.randomResourceName(name(), 32));
                         }
                         return FunctionAppImpl.super.submitAppSettings();
                     }
@@ -196,6 +198,17 @@ class FunctionAppImpl
                     }
                 });
         }
+    }
+
+    private void addAppSettingIfNotModified(String key, String value) {
+        if (!appSettingModified(key)) {
+            withAppSetting(key, value);
+        }
+    }
+
+    private boolean appSettingModified(String key) {
+        return (appSettingsToAdd != null && appSettingsToAdd.containsKey(key))
+                || (appSettingsToRemove != null && appSettingsToRemove.contains(key));
     }
 
     private static boolean isConsumptionOrPremiumAppServicePlan(PricingTier pricingTier) {

@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.appservice.AppServicePlanPatchResource;
 import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
@@ -124,14 +123,6 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/hybridConnectionRelays")
         Observable<Response<ResponseBody>> listHybridConnections(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServicePlans listMetricDefintions" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/metricdefinitions")
-        Observable<Response<ResponseBody>> listMetricDefintions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServicePlans listMetrics" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/metrics")
-        Observable<Response<ResponseBody>> listMetrics(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("details") Boolean details, @Query(value = "$filter", encoded = true) String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServicePlans restartWebApps" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}/restartSites")
         Observable<Response<ResponseBody>> restartWebApps(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("softRestart") Boolean softRestart, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -204,14 +195,6 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
         @GET
         Observable<Response<ResponseBody>> listHybridConnectionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServicePlans listMetricDefintionsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listMetricDefintionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServicePlans listMetricsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listMetricsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServicePlans listWebAppsNext" })
         @GET
         Observable<Response<ResponseBody>> listWebAppsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -224,7 +207,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -243,7 +226,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -263,7 +246,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;AppServicePlanInner&gt; object
@@ -280,7 +263,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;AppServicePlanInner&gt; object
@@ -301,7 +284,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;AppServicePlanInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -330,7 +313,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param detailed Specify &lt;code&gt;true&lt;/code&gt; to return all App Service plan properties. The default is &lt;code&gt;false&lt;/code&gt;, which returns a subset of the properties.
       Retrieval of all properties may increase the API latency.
@@ -351,7 +334,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param detailed Specify &lt;code&gt;true&lt;/code&gt; to return all App Service plan properties. The default is &lt;code&gt;false&lt;/code&gt;, which returns a subset of the properties.
       Retrieval of all properties may increase the API latency.
@@ -373,7 +356,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param detailed Specify &lt;code&gt;true&lt;/code&gt; to return all App Service plan properties. The default is &lt;code&gt;false&lt;/code&gt;, which returns a subset of the properties.
       Retrieval of all properties may increase the API latency.
@@ -392,7 +375,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param detailed Specify &lt;code&gt;true&lt;/code&gt; to return all App Service plan properties. The default is &lt;code&gt;false&lt;/code&gt;, which returns a subset of the properties.
       Retrieval of all properties may increase the API latency.
@@ -415,7 +398,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
     ServiceResponse<PageImpl<AppServicePlanInner>> * @param detailed Specify &lt;code&gt;true&lt;/code&gt; to return all App Service plan properties. The default is &lt;code&gt;false&lt;/code&gt;, which returns a subset of the properties.
       Retrieval of all properties may increase the API latency.
@@ -452,7 +435,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -472,7 +455,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -493,7 +476,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -511,7 +494,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -533,7 +516,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
     ServiceResponse<PageImpl<AppServicePlanInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -572,12 +555,12 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get an App Service plan.
-     * Get an App Service plan.
+     * Description for Get an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServicePlanInner object if successful.
      */
@@ -587,7 +570,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get an App Service plan.
-     * Get an App Service plan.
+     * Description for Get an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -601,7 +584,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get an App Service plan.
-     * Get an App Service plan.
+     * Description for Get an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -619,7 +602,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get an App Service plan.
-     * Get an App Service plan.
+     * Description for Get an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -653,17 +636,17 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<AppServicePlanInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServicePlanInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServicePlanInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServicePlanInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServicePlanInner>() { }.getType())
                 .register(404, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -679,7 +662,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -694,7 +677,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -713,7 +696,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -744,7 +727,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -760,7 +743,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -775,7 +758,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -794,7 +777,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -836,7 +819,6 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
     private ServiceResponse<AppServicePlanInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<AppServicePlanInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServicePlanInner>() { }.getType())
-                .register(201, new TypeToken<AppServicePlanInner>() { }.getType())
                 .register(202, new TypeToken<AppServicePlanInner>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
@@ -844,12 +826,12 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete an App Service plan.
-     * Delete an App Service plan.
+     * Description for Delete an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String name) {
@@ -858,7 +840,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete an App Service plan.
-     * Delete an App Service plan.
+     * Description for Delete an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -872,7 +854,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete an App Service plan.
-     * Delete an App Service plan.
+     * Description for Delete an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -890,7 +872,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete an App Service plan.
-     * Delete an App Service plan.
+     * Description for Delete an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -924,17 +906,17 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -950,7 +932,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -965,7 +947,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -984,7 +966,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Creates or updates an App Service Plan.
-     * Creates or updates an App Service Plan.
+     * Description for Creates or updates an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1033,7 +1015,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * List all capabilities of an App Service plan.
-     * List all capabilities of an App Service plan.
+     * Description for List all capabilities of an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1048,7 +1030,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * List all capabilities of an App Service plan.
-     * List all capabilities of an App Service plan.
+     * Description for List all capabilities of an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1062,7 +1044,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * List all capabilities of an App Service plan.
-     * List all capabilities of an App Service plan.
+     * Description for List all capabilities of an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1080,7 +1062,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * List all capabilities of an App Service plan.
-     * List all capabilities of an App Service plan.
+     * Description for List all capabilities of an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1123,7 +1105,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve a Hybrid Connection in use in an App Service plan.
-     * Retrieve a Hybrid Connection in use in an App Service plan.
+     * Description for Retrieve a Hybrid Connection in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1140,7 +1122,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve a Hybrid Connection in use in an App Service plan.
-     * Retrieve a Hybrid Connection in use in an App Service plan.
+     * Description for Retrieve a Hybrid Connection in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1156,7 +1138,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve a Hybrid Connection in use in an App Service plan.
-     * Retrieve a Hybrid Connection in use in an App Service plan.
+     * Description for Retrieve a Hybrid Connection in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1176,7 +1158,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve a Hybrid Connection in use in an App Service plan.
-     * Retrieve a Hybrid Connection in use in an App Service plan.
+     * Description for Retrieve a Hybrid Connection in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1227,14 +1209,14 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete a Hybrid Connection in use in an App Service plan.
-     * Delete a Hybrid Connection in use in an App Service plan.
+     * Description for Delete a Hybrid Connection in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @param namespaceName Name of the Service Bus namespace.
      * @param relayName Name of the Service Bus relay.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void deleteHybridConnection(String resourceGroupName, String name, String namespaceName, String relayName) {
@@ -1243,7 +1225,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete a Hybrid Connection in use in an App Service plan.
-     * Delete a Hybrid Connection in use in an App Service plan.
+     * Description for Delete a Hybrid Connection in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1259,7 +1241,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete a Hybrid Connection in use in an App Service plan.
-     * Delete a Hybrid Connection in use in an App Service plan.
+     * Description for Delete a Hybrid Connection in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1279,7 +1261,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete a Hybrid Connection in use in an App Service plan.
-     * Delete a Hybrid Connection in use in an App Service plan.
+     * Description for Delete a Hybrid Connection in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1321,17 +1303,17 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<Void> deleteHybridConnectionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> deleteHybridConnectionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get the send key name and value of a Hybrid Connection.
-     * Get the send key name and value of a Hybrid Connection.
+     * Description for Get the send key name and value of a Hybrid Connection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1348,7 +1330,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get the send key name and value of a Hybrid Connection.
-     * Get the send key name and value of a Hybrid Connection.
+     * Description for Get the send key name and value of a Hybrid Connection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1364,7 +1346,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get the send key name and value of a Hybrid Connection.
-     * Get the send key name and value of a Hybrid Connection.
+     * Description for Get the send key name and value of a Hybrid Connection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1384,7 +1366,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get the send key name and value of a Hybrid Connection.
-     * Get the send key name and value of a Hybrid Connection.
+     * Description for Get the send key name and value of a Hybrid Connection.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1435,7 +1417,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1458,7 +1440,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1482,7 +1464,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1503,7 +1485,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1528,7 +1510,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
     ServiceResponse<PageImpl<String>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<String>> * @param name Name of the App Service plan.
@@ -1579,7 +1561,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get the maximum number of Hybrid Connections allowed in an App Service plan.
-     * Get the maximum number of Hybrid Connections allowed in an App Service plan.
+     * Description for Get the maximum number of Hybrid Connections allowed in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1594,7 +1576,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get the maximum number of Hybrid Connections allowed in an App Service plan.
-     * Get the maximum number of Hybrid Connections allowed in an App Service plan.
+     * Description for Get the maximum number of Hybrid Connections allowed in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1608,7 +1590,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get the maximum number of Hybrid Connections allowed in an App Service plan.
-     * Get the maximum number of Hybrid Connections allowed in an App Service plan.
+     * Description for Get the maximum number of Hybrid Connections allowed in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1626,7 +1608,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get the maximum number of Hybrid Connections allowed in an App Service plan.
-     * Get the maximum number of Hybrid Connections allowed in an App Service plan.
+     * Description for Get the maximum number of Hybrid Connections allowed in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1669,7 +1651,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1690,7 +1672,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1712,7 +1694,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1731,7 +1713,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -1754,7 +1736,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
     ServiceResponse<PageImpl<HybridConnectionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<HybridConnectionInner>> * @param name Name of the App Service plan.
@@ -1796,402 +1778,13 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
     }
 
     /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricDefinitionInner> listMetricDefintions(final String resourceGroupName, final String name) {
-        ServiceResponse<Page<ResourceMetricDefinitionInner>> response = listMetricDefintionsSinglePageAsync(resourceGroupName, name).toBlocking().single();
-        return new PagedList<ResourceMetricDefinitionInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricDefinitionInner> nextPage(String nextPageLink) {
-                return listMetricDefintionsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricDefinitionInner>> listMetricDefintionsAsync(final String resourceGroupName, final String name, final ListOperationCallback<ResourceMetricDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMetricDefintionsSinglePageAsync(resourceGroupName, name),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(String nextPageLink) {
-                    return listMetricDefintionsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricDefinitionInner&gt; object
-     */
-    public Observable<Page<ResourceMetricDefinitionInner>> listMetricDefintionsAsync(final String resourceGroupName, final String name) {
-        return listMetricDefintionsWithServiceResponseAsync(resourceGroupName, name)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricDefinitionInner>>, Page<ResourceMetricDefinitionInner>>() {
-                @Override
-                public Page<ResourceMetricDefinitionInner> call(ServiceResponse<Page<ResourceMetricDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricDefinitionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> listMetricDefintionsWithServiceResponseAsync(final String resourceGroupName, final String name) {
-        return listMetricDefintionsSinglePageAsync(resourceGroupName, name)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricDefinitionInner>>, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(ServiceResponse<Page<ResourceMetricDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMetricDefintionsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the App Service plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> listMetricDefintionsSinglePageAsync(final String resourceGroupName, final String name) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listMetricDefintions(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> result = listMetricDefintionsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricDefinitionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMetricDefintionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMetrics(final String resourceGroupName, final String name) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMetricsSinglePageAsync(resourceGroupName, name).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMetricsAsync(final String resourceGroupName, final String name, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMetricsSinglePageAsync(resourceGroupName, name),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMetricsAsync(final String resourceGroupName, final String name) {
-        return listMetricsWithServiceResponseAsync(resourceGroupName, name)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsWithServiceResponseAsync(final String resourceGroupName, final String name) {
-        return listMetricsSinglePageAsync(resourceGroupName, name)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsSinglePageAsync(final String resourceGroupName, final String name) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final Boolean details = null;
-        final String filter = null;
-        return service.listMetrics(resourceGroupName, name, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMetrics(final String resourceGroupName, final String name, final Boolean details, final String filter) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMetricsSinglePageAsync(resourceGroupName, name, details, filter).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMetricsAsync(final String resourceGroupName, final String name, final Boolean details, final String filter, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMetricsSinglePageAsync(resourceGroupName, name, details, filter),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMetricsAsync(final String resourceGroupName, final String name, final Boolean details, final String filter) {
-        return listMetricsWithServiceResponseAsync(resourceGroupName, name, details, filter)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service plan.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final Boolean details, final String filter) {
-        return listMetricsSinglePageAsync(resourceGroupName, name, details, filter)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the App Service plan.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsSinglePageAsync(final String resourceGroupName, final String name, final Boolean details, final String filter) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listMetrics(resourceGroupName, name, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Restart all apps in an App Service plan.
-     * Restart all apps in an App Service plan.
+     * Description for Restart all apps in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void restartWebApps(String resourceGroupName, String name) {
@@ -2200,7 +1793,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Restart all apps in an App Service plan.
-     * Restart all apps in an App Service plan.
+     * Description for Restart all apps in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2214,7 +1807,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Restart all apps in an App Service plan.
-     * Restart all apps in an App Service plan.
+     * Description for Restart all apps in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2232,7 +1825,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Restart all apps in an App Service plan.
-     * Restart all apps in an App Service plan.
+     * Description for Restart all apps in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2269,13 +1862,13 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Restart all apps in an App Service plan.
-     * Restart all apps in an App Service plan.
+     * Description for Restart all apps in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @param softRestart Specify &lt;code&gt;true&lt;/code&gt; to perform a soft restart, applies the configuration settings and restarts the apps if necessary. The default is &lt;code&gt;false&lt;/code&gt;, which always restarts and reprovisions the apps
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void restartWebApps(String resourceGroupName, String name, Boolean softRestart) {
@@ -2284,7 +1877,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Restart all apps in an App Service plan.
-     * Restart all apps in an App Service plan.
+     * Description for Restart all apps in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2299,7 +1892,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Restart all apps in an App Service plan.
-     * Restart all apps in an App Service plan.
+     * Description for Restart all apps in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2318,7 +1911,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Restart all apps in an App Service plan.
-     * Restart all apps in an App Service plan.
+     * Description for Restart all apps in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2353,16 +1946,16 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<Void> restartWebAppsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> restartWebAppsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2383,7 +1976,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2405,7 +1998,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2424,7 +2017,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2447,7 +2040,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2486,7 +2079,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2510,7 +2103,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2535,7 +2128,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2557,7 +2150,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2583,7 +2176,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service plan.
@@ -2629,7 +2222,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets all selectable SKUs for a given App Service Plan.
-     * Gets all selectable SKUs for a given App Service Plan.
+     * Description for Gets all selectable SKUs for a given App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2644,7 +2237,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets all selectable SKUs for a given App Service Plan.
-     * Gets all selectable SKUs for a given App Service Plan.
+     * Description for Gets all selectable SKUs for a given App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2658,7 +2251,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets all selectable SKUs for a given App Service Plan.
-     * Gets all selectable SKUs for a given App Service Plan.
+     * Description for Gets all selectable SKUs for a given App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2676,7 +2269,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets all selectable SKUs for a given App Service Plan.
-     * Gets all selectable SKUs for a given App Service Plan.
+     * Description for Gets all selectable SKUs for a given App Service Plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2719,7 +2312,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2740,7 +2333,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2762,7 +2355,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2781,7 +2374,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2804,7 +2397,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2841,7 +2434,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2863,7 +2456,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2886,7 +2479,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2906,7 +2499,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of App Service Plan
@@ -2930,7 +2523,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param name Name of App Service Plan
@@ -2974,7 +2567,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all Virtual Networks associated with an App Service plan.
-     * Get all Virtual Networks associated with an App Service plan.
+     * Description for Get all Virtual Networks associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -2989,7 +2582,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all Virtual Networks associated with an App Service plan.
-     * Get all Virtual Networks associated with an App Service plan.
+     * Description for Get all Virtual Networks associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3003,7 +2596,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all Virtual Networks associated with an App Service plan.
-     * Get all Virtual Networks associated with an App Service plan.
+     * Description for Get all Virtual Networks associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3021,7 +2614,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all Virtual Networks associated with an App Service plan.
-     * Get all Virtual Networks associated with an App Service plan.
+     * Description for Get all Virtual Networks associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3064,13 +2657,13 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network associated with an App Service plan.
-     * Get a Virtual Network associated with an App Service plan.
+     * Description for Get a Virtual Network associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @param vnetName Name of the Virtual Network.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VnetInfoInner object if successful.
      */
@@ -3080,7 +2673,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network associated with an App Service plan.
-     * Get a Virtual Network associated with an App Service plan.
+     * Description for Get a Virtual Network associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3095,7 +2688,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network associated with an App Service plan.
-     * Get a Virtual Network associated with an App Service plan.
+     * Description for Get a Virtual Network associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3114,7 +2707,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network associated with an App Service plan.
-     * Get a Virtual Network associated with an App Service plan.
+     * Description for Get a Virtual Network associated with an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3152,17 +2745,17 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<VnetInfoInner> getVnetFromServerFarmDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VnetInfoInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VnetInfoInner> getVnetFromServerFarmDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VnetInfoInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VnetInfoInner>() { }.getType())
                 .register(404, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get a Virtual Network gateway.
-     * Get a Virtual Network gateway.
+     * Description for Get a Virtual Network gateway.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3179,7 +2772,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network gateway.
-     * Get a Virtual Network gateway.
+     * Description for Get a Virtual Network gateway.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3195,7 +2788,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network gateway.
-     * Get a Virtual Network gateway.
+     * Description for Get a Virtual Network gateway.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3215,7 +2808,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network gateway.
-     * Get a Virtual Network gateway.
+     * Description for Get a Virtual Network gateway.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3266,7 +2859,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Update a Virtual Network gateway.
-     * Update a Virtual Network gateway.
+     * Description for Update a Virtual Network gateway.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3284,7 +2877,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Update a Virtual Network gateway.
-     * Update a Virtual Network gateway.
+     * Description for Update a Virtual Network gateway.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3301,7 +2894,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Update a Virtual Network gateway.
-     * Update a Virtual Network gateway.
+     * Description for Update a Virtual Network gateway.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3322,7 +2915,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Update a Virtual Network gateway.
-     * Update a Virtual Network gateway.
+     * Description for Update a Virtual Network gateway.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3378,7 +2971,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all routes that are associated with a Virtual Network in an App Service plan.
-     * Get all routes that are associated with a Virtual Network in an App Service plan.
+     * Description for Get all routes that are associated with a Virtual Network in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3394,7 +2987,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all routes that are associated with a Virtual Network in an App Service plan.
-     * Get all routes that are associated with a Virtual Network in an App Service plan.
+     * Description for Get all routes that are associated with a Virtual Network in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3409,7 +3002,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all routes that are associated with a Virtual Network in an App Service plan.
-     * Get all routes that are associated with a Virtual Network in an App Service plan.
+     * Description for Get all routes that are associated with a Virtual Network in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3428,7 +3021,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all routes that are associated with a Virtual Network in an App Service plan.
-     * Get all routes that are associated with a Virtual Network in an App Service plan.
+     * Description for Get all routes that are associated with a Virtual Network in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3475,14 +3068,14 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network route in an App Service plan.
-     * Get a Virtual Network route in an App Service plan.
+     * Description for Get a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @param vnetName Name of the Virtual Network.
      * @param routeName Name of the Virtual Network route.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the List&lt;VnetRouteInner&gt; object if successful.
      */
@@ -3492,7 +3085,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network route in an App Service plan.
-     * Get a Virtual Network route in an App Service plan.
+     * Description for Get a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3508,7 +3101,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network route in an App Service plan.
-     * Get a Virtual Network route in an App Service plan.
+     * Description for Get a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3528,7 +3121,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get a Virtual Network route in an App Service plan.
-     * Get a Virtual Network route in an App Service plan.
+     * Description for Get a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3570,17 +3163,17 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<List<VnetRouteInner>> getRouteForVnetDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<List<VnetRouteInner>, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<List<VnetRouteInner>> getRouteForVnetDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<List<VnetRouteInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<List<VnetRouteInner>>() { }.getType())
                 .register(404, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Create or update a Virtual Network route in an App Service plan.
-     * Create or update a Virtual Network route in an App Service plan.
+     * Description for Create or update a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3588,7 +3181,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
      * @param routeName Name of the Virtual Network route.
      * @param route Definition of the Virtual Network route.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VnetRouteInner object if successful.
      */
@@ -3598,7 +3191,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Create or update a Virtual Network route in an App Service plan.
-     * Create or update a Virtual Network route in an App Service plan.
+     * Description for Create or update a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3615,7 +3208,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Create or update a Virtual Network route in an App Service plan.
-     * Create or update a Virtual Network route in an App Service plan.
+     * Description for Create or update a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3636,7 +3229,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Create or update a Virtual Network route in an App Service plan.
-     * Create or update a Virtual Network route in an App Service plan.
+     * Description for Create or update a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3683,25 +3276,25 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<VnetRouteInner> createOrUpdateVnetRouteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VnetRouteInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VnetRouteInner> createOrUpdateVnetRouteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VnetRouteInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VnetRouteInner>() { }.getType())
                 .register(400, new TypeToken<Void>() { }.getType())
                 .register(404, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Delete a Virtual Network route in an App Service plan.
-     * Delete a Virtual Network route in an App Service plan.
+     * Description for Delete a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @param vnetName Name of the Virtual Network.
      * @param routeName Name of the Virtual Network route.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void deleteVnetRoute(String resourceGroupName, String name, String vnetName, String routeName) {
@@ -3710,7 +3303,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete a Virtual Network route in an App Service plan.
-     * Delete a Virtual Network route in an App Service plan.
+     * Description for Delete a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3726,7 +3319,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete a Virtual Network route in an App Service plan.
-     * Delete a Virtual Network route in an App Service plan.
+     * Description for Delete a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3746,7 +3339,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Delete a Virtual Network route in an App Service plan.
-     * Delete a Virtual Network route in an App Service plan.
+     * Description for Delete a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3788,17 +3381,17 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<Void> deleteVnetRouteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> deleteVnetRouteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(404, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Create or update a Virtual Network route in an App Service plan.
-     * Create or update a Virtual Network route in an App Service plan.
+     * Description for Create or update a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3806,7 +3399,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
      * @param routeName Name of the Virtual Network route.
      * @param route Definition of the Virtual Network route.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VnetRouteInner object if successful.
      */
@@ -3816,7 +3409,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Create or update a Virtual Network route in an App Service plan.
-     * Create or update a Virtual Network route in an App Service plan.
+     * Description for Create or update a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3833,7 +3426,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Create or update a Virtual Network route in an App Service plan.
-     * Create or update a Virtual Network route in an App Service plan.
+     * Description for Create or update a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3854,7 +3447,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Create or update a Virtual Network route in an App Service plan.
-     * Create or update a Virtual Network route in an App Service plan.
+     * Description for Create or update a Virtual Network route in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3901,24 +3494,24 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<VnetRouteInner> updateVnetRouteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VnetRouteInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VnetRouteInner> updateVnetRouteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VnetRouteInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VnetRouteInner>() { }.getType())
                 .register(400, new TypeToken<Void>() { }.getType())
                 .register(404, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Reboot a worker machine in an App Service plan.
-     * Reboot a worker machine in an App Service plan.
+     * Description for Reboot a worker machine in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
      * @param workerName Name of worker machine, which typically starts with RD.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void rebootWorker(String resourceGroupName, String name, String workerName) {
@@ -3927,7 +3520,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Reboot a worker machine in an App Service plan.
-     * Reboot a worker machine in an App Service plan.
+     * Description for Reboot a worker machine in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3942,7 +3535,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Reboot a worker machine in an App Service plan.
-     * Reboot a worker machine in an App Service plan.
+     * Description for Reboot a worker machine in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3961,7 +3554,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Reboot a worker machine in an App Service plan.
-     * Reboot a worker machine in an App Service plan.
+     * Description for Reboot a worker machine in an App Service plan.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service plan.
@@ -3999,16 +3592,16 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
             });
     }
 
-    private ServiceResponse<Void> rebootWorkerDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> rebootWorkerDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4028,7 +3621,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4050,7 +3643,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4068,7 +3661,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4090,7 +3683,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans for a subscription.
-     * Get all App Service plans for a subscription.
+     * Description for Get all App Service plans for a subscription.
      *
     ServiceResponse<PageImpl<AppServicePlanInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4124,7 +3717,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4144,7 +3737,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4166,7 +3759,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4184,7 +3777,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4206,7 +3799,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all App Service plans in a resource group.
-     * Get all App Service plans in a resource group.
+     * Description for Get all App Service plans in a resource group.
      *
     ServiceResponse<PageImpl<AppServicePlanInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4240,7 +3833,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4260,7 +3853,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4282,7 +3875,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4300,7 +3893,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4322,7 +3915,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps that use a Hybrid Connection in an App Service Plan.
-     * Get all apps that use a Hybrid Connection in an App Service Plan.
+     * Description for Get all apps that use a Hybrid Connection in an App Service Plan.
      *
     ServiceResponse<PageImpl<String>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4356,7 +3949,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4376,7 +3969,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4398,7 +3991,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4416,7 +4009,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4438,7 +4031,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Retrieve all Hybrid Connections in use in an App Service plan.
-     * Retrieve all Hybrid Connections in use in an App Service plan.
+     * Description for Retrieve all Hybrid Connections in use in an App Service plan.
      *
     ServiceResponse<PageImpl<HybridConnectionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4471,240 +4064,8 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
     }
 
     /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricDefinitionInner> listMetricDefintionsNext(final String nextPageLink) {
-        ServiceResponse<Page<ResourceMetricDefinitionInner>> response = listMetricDefintionsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ResourceMetricDefinitionInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricDefinitionInner> nextPage(String nextPageLink) {
-                return listMetricDefintionsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricDefinitionInner>> listMetricDefintionsNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceMetricDefinitionInner>> serviceFuture, final ListOperationCallback<ResourceMetricDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMetricDefintionsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(String nextPageLink) {
-                    return listMetricDefintionsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricDefinitionInner&gt; object
-     */
-    public Observable<Page<ResourceMetricDefinitionInner>> listMetricDefintionsNextAsync(final String nextPageLink) {
-        return listMetricDefintionsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricDefinitionInner>>, Page<ResourceMetricDefinitionInner>>() {
-                @Override
-                public Page<ResourceMetricDefinitionInner> call(ServiceResponse<Page<ResourceMetricDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricDefinitionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> listMetricDefintionsNextWithServiceResponseAsync(final String nextPageLink) {
-        return listMetricDefintionsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricDefinitionInner>>, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(ServiceResponse<Page<ResourceMetricDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMetricDefintionsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     * Get metrics that can be queried for an App Service plan, and their definitions.
-     *
-    ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> listMetricDefintionsNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listMetricDefintionsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricDefinitionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> result = listMetricDefintionsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricDefinitionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> listMetricDefintionsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricDefinitionInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMetricsNext(final String nextPageLink) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMetricsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMetricsNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceMetricInner>> serviceFuture, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMetricsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMetricsNextAsync(final String nextPageLink) {
-        return listMetricsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsNextWithServiceResponseAsync(final String nextPageLink) {
-        return listMetricsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for an App Service plan.
-     * Get metrics for an App Service plan.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listMetricsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMetricsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4724,7 +4085,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4746,7 +4107,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4764,7 +4125,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4786,7 +4147,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Get all apps associated with an App Service plan.
-     * Get all apps associated with an App Service plan.
+     * Description for Get all apps associated with an App Service plan.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4820,7 +4181,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4840,7 +4201,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4862,7 +4223,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4880,7 +4241,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4902,7 +4263,7 @@ public class AppServicePlansInner implements InnerSupportsGet<AppServicePlanInne
 
     /**
      * Gets server farm usage information.
-     * Gets server farm usage information.
+     * Description for Gets server farm usage information.
      *
     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

@@ -30,6 +30,12 @@ public class GeoRegionInner extends ProxyOnlyResource {
     private String displayName;
 
     /**
+     * Display name for region.
+     */
+    @JsonProperty(value = "properties.orgDomain", access = JsonProperty.Access.WRITE_ONLY)
+    private String orgDomain;
+
+    /**
      * Get region description.
      *
      * @return the description value
@@ -45,6 +51,15 @@ public class GeoRegionInner extends ProxyOnlyResource {
      */
     public String displayName() {
         return this.displayName;
+    }
+
+    /**
+     * Get display name for region.
+     *
+     * @return the orgDomain value
+     */
+    public String orgDomain() {
+        return this.orgDomain;
     }
 
 }

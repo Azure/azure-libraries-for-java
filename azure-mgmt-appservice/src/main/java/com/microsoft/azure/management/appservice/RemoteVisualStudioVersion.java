@@ -15,13 +15,22 @@ import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringE
  */
 public final class RemoteVisualStudioVersion extends ExpandableStringEnum<RemoteVisualStudioVersion> {
     /** Static value VS2012 for RemoteVisualStudioVersion. */
+    @Deprecated
     public static final RemoteVisualStudioVersion VS2012 = RemoteVisualStudioVersion.fromString("VS2012");
 
     /** Static value VS2013 for RemoteVisualStudioVersion. */
+    @Deprecated
     public static final RemoteVisualStudioVersion VS2013 = RemoteVisualStudioVersion.fromString("VS2013");
 
     /** Static value VS2015 for RemoteVisualStudioVersion. */
+    @Deprecated
     public static final RemoteVisualStudioVersion VS2015 = RemoteVisualStudioVersion.fromString("VS2015");
+
+    /** Static value VS2017 for RemoteVisualStudioVersion. */
+    public static final RemoteVisualStudioVersion VS2017 = RemoteVisualStudioVersion.fromString("VS2017");
+
+    /** Static value VS2019 for RemoteVisualStudioVersion. */
+    public static final RemoteVisualStudioVersion VS2019 = RemoteVisualStudioVersion.fromString("VS2019");
 
     /**
      * Finds or creates a Visual Studio version based on the specified name.

@@ -167,10 +167,6 @@ public class DiagnosticsInner {
         @GET
         Observable<Response<ResponseBody>> listSiteDetectorsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics getSiteDetectorNext" })
-        @GET
-        Observable<Response<ResponseBody>> getSiteDetectorNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics listSiteDetectorResponsesSlotNext" })
         @GET
         Observable<Response<ResponseBody>> listSiteDetectorResponsesSlotNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -187,15 +183,11 @@ public class DiagnosticsInner {
         @GET
         Observable<Response<ResponseBody>> listSiteDetectorsSlotNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.Diagnostics getSiteDetectorSlotNext" })
-        @GET
-        Observable<Response<ResponseBody>> getSiteDetectorSlotNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
     }
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site Name
@@ -216,7 +208,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site Name
@@ -238,7 +230,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site Name
@@ -257,7 +249,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Site Name
@@ -280,7 +272,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param name Site Name
@@ -323,7 +315,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Hosting Environment Detector Response.
-     * Get Hosting Environment Detector Response.
+     * Description for Get Hosting Environment Detector Response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name App Service Environment Name
@@ -339,7 +331,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Hosting Environment Detector Response.
-     * Get Hosting Environment Detector Response.
+     * Description for Get Hosting Environment Detector Response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name App Service Environment Name
@@ -354,7 +346,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Hosting Environment Detector Response.
-     * Get Hosting Environment Detector Response.
+     * Description for Get Hosting Environment Detector Response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name App Service Environment Name
@@ -373,7 +365,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Hosting Environment Detector Response.
-     * Get Hosting Environment Detector Response.
+     * Description for Get Hosting Environment Detector Response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name App Service Environment Name
@@ -416,7 +408,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Hosting Environment Detector Response.
-     * Get Hosting Environment Detector Response.
+     * Description for Get Hosting Environment Detector Response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name App Service Environment Name
@@ -435,7 +427,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Hosting Environment Detector Response.
-     * Get Hosting Environment Detector Response.
+     * Description for Get Hosting Environment Detector Response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name App Service Environment Name
@@ -453,7 +445,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Hosting Environment Detector Response.
-     * Get Hosting Environment Detector Response.
+     * Description for Get Hosting Environment Detector Response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name App Service Environment Name
@@ -475,7 +467,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Hosting Environment Detector Response.
-     * Get Hosting Environment Detector Response.
+     * Description for Get Hosting Environment Detector Response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name App Service Environment Name
@@ -525,7 +517,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -546,7 +538,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -568,7 +560,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -587,7 +579,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -610,7 +602,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param siteName Site Name
@@ -653,7 +645,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -669,7 +661,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -684,7 +676,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -703,7 +695,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -746,7 +738,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -765,7 +757,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -783,7 +775,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -805,7 +797,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -855,7 +847,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -876,7 +868,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -898,7 +890,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -917,7 +909,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -940,7 +932,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
     ServiceResponse<PageImpl<DiagnosticCategoryInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<DiagnosticCategoryInner>> * @param siteName Site Name
@@ -983,7 +975,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Category.
-     * Get Diagnostics Category.
+     * Description for Get Diagnostics Category.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -999,7 +991,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Category.
-     * Get Diagnostics Category.
+     * Description for Get Diagnostics Category.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1014,7 +1006,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Category.
-     * Get Diagnostics Category.
+     * Description for Get Diagnostics Category.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1033,7 +1025,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Category.
-     * Get Diagnostics Category.
+     * Description for Get Diagnostics Category.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1080,7 +1072,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1102,7 +1094,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1125,7 +1117,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1145,7 +1137,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1169,7 +1161,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
     ServiceResponse<PageImpl<AnalysisDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<AnalysisDefinitionInner>> * @param siteName Site Name
@@ -1216,7 +1208,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analysis.
-     * Get Site Analysis.
+     * Description for Get Site Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1225,15 +1217,15 @@ public class DiagnosticsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DiagnosticAnalysisInner object if successful.
+     * @return the AnalysisDefinitionInner object if successful.
      */
-    public DiagnosticAnalysisInner getSiteAnalysis(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName) {
+    public AnalysisDefinitionInner getSiteAnalysis(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName) {
         return getSiteAnalysisWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, analysisName).toBlocking().single().body();
     }
 
     /**
      * Get Site Analysis.
-     * Get Site Analysis.
+     * Description for Get Site Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1243,25 +1235,25 @@ public class DiagnosticsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DiagnosticAnalysisInner> getSiteAnalysisAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, final ServiceCallback<DiagnosticAnalysisInner> serviceCallback) {
+    public ServiceFuture<AnalysisDefinitionInner> getSiteAnalysisAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, final ServiceCallback<AnalysisDefinitionInner> serviceCallback) {
         return ServiceFuture.fromResponse(getSiteAnalysisWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, analysisName), serviceCallback);
     }
 
     /**
      * Get Site Analysis.
-     * Get Site Analysis.
+     * Description for Get Site Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @param analysisName Analysis Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DiagnosticAnalysisInner object
+     * @return the observable to the AnalysisDefinitionInner object
      */
-    public Observable<DiagnosticAnalysisInner> getSiteAnalysisAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName) {
-        return getSiteAnalysisWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, analysisName).map(new Func1<ServiceResponse<DiagnosticAnalysisInner>, DiagnosticAnalysisInner>() {
+    public Observable<AnalysisDefinitionInner> getSiteAnalysisAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName) {
+        return getSiteAnalysisWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, analysisName).map(new Func1<ServiceResponse<AnalysisDefinitionInner>, AnalysisDefinitionInner>() {
             @Override
-            public DiagnosticAnalysisInner call(ServiceResponse<DiagnosticAnalysisInner> response) {
+            public AnalysisDefinitionInner call(ServiceResponse<AnalysisDefinitionInner> response) {
                 return response.body();
             }
         });
@@ -1269,16 +1261,16 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analysis.
-     * Get Site Analysis.
+     * Description for Get Site Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @param analysisName Analysis Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DiagnosticAnalysisInner object
+     * @return the observable to the AnalysisDefinitionInner object
      */
-    public Observable<ServiceResponse<DiagnosticAnalysisInner>> getSiteAnalysisWithServiceResponseAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName) {
+    public Observable<ServiceResponse<AnalysisDefinitionInner>> getSiteAnalysisWithServiceResponseAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1298,11 +1290,11 @@ public class DiagnosticsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.getSiteAnalysis(resourceGroupName, siteName, diagnosticCategory, analysisName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AnalysisDefinitionInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<AnalysisDefinitionInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DiagnosticAnalysisInner> clientResponse = getSiteAnalysisDelegate(response);
+                        ServiceResponse<AnalysisDefinitionInner> clientResponse = getSiteAnalysisDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1311,16 +1303,16 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
+    private ServiceResponse<AnalysisDefinitionInner> getSiteAnalysisDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AnalysisDefinitionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<AnalysisDefinitionInner>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1337,7 +1329,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1353,7 +1345,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1373,7 +1365,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1420,7 +1412,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1440,7 +1432,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1459,7 +1451,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1482,7 +1474,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1536,7 +1528,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1558,7 +1550,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1581,7 +1573,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1601,7 +1593,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1625,7 +1617,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
     ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param siteName Site Name
@@ -1672,7 +1664,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detector.
-     * Get Detector.
+     * Description for Get Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1681,21 +1673,15 @@ public class DiagnosticsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
+     * @return the DetectorDefinitionInner object if successful.
      */
-    public PagedList<DetectorDefinitionInner> getSiteDetector(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName) {
-        ServiceResponse<Page<DetectorDefinitionInner>> response = getSiteDetectorSinglePageAsync(resourceGroupName, siteName, diagnosticCategory, detectorName).toBlocking().single();
-        return new PagedList<DetectorDefinitionInner>(response.body()) {
-            @Override
-            public Page<DetectorDefinitionInner> nextPage(String nextPageLink) {
-                return getSiteDetectorNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
+    public DetectorDefinitionInner getSiteDetector(String resourceGroupName, String siteName, String diagnosticCategory, String detectorName) {
+        return getSiteDetectorWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, detectorName).toBlocking().single().body();
     }
 
     /**
      * Get Detector.
-     * Get Detector.
+     * Description for Get Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1705,76 +1691,42 @@ public class DiagnosticsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<DetectorDefinitionInner>> getSiteDetectorAsync(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName, final ListOperationCallback<DetectorDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getSiteDetectorSinglePageAsync(resourceGroupName, siteName, diagnosticCategory, detectorName),
-            new Func1<String, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(String nextPageLink) {
-                    return getSiteDetectorNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
+    public ServiceFuture<DetectorDefinitionInner> getSiteDetectorAsync(String resourceGroupName, String siteName, String diagnosticCategory, String detectorName, final ServiceCallback<DetectorDefinitionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSiteDetectorWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, detectorName), serviceCallback);
     }
 
     /**
      * Get Detector.
-     * Get Detector.
+     * Description for Get Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @param detectorName Detector Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DetectorDefinitionInner&gt; object
+     * @return the observable to the DetectorDefinitionInner object
      */
-    public Observable<Page<DetectorDefinitionInner>> getSiteDetectorAsync(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName) {
-        return getSiteDetectorWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, detectorName)
-            .map(new Func1<ServiceResponse<Page<DetectorDefinitionInner>>, Page<DetectorDefinitionInner>>() {
-                @Override
-                public Page<DetectorDefinitionInner> call(ServiceResponse<Page<DetectorDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
+    public Observable<DetectorDefinitionInner> getSiteDetectorAsync(String resourceGroupName, String siteName, String diagnosticCategory, String detectorName) {
+        return getSiteDetectorWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, detectorName).map(new Func1<ServiceResponse<DetectorDefinitionInner>, DetectorDefinitionInner>() {
+            @Override
+            public DetectorDefinitionInner call(ServiceResponse<DetectorDefinitionInner> response) {
+                return response.body();
+            }
+        });
     }
 
     /**
      * Get Detector.
-     * Get Detector.
+     * Description for Get Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
      * @param diagnosticCategory Diagnostic Category
      * @param detectorName Detector Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DetectorDefinitionInner&gt; object
+     * @return the observable to the DetectorDefinitionInner object
      */
-    public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> getSiteDetectorWithServiceResponseAsync(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName) {
-        return getSiteDetectorSinglePageAsync(resourceGroupName, siteName, diagnosticCategory, detectorName)
-            .concatMap(new Func1<ServiceResponse<Page<DetectorDefinitionInner>>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(ServiceResponse<Page<DetectorDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getSiteDetectorNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param siteName Site Name
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param diagnosticCategory Diagnostic Category
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param detectorName Detector Name
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DetectorDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> getSiteDetectorSinglePageAsync(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName) {
+    public Observable<ServiceResponse<DetectorDefinitionInner>> getSiteDetectorWithServiceResponseAsync(String resourceGroupName, String siteName, String diagnosticCategory, String detectorName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1794,12 +1746,12 @@ public class DiagnosticsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.getSiteDetector(resourceGroupName, siteName, diagnosticCategory, detectorName, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DetectorDefinitionInner>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<DetectorDefinitionInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<DetectorDefinitionInner>> result = getSiteDetectorDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DetectorDefinitionInner>>(result.body(), result.response()));
+                        ServiceResponse<DetectorDefinitionInner> clientResponse = getSiteDetectorDelegate(response);
+                        return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -1807,16 +1759,16 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
+    private ServiceResponse<DetectorDefinitionInner> getSiteDetectorDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DetectorDefinitionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DetectorDefinitionInner>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1833,7 +1785,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1849,7 +1801,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1869,7 +1821,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1916,7 +1868,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1936,7 +1888,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1955,7 +1907,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -1978,7 +1930,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2032,7 +1984,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2054,7 +2006,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2077,7 +2029,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2097,7 +2049,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2121,7 +2073,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param siteName Site Name
@@ -2168,7 +2120,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2185,7 +2137,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2201,7 +2153,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2221,7 +2173,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2268,7 +2220,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2288,7 +2240,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2307,7 +2259,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2330,7 +2282,7 @@ public class DiagnosticsInner {
 
     /**
      * Get site detector response.
-     * Get site detector response.
+     * Description for Get site detector response.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2384,7 +2336,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2406,7 +2358,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2429,7 +2381,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2449,7 +2401,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2473,7 +2425,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
     ServiceResponse<PageImpl<DiagnosticCategoryInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<DiagnosticCategoryInner>> * @param siteName Site Name
@@ -2520,7 +2472,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Category.
-     * Get Diagnostics Category.
+     * Description for Get Diagnostics Category.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2537,7 +2489,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Category.
-     * Get Diagnostics Category.
+     * Description for Get Diagnostics Category.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2553,7 +2505,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Category.
-     * Get Diagnostics Category.
+     * Description for Get Diagnostics Category.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2573,7 +2525,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Category.
-     * Get Diagnostics Category.
+     * Description for Get Diagnostics Category.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2624,7 +2576,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2647,7 +2599,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2671,7 +2623,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2692,7 +2644,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2717,7 +2669,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
     ServiceResponse<PageImpl<AnalysisDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<AnalysisDefinitionInner>> * @param siteName Site Name
@@ -2768,7 +2720,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analysis.
-     * Get Site Analysis.
+     * Description for Get Site Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2778,15 +2730,15 @@ public class DiagnosticsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DiagnosticAnalysisInner object if successful.
+     * @return the AnalysisDefinitionInner object if successful.
      */
-    public DiagnosticAnalysisInner getSiteAnalysisSlot(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, String slot) {
+    public AnalysisDefinitionInner getSiteAnalysisSlot(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, String slot) {
         return getSiteAnalysisSlotWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, analysisName, slot).toBlocking().single().body();
     }
 
     /**
      * Get Site Analysis.
-     * Get Site Analysis.
+     * Description for Get Site Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2797,13 +2749,13 @@ public class DiagnosticsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DiagnosticAnalysisInner> getSiteAnalysisSlotAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, String slot, final ServiceCallback<DiagnosticAnalysisInner> serviceCallback) {
+    public ServiceFuture<AnalysisDefinitionInner> getSiteAnalysisSlotAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, String slot, final ServiceCallback<AnalysisDefinitionInner> serviceCallback) {
         return ServiceFuture.fromResponse(getSiteAnalysisSlotWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, analysisName, slot), serviceCallback);
     }
 
     /**
      * Get Site Analysis.
-     * Get Site Analysis.
+     * Description for Get Site Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2811,12 +2763,12 @@ public class DiagnosticsInner {
      * @param analysisName Analysis Name
      * @param slot Slot - optional
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DiagnosticAnalysisInner object
+     * @return the observable to the AnalysisDefinitionInner object
      */
-    public Observable<DiagnosticAnalysisInner> getSiteAnalysisSlotAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, String slot) {
-        return getSiteAnalysisSlotWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, analysisName, slot).map(new Func1<ServiceResponse<DiagnosticAnalysisInner>, DiagnosticAnalysisInner>() {
+    public Observable<AnalysisDefinitionInner> getSiteAnalysisSlotAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, String slot) {
+        return getSiteAnalysisSlotWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, analysisName, slot).map(new Func1<ServiceResponse<AnalysisDefinitionInner>, AnalysisDefinitionInner>() {
             @Override
-            public DiagnosticAnalysisInner call(ServiceResponse<DiagnosticAnalysisInner> response) {
+            public AnalysisDefinitionInner call(ServiceResponse<AnalysisDefinitionInner> response) {
                 return response.body();
             }
         });
@@ -2824,7 +2776,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analysis.
-     * Get Site Analysis.
+     * Description for Get Site Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2832,9 +2784,9 @@ public class DiagnosticsInner {
      * @param analysisName Analysis Name
      * @param slot Slot - optional
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DiagnosticAnalysisInner object
+     * @return the observable to the AnalysisDefinitionInner object
      */
-    public Observable<ServiceResponse<DiagnosticAnalysisInner>> getSiteAnalysisSlotWithServiceResponseAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, String slot) {
+    public Observable<ServiceResponse<AnalysisDefinitionInner>> getSiteAnalysisSlotWithServiceResponseAsync(String resourceGroupName, String siteName, String diagnosticCategory, String analysisName, String slot) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -2857,11 +2809,11 @@ public class DiagnosticsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.getSiteAnalysisSlot(resourceGroupName, siteName, diagnosticCategory, analysisName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DiagnosticAnalysisInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AnalysisDefinitionInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DiagnosticAnalysisInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<AnalysisDefinitionInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DiagnosticAnalysisInner> clientResponse = getSiteAnalysisSlotDelegate(response);
+                        ServiceResponse<AnalysisDefinitionInner> clientResponse = getSiteAnalysisSlotDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -2870,16 +2822,16 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<DiagnosticAnalysisInner> getSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DiagnosticAnalysisInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DiagnosticAnalysisInner>() { }.getType())
+    private ServiceResponse<AnalysisDefinitionInner> getSiteAnalysisSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AnalysisDefinitionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<AnalysisDefinitionInner>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2897,7 +2849,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2914,7 +2866,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2935,7 +2887,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -2986,7 +2938,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3007,7 +2959,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3027,7 +2979,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3051,7 +3003,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Analysis.
-     * Execute Analysis.
+     * Description for Execute Analysis.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3109,7 +3061,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3132,7 +3084,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3156,7 +3108,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3177,7 +3129,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3202,7 +3154,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
     ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param siteName Site Name
@@ -3253,7 +3205,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detector.
-     * Get Detector.
+     * Description for Get Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3263,21 +3215,15 @@ public class DiagnosticsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
+     * @return the DetectorDefinitionInner object if successful.
      */
-    public PagedList<DetectorDefinitionInner> getSiteDetectorSlot(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName, final String slot) {
-        ServiceResponse<Page<DetectorDefinitionInner>> response = getSiteDetectorSlotSinglePageAsync(resourceGroupName, siteName, diagnosticCategory, detectorName, slot).toBlocking().single();
-        return new PagedList<DetectorDefinitionInner>(response.body()) {
-            @Override
-            public Page<DetectorDefinitionInner> nextPage(String nextPageLink) {
-                return getSiteDetectorSlotNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
+    public DetectorDefinitionInner getSiteDetectorSlot(String resourceGroupName, String siteName, String diagnosticCategory, String detectorName, String slot) {
+        return getSiteDetectorSlotWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, detectorName, slot).toBlocking().single().body();
     }
 
     /**
      * Get Detector.
-     * Get Detector.
+     * Description for Get Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3288,21 +3234,13 @@ public class DiagnosticsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<DetectorDefinitionInner>> getSiteDetectorSlotAsync(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName, final String slot, final ListOperationCallback<DetectorDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getSiteDetectorSlotSinglePageAsync(resourceGroupName, siteName, diagnosticCategory, detectorName, slot),
-            new Func1<String, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(String nextPageLink) {
-                    return getSiteDetectorSlotNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
+    public ServiceFuture<DetectorDefinitionInner> getSiteDetectorSlotAsync(String resourceGroupName, String siteName, String diagnosticCategory, String detectorName, String slot, final ServiceCallback<DetectorDefinitionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getSiteDetectorSlotWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, detectorName, slot), serviceCallback);
     }
 
     /**
      * Get Detector.
-     * Get Detector.
+     * Description for Get Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3310,21 +3248,20 @@ public class DiagnosticsInner {
      * @param detectorName Detector Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DetectorDefinitionInner&gt; object
+     * @return the observable to the DetectorDefinitionInner object
      */
-    public Observable<Page<DetectorDefinitionInner>> getSiteDetectorSlotAsync(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName, final String slot) {
-        return getSiteDetectorSlotWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, detectorName, slot)
-            .map(new Func1<ServiceResponse<Page<DetectorDefinitionInner>>, Page<DetectorDefinitionInner>>() {
-                @Override
-                public Page<DetectorDefinitionInner> call(ServiceResponse<Page<DetectorDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
+    public Observable<DetectorDefinitionInner> getSiteDetectorSlotAsync(String resourceGroupName, String siteName, String diagnosticCategory, String detectorName, String slot) {
+        return getSiteDetectorSlotWithServiceResponseAsync(resourceGroupName, siteName, diagnosticCategory, detectorName, slot).map(new Func1<ServiceResponse<DetectorDefinitionInner>, DetectorDefinitionInner>() {
+            @Override
+            public DetectorDefinitionInner call(ServiceResponse<DetectorDefinitionInner> response) {
+                return response.body();
+            }
+        });
     }
 
     /**
      * Get Detector.
-     * Get Detector.
+     * Description for Get Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3332,35 +3269,9 @@ public class DiagnosticsInner {
      * @param detectorName Detector Name
      * @param slot Slot Name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DetectorDefinitionInner&gt; object
+     * @return the observable to the DetectorDefinitionInner object
      */
-    public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> getSiteDetectorSlotWithServiceResponseAsync(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName, final String slot) {
-        return getSiteDetectorSlotSinglePageAsync(resourceGroupName, siteName, diagnosticCategory, detectorName, slot)
-            .concatMap(new Func1<ServiceResponse<Page<DetectorDefinitionInner>>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(ServiceResponse<Page<DetectorDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getSiteDetectorSlotNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param siteName Site Name
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param diagnosticCategory Diagnostic Category
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param detectorName Detector Name
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param slot Slot Name
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DetectorDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> getSiteDetectorSlotSinglePageAsync(final String resourceGroupName, final String siteName, final String diagnosticCategory, final String detectorName, final String slot) {
+    public Observable<ServiceResponse<DetectorDefinitionInner>> getSiteDetectorSlotWithServiceResponseAsync(String resourceGroupName, String siteName, String diagnosticCategory, String detectorName, String slot) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -3383,12 +3294,12 @@ public class DiagnosticsInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.getSiteDetectorSlot(resourceGroupName, siteName, diagnosticCategory, detectorName, slot, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DetectorDefinitionInner>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<DetectorDefinitionInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<DetectorDefinitionInner>> result = getSiteDetectorSlotDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DetectorDefinitionInner>>(result.body(), result.response()));
+                        ServiceResponse<DetectorDefinitionInner> clientResponse = getSiteDetectorSlotDelegate(response);
+                        return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -3396,16 +3307,16 @@ public class DiagnosticsInner {
             });
     }
 
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
+    private ServiceResponse<DetectorDefinitionInner> getSiteDetectorSlotDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DetectorDefinitionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DetectorDefinitionInner>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3423,7 +3334,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3440,7 +3351,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3461,7 +3372,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3512,7 +3423,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3533,7 +3444,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3553,7 +3464,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3577,7 +3488,7 @@ public class DiagnosticsInner {
 
     /**
      * Execute Detector.
-     * Execute Detector.
+     * Description for Execute Detector.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site Name
@@ -3635,7 +3546,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3655,7 +3566,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -3677,7 +3588,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3695,7 +3606,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3717,7 +3628,7 @@ public class DiagnosticsInner {
 
     /**
      * List Hosting Environment Detector Responses.
-     * List Hosting Environment Detector Responses.
+     * Description for List Hosting Environment Detector Responses.
      *
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3751,7 +3662,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3771,7 +3682,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -3793,7 +3704,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3811,7 +3722,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3833,7 +3744,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3867,7 +3778,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3887,7 +3798,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -3909,7 +3820,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3927,7 +3838,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3949,7 +3860,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
     ServiceResponse<PageImpl<DiagnosticCategoryInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3983,7 +3894,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4003,7 +3914,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4025,7 +3936,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4043,7 +3954,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4065,7 +3976,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
     ServiceResponse<PageImpl<AnalysisDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4099,7 +4010,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4119,7 +4030,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4141,7 +4052,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4159,7 +4070,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4181,7 +4092,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
     ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4214,124 +4125,8 @@ public class DiagnosticsInner {
     }
 
     /**
-     * Get Detector.
-     * Get Detector.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
-     */
-    public PagedList<DetectorDefinitionInner> getSiteDetectorNext(final String nextPageLink) {
-        ServiceResponse<Page<DetectorDefinitionInner>> response = getSiteDetectorNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<DetectorDefinitionInner>(response.body()) {
-            @Override
-            public Page<DetectorDefinitionInner> nextPage(String nextPageLink) {
-                return getSiteDetectorNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<DetectorDefinitionInner>> getSiteDetectorNextAsync(final String nextPageLink, final ServiceFuture<List<DetectorDefinitionInner>> serviceFuture, final ListOperationCallback<DetectorDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getSiteDetectorNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(String nextPageLink) {
-                    return getSiteDetectorNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DetectorDefinitionInner&gt; object
-     */
-    public Observable<Page<DetectorDefinitionInner>> getSiteDetectorNextAsync(final String nextPageLink) {
-        return getSiteDetectorNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<DetectorDefinitionInner>>, Page<DetectorDefinitionInner>>() {
-                @Override
-                public Page<DetectorDefinitionInner> call(ServiceResponse<Page<DetectorDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DetectorDefinitionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> getSiteDetectorNextWithServiceResponseAsync(final String nextPageLink) {
-        return getSiteDetectorNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<DetectorDefinitionInner>>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(ServiceResponse<Page<DetectorDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getSiteDetectorNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DetectorDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> getSiteDetectorNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.getSiteDetectorNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<DetectorDefinitionInner>> result = getSiteDetectorNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DetectorDefinitionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4351,7 +4146,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4373,7 +4168,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4391,7 +4186,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4413,7 +4208,7 @@ public class DiagnosticsInner {
 
     /**
      * List Site Detector Responses.
-     * List Site Detector Responses.
+     * Description for List Site Detector Responses.
      *
     ServiceResponse<PageImpl<DetectorResponseInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4447,7 +4242,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4467,7 +4262,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4489,7 +4284,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4507,7 +4302,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4529,7 +4324,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Diagnostics Categories.
-     * Get Diagnostics Categories.
+     * Description for Get Diagnostics Categories.
      *
     ServiceResponse<PageImpl<DiagnosticCategoryInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4563,7 +4358,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4583,7 +4378,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4605,7 +4400,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4623,7 +4418,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4645,7 +4440,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Site Analyses.
-     * Get Site Analyses.
+     * Description for Get Site Analyses.
      *
     ServiceResponse<PageImpl<AnalysisDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4679,7 +4474,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4699,7 +4494,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -4721,7 +4516,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4739,7 +4534,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4761,7 +4556,7 @@ public class DiagnosticsInner {
 
     /**
      * Get Detectors.
-     * Get Detectors.
+     * Description for Get Detectors.
      *
     ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -4787,122 +4582,6 @@ public class DiagnosticsInner {
     }
 
     private ServiceResponse<PageImpl<DetectorDefinitionInner>> listSiteDetectorsSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;DetectorDefinitionInner&gt; object if successful.
-     */
-    public PagedList<DetectorDefinitionInner> getSiteDetectorSlotNext(final String nextPageLink) {
-        ServiceResponse<Page<DetectorDefinitionInner>> response = getSiteDetectorSlotNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<DetectorDefinitionInner>(response.body()) {
-            @Override
-            public Page<DetectorDefinitionInner> nextPage(String nextPageLink) {
-                return getSiteDetectorSlotNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<DetectorDefinitionInner>> getSiteDetectorSlotNextAsync(final String nextPageLink, final ServiceFuture<List<DetectorDefinitionInner>> serviceFuture, final ListOperationCallback<DetectorDefinitionInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            getSiteDetectorSlotNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(String nextPageLink) {
-                    return getSiteDetectorSlotNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DetectorDefinitionInner&gt; object
-     */
-    public Observable<Page<DetectorDefinitionInner>> getSiteDetectorSlotNextAsync(final String nextPageLink) {
-        return getSiteDetectorSlotNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<DetectorDefinitionInner>>, Page<DetectorDefinitionInner>>() {
-                @Override
-                public Page<DetectorDefinitionInner> call(ServiceResponse<Page<DetectorDefinitionInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;DetectorDefinitionInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> getSiteDetectorSlotNextWithServiceResponseAsync(final String nextPageLink) {
-        return getSiteDetectorSlotNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<DetectorDefinitionInner>>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(ServiceResponse<Page<DetectorDefinitionInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(getSiteDetectorSlotNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get Detector.
-     * Get Detector.
-     *
-    ServiceResponse<PageImpl<DetectorDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;DetectorDefinitionInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> getSiteDetectorSlotNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.getSiteDetectorSlotNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<DetectorDefinitionInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<DetectorDefinitionInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<DetectorDefinitionInner>> result = getSiteDetectorSlotNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<DetectorDefinitionInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<DetectorDefinitionInner>> getSiteDetectorSlotNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<PageImpl<DetectorDefinitionInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<DetectorDefinitionInner>>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)

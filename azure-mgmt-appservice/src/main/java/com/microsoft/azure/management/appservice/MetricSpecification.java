@@ -106,6 +106,12 @@ public class MetricSpecification {
     private List<MetricAvailability> availabilities;
 
     /**
+     * The supportedTimeGrainTypes property.
+     */
+    @JsonProperty(value = "supportedTimeGrainTypes")
+    private List<String> supportedTimeGrainTypes;
+
+    /**
      * Get the name value.
      *
      * @return the name value
@@ -402,6 +408,26 @@ public class MetricSpecification {
      */
     public MetricSpecification withAvailabilities(List<MetricAvailability> availabilities) {
         this.availabilities = availabilities;
+        return this;
+    }
+
+    /**
+     * Get the supportedTimeGrainTypes value.
+     *
+     * @return the supportedTimeGrainTypes value
+     */
+    public List<String> supportedTimeGrainTypes() {
+        return this.supportedTimeGrainTypes;
+    }
+
+    /**
+     * Set the supportedTimeGrainTypes value.
+     *
+     * @param supportedTimeGrainTypes the supportedTimeGrainTypes value to set
+     * @return the MetricSpecification object itself.
+     */
+    public MetricSpecification withSupportedTimeGrainTypes(List<String> supportedTimeGrainTypes) {
+        this.supportedTimeGrainTypes = supportedTimeGrainTypes;
         return this;
     }
 

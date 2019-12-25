@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
 import com.microsoft.azure.management.appservice.DomainPatchResource;
@@ -153,40 +152,40 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Check if a domain is available for registration.
-     * Check if a domain is available for registration.
+     * Description for Check if a domain is available for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DomainAvailablilityCheckResultInner object if successful.
+     * @return the DomainAvailabilityCheckResultInner object if successful.
      */
-    public DomainAvailablilityCheckResultInner checkAvailability() {
+    public DomainAvailabilityCheckResultInner checkAvailability() {
         return checkAvailabilityWithServiceResponseAsync().toBlocking().single().body();
     }
 
     /**
      * Check if a domain is available for registration.
-     * Check if a domain is available for registration.
+     * Description for Check if a domain is available for registration.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DomainAvailablilityCheckResultInner> checkAvailabilityAsync(final ServiceCallback<DomainAvailablilityCheckResultInner> serviceCallback) {
+    public ServiceFuture<DomainAvailabilityCheckResultInner> checkAvailabilityAsync(final ServiceCallback<DomainAvailabilityCheckResultInner> serviceCallback) {
         return ServiceFuture.fromResponse(checkAvailabilityWithServiceResponseAsync(), serviceCallback);
     }
 
     /**
      * Check if a domain is available for registration.
-     * Check if a domain is available for registration.
+     * Description for Check if a domain is available for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DomainAvailablilityCheckResultInner object
+     * @return the observable to the DomainAvailabilityCheckResultInner object
      */
-    public Observable<DomainAvailablilityCheckResultInner> checkAvailabilityAsync() {
-        return checkAvailabilityWithServiceResponseAsync().map(new Func1<ServiceResponse<DomainAvailablilityCheckResultInner>, DomainAvailablilityCheckResultInner>() {
+    public Observable<DomainAvailabilityCheckResultInner> checkAvailabilityAsync() {
+        return checkAvailabilityWithServiceResponseAsync().map(new Func1<ServiceResponse<DomainAvailabilityCheckResultInner>, DomainAvailabilityCheckResultInner>() {
             @Override
-            public DomainAvailablilityCheckResultInner call(ServiceResponse<DomainAvailablilityCheckResultInner> response) {
+            public DomainAvailabilityCheckResultInner call(ServiceResponse<DomainAvailabilityCheckResultInner> response) {
                 return response.body();
             }
         });
@@ -194,12 +193,12 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Check if a domain is available for registration.
-     * Check if a domain is available for registration.
+     * Description for Check if a domain is available for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DomainAvailablilityCheckResultInner object
+     * @return the observable to the DomainAvailabilityCheckResultInner object
      */
-    public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> checkAvailabilityWithServiceResponseAsync() {
+    public Observable<ServiceResponse<DomainAvailabilityCheckResultInner>> checkAvailabilityWithServiceResponseAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -210,11 +209,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         NameIdentifierInner identifier = new NameIdentifierInner();
         identifier.withName(null);
         return service.checkAvailability(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), identifier, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainAvailablilityCheckResultInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainAvailabilityCheckResultInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<DomainAvailabilityCheckResultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DomainAvailablilityCheckResultInner> clientResponse = checkAvailabilityDelegate(response);
+                        ServiceResponse<DomainAvailabilityCheckResultInner> clientResponse = checkAvailabilityDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -225,43 +224,43 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Check if a domain is available for registration.
-     * Check if a domain is available for registration.
+     * Description for Check if a domain is available for registration.
      *
      * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DomainAvailablilityCheckResultInner object if successful.
+     * @return the DomainAvailabilityCheckResultInner object if successful.
      */
-    public DomainAvailablilityCheckResultInner checkAvailability(String name) {
+    public DomainAvailabilityCheckResultInner checkAvailability(String name) {
         return checkAvailabilityWithServiceResponseAsync(name).toBlocking().single().body();
     }
 
     /**
      * Check if a domain is available for registration.
-     * Check if a domain is available for registration.
+     * Description for Check if a domain is available for registration.
      *
      * @param name Name of the object.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<DomainAvailablilityCheckResultInner> checkAvailabilityAsync(String name, final ServiceCallback<DomainAvailablilityCheckResultInner> serviceCallback) {
+    public ServiceFuture<DomainAvailabilityCheckResultInner> checkAvailabilityAsync(String name, final ServiceCallback<DomainAvailabilityCheckResultInner> serviceCallback) {
         return ServiceFuture.fromResponse(checkAvailabilityWithServiceResponseAsync(name), serviceCallback);
     }
 
     /**
      * Check if a domain is available for registration.
-     * Check if a domain is available for registration.
+     * Description for Check if a domain is available for registration.
      *
      * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DomainAvailablilityCheckResultInner object
+     * @return the observable to the DomainAvailabilityCheckResultInner object
      */
-    public Observable<DomainAvailablilityCheckResultInner> checkAvailabilityAsync(String name) {
-        return checkAvailabilityWithServiceResponseAsync(name).map(new Func1<ServiceResponse<DomainAvailablilityCheckResultInner>, DomainAvailablilityCheckResultInner>() {
+    public Observable<DomainAvailabilityCheckResultInner> checkAvailabilityAsync(String name) {
+        return checkAvailabilityWithServiceResponseAsync(name).map(new Func1<ServiceResponse<DomainAvailabilityCheckResultInner>, DomainAvailabilityCheckResultInner>() {
             @Override
-            public DomainAvailablilityCheckResultInner call(ServiceResponse<DomainAvailablilityCheckResultInner> response) {
+            public DomainAvailabilityCheckResultInner call(ServiceResponse<DomainAvailabilityCheckResultInner> response) {
                 return response.body();
             }
         });
@@ -269,13 +268,13 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Check if a domain is available for registration.
-     * Check if a domain is available for registration.
+     * Description for Check if a domain is available for registration.
      *
      * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DomainAvailablilityCheckResultInner object
+     * @return the observable to the DomainAvailabilityCheckResultInner object
      */
-    public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> checkAvailabilityWithServiceResponseAsync(String name) {
+    public Observable<ServiceResponse<DomainAvailabilityCheckResultInner>> checkAvailabilityWithServiceResponseAsync(String name) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -285,11 +284,11 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
         NameIdentifierInner identifier = new NameIdentifierInner();
         identifier.withName(name);
         return service.checkAvailability(this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), identifier, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainAvailablilityCheckResultInner>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DomainAvailabilityCheckResultInner>>>() {
                 @Override
-                public Observable<ServiceResponse<DomainAvailablilityCheckResultInner>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<DomainAvailabilityCheckResultInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DomainAvailablilityCheckResultInner> clientResponse = checkAvailabilityDelegate(response);
+                        ServiceResponse<DomainAvailabilityCheckResultInner> clientResponse = checkAvailabilityDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -298,16 +297,16 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<DomainAvailablilityCheckResultInner> checkAvailabilityDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<DomainAvailablilityCheckResultInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<DomainAvailablilityCheckResultInner>() { }.getType())
+    private ServiceResponse<DomainAvailabilityCheckResultInner> checkAvailabilityDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<DomainAvailabilityCheckResultInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<DomainAvailabilityCheckResultInner>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -326,7 +325,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -346,7 +345,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DomainInner&gt; object
@@ -363,7 +362,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;DomainInner&gt; object
@@ -384,7 +383,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;DomainInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -419,7 +418,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Generate a single sign-on request for the domain management portal.
-     * Generate a single sign-on request for the domain management portal.
+     * Description for Generate a single sign-on request for the domain management portal.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -432,7 +431,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Generate a single sign-on request for the domain management portal.
-     * Generate a single sign-on request for the domain management portal.
+     * Description for Generate a single sign-on request for the domain management portal.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -444,7 +443,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Generate a single sign-on request for the domain management portal.
-     * Generate a single sign-on request for the domain management portal.
+     * Description for Generate a single sign-on request for the domain management portal.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DomainControlCenterSsoRequestInner object
@@ -460,7 +459,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Generate a single sign-on request for the domain management portal.
-     * Generate a single sign-on request for the domain management portal.
+     * Description for Generate a single sign-on request for the domain management portal.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the DomainControlCenterSsoRequestInner object
@@ -495,7 +494,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
      * @param parameters Search parameters for domain name recommendations.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -515,7 +514,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
      * @param parameters Search parameters for domain name recommendations.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -536,7 +535,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
      * @param parameters Search parameters for domain name recommendations.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -554,7 +553,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
      * @param parameters Search parameters for domain name recommendations.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -576,7 +575,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
     ServiceResponse<PageImpl<NameIdentifierInner>> * @param parameters Search parameters for domain name recommendations.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -616,7 +615,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -636,7 +635,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -657,7 +656,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -675,7 +674,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -697,7 +696,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
     ServiceResponse<PageImpl<DomainInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -736,7 +735,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get a domain.
-     * Get a domain.
+     * Description for Get a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -751,7 +750,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get a domain.
-     * Get a domain.
+     * Description for Get a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -765,7 +764,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get a domain.
-     * Get a domain.
+     * Description for Get a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -783,7 +782,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get a domain.
-     * Get a domain.
+     * Description for Get a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -826,7 +825,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -842,7 +841,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -857,7 +856,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -876,7 +875,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -907,7 +906,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -923,7 +922,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -938,7 +937,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -957,7 +956,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1006,12 +1005,12 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete a domain.
-     * Delete a domain.
+     * Description for Delete a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String domainName) {
@@ -1020,7 +1019,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete a domain.
-     * Delete a domain.
+     * Description for Delete a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1034,7 +1033,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete a domain.
-     * Delete a domain.
+     * Description for Delete a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1052,7 +1051,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete a domain.
-     * Delete a domain.
+     * Description for Delete a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1089,13 +1088,13 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete a domain.
-     * Delete a domain.
+     * Description for Delete a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
      * @param forceHardDeleteDomain Specify &lt;code&gt;true&lt;/code&gt; to delete the domain immediately. The default is &lt;code&gt;false&lt;/code&gt; which deletes the domain after 24 hours.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String domainName, Boolean forceHardDeleteDomain) {
@@ -1104,7 +1103,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete a domain.
-     * Delete a domain.
+     * Description for Delete a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1119,7 +1118,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete a domain.
-     * Delete a domain.
+     * Description for Delete a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1138,7 +1137,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete a domain.
-     * Delete a domain.
+     * Description for Delete a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1173,17 +1172,17 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1199,7 +1198,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1214,7 +1213,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1233,7 +1232,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates or updates a domain.
-     * Creates or updates a domain.
+     * Description for Creates or updates a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1282,7 +1281,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1303,7 +1302,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1325,7 +1324,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1344,7 +1343,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1367,7 +1366,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
     ServiceResponse<PageImpl<DomainOwnershipIdentifierInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<DomainOwnershipIdentifierInner>> * @param domainName Name of domain.
@@ -1410,7 +1409,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get ownership identifier for domain.
-     * Get ownership identifier for domain.
+     * Description for Get ownership identifier for domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1426,7 +1425,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get ownership identifier for domain.
-     * Get ownership identifier for domain.
+     * Description for Get ownership identifier for domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1441,7 +1440,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get ownership identifier for domain.
-     * Get ownership identifier for domain.
+     * Description for Get ownership identifier for domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1460,7 +1459,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get ownership identifier for domain.
-     * Get ownership identifier for domain.
+     * Description for Get ownership identifier for domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1507,7 +1506,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
-     * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
+     * Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1524,7 +1523,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
-     * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
+     * Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1540,7 +1539,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
-     * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
+     * Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1560,7 +1559,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
-     * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
+     * Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1612,13 +1611,13 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete ownership identifier for domain.
-     * Delete ownership identifier for domain.
+     * Description for Delete ownership identifier for domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
      * @param name Name of identifier.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void deleteOwnershipIdentifier(String resourceGroupName, String domainName, String name) {
@@ -1627,7 +1626,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete ownership identifier for domain.
-     * Delete ownership identifier for domain.
+     * Description for Delete ownership identifier for domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1642,7 +1641,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete ownership identifier for domain.
-     * Delete ownership identifier for domain.
+     * Description for Delete ownership identifier for domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1661,7 +1660,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Delete ownership identifier for domain.
-     * Delete ownership identifier for domain.
+     * Description for Delete ownership identifier for domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1699,17 +1698,17 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<Void> deleteOwnershipIdentifierDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> deleteOwnershipIdentifierDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
-     * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
+     * Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1726,7 +1725,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
-     * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
+     * Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1742,7 +1741,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
-     * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
+     * Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1762,7 +1761,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
-     * Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
+     * Description for Creates an ownership identifier for a domain or updates identifier details for an existing identifer.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of domain.
@@ -1814,12 +1813,12 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Renew a domain.
-     * Renew a domain.
+     * Description for Renew a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void renew(String resourceGroupName, String domainName) {
@@ -1828,7 +1827,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Renew a domain.
-     * Renew a domain.
+     * Description for Renew a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1842,7 +1841,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Renew a domain.
-     * Renew a domain.
+     * Description for Renew a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1860,7 +1859,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Renew a domain.
-     * Renew a domain.
+     * Description for Renew a domain.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param domainName Name of the domain.
@@ -1894,20 +1893,18 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
             });
     }
 
-    private ServiceResponse<Void> renewDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> renewDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(500, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1927,7 +1924,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -1949,7 +1946,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1967,7 +1964,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -1989,7 +1986,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a subscription.
-     * Get all domains in a subscription.
+     * Description for Get all domains in a subscription.
      *
     ServiceResponse<PageImpl<DomainInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2023,7 +2020,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2043,7 +2040,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2065,7 +2062,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2083,7 +2080,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2105,7 +2102,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get domain name recommendations based on keywords.
-     * Get domain name recommendations based on keywords.
+     * Description for Get domain name recommendations based on keywords.
      *
     ServiceResponse<PageImpl<NameIdentifierInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2139,7 +2136,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2159,7 +2156,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2181,7 +2178,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2199,7 +2196,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2221,7 +2218,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Get all domains in a resource group.
-     * Get all domains in a resource group.
+     * Description for Get all domains in a resource group.
      *
     ServiceResponse<PageImpl<DomainInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2255,7 +2252,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2275,7 +2272,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2297,7 +2294,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2315,7 +2312,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2337,7 +2334,7 @@ public class DomainsInner implements InnerSupportsGet<DomainInner>, InnerSupport
 
     /**
      * Lists domain ownership identifiers.
-     * Lists domain ownership identifiers.
+     * Description for Lists domain ownership identifiers.
      *
     ServiceResponse<PageImpl<DomainOwnershipIdentifierInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

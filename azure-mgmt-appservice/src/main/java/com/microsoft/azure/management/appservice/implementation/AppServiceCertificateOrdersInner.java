@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.appservice.AppServiceCertificateOrderPatchResource;
 import com.microsoft.azure.management.appservice.AppServiceCertificatePatchResource;
@@ -176,7 +175,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -195,7 +194,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -215,7 +214,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;AppServiceCertificateOrderInner&gt; object
@@ -232,7 +231,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;AppServiceCertificateOrderInner&gt; object
@@ -253,7 +252,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;AppServiceCertificateOrderInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -288,11 +287,11 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Validate information for a certificate order.
-     * Validate information for a certificate order.
+     * Description for Validate information for a certificate order.
      *
      * @param appServiceCertificateOrder Information for a certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void validatePurchaseInformation(AppServiceCertificateOrderInner appServiceCertificateOrder) {
@@ -301,7 +300,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Validate information for a certificate order.
-     * Validate information for a certificate order.
+     * Description for Validate information for a certificate order.
      *
      * @param appServiceCertificateOrder Information for a certificate order.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -314,7 +313,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Validate information for a certificate order.
-     * Validate information for a certificate order.
+     * Description for Validate information for a certificate order.
      *
      * @param appServiceCertificateOrder Information for a certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -331,7 +330,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Validate information for a certificate order.
-     * Validate information for a certificate order.
+     * Description for Validate information for a certificate order.
      *
      * @param appServiceCertificateOrder Information for a certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -362,16 +361,16 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<Void> validatePurchaseInformationDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> validatePurchaseInformationDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -391,7 +390,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -412,7 +411,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -430,7 +429,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -452,7 +451,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
     ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -491,7 +490,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get a certificate order.
-     * Get a certificate order.
+     * Description for Get a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order..
@@ -506,7 +505,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get a certificate order.
-     * Get a certificate order.
+     * Description for Get a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order..
@@ -520,7 +519,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get a certificate order.
-     * Get a certificate order.
+     * Description for Get a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order..
@@ -538,7 +537,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get a certificate order.
-     * Get a certificate order.
+     * Description for Get a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order..
@@ -581,7 +580,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -597,7 +596,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -612,7 +611,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -631,7 +630,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -662,7 +661,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -678,7 +677,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -693,7 +692,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -712,7 +711,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -761,12 +760,12 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Delete an existing certificate order.
-     * Delete an existing certificate order.
+     * Description for Delete an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String certificateOrderName) {
@@ -775,7 +774,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Delete an existing certificate order.
-     * Delete an existing certificate order.
+     * Description for Delete an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -789,7 +788,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Delete an existing certificate order.
-     * Delete an existing certificate order.
+     * Description for Delete an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -807,7 +806,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Delete an existing certificate order.
-     * Delete an existing certificate order.
+     * Description for Delete an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -841,17 +840,17 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -867,7 +866,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -882,7 +881,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -901,7 +900,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Create or update a certificate purchase order.
-     * Create or update a certificate purchase order.
+     * Description for Create or update a certificate purchase order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -950,7 +949,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -971,7 +970,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -993,7 +992,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1012,7 +1011,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1035,7 +1034,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
     ServiceResponse<PageImpl<AppServiceCertificateResourceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<AppServiceCertificateResourceInner>> * @param certificateOrderName Name of the certificate order.
@@ -1078,7 +1077,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get the certificate associated with a certificate order.
-     * Get the certificate associated with a certificate order.
+     * Description for Get the certificate associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1094,7 +1093,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get the certificate associated with a certificate order.
-     * Get the certificate associated with a certificate order.
+     * Description for Get the certificate associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1109,7 +1108,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get the certificate associated with a certificate order.
-     * Get the certificate associated with a certificate order.
+     * Description for Get the certificate associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1128,7 +1127,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get the certificate associated with a certificate order.
-     * Get the certificate associated with a certificate order.
+     * Description for Get the certificate associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1175,7 +1174,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1192,7 +1191,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1208,7 +1207,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1228,7 +1227,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1263,7 +1262,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1280,7 +1279,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1296,7 +1295,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1316,7 +1315,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1369,13 +1368,13 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Delete the certificate associated with a certificate order.
-     * Delete the certificate associated with a certificate order.
+     * Description for Delete the certificate associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @param name Name of the certificate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void deleteCertificate(String resourceGroupName, String certificateOrderName, String name) {
@@ -1384,7 +1383,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Delete the certificate associated with a certificate order.
-     * Delete the certificate associated with a certificate order.
+     * Description for Delete the certificate associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1399,7 +1398,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Delete the certificate associated with a certificate order.
-     * Delete the certificate associated with a certificate order.
+     * Description for Delete the certificate associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1418,7 +1417,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Delete the certificate associated with a certificate order.
-     * Delete the certificate associated with a certificate order.
+     * Description for Delete the certificate associated with a certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1456,17 +1455,17 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<Void> deleteCertificateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> deleteCertificateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1483,7 +1482,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1499,7 +1498,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1519,7 +1518,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Creates or updates a certificate and associates with key vault secret.
-     * Creates or updates a certificate and associates with key vault secret.
+     * Description for Creates or updates a certificate and associates with key vault secret.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1572,13 +1571,13 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Reissue an existing certificate order.
-     * Reissue an existing certificate order.
+     * Description for Reissue an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @param reissueCertificateOrderRequest Parameters for the reissue.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void reissue(String resourceGroupName, String certificateOrderName, ReissueCertificateOrderRequest reissueCertificateOrderRequest) {
@@ -1587,7 +1586,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Reissue an existing certificate order.
-     * Reissue an existing certificate order.
+     * Description for Reissue an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1602,7 +1601,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Reissue an existing certificate order.
-     * Reissue an existing certificate order.
+     * Description for Reissue an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1621,7 +1620,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Reissue an existing certificate order.
-     * Reissue an existing certificate order.
+     * Description for Reissue an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1660,22 +1659,22 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<Void> reissueDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> reissueDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Renew an existing certificate order.
-     * Renew an existing certificate order.
+     * Description for Renew an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @param renewCertificateOrderRequest Renew parameters
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void renew(String resourceGroupName, String certificateOrderName, RenewCertificateOrderRequest renewCertificateOrderRequest) {
@@ -1684,7 +1683,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Renew an existing certificate order.
-     * Renew an existing certificate order.
+     * Description for Renew an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1699,7 +1698,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Renew an existing certificate order.
-     * Renew an existing certificate order.
+     * Description for Renew an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1718,7 +1717,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Renew an existing certificate order.
-     * Renew an existing certificate order.
+     * Description for Renew an existing certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1757,21 +1756,21 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<Void> renewDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> renewDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Resend certificate email.
-     * Resend certificate email.
+     * Description for Resend certificate email.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void resendEmail(String resourceGroupName, String certificateOrderName) {
@@ -1780,7 +1779,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Resend certificate email.
-     * Resend certificate email.
+     * Description for Resend certificate email.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1794,7 +1793,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Resend certificate email.
-     * Resend certificate email.
+     * Description for Resend certificate email.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1812,7 +1811,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Resend certificate email.
-     * Resend certificate email.
+     * Description for Resend certificate email.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1846,21 +1845,21 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<Void> resendEmailDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> resendEmailDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void resendRequestEmails(String resourceGroupName, String certificateOrderName) {
@@ -1869,7 +1868,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1883,7 +1882,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1901,7 +1900,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1940,13 +1939,13 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @param name Name of the object.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void resendRequestEmails(String resourceGroupName, String certificateOrderName, String name) {
@@ -1955,7 +1954,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1970,7 +1969,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -1989,7 +1988,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -2026,16 +2025,16 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<Void> resendRequestEmailsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> resendRequestEmailsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -2051,7 +2050,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -2066,7 +2065,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -2085,7 +2084,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -2133,12 +2132,12 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void verifyDomainOwnership(String resourceGroupName, String certificateOrderName) {
@@ -2147,7 +2146,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -2161,7 +2160,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -2179,7 +2178,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Verify domain ownership for this certificate order.
-     * Verify domain ownership for this certificate order.
+     * Description for Verify domain ownership for this certificate order.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param certificateOrderName Name of the certificate order.
@@ -2213,16 +2212,16 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
             });
     }
 
-    private ServiceResponse<Void> verifyDomainOwnershipDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> verifyDomainOwnershipDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Retrieve the list of certificate actions.
-     * Retrieve the list of certificate actions.
+     * Description for Retrieve the list of certificate actions.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
@@ -2237,7 +2236,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Retrieve the list of certificate actions.
-     * Retrieve the list of certificate actions.
+     * Description for Retrieve the list of certificate actions.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
@@ -2251,7 +2250,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Retrieve the list of certificate actions.
-     * Retrieve the list of certificate actions.
+     * Description for Retrieve the list of certificate actions.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
@@ -2269,7 +2268,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Retrieve the list of certificate actions.
-     * Retrieve the list of certificate actions.
+     * Description for Retrieve the list of certificate actions.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
@@ -2312,7 +2311,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Retrieve email history.
-     * Retrieve email history.
+     * Description for Retrieve email history.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
@@ -2327,7 +2326,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Retrieve email history.
-     * Retrieve email history.
+     * Description for Retrieve email history.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
@@ -2341,7 +2340,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Retrieve email history.
-     * Retrieve email history.
+     * Description for Retrieve email history.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
@@ -2359,7 +2358,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Retrieve email history.
-     * Retrieve email history.
+     * Description for Retrieve email history.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate order.
@@ -2402,7 +2401,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2422,7 +2421,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2444,7 +2443,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2462,7 +2461,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2484,7 +2483,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificate orders in a subscription.
-     * List all certificate orders in a subscription.
+     * Description for List all certificate orders in a subscription.
      *
     ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2518,7 +2517,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2538,7 +2537,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2560,7 +2559,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2578,7 +2577,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2600,7 +2599,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * Get certificate orders in a resource group.
-     * Get certificate orders in a resource group.
+     * Description for Get certificate orders in a resource group.
      *
     ServiceResponse<PageImpl<AppServiceCertificateOrderInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2634,7 +2633,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2654,7 +2653,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2676,7 +2675,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2694,7 +2693,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2716,7 +2715,7 @@ public class AppServiceCertificateOrdersInner implements InnerSupportsGet<AppSer
 
     /**
      * List all certificates associated with a certificate order.
-     * List all certificates associated with a certificate order.
+     * Description for List all certificates associated with a certificate order.
      *
     ServiceResponse<PageImpl<AppServiceCertificateResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

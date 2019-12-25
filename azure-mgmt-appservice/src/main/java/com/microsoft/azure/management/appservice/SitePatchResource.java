@@ -9,7 +9,6 @@
 package com.microsoft.azure.management.appservice;
 
 import java.util.List;
-
 import org.joda.time.DateTime;
 import java.util.UUID;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -182,7 +181,8 @@ public class SitePatchResource extends ProxyOnlyResource {
 
     /**
      * List of IP addresses that the app uses for outbound connections (e.g.
-     * database access). Includes VIPs from all tenants. Read-only.
+     * database access). Includes VIPs from all tenants except dataComponent.
+     * Read-only.
      */
     @JsonProperty(value = "properties.possibleOutboundIpAddresses", access = JsonProperty.Access.WRITE_ONLY)
     private String possibleOutboundIpAddresses;
@@ -264,12 +264,6 @@ public class SitePatchResource extends ProxyOnlyResource {
      */
     @JsonProperty(value = "properties.inProgressOperationId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID inProgressOperationId;
-
-    /**
-     * GeoDistributions for this site.
-     */
-    @JsonProperty(value = "properties.geoDistributions")
-    private List<GeoDistribution> geoDistributions;
 
     /**
      * The identity property.
@@ -631,7 +625,7 @@ public class SitePatchResource extends ProxyOnlyResource {
     }
 
     /**
-     * Get list of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants. Read-only.
+     * Get list of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.
      *
      * @return the possibleOutboundIpAddresses value
      */
@@ -806,26 +800,6 @@ public class SitePatchResource extends ProxyOnlyResource {
     }
 
     /**
-     * Get geoDistributions for this site.
-     *
-     * @return the geoDistributions value
-     */
-    public List<GeoDistribution> geoDistributions() {
-        return this.geoDistributions;
-    }
-
-    /**
-     * Set geoDistributions for this site.
-     *
-     * @param geoDistributions the geoDistributions value to set
-     * @return the SitePatchResource object itself.
-     */
-    public SitePatchResource withGeoDistributions(List<GeoDistribution> geoDistributions) {
-        this.geoDistributions = geoDistributions;
-        return this;
-    }
-
-    /**
      * Get the identity value.
      *
      * @return the identity value
@@ -838,10 +812,11 @@ public class SitePatchResource extends ProxyOnlyResource {
      * Set the identity value.
      *
      * @param identity the identity value to set
-     * @return the SiteInner object itself.
+     * @return the SitePatchResource object itself.
      */
     public SitePatchResource withIdentity(ManagedServiceIdentity identity) {
         this.identity = identity;
         return this;
     }
+
 }

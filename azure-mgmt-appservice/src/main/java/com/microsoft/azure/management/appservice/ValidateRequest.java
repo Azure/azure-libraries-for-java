@@ -82,6 +82,42 @@ public class ValidateRequest {
     private Boolean isXenon;
 
     /**
+     * Base URL of the container registry.
+     */
+    @JsonProperty(value = "properties.containerRegistryBaseUrl")
+    private String containerRegistryBaseUrl;
+
+    /**
+     * Username for to access the container registry.
+     */
+    @JsonProperty(value = "properties.containerRegistryUsername")
+    private String containerRegistryUsername;
+
+    /**
+     * Password for to access the container registry.
+     */
+    @JsonProperty(value = "properties.containerRegistryPassword")
+    private String containerRegistryPassword;
+
+    /**
+     * Repository name (image name).
+     */
+    @JsonProperty(value = "properties.containerImageRepository")
+    private String containerImageRepository;
+
+    /**
+     * Image tag.
+     */
+    @JsonProperty(value = "properties.containerImageTag")
+    private String containerImageTag;
+
+    /**
+     * Platform (windows or linux).
+     */
+    @JsonProperty(value = "properties.containerImagePlatform")
+    private String containerImagePlatform;
+
+    /**
      * Get resource name to verify.
      *
      * @return the name value
@@ -278,6 +314,126 @@ public class ValidateRequest {
      */
     public ValidateRequest withIsXenon(Boolean isXenon) {
         this.isXenon = isXenon;
+        return this;
+    }
+
+    /**
+     * Get base URL of the container registry.
+     *
+     * @return the containerRegistryBaseUrl value
+     */
+    public String containerRegistryBaseUrl() {
+        return this.containerRegistryBaseUrl;
+    }
+
+    /**
+     * Set base URL of the container registry.
+     *
+     * @param containerRegistryBaseUrl the containerRegistryBaseUrl value to set
+     * @return the ValidateRequest object itself.
+     */
+    public ValidateRequest withContainerRegistryBaseUrl(String containerRegistryBaseUrl) {
+        this.containerRegistryBaseUrl = containerRegistryBaseUrl;
+        return this;
+    }
+
+    /**
+     * Get username for to access the container registry.
+     *
+     * @return the containerRegistryUsername value
+     */
+    public String containerRegistryUsername() {
+        return this.containerRegistryUsername;
+    }
+
+    /**
+     * Set username for to access the container registry.
+     *
+     * @param containerRegistryUsername the containerRegistryUsername value to set
+     * @return the ValidateRequest object itself.
+     */
+    public ValidateRequest withContainerRegistryUsername(String containerRegistryUsername) {
+        this.containerRegistryUsername = containerRegistryUsername;
+        return this;
+    }
+
+    /**
+     * Get password for to access the container registry.
+     *
+     * @return the containerRegistryPassword value
+     */
+    public String containerRegistryPassword() {
+        return this.containerRegistryPassword;
+    }
+
+    /**
+     * Set password for to access the container registry.
+     *
+     * @param containerRegistryPassword the containerRegistryPassword value to set
+     * @return the ValidateRequest object itself.
+     */
+    public ValidateRequest withContainerRegistryPassword(String containerRegistryPassword) {
+        this.containerRegistryPassword = containerRegistryPassword;
+        return this;
+    }
+
+    /**
+     * Get repository name (image name).
+     *
+     * @return the containerImageRepository value
+     */
+    public String containerImageRepository() {
+        return this.containerImageRepository;
+    }
+
+    /**
+     * Set repository name (image name).
+     *
+     * @param containerImageRepository the containerImageRepository value to set
+     * @return the ValidateRequest object itself.
+     */
+    public ValidateRequest withContainerImageRepository(String containerImageRepository) {
+        this.containerImageRepository = containerImageRepository;
+        return this;
+    }
+
+    /**
+     * Get image tag.
+     *
+     * @return the containerImageTag value
+     */
+    public String containerImageTag() {
+        return this.containerImageTag;
+    }
+
+    /**
+     * Set image tag.
+     *
+     * @param containerImageTag the containerImageTag value to set
+     * @return the ValidateRequest object itself.
+     */
+    public ValidateRequest withContainerImageTag(String containerImageTag) {
+        this.containerImageTag = containerImageTag;
+        return this;
+    }
+
+    /**
+     * Get platform (windows or linux).
+     *
+     * @return the containerImagePlatform value
+     */
+    public String containerImagePlatform() {
+        return this.containerImagePlatform;
+    }
+
+    /**
+     * Set platform (windows or linux).
+     *
+     * @param containerImagePlatform the containerImagePlatform value to set
+     * @return the ValidateRequest object itself.
+     */
+    public ValidateRequest withContainerImagePlatform(String containerImagePlatform) {
+        this.containerImagePlatform = containerImagePlatform;
         return this;
     }
 

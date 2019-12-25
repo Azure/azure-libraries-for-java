@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.appservice.AppServiceEnvironmentPatchResource;
 import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
@@ -105,9 +104,9 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/compute")
         Observable<Response<ResponseBody>> listCapacities(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listVips" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments getVipInfo" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/capacities/virtualip")
-        Observable<Response<ResponseBody>> listVips(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> getVipInfo(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments changeVnet" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/changeVirtualNetwork")
@@ -128,14 +127,6 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments getInboundNetworkDependenciesEndpoints" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/inboundNetworkDependenciesEndpoints")
         Observable<Response<ResponseBody>> getInboundNetworkDependenciesEndpoints(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMetricDefinitions" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metricdefinitions")
-        Observable<Response<ResponseBody>> listMetricDefinitions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMetrics" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/metrics")
-        Observable<Response<ResponseBody>> listMetrics(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("details") Boolean details, @Query(value = "$filter", encoded = true) String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRolePools" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools")
@@ -161,17 +152,9 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}/metricdefinitions")
         Observable<Response<ResponseBody>> listMultiRolePoolInstanceMetricDefinitions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("instance") String instance, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRolePoolInstanceMetrics" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/instances/{instance}/metrics")
-        Observable<Response<ResponseBody>> listMultiRolePoolInstanceMetrics(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("instance") String instance, @Path("subscriptionId") String subscriptionId, @Query("details") Boolean details, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRoleMetricDefinitions" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/metricdefinitions")
         Observable<Response<ResponseBody>> listMultiRoleMetricDefinitions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRoleMetrics" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/metrics")
-        Observable<Response<ResponseBody>> listMultiRoleMetrics(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("subscriptionId") String subscriptionId, @Query("startTime") String startTime, @Query("endTime") String endTime, @Query("timeGrain") String timeGrain, @Query("details") Boolean details, @Query(value = "$filter", encoded = true) String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRolePoolSkus" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default/skus")
@@ -245,17 +228,9 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}/metricdefinitions")
         Observable<Response<ResponseBody>> listWorkerPoolInstanceMetricDefinitions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("workerPoolName") String workerPoolName, @Path("instance") String instance, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWorkerPoolInstanceMetrics" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/instances/{instance}/metrics")
-        Observable<Response<ResponseBody>> listWorkerPoolInstanceMetrics(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("workerPoolName") String workerPoolName, @Path("instance") String instance, @Path("subscriptionId") String subscriptionId, @Query("details") Boolean details, @Query(value = "$filter", encoded = true) String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWebWorkerMetricDefinitions" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metricdefinitions")
         Observable<Response<ResponseBody>> listWebWorkerMetricDefinitions(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("workerPoolName") String workerPoolName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWebWorkerMetrics" })
-        @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/metrics")
-        Observable<Response<ResponseBody>> listWebWorkerMetrics(@Path("resourceGroupName") String resourceGroupName, @Path("name") String name, @Path("workerPoolName") String workerPoolName, @Path("subscriptionId") String subscriptionId, @Query("details") Boolean details, @Query(value = "$filter", encoded = true) String filter, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWorkerPoolSkus" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/workerPools/{workerPoolName}/skus")
@@ -289,10 +264,6 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @GET
         Observable<Response<ResponseBody>> getInboundNetworkDependenciesEndpointsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMetricsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listMetricsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRolePoolsNext" })
         @GET
         Observable<Response<ResponseBody>> listMultiRolePoolsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -301,17 +272,9 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @GET
         Observable<Response<ResponseBody>> listMultiRolePoolInstanceMetricDefinitionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRolePoolInstanceMetricsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listMultiRolePoolInstanceMetricsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRoleMetricDefinitionsNext" })
         @GET
         Observable<Response<ResponseBody>> listMultiRoleMetricDefinitionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRoleMetricsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listMultiRoleMetricsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listMultiRolePoolSkusNext" })
         @GET
@@ -361,17 +324,9 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         @GET
         Observable<Response<ResponseBody>> listWorkerPoolInstanceMetricDefinitionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWorkerPoolInstanceMetricsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listWorkerPoolInstanceMetricsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWebWorkerMetricDefinitionsNext" })
         @GET
         Observable<Response<ResponseBody>> listWebWorkerMetricDefinitionsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWebWorkerMetricsNext" })
-        @GET
-        Observable<Response<ResponseBody>> listWebWorkerMetricsNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.appservice.AppServiceEnvironments listWorkerPoolSkusNext" })
         @GET
@@ -385,7 +340,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -404,7 +359,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -424,7 +379,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;AppServiceEnvironmentResourceInner&gt; object
@@ -441,7 +396,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;AppServiceEnvironmentResourceInner&gt; object
@@ -462,7 +417,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;AppServiceEnvironmentResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -497,7 +452,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -517,7 +472,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -538,7 +493,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -556,7 +511,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -578,7 +533,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
     ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -617,7 +572,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the properties of an App Service Environment.
-     * Get the properties of an App Service Environment.
+     * Description for Get the properties of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -632,7 +587,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the properties of an App Service Environment.
-     * Get the properties of an App Service Environment.
+     * Description for Get the properties of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -646,7 +601,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the properties of an App Service Environment.
-     * Get the properties of an App Service Environment.
+     * Description for Get the properties of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -664,7 +619,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the properties of an App Service Environment.
-     * Get the properties of an App Service Environment.
+     * Description for Get the properties of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -707,13 +662,13 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceEnvironmentResourceInner object if successful.
      */
@@ -723,7 +678,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -738,7 +693,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -757,7 +712,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -788,13 +743,13 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceEnvironmentResourceInner object if successful.
      */
@@ -804,7 +759,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -819,7 +774,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -838,7 +793,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -877,25 +832,23 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<AppServiceEnvironmentResourceInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceEnvironmentResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceEnvironmentResourceInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceEnvironmentResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceEnvironmentResourceInner>() { }.getType())
+                .register(201, new TypeToken<AppServiceEnvironmentResourceInner>() { }.getType())
                 .register(202, new TypeToken<AppServiceEnvironmentResourceInner>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(404, new TypeToken<Void>() { }.getType())
-                .register(409, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String name) {
@@ -904,7 +857,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -918,7 +871,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -936,7 +889,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -962,13 +915,13 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param forceDelete Specify &lt;code&gt;true&lt;/code&gt; to force the deletion even if the App Service Environment contains resources. The default is &lt;code&gt;false&lt;/code&gt;.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String name, Boolean forceDelete) {
@@ -977,7 +930,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -992,7 +945,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1011,7 +964,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1038,12 +991,12 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginDelete(String resourceGroupName, String name) {
@@ -1052,7 +1005,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1066,7 +1019,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1084,7 +1037,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1121,13 +1074,13 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param forceDelete Specify &lt;code&gt;true&lt;/code&gt; to force the deletion even if the App Service Environment contains resources. The default is &lt;code&gt;false&lt;/code&gt;.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginDelete(String resourceGroupName, String name, Boolean forceDelete) {
@@ -1136,7 +1089,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1151,7 +1104,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1170,7 +1123,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Delete an App Service Environment.
-     * Delete an App Service Environment.
+     * Description for Delete an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1205,26 +1158,23 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(404, new TypeToken<Void>() { }.getType())
-                .register(409, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param hostingEnvironmentEnvelope Configuration details of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AppServiceEnvironmentResourceInner object if successful.
      */
@@ -1234,7 +1184,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1249,7 +1199,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1268,7 +1218,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update an App Service Environment.
-     * Create or update an App Service Environment.
+     * Description for Create or update an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1307,20 +1257,18 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<AppServiceEnvironmentResourceInner> updateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<AppServiceEnvironmentResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<AppServiceEnvironmentResourceInner> updateDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<AppServiceEnvironmentResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AppServiceEnvironmentResourceInner>() { }.getType())
+                .register(201, new TypeToken<AppServiceEnvironmentResourceInner>() { }.getType())
                 .register(202, new TypeToken<AppServiceEnvironmentResourceInner>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(404, new TypeToken<Void>() { }.getType())
-                .register(409, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1341,7 +1289,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1363,7 +1311,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1382,7 +1330,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1405,7 +1353,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
     ServiceResponse<PageImpl<StampCapacityInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<StampCapacityInner>> * @param name Name of the App Service Environment.
@@ -1448,7 +1396,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get IP addresses assigned to an App Service Environment.
-     * Get IP addresses assigned to an App Service Environment.
+     * Description for Get IP addresses assigned to an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1457,13 +1405,13 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the AddressResponseInner object if successful.
      */
-    public AddressResponseInner listVips(String resourceGroupName, String name) {
-        return listVipsWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
+    public AddressResponseInner getVipInfo(String resourceGroupName, String name) {
+        return getVipInfoWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
     }
 
     /**
      * Get IP addresses assigned to an App Service Environment.
-     * Get IP addresses assigned to an App Service Environment.
+     * Description for Get IP addresses assigned to an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1471,21 +1419,21 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<AddressResponseInner> listVipsAsync(String resourceGroupName, String name, final ServiceCallback<AddressResponseInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listVipsWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
+    public ServiceFuture<AddressResponseInner> getVipInfoAsync(String resourceGroupName, String name, final ServiceCallback<AddressResponseInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getVipInfoWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
     }
 
     /**
      * Get IP addresses assigned to an App Service Environment.
-     * Get IP addresses assigned to an App Service Environment.
+     * Description for Get IP addresses assigned to an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AddressResponseInner object
      */
-    public Observable<AddressResponseInner> listVipsAsync(String resourceGroupName, String name) {
-        return listVipsWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<AddressResponseInner>, AddressResponseInner>() {
+    public Observable<AddressResponseInner> getVipInfoAsync(String resourceGroupName, String name) {
+        return getVipInfoWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<AddressResponseInner>, AddressResponseInner>() {
             @Override
             public AddressResponseInner call(ServiceResponse<AddressResponseInner> response) {
                 return response.body();
@@ -1495,14 +1443,14 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get IP addresses assigned to an App Service Environment.
-     * Get IP addresses assigned to an App Service Environment.
+     * Description for Get IP addresses assigned to an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the AddressResponseInner object
      */
-    public Observable<ServiceResponse<AddressResponseInner>> listVipsWithServiceResponseAsync(String resourceGroupName, String name) {
+    public Observable<ServiceResponse<AddressResponseInner>> getVipInfoWithServiceResponseAsync(String resourceGroupName, String name) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -1515,12 +1463,12 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
-        return service.listVips(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
+        return service.getVipInfo(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<AddressResponseInner>>>() {
                 @Override
                 public Observable<ServiceResponse<AddressResponseInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<AddressResponseInner> clientResponse = listVipsDelegate(response);
+                        ServiceResponse<AddressResponseInner> clientResponse = getVipInfoDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -1529,7 +1477,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<AddressResponseInner> listVipsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+    private ServiceResponse<AddressResponseInner> getVipInfoDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<AddressResponseInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<AddressResponseInner>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
@@ -1538,7 +1486,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1560,7 +1508,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1583,7 +1531,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1603,7 +1551,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1627,7 +1575,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
@@ -1676,7 +1624,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1698,7 +1646,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1721,7 +1669,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1741,7 +1689,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1765,7 +1713,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
@@ -1814,7 +1762,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get diagnostic information for an App Service Environment.
-     * Get diagnostic information for an App Service Environment.
+     * Description for Get diagnostic information for an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1829,7 +1777,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get diagnostic information for an App Service Environment.
-     * Get diagnostic information for an App Service Environment.
+     * Description for Get diagnostic information for an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1843,7 +1791,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get diagnostic information for an App Service Environment.
-     * Get diagnostic information for an App Service Environment.
+     * Description for Get diagnostic information for an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1861,7 +1809,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get diagnostic information for an App Service Environment.
-     * Get diagnostic information for an App Service Environment.
+     * Description for Get diagnostic information for an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1904,7 +1852,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get a diagnostics item for an App Service Environment.
-     * Get a diagnostics item for an App Service Environment.
+     * Description for Get a diagnostics item for an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1920,7 +1868,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get a diagnostics item for an App Service Environment.
-     * Get a diagnostics item for an App Service Environment.
+     * Description for Get a diagnostics item for an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1935,7 +1883,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get a diagnostics item for an App Service Environment.
-     * Get a diagnostics item for an App Service Environment.
+     * Description for Get a diagnostics item for an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -1954,7 +1902,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get a diagnostics item for an App Service Environment.
-     * Get a diagnostics item for an App Service Environment.
+     * Description for Get a diagnostics item for an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2001,7 +1949,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2022,7 +1970,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2044,7 +1992,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2063,7 +2011,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2086,7 +2034,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
     ServiceResponse<PageImpl<InboundEnvironmentEndpointInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<InboundEnvironmentEndpointInner>> * @param name Name of the App Service Environment.
@@ -2128,359 +2076,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get global metric definitions of an App Service Environment.
-     * Get global metric definitions of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the MetricDefinitionInner object if successful.
-     */
-    public MetricDefinitionInner listMetricDefinitions(String resourceGroupName, String name) {
-        return listMetricDefinitionsWithServiceResponseAsync(resourceGroupName, name).toBlocking().single().body();
-    }
-
-    /**
-     * Get global metric definitions of an App Service Environment.
-     * Get global metric definitions of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<MetricDefinitionInner> listMetricDefinitionsAsync(String resourceGroupName, String name, final ServiceCallback<MetricDefinitionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(listMetricDefinitionsWithServiceResponseAsync(resourceGroupName, name), serviceCallback);
-    }
-
-    /**
-     * Get global metric definitions of an App Service Environment.
-     * Get global metric definitions of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the MetricDefinitionInner object
-     */
-    public Observable<MetricDefinitionInner> listMetricDefinitionsAsync(String resourceGroupName, String name) {
-        return listMetricDefinitionsWithServiceResponseAsync(resourceGroupName, name).map(new Func1<ServiceResponse<MetricDefinitionInner>, MetricDefinitionInner>() {
-            @Override
-            public MetricDefinitionInner call(ServiceResponse<MetricDefinitionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Get global metric definitions of an App Service Environment.
-     * Get global metric definitions of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the MetricDefinitionInner object
-     */
-    public Observable<ServiceResponse<MetricDefinitionInner>> listMetricDefinitionsWithServiceResponseAsync(String resourceGroupName, String name) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listMetricDefinitions(resourceGroupName, name, this.client.subscriptionId(), this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<MetricDefinitionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<MetricDefinitionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<MetricDefinitionInner> clientResponse = listMetricDefinitionsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<MetricDefinitionInner> listMetricDefinitionsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<MetricDefinitionInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<MetricDefinitionInner>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMetrics(final String resourceGroupName, final String name) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMetricsSinglePageAsync(resourceGroupName, name).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMetricsAsync(final String resourceGroupName, final String name, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMetricsSinglePageAsync(resourceGroupName, name),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMetricsAsync(final String resourceGroupName, final String name) {
-        return listMetricsWithServiceResponseAsync(resourceGroupName, name)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsWithServiceResponseAsync(final String resourceGroupName, final String name) {
-        return listMetricsSinglePageAsync(resourceGroupName, name)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsSinglePageAsync(final String resourceGroupName, final String name) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final Boolean details = null;
-        final String filter = null;
-        return service.listMetrics(resourceGroupName, name, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMetrics(final String resourceGroupName, final String name, final Boolean details, final String filter) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMetricsSinglePageAsync(resourceGroupName, name, details, filter).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMetricsAsync(final String resourceGroupName, final String name, final Boolean details, final String filter, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMetricsSinglePageAsync(resourceGroupName, name, details, filter),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMetricsAsync(final String resourceGroupName, final String name, final Boolean details, final String filter) {
-        return listMetricsWithServiceResponseAsync(resourceGroupName, name, details, filter)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final Boolean details, final String filter) {
-        return listMetricsSinglePageAsync(resourceGroupName, name, details, filter)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the App Service Environment.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsSinglePageAsync(final String resourceGroupName, final String name, final Boolean details, final String filter) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listMetrics(resourceGroupName, name, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2501,7 +2098,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2523,7 +2120,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2542,7 +2139,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2565,7 +2162,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
     ServiceResponse<PageImpl<WorkerPoolResourceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<WorkerPoolResourceInner>> * @param name Name of the App Service Environment.
@@ -2608,7 +2205,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get properties of a multi-role pool.
-     * Get properties of a multi-role pool.
+     * Description for Get properties of a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2623,7 +2220,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get properties of a multi-role pool.
-     * Get properties of a multi-role pool.
+     * Description for Get properties of a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2637,7 +2234,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get properties of a multi-role pool.
-     * Get properties of a multi-role pool.
+     * Description for Get properties of a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2655,7 +2252,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get properties of a multi-role pool.
-     * Get properties of a multi-role pool.
+     * Description for Get properties of a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2698,13 +2295,13 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param multiRolePoolEnvelope Properties of the multi-role pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WorkerPoolResourceInner object if successful.
      */
@@ -2714,7 +2311,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2729,7 +2326,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2748,7 +2345,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2779,13 +2376,13 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param multiRolePoolEnvelope Properties of the multi-role pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WorkerPoolResourceInner object if successful.
      */
@@ -2795,7 +2392,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2810,7 +2407,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2829,7 +2426,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2868,26 +2465,23 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<WorkerPoolResourceInner> beginCreateOrUpdateMultiRolePoolDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<WorkerPoolResourceInner> beginCreateOrUpdateMultiRolePoolDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<WorkerPoolResourceInner>() { }.getType())
                 .register(202, new TypeToken<WorkerPoolResourceInner>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(404, new TypeToken<Void>() { }.getType())
-                .register(409, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param multiRolePoolEnvelope Properties of the multi-role pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WorkerPoolResourceInner object if successful.
      */
@@ -2897,7 +2491,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2912,7 +2506,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2931,7 +2525,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a multi-role pool.
-     * Create or update a multi-role pool.
+     * Description for Create or update a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -2970,20 +2564,17 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<WorkerPoolResourceInner> updateMultiRolePoolDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<WorkerPoolResourceInner> updateMultiRolePoolDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<WorkerPoolResourceInner>() { }.getType())
                 .register(202, new TypeToken<WorkerPoolResourceInner>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(404, new TypeToken<Void>() { }.getType())
-                .register(409, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3005,7 +2596,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3028,7 +2619,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3048,7 +2639,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3072,7 +2663,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the App Service Environment.
@@ -3118,279 +2709,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMultiRolePoolInstanceMetrics(final String resourceGroupName, final String name, final String instance) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMultiRolePoolInstanceMetricsSinglePageAsync(resourceGroupName, name, instance).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMultiRolePoolInstanceMetricsAsync(final String resourceGroupName, final String name, final String instance, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMultiRolePoolInstanceMetricsSinglePageAsync(resourceGroupName, name, instance),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMultiRolePoolInstanceMetricsAsync(final String resourceGroupName, final String name, final String instance) {
-        return listMultiRolePoolInstanceMetricsWithServiceResponseAsync(resourceGroupName, name, instance)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRolePoolInstanceMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final String instance) {
-        return listMultiRolePoolInstanceMetricsSinglePageAsync(resourceGroupName, name, instance)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMultiRolePoolInstanceMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRolePoolInstanceMetricsSinglePageAsync(final String resourceGroupName, final String name, final String instance) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (instance == null) {
-            throw new IllegalArgumentException("Parameter instance is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final Boolean details = null;
-        return service.listMultiRolePoolInstanceMetrics(resourceGroupName, name, instance, this.client.subscriptionId(), details, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMultiRolePoolInstanceMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMultiRolePoolInstanceMetrics(final String resourceGroupName, final String name, final String instance, final Boolean details) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMultiRolePoolInstanceMetricsSinglePageAsync(resourceGroupName, name, instance, details).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMultiRolePoolInstanceMetricsAsync(final String resourceGroupName, final String name, final String instance, final Boolean details, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMultiRolePoolInstanceMetricsSinglePageAsync(resourceGroupName, name, instance, details),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMultiRolePoolInstanceMetricsAsync(final String resourceGroupName, final String name, final String instance, final Boolean details) {
-        return listMultiRolePoolInstanceMetricsWithServiceResponseAsync(resourceGroupName, name, instance, details)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param instance Name of the instance in the multi-role pool.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRolePoolInstanceMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final String instance, final Boolean details) {
-        return listMultiRolePoolInstanceMetricsSinglePageAsync(resourceGroupName, name, instance, details)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMultiRolePoolInstanceMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the App Service Environment.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param instance Name of the instance in the multi-role pool.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRolePoolInstanceMetricsSinglePageAsync(final String resourceGroupName, final String name, final String instance, final Boolean details) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (instance == null) {
-            throw new IllegalArgumentException("Parameter instance is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listMultiRolePoolInstanceMetrics(resourceGroupName, name, instance, this.client.subscriptionId(), details, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMultiRolePoolInstanceMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRolePoolInstanceMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3411,7 +2731,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3433,7 +2753,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3452,7 +2772,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3475,7 +2795,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the App Service Environment.
@@ -3517,287 +2837,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMultiRoleMetrics(final String resourceGroupName, final String name) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMultiRoleMetricsSinglePageAsync(resourceGroupName, name).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMultiRoleMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMultiRoleMetricsAsync(final String resourceGroupName, final String name, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMultiRoleMetricsSinglePageAsync(resourceGroupName, name),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMultiRoleMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMultiRoleMetricsAsync(final String resourceGroupName, final String name) {
-        return listMultiRoleMetricsWithServiceResponseAsync(resourceGroupName, name)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRoleMetricsWithServiceResponseAsync(final String resourceGroupName, final String name) {
-        return listMultiRoleMetricsSinglePageAsync(resourceGroupName, name)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMultiRoleMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRoleMetricsSinglePageAsync(final String resourceGroupName, final String name) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final String startTime = null;
-        final String endTime = null;
-        final String timeGrain = null;
-        final Boolean details = null;
-        final String filter = null;
-        return service.listMultiRoleMetrics(resourceGroupName, name, this.client.subscriptionId(), startTime, endTime, timeGrain, details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMultiRoleMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param startTime Beginning time of the metrics query.
-     * @param endTime End time of the metrics query.
-     * @param timeGrain Time granularity of the metrics query.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMultiRoleMetrics(final String resourceGroupName, final String name, final String startTime, final String endTime, final String timeGrain, final Boolean details, final String filter) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMultiRoleMetricsSinglePageAsync(resourceGroupName, name, startTime, endTime, timeGrain, details, filter).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMultiRoleMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param startTime Beginning time of the metrics query.
-     * @param endTime End time of the metrics query.
-     * @param timeGrain Time granularity of the metrics query.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMultiRoleMetricsAsync(final String resourceGroupName, final String name, final String startTime, final String endTime, final String timeGrain, final Boolean details, final String filter, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMultiRoleMetricsSinglePageAsync(resourceGroupName, name, startTime, endTime, timeGrain, details, filter),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMultiRoleMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param startTime Beginning time of the metrics query.
-     * @param endTime End time of the metrics query.
-     * @param timeGrain Time granularity of the metrics query.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMultiRoleMetricsAsync(final String resourceGroupName, final String name, final String startTime, final String endTime, final String timeGrain, final Boolean details, final String filter) {
-        return listMultiRoleMetricsWithServiceResponseAsync(resourceGroupName, name, startTime, endTime, timeGrain, details, filter)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param startTime Beginning time of the metrics query.
-     * @param endTime End time of the metrics query.
-     * @param timeGrain Time granularity of the metrics query.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRoleMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final String startTime, final String endTime, final String timeGrain, final Boolean details, final String filter) {
-        return listMultiRoleMetricsSinglePageAsync(resourceGroupName, name, startTime, endTime, timeGrain, details, filter)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMultiRoleMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the App Service Environment.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param startTime Beginning time of the metrics query.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param endTime End time of the metrics query.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param timeGrain Time granularity of the metrics query.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRoleMetricsSinglePageAsync(final String resourceGroupName, final String name, final String startTime, final String endTime, final String timeGrain, final Boolean details, final String filter) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listMultiRoleMetrics(resourceGroupName, name, this.client.subscriptionId(), startTime, endTime, timeGrain, details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMultiRoleMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRoleMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3818,7 +2859,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3840,7 +2881,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3859,7 +2900,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3882,7 +2923,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
     ServiceResponse<PageImpl<SkuInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SkuInfoInner>> * @param name Name of the App Service Environment.
@@ -3925,7 +2966,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3946,7 +2987,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3968,7 +3009,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -3987,7 +3028,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4010,7 +3051,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<UsageInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<UsageInner>> * @param name Name of the App Service Environment.
@@ -4053,7 +3094,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * List all currently running operations on the App Service Environment.
-     * List all currently running operations on the App Service Environment.
+     * Description for List all currently running operations on the App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4068,7 +3109,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * List all currently running operations on the App Service Environment.
-     * List all currently running operations on the App Service Environment.
+     * Description for List all currently running operations on the App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4082,7 +3123,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * List all currently running operations on the App Service Environment.
-     * List all currently running operations on the App Service Environment.
+     * Description for List all currently running operations on the App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4100,7 +3141,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * List all currently running operations on the App Service Environment.
-     * List all currently running operations on the App Service Environment.
+     * Description for List all currently running operations on the App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4143,7 +3184,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4164,7 +3205,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4186,7 +3227,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4205,7 +3246,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4228,7 +3269,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
     ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> * @param name Name of the App Service Environment.
@@ -4271,12 +3312,12 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Reboot all machines in an App Service Environment.
-     * Reboot all machines in an App Service Environment.
+     * Description for Reboot all machines in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void reboot(String resourceGroupName, String name) {
@@ -4285,7 +3326,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Reboot all machines in an App Service Environment.
-     * Reboot all machines in an App Service Environment.
+     * Description for Reboot all machines in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4299,7 +3340,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Reboot all machines in an App Service Environment.
-     * Reboot all machines in an App Service Environment.
+     * Description for Reboot all machines in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4317,7 +3358,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Reboot all machines in an App Service Environment.
-     * Reboot all machines in an App Service Environment.
+     * Description for Reboot all machines in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4351,19 +3392,16 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<Void> rebootDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> rebootDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(202, new TypeToken<Void>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(404, new TypeToken<Void>() { }.getType())
-                .register(409, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4384,7 +3422,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4406,7 +3444,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4425,7 +3463,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4448,7 +3486,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
@@ -4492,7 +3530,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4513,7 +3551,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4535,7 +3573,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4554,7 +3592,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4577,7 +3615,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
@@ -4621,7 +3659,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4642,7 +3680,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4664,7 +3702,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4683,7 +3721,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4706,7 +3744,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
     ServiceResponse<PageImpl<AppServicePlanInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<AppServicePlanInner>> * @param name Name of the App Service Environment.
@@ -4749,7 +3787,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4770,7 +3808,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4792,7 +3830,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4811,7 +3849,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4834,7 +3872,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4871,7 +3909,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4893,7 +3931,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4916,7 +3954,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4936,7 +3974,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -4960,7 +3998,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
@@ -5004,7 +4042,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5025,7 +4063,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5047,7 +4085,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5066,7 +4104,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5089,7 +4127,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
@@ -5133,7 +4171,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5154,7 +4192,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5176,7 +4214,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5195,7 +4233,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5218,7 +4256,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SiteInner>> * @param name Name of the App Service Environment.
@@ -5262,7 +4300,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5283,7 +4321,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5305,7 +4343,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5324,7 +4362,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5347,7 +4385,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5384,7 +4422,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5406,7 +4444,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5429,7 +4467,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5449,7 +4487,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5473,7 +4511,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param name Name of the App Service Environment.
@@ -5517,7 +4555,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5538,7 +4576,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5560,7 +4598,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5579,7 +4617,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5602,7 +4640,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
     ServiceResponse<PageImpl<WorkerPoolResourceInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<WorkerPoolResourceInner>> * @param name Name of the App Service Environment.
@@ -5645,7 +4683,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get properties of a worker pool.
-     * Get properties of a worker pool.
+     * Description for Get properties of a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5661,7 +4699,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get properties of a worker pool.
-     * Get properties of a worker pool.
+     * Description for Get properties of a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5676,7 +4714,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get properties of a worker pool.
-     * Get properties of a worker pool.
+     * Description for Get properties of a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5695,7 +4733,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get properties of a worker pool.
-     * Get properties of a worker pool.
+     * Description for Get properties of a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5742,14 +4780,14 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param workerPoolName Name of the worker pool.
      * @param workerPoolEnvelope Properties of the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WorkerPoolResourceInner object if successful.
      */
@@ -5759,7 +4797,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5775,7 +4813,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5795,7 +4833,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5830,14 +4868,14 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param workerPoolName Name of the worker pool.
      * @param workerPoolEnvelope Properties of the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WorkerPoolResourceInner object if successful.
      */
@@ -5847,7 +4885,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5863,7 +4901,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5883,7 +4921,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5926,27 +4964,24 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<WorkerPoolResourceInner> beginCreateOrUpdateWorkerPoolDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<WorkerPoolResourceInner> beginCreateOrUpdateWorkerPoolDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<WorkerPoolResourceInner>() { }.getType())
                 .register(202, new TypeToken<WorkerPoolResourceInner>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(404, new TypeToken<Void>() { }.getType())
-                .register(409, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
      * @param workerPoolName Name of the worker pool.
      * @param workerPoolEnvelope Properties of the worker pool.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the WorkerPoolResourceInner object if successful.
      */
@@ -5956,7 +4991,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5972,7 +5007,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -5992,7 +5027,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Create or update a worker pool.
-     * Create or update a worker pool.
+     * Description for Create or update a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6035,20 +5070,17 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
             });
     }
 
-    private ServiceResponse<WorkerPoolResourceInner> updateWorkerPoolDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<WorkerPoolResourceInner> updateWorkerPoolDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<WorkerPoolResourceInner, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<WorkerPoolResourceInner>() { }.getType())
                 .register(202, new TypeToken<WorkerPoolResourceInner>() { }.getType())
-                .register(400, new TypeToken<Void>() { }.getType())
-                .register(404, new TypeToken<Void>() { }.getType())
-                .register(409, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6071,7 +5103,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6095,7 +5127,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6116,7 +5148,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6141,7 +5173,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the App Service Environment.
@@ -6191,301 +5223,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listWorkerPoolInstanceMetrics(final String resourceGroupName, final String name, final String workerPoolName, final String instance) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listWorkerPoolInstanceMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, instance).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listWorkerPoolInstanceMetricsAsync(final String resourceGroupName, final String name, final String workerPoolName, final String instance, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listWorkerPoolInstanceMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, instance),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listWorkerPoolInstanceMetricsAsync(final String resourceGroupName, final String name, final String workerPoolName, final String instance) {
-        return listWorkerPoolInstanceMetricsWithServiceResponseAsync(resourceGroupName, name, workerPoolName, instance)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWorkerPoolInstanceMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final String workerPoolName, final String instance) {
-        return listWorkerPoolInstanceMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, instance)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listWorkerPoolInstanceMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWorkerPoolInstanceMetricsSinglePageAsync(final String resourceGroupName, final String name, final String workerPoolName, final String instance) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (workerPoolName == null) {
-            throw new IllegalArgumentException("Parameter workerPoolName is required and cannot be null.");
-        }
-        if (instance == null) {
-            throw new IllegalArgumentException("Parameter instance is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final Boolean details = null;
-        final String filter = null;
-        return service.listWorkerPoolInstanceMetrics(resourceGroupName, name, workerPoolName, instance, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listWorkerPoolInstanceMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listWorkerPoolInstanceMetrics(final String resourceGroupName, final String name, final String workerPoolName, final String instance, final Boolean details, final String filter) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listWorkerPoolInstanceMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, instance, details, filter).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listWorkerPoolInstanceMetricsAsync(final String resourceGroupName, final String name, final String workerPoolName, final String instance, final Boolean details, final String filter, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listWorkerPoolInstanceMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, instance, details, filter),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listWorkerPoolInstanceMetricsAsync(final String resourceGroupName, final String name, final String workerPoolName, final String instance, final Boolean details, final String filter) {
-        return listWorkerPoolInstanceMetricsWithServiceResponseAsync(resourceGroupName, name, workerPoolName, instance, details, filter)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of the worker pool.
-     * @param instance Name of the instance in the worker pool.
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWorkerPoolInstanceMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final String workerPoolName, final String instance, final Boolean details, final String filter) {
-        return listWorkerPoolInstanceMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, instance, details, filter)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listWorkerPoolInstanceMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the App Service Environment.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param workerPoolName Name of the worker pool.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param instance Name of the instance in the worker pool.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWorkerPoolInstanceMetricsSinglePageAsync(final String resourceGroupName, final String name, final String workerPoolName, final String instance, final Boolean details, final String filter) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (workerPoolName == null) {
-            throw new IllegalArgumentException("Parameter workerPoolName is required and cannot be null.");
-        }
-        if (instance == null) {
-            throw new IllegalArgumentException("Parameter instance is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listWorkerPoolInstanceMetrics(resourceGroupName, name, workerPoolName, instance, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listWorkerPoolInstanceMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listWorkerPoolInstanceMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6507,7 +5246,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6530,7 +5269,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6550,7 +5289,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6574,7 +5313,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param name Name of the App Service Environment.
@@ -6620,285 +5359,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listWebWorkerMetrics(final String resourceGroupName, final String name, final String workerPoolName) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listWebWorkerMetricsSinglePageAsync(resourceGroupName, name, workerPoolName).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listWebWorkerMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listWebWorkerMetricsAsync(final String resourceGroupName, final String name, final String workerPoolName, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listWebWorkerMetricsSinglePageAsync(resourceGroupName, name, workerPoolName),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listWebWorkerMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listWebWorkerMetricsAsync(final String resourceGroupName, final String name, final String workerPoolName) {
-        return listWebWorkerMetricsWithServiceResponseAsync(resourceGroupName, name, workerPoolName)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWebWorkerMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final String workerPoolName) {
-        return listWebWorkerMetricsSinglePageAsync(resourceGroupName, name, workerPoolName)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listWebWorkerMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWebWorkerMetricsSinglePageAsync(final String resourceGroupName, final String name, final String workerPoolName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (workerPoolName == null) {
-            throw new IllegalArgumentException("Parameter workerPoolName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        final Boolean details = null;
-        final String filter = null;
-        return service.listWebWorkerMetrics(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listWebWorkerMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listWebWorkerMetrics(final String resourceGroupName, final String name, final String workerPoolName, final Boolean details, final String filter) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listWebWorkerMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, details, filter).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listWebWorkerMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listWebWorkerMetricsAsync(final String resourceGroupName, final String name, final String workerPoolName, final Boolean details, final String filter, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listWebWorkerMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, details, filter),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listWebWorkerMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listWebWorkerMetricsAsync(final String resourceGroupName, final String name, final String workerPoolName, final Boolean details, final String filter) {
-        return listWebWorkerMetricsWithServiceResponseAsync(resourceGroupName, name, workerPoolName, details, filter)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param resourceGroupName Name of the resource group to which the resource belongs.
-     * @param name Name of the App Service Environment.
-     * @param workerPoolName Name of worker pool
-     * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-     * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWebWorkerMetricsWithServiceResponseAsync(final String resourceGroupName, final String name, final String workerPoolName, final Boolean details, final String filter) {
-        return listWebWorkerMetricsSinglePageAsync(resourceGroupName, name, workerPoolName, details, filter)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listWebWorkerMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param name Name of the App Service Environment.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param workerPoolName Name of worker pool
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param details Specify &lt;code&gt;true&lt;/code&gt; to include instance details. The default is &lt;code&gt;false&lt;/code&gt;.
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param filter Return only usages/metrics specified in the filter. Filter conforms to odata syntax. Example: $filter=(name.value eq 'Metric1' or name.value eq 'Metric2') and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[Hour|Minute|Day]'.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWebWorkerMetricsSinglePageAsync(final String resourceGroupName, final String name, final String workerPoolName, final Boolean details, final String filter) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (name == null) {
-            throw new IllegalArgumentException("Parameter name is required and cannot be null.");
-        }
-        if (workerPoolName == null) {
-            throw new IllegalArgumentException("Parameter workerPoolName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (this.client.apiVersion() == null) {
-            throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
-        }
-        return service.listWebWorkerMetrics(resourceGroupName, name, workerPoolName, this.client.subscriptionId(), details, filter, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listWebWorkerMetricsDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listWebWorkerMetricsDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6920,7 +5382,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6943,7 +5405,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6963,7 +5425,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -6987,7 +5449,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
     ServiceResponse<PageImpl<SkuInfoInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<SkuInfoInner>> * @param name Name of the App Service Environment.
@@ -7034,7 +5496,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -7056,7 +5518,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -7079,7 +5541,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -7099,7 +5561,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the App Service Environment.
@@ -7123,7 +5585,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<UsageInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<UsageInner>> * @param name Name of the App Service Environment.
@@ -7170,7 +5632,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7190,7 +5652,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -7212,7 +5674,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7230,7 +5692,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7252,7 +5714,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments for a subscription.
-     * Get all App Service Environments for a subscription.
+     * Description for Get all App Service Environments for a subscription.
      *
     ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7286,7 +5748,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7306,7 +5768,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -7328,7 +5790,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7346,7 +5808,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7368,7 +5830,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service Environments in a resource group.
-     * Get all App Service Environments in a resource group.
+     * Description for Get all App Service Environments in a resource group.
      *
     ServiceResponse<PageImpl<AppServiceEnvironmentResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7402,7 +5864,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7422,7 +5884,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -7444,7 +5906,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7462,7 +5924,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7484,7 +5946,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the used, available, and total worker capacity an App Service Environment.
-     * Get the used, available, and total worker capacity an App Service Environment.
+     * Description for Get the used, available, and total worker capacity an App Service Environment.
      *
     ServiceResponse<PageImpl<StampCapacityInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7518,7 +5980,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7538,7 +6000,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -7560,7 +6022,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7578,7 +6040,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7600,7 +6062,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7635,7 +6097,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7655,7 +6117,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -7677,7 +6139,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7695,7 +6157,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7717,7 +6179,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Move an App Service Environment to a different VNET.
-     * Move an App Service Environment to a different VNET.
+     * Description for Move an App Service Environment to a different VNET.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7752,7 +6214,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7772,7 +6234,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -7794,7 +6256,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7812,7 +6274,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7834,7 +6296,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all inbound dependencies of an App Service Environment.
-     * Get the network endpoints of all inbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all inbound dependencies of an App Service Environment.
      *
     ServiceResponse<PageImpl<InboundEnvironmentEndpointInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -7867,124 +6329,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMetricsNext(final String nextPageLink) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMetricsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMetricsNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceMetricInner>> serviceFuture, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMetricsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMetricsNextAsync(final String nextPageLink) {
-        return listMetricsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsNextWithServiceResponseAsync(final String nextPageLink) {
-        return listMetricsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get global metrics of an App Service Environment.
-     * Get global metrics of an App Service Environment.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMetricsNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listMetricsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMetricsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8004,7 +6350,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -8026,7 +6372,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8044,7 +6390,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8066,7 +6412,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all multi-role pools.
-     * Get all multi-role pools.
+     * Description for Get all multi-role pools.
      *
     ServiceResponse<PageImpl<WorkerPoolResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8100,7 +6446,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8120,7 +6466,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -8142,7 +6488,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8160,7 +6506,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8182,7 +6528,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a multi-role pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8215,124 +6561,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMultiRolePoolInstanceMetricsNext(final String nextPageLink) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMultiRolePoolInstanceMetricsNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceMetricInner>> serviceFuture, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMultiRolePoolInstanceMetricsNextAsync(final String nextPageLink) {
-        return listMultiRolePoolInstanceMetricsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRolePoolInstanceMetricsNextWithServiceResponseAsync(final String nextPageLink) {
-        return listMultiRolePoolInstanceMetricsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMultiRolePoolInstanceMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     * Get metrics for a specific instance of a multi-role pool of an App Service Environment.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRolePoolInstanceMetricsNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listMultiRolePoolInstanceMetricsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMultiRolePoolInstanceMetricsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRolePoolInstanceMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8352,7 +6582,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -8374,7 +6604,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8392,7 +6622,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8414,7 +6644,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a multi-role pool of an App Service Environment.
-     * Get metric definitions for a multi-role pool of an App Service Environment.
+     * Description for Get metric definitions for a multi-role pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8447,124 +6677,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listMultiRoleMetricsNext(final String nextPageLink) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listMultiRoleMetricsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listMultiRoleMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listMultiRoleMetricsNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceMetricInner>> serviceFuture, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listMultiRoleMetricsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listMultiRoleMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listMultiRoleMetricsNextAsync(final String nextPageLink) {
-        return listMultiRoleMetricsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRoleMetricsNextWithServiceResponseAsync(final String nextPageLink) {
-        return listMultiRoleMetricsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listMultiRoleMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a multi-role pool of an App Service Environment.
-     * Get metrics for a multi-role pool of an App Service Environment.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listMultiRoleMetricsNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listMultiRoleMetricsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listMultiRoleMetricsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listMultiRoleMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8584,7 +6698,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -8606,7 +6720,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8624,7 +6738,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8646,7 +6760,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a multi-role pool.
-     * Get available SKUs for scaling a multi-role pool.
+     * Description for Get available SKUs for scaling a multi-role pool.
      *
     ServiceResponse<PageImpl<SkuInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8680,7 +6794,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8700,7 +6814,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -8722,7 +6836,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8740,7 +6854,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8762,7 +6876,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a multi-role pool of an App Service Environment.
-     * Get usage metrics for a multi-role pool of an App Service Environment.
+     * Description for Get usage metrics for a multi-role pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<UsageInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8796,7 +6910,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8816,7 +6930,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -8838,7 +6952,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8856,7 +6970,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8878,7 +6992,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get the network endpoints of all outbound dependencies of an App Service Environment.
-     * Get the network endpoints of all outbound dependencies of an App Service Environment.
+     * Description for Get the network endpoints of all outbound dependencies of an App Service Environment.
      *
     ServiceResponse<PageImpl<OutboundEnvironmentEndpointInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8912,7 +7026,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8932,7 +7046,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -8954,7 +7068,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8972,7 +7086,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -8994,7 +7108,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9029,7 +7143,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9049,7 +7163,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -9071,7 +7185,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9089,7 +7203,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9111,7 +7225,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Resume an App Service Environment.
-     * Resume an App Service Environment.
+     * Description for Resume an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9146,7 +7260,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9166,7 +7280,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -9188,7 +7302,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9206,7 +7320,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9228,7 +7342,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all App Service plans in an App Service Environment.
-     * Get all App Service plans in an App Service Environment.
+     * Description for Get all App Service plans in an App Service Environment.
      *
     ServiceResponse<PageImpl<AppServicePlanInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9262,7 +7376,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9282,7 +7396,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -9304,7 +7418,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9322,7 +7436,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9344,7 +7458,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all apps in an App Service Environment.
-     * Get all apps in an App Service Environment.
+     * Description for Get all apps in an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9378,7 +7492,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9398,7 +7512,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -9420,7 +7534,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9438,7 +7552,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9460,7 +7574,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9495,7 +7609,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9515,7 +7629,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -9537,7 +7651,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9555,7 +7669,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9577,7 +7691,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Suspend an App Service Environment.
-     * Suspend an App Service Environment.
+     * Description for Suspend an App Service Environment.
      *
     ServiceResponse<PageImpl<SiteInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9612,7 +7726,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9632,7 +7746,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -9654,7 +7768,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9672,7 +7786,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9694,7 +7808,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get global usage metrics of an App Service Environment.
-     * Get global usage metrics of an App Service Environment.
+     * Description for Get global usage metrics of an App Service Environment.
      *
     ServiceResponse<PageImpl<CsmUsageQuotaInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9728,7 +7842,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9748,7 +7862,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -9770,7 +7884,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9788,7 +7902,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9810,7 +7924,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get all worker pools of an App Service Environment.
-     * Get all worker pools of an App Service Environment.
+     * Description for Get all worker pools of an App Service Environment.
      *
     ServiceResponse<PageImpl<WorkerPoolResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9844,7 +7958,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9864,7 +7978,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -9886,7 +8000,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9904,7 +8018,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9926,7 +8040,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
-     * Get metric definitions for a specific instance of a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -9959,124 +8073,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listWorkerPoolInstanceMetricsNext(final String nextPageLink) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listWorkerPoolInstanceMetricsNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceMetricInner>> serviceFuture, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listWorkerPoolInstanceMetricsNextAsync(final String nextPageLink) {
-        return listWorkerPoolInstanceMetricsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWorkerPoolInstanceMetricsNextWithServiceResponseAsync(final String nextPageLink) {
-        return listWorkerPoolInstanceMetricsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listWorkerPoolInstanceMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     * Get metrics for a specific instance of a worker pool of an App Service Environment.
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWorkerPoolInstanceMetricsNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listWorkerPoolInstanceMetricsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listWorkerPoolInstanceMetricsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listWorkerPoolInstanceMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10096,7 +8094,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -10118,7 +8116,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10136,7 +8134,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10158,7 +8156,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get metric definitions for a worker pool of an App Service Environment.
-     * Get metric definitions for a worker pool of an App Service Environment.
+     * Description for Get metric definitions for a worker pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<ResourceMetricDefinitionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10191,124 +8189,8 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
     }
 
     /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws DefaultErrorResponseException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ResourceMetricInner&gt; object if successful.
-     */
-    public PagedList<ResourceMetricInner> listWebWorkerMetricsNext(final String nextPageLink) {
-        ServiceResponse<Page<ResourceMetricInner>> response = listWebWorkerMetricsNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ResourceMetricInner>(response.body()) {
-            @Override
-            public Page<ResourceMetricInner> nextPage(String nextPageLink) {
-                return listWebWorkerMetricsNextSinglePageAsync(nextPageLink).toBlocking().single().body();
-            }
-        };
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<List<ResourceMetricInner>> listWebWorkerMetricsNextAsync(final String nextPageLink, final ServiceFuture<List<ResourceMetricInner>> serviceFuture, final ListOperationCallback<ResourceMetricInner> serviceCallback) {
-        return AzureServiceFuture.fromPageResponse(
-            listWebWorkerMetricsNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(String nextPageLink) {
-                    return listWebWorkerMetricsNextSinglePageAsync(nextPageLink);
-                }
-            },
-            serviceCallback);
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<Page<ResourceMetricInner>> listWebWorkerMetricsNextAsync(final String nextPageLink) {
-        return listWebWorkerMetricsNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Page<ResourceMetricInner>>() {
-                @Override
-                public Page<ResourceMetricInner> call(ServiceResponse<Page<ResourceMetricInner>> response) {
-                    return response.body();
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-     * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ResourceMetricInner&gt; object
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWebWorkerMetricsNextWithServiceResponseAsync(final String nextPageLink) {
-        return listWebWorkerMetricsNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ResourceMetricInner>>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(ServiceResponse<Page<ResourceMetricInner>> page) {
-                    String nextPageLink = page.body().nextPageLink();
-                    if (nextPageLink == null) {
-                        return Observable.just(page);
-                    }
-                    return Observable.just(page).concatWith(listWebWorkerMetricsNextWithServiceResponseAsync(nextPageLink));
-                }
-            });
-    }
-
-    /**
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     * Get metrics for a worker pool of a AppServiceEnvironment (App Service Environment).
-     *
-    ServiceResponse<PageImpl<ResourceMetricInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ResourceMetricInner&gt; object wrapped in {@link ServiceResponse} if successful.
-     */
-    public Observable<ServiceResponse<Page<ResourceMetricInner>>> listWebWorkerMetricsNextSinglePageAsync(final String nextPageLink) {
-        if (nextPageLink == null) {
-            throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
-        }
-        String nextUrl = String.format("%s", nextPageLink);
-        return service.listWebWorkerMetricsNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ResourceMetricInner>>>>() {
-                @Override
-                public Observable<ServiceResponse<Page<ResourceMetricInner>>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<PageImpl<ResourceMetricInner>> result = listWebWorkerMetricsNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ResourceMetricInner>>(result.body(), result.response()));
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<PageImpl<ResourceMetricInner>> listWebWorkerMetricsNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ResourceMetricInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ResourceMetricInner>>() { }.getType())
-                .registerError(DefaultErrorResponseException.class)
-                .build(response);
-    }
-
-    /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10328,7 +8210,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -10350,7 +8232,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10368,7 +8250,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10390,7 +8272,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get available SKUs for scaling a worker pool.
-     * Get available SKUs for scaling a worker pool.
+     * Description for Get available SKUs for scaling a worker pool.
      *
     ServiceResponse<PageImpl<SkuInfoInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10424,7 +8306,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10444,7 +8326,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -10466,7 +8348,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10484,7 +8366,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -10506,7 +8388,7 @@ public class AppServiceEnvironmentsInner implements InnerSupportsGet<AppServiceE
 
     /**
      * Get usage metrics for a worker pool of an App Service Environment.
-     * Get usage metrics for a worker pool of an App Service Environment.
+     * Description for Get usage metrics for a worker pool of an App Service Environment.
      *
     ServiceResponse<PageImpl<UsageInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

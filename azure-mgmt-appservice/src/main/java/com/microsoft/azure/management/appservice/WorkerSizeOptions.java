@@ -33,6 +33,9 @@ public enum WorkerSizeOptions {
     /** Enum value D3. */
     D3("D3"),
 
+    /** Enum value NestedSmall. */
+    NESTED_SMALL("NestedSmall"),
+
     /** Enum value Default. */
     DEFAULT("Default");
 

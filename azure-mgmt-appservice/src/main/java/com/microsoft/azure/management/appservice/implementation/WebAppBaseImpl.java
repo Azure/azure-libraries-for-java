@@ -889,7 +889,6 @@ abstract class WebAppBaseImpl<
         siteUpdate.withCloningInfo(siteInner.cloningInfo());
         siteUpdate.withHttpsOnly(siteInner.httpsOnly());
         siteUpdate.withRedundancyMode(siteInner.redundancyMode());
-        siteUpdate.withGeoDistributions(siteInner.geoDistributions());
 
         this.webAppMsiHandler.handleExternalIdentities(siteUpdate);
         return submitSite(siteUpdate).map(new Func1<SiteInner, FluentT>() {

@@ -85,7 +85,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -104,7 +104,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -124,7 +124,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TopLevelDomainInner&gt; object
@@ -141,7 +141,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TopLevelDomainInner&gt; object
@@ -162,7 +162,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;TopLevelDomainInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -197,7 +197,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get details of a top-level domain.
-     * Get details of a top-level domain.
+     * Description for Get details of a top-level domain.
      *
      * @param name Name of the top-level domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -211,7 +211,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get details of a top-level domain.
-     * Get details of a top-level domain.
+     * Description for Get details of a top-level domain.
      *
      * @param name Name of the top-level domain.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -224,7 +224,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get details of a top-level domain.
-     * Get details of a top-level domain.
+     * Description for Get details of a top-level domain.
      *
      * @param name Name of the top-level domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -241,7 +241,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get details of a top-level domain.
-     * Get details of a top-level domain.
+     * Description for Get details of a top-level domain.
      *
      * @param name Name of the top-level domain.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -280,7 +280,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
      * @param name Name of the top-level domain.
      * @param agreementOption Domain agreement options.
@@ -301,7 +301,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
      * @param name Name of the top-level domain.
      * @param agreementOption Domain agreement options.
@@ -323,7 +323,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
      * @param name Name of the top-level domain.
      * @param agreementOption Domain agreement options.
@@ -342,7 +342,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
      * @param name Name of the top-level domain.
      * @param agreementOption Domain agreement options.
@@ -365,7 +365,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
     ServiceResponse<PageImpl<TldLegalAgreementInner>> * @param name Name of the top-level domain.
     ServiceResponse<PageImpl<TldLegalAgreementInner>> * @param agreementOption Domain agreement options.
@@ -409,7 +409,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -429,7 +429,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -451,7 +451,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -469,7 +469,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -491,7 +491,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Get all top-level domains supported for registration.
-     * Get all top-level domains supported for registration.
+     * Description for Get all top-level domains supported for registration.
      *
     ServiceResponse<PageImpl<TopLevelDomainInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -525,7 +525,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -545,7 +545,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -567,7 +567,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -585,7 +585,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -607,7 +607,7 @@ public class TopLevelDomainsInner {
 
     /**
      * Gets all legal agreements that user needs to accept before purchasing a domain.
-     * Gets all legal agreements that user needs to accept before purchasing a domain.
+     * Description for Gets all legal agreements that user needs to accept before purchasing a domain.
      *
     ServiceResponse<PageImpl<TldLegalAgreementInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

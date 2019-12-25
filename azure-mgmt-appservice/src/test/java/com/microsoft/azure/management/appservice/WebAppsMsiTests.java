@@ -39,6 +39,11 @@ public class WebAppsMsiTests extends AppServiceTest {
     @Override
     protected void cleanUpResources() {
         resourceManager.resourceGroups().beginDeleteByName(RG_NAME_1);
+        try {
+            resourceManager.resourceGroups().beginDeleteByName(RG_NAME);
+        } catch (Exception e) {
+            // fine, RG_NAME is not created
+        }
     }
 
     @Test
@@ -48,7 +53,7 @@ public class WebAppsMsiTests extends AppServiceTest {
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME_1)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
-                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2015)
+                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2019)
                 .withSystemAssignedManagedServiceIdentity()
                 .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
                 .withJavaVersion(JavaVersion.JAVA_8_NEWEST)
@@ -113,7 +118,7 @@ public class WebAppsMsiTests extends AppServiceTest {
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME_1)
                 .withNewWindowsPlan(PricingTier.BASIC_B1)
-                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2015)
+                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2019)
                 .withSystemAssignedManagedServiceIdentity()
                 .withSystemAssignedIdentityBasedAccessToCurrentResourceGroup(BuiltInRole.CONTRIBUTOR)
                 .withJavaVersion(JavaVersion.JAVA_8_NEWEST)

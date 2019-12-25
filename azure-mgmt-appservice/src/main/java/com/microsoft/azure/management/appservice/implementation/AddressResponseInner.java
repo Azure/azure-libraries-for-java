@@ -11,34 +11,37 @@ package com.microsoft.azure.management.appservice.implementation;
 import java.util.List;
 import com.microsoft.azure.management.appservice.VirtualIPMapping;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.management.appservice.ProxyOnlyResource;
 
 /**
  * Describes main public IP address and any extra virtual IPs.
  */
-public class AddressResponseInner {
+@JsonFlatten
+public class AddressResponseInner extends ProxyOnlyResource {
     /**
      * Main public virtual IP.
      */
-    @JsonProperty(value = "serviceIpAddress")
+    @JsonProperty(value = "properties.serviceIpAddress")
     private String serviceIpAddress;
 
     /**
      * Virtual Network internal IP address of the App Service Environment if it
      * is in internal load-balancing mode.
      */
-    @JsonProperty(value = "internalIpAddress")
+    @JsonProperty(value = "properties.internalIpAddress")
     private String internalIpAddress;
 
     /**
      * IP addresses appearing on outbound connections.
      */
-    @JsonProperty(value = "outboundIpAddresses")
+    @JsonProperty(value = "properties.outboundIpAddresses")
     private List<String> outboundIpAddresses;
 
     /**
      * Additional virtual IPs.
      */
-    @JsonProperty(value = "vipMappings")
+    @JsonProperty(value = "properties.vipMappings")
     private List<VirtualIPMapping> vipMappings;
 
     /**

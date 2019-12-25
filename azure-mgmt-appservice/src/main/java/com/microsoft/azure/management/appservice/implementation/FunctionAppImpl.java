@@ -353,13 +353,6 @@ class FunctionAppImpl
     }
 
     @Override
-    public FunctionAppImpl withCredentials(String username, String password) {
-        withAppSetting(SETTING_REGISTRY_USERNAME, username);
-        withAppSetting(SETTING_REGISTRY_PASSWORD, password);
-        return this;
-    }
-
-    @Override
     protected void cleanUpContainerSettings() {
         linuxFxVersionSetter = null;
         if (siteConfig != null && siteConfig.linuxFxVersion() != null) {

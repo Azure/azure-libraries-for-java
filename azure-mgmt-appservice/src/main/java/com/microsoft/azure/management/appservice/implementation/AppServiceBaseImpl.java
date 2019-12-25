@@ -483,13 +483,13 @@ abstract class AppServiceBaseImpl<
             if (!registryServer.isEmpty() && !imageAndTag.trim().startsWith(registryServer)) {
                 String[] segments = imageAndTag.split(Pattern.quote("/"));
                 if (segments.length == 1) {
-                    // it appears that imageAndTag does not contain registry serve, add registry serve before it.
+                    // it appears that imageAndTag does not contain registry server, add registry server before it.
                     imageAndTag = String.format("%s/%s", registryServer, imageAndTag);
                 }
                 if (segments.length > 1) {
                     String segment = segments[0];
                     if (!segment.isEmpty() && !segment.contains(".") && !segment.contains(":") && !segment.equals(registryServer)) {
-                        // it appears that first segment of imageAndTag is not registry serve, add registry serve before it.
+                        // it appears that first segment of imageAndTag is not registry server, add registry server before it.
                         imageAndTag = String.format("%s/%s", registryServer, imageAndTag);
                     }
                 }

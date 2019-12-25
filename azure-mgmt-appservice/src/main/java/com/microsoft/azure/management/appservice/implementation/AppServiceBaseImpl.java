@@ -34,12 +34,9 @@ import rx.functions.Func1;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 /**
  * The base implementation for web apps and function apps.
@@ -455,7 +452,7 @@ abstract class AppServiceBaseImpl<
     }
 
     public FluentImplT withPrivateRegistryImage(String imageAndTag, String serverUrl) {
-        imageAndTag = smartCompletionPrivateRegistryImage(imageAndTag, serverUrl);
+        imageAndTag = Utils.smartCompletionPrivateRegistryImage(imageAndTag, serverUrl);
 
         ensureLinuxPlan();
         cleanUpContainerSettings();
@@ -475,30 +472,6 @@ abstract class AppServiceBaseImpl<
     }
 
     protected abstract void cleanUpContainerSettings();
-
-    private static String smartCompletionPrivateRegistryImage(String imageAndTag, String serverUrl) {
-        try {
-            URL url = new URL(serverUrl);
-            String registryServer = url.getAuthority();
-            if (!registryServer.isEmpty() && !imageAndTag.trim().startsWith(registryServer)) {
-                String[] segments = imageAndTag.split(Pattern.quote("/"));
-                if (segments.length == 1) {
-                    // it appears that imageAndTag does not contain registry server, add registry server before it.
-                    imageAndTag = String.format("%s/%s", registryServer, imageAndTag);
-                }
-                if (segments.length > 1) {
-                    String segment = segments[0];
-                    if (!segment.isEmpty() && !segment.contains(".") && !segment.contains(":") && !segment.equals(registryServer)) {
-                        // it appears that first segment of imageAndTag is not registry server, add registry server before it.
-                        imageAndTag = String.format("%s/%s", registryServer, imageAndTag);
-                    }
-                }
-            }
-        } catch (MalformedURLException e) {
-            // serverUrl is probably incorrect, abort
-        }
-        return imageAndTag;
-    }
 
     protected void ensureLinuxPlan() {
         if (OperatingSystem.WINDOWS.equals(operatingSystem())) {

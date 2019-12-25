@@ -8,7 +8,6 @@ package com.microsoft.azure.management.appservice;
 
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.appservice.implementation.SiteConfigResourceInner;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
@@ -23,7 +22,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -294,115 +292,6 @@ public class FunctionAppsTests extends AppServiceTest {
         if (!isPlaybackMode()) {
             functionApp1.zipDeploy(new File(FunctionAppsTests.class.getResource("/java-functions.zip").getPath()));
         }
-    }
-
-    @Test
-    public void testWebAppPrivateRegistryImage() throws Exception {
-        RG_NAME_1 = null;
-        RG_NAME_2 = null;
-
-        final String dockerString = "DOCKER|";
-
-        {
-            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME_1)
-                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
-                    .withPrivateRegistryImage("weidxuregistry.azurecr.io/az-func-java:v1", "https://weidxuregistry.azurecr.io");
-            SiteConfigResourceInner siteConfig = getSiteConfig(app);
-            Assert.assertEquals(dockerString + "weidxuregistry.azurecr.io/az-func-java:v1", siteConfig.linuxFxVersion());
-        }
-
-        // completion
-        {
-            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME_1)
-                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
-                    .withPrivateRegistryImage("az-func-java:v1", "https://weidxuregistry.azurecr.io");
-            SiteConfigResourceInner siteConfig = getSiteConfig(app);
-            Assert.assertEquals(dockerString + "weidxuregistry.azurecr.io/az-func-java:v1", siteConfig.linuxFxVersion());
-        }
-
-        // completion
-        {
-            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME_1)
-                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
-                    .withPrivateRegistryImage("weidxu/az-func-java:v1", "https://weidxuregistry.azurecr.io");
-            SiteConfigResourceInner siteConfig = getSiteConfig(app);
-            Assert.assertEquals(dockerString + "weidxuregistry.azurecr.io/weidxu/az-func-java:v1", siteConfig.linuxFxVersion());
-        }
-
-        // completion
-        {
-            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME_1)
-                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
-                    .withPrivateRegistryImage("weidxu/az-func-java:v1", "https://weidxuregistry.azurecr.io:5000");
-            SiteConfigResourceInner siteConfig = getSiteConfig(app);
-            Assert.assertEquals(dockerString + "weidxuregistry.azurecr.io:5000/weidxu/az-func-java:v1", siteConfig.linuxFxVersion());
-        }
-
-        // completion not happen due to possible host
-        {
-            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME_1)
-                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
-                    .withPrivateRegistryImage("host.name/az-func-java:v1", "https://weidxuregistry.azurecr.io");
-            SiteConfigResourceInner siteConfig = getSiteConfig(app);
-            Assert.assertEquals(dockerString + "host.name/az-func-java:v1", siteConfig.linuxFxVersion());
-        }
-
-        // completion not happen due to possible port
-        {
-            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME_1)
-                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
-                    .withPrivateRegistryImage("host:port/az-func-java:v1", "https://weidxuregistry.azurecr.io");
-            SiteConfigResourceInner siteConfig = getSiteConfig(app);
-            Assert.assertEquals(dockerString + "host:port/az-func-java:v1", siteConfig.linuxFxVersion());
-        }
-
-        // completion not happen due to no idea what it is
-        {
-            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME_1)
-                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
-                    .withPrivateRegistryImage("/az-func-java:v1", "https://weidxuregistry.azurecr.io");
-            SiteConfigResourceInner siteConfig = getSiteConfig(app);
-            Assert.assertEquals(dockerString + "/az-func-java:v1", siteConfig.linuxFxVersion());
-        }
-
-        // completion not happen due to incorrect serviceUrl
-        {
-            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
-                    .withRegion(Region.US_EAST)
-                    .withNewResourceGroup(RG_NAME_1)
-                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
-                    .withPrivateRegistryImage("az-func-java:v1", "weidxuregistry.azurecr.io");
-            SiteConfigResourceInner siteConfig = getSiteConfig(app);
-            Assert.assertEquals(dockerString + "az-func-java:v1", siteConfig.linuxFxVersion());
-        }
-    }
-
-    private SiteConfigResourceInner getSiteConfig(FunctionApp app) throws NoSuchFieldException, IllegalAccessException {
-        Class clazz = app.getClass();
-        while (clazz != null && !clazz.getSimpleName().equals("WebAppBaseImpl")) {
-            clazz = clazz.getSuperclass();
-        }
-        if (clazz == null) {
-            throw new NoSuchFieldException();
-        }
-        Field f = clazz.getDeclaredField("siteConfig");
-        f.setAccessible(true);
-        SiteConfigResourceInner siteConfig = (SiteConfigResourceInner) f.get(app);
-        return siteConfig;
     }
 
     private static Map<String, AppSetting> assertLinuxJava8(FunctionApp functionApp, String linuxFxVersion) {

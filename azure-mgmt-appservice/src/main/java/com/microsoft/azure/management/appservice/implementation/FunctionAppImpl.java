@@ -353,49 +353,14 @@ class FunctionAppImpl
     }
 
     @Override
-    public FunctionAppImpl withPublicDockerHubImage(String imageAndTag) {
-        ensureLinuxPlan();
-        cleanUpContainerSettings();
-        if (siteConfig == null) {
-            siteConfig = new SiteConfigResourceInner();
-        }
-        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
-        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
-        return this;
-    }
-
-    @Override
-    public FunctionAppImpl withPrivateDockerHubImage(String imageAndTag) {
-        return withPublicDockerHubImage(imageAndTag);
-    }
-
-    @Override
-    public FunctionAppImpl withPrivateRegistryImage(String imageAndTag, String serverUrl) {
-        ensureLinuxPlan();
-        cleanUpContainerSettings();
-        if (siteConfig == null) {
-            siteConfig = new SiteConfigResourceInner();
-        }
-        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
-        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
-        withAppSetting(SETTING_REGISTRY_SERVER, serverUrl);
-        return this;
-    }
-
-    @Override
     public FunctionAppImpl withCredentials(String username, String password) {
         withAppSetting(SETTING_REGISTRY_USERNAME, username);
         withAppSetting(SETTING_REGISTRY_PASSWORD, password);
         return this;
     }
 
-    private void ensureLinuxPlan() {
-        if (OperatingSystem.WINDOWS.equals(operatingSystem())) {
-            throw new IllegalArgumentException("Docker container settings only apply to Linux app service plans.");
-        }
-    }
-
-    private void cleanUpContainerSettings() {
+    @Override
+    protected void cleanUpContainerSettings() {
         linuxFxVersionSetter = null;
         if (siteConfig != null && siteConfig.linuxFxVersion() != null) {
             siteConfig.withLinuxFxVersion(null);

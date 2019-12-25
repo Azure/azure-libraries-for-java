@@ -34,9 +34,12 @@ import rx.functions.Func1;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * The base implementation for web apps and function apps.
@@ -434,6 +437,73 @@ abstract class AppServiceBaseImpl<
         inner().withServerFarmId(appServicePlan.id());
         this.withRegion(appServicePlan.regionName());
         return withOperatingSystem(appServicePlanOperatingSystem(appServicePlan));
+    }
+
+    public FluentImplT withPublicDockerHubImage(String imageAndTag) {
+        ensureLinuxPlan();
+        cleanUpContainerSettings();
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
+        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
+        return (FluentImplT) this;
+    }
+
+    public FluentImplT withPrivateDockerHubImage(String imageAndTag) {
+        return withPublicDockerHubImage(imageAndTag);
+    }
+
+    public FluentImplT withPrivateRegistryImage(String imageAndTag, String serverUrl) {
+        imageAndTag = smartCompletionPrivateRegistryImage(imageAndTag, serverUrl);
+
+        ensureLinuxPlan();
+        cleanUpContainerSettings();
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
+        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
+        withAppSetting(SETTING_REGISTRY_SERVER, serverUrl);
+        return (FluentImplT) this;
+    }
+
+    public FluentImplT withCredentials(String username, String password) {
+        withAppSetting(SETTING_REGISTRY_USERNAME, username);
+        withAppSetting(SETTING_REGISTRY_PASSWORD, password);
+        return (FluentImplT) this;
+    }
+
+    abstract protected void cleanUpContainerSettings();
+
+    private static String smartCompletionPrivateRegistryImage(String imageAndTag, String serverUrl) {
+        try {
+            URL url = new URL(serverUrl);
+            String registryServer = url.getAuthority();
+            if (!registryServer.isEmpty() && !imageAndTag.trim().startsWith(registryServer)) {
+                String[] segments = imageAndTag.split(Pattern.quote("/"));
+                if (segments.length == 1) {
+                    // it appears that imageAndTag does not contain registry serve, add registry serve before it.
+                    imageAndTag = String.format("%s/%s", registryServer, imageAndTag);
+                }
+                if (segments.length > 1) {
+                    String segment = segments[0];
+                    if (!segment.isEmpty() && !segment.contains(".") && !segment.contains(":") && !segment.equals(registryServer)) {
+                        // it appears that first segment of imageAndTag is not registry serve, add registry serve before it.
+                        imageAndTag = String.format("%s/%s", registryServer, imageAndTag);
+                    }
+                }
+            }
+        } catch (MalformedURLException e) {
+            // serverUrl is probably incorrect, abort
+        }
+        return imageAndTag;
+    }
+
+    protected void ensureLinuxPlan() {
+        if (OperatingSystem.WINDOWS.equals(operatingSystem())) {
+            throw new IllegalArgumentException("Docker container settings only apply to Linux app service plans.");
+        }
     }
 
     protected OperatingSystem appServicePlanOperatingSystem(AppServicePlan appServicePlan) {

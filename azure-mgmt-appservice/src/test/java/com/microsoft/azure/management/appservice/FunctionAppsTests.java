@@ -335,6 +335,17 @@ public class FunctionAppsTests extends AppServiceTest {
             Assert.assertEquals(dockerString + "weidxuregistry.azurecr.io/weidxu/az-func-java:v1", siteConfig.linuxFxVersion());
         }
 
+        // completion
+        {
+            FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)
+                    .withRegion(Region.US_EAST)
+                    .withNewResourceGroup(RG_NAME_1)
+                    .withNewLinuxAppServicePlan(new PricingTier(com.microsoft.azure.management.appservice.SkuName.ELASTIC_PREMIUM.toString(), "EP1"))
+                    .withPrivateRegistryImage("weidxu/az-func-java:v1", "https://weidxuregistry.azurecr.io:5000");
+            SiteConfigResourceInner siteConfig = getSiteConfig(app);
+            Assert.assertEquals(dockerString + "weidxuregistry.azurecr.io:5000/weidxu/az-func-java:v1", siteConfig.linuxFxVersion());
+        }
+
         // completion not happen due to possible host
         {
             FunctionApp app = (FunctionApp) appServiceManager.functionApps().define(WEBAPP_NAME_1)

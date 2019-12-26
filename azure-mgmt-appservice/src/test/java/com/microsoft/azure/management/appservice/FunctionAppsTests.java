@@ -10,8 +10,8 @@ import com.microsoft.azure.CloudException;
 import com.microsoft.azure.PagedList;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.management.storage.StorageAccountSkuType;
 import com.microsoft.azure.management.storage.implementation.StorageManager;
 import com.microsoft.rest.RestClient;
 import org.junit.Assert;
@@ -57,11 +57,15 @@ public class FunctionAppsTests extends AppServiceTest {
 
     @Override
     protected void cleanUpResources() {
-        resourceManager.resourceGroups().beginDeleteByName(RG_NAME_1);
-        try {
-            resourceManager.resourceGroups().beginDeleteByName(RG_NAME_2);
-        } catch (CloudException e) {
-            // fine, RG_NAME_2 is not created
+        if (RG_NAME_1 != null) {
+            resourceManager.resourceGroups().beginDeleteByName(RG_NAME_1);
+        }
+        if (RG_NAME_2 != null) {
+            try {
+                resourceManager.resourceGroups().beginDeleteByName(RG_NAME_2);
+            } catch (CloudException e) {
+                // fine, RG_NAME_2 is not created
+            }
         }
     }
 
@@ -128,7 +132,7 @@ public class FunctionAppsTests extends AppServiceTest {
 
         // Update
         functionApp2.update()
-                .withNewStorageAccount(STORAGE_ACCOUNT_NAME_1, SkuName.STANDARD_GRS)
+                .withNewStorageAccount(STORAGE_ACCOUNT_NAME_1, StorageAccountSkuType.STANDARD_GRS)
                 .apply();
         Assert.assertEquals(STORAGE_ACCOUNT_NAME_1, functionApp2.storageAccount().name());
 
@@ -163,6 +167,8 @@ public class FunctionAppsTests extends AppServiceTest {
 
     @Test
     public void canCRUDLinuxFunctionApp() throws Exception {
+        RG_NAME_2 = null;
+
         // function app with consumption plan
         FunctionApp functionApp1 = appServiceManager.functionApps().define(WEBAPP_NAME_1)
                 .withRegion(Region.US_EAST)
@@ -241,6 +247,8 @@ public class FunctionAppsTests extends AppServiceTest {
 
     @Test
     public void canCRUDLinuxFunctionAppPremium() {
+        RG_NAME_2 = null;
+
         // function app with premium plan
         FunctionApp functionApp1 = appServiceManager.functionApps().define(WEBAPP_NAME_1)
                 .withRegion(Region.US_EAST)

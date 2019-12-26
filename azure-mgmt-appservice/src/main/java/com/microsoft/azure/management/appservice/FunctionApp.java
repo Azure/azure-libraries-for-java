@@ -15,6 +15,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
 import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
 import com.microsoft.azure.management.storage.StorageAccount;
+import com.microsoft.azure.management.storage.StorageAccountSkuType;
 import rx.Completable;
 import rx.Observable;
 
@@ -274,11 +275,21 @@ public interface FunctionApp extends
         interface WithStorageAccount {
             /**
              * Creates a new storage account to use for the function app.
+             * @deprecated use {@link FunctionApp.DefinitionStages.WithStorageAccount#withNewStorageAccount(String, StorageAccountSkuType)} instead
              * @param name the name of the storage account
              * @param sku the sku of the storage account
              * @return the next stage of the definition
              */
+            @Deprecated
             WithCreate withNewStorageAccount(String name, com.microsoft.azure.management.storage.SkuName sku);
+
+            /**
+             * Creates a new storage account to use for the function app.
+             * @param name the name of the storage account
+             * @param sku the sku of the storage account
+             * @return the next stage of the definition
+             */
+            WithCreate withNewStorageAccount(String name, StorageAccountSkuType sku);
 
             /**
              * Specifies the storage account to use for the function app.
@@ -552,11 +563,21 @@ public interface FunctionApp extends
         interface WithStorageAccount {
             /**
              * Creates a new storage account to use for the function app.
+             * @deprecated use {@link FunctionApp.UpdateStages.WithStorageAccount#withNewStorageAccount(String, StorageAccountSkuType)} instead
              * @param name the name of the storage account
              * @param sku the sku of the storage account
              * @return the next stage of the function app update
              */
+            @Deprecated
             Update withNewStorageAccount(String name, com.microsoft.azure.management.storage.SkuName sku);
+
+            /**
+             * Creates a new storage account to use for the function app.
+             * @param name the name of the storage account
+             * @param sku the sku of the storage account
+             * @return the next stage of the function app update
+             */
+            Update withNewStorageAccount(String name, StorageAccountSkuType sku);
 
             /**
              * Specifies the storage account to use for the function app.

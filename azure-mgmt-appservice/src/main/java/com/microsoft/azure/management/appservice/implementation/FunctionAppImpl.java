@@ -24,6 +24,7 @@ import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
+import com.microsoft.azure.management.storage.StorageAccountSkuType;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
 import okhttp3.HttpUrl;
@@ -71,6 +72,8 @@ class FunctionAppImpl
     private static final String SETTING_FUNCTIONS_EXTENSION_VERSION = "FUNCTIONS_EXTENSION_VERSION";
     private static final String SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING";
     private static final String SETTING_WEBSITE_CONTENTSHARE = "WEBSITE_CONTENTSHARE";
+    private static final String SETTING_WEB_JOBS_STORAGE = "AzureWebJobsStorage";
+    private static final String SETTING_WEB_JOBS_DASHBOARD = "AzureWebJobsDashboard";
 
     private Creatable<StorageAccount> storageAccountCreatable;
     private StorageAccount storageAccountToSet;
@@ -177,12 +180,12 @@ class FunctionAppImpl
                     public Observable<Indexable> call(StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) {
                         String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                                 storageAccountToSet.name(), storageAccountKey.value());
-                        withAppSetting("AzureWebJobsStorage", connectionString);
-                        withAppSetting("AzureWebJobsDashboard", connectionString);
+                        addAppSettingIfNotModified(SETTING_WEB_JOBS_STORAGE, connectionString);
+                        addAppSettingIfNotModified(SETTING_WEB_JOBS_DASHBOARD, connectionString);
                         if (OperatingSystem.WINDOWS.equals(operatingSystem()) && // as Portal logic, only Windows plan would have following appSettings
                                 (appServicePlan == null || isConsumptionOrPremiumAppServicePlan(appServicePlan.pricingTier()))) {
-                            withAppSetting(SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING, connectionString);
-                            withAppSetting(SETTING_WEBSITE_CONTENTSHARE, SdkContext.randomResourceName(name(), 32));
+                            addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING, connectionString);
+                            addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTSHARE, SdkContext.randomResourceName(name(), 32));
                         }
                         return FunctionAppImpl.super.submitAppSettings();
                     }
@@ -196,6 +199,24 @@ class FunctionAppImpl
                     }
                 });
         }
+    }
+
+    @Override
+    public OperatingSystem operatingSystem() {
+        return (inner().reserved() == null || !inner().reserved())
+                ? OperatingSystem.WINDOWS
+                : OperatingSystem.LINUX;
+    }
+
+    private void addAppSettingIfNotModified(String key, String value) {
+        if (!appSettingModified(key)) {
+            withAppSetting(key, value);
+        }
+    }
+
+    private boolean appSettingModified(String key) {
+        return (appSettingsToAdd != null && appSettingsToAdd.containsKey(key))
+                || (appSettingsToRemove != null && appSettingsToRemove.contains(key));
     }
 
     private static boolean isConsumptionOrPremiumAppServicePlan(PricingTier pricingTier) {
@@ -250,6 +271,24 @@ class FunctionAppImpl
             storageAccountCreatable = storageDefine.withExistingResourceGroup(resourceGroupName())
                 .withGeneralPurposeAccountKind()
                 .withSku(sku);
+        }
+        this.addDependency(storageAccountCreatable);
+        return this;
+    }
+
+    @Override
+    public FunctionAppImpl withNewStorageAccount(String name, StorageAccountSkuType sku) {
+        StorageAccount.DefinitionStages.WithGroup storageDefine = manager().storageManager().storageAccounts()
+                .define(name)
+                .withRegion(regionName());
+        if (super.creatableGroup != null && isInCreateMode()) {
+            storageAccountCreatable = storageDefine.withNewResourceGroup(super.creatableGroup)
+                    .withGeneralPurposeAccountKind()
+                    .withSku(sku);
+        } else {
+            storageAccountCreatable = storageDefine.withExistingResourceGroup(resourceGroupName())
+                    .withGeneralPurposeAccountKind()
+                    .withSku(sku);
         }
         this.addDependency(storageAccountCreatable);
         return this;
@@ -323,47 +362,23 @@ class FunctionAppImpl
     @Override
     public FunctionAppImpl withPublicDockerHubImage(String imageAndTag) {
         ensureLinuxPlan();
-        cleanUpContainerSettings();
-        if (siteConfig == null) {
-            siteConfig = new SiteConfigResourceInner();
-        }
-        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
-        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
-        return this;
+        return super.withPublicDockerHubImage(imageAndTag);
     }
 
     @Override
     public FunctionAppImpl withPrivateDockerHubImage(String imageAndTag) {
-        return withPublicDockerHubImage(imageAndTag);
+        ensureLinuxPlan();
+        return super.withPublicDockerHubImage(imageAndTag);
     }
 
     @Override
     public FunctionAppImpl withPrivateRegistryImage(String imageAndTag, String serverUrl) {
         ensureLinuxPlan();
-        cleanUpContainerSettings();
-        if (siteConfig == null) {
-            siteConfig = new SiteConfigResourceInner();
-        }
-        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
-        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
-        withAppSetting(SETTING_REGISTRY_SERVER, serverUrl);
-        return this;
+        return super.withPrivateRegistryImage(imageAndTag, serverUrl);
     }
 
     @Override
-    public FunctionAppImpl withCredentials(String username, String password) {
-        withAppSetting(SETTING_REGISTRY_USERNAME, username);
-        withAppSetting(SETTING_REGISTRY_PASSWORD, password);
-        return this;
-    }
-
-    private void ensureLinuxPlan() {
-        if (OperatingSystem.WINDOWS.equals(operatingSystem())) {
-            throw new IllegalArgumentException("Docker container settings only apply to Linux app service plans.");
-        }
-    }
-
-    private void cleanUpContainerSettings() {
+    protected void cleanUpContainerSettings() {
         linuxFxVersionSetter = null;
         if (siteConfig != null && siteConfig.linuxFxVersion() != null) {
             siteConfig.withLinuxFxVersion(null);

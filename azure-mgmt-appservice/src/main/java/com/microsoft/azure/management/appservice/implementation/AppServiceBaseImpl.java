@@ -382,21 +382,11 @@ abstract class AppServiceBaseImpl<
         return manager().inner().webApps().updateDiagnosticLogsConfigAsync(resourceGroupName(), name(), siteLogsConfigInner);
     }
 
-    @SuppressWarnings("unchecked")
     private AppServicePlanImpl newDefaultAppServicePlan() {
         String planName = SdkContext.randomResourceName(name() + "plan", 32);
-        AppServicePlanImpl appServicePlan = (AppServicePlanImpl) (this.manager().appServicePlans()
-                .define(planName))
-                .withRegion(regionName());
-        if (super.creatableGroup != null && isInCreateMode()) {
-            appServicePlan = appServicePlan.withNewResourceGroup(super.creatableGroup);
-        } else {
-            appServicePlan = appServicePlan.withExistingResourceGroup(resourceGroupName());
-        }
-        return appServicePlan;
+        return newDefaultAppServicePlan(planName);
     }
 
-    @SuppressWarnings("unchecked")
     private AppServicePlanImpl newDefaultAppServicePlan(String appServicePlanName) {
         AppServicePlanImpl appServicePlan = (AppServicePlanImpl) (this.manager().appServicePlans()
                 .define(appServicePlanName))

@@ -6,6 +6,7 @@
 
 package com.azure.management.resources;
 
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.azure.management.resources.fluentcore.arm.Region;
@@ -62,9 +63,9 @@ public class GenericResourcesTests extends ResourceManagerTestBase {
                 .withProperties(new ObjectMapper().readTree("{\"SiteMode\":\"Limited\",\"ComputeMode\":\"Shared\"}"))
                 .create();
         //List
-        List<GenericResource> resourceList = genericResources.listByResourceGroup(rgName);
+        PagedIterable<GenericResource> resourceList = genericResources.listByResourceGroup(rgName);
         boolean found = false;
-        for (GenericResource gr: resourceList) {
+        for (GenericResource gr : resourceList) {
             if (gr.getName().equals(resource.getName())) {
                 found = true;
                 break;

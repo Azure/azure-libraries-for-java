@@ -1,8 +1,5 @@
-/**
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for
- * license information.
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 package com.azure.management;
 
@@ -83,13 +80,32 @@ public abstract class AzureTokenCredential implements TokenCredential {
      */
     public abstract Mono<AccessToken> getToken(String resource);
 
+    /**
+     * Set default subscription ID.
+     *
+     * @param subscriptionId the default subscription ID.
+     * @return the credentials object itself.
+     */
+    public AzureTokenCredential defaultSubscriptionId(String subscriptionId) {
+        this.defaultSubscription = subscriptionId;
+        return this;
+    }
+
+    /**
+     * @param proxy the proxy being used for accessing Active Directory
+     * @return the credential itself
+     */
+    public AzureTokenCredential proxy(Proxy proxy) {
+        this.proxy = proxy;
+        return this;
+    }
 
     /**
      * Get default scope of MSAL for ARM
      *
      * @return default scope in string
      */
-    public String getDefaultScope() {
+    protected String getDefaultScope() {
         return this.getEnvironment().getResourceManagerEndpoint() + "/.default";
     }
 
@@ -116,30 +132,11 @@ public abstract class AzureTokenCredential implements TokenCredential {
         return defaultSubscription;
     }
 
-    /**
-     * Set default subscription ID.
-     *
-     * @param subscriptionId the default subscription ID.
-     * @return the credentials object itself.
-     */
-    public AzureTokenCredential setDefaultSubscriptionId(String subscriptionId) {
-        this.defaultSubscription = subscriptionId;
-        return this;
-    }
 
     /**
      * @return the proxy being used for accessing Active Directory.
      */
     public Proxy getProxy() {
         return proxy;
-    }
-
-    /**
-     * @param proxy the proxy being used for accessing Active Directory
-     * @return the credential itself
-     */
-    public AzureTokenCredential setProxy(Proxy proxy) {
-        this.proxy = proxy;
-        return this;
     }
 }

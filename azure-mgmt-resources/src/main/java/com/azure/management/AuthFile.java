@@ -1,8 +1,5 @@
-/**
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for
- * license information.
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 package com.azure.management;
 
@@ -25,8 +22,8 @@ import java.util.Properties;
 /**
  * This class describes the information from a .azureauth file.
  */
-final class AuthFile {
 
+final class AuthFile {
     private String clientId;
     private String tenantId;
     private String clientSecret;
@@ -100,13 +97,13 @@ final class AuthFile {
     /**
      * @return an ApplicationTokenCredentials object from the information in this class
      */
-    ApplicationTokenCredential generateCredentials() throws IOException {
+    ApplicationTokenCredential generateCredential() throws IOException {
         if (clientSecret != null) {
             return (ApplicationTokenCredential) new ApplicationTokenCredential(
                     clientId,
                     tenantId,
                     clientSecret,
-                    environment).setDefaultSubscriptionId(subscriptionId);
+                    environment).defaultSubscriptionId(subscriptionId);
         } else if (clientCertificate != null) {
             byte[] certData;
             File f = new File(clientCertificate);
@@ -120,7 +117,7 @@ final class AuthFile {
                     tenantId,
                     certData,
                     clientCertificatePassword,
-                    environment).setDefaultSubscriptionId(subscriptionId);
+                    environment).defaultSubscriptionId(subscriptionId);
         } else {
             throw new IllegalArgumentException("Please specify either a client key or a client certificate.");
         }

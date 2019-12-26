@@ -9,6 +9,7 @@ package com.azure.management.resources;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.implementation.ResourceManager;
 import org.junit.Assert;
 import org.junit.Test;
@@ -30,7 +31,6 @@ public class TenantsTests extends TestBase {
     @Test
     public void canListTenants() throws Exception {
         PagedIterable<TenantIdDescription> tenants = resourceManager.tenants().list();
-        // FIXME:
-        // Assert.assertTrue(tenants.size() > 0);
+        Assert.assertTrue(TestUtilities.getPagedIterableSie(tenants) > 0);
     }
 }

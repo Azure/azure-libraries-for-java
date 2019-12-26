@@ -18,11 +18,13 @@ public class WebAppsTests extends AppServiceTest {
     private static String RG_NAME_2 = "";
     private static String WEBAPP_NAME_1 = "";
     private static String WEBAPP_NAME_2 = "";
+    private static String WEBAPP_NAME_3 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         WEBAPP_NAME_1 = generateRandomResourceName("java-webapp-", 20);
         WEBAPP_NAME_2 = generateRandomResourceName("java-webapp-", 20);
+        WEBAPP_NAME_3 = generateRandomResourceName("java-webapp-", 20);
         RG_NAME_1 = generateRandomResourceName("javacsmrg", 20);
         RG_NAME_2 = generateRandomResourceName("javacsmrg", 20);
 
@@ -74,10 +76,20 @@ public class WebAppsTests extends AppServiceTest {
         // Update
         webApp1.update()
                 .withNewAppServicePlan(PricingTier.STANDARD_S2)
+                .withRuntimeStack(WebAppRuntimeStack.NETCORE)
                 .apply();
         AppServicePlan plan2 = appServiceManager.appServicePlans().getById(webApp1.appServicePlanId());
         Assert.assertNotNull(plan2);
         Assert.assertEquals(Region.US_WEST, plan2.region());
         Assert.assertEquals(PricingTier.STANDARD_S2, plan2.pricingTier());
+        Assert.assertEquals(WebAppRuntimeStack.NETCORE.runtime(), webApp1.manager().inner().webApps().listMetadata(webApp1.resourceGroupName(), webApp1.name()).properties().get("CURRENT_STACK"));
+
+        WebApp webApp3 = appServiceManager.webApps().define(WEBAPP_NAME_3)
+                .withExistingWindowsPlan(plan1)
+                .withExistingResourceGroup(RG_NAME_2)
+                .withRuntimeStack(WebAppRuntimeStack.NET)
+                .withNetFrameworkVersion(NetFrameworkVersion.V4_6)
+                .create();
+        Assert.assertEquals(WebAppRuntimeStack.NET.runtime(), webApp3.manager().inner().webApps().listMetadata(webApp3.resourceGroupName(), webApp3.name()).properties().get("CURRENT_STACK"));
     }
 }

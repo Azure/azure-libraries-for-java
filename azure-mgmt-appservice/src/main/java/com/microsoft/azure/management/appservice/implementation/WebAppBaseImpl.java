@@ -796,6 +796,13 @@ abstract class WebAppBaseImpl<
                 return submitSiteConfig();
             }
         });
+        // Metadata
+        lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
+            @Override
+            public Observable<Indexable> call(Context context) {
+                return submitMetadata();
+            }
+        });
         // App settings and connection strings
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
@@ -1062,6 +1069,12 @@ abstract class WebAppBaseImpl<
                         }
                     });
         }
+        return observable;
+    }
+
+    Observable<Indexable> submitMetadata() {
+        // NOOP
+        Observable<Indexable> observable = Observable.just((Indexable) this);
         return observable;
     }
 

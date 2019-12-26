@@ -37,7 +37,7 @@ class WebAppImpl
             WebApp.Definition,
             WebApp.DefinitionStages.ExistingWindowsPlanWithGroup,
             WebApp.DefinitionStages.ExistingLinuxPlanWithGroup,
-        WebApp.DefinitionStages.WithWindowsRuntimeStack,
+            WebApp.DefinitionStages.WithWindowsRuntimeStack,
             WebApp.Update,
             WebApp.UpdateStages.WithCredentials,
             WebApp.UpdateStages.WithStartUpCommand {

@@ -262,6 +262,15 @@ public interface WebApp extends
             /**
              * Creates a new app service plan to use.
              *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            WithWindowsRuntimeStack withNewWindowsPlan(String appServicePlanName, PricingTier pricingTier);
+
+            /**
+             * Creates a new app service plan to use.
+             *
              * @param appServicePlanCreatable the new app service plan creatable
              * @return the next stage of the definition
              */
@@ -274,6 +283,15 @@ public interface WebApp extends
              * @return the next stage of the definition
              */
             WithDockerContainerImage withNewLinuxPlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new app service plan to use.
+             *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewLinuxPlan(String appServicePlanName, PricingTier pricingTier);
 
             /**
              * Creates a new app service plan to use.
@@ -396,6 +414,15 @@ public interface WebApp extends
              * @return the next stage of the web app update
              */
             Update withNewAppServicePlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new app service plan to use.
+             *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the web app update
+             */
+            Update withNewAppServicePlan(String appServicePlanName, PricingTier pricingTier);
 
             /**
              * Creates a new app service plan to use.

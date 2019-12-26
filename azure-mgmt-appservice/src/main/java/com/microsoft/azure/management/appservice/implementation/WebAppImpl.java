@@ -132,6 +132,11 @@ class WebAppImpl
     }
 
     @Override
+    public WebAppImpl withNewWindowsPlan(String appServicePlanName, PricingTier pricingTier) {
+        return super.withNewAppServicePlan(appServicePlanName, OperatingSystem.WINDOWS, pricingTier);
+    }
+
+    @Override
     public WebAppImpl withNewWindowsPlan(Creatable<AppServicePlan> appServicePlanCreatable) {
         return super.withNewAppServicePlan(appServicePlanCreatable);
     }
@@ -139,6 +144,11 @@ class WebAppImpl
     @Override
     public WebAppImpl withNewLinuxPlan(PricingTier pricingTier) {
         return super.withNewAppServicePlan(OperatingSystem.LINUX, pricingTier);
+    }
+
+    @Override
+    public WebAppImpl withNewLinuxPlan(String appServicePlanName, PricingTier pricingTier) {
+        return super.withNewAppServicePlan(appServicePlanName, OperatingSystem.LINUX, pricingTier);
     }
 
     @Override

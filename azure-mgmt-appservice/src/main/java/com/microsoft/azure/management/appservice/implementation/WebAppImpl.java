@@ -247,7 +247,7 @@ class WebAppImpl
                         stringDictionaryInner = new StringDictionaryInner();
                     }
                     if (stringDictionaryInner.properties() == null) {
-                        stringDictionaryInner.withProperties(new HashMap<String, String>());;
+                        stringDictionaryInner.withProperties(new HashMap<String, String>());
                     }
                     stringDictionaryInner.properties().put("CURRENT_STACK", runtimeStackOnWindowsOSToUpdate.runtime());
                     return updateMetadata(stringDictionaryInner);

@@ -800,13 +800,18 @@ abstract class WebAppBaseImpl<
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
-                return submitMetadata().mergeWith(submitAppSettings().mergeWith(submitConnectionStrings()))
-                        .last().flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(Indexable indexable) {
-                                return submitStickiness();
-                            }
-                        });
+                return submitMetadata().flatMap(new Func1<Indexable, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(Indexable indexable) {
+                        return submitAppSettings().mergeWith(submitConnectionStrings())
+                                .last();
+                    }
+                }).flatMap(new Func1<Indexable, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(Indexable indexable) {
+                        return submitStickiness();
+                    }
+                });
             }
         });
         // Source control

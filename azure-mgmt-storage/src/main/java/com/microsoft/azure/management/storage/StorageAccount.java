@@ -347,8 +347,7 @@ public interface StorageAccount extends
         /**
          * The stage of a storage account definition allowing to specify account kind as block blob storage.
          */
-        interface WithBlockBlobStorageAccountKind
-        {
+        interface WithBlockBlobStorageAccountKind {
             /**
              * Specifies the storage account kind to be "BlockBlobStorage".
              *
@@ -360,8 +359,7 @@ public interface StorageAccount extends
         /**
          * The stage of a storage account definition allowing to specify account kind as file storage.
          */
-        interface WithFileStorageAccountKind
-        {
+        interface WithFileStorageAccountKind {
             /**
              * Specifies the storage account kind to be "FileStorage".
              *

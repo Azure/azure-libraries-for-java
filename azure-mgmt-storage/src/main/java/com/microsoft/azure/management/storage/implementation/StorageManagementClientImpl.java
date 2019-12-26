@@ -10,10 +10,8 @@ package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.azure.LongRunningFinalState;
-import com.microsoft.azure.LongRunningOperationOptions;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
 import com.microsoft.rest.RestClient;
+import com.microsoft.rest.credentials.ServiceClientCredentials;
 
 /**
  * Initializes a new instance of the StorageManagementClientImpl class.

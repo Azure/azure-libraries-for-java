@@ -11,7 +11,6 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 import com.microsoft.azure.management.storage.implementation.SkuInformationInner;
-import com.microsoft.azure.management.storage.implementation.SkuInner;
 
 import java.util.List;
 

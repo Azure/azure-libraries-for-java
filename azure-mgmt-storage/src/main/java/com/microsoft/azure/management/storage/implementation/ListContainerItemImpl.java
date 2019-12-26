@@ -1,8 +1,12 @@
+/**
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License. See License.txt in the project root for
+ * license information.
+ */
+
 package com.microsoft.azure.management.storage.implementation;
 
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.storage.BlobContainer;
 import com.microsoft.azure.management.storage.ImmutabilityPolicyProperties;
 import com.microsoft.azure.management.storage.LeaseDuration;
 import com.microsoft.azure.management.storage.LeaseState;

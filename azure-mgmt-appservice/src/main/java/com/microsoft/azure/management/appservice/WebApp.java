@@ -368,6 +368,7 @@ public interface WebApp extends
         interface WithWindowsRuntimeStack extends WithCreate {
             /**
              * Specifies the runtime stack for the web app on Windows operating system.
+             * @param runtimeStack the runtime stack for web app
              * @return the next stage of the definition
              */
             WithCreate withRuntimeStack(WebAppRuntimeStack runtimeStack);
@@ -506,6 +507,7 @@ public interface WebApp extends
         interface WithWindowsRuntimeStack {
             /**
              * Specifies the runtime stack for the web app on Windows operating system.
+             * @param runtimeStack the runtime stack for web app
              * @return the next stage of the web app update
              */
             Update withRuntimeStack(WebAppRuntimeStack runtimeStack);

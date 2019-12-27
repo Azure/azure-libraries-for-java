@@ -495,7 +495,7 @@ public interface WebApp extends
             /**
              * Specifies the startup command.
              * @param startUpCommand startup command to replace "CMD" in Dockerfile
-             * @return the next stage of the definition
+             * @return the next stage of the web app update
              */
             Update withStartUpCommand(String startUpCommand);
         }
@@ -506,7 +506,7 @@ public interface WebApp extends
         interface WithWindowsRuntimeStack {
             /**
              * Specifies the runtime stack for the web app on Windows operating system.
-             * @return the next stage of the definition
+             * @return the next stage of the web app update
              */
             Update withRuntimeStack(WebAppRuntimeStack runtimeStack);
         }

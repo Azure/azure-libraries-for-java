@@ -7,7 +7,7 @@
 package com.azure.management.resources.fluentcore.model;
 
 import com.azure.management.resources.fluentcore.arm.models.HasName;
-import reactor.core.publisher.Mono;
+import reactor.core.publisher.Flux;
 
 /**
  * The final stage of the resource definition, at which it can be created using create().
@@ -31,5 +31,5 @@ public interface Creatable<T> extends
      *
      * @return an observable of the request
      */
-    Mono<Indexable> createAsync();
+    Flux<Indexable> createAsync();
 }

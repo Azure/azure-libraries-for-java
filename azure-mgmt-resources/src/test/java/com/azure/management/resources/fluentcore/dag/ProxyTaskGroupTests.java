@@ -455,6 +455,7 @@ public class ProxyTaskGroupTests {
                     StringIndexable stringIndexable = toStringIndexable(value);
                     Assert.assertTrue(group1Items.contains(stringIndexable.str()));
                     group1Items.remove(stringIndexable.str());
+                }, throwable -> {
                 });
 
         Assert.assertEquals(0, group1Items.size());
@@ -1451,10 +1452,14 @@ public class ProxyTaskGroupTests {
          */
 
         final ArrayList<String> seen = new ArrayList<>();
+        CountDownLatch down = new CountDownLatch(1);
         itiC.getTaskGroup()
                 .invokeAsync(itiC.getTaskGroup().newInvocationContext())
                 .subscribe(indexable ->
-                        seen.add(indexable.getKey()));
+                                seen.add(indexable.getKey()),
+                        throwable -> down.countDown(),
+                        () -> down.countDown());
+        down.await();
 
         boolean b1 = seen.equals(new ArrayList<>(Arrays.asList(new String[]{"A", "C", "B", "C"})));
         boolean b2 = seen.equals(new ArrayList<>(Arrays.asList(new String[]{"C", "A", "B", "C"})));

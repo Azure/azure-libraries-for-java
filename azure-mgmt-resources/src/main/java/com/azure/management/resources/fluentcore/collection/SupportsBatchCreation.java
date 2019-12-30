@@ -9,6 +9,7 @@ package com.azure.management.resources.fluentcore.collection;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.CreatedResources;
 import com.azure.management.resources.fluentcore.model.Indexable;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -44,7 +45,7 @@ public interface SupportsBatchCreation<ResourceT extends Indexable> {
      * @param creatables the creatables in the batch
      * @return a {@link Mono} that emits the found resource asynchronously.
      */
-    Mono<Indexable> createAsync(Creatable<ResourceT>... creatables);
+    Flux<Indexable> createAsync(Creatable<ResourceT>... creatables);
 
     /**
      * Puts the requests to create a batch of resources into the queue and allow the HTTP client to execute it when
@@ -53,5 +54,5 @@ public interface SupportsBatchCreation<ResourceT extends Indexable> {
      * @param creatables the list of creatables in the batch
      * @return a {@link Mono} that emits the found resource asynchronously.
      */
-    Mono<Indexable> createAsync(List<Creatable<ResourceT>> creatables);
+    Flux<Indexable> createAsync(List<Creatable<ResourceT>> creatables);
 }

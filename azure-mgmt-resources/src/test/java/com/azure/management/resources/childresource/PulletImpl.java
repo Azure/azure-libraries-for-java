@@ -78,12 +78,12 @@ class PulletImpl extends ExternalChildResourceImpl<Pullet, Object, ChickenImpl, 
             return Mono.error(new Exception("Deletion of " + this.getName() + " failed"));
         }
 
-        return Mono.just(null);
+        return Mono.empty();
     }
 
     @Override
     protected Mono<Object> getInnerAsync() {
-        return Mono.just(null);
+        return Mono.empty();
     }
 
     @Override

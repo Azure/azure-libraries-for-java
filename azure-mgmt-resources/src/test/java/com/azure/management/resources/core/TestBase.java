@@ -149,6 +149,7 @@ public abstract class TestBase {
         Assume.assumeTrue(skipMessage, skipMessage == null);
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
+        interceptorManager.initInterceptor();
 
         ApplicationTokenCredential credentials;
         RestClient restClient;

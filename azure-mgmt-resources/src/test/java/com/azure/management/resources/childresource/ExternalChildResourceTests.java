@@ -217,7 +217,7 @@ public class ExternalChildResourceTests {
                     if (indexable instanceof SchoolsImpl.StudentImpl) {
                         foundStudent[0] = (SchoolsImpl.StudentImpl) indexable;
                     }
-                }).block();
+                }).blockLast();
 
         Assert.assertNotNull(foundTeacher[0]);
         Assert.assertNotNull(foundStudent[0]);

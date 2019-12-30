@@ -172,20 +172,20 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
         super.setResourceManager(this);
         this.resourceManagementClient = (new ResourceManagementClientBuilder())
                 .pipeline(restClient.getHttpPipeline())
-                .host(AzureEnvironment.AZURE.getManagementEndpoint())
+                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
                 .subscriptionId(subscriptionId)
                 .build();
 
 
         this.featureClient = (new FeatureClientBuilder())
                 .pipeline(restClient.getHttpPipeline())
-                .host(AzureEnvironment.AZURE.getManagementEndpoint())
+                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
                 .subscriptionId(subscriptionId)
                 .build();
 
         this.subscriptionClientClient = (new SubscriptionClientBuilder())
                 .pipeline(restClient.getHttpPipeline())
-                .host(AzureEnvironment.AZURE.getManagementEndpoint())
+                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
                 .build();
 //                new ResourceManagementClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
         // this.resourceManagementClient.withSubscriptionId(subscriptionId);

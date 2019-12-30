@@ -12,6 +12,7 @@ import com.azure.management.resources.fluentcore.model.CreatedResources;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -52,26 +53,26 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
 
     @Override
     @SafeVarargs
-    public final Mono<Indexable> createAsync(Creatable<T>... creatables) {
+    public final Flux<Indexable> createAsync(Creatable<T>... creatables) {
         CreatableUpdatableResourcesRootImpl<T> rootResource = new CreatableUpdatableResourcesRootImpl<>();
         rootResource.addCreatableDependencies(creatables);
         return rootResource.createAsync();
     }
 
     @Override
-    public final Mono<Indexable> createAsync(List<Creatable<T>> creatables) {
+    public final Flux<Indexable> createAsync(List<Creatable<T>> creatables) {
         CreatableUpdatableResourcesRootImpl<T> rootResource = new CreatableUpdatableResourcesRootImpl<>();
         rootResource.addCreatableDependencies(creatables);
         return rootResource.createAsync();
     }
 
     private Mono<CreatedResources<T>> createAsyncNonStream(List<Creatable<T>> creatables) {
-        return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables))
+        return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables).last())
                 .map(tCreatableUpdatableResourcesRoot -> new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot));
     }
 
     private Mono<CreatedResources<T>> createAsyncNonStream(Creatable<T>... creatables) {
-        return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables))
+        return Utils.<CreatableUpdatableResourcesRoot<T>>rootResource(this.createAsync(creatables).last())
                 .map(tCreatableUpdatableResourcesRoot -> new CreatedResourcesImpl<>(tCreatableUpdatableResourcesRoot));
     }
 

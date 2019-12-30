@@ -33,8 +33,8 @@ public class ManageLinuxFunctionAppSourceControl {
 
     private static OkHttpClient httpClient;
 
-    private final static String functionAppPackageUrl = "https://raw.github.com/Azure/azure-libraries-for-java/master/azure-mgmt-appservice/src/test/resources/java-functions.zip";
-    private final static long timeoutInSeconds = 5 * 60;
+    private final static String FUNCTION_APP_PACKAGE_URL = "https://raw.github.com/Azure/azure-libraries-for-java/master/azure-mgmt-appservice/src/test/resources/java-functions.zip";
+    private final static long TIMEOUT_IN_SECONDS = 5 * 60;
 
     /**
      * Main function which runs the actual sample.
@@ -66,7 +66,7 @@ public class ManageLinuxFunctionAppSourceControl {
                     .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
                     .withNewStorageAccount(storage1Name, StorageAccountSkuType.STANDARD_RAGRS)
                     .withHttpsOnly(true)
-                    .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", functionAppPackageUrl)
+                    .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                     .create();
 
             System.out.println("Created function app " + app1.name());
@@ -76,7 +76,7 @@ public class ManageLinuxFunctionAppSourceControl {
             String app1UrlFunction = app1Url + "/api/HttpTrigger-Java?name=linux_function_app1";
             System.out.println("Warming up " + app1UrlFunction + "...");
             StopWatch stopWatch = StopWatch.createStarted();
-            while (stopWatch.getTime() < timeoutInSeconds * 1000) {
+            while (stopWatch.getTime() < TIMEOUT_IN_SECONDS * 1000) {
                 String response = get("https://" + app1UrlFunction);
                 if (response != null && response.contains("Hello")) {
                     break;
@@ -102,7 +102,7 @@ public class ManageLinuxFunctionAppSourceControl {
                     .withBuiltInImage(FunctionRuntimeStack.JAVA_8)
                     .withExistingStorageAccount(azure.storageAccounts().getByResourceGroup(rgName, storage1Name))
                     .withHttpsOnly(true)
-                    .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", functionAppPackageUrl)
+                    .withAppSetting("WEBSITE_RUN_FROM_PACKAGE", FUNCTION_APP_PACKAGE_URL)
                     .create();
 
             System.out.println("Created function app " + app2.name());
@@ -112,7 +112,7 @@ public class ManageLinuxFunctionAppSourceControl {
             String app2UrlFunction = app2Url + "/api/HttpTrigger-Java?name=linux_function_app2";
             System.out.println("Warming up " + app2UrlFunction + "...");
             stopWatch = StopWatch.createStarted();
-            while (stopWatch.getTime() < timeoutInSeconds * 1000) {
+            while (stopWatch.getTime() < TIMEOUT_IN_SECONDS * 1000) {
                 String response = get("https://" + app2UrlFunction);
                 if (response != null && response.contains("Hello")) {
                     break;

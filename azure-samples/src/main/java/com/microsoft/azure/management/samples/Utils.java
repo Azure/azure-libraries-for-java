@@ -1012,7 +1012,7 @@ public final class Utils {
      */
     public static void print(WebAppBase resource) {
         StringBuilder builder = new StringBuilder().append("Web app: ").append(resource.id())
-                .append("Name: ").append(resource.name())
+                .append("\n\tName: ").append(resource.name())
                 .append("\n\tState: ").append(resource.state())
                 .append("\n\tResource group: ").append(resource.resourceGroupName())
                 .append("\n\tRegion: ").append(resource.region())

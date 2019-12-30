@@ -33,8 +33,8 @@ public class ManageLinuxFunctionAppSourceControl {
 
     private static OkHttpClient httpClient;
 
-    private static String functionAppPackageUrl = "https://raw.github.com/Azure/azure-libraries-for-java/master/azure-mgmt-appservice/src/test/resources/java-functions.zip";
-    private static long timeoutInSeconds = 5 * 60;
+    private final static String functionAppPackageUrl = "https://raw.github.com/Azure/azure-libraries-for-java/master/azure-mgmt-appservice/src/test/resources/java-functions.zip";
+    private final static long timeoutInSeconds = 5 * 60;
 
     /**
      * Main function which runs the actual sample.

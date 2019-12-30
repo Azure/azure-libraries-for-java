@@ -76,7 +76,6 @@ public class ManageLinuxFunctionAppSourceControl {
             String app1UrlFunction = app1Url + "/api/HttpTrigger-Java?name=linux_function_app1";
             System.out.println("Warming up " + app1UrlFunction + "...");
             StopWatch stopWatch = StopWatch.createStarted();
-            // wait for 3 min at most
             while (stopWatch.getTime() < TIMEOUT_IN_SECONDS * 1000) {
                 String response = get("https://" + app1UrlFunction);
                 if (response != null && response.contains("Hello")) {
@@ -113,7 +112,6 @@ public class ManageLinuxFunctionAppSourceControl {
             String app2UrlFunction = app2Url + "/api/HttpTrigger-Java?name=linux_function_app2";
             System.out.println("Warming up " + app2UrlFunction + "...");
             stopWatch = StopWatch.createStarted();
-            // wait for 3 min at most
             while (stopWatch.getTime() < TIMEOUT_IN_SECONDS * 1000) {
                 String response = get("https://" + app2UrlFunction);
                 if (response != null && response.contains("Hello")) {

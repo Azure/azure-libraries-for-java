@@ -80,15 +80,8 @@ final class ResourceGroupsImpl
     }
 
     @Override
-    public boolean checkExistence(String name) {
-        return this.contain(name);
-    }
-
-    @Override
     public boolean contain(String name) {
-        // FIXME
-        // return client.checkExistence(name);
-        return false;
+        return client.checkExistence(name);
     }
 
     @Override

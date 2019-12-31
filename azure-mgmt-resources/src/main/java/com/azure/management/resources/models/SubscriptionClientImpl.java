@@ -19,12 +19,12 @@ import com.azure.management.AzureServiceClient;
  */
 public final class SubscriptionClientImpl extends AzureServiceClient {
     /**
-     * https://management.azure.com.
+     * server parameter.
      */
     private String host;
 
     /**
-     * Gets https://management.azure.com.
+     * Gets server parameter.
      * 
      * @return the host value.
      */
@@ -33,7 +33,7 @@ public final class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets https://management.azure.com.
+     * Sets server parameter.
      * 
      * @param host the host value.
      * @return the service client itself.
@@ -44,12 +44,12 @@ public final class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * 2019-06-01.
+     * The API version to use for this operation.
      */
     private String apiVersion;
 
     /**
-     * Gets 2019-06-01.
+     * Gets The API version to use for this operation.
      * 
      * @return the apiVersion value.
      */
@@ -58,7 +58,7 @@ public final class SubscriptionClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets 2019-06-01.
+     * Sets The API version to use for this operation.
      * 
      * @param apiVersion the apiVersion value.
      * @return the service client itself.

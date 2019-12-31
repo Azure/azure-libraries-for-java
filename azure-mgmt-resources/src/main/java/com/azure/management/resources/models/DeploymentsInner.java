@@ -329,14 +329,14 @@ public final class DeploymentsInner {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> checkExistenceAtScopeAsync(String scope, String deploymentName) {
+    public Mono<Boolean> checkExistenceAtScopeAsync(String scope, String deploymentName) {
         return checkExistenceAtScopeWithResponseAsync(scope, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void checkExistenceAtScope(String scope, String deploymentName) {
-        checkExistenceAtScopeAsync(scope, deploymentName).block();
+    public boolean checkExistenceAtScope(String scope, String deploymentName) {
+        return checkExistenceAtScopeAsync(scope, deploymentName).block();
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -496,14 +496,14 @@ public final class DeploymentsInner {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> checkExistenceAtTenantScopeAsync(String deploymentName) {
+    public Mono<Boolean> checkExistenceAtTenantScopeAsync(String deploymentName) {
         return checkExistenceAtTenantScopeWithResponseAsync(deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void checkExistenceAtTenantScope(String deploymentName) {
-        checkExistenceAtTenantScopeAsync(deploymentName).block();
+    public boolean checkExistenceAtTenantScope(String deploymentName) {
+        return checkExistenceAtTenantScopeAsync(deploymentName).block();
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -662,14 +662,14 @@ public final class DeploymentsInner {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> checkExistenceAtManagementGroupScopeAsync(String groupId, String deploymentName) {
+    public Mono<Boolean> checkExistenceAtManagementGroupScopeAsync(String groupId, String deploymentName) {
         return checkExistenceAtManagementGroupScopeWithResponseAsync(groupId, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void checkExistenceAtManagementGroupScope(String groupId, String deploymentName) {
-        checkExistenceAtManagementGroupScopeAsync(groupId, deploymentName).block();
+    public boolean checkExistenceAtManagementGroupScope(String groupId, String deploymentName) {
+        return checkExistenceAtManagementGroupScopeAsync(groupId, deploymentName).block();
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -829,14 +829,14 @@ public final class DeploymentsInner {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> checkExistenceAtSubscriptionScopeAsync(String deploymentName) {
+    public Mono<Boolean> checkExistenceAtSubscriptionScopeAsync(String deploymentName) {
         return checkExistenceAtSubscriptionScopeWithResponseAsync(deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void checkExistenceAtSubscriptionScope(String deploymentName) {
-        checkExistenceAtSubscriptionScopeAsync(deploymentName).block();
+    public boolean checkExistenceAtSubscriptionScope(String deploymentName) {
+        return checkExistenceAtSubscriptionScopeAsync(deploymentName).block();
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -1017,14 +1017,14 @@ public final class DeploymentsInner {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> checkExistenceAsync(String resourceGroupName, String deploymentName) {
+    public Mono<Boolean> checkExistenceAsync(String resourceGroupName, String deploymentName) {
         return checkExistenceWithResponseAsync(resourceGroupName, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void checkExistence(String resourceGroupName, String deploymentName) {
-        checkExistenceAsync(resourceGroupName, deploymentName).block();
+    public boolean checkExistence(String resourceGroupName, String deploymentName) {
+        return checkExistenceAsync(resourceGroupName, deploymentName).block();
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)

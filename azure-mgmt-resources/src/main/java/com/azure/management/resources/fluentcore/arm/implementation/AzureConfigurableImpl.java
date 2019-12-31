@@ -95,8 +95,8 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
         RestClient client = restClientBuilder
                 .withBaseUrl(credential.getEnvironment(), endpoint)
                 .withCredential(credential)
-                .withPolicy(new ProviderRegistrationPolicy())
-                .withPolicy(new ResourceManagerThrottlingPolicy())
+//                .withPolicy(new ProviderRegistrationPolicy())
+//                .withPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient();
         // TODO: Add proxy support
 //        if (client.httpClient().proxy() != null) {

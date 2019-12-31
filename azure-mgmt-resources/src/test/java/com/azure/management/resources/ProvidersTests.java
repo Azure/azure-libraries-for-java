@@ -6,8 +6,10 @@
 
 package com.azure.management.resources;
 
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
 import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.core.TestUtilities;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
 import org.junit.Assert;
@@ -31,10 +33,10 @@ public class ProvidersTests extends TestBase {
 
     @Test
     public void canUnregisterAndRegisterProvider() throws Exception {
-        List<Provider> providers = resourceManager.providers().list();
-        int size = providers.size();
+        PagedIterable<Provider> providers = resourceManager.providers().list();
+        int size = TestUtilities.getPagedIterableSize(providers);
         Assert.assertTrue(size > 0);
-        Provider provider = providers.get(0);
+        Provider provider = providers.iterator().next();
         resourceManager.providers().unregister(provider.namespace());
         provider = resourceManager.providers().getByName(provider.namespace());
         while (provider.registrationState().equals("Unregistering")) {

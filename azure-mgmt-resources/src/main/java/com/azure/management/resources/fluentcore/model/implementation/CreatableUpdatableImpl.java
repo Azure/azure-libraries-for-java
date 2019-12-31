@@ -211,8 +211,8 @@ public abstract class CreatableUpdatableImpl<
     }
 
     @Override
-    public Mono<Indexable> createAsync() {
-        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext()).last();
+    public Flux<Indexable> createAsync() {
+        return taskGroup.invokeAsync(this.taskGroup.newInvocationContext());
     }
 
     @Override
@@ -231,7 +231,7 @@ public abstract class CreatableUpdatableImpl<
 
     @Override
     public FluentModelT create() {
-        return Utils.<FluentModelT>rootResource(createAsync()).block();
+        return Utils.<FluentModelT>rootResource(createAsync().last()).block();
     }
 
     @Override

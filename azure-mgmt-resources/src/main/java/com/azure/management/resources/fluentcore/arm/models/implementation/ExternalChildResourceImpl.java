@@ -317,13 +317,13 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     }
 
     @Override
-    public Mono<Indexable> createAsync() {
-        return getTaskGroup().invokeAsync(this.getTaskGroup().newInvocationContext()).last();
+    public Flux<Indexable> createAsync() {
+        return getTaskGroup().invokeAsync(this.getTaskGroup().newInvocationContext());
     }
 
     @Override
     public FluentModelT create() {
-        return Utils.<FluentModelT>rootResource(createAsync()).block();
+        return Utils.<FluentModelT>rootResource(createAsync().last()).block();
     }
 
     @Override

@@ -3,18 +3,22 @@
 
 package com.azure.management;
 
-import com.azure.core.credential.TokenCredential;
-import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.annotation.ServiceClientBuilder;
-import com.azure.core.http.policy.*;
-import com.azure.core.management.AzureEnvironment;
-import com.azure.core.util.Configuration;
+import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.HttpPipelineBuilder;
+import com.azure.core.http.policy.HttpLogDetailLevel;
+import com.azure.core.http.policy.HttpLogOptions;
+import com.azure.core.http.policy.HttpLoggingPolicy;
+import com.azure.core.http.policy.HttpPipelinePolicy;
+import com.azure.core.http.policy.HttpPolicyProviders;
+import com.azure.core.http.policy.RetryPolicy;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.util.Configuration;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.serializer.SerializerAdapter;
-import org.apache.commons.lang3.StringUtils;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.net.MalformedURLException;
@@ -26,6 +30,7 @@ import java.util.Objects;
 
 @ServiceClientBuilder(serviceClients = RestClient.class)
 public final class RestClientBuilder {
+
     private final ClientLogger logger = new ClientLogger(RestClientBuilder.class);
 
     private final List<HttpPipelinePolicy> policies;
@@ -35,7 +40,6 @@ public final class RestClientBuilder {
     private HttpClient httpClient;
     private HttpLogOptions httpLogOptions;
     private Configuration configuration;
-    private RestServiceVersion version;
     private SerializerAdapter serializerAdapter;
 
     private final RetryPolicy retryPolicy;
@@ -50,12 +54,8 @@ public final class RestClientBuilder {
     }
 
     public RestClient buildClient() {
-        return new RestClient(buildAsyncClient());
-    }
-
-    public RestAsyncClient buildAsyncClient() {
         if (pipeline != null) {
-            return new RestAsyncClient(baseUrl, pipeline, this);
+            return new RestClient(baseUrl, pipeline, this);
         }
 
         if (credential == null) {
@@ -81,15 +81,14 @@ public final class RestClientBuilder {
                 .httpClient(httpClient)
                 .build();
 
-        return new RestAsyncClient(baseUrl, pipeline, this);
+        return new RestClient(baseUrl, pipeline, this);
     }
 
     public RestClientBuilder withBaseUrl(String baseUrl) {
         try {
             this.baseUrl = new URL(baseUrl);
         } catch (MalformedURLException e) {
-            throw logger.logExceptionAsError(new IllegalArgumentException(
-                    "The Azure Key Vault url is malformed.", e));
+            throw logger.logExceptionAsError(new IllegalArgumentException("The Azure Key Vault url is malformed.", e));
         }
         return this;
     }
@@ -98,8 +97,7 @@ public final class RestClientBuilder {
         try {
             this.baseUrl = new URL(environment.url(endpoint));
         } catch (MalformedURLException e) {
-            throw logger.logExceptionAsError(new IllegalArgumentException(
-                    "The Azure Key Vault url is malformed.", e));
+            throw logger.logExceptionAsError(new IllegalArgumentException("The Azure Key Vault url is malformed.", e));
         }
         return this;
     }
@@ -130,43 +128,21 @@ public final class RestClientBuilder {
         return this;
     }
 
-    public RestClientBuilder httpClient(HttpClient client) {
+    public RestClientBuilder withHttpClient(HttpClient client) {
         Objects.requireNonNull(client);
         this.httpClient = client;
         return this;
     }
 
-    public RestClientBuilder pipeline(HttpPipeline pipeline) {
+    public RestClientBuilder withHttpPipeline(HttpPipeline pipeline) {
         Objects.requireNonNull(pipeline);
         this.pipeline = pipeline;
         return this;
     }
 
-    public RestClientBuilder configuration(Configuration configuration) {
+    public RestClientBuilder withConfiguration(Configuration configuration) {
         this.configuration = configuration;
         return this;
-    }
-
-    public RestClientBuilder serviceVersion(RestServiceVersion version) {
-        this.version = version;
-        return this;
-    }
-
-    private URL getBuildEndpoint(Configuration configuration) {
-        if (baseUrl != null) {
-            return baseUrl;
-        }
-
-        String configEndpoint = configuration.get("AZURE_KEYVAULT_ENDPOINT");
-        if (CoreUtils.isNullOrEmpty(configEndpoint)) {
-            return null;
-        }
-
-        try {
-            return new URL(configEndpoint);
-        } catch (MalformedURLException ex) {
-            return null;
-        }
     }
 
     public SerializerAdapter getSerializerAdapter() {
@@ -176,7 +152,7 @@ public final class RestClientBuilder {
     /**
      * @return the credentials attached to this REST client
      */
-    public TokenCredential credentials() {
+    public TokenCredential getCredential() {
         return this.credential;
     }
 }

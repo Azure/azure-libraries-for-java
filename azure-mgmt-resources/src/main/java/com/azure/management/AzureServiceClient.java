@@ -1,19 +1,10 @@
-/**
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for
- * license information.
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 package com.azure.management;
 
-import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.management.AzureEnvironment;
-import com.azure.core.management.serializer.AzureJacksonAdapter;
-//import com.google.common.hash.Hashing;
-
-import java.net.NetworkInterface;
-import java.util.Enumeration;
 
 /**
  * ServiceClient is the abstraction for accessing REST operations and their payload data types.

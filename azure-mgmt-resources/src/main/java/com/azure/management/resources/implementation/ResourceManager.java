@@ -22,10 +22,11 @@ import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.ManagerBase;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.resources.fluentcore.policy.ProviderRegistrationPolicy;
-import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
+import com.azure.management.resources.models.FeatureClientBuilder;
 import com.azure.management.resources.models.FeatureClientImpl;
+import com.azure.management.resources.models.ResourceManagementClientBuilder;
 import com.azure.management.resources.models.ResourceManagementClientImpl;
+import com.azure.management.resources.models.SubscriptionClientBuilder;
 import com.azure.management.resources.models.SubscriptionClientImpl;
 
 /**
@@ -45,9 +46,8 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private Deployments deployments;
     private Features features;
     private Providers providers;
-
-//    private PolicyDefinitions policyDefinitions;
-//    private PolicyAssignments policyAssignments;
+    //    private PolicyDefinitions policyDefinitions;
+    //    private PolicyAssignments policyAssignments;
 
     /**
      * Creates an instance of ResourceManager that exposes resource management API entry points.
@@ -60,8 +60,8 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
                 .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
                 .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withPolicy(new ProviderRegistrationPolicy())
-                .withPolicy(new ResourceManagerThrottlingPolicy())
+//                .withPolicy(new ProviderRegistrationPolicy())
+//                .withPolicy(new ResourceManagerThrottlingPolicy())
                 .buildClient());
     }
 
@@ -141,7 +141,10 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
 
         AuthenticatedImpl(RestClient restClient) {
             this.restClient = restClient;
-            this.subscriptionClient = new SubscriptionClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
+            this.subscriptionClient = (new SubscriptionClientBuilder())
+                    .pipeline(restClient.getHttpPipeline())
+                    .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                    .build();
         }
 
         public Subscriptions subscriptions() {
@@ -167,11 +170,28 @@ public final class ResourceManager extends ManagerBase implements HasInner<Resou
     private ResourceManager(RestClient restClient, String subscriptionId) {
         super(null, subscriptionId);
         super.setResourceManager(this);
-        this.resourceManagementClient = new ResourceManagementClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
+        this.resourceManagementClient = (new ResourceManagementClientBuilder())
+                .pipeline(restClient.getHttpPipeline())
+                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                .subscriptionId(subscriptionId)
+                .build();
+
+
+        this.featureClient = (new FeatureClientBuilder())
+                .pipeline(restClient.getHttpPipeline())
+                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                .subscriptionId(subscriptionId)
+                .build();
+
+        this.subscriptionClientClient = (new SubscriptionClientBuilder())
+                .pipeline(restClient.getHttpPipeline())
+                .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                .build();
+//                new ResourceManagementClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
         // this.resourceManagementClient.withSubscriptionId(subscriptionId);
-        this.featureClient = new FeatureClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
+        // this.featureClient = new FeatureClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
         // this.featureClient.withSubscriptionId(subscriptionId);
-        this.subscriptionClientClient = new SubscriptionClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
+        // this.subscriptionClientClient = new SubscriptionClientImpl(restClient.getHttpPipeline(), AzureEnvironment.AZURE);
 //        this.policyClient = new PolicyClientImpl(restClient);
 //        this.policyClient.withSubscriptionId(subscriptionId);
     }

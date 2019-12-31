@@ -1,8 +1,5 @@
-/**
- * Copyright (c) Microsoft Corporation. All rights reserved.
- * Licensed under the MIT License. See License.txt in the project root for
- * license information.
- */
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
 
 package com.azure.management;
 
@@ -40,8 +37,8 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
         this.clientCertificatePassword = password;
     }
 
-    public static ApplicationTokenCredential fromFile(File credentialsFile) throws IOException {
-        return AuthFile.parse(credentialsFile).generateCredentials();
+    public static ApplicationTokenCredential fromFile(File credentialFile) throws IOException {
+        return AuthFile.parse(credentialFile).generateCredential();
     }
 
     public String getClientId() {
@@ -60,8 +57,10 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
         return this.clientCertificatePassword;
     }
 
+
     @Override
     public synchronized Mono<AccessToken> getToken(String resource) {
+        // TODO: Add client certificate token
         ClientSecretCredential clientSecretCredential = new ClientSecretCredentialBuilder()
                 .clientId(this.getClientId())
                 .clientSecret(this.getClientSecret())

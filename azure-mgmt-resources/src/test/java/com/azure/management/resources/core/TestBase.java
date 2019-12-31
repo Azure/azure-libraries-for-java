@@ -13,7 +13,6 @@ import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.RestClient;
 import com.azure.management.RestClientBuilder;
-import com.azure.management.resources.fluentcore.policy.ResourceManagerThrottlingPolicy;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.After;
 import org.junit.Assume;
@@ -28,7 +27,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.Properties;
-import java.util.concurrent.TimeUnit;
 
 public abstract class TestBase {
     private PrintStream out;
@@ -151,6 +149,7 @@ public abstract class TestBase {
         Assume.assumeTrue(skipMessage, skipMessage == null);
 
         interceptorManager = InterceptorManager.create(testName.getMethodName(), testMode);
+        interceptorManager.initInterceptor();
 
         ApplicationTokenCredential credentials;
         RestClient restClient;
@@ -188,7 +187,7 @@ public abstract class TestBase {
                 }
 
                 credentials = new ApplicationTokenCredential(clientId, tenantId, clientSecret, AzureEnvironment.AZURE);
-                credentials.setDefaultSubscriptionId(subscriptionId);
+                credentials.defaultSubscriptionId(subscriptionId);
             }
             RestClientBuilder builder = new RestClientBuilder()
                     .withBaseUrl(this.baseUri())
@@ -197,7 +196,7 @@ public abstract class TestBase {
                     .withPolicy(new BearerTokenAuthenticationPolicy(credentials, credentials.getClientId() + "/.default"))
                     // .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
                     .withCredential(credentials);
-            restClient = buildRestClient(builder.withPolicy(new ResourceManagerThrottlingPolicy()), false);
+            restClient = buildRestClient(builder, false);
             defaultSubscription = credentials.getDefaultSubscriptionId();
             interceptorManager.addTextReplacementRule(defaultSubscription, ZERO_SUBSCRIPTION);
             interceptorManager.addTextReplacementRule(credentials.getDomain(), ZERO_TENANT);

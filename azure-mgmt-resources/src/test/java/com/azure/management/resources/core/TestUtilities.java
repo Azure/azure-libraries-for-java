@@ -6,12 +6,15 @@
 
 package com.azure.management.resources.core;
 
+import com.azure.core.http.rest.PagedIterable;
+
 /**
  * Common utility functions for the tests.
  */
 public class TestUtilities {
     /**
      * Wrapper on the SdkContext.sleep, in case of record mode will not sleep, otherwise sleep.
+     *
      * @param milliseconds time in milliseconds for which to sleep.
      */
     public static void sleep(int milliseconds, boolean isRecordMode) {
@@ -24,4 +27,12 @@ public class TestUtilities {
         }
     }
 
+    public static <T> int getPagedIterableSize(PagedIterable<T> iterable) {
+        int res = 0;
+
+        for (T t : iterable) {
+            res++;
+        }
+        return res;
+    }
 }

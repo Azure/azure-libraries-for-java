@@ -796,17 +796,22 @@ abstract class WebAppBaseImpl<
                 return submitSiteConfig();
             }
         });
-        // App settings and connection strings
+        // Metadata, app settings, and connection strings
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
-                return submitAppSettings().mergeWith(submitConnectionStrings())
-                        .last().flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(Indexable indexable) {
-                                return submitStickiness();
-                            }
-                        });
+                return submitMetadata().flatMap(new Func1<Indexable, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(Indexable indexable) {
+                        return submitAppSettings().mergeWith(submitConnectionStrings())
+                                .last();
+                    }
+                }).flatMap(new Func1<Indexable, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(Indexable indexable) {
+                        return submitStickiness();
+                    }
+                });
             }
         });
         // Source control
@@ -1062,6 +1067,12 @@ abstract class WebAppBaseImpl<
                         }
                     });
         }
+        return observable;
+    }
+
+    Observable<Indexable> submitMetadata() {
+        // NOOP
+        Observable<Indexable> observable = Observable.just((Indexable) this);
         return observable;
     }
 

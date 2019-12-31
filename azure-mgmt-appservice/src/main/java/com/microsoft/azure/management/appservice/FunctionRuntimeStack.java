@@ -12,9 +12,9 @@ import com.microsoft.azure.management.apigeneration.Fluent;
 import java.util.Objects;
 
 /**
- * Defines function app runtime for Linux.
+ * Defines function app runtime for Linux operating system.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
+@Fluent
 @Beta(Beta.SinceVersion.V1_28_0)
 public class FunctionRuntimeStack {
 
@@ -36,11 +36,11 @@ public class FunctionRuntimeStack {
      * @param linuxFxVersionForDedicatedPlan the LinuxFxVersion property value, for dedicated plan (app service plan or premium)
      */
     public FunctionRuntimeStack(String runtime, String version, String linuxFxVersionForConsumptionPlan, String linuxFxVersionForDedicatedPlan) {
-        this.runtime = runtime;
-        this.version = version;
+        this.runtime = Objects.requireNonNull(runtime);
+        this.version = Objects.requireNonNull(version);
 
-        this.linuxFxVersionForConsumptionPlan = linuxFxVersionForConsumptionPlan;
-        this.linuxFxVersionForDedicatedPlan = linuxFxVersionForDedicatedPlan;
+        this.linuxFxVersionForConsumptionPlan = Objects.requireNonNull(linuxFxVersionForConsumptionPlan);
+        this.linuxFxVersionForDedicatedPlan = Objects.requireNonNull(linuxFxVersionForDedicatedPlan);
     }
 
     /**

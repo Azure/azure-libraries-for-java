@@ -382,11 +382,14 @@ abstract class AppServiceBaseImpl<
         return manager().inner().webApps().updateDiagnosticLogsConfigAsync(resourceGroupName(), name(), siteLogsConfigInner);
     }
 
-    @SuppressWarnings("unchecked")
     private AppServicePlanImpl newDefaultAppServicePlan() {
         String planName = SdkContext.randomResourceName(name() + "plan", 32);
+        return newDefaultAppServicePlan(planName);
+    }
+
+    private AppServicePlanImpl newDefaultAppServicePlan(String appServicePlanName) {
         AppServicePlanImpl appServicePlan = (AppServicePlanImpl) (this.manager().appServicePlans()
-                .define(planName))
+                .define(appServicePlanName))
                 .withRegion(regionName());
         if (super.creatableGroup != null && isInCreateMode()) {
             appServicePlan = appServicePlan.withNewResourceGroup(super.creatableGroup);
@@ -404,13 +407,20 @@ abstract class AppServiceBaseImpl<
         return withNewAppServicePlan(OperatingSystem.WINDOWS, PricingTier.SHARED_D1);
     }
 
-    @SuppressWarnings("unchecked")
     FluentImplT withNewAppServicePlan(OperatingSystem operatingSystem, PricingTier pricingTier) {
         return withNewAppServicePlan(newDefaultAppServicePlan().withOperatingSystem(operatingSystem).withPricingTier(pricingTier));
     }
 
+    FluentImplT withNewAppServicePlan(String appServicePlanName, OperatingSystem operatingSystem, PricingTier pricingTier) {
+        return withNewAppServicePlan(newDefaultAppServicePlan(appServicePlanName).withOperatingSystem(operatingSystem).withPricingTier(pricingTier));
+    }
+
     public FluentImplT withNewAppServicePlan(PricingTier pricingTier) {
         return withNewAppServicePlan(operatingSystem(), pricingTier);
+    }
+
+    public FluentImplT withNewAppServicePlan(String appServicePlanName, PricingTier pricingTier) {
+        return withNewAppServicePlan(appServicePlanName, operatingSystem(), pricingTier);
     }
 
     public FluentImplT withNewAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable) {
@@ -436,6 +446,7 @@ abstract class AppServiceBaseImpl<
         return withOperatingSystem(appServicePlanOperatingSystem(appServicePlan));
     }
 
+    @SuppressWarnings("unchecked")
     public FluentImplT withPublicDockerHubImage(String imageAndTag) {
         cleanUpContainerSettings();
         if (siteConfig == null) {
@@ -450,6 +461,7 @@ abstract class AppServiceBaseImpl<
         return withPublicDockerHubImage(imageAndTag);
     }
 
+    @SuppressWarnings("unchecked")
     public FluentImplT withPrivateRegistryImage(String imageAndTag, String serverUrl) {
         imageAndTag = Utils.smartCompletionPrivateRegistryImage(imageAndTag, serverUrl);
 
@@ -463,6 +475,7 @@ abstract class AppServiceBaseImpl<
         return (FluentImplT) this;
     }
 
+    @SuppressWarnings("unchecked")
     public FluentImplT withCredentials(String username, String password) {
         withAppSetting(SETTING_REGISTRY_USERNAME, username);
         withAppSetting(SETTING_REGISTRY_PASSWORD, password);

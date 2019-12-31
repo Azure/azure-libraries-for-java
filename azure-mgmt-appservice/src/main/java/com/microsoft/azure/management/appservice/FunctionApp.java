@@ -214,6 +214,13 @@ public interface FunctionApp extends
             WithCreate withNewConsumptionPlan();
 
             /**
+             * Creates a new Windows consumption plan to use.
+             * @param appServicePlanName the name of the new consumption plan
+             * @return the next stage of the definition
+             */
+            WithCreate withNewConsumptionPlan(String appServicePlanName);
+
+            /**
              * Creates a new Windows free app service plan. This will fail if there are 10 or more
              * free plans in the current subscription.
              *
@@ -239,6 +246,15 @@ public interface FunctionApp extends
             /**
              * Creates a new Windows app service plan to use.
              *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            WithCreate withNewAppServicePlan(String appServicePlanName, PricingTier pricingTier);
+
+            /**
+             * Creates a new Windows app service plan to use.
+             *
              * @param appServicePlanCreatable the new app service plan creatable
              * @return the next stage of the definition
              */
@@ -251,12 +267,28 @@ public interface FunctionApp extends
             WithDockerContainerImage withNewLinuxConsumptionPlan();
 
             /**
+             * Creates a new Linux consumption plan to use.
+             * @param appServicePlanName the name of the new consumption plan
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewLinuxConsumptionPlan(String appServicePlanName);
+
+            /**
              * Creates a new Linux app service plan to use.
              *
              * @param pricingTier the sku of the app service plan
              * @return the next stage of the definition
              */
             WithDockerContainerImage withNewLinuxAppServicePlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new Linux app service plan to use.
+             *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewLinuxAppServicePlan(String appServicePlanName, PricingTier pricingTier);
 
             /**
              * Creates a new Linux app service plan to use.
@@ -463,6 +495,13 @@ public interface FunctionApp extends
             Update withNewConsumptionPlan();
 
             /**
+             * Creates a new Windows consumption plan to use.
+             * @param appServicePlanName the name of the new consumption plan
+             * @return the next stage of the function app update
+             */
+            Update withNewConsumptionPlan(String appServicePlanName);
+
+            /**
              * Creates a new Windows free app service plan. This will fail if there are 10 or more
              * free plans in the current subscription.
              *
@@ -484,6 +523,15 @@ public interface FunctionApp extends
              * @return the next stage of the function app update
              */
             Update withNewAppServicePlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new Windows app service plan to use.
+             *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the function app update
+             */
+            Update withNewAppServicePlan(String appServicePlanName, PricingTier pricingTier);
 
             /**
              * Creates a new Windows app service plan to use.
@@ -514,12 +562,28 @@ public interface FunctionApp extends
             Update withNewLinuxConsumptionPlan();
 
             /**
+             * Creates a new Linux consumption plan to use.
+             * @param appServicePlanName the name of the new consumption plan
+             * @return the next stage of the definition
+             */
+            Update withNewLinuxConsumptionPlan(String appServicePlanName);
+
+            /**
              * Creates a new Linux app service plan to use.
              *
              * @param pricingTier the sku of the app service plan
              * @return the next stage of the definition
              */
             Update withNewLinuxAppServicePlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new Linux app service plan to use.
+             *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            Update withNewLinuxAppServicePlan(String appServicePlanName, PricingTier pricingTier);
 
             /**
              * Creates a new Linux app service plan to use.

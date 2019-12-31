@@ -127,6 +127,11 @@ class FunctionAppImpl
     }
 
     @Override
+    public FunctionAppImpl withNewConsumptionPlan(String appServicePlanName) {
+        return withNewAppServicePlan(appServicePlanName, OperatingSystem.WINDOWS, new PricingTier(SkuName.DYNAMIC.toString(), "Y1"));
+    }
+
+    @Override
     public FunctionAppImpl withRuntime(String runtime) {
         return withAppSetting(SETTING_FUNCTIONS_WORKER_RUNTIME, runtime);
     }
@@ -241,6 +246,11 @@ class FunctionAppImpl
     }
 
     @Override
+    FunctionAppImpl withNewAppServicePlan(String appServicePlan, OperatingSystem operatingSystem, PricingTier pricingTier) {
+        return super.withNewAppServicePlan(appServicePlan, operatingSystem, pricingTier).autoSetAlwaysOn(pricingTier);
+    }
+
+    @Override
     public FunctionAppImpl withExistingAppServicePlan(AppServicePlan appServicePlan) {
         super.withExistingAppServicePlan(appServicePlan);
         return autoSetAlwaysOn(appServicePlan.pricingTier());
@@ -311,15 +321,24 @@ class FunctionAppImpl
         return withDailyUsageQuota(0);
     }
 
-
     @Override
     public FunctionAppImpl withNewLinuxConsumptionPlan() {
         return withNewAppServicePlan(OperatingSystem.LINUX, new PricingTier(SkuName.DYNAMIC.toString(), "Y1"));
     }
 
     @Override
+    public FunctionAppImpl withNewLinuxConsumptionPlan(String appServicePlanName) {
+        return withNewAppServicePlan(appServicePlanName, OperatingSystem.LINUX, new PricingTier(SkuName.DYNAMIC.toString(), "Y1"));
+    }
+
+    @Override
     public FunctionAppImpl withNewLinuxAppServicePlan(PricingTier pricingTier) {
-        return super.withNewAppServicePlan(OperatingSystem.LINUX, pricingTier).autoSetAlwaysOn(pricingTier);
+        return super.withNewAppServicePlan(OperatingSystem.LINUX, pricingTier);
+    }
+
+    @Override
+    public FunctionAppImpl withNewLinuxAppServicePlan(String appServicePlanName, PricingTier pricingTier) {
+        return super.withNewAppServicePlan(appServicePlanName, OperatingSystem.LINUX, pricingTier);
     }
 
     @Override

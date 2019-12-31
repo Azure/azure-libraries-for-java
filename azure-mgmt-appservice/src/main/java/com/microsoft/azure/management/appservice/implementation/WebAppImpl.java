@@ -13,13 +13,18 @@ import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.RuntimeStack;
 import com.microsoft.azure.management.appservice.WebApp;
+import com.microsoft.azure.management.appservice.WebAppRuntimeStack;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import rx.Completable;
+import rx.Observable;
+import rx.functions.Func1;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 /**
  * The implementation for WebApp.
@@ -32,15 +37,23 @@ class WebAppImpl
             WebApp.Definition,
             WebApp.DefinitionStages.ExistingWindowsPlanWithGroup,
             WebApp.DefinitionStages.ExistingLinuxPlanWithGroup,
+            WebApp.DefinitionStages.WithWindowsRuntimeStack,
             WebApp.Update,
             WebApp.UpdateStages.WithCredentials,
             WebApp.UpdateStages.WithStartUpCommand {
 
     private DeploymentSlots deploymentSlots;
+    private WebAppRuntimeStack runtimeStackOnWindowsOSToUpdate;
 
     WebAppImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, siteConfig, logConfig, manager);
     }
+
+    @Override
+    public WebAppImpl update() {
+        runtimeStackOnWindowsOSToUpdate = null;
+        return super.update();
+    };
 
     @Override
     public DeploymentSlots deploymentSlots() {
@@ -119,6 +132,11 @@ class WebAppImpl
     }
 
     @Override
+    public WebAppImpl withNewWindowsPlan(String appServicePlanName, PricingTier pricingTier) {
+        return super.withNewAppServicePlan(appServicePlanName, OperatingSystem.WINDOWS, pricingTier);
+    }
+
+    @Override
     public WebAppImpl withNewWindowsPlan(Creatable<AppServicePlan> appServicePlanCreatable) {
         return super.withNewAppServicePlan(appServicePlanCreatable);
     }
@@ -129,8 +147,19 @@ class WebAppImpl
     }
 
     @Override
+    public WebAppImpl withNewLinuxPlan(String appServicePlanName, PricingTier pricingTier) {
+        return super.withNewAppServicePlan(appServicePlanName, OperatingSystem.LINUX, pricingTier);
+    }
+
+    @Override
     public WebAppImpl withNewLinuxPlan(Creatable<AppServicePlan> appServicePlanCreatable) {
         return super.withNewAppServicePlan(appServicePlanCreatable);
+    }
+
+    @Override
+    public WebAppImpl withRuntimeStack(WebAppRuntimeStack runtimeStack) {
+        runtimeStackOnWindowsOSToUpdate = runtimeStack;
+        return this;
     }
 
     @Override
@@ -198,5 +227,48 @@ class WebAppImpl
     @Override
     public void zipDeploy(InputStream zipFile) {
         zipDeployAsync(zipFile).await();
+    }
+
+    @Override
+    Observable<Indexable> submitMetadata() {
+        Observable<Indexable> observable = super.submitMetadata();
+        if (runtimeStackOnWindowsOSToUpdate != null) {
+            observable = observable.flatMap(new Func1<Indexable, Observable<StringDictionaryInner>>() {
+                // list metadata
+                @Override
+                public Observable<StringDictionaryInner> call(Indexable indexable) {
+                    return listMetadata();
+                }
+            }).flatMap(new Func1<StringDictionaryInner, Observable<StringDictionaryInner>>() {
+                // merge with change, then update
+                @Override
+                public Observable<StringDictionaryInner> call(StringDictionaryInner stringDictionaryInner) {
+                    if (stringDictionaryInner == null) {
+                        stringDictionaryInner = new StringDictionaryInner();
+                    }
+                    if (stringDictionaryInner.properties() == null) {
+                        stringDictionaryInner.withProperties(new HashMap<String, String>());
+                    }
+                    stringDictionaryInner.properties().put("CURRENT_STACK", runtimeStackOnWindowsOSToUpdate.runtime());
+                    return updateMetadata(stringDictionaryInner);
+                }
+            }).map(new Func1<StringDictionaryInner, Indexable>() {
+                // clean up
+                @Override
+                public Indexable call(StringDictionaryInner stringDictionaryInner) {
+                    runtimeStackOnWindowsOSToUpdate = null;
+                    return WebAppImpl.this;
+                }
+            });
+        }
+        return observable;
+    }
+
+    Observable<StringDictionaryInner> listMetadata() {
+        return this.manager().inner().webApps().listMetadataAsync(resourceGroupName(), name());
+    }
+
+    Observable<StringDictionaryInner> updateMetadata(StringDictionaryInner inner) {
+        return this.manager().inner().webApps().updateMetadataAsync(resourceGroupName(), name(), inner);
     }
 }

@@ -248,14 +248,14 @@ public final class ResourcesInner {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> checkExistenceAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+    public Mono<Boolean> checkExistenceAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return checkExistenceWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void checkExistence(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
-        checkExistenceAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).block();
+    public boolean checkExistence(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+        return checkExistenceAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).block();
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
@@ -346,14 +346,14 @@ public final class ResourcesInner {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> checkExistenceByIdAsync(String resourceId) {
+    public Mono<Boolean> checkExistenceByIdAsync(String resourceId) {
         return checkExistenceByIdWithResponseAsync(resourceId)
-            .flatMap((Response<Void> res) -> Mono.empty());
+            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void checkExistenceById(String resourceId) {
-        checkExistenceByIdAsync(resourceId).block();
+    public boolean checkExistenceById(String resourceId) {
+        return checkExistenceByIdAsync(resourceId).block();
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)

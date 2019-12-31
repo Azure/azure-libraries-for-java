@@ -27,15 +27,6 @@ public interface ResourceGroups extends
         SupportsDeletingByName,
         SupportsBeginDeletingByName,
         SupportsBatchCreation<ResourceGroup> {
-    /**
-     * Checks whether resource group exists.
-     *
-     * @param name The name of the resource group to check. The name is case insensitive
-     * @return true if the resource group exists; false otherwise
-     * @deprecated Use contain() instead.
-     */
-    @Deprecated
-    boolean checkExistence(String name);
 
     /**
      * Checks whether resource group exists.

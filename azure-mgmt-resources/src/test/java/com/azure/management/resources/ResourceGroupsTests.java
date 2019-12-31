@@ -45,7 +45,7 @@ public class ResourceGroupsTests extends ResourceManagerTestBase {
         Assert.assertTrue(region.name().equalsIgnoreCase(groupResult.getRegionName()));
 
         // Check existence
-        // Assert.assertTrue(resourceGroups.checkExistence(rgName));
+        Assert.assertTrue(resourceGroups.contain(rgName));
 
         // Get
         ResourceGroup getGroup = resourceGroups.getByName(rgName);

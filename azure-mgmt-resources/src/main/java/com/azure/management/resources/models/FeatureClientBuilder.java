@@ -28,12 +28,12 @@ import reactor.core.publisher.Mono;
 @ServiceClientBuilder(serviceClients = FeatureClientImpl.class)
 public final class FeatureClientBuilder {
     /*
-     * null
+     * The ID of the target subscription.
      */
     private String subscriptionId;
 
     /**
-     * Sets null.
+     * Sets The ID of the target subscription.
      * 
      * @param subscriptionId the subscriptionId value.
      * @return the FeatureClientBuilder.
@@ -44,12 +44,12 @@ public final class FeatureClientBuilder {
     }
 
     /*
-     * https://management.azure.com
+     * server parameter
      */
     private String host;
 
     /**
-     * Sets https://management.azure.com.
+     * Sets server parameter.
      * 
      * @param host the host value.
      * @return the FeatureClientBuilder.
@@ -60,12 +60,12 @@ public final class FeatureClientBuilder {
     }
 
     /*
-     * 2015-12-01
+     * The API version to use for this operation.
      */
     private String apiVersion;
 
     /**
-     * Sets 2015-12-01.
+     * Sets The API version to use for this operation.
      * 
      * @param apiVersion the apiVersion value.
      * @return the FeatureClientBuilder.

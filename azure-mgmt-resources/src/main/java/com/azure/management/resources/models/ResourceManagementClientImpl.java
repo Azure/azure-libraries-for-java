@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for
 // license information.
@@ -20,11 +19,12 @@ import com.azure.management.AzureServiceClient;
  */
 public final class ResourceManagementClientImpl extends AzureServiceClient {
     /**
+     * The ID of the target subscription.
      */
     private String subscriptionId;
 
     /**
-     * Gets null.
+     * Gets The ID of the target subscription.
      * 
      * @return the subscriptionId value.
      */
@@ -33,7 +33,7 @@ public final class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets null.
+     * Sets The ID of the target subscription.
      * 
      * @param subscriptionId the subscriptionId value.
      * @return the service client itself.
@@ -44,12 +44,12 @@ public final class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * https://management.azure.com.
+     * server parameter.
      */
     private String host;
 
     /**
-     * Gets https://management.azure.com.
+     * Gets server parameter.
      * 
      * @return the host value.
      */
@@ -58,7 +58,7 @@ public final class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets https://management.azure.com.
+     * Sets server parameter.
      * 
      * @param host the host value.
      * @return the service client itself.
@@ -69,12 +69,12 @@ public final class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * 2019-08-01.
+     * The API version to use for this operation.
      */
     private String apiVersion;
 
     /**
-     * Gets 2019-08-01.
+     * Gets The API version to use for this operation.
      * 
      * @return the apiVersion value.
      */
@@ -83,7 +83,7 @@ public final class ResourceManagementClientImpl extends AzureServiceClient {
     }
 
     /**
-     * Sets 2019-08-01.
+     * Sets The API version to use for this operation.
      * 
      * @param apiVersion the apiVersion value.
      * @return the service client itself.

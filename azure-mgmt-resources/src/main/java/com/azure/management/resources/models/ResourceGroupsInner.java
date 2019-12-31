@@ -114,14 +114,14 @@ public final class ResourceGroupsInner {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> checkExistenceAsync(String resourceGroupName) {
+    public Mono<Boolean> checkExistenceAsync(String resourceGroupName) {
         return checkExistenceWithResponseAsync(resourceGroupName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+            .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void checkExistence(String resourceGroupName) {
-        checkExistenceAsync(resourceGroupName).block();
+    public boolean checkExistence(String resourceGroupName) {
+        return checkExistenceAsync(resourceGroupName).block();
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)

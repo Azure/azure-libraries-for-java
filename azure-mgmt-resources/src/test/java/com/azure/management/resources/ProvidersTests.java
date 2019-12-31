@@ -34,7 +34,7 @@ public class ProvidersTests extends TestBase {
     @Test
     public void canUnregisterAndRegisterProvider() throws Exception {
         PagedIterable<Provider> providers = resourceManager.providers().list();
-        int size = TestUtilities.getPagedIterableSie(providers);
+        int size = TestUtilities.getPagedIterableSize(providers);
         Assert.assertTrue(size > 0);
         Provider provider = providers.iterator().next();
         resourceManager.providers().unregister(provider.namespace());

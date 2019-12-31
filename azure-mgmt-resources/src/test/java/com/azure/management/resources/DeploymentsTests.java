@@ -80,7 +80,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         Assert.assertNotNull(resourceGroup.exportTemplate(ResourceGroupExportTemplateOptions.INCLUDE_BOTH));
         // Deployment operations
         PagedIterable<DeploymentOperation> operations = deployment.deploymentOperations().list();
-        Assert.assertEquals(4, TestUtilities.getPagedIterableSie(operations));
+        Assert.assertEquals(4, TestUtilities.getPagedIterableSize(operations));
         DeploymentOperation op = deployment.deploymentOperations().getById(operations.iterator().next().operationId());
         Assert.assertNotNull(op);
         resourceClient.genericResources().delete(rgName, "Microsoft.Network", "", "virtualnetworks", "VNet1", "2015-06-15");

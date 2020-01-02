@@ -107,6 +107,7 @@ var codegen = function(project, cb) {
         deleteFolderRecursive(sourcesToDelete);
     }
 
+    // path.join won't work if specRoot is a URL
     let readmeFile = specRoot + '/' + mappings[project].source;
     let transcodedReadmeFile = readmeFile + '.temp.md';
     let tag = findTag(mappings[project].package + ' ' + mappings[project].args);
@@ -125,7 +126,6 @@ var codegen = function(project, cb) {
     const regenManager = args['regenerate-manager'] ? ' --regenerate-manager=true ' : '';
 
     const outDir = path.resolve(mappings[project].dir);
-    // path.join won't work if specRoot is a URL
     cmd = autoRestExe + ' ' + transcodedReadmeFile +
                         ' --java ' +
                         ' --azure-arm=true ' +

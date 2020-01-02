@@ -603,6 +603,41 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 
 </table>
 
+### Use single library
+
+For instance, if you only need azure-mgmt-appservice library from 1.29.0, and wish to limit the dependencies, using following dependency instead in POM.
+
+```xml
+<dependency>
+    <groupId>com.microsoft.azure</groupId>
+    <artifactId>azure-mgmt-appservice</artifactId>
+    <version>1.29.0</version>
+</dependency>
+<dependency>
+    <groupId>com.microsoft.azure</groupId>
+    <artifactId>azure-client-authentication</artifactId>
+    <version>1.7.0</version>
+</dependency>
+```
+
+Create an authenticated client similarly as `Azure.authenticate`, with credentials and subscription id - see [how to create authentication info](./AUTH.md).
+
+```java
+ApplicationTokenCredentials credentials = ...
+AppServiceManager appServiceClient = AppServiceManager.authenticate(credentials, SUBSCRIPTION_ID);
+```
+
+Then, create a Web App instance using this `appServiceClient`.
+
+```java
+WebApp webApp = appServiceClient.webApps()
+    .define(appName)
+    .withRegion(Region.US_WEST)
+    .withNewResourceGroup(rgName)
+    .withNewWindowsPlan(PricingTier.STANDARD_S1)
+    .create();
+```
+
 ## Download
 
 ### Latest stable release

@@ -19,7 +19,6 @@ import com.azure.core.util.Configuration;
 import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.serializer.SerializerAdapter;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -119,7 +118,7 @@ public final class RestClientBuilder {
     }
 
     public RestClientBuilder withUserAgent(String userAgent) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     public RestClientBuilder withPolicy(HttpPipelinePolicy policy) {

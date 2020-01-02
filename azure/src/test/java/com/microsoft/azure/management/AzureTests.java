@@ -824,9 +824,9 @@ public class AzureTests extends TestBase {
 //            Assert.assertEquals(10, topology.resources().size());     // not sure why it is 18 now
         } finally {
             if (nwrg != null)
-                azure.resourceGroups().deleteByName(nwrg);
+                azure.resourceGroups().beginDeleteByName(nwrg);
             if (tnwrg != null)
-                azure.resourceGroups().deleteByName(tnwrg);
+                azure.resourceGroups().beginDeleteByName(tnwrg);
         }
     }
 

@@ -67,7 +67,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -86,7 +86,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -106,7 +106,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CsmOperationDescriptionInner&gt; object
@@ -123,7 +123,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CsmOperationDescriptionInner&gt; object
@@ -144,7 +144,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CsmOperationDescriptionInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -176,7 +176,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -196,7 +196,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -218,7 +218,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -236,7 +236,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -258,7 +258,7 @@ public class DomainRegistrationProvidersInner {
 
     /**
      * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
-     * Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
+     * Description for Implements Csm operations Api to exposes the list of available Csm Apis under the resource provider.
      *
     ServiceResponse<PageImpl<CsmOperationDescriptionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

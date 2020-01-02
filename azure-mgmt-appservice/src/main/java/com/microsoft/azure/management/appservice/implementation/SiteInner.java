@@ -19,7 +19,6 @@ import com.microsoft.azure.management.appservice.CloningInfo;
 import com.microsoft.azure.management.appservice.SlotSwapStatus;
 import com.microsoft.azure.management.appservice.RedundancyMode;
 import java.util.UUID;
-import com.microsoft.azure.management.appservice.GeoDistribution;
 import com.microsoft.azure.management.appservice.ManagedServiceIdentity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -192,7 +191,8 @@ public class SiteInner extends Resource {
 
     /**
      * List of IP addresses that the app uses for outbound connections (e.g.
-     * database access). Includes VIPs from all tenants. Read-only.
+     * database access). Includes VIPs from all tenants except dataComponent.
+     * Read-only.
      */
     @JsonProperty(value = "properties.possibleOutboundIpAddresses", access = JsonProperty.Access.WRITE_ONLY)
     private String possibleOutboundIpAddresses;
@@ -274,12 +274,6 @@ public class SiteInner extends Resource {
      */
     @JsonProperty(value = "properties.inProgressOperationId", access = JsonProperty.Access.WRITE_ONLY)
     private UUID inProgressOperationId;
-
-    /**
-     * GeoDistributions for this site.
-     */
-    @JsonProperty(value = "properties.geoDistributions")
-    private List<GeoDistribution> geoDistributions;
 
     /**
      * The identity property.
@@ -647,7 +641,7 @@ public class SiteInner extends Resource {
     }
 
     /**
-     * Get list of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants. Read-only.
+     * Get list of IP addresses that the app uses for outbound connections (e.g. database access). Includes VIPs from all tenants except dataComponent. Read-only.
      *
      * @return the possibleOutboundIpAddresses value
      */
@@ -819,26 +813,6 @@ public class SiteInner extends Resource {
      */
     public UUID inProgressOperationId() {
         return this.inProgressOperationId;
-    }
-
-    /**
-     * Get geoDistributions for this site.
-     *
-     * @return the geoDistributions value
-     */
-    public List<GeoDistribution> geoDistributions() {
-        return this.geoDistributions;
-    }
-
-    /**
-     * Set geoDistributions for this site.
-     *
-     * @param geoDistributions the geoDistributions value to set
-     * @return the SiteInner object itself.
-     */
-    public SiteInner withGeoDistributions(List<GeoDistribution> geoDistributions) {
-        this.geoDistributions = geoDistributions;
-        return this;
     }
 
     /**

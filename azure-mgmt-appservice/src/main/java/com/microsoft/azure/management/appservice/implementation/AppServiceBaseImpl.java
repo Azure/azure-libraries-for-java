@@ -54,6 +54,11 @@ abstract class AppServiceBaseImpl<
     FluentUpdateT>
         extends WebAppBaseImpl<FluentT, FluentImplT> {
 
+    protected static final String SETTING_DOCKER_IMAGE = "DOCKER_CUSTOM_IMAGE_NAME";
+    protected static final String SETTING_REGISTRY_SERVER = "DOCKER_REGISTRY_SERVER_URL";
+    protected static final String SETTING_REGISTRY_USERNAME = "DOCKER_REGISTRY_SERVER_USERNAME";
+    protected static final String SETTING_REGISTRY_PASSWORD = "DOCKER_REGISTRY_SERVER_PASSWORD";
+
     AppServiceBaseImpl(String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, siteConfig, logConfig, manager);
     }
@@ -226,7 +231,7 @@ abstract class AppServiceBaseImpl<
 
     @Override
     public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
-        IdentifierInner identifierInner = new IdentifierInner().withIdentifierId(domainVerificationToken);
+        IdentifierInner identifierInner = new IdentifierInner().withValue(domainVerificationToken);
         return this.manager().inner().webApps().createOrUpdateDomainOwnershipIdentifierAsync(resourceGroupName(), name(), certificateOrderName, identifierInner)
                 .map(new Func1<IdentifierInner, Void>() {
                     @Override
@@ -377,11 +382,14 @@ abstract class AppServiceBaseImpl<
         return manager().inner().webApps().updateDiagnosticLogsConfigAsync(resourceGroupName(), name(), siteLogsConfigInner);
     }
 
-    @SuppressWarnings("unchecked")
     private AppServicePlanImpl newDefaultAppServicePlan() {
         String planName = SdkContext.randomResourceName(name() + "plan", 32);
+        return newDefaultAppServicePlan(planName);
+    }
+
+    private AppServicePlanImpl newDefaultAppServicePlan(String appServicePlanName) {
         AppServicePlanImpl appServicePlan = (AppServicePlanImpl) (this.manager().appServicePlans()
-                .define(planName))
+                .define(appServicePlanName))
                 .withRegion(regionName());
         if (super.creatableGroup != null && isInCreateMode()) {
             appServicePlan = appServicePlan.withNewResourceGroup(super.creatableGroup);
@@ -399,13 +407,20 @@ abstract class AppServiceBaseImpl<
         return withNewAppServicePlan(OperatingSystem.WINDOWS, PricingTier.SHARED_D1);
     }
 
-    @SuppressWarnings("unchecked")
     FluentImplT withNewAppServicePlan(OperatingSystem operatingSystem, PricingTier pricingTier) {
         return withNewAppServicePlan(newDefaultAppServicePlan().withOperatingSystem(operatingSystem).withPricingTier(pricingTier));
     }
 
+    FluentImplT withNewAppServicePlan(String appServicePlanName, OperatingSystem operatingSystem, PricingTier pricingTier) {
+        return withNewAppServicePlan(newDefaultAppServicePlan(appServicePlanName).withOperatingSystem(operatingSystem).withPricingTier(pricingTier));
+    }
+
     public FluentImplT withNewAppServicePlan(PricingTier pricingTier) {
         return withNewAppServicePlan(operatingSystem(), pricingTier);
+    }
+
+    public FluentImplT withNewAppServicePlan(String appServicePlanName, PricingTier pricingTier) {
+        return withNewAppServicePlan(appServicePlanName, operatingSystem(), pricingTier);
     }
 
     public FluentImplT withNewAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable) {
@@ -428,6 +443,54 @@ abstract class AppServiceBaseImpl<
     public FluentImplT withExistingAppServicePlan(AppServicePlan appServicePlan) {
         inner().withServerFarmId(appServicePlan.id());
         this.withRegion(appServicePlan.regionName());
-        return withOperatingSystem(appServicePlan.operatingSystem());
+        return withOperatingSystem(appServicePlanOperatingSystem(appServicePlan));
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withPublicDockerHubImage(String imageAndTag) {
+        cleanUpContainerSettings();
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
+        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
+        return (FluentImplT) this;
+    }
+
+    public FluentImplT withPrivateDockerHubImage(String imageAndTag) {
+        return withPublicDockerHubImage(imageAndTag);
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withPrivateRegistryImage(String imageAndTag, String serverUrl) {
+        imageAndTag = Utils.smartCompletionPrivateRegistryImage(imageAndTag, serverUrl);
+
+        cleanUpContainerSettings();
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withLinuxFxVersion(String.format("DOCKER|%s", imageAndTag));
+        withAppSetting(SETTING_DOCKER_IMAGE, imageAndTag);
+        withAppSetting(SETTING_REGISTRY_SERVER, serverUrl);
+        return (FluentImplT) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public FluentImplT withCredentials(String username, String password) {
+        withAppSetting(SETTING_REGISTRY_USERNAME, username);
+        withAppSetting(SETTING_REGISTRY_PASSWORD, password);
+        return (FluentImplT) this;
+    }
+
+    protected abstract void cleanUpContainerSettings();
+
+    protected void ensureLinuxPlan() {
+        if (OperatingSystem.WINDOWS.equals(operatingSystem())) {
+            throw new IllegalArgumentException("Docker container settings only apply to Linux app service plans.");
+        }
+    }
+
+    protected OperatingSystem appServicePlanOperatingSystem(AppServicePlan appServicePlan) {
+        return appServicePlan.operatingSystem();
     }
 }

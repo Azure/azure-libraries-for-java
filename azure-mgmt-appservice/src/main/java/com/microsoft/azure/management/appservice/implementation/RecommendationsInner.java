@@ -11,7 +11,6 @@ package com.microsoft.azure.management.appservice.implementation;
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
 import com.microsoft.azure.Page;
@@ -143,7 +142,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -162,7 +161,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -182,7 +181,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RecommendationInner&gt; object
@@ -199,7 +198,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;RecommendationInner&gt; object
@@ -220,7 +219,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;RecommendationInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -250,7 +249,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param featured Specify &lt;code&gt;true&lt;/code&gt; to return only the most critical recommendations. The default is &lt;code&gt;false&lt;/code&gt;, which returns all recommendations.
      * @param filter Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D]
@@ -271,7 +270,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param featured Specify &lt;code&gt;true&lt;/code&gt; to return only the most critical recommendations. The default is &lt;code&gt;false&lt;/code&gt;, which returns all recommendations.
      * @param filter Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D]
@@ -293,7 +292,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param featured Specify &lt;code&gt;true&lt;/code&gt; to return only the most critical recommendations. The default is &lt;code&gt;false&lt;/code&gt;, which returns all recommendations.
      * @param filter Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D]
@@ -312,7 +311,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param featured Specify &lt;code&gt;true&lt;/code&gt; to return only the most critical recommendations. The default is &lt;code&gt;false&lt;/code&gt;, which returns all recommendations.
      * @param filter Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D]
@@ -335,7 +334,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param featured Specify &lt;code&gt;true&lt;/code&gt; to return only the most critical recommendations. The default is &lt;code&gt;false&lt;/code&gt;, which returns all recommendations.
     ServiceResponse<PageImpl<RecommendationInner>> * @param filter Filter is specified by using OData syntax. Example: $filter=channel eq 'Api' or channel eq 'Notification' and startTime eq 2014-01-01T00:00:00Z and endTime eq 2014-12-31T23:59:59Z and timeGrain eq duration'[PT1H|PT1M|P1D]
@@ -372,10 +371,10 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for a subscription.
-     * Reset all recommendation opt-out settings for a subscription.
+     * Description for Reset all recommendation opt-out settings for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void resetAllFilters() {
@@ -384,7 +383,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for a subscription.
-     * Reset all recommendation opt-out settings for a subscription.
+     * Description for Reset all recommendation opt-out settings for a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -396,7 +395,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for a subscription.
-     * Reset all recommendation opt-out settings for a subscription.
+     * Description for Reset all recommendation opt-out settings for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -412,7 +411,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for a subscription.
-     * Reset all recommendation opt-out settings for a subscription.
+     * Description for Reset all recommendation opt-out settings for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceResponse} object if successful.
@@ -438,20 +437,20 @@ public class RecommendationsInner {
             });
     }
 
-    private ServiceResponse<Void> resetAllFiltersDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> resetAllFiltersDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Disables the specified rule so it will not apply to a subscription in the future.
-     * Disables the specified rule so it will not apply to a subscription in the future.
+     * Description for Disables the specified rule so it will not apply to a subscription in the future.
      *
      * @param name Rule name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void disableRecommendationForSubscription(String name) {
@@ -460,7 +459,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specified rule so it will not apply to a subscription in the future.
-     * Disables the specified rule so it will not apply to a subscription in the future.
+     * Description for Disables the specified rule so it will not apply to a subscription in the future.
      *
      * @param name Rule name
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -473,7 +472,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specified rule so it will not apply to a subscription in the future.
-     * Disables the specified rule so it will not apply to a subscription in the future.
+     * Description for Disables the specified rule so it will not apply to a subscription in the future.
      *
      * @param name Rule name
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -490,7 +489,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specified rule so it will not apply to a subscription in the future.
-     * Disables the specified rule so it will not apply to a subscription in the future.
+     * Description for Disables the specified rule so it will not apply to a subscription in the future.
      *
      * @param name Rule name
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -520,16 +519,16 @@ public class RecommendationsInner {
             });
     }
 
-    private ServiceResponse<Void> disableRecommendationForSubscriptionDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> disableRecommendationForSubscriptionDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -550,7 +549,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -572,7 +571,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -591,7 +590,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -614,7 +613,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -652,7 +651,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -675,7 +674,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -699,7 +698,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -720,7 +719,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -745,7 +744,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<RecommendationInner>> * @param hostingEnvironmentName Name of the hosting environment.
@@ -790,7 +789,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -811,7 +810,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -833,7 +832,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -852,7 +851,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -875,7 +874,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -913,7 +912,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -936,7 +935,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -960,7 +959,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -981,7 +980,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the app.
@@ -1006,7 +1005,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<RecommendationInner>> * @param hostingEnvironmentName Name of the app.
@@ -1051,13 +1050,13 @@ public class RecommendationsInner {
 
     /**
      * Disable all recommendations for an app.
-     * Disable all recommendations for an app.
+     * Description for Disable all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName the String value
      * @param environmentName Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void disableAllForHostingEnvironment(String resourceGroupName, String hostingEnvironmentName, String environmentName) {
@@ -1066,7 +1065,7 @@ public class RecommendationsInner {
 
     /**
      * Disable all recommendations for an app.
-     * Disable all recommendations for an app.
+     * Description for Disable all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName the String value
@@ -1081,7 +1080,7 @@ public class RecommendationsInner {
 
     /**
      * Disable all recommendations for an app.
-     * Disable all recommendations for an app.
+     * Description for Disable all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName the String value
@@ -1100,7 +1099,7 @@ public class RecommendationsInner {
 
     /**
      * Disable all recommendations for an app.
-     * Disable all recommendations for an app.
+     * Description for Disable all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName the String value
@@ -1138,22 +1137,22 @@ public class RecommendationsInner {
             });
     }
 
-    private ServiceResponse<Void> disableAllForHostingEnvironmentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> disableAllForHostingEnvironmentDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Reset all recommendation opt-out settings for an app.
-     * Reset all recommendation opt-out settings for an app.
+     * Description for Reset all recommendation opt-out settings for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName the String value
      * @param environmentName Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void resetAllFiltersForHostingEnvironment(String resourceGroupName, String hostingEnvironmentName, String environmentName) {
@@ -1162,7 +1161,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for an app.
-     * Reset all recommendation opt-out settings for an app.
+     * Description for Reset all recommendation opt-out settings for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName the String value
@@ -1177,7 +1176,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for an app.
-     * Reset all recommendation opt-out settings for an app.
+     * Description for Reset all recommendation opt-out settings for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName the String value
@@ -1196,7 +1195,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for an app.
-     * Reset all recommendation opt-out settings for an app.
+     * Description for Reset all recommendation opt-out settings for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName the String value
@@ -1234,16 +1233,16 @@ public class RecommendationsInner {
             });
     }
 
-    private ServiceResponse<Void> resetAllFiltersForHostingEnvironmentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> resetAllFiltersForHostingEnvironmentDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -1259,7 +1258,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -1274,7 +1273,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -1293,7 +1292,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -1335,7 +1334,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -1353,7 +1352,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -1370,7 +1369,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -1391,7 +1390,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param hostingEnvironmentName Name of the hosting environment.
@@ -1440,14 +1439,14 @@ public class RecommendationsInner {
 
     /**
      * Disables the specific rule for a web site permanently.
-     * Disables the specific rule for a web site permanently.
+     * Description for Disables the specific rule for a web site permanently.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Rule name
      * @param hostingEnvironmentName the String value
      * @param environmentName Site name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void disableRecommendationForHostingEnvironment(String resourceGroupName, String name, String hostingEnvironmentName, String environmentName) {
@@ -1456,7 +1455,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specific rule for a web site permanently.
-     * Disables the specific rule for a web site permanently.
+     * Description for Disables the specific rule for a web site permanently.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Rule name
@@ -1472,7 +1471,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specific rule for a web site permanently.
-     * Disables the specific rule for a web site permanently.
+     * Description for Disables the specific rule for a web site permanently.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Rule name
@@ -1492,7 +1491,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specific rule for a web site permanently.
-     * Disables the specific rule for a web site permanently.
+     * Description for Disables the specific rule for a web site permanently.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Rule name
@@ -1534,16 +1533,16 @@ public class RecommendationsInner {
             });
     }
 
-    private ServiceResponse<Void> disableRecommendationForHostingEnvironmentDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> disableRecommendationForHostingEnvironmentDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1564,7 +1563,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1586,7 +1585,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1605,7 +1604,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1628,7 +1627,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1666,7 +1665,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1689,7 +1688,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1713,7 +1712,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1734,7 +1733,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1759,7 +1758,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<RecommendationInner>> * @param siteName Name of the app.
@@ -1804,7 +1803,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1825,7 +1824,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1847,7 +1846,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1866,7 +1865,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1889,7 +1888,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1927,7 +1926,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1950,7 +1949,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1974,7 +1973,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -1995,7 +1994,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2020,7 +2019,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
     ServiceResponse<PageImpl<RecommendationInner>> * @param siteName Name of the app.
@@ -2065,12 +2064,12 @@ public class RecommendationsInner {
 
     /**
      * Disable all recommendations for an app.
-     * Disable all recommendations for an app.
+     * Description for Disable all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void disableAllForWebApp(String resourceGroupName, String siteName) {
@@ -2079,7 +2078,7 @@ public class RecommendationsInner {
 
     /**
      * Disable all recommendations for an app.
-     * Disable all recommendations for an app.
+     * Description for Disable all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2093,7 +2092,7 @@ public class RecommendationsInner {
 
     /**
      * Disable all recommendations for an app.
-     * Disable all recommendations for an app.
+     * Description for Disable all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2111,7 +2110,7 @@ public class RecommendationsInner {
 
     /**
      * Disable all recommendations for an app.
-     * Disable all recommendations for an app.
+     * Description for Disable all recommendations for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2145,21 +2144,21 @@ public class RecommendationsInner {
             });
     }
 
-    private ServiceResponse<Void> disableAllForWebAppDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> disableAllForWebAppDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Reset all recommendation opt-out settings for an app.
-     * Reset all recommendation opt-out settings for an app.
+     * Description for Reset all recommendation opt-out settings for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void resetAllFiltersForWebApp(String resourceGroupName, String siteName) {
@@ -2168,7 +2167,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for an app.
-     * Reset all recommendation opt-out settings for an app.
+     * Description for Reset all recommendation opt-out settings for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2182,7 +2181,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for an app.
-     * Reset all recommendation opt-out settings for an app.
+     * Description for Reset all recommendation opt-out settings for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2200,7 +2199,7 @@ public class RecommendationsInner {
 
     /**
      * Reset all recommendation opt-out settings for an app.
-     * Reset all recommendation opt-out settings for an app.
+     * Description for Reset all recommendation opt-out settings for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2234,16 +2233,16 @@ public class RecommendationsInner {
             });
     }
 
-    private ServiceResponse<Void> resetAllFiltersForWebAppDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> resetAllFiltersForWebAppDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2259,7 +2258,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2274,7 +2273,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2293,7 +2292,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2335,7 +2334,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2353,7 +2352,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2370,7 +2369,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2391,7 +2390,7 @@ public class RecommendationsInner {
 
     /**
      * Get a recommendation rule for an app.
-     * Get a recommendation rule for an app.
+     * Description for Get a recommendation rule for an app.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Name of the app.
@@ -2440,13 +2439,13 @@ public class RecommendationsInner {
 
     /**
      * Disables the specific rule for a web site permanently.
-     * Disables the specific rule for a web site permanently.
+     * Description for Disables the specific rule for a web site permanently.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site name
      * @param name Rule name
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void disableRecommendationForSite(String resourceGroupName, String siteName, String name) {
@@ -2455,7 +2454,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specific rule for a web site permanently.
-     * Disables the specific rule for a web site permanently.
+     * Description for Disables the specific rule for a web site permanently.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site name
@@ -2470,7 +2469,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specific rule for a web site permanently.
-     * Disables the specific rule for a web site permanently.
+     * Description for Disables the specific rule for a web site permanently.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site name
@@ -2489,7 +2488,7 @@ public class RecommendationsInner {
 
     /**
      * Disables the specific rule for a web site permanently.
-     * Disables the specific rule for a web site permanently.
+     * Description for Disables the specific rule for a web site permanently.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param siteName Site name
@@ -2527,16 +2526,16 @@ public class RecommendationsInner {
             });
     }
 
-    private ServiceResponse<Void> disableRecommendationForSiteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> disableRecommendationForSiteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2556,7 +2555,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2578,7 +2577,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2596,7 +2595,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2618,7 +2617,7 @@ public class RecommendationsInner {
 
     /**
      * List all recommendations for a subscription.
-     * List all recommendations for a subscription.
+     * Description for List all recommendations for a subscription.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2652,7 +2651,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2672,7 +2671,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2694,7 +2693,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2712,7 +2711,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2734,7 +2733,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2768,7 +2767,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2788,7 +2787,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2810,7 +2809,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2828,7 +2827,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2850,7 +2849,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2884,7 +2883,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2904,7 +2903,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -2926,7 +2925,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2944,7 +2943,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -2966,7 +2965,7 @@ public class RecommendationsInner {
 
     /**
      * Get past recommendations for an app, optionally specified by the time range.
-     * Get past recommendations for an app, optionally specified by the time range.
+     * Description for Get past recommendations for an app, optionally specified by the time range.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3000,7 +2999,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3020,7 +3019,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -3042,7 +3041,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3060,7 +3059,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -3082,7 +3081,7 @@ public class RecommendationsInner {
 
     /**
      * Get all recommendations for an app.
-     * Get all recommendations for an app.
+     * Description for Get all recommendations for an app.
      *
     ServiceResponse<PageImpl<RecommendationInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

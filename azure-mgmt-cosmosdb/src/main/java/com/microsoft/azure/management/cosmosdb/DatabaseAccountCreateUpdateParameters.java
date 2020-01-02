@@ -11,15 +11,12 @@ package com.microsoft.azure.management.cosmosdb;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
-import com.microsoft.rest.SkipParentValidation;
-import com.microsoft.azure.Resource;
 
 /**
  * Parameters to create and update Cosmos DB database accounts.
  */
 @JsonFlatten
-@SkipParentValidation
-public class DatabaseAccountCreateUpdateParameters extends Resource {
+public class DatabaseAccountCreateUpdateParameters extends ARMResourceProperties {
     /**
      * Indicates the type of database account. This can only be set at database
      * account creation. Possible values include: 'GlobalDocumentDB',
@@ -101,6 +98,13 @@ public class DatabaseAccountCreateUpdateParameters extends Resource {
      */
     @JsonProperty(value = "properties.connectorOffer")
     private ConnectorOffer connectorOffer;
+
+    /**
+     * Disable write operations on metadata resources (databases, containers,
+     * throughput) via account keys.
+     */
+    @JsonProperty(value = "properties.disableKeyBasedMetadataWriteAccess")
+    private Boolean disableKeyBasedMetadataWriteAccess;
 
     /**
      * Creates an instance of DatabaseAccountCreateUpdateParameters class.
@@ -346,6 +350,26 @@ public class DatabaseAccountCreateUpdateParameters extends Resource {
      */
     public DatabaseAccountCreateUpdateParameters withConnectorOffer(ConnectorOffer connectorOffer) {
         this.connectorOffer = connectorOffer;
+        return this;
+    }
+
+    /**
+     * Get disable write operations on metadata resources (databases, containers, throughput) via account keys.
+     *
+     * @return the disableKeyBasedMetadataWriteAccess value
+     */
+    public Boolean disableKeyBasedMetadataWriteAccess() {
+        return this.disableKeyBasedMetadataWriteAccess;
+    }
+
+    /**
+     * Set disable write operations on metadata resources (databases, containers, throughput) via account keys.
+     *
+     * @param disableKeyBasedMetadataWriteAccess the disableKeyBasedMetadataWriteAccess value to set
+     * @return the DatabaseAccountCreateUpdateParameters object itself.
+     */
+    public DatabaseAccountCreateUpdateParameters withDisableKeyBasedMetadataWriteAccess(Boolean disableKeyBasedMetadataWriteAccess) {
+        this.disableKeyBasedMetadataWriteAccess = disableKeyBasedMetadataWriteAccess;
         return this;
     }
 

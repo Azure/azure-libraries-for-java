@@ -35,7 +35,7 @@ public interface TrustedIdProviders {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TrustedIdProvider&gt; object if successful.
      */
-    PagedList<TrustedIdProvider> listByAccount(final String resourceGroupName, final String accountName);
+    PagedList<TrustedIdProvider> listByAccount(String resourceGroupName, String accountName);
 
     /**
      * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
@@ -46,7 +46,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<TrustedIdProvider>> listByAccountAsync(final String resourceGroupName, final String accountName, final ListOperationCallback<TrustedIdProvider> serviceCallback);
+    ServiceFuture<List<TrustedIdProvider>> listByAccountAsync(String resourceGroupName, String accountName, ListOperationCallback<TrustedIdProvider> serviceCallback);
 
     /**
      * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
@@ -56,7 +56,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TrustedIdProvider&gt; object
      */
-    Observable<Page<TrustedIdProvider>> listByAccountAsync(final String resourceGroupName, final String accountName);
+    Observable<Page<TrustedIdProvider>> listByAccountAsync(String resourceGroupName, String accountName);
 
     /**
      * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
@@ -66,7 +66,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TrustedIdProvider&gt; object
      */
-    Observable<ServiceResponse<Page<TrustedIdProvider>>> listByAccountWithServiceResponseAsync(final String resourceGroupName, final String accountName);
+    Observable<ServiceResponse<Page<TrustedIdProvider>>> listByAccountWithServiceResponseAsync(String resourceGroupName, String accountName);
 
     /**
      * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
@@ -93,7 +93,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<TrustedIdProvider> createOrUpdateAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider, final ServiceCallback<TrustedIdProvider> serviceCallback);
+    ServiceFuture<TrustedIdProvider> createOrUpdateAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider, ServiceCallback<TrustedIdProvider> serviceCallback);
 
     /**
      * Creates or updates the specified trusted identity provider. During update, the trusted identity provider with the specified name will be replaced with this new provider.
@@ -142,7 +142,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<TrustedIdProvider> getAsync(String resourceGroupName, String accountName, String trustedIdProviderName, final ServiceCallback<TrustedIdProvider> serviceCallback);
+    ServiceFuture<TrustedIdProvider> getAsync(String resourceGroupName, String accountName, String trustedIdProviderName, ServiceCallback<TrustedIdProvider> serviceCallback);
 
     /**
      * Gets the specified Data Lake Store trusted identity provider.
@@ -189,7 +189,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<TrustedIdProvider> updateAsync(String resourceGroupName, String accountName, String trustedIdProviderName, final ServiceCallback<TrustedIdProvider> serviceCallback);
+    ServiceFuture<TrustedIdProvider> updateAsync(String resourceGroupName, String accountName, String trustedIdProviderName, ServiceCallback<TrustedIdProvider> serviceCallback);
 
     /**
      * Updates the specified trusted identity provider.
@@ -237,7 +237,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<TrustedIdProvider> updateAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider, final ServiceCallback<TrustedIdProvider> serviceCallback);
+    ServiceFuture<TrustedIdProvider> updateAsync(String resourceGroupName, String accountName, String trustedIdProviderName, String idProvider, ServiceCallback<TrustedIdProvider> serviceCallback);
 
     /**
      * Updates the specified trusted identity provider.
@@ -285,7 +285,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String trustedIdProviderName, final ServiceCallback<Void> serviceCallback);
+    ServiceFuture<Void> deleteAsync(String resourceGroupName, String accountName, String trustedIdProviderName, ServiceCallback<Void> serviceCallback);
 
     /**
      * Deletes the specified trusted identity provider from the specified Data Lake Store account.
@@ -318,7 +318,7 @@ public interface TrustedIdProviders {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;TrustedIdProvider&gt; object if successful.
      */
-    PagedList<TrustedIdProvider> listByAccountNext(final String nextPageLink);
+    PagedList<TrustedIdProvider> listByAccountNext(String nextPageLink);
 
     /**
      * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
@@ -329,7 +329,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<TrustedIdProvider>> listByAccountNextAsync(final String nextPageLink, final ServiceFuture<List<TrustedIdProvider>> serviceFuture, final ListOperationCallback<TrustedIdProvider> serviceCallback);
+    ServiceFuture<List<TrustedIdProvider>> listByAccountNextAsync(String nextPageLink, ServiceFuture<List<TrustedIdProvider>> serviceFuture, ListOperationCallback<TrustedIdProvider> serviceCallback);
 
     /**
      * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
@@ -338,7 +338,7 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TrustedIdProvider&gt; object
      */
-    Observable<Page<TrustedIdProvider>> listByAccountNextAsync(final String nextPageLink);
+    Observable<Page<TrustedIdProvider>> listByAccountNextAsync(String nextPageLink);
 
     /**
      * Lists the Data Lake Store trusted identity providers within the specified Data Lake Store account.
@@ -347,6 +347,6 @@ public interface TrustedIdProviders {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;TrustedIdProvider&gt; object
      */
-    Observable<ServiceResponse<Page<TrustedIdProvider>>> listByAccountNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<TrustedIdProvider>>> listByAccountNextWithServiceResponseAsync(String nextPageLink);
 
 }

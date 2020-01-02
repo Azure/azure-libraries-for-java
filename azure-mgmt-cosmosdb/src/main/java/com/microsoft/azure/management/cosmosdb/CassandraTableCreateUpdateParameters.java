@@ -16,7 +16,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * Parameters to create and update Cosmos DB Cassandra table.
  */
 @JsonFlatten
-public class CassandraTableCreateUpdateParameters {
+public class CassandraTableCreateUpdateParameters extends ARMResourceProperties {
     /**
      * The standard JSON format of a Cassandra table.
      */

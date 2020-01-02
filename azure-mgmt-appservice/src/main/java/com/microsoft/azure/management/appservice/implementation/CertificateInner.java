@@ -143,6 +143,12 @@ public class CertificateInner extends Resource {
     private String serverFarmId;
 
     /**
+     * CNAME of the certificate to be issued via free certificate.
+     */
+    @JsonProperty(value = "properties.canonicalName")
+    private String canonicalName;
+
+    /**
      * Kind of resource.
      */
     @JsonProperty(value = "kind")
@@ -382,6 +388,26 @@ public class CertificateInner extends Resource {
      */
     public CertificateInner withServerFarmId(String serverFarmId) {
         this.serverFarmId = serverFarmId;
+        return this;
+    }
+
+    /**
+     * Get cNAME of the certificate to be issued via free certificate.
+     *
+     * @return the canonicalName value
+     */
+    public String canonicalName() {
+        return this.canonicalName;
+    }
+
+    /**
+     * Set cNAME of the certificate to be issued via free certificate.
+     *
+     * @param canonicalName the canonicalName value to set
+     * @return the CertificateInner object itself.
+     */
+    public CertificateInner withCanonicalName(String canonicalName) {
+        this.canonicalName = canonicalName;
         return this;
     }
 

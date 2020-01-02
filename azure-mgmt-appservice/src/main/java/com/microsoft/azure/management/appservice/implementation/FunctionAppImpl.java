@@ -13,16 +13,18 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.microsoft.azure.management.appservice.AppServicePlan;
 import com.microsoft.azure.management.appservice.FunctionApp;
 import com.microsoft.azure.management.appservice.FunctionDeploymentSlots;
+import com.microsoft.azure.management.appservice.FunctionRuntimeStack;
 import com.microsoft.azure.management.appservice.NameValuePair;
 import com.microsoft.azure.management.appservice.OperatingSystem;
 import com.microsoft.azure.management.appservice.PricingTier;
 import com.microsoft.azure.management.appservice.SkuDescription;
+import com.microsoft.azure.management.appservice.SkuName;
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.storage.SkuName;
 import com.microsoft.azure.management.storage.StorageAccount;
 import com.microsoft.azure.management.storage.StorageAccountKey;
+import com.microsoft.azure.management.storage.StorageAccountSkuType;
 import com.microsoft.rest.LogLevel;
 import com.microsoft.rest.credentials.TokenCredentials;
 import okhttp3.HttpUrl;
@@ -63,7 +65,15 @@ class FunctionAppImpl
         FunctionApp,
         FunctionApp.Definition,
         FunctionApp.DefinitionStages.NewAppServicePlanWithGroup,
+        FunctionApp.DefinitionStages.ExistingLinuxPlanWithGroup,
         FunctionApp.Update {
+
+    private static final String SETTING_FUNCTIONS_WORKER_RUNTIME = "FUNCTIONS_WORKER_RUNTIME";
+    private static final String SETTING_FUNCTIONS_EXTENSION_VERSION = "FUNCTIONS_EXTENSION_VERSION";
+    private static final String SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = "WEBSITE_CONTENTAZUREFILECONNECTIONSTRING";
+    private static final String SETTING_WEBSITE_CONTENTSHARE = "WEBSITE_CONTENTSHARE";
+    private static final String SETTING_WEB_JOBS_STORAGE = "AzureWebJobsStorage";
+    private static final String SETTING_WEB_JOBS_DASHBOARD = "AzureWebJobsDashboard";
 
     private Creatable<StorageAccount> storageAccountCreatable;
     private StorageAccount storageAccountToSet;
@@ -71,6 +81,9 @@ class FunctionAppImpl
     private final FunctionAppKeyService functionAppKeyService;
     private FunctionService functionService;
     private FunctionDeploymentSlots deploymentSlots;
+
+    private Func1<AppServicePlan, Void> linuxFxVersionSetter = null;
+    private Observable<AppServicePlan> cachedAppServicePlanObservable = null; // potentially shared between submitSiteConfig and submitAppSettings
 
     FunctionAppImpl(final String name, SiteInner innerObject, SiteConfigResourceInner siteConfig, SiteLogsConfigInner logConfig, AppServiceManager manager) {
         super(name, innerObject, siteConfig, logConfig, manager);
@@ -110,17 +123,43 @@ class FunctionAppImpl
 
     @Override
     public FunctionAppImpl withNewConsumptionPlan() {
-        return withNewAppServicePlan(OperatingSystem.WINDOWS, new PricingTier("Dynamic", "Y1"));
+        return withNewAppServicePlan(OperatingSystem.WINDOWS, new PricingTier(SkuName.DYNAMIC.toString(), "Y1"));
+    }
+
+    @Override
+    public FunctionAppImpl withNewConsumptionPlan(String appServicePlanName) {
+        return withNewAppServicePlan(appServicePlanName, OperatingSystem.WINDOWS, new PricingTier(SkuName.DYNAMIC.toString(), "Y1"));
+    }
+
+    @Override
+    public FunctionAppImpl withRuntime(String runtime) {
+        return withAppSetting(SETTING_FUNCTIONS_WORKER_RUNTIME, runtime);
     }
 
     @Override
     public FunctionAppImpl withRuntimeVersion(String version) {
-        return withAppSetting("FUNCTIONS_EXTENSION_VERSION", version.startsWith("~") ? version : "~" + version);
+        return withAppSetting(SETTING_FUNCTIONS_EXTENSION_VERSION, version.startsWith("~") ? version : "~" + version);
     }
 
     @Override
     public FunctionAppImpl withLatestRuntimeVersion() {
         return withRuntimeVersion("latest");
+    }
+
+    @Override
+    Observable<Indexable> submitSiteConfig() {
+        if (linuxFxVersionSetter != null) {
+            cachedAppServicePlanObservable = this.cachedAppServicePlanObservable(); // first usage, so get a new one
+            return cachedAppServicePlanObservable.map(linuxFxVersionSetter)
+                    .flatMap(new Func1<Void, Observable<Indexable>>() {
+                        @Override
+                        public Observable<Indexable> call(Void aVoid) {
+                            return FunctionAppImpl.super.submitSiteConfig();
+                        }
+                    });
+        } else {
+            return super.submitSiteConfig();
+        }
     }
 
     @Override
@@ -131,7 +170,9 @@ class FunctionAppImpl
         if (storageAccountToSet == null) {
             return super.submitAppSettings();
         } else {
-            Observable<AppServicePlan> appServicePlanObservable = this.manager().appServicePlans().getByIdAsync(this.appServicePlanId());
+            if (cachedAppServicePlanObservable == null) {
+                cachedAppServicePlanObservable = this.cachedAppServicePlanObservable();
+            }
             return Observable.merge(storageAccountToSet.getKeysAsync()
                 .flatMapIterable(new Func1<List<StorageAccountKey>, Iterable<StorageAccountKey>>() {
                     @Override
@@ -139,16 +180,17 @@ class FunctionAppImpl
                         return storageAccountKeys;
                     }
                 })
-                .first().zipWith(appServicePlanObservable, new Func2<StorageAccountKey, AppServicePlan, Observable<Indexable>>() {
+                .first().zipWith(cachedAppServicePlanObservable, new Func2<StorageAccountKey, AppServicePlan, Observable<Indexable>>() {
                     @Override
                     public Observable<Indexable> call(StorageAccountKey storageAccountKey, AppServicePlan appServicePlan) {
                         String connectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                                 storageAccountToSet.name(), storageAccountKey.value());
-                        withAppSetting("AzureWebJobsStorage", connectionString);
-                        withAppSetting("AzureWebJobsDashboard", connectionString);
-                        if (appServicePlan == null || isConsumptionAppServicePlan(appServicePlan.pricingTier())) {
-                            withAppSetting("WEBSITE_CONTENTAZUREFILECONNECTIONSTRING", connectionString);
-                            withAppSetting("WEBSITE_CONTENTSHARE", SdkContext.randomResourceName(name(), 32));
+                        addAppSettingIfNotModified(SETTING_WEB_JOBS_STORAGE, connectionString);
+                        addAppSettingIfNotModified(SETTING_WEB_JOBS_DASHBOARD, connectionString);
+                        if (OperatingSystem.WINDOWS.equals(operatingSystem()) && // as Portal logic, only Windows plan would have following appSettings
+                                (appServicePlan == null || isConsumptionOrPremiumAppServicePlan(appServicePlan.pricingTier()))) {
+                            addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTAZUREFILECONNECTIONSTRING, connectionString);
+                            addAppSettingIfNotModified(SETTING_WEBSITE_CONTENTSHARE, SdkContext.randomResourceName(name(), 32));
                         }
                         return FunctionAppImpl.super.submitAppSettings();
                     }
@@ -158,19 +200,44 @@ class FunctionAppImpl
                         currentStorageAccount = storageAccountToSet;
                         storageAccountToSet = null;
                         storageAccountCreatable = null;
+                        cachedAppServicePlanObservable = null;
                     }
                 });
         }
     }
 
-    private boolean isConsumptionAppServicePlan(PricingTier pricingTier) {
+    @Override
+    public OperatingSystem operatingSystem() {
+        return (inner().reserved() == null || !inner().reserved())
+                ? OperatingSystem.WINDOWS
+                : OperatingSystem.LINUX;
+    }
+
+    private void addAppSettingIfNotModified(String key, String value) {
+        if (!appSettingModified(key)) {
+            withAppSetting(key, value);
+        }
+    }
+
+    private boolean appSettingModified(String key) {
+        return (appSettingsToAdd != null && appSettingsToAdd.containsKey(key))
+                || (appSettingsToRemove != null && appSettingsToRemove.contains(key));
+    }
+
+    private static boolean isConsumptionOrPremiumAppServicePlan(PricingTier pricingTier) {
         if (pricingTier == null || pricingTier.toSkuDescription() == null) {
             return true;
         }
         SkuDescription description = pricingTier.toSkuDescription();
-        return !("Basic".equalsIgnoreCase(description.tier())
-                || "Standard".equalsIgnoreCase(description.tier())
-                || "Premium".equalsIgnoreCase(description.tier()));
+        return SkuName.DYNAMIC.toString().equalsIgnoreCase(description.tier()) || SkuName.ELASTIC_PREMIUM.toString().equalsIgnoreCase(description.tier());
+    }
+
+    private static boolean isConsumptionPlan(PricingTier pricingTier) {
+        if (pricingTier == null || pricingTier.toSkuDescription() == null) {
+            return true;
+        }
+        SkuDescription description = pricingTier.toSkuDescription();
+        return SkuName.DYNAMIC.toString().equalsIgnoreCase(description.tier());
     }
 
     @Override
@@ -179,7 +246,11 @@ class FunctionAppImpl
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    FunctionAppImpl withNewAppServicePlan(String appServicePlan, OperatingSystem operatingSystem, PricingTier pricingTier) {
+        return super.withNewAppServicePlan(appServicePlan, operatingSystem, pricingTier).autoSetAlwaysOn(pricingTier);
+    }
+
+    @Override
     public FunctionAppImpl withExistingAppServicePlan(AppServicePlan appServicePlan) {
         super.withExistingAppServicePlan(appServicePlan);
         return autoSetAlwaysOn(appServicePlan.pricingTier());
@@ -187,9 +258,10 @@ class FunctionAppImpl
 
     private FunctionAppImpl autoSetAlwaysOn(PricingTier pricingTier) {
         SkuDescription description = pricingTier.toSkuDescription();
-        if (description.tier().equalsIgnoreCase("Basic")
-                || description.tier().equalsIgnoreCase("Standard")
-                || description.tier().equalsIgnoreCase("Premium")) {
+        if (description.tier().equalsIgnoreCase(SkuName.BASIC.toString())
+                || description.tier().equalsIgnoreCase(SkuName.STANDARD.toString())
+                || description.tier().equalsIgnoreCase(SkuName.PREMIUM.toString())
+                || description.tier().equalsIgnoreCase(SkuName.PREMIUM_V2.toString())) {
             return withWebAppAlwaysOn(true);
         } else {
             return withWebAppAlwaysOn(false);
@@ -197,7 +269,7 @@ class FunctionAppImpl
     }
 
     @Override
-    public FunctionAppImpl withNewStorageAccount(String name, SkuName sku) {
+    public FunctionAppImpl withNewStorageAccount(String name, com.microsoft.azure.management.storage.SkuName sku) {
         StorageAccount.DefinitionStages.WithGroup storageDefine = manager().storageManager().storageAccounts()
             .define(name)
             .withRegion(regionName());
@@ -209,6 +281,24 @@ class FunctionAppImpl
             storageAccountCreatable = storageDefine.withExistingResourceGroup(resourceGroupName())
                 .withGeneralPurposeAccountKind()
                 .withSku(sku);
+        }
+        this.addDependency(storageAccountCreatable);
+        return this;
+    }
+
+    @Override
+    public FunctionAppImpl withNewStorageAccount(String name, StorageAccountSkuType sku) {
+        StorageAccount.DefinitionStages.WithGroup storageDefine = manager().storageManager().storageAccounts()
+                .define(name)
+                .withRegion(regionName());
+        if (super.creatableGroup != null && isInCreateMode()) {
+            storageAccountCreatable = storageDefine.withNewResourceGroup(super.creatableGroup)
+                    .withGeneralPurposeAccountKind()
+                    .withSku(sku);
+        } else {
+            storageAccountCreatable = storageDefine.withExistingResourceGroup(resourceGroupName())
+                    .withGeneralPurposeAccountKind()
+                    .withSku(sku);
         }
         this.addDependency(storageAccountCreatable);
         return this;
@@ -229,6 +319,107 @@ class FunctionAppImpl
     @Override
     public FunctionAppImpl withoutDailyUsageQuota() {
         return withDailyUsageQuota(0);
+    }
+
+    @Override
+    public FunctionAppImpl withNewLinuxConsumptionPlan() {
+        return withNewAppServicePlan(OperatingSystem.LINUX, new PricingTier(SkuName.DYNAMIC.toString(), "Y1"));
+    }
+
+    @Override
+    public FunctionAppImpl withNewLinuxConsumptionPlan(String appServicePlanName) {
+        return withNewAppServicePlan(appServicePlanName, OperatingSystem.LINUX, new PricingTier(SkuName.DYNAMIC.toString(), "Y1"));
+    }
+
+    @Override
+    public FunctionAppImpl withNewLinuxAppServicePlan(PricingTier pricingTier) {
+        return super.withNewAppServicePlan(OperatingSystem.LINUX, pricingTier);
+    }
+
+    @Override
+    public FunctionAppImpl withNewLinuxAppServicePlan(String appServicePlanName, PricingTier pricingTier) {
+        return super.withNewAppServicePlan(appServicePlanName, OperatingSystem.LINUX, pricingTier);
+    }
+
+    @Override
+    public FunctionAppImpl withNewLinuxAppServicePlan(Creatable<AppServicePlan> appServicePlanCreatable) {
+        super.withNewAppServicePlan(appServicePlanCreatable);
+        if (appServicePlanCreatable instanceof AppServicePlan) {
+            this.autoSetAlwaysOn(((AppServicePlan) appServicePlanCreatable).pricingTier());
+        }
+        return this;
+    }
+
+    @Override
+    public FunctionAppImpl withExistingLinuxAppServicePlan(AppServicePlan appServicePlan) {
+        return super.withExistingAppServicePlan(appServicePlan).autoSetAlwaysOn(appServicePlan.pricingTier());
+    }
+
+    @Override
+    public FunctionAppImpl withBuiltInImage(final FunctionRuntimeStack runtimeStack) {
+        ensureLinuxPlan();
+        cleanUpContainerSettings();
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        withRuntime(runtimeStack.runtime());
+        withRuntimeVersion(runtimeStack.version());
+        linuxFxVersionSetter = new Func1<AppServicePlan, Void>() {
+            @Override
+            public Void call(AppServicePlan appServicePlan) {
+                if (appServicePlan == null || isConsumptionPlan(appServicePlan.pricingTier())) {
+                    siteConfig.withLinuxFxVersion(runtimeStack.getLinuxFxVersionForConsumptionPlan());
+                } else {
+                    siteConfig.withLinuxFxVersion(runtimeStack.getLinuxFxVersionForDedicatedPlan());
+                }
+                return null;
+            }
+        };
+        return this;
+    }
+
+    @Override
+    public FunctionAppImpl withPublicDockerHubImage(String imageAndTag) {
+        ensureLinuxPlan();
+        return super.withPublicDockerHubImage(imageAndTag);
+    }
+
+    @Override
+    public FunctionAppImpl withPrivateDockerHubImage(String imageAndTag) {
+        ensureLinuxPlan();
+        return super.withPublicDockerHubImage(imageAndTag);
+    }
+
+    @Override
+    public FunctionAppImpl withPrivateRegistryImage(String imageAndTag, String serverUrl) {
+        ensureLinuxPlan();
+        return super.withPrivateRegistryImage(imageAndTag, serverUrl);
+    }
+
+    @Override
+    protected void cleanUpContainerSettings() {
+        linuxFxVersionSetter = null;
+        if (siteConfig != null && siteConfig.linuxFxVersion() != null) {
+            siteConfig.withLinuxFxVersion(null);
+        }
+        // Docker Hub
+        withoutAppSetting(SETTING_DOCKER_IMAGE);
+        withoutAppSetting(SETTING_REGISTRY_SERVER);
+        withoutAppSetting(SETTING_REGISTRY_USERNAME);
+        withoutAppSetting(SETTING_REGISTRY_PASSWORD);
+    }
+
+    @Override
+    protected OperatingSystem appServicePlanOperatingSystem(AppServicePlan appServicePlan) {
+        // Consumption plan or premium (elastic) plan would have "functionapp" or "elastic" in "kind" property, no "linux" in it.
+        return (appServicePlan.inner().reserved() == null || !appServicePlan.inner().reserved())
+                ? OperatingSystem.WINDOWS
+                : OperatingSystem.LINUX;
+    }
+
+    private Observable<AppServicePlan> cachedAppServicePlanObservable() {
+        // it could get more than one subscriber, so hot observable + caching
+        return this.manager().appServicePlans().getByIdAsync(this.appServicePlanId()).cacheWithInitialCapacity(1);
     }
 
     @Override
@@ -415,7 +606,7 @@ class FunctionAppImpl
                 withNewConsumptionPlan();
             }
             if (currentStorageAccount == null && storageAccountToSet == null && storageAccountCreatable == null) {
-                withNewStorageAccount(SdkContext.randomResourceName(name(), 20), SkuName.STANDARD_GRS);
+                withNewStorageAccount(SdkContext.randomResourceName(name(), 20), com.microsoft.azure.management.storage.SkuName.STANDARD_GRS);
             }
         }
         return super.createAsync();

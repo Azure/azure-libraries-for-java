@@ -152,7 +152,7 @@ public final class ManageWebAppLogs {
                         public void onNext(String s) {
                             System.out.println(s);
                             if (s.contains("GET /coffeeshop/")) {
-                                if (count.incrementAndGet() >= 5) {
+                                if (count.incrementAndGet() >= 3) {
                                     unsubscribe();
                                 }
                             }

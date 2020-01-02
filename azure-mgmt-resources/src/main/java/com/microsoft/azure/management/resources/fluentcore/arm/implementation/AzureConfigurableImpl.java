@@ -10,6 +10,7 @@ import com.microsoft.azure.AzureEnvironment;
 import com.microsoft.azure.AzureResponseBuilder;
 import com.microsoft.azure.credentials.AzureTokenCredentials;
 import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
+import com.microsoft.azure.management.resources.fluentcore.utils.AuxiliaryCredentialsInterceptor;
 import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
 import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
 import com.microsoft.azure.serializer.AzureJacksonAdapter;
@@ -51,6 +52,19 @@ public class AzureConfigurableImpl<T extends AzureConfigurable<T>>
     @Override
     public T withInterceptor(Interceptor interceptor) {
         this.restClientBuilder = this.restClientBuilder.withInterceptor(interceptor);
+        return (T) this;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public T withAuxiliaryCredentials(AzureTokenCredentials... tokens) {
+        if (tokens != null) {
+            if (tokens.length > 3) {
+                throw new IllegalArgumentException("Only can hold up to three auxiliary tokens.");
+            }
+            AuxiliaryCredentialsInterceptor interceptor = new AuxiliaryCredentialsInterceptor(tokens);
+            this.restClientBuilder = this.restClientBuilder.withInterceptor(interceptor);
+        }
         return (T) this;
     }
 

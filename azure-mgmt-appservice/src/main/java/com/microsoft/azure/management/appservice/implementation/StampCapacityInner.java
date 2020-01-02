@@ -49,7 +49,7 @@ public class StampCapacityInner {
 
     /**
      * Size of the machines. Possible values include: 'Small', 'Medium',
-     * 'Large', 'D1', 'D2', 'D3', 'Default'.
+     * 'Large', 'D1', 'D2', 'D3', 'NestedSmall', 'Default'.
      */
     @JsonProperty(value = "workerSize")
     private WorkerSizeOptions workerSize;
@@ -190,7 +190,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Get size of the machines. Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'Default'.
+     * Get size of the machines. Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'NestedSmall', 'Default'.
      *
      * @return the workerSize value
      */
@@ -199,7 +199,7 @@ public class StampCapacityInner {
     }
 
     /**
-     * Set size of the machines. Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'Default'.
+     * Set size of the machines. Possible values include: 'Small', 'Medium', 'Large', 'D1', 'D2', 'D3', 'NestedSmall', 'Default'.
      *
      * @param workerSize the workerSize value to set
      * @return the StampCapacityInner object itself.

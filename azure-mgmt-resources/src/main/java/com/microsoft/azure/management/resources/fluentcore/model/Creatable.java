@@ -39,7 +39,7 @@ public interface Creatable<T> extends
      * @return a handle to cancel the request
      */
     @Method
-    ServiceFuture<T> createAsync(final ServiceCallback<T> callback);
+    ServiceFuture<T> createAsync(ServiceCallback<T> callback);
 
     /**
      * Puts the request into the queue and allow the HTTP client to execute

@@ -11,6 +11,8 @@ import com.microsoft.azure.management.resources.fluentcore.arm.Region;
 import org.junit.*;
 
 import java.io.File;
+import java.security.cert.Certificate;
+import java.util.List;
 
 public class CertificatesTests extends AppServiceTest {
     private static final String CERTIFICATE_NAME = "javagoodcert319";
@@ -39,5 +41,10 @@ public class CertificatesTests extends AppServiceTest {
                 .withPfxPassword("StrongPass!123")
                 .create();
         Assert.assertNotNull(certificate);
+    }
+
+    @Test
+    public void canListCertificate() {
+        List<AppServiceCertificate> certificates = appServiceManager.certificates().list();
     }
 }

@@ -126,8 +126,8 @@ public final class ManageLinuxWebAppWithDomainSsl {
             //============================================================
             // Create a self-singed SSL certificate
 
-            String pfxPath = ManageLinuxWebAppWithDomainSsl.class.getResource("/").getPath() + app2Name + "." + domainName + ".pfx";
-            String cerPath = ManageLinuxWebAppWithDomainSsl.class.getResource("/").getPath() + app2Name + "." + domainName + ".cer";
+            String pfxPath = ManageLinuxWebAppWithDomainSsl.class.getResource("/").getPath() + "webapp_" + ManageLinuxWebAppWithDomainSsl.class.getSimpleName().toLowerCase() + ".pfx";
+            String cerPath = ManageLinuxWebAppWithDomainSsl.class.getResource("/").getPath() + "webapp_" + ManageLinuxWebAppWithDomainSsl.class.getSimpleName().toLowerCase() + ".cer";
 
             System.out.println("Creating a self-signed certificate " + pfxPath + "...");
 

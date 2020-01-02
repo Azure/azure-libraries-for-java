@@ -55,7 +55,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @return the observable for the request
      */
     @Beta(Beta.SinceVersion.V1_15_0)
-    Observable<GalleryImage> listByGalleryAsync(final String resourceGroupName, final String galleryName);
+    Observable<GalleryImage> listByGalleryAsync(String resourceGroupName, String galleryName);
 
     /**
      * List images under a gallery.
@@ -66,7 +66,7 @@ public interface GalleryImages extends SupportsCreating<GalleryImage.DefinitionS
      * @return the list of images in the gallery
      */
     @Beta(Beta.SinceVersion.V1_15_0)
-    PagedList<GalleryImage> listByGallery(final String resourceGroupName, final String galleryName);
+    PagedList<GalleryImage> listByGallery(String resourceGroupName, String galleryName);
 
     /**
      * Delete a gallery image in a gallery.

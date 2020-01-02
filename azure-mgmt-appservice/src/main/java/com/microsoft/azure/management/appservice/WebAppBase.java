@@ -240,6 +240,11 @@ public interface WebAppBase extends
     boolean http20Enabled();
 
     /**
+     * @return the minimum version of TLS required for SSL requests.
+     */
+    SupportedTlsVersions minTlsVersion();
+
+    /**
      * @return whether local MySQL is enabled
      */
     boolean localMySqlEnabled();
@@ -859,6 +864,13 @@ public interface WebAppBase extends
              * @return the next stage of web app definition
              */
             WithCreate<FluentT> withVirtualApplications(List<VirtualApplication> virtualApplications);
+
+            /**
+             * Sets the minimum version of TLS required for SSL requests.
+             * @param minTlsVersion the minimum version of TLS required for SSL requests.
+             * @return the next stage of web app definition
+             */
+            WithCreate<FluentT> withMinTlsVersion(SupportedTlsVersions minTlsVersion);
         }
 
         /**
@@ -1394,6 +1406,13 @@ public interface WebAppBase extends
              * @return the next stage of web app update
              */
             Update<FluentT> withVirtualApplications(List<VirtualApplication> virtualApplications);
+
+            /**
+             * Sets the minimum version of TLS required for SSL requests.
+             * @param minTlsVersion the minimum version of TLS required for SSL requests.
+             * @return the next stage of web app definition
+             */
+            Update<FluentT> withMinTlsVersion(SupportedTlsVersions minTlsVersion);
         }
 
         /**

@@ -39,6 +39,12 @@ public class VirtualIPMapping {
     private Boolean inUse;
 
     /**
+     * name of the service that virtual IP is assigned to.
+     */
+    @JsonProperty(value = "serviceName")
+    private String serviceName;
+
+    /**
      * Get virtual IP address.
      *
      * @return the virtualIP value
@@ -115,6 +121,26 @@ public class VirtualIPMapping {
      */
     public VirtualIPMapping withInUse(Boolean inUse) {
         this.inUse = inUse;
+        return this;
+    }
+
+    /**
+     * Get name of the service that virtual IP is assigned to.
+     *
+     * @return the serviceName value
+     */
+    public String serviceName() {
+        return this.serviceName;
+    }
+
+    /**
+     * Set name of the service that virtual IP is assigned to.
+     *
+     * @param serviceName the serviceName value to set
+     * @return the VirtualIPMapping object itself.
+     */
+    public VirtualIPMapping withServiceName(String serviceName) {
+        this.serviceName = serviceName;
         return this;
     }
 

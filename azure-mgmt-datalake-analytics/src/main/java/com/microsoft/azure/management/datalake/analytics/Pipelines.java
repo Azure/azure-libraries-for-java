@@ -35,7 +35,7 @@ public interface Pipelines {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobPipelineInformation&gt; object if successful.
      */
-    PagedList<JobPipelineInformation> list(final String accountName);
+    PagedList<JobPipelineInformation> list(String accountName);
 
     /**
      * Lists all pipelines.
@@ -45,7 +45,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobPipelineInformation>> listAsync(final String accountName, final ListOperationCallback<JobPipelineInformation> serviceCallback);
+    ServiceFuture<List<JobPipelineInformation>> listAsync(String accountName, ListOperationCallback<JobPipelineInformation> serviceCallback);
 
     /**
      * Lists all pipelines.
@@ -54,7 +54,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobPipelineInformation&gt; object
      */
-    Observable<Page<JobPipelineInformation>> listAsync(final String accountName);
+    Observable<Page<JobPipelineInformation>> listAsync(String accountName);
 
     /**
      * Lists all pipelines.
@@ -63,7 +63,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobPipelineInformation&gt; object
      */
-    Observable<ServiceResponse<Page<JobPipelineInformation>>> listWithServiceResponseAsync(final String accountName);
+    Observable<ServiceResponse<Page<JobPipelineInformation>>> listWithServiceResponseAsync(String accountName);
     /**
      * Lists all pipelines.
      *
@@ -75,7 +75,7 @@ public interface Pipelines {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobPipelineInformation&gt; object if successful.
      */
-    PagedList<JobPipelineInformation> list(final String accountName, final DateTime startDateTime, final DateTime endDateTime);
+    PagedList<JobPipelineInformation> list(String accountName, DateTime startDateTime, DateTime endDateTime);
 
     /**
      * Lists all pipelines.
@@ -87,7 +87,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobPipelineInformation>> listAsync(final String accountName, final DateTime startDateTime, final DateTime endDateTime, final ListOperationCallback<JobPipelineInformation> serviceCallback);
+    ServiceFuture<List<JobPipelineInformation>> listAsync(String accountName, DateTime startDateTime, DateTime endDateTime, ListOperationCallback<JobPipelineInformation> serviceCallback);
 
     /**
      * Lists all pipelines.
@@ -98,7 +98,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobPipelineInformation&gt; object
      */
-    Observable<Page<JobPipelineInformation>> listAsync(final String accountName, final DateTime startDateTime, final DateTime endDateTime);
+    Observable<Page<JobPipelineInformation>> listAsync(String accountName, DateTime startDateTime, DateTime endDateTime);
 
     /**
      * Lists all pipelines.
@@ -109,7 +109,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobPipelineInformation&gt; object
      */
-    Observable<ServiceResponse<Page<JobPipelineInformation>>> listWithServiceResponseAsync(final String accountName, final DateTime startDateTime, final DateTime endDateTime);
+    Observable<ServiceResponse<Page<JobPipelineInformation>>> listWithServiceResponseAsync(String accountName, DateTime startDateTime, DateTime endDateTime);
 
     /**
      * Gets the Pipeline information for the specified pipeline ID.
@@ -132,7 +132,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobPipelineInformation> getAsync(String accountName, UUID pipelineIdentity, final ServiceCallback<JobPipelineInformation> serviceCallback);
+    ServiceFuture<JobPipelineInformation> getAsync(String accountName, UUID pipelineIdentity, ServiceCallback<JobPipelineInformation> serviceCallback);
 
     /**
      * Gets the Pipeline information for the specified pipeline ID.
@@ -178,7 +178,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<JobPipelineInformation> getAsync(String accountName, UUID pipelineIdentity, DateTime startDateTime, DateTime endDateTime, final ServiceCallback<JobPipelineInformation> serviceCallback);
+    ServiceFuture<JobPipelineInformation> getAsync(String accountName, UUID pipelineIdentity, DateTime startDateTime, DateTime endDateTime, ServiceCallback<JobPipelineInformation> serviceCallback);
 
     /**
      * Gets the Pipeline information for the specified pipeline ID.
@@ -213,7 +213,7 @@ public interface Pipelines {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;JobPipelineInformation&gt; object if successful.
      */
-    PagedList<JobPipelineInformation> listNext(final String nextPageLink);
+    PagedList<JobPipelineInformation> listNext(String nextPageLink);
 
     /**
      * Lists all pipelines.
@@ -224,7 +224,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    ServiceFuture<List<JobPipelineInformation>> listNextAsync(final String nextPageLink, final ServiceFuture<List<JobPipelineInformation>> serviceFuture, final ListOperationCallback<JobPipelineInformation> serviceCallback);
+    ServiceFuture<List<JobPipelineInformation>> listNextAsync(String nextPageLink, ServiceFuture<List<JobPipelineInformation>> serviceFuture, ListOperationCallback<JobPipelineInformation> serviceCallback);
 
     /**
      * Lists all pipelines.
@@ -233,7 +233,7 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobPipelineInformation&gt; object
      */
-    Observable<Page<JobPipelineInformation>> listNextAsync(final String nextPageLink);
+    Observable<Page<JobPipelineInformation>> listNextAsync(String nextPageLink);
 
     /**
      * Lists all pipelines.
@@ -242,6 +242,6 @@ public interface Pipelines {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;JobPipelineInformation&gt; object
      */
-    Observable<ServiceResponse<Page<JobPipelineInformation>>> listNextWithServiceResponseAsync(final String nextPageLink);
+    Observable<ServiceResponse<Page<JobPipelineInformation>>> listNextWithServiceResponseAsync(String nextPageLink);
 
 }

@@ -14,7 +14,6 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
-import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.appservice.CertificatePatchResource;
 import com.microsoft.azure.management.appservice.DefaultErrorResponseException;
@@ -103,7 +102,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -122,7 +121,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -142,7 +141,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
@@ -159,7 +158,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CertificateInner&gt; object
@@ -180,7 +179,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CertificateInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -215,7 +214,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -235,7 +234,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
@@ -256,7 +255,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -274,7 +273,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -296,7 +295,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
     ServiceResponse<PageImpl<CertificateInner>> * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -335,7 +334,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get a certificate.
-     * Get a certificate.
+     * Description for Get a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -350,7 +349,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get a certificate.
-     * Get a certificate.
+     * Description for Get a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -364,7 +363,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get a certificate.
-     * Get a certificate.
+     * Description for Get a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -382,7 +381,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get a certificate.
-     * Get a certificate.
+     * Description for Get a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -425,7 +424,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Create or update a certificate.
-     * Create or update a certificate.
+     * Description for Create or update a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -441,7 +440,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Create or update a certificate.
-     * Create or update a certificate.
+     * Description for Create or update a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -456,7 +455,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Create or update a certificate.
-     * Create or update a certificate.
+     * Description for Create or update a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -475,7 +474,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Create or update a certificate.
-     * Create or update a certificate.
+     * Description for Create or update a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -523,12 +522,12 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Delete a certificate.
-     * Delete a certificate.
+     * Description for Delete a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
+     * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String name) {
@@ -537,7 +536,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Delete a certificate.
-     * Delete a certificate.
+     * Description for Delete a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -551,7 +550,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Delete a certificate.
-     * Delete a certificate.
+     * Description for Delete a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -569,7 +568,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Delete a certificate.
-     * Delete a certificate.
+     * Description for Delete a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -603,17 +602,17 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
             });
     }
 
-    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> deleteDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(CloudException.class)
+                .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Create or update a certificate.
-     * Create or update a certificate.
+     * Description for Create or update a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -629,7 +628,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Create or update a certificate.
-     * Create or update a certificate.
+     * Description for Create or update a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -644,7 +643,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Create or update a certificate.
-     * Create or update a certificate.
+     * Description for Create or update a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -663,7 +662,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Create or update a certificate.
-     * Create or update a certificate.
+     * Description for Create or update a certificate.
      *
      * @param resourceGroupName Name of the resource group to which the resource belongs.
      * @param name Name of the certificate.
@@ -711,7 +710,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -731,7 +730,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -753,7 +752,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -771,7 +770,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -793,7 +792,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates for a subscription.
-     * Get all certificates for a subscription.
+     * Description for Get all certificates for a subscription.
      *
     ServiceResponse<PageImpl<CertificateInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -827,7 +826,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -847,7 +846,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -869,7 +868,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -887,7 +886,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -909,7 +908,7 @@ public class CertificatesInner implements InnerSupportsGet<CertificateInner>, In
 
     /**
      * Get all certificates in a resource group.
-     * Get all certificates in a resource group.
+     * Description for Get all certificates in a resource group.
      *
     ServiceResponse<PageImpl<CertificateInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation

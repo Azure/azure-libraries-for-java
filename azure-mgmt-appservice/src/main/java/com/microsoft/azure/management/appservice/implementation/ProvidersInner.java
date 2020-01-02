@@ -84,18 +84,18 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ApplicationStackInner&gt; object if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object if successful.
      */
-    public PagedList<ApplicationStackInner> getAvailableStacks() {
-        ServiceResponse<Page<ApplicationStackInner>> response = getAvailableStacksSinglePageAsync().toBlocking().single();
-        return new PagedList<ApplicationStackInner>(response.body()) {
+    public PagedList<ApplicationStackResourceInner> getAvailableStacks() {
+        ServiceResponse<Page<ApplicationStackResourceInner>> response = getAvailableStacksSinglePageAsync().toBlocking().single();
+        return new PagedList<ApplicationStackResourceInner>(response.body()) {
             @Override
-            public Page<ApplicationStackInner> nextPage(String nextPageLink) {
+            public Page<ApplicationStackResourceInner> nextPage(String nextPageLink) {
                 return getAvailableStacksNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -103,18 +103,18 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationStackInner>> getAvailableStacksAsync(final ListOperationCallback<ApplicationStackInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationStackResourceInner>> getAvailableStacksAsync(final ListOperationCallback<ApplicationStackResourceInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             getAvailableStacksSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(String nextPageLink) {
                     return getAvailableStacksNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -123,16 +123,16 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<Page<ApplicationStackInner>> getAvailableStacksAsync() {
+    public Observable<Page<ApplicationStackResourceInner>> getAvailableStacksAsync() {
         return getAvailableStacksWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Page<ApplicationStackInner>>() {
+            .map(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Page<ApplicationStackResourceInner>>() {
                 @Override
-                public Page<ApplicationStackInner> call(ServiceResponse<Page<ApplicationStackInner>> response) {
+                public Page<ApplicationStackResourceInner> call(ServiceResponse<Page<ApplicationStackResourceInner>> response) {
                     return response.body();
                 }
             });
@@ -140,16 +140,16 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> getAvailableStacksWithServiceResponseAsync() {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> getAvailableStacksWithServiceResponseAsync() {
         return getAvailableStacksSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(ServiceResponse<Page<ApplicationStackInner>> page) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(ServiceResponse<Page<ApplicationStackResourceInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -161,23 +161,23 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationStackInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> getAvailableStacksSinglePageAsync() {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> getAvailableStacksSinglePageAsync() {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         final String osTypeSelected = null;
         return service.getAvailableStacks(osTypeSelected, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationStackInner>> result = getAvailableStacksDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationStackInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ApplicationStackResourceInner>> result = getAvailableStacksDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationStackResourceInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -187,19 +187,19 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ApplicationStackInner&gt; object if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object if successful.
      */
-    public PagedList<ApplicationStackInner> getAvailableStacks(final String osTypeSelected) {
-        ServiceResponse<Page<ApplicationStackInner>> response = getAvailableStacksSinglePageAsync(osTypeSelected).toBlocking().single();
-        return new PagedList<ApplicationStackInner>(response.body()) {
+    public PagedList<ApplicationStackResourceInner> getAvailableStacks(final String osTypeSelected) {
+        ServiceResponse<Page<ApplicationStackResourceInner>> response = getAvailableStacksSinglePageAsync(osTypeSelected).toBlocking().single();
+        return new PagedList<ApplicationStackResourceInner>(response.body()) {
             @Override
-            public Page<ApplicationStackInner> nextPage(String nextPageLink) {
+            public Page<ApplicationStackResourceInner> nextPage(String nextPageLink) {
                 return getAvailableStacksNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -207,19 +207,19 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationStackInner>> getAvailableStacksAsync(final String osTypeSelected, final ListOperationCallback<ApplicationStackInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationStackResourceInner>> getAvailableStacksAsync(final String osTypeSelected, final ListOperationCallback<ApplicationStackResourceInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             getAvailableStacksSinglePageAsync(osTypeSelected),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(String nextPageLink) {
                     return getAvailableStacksNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -228,17 +228,17 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<Page<ApplicationStackInner>> getAvailableStacksAsync(final String osTypeSelected) {
+    public Observable<Page<ApplicationStackResourceInner>> getAvailableStacksAsync(final String osTypeSelected) {
         return getAvailableStacksWithServiceResponseAsync(osTypeSelected)
-            .map(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Page<ApplicationStackInner>>() {
+            .map(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Page<ApplicationStackResourceInner>>() {
                 @Override
-                public Page<ApplicationStackInner> call(ServiceResponse<Page<ApplicationStackInner>> response) {
+                public Page<ApplicationStackResourceInner> call(ServiceResponse<Page<ApplicationStackResourceInner>> response) {
                     return response.body();
                 }
             });
@@ -246,17 +246,17 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> getAvailableStacksWithServiceResponseAsync(final String osTypeSelected) {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> getAvailableStacksWithServiceResponseAsync(final String osTypeSelected) {
         return getAvailableStacksSinglePageAsync(osTypeSelected)
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(ServiceResponse<Page<ApplicationStackInner>> page) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(ServiceResponse<Page<ApplicationStackResourceInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -268,23 +268,23 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
-    ServiceResponse<PageImpl<ApplicationStackInner>> * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+    ServiceResponse<PageImpl<ApplicationStackResourceInner>> * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationStackInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> getAvailableStacksSinglePageAsync(final String osTypeSelected) {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> getAvailableStacksSinglePageAsync(final String osTypeSelected) {
         if (this.client.apiVersion() == null) {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.getAvailableStacks(osTypeSelected, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationStackInner>> result = getAvailableStacksDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationStackInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ApplicationStackResourceInner>> result = getAvailableStacksDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationStackResourceInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -292,16 +292,16 @@ public class ProvidersInner {
             });
     }
 
-    private ServiceResponse<PageImpl<ApplicationStackInner>> getAvailableStacksDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ApplicationStackInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ApplicationStackResourceInner>> getAvailableStacksDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ApplicationStackResourceInner>>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
@@ -320,7 +320,7 @@ public class ProvidersInner {
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -340,7 +340,7 @@ public class ProvidersInner {
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CsmOperationDescriptionInner&gt; object
@@ -357,7 +357,7 @@ public class ProvidersInner {
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the PagedList&lt;CsmOperationDescriptionInner&gt; object
@@ -378,7 +378,7 @@ public class ProvidersInner {
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the PagedList&lt;CsmOperationDescriptionInner&gt; object wrapped in {@link ServiceResponse} if successful.
@@ -410,18 +410,18 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ApplicationStackInner&gt; object if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object if successful.
      */
-    public PagedList<ApplicationStackInner> list() {
-        ServiceResponse<Page<ApplicationStackInner>> response = listSinglePageAsync().toBlocking().single();
-        return new PagedList<ApplicationStackInner>(response.body()) {
+    public PagedList<ApplicationStackResourceInner> list() {
+        ServiceResponse<Page<ApplicationStackResourceInner>> response = listSinglePageAsync().toBlocking().single();
+        return new PagedList<ApplicationStackResourceInner>(response.body()) {
             @Override
-            public Page<ApplicationStackInner> nextPage(String nextPageLink) {
+            public Page<ApplicationStackResourceInner> nextPage(String nextPageLink) {
                 return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -429,18 +429,18 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationStackInner>> listAsync(final ListOperationCallback<ApplicationStackInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationStackResourceInner>> listAsync(final ListOperationCallback<ApplicationStackResourceInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(String nextPageLink) {
                     return listNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -449,16 +449,16 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<Page<ApplicationStackInner>> listAsync() {
+    public Observable<Page<ApplicationStackResourceInner>> listAsync() {
         return listWithServiceResponseAsync()
-            .map(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Page<ApplicationStackInner>>() {
+            .map(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Page<ApplicationStackResourceInner>>() {
                 @Override
-                public Page<ApplicationStackInner> call(ServiceResponse<Page<ApplicationStackInner>> response) {
+                public Page<ApplicationStackResourceInner> call(ServiceResponse<Page<ApplicationStackResourceInner>> response) {
                     return response.body();
                 }
             });
@@ -466,16 +466,16 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> listWithServiceResponseAsync() {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> listWithServiceResponseAsync() {
         return listSinglePageAsync()
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(ServiceResponse<Page<ApplicationStackInner>> page) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(ServiceResponse<Page<ApplicationStackResourceInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -487,12 +487,12 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationStackInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> listSinglePageAsync() {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> listSinglePageAsync() {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -501,12 +501,12 @@ public class ProvidersInner {
         }
         final String osTypeSelected = null;
         return service.list(this.client.subscriptionId(), osTypeSelected, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationStackInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationStackInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ApplicationStackResourceInner>> result = listDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationStackResourceInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -516,19 +516,19 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ApplicationStackInner&gt; object if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object if successful.
      */
-    public PagedList<ApplicationStackInner> list(final String osTypeSelected) {
-        ServiceResponse<Page<ApplicationStackInner>> response = listSinglePageAsync(osTypeSelected).toBlocking().single();
-        return new PagedList<ApplicationStackInner>(response.body()) {
+    public PagedList<ApplicationStackResourceInner> list(final String osTypeSelected) {
+        ServiceResponse<Page<ApplicationStackResourceInner>> response = listSinglePageAsync(osTypeSelected).toBlocking().single();
+        return new PagedList<ApplicationStackResourceInner>(response.body()) {
             @Override
-            public Page<ApplicationStackInner> nextPage(String nextPageLink) {
+            public Page<ApplicationStackResourceInner> nextPage(String nextPageLink) {
                 return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -536,19 +536,19 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationStackInner>> listAsync(final String osTypeSelected, final ListOperationCallback<ApplicationStackInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationStackResourceInner>> listAsync(final String osTypeSelected, final ListOperationCallback<ApplicationStackResourceInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listSinglePageAsync(osTypeSelected),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(String nextPageLink) {
                     return listNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -557,17 +557,17 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<Page<ApplicationStackInner>> listAsync(final String osTypeSelected) {
+    public Observable<Page<ApplicationStackResourceInner>> listAsync(final String osTypeSelected) {
         return listWithServiceResponseAsync(osTypeSelected)
-            .map(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Page<ApplicationStackInner>>() {
+            .map(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Page<ApplicationStackResourceInner>>() {
                 @Override
-                public Page<ApplicationStackInner> call(ServiceResponse<Page<ApplicationStackInner>> response) {
+                public Page<ApplicationStackResourceInner> call(ServiceResponse<Page<ApplicationStackResourceInner>> response) {
                     return response.body();
                 }
             });
@@ -575,17 +575,17 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> listWithServiceResponseAsync(final String osTypeSelected) {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> listWithServiceResponseAsync(final String osTypeSelected) {
         return listSinglePageAsync(osTypeSelected)
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(ServiceResponse<Page<ApplicationStackInner>> page) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(ServiceResponse<Page<ApplicationStackResourceInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -597,13 +597,13 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
-    ServiceResponse<PageImpl<ApplicationStackInner>> * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
+    ServiceResponse<PageImpl<ApplicationStackResourceInner>> * @param osTypeSelected Possible values include: 'Windows', 'Linux', 'WindowsFunctions', 'LinuxFunctions'
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationStackInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> listSinglePageAsync(final String osTypeSelected) {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> listSinglePageAsync(final String osTypeSelected) {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
@@ -611,12 +611,12 @@ public class ProvidersInner {
             throw new IllegalArgumentException("Parameter this.client.apiVersion() is required and cannot be null.");
         }
         return service.list(this.client.subscriptionId(), osTypeSelected, this.client.apiVersion(), this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationStackInner>> result = listDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationStackInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ApplicationStackResourceInner>> result = listDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationStackResourceInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -624,28 +624,28 @@ public class ProvidersInner {
             });
     }
 
-    private ServiceResponse<PageImpl<ApplicationStackInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ApplicationStackInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ApplicationStackResourceInner>> listDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ApplicationStackResourceInner>>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ApplicationStackInner&gt; object if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object if successful.
      */
-    public PagedList<ApplicationStackInner> getAvailableStacksNext(final String nextPageLink) {
-        ServiceResponse<Page<ApplicationStackInner>> response = getAvailableStacksNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ApplicationStackInner>(response.body()) {
+    public PagedList<ApplicationStackResourceInner> getAvailableStacksNext(final String nextPageLink) {
+        ServiceResponse<Page<ApplicationStackResourceInner>> response = getAvailableStacksNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ApplicationStackResourceInner>(response.body()) {
             @Override
-            public Page<ApplicationStackInner> nextPage(String nextPageLink) {
+            public Page<ApplicationStackResourceInner> nextPage(String nextPageLink) {
                 return getAvailableStacksNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -653,7 +653,7 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -661,12 +661,12 @@ public class ProvidersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationStackInner>> getAvailableStacksNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationStackInner>> serviceFuture, final ListOperationCallback<ApplicationStackInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationStackResourceInner>> getAvailableStacksNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationStackResourceInner>> serviceFuture, final ListOperationCallback<ApplicationStackResourceInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             getAvailableStacksNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(String nextPageLink) {
                     return getAvailableStacksNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -675,17 +675,17 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<Page<ApplicationStackInner>> getAvailableStacksNextAsync(final String nextPageLink) {
+    public Observable<Page<ApplicationStackResourceInner>> getAvailableStacksNextAsync(final String nextPageLink) {
         return getAvailableStacksNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Page<ApplicationStackInner>>() {
+            .map(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Page<ApplicationStackResourceInner>>() {
                 @Override
-                public Page<ApplicationStackInner> call(ServiceResponse<Page<ApplicationStackInner>> response) {
+                public Page<ApplicationStackResourceInner> call(ServiceResponse<Page<ApplicationStackResourceInner>> response) {
                     return response.body();
                 }
             });
@@ -693,17 +693,17 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> getAvailableStacksNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> getAvailableStacksNextWithServiceResponseAsync(final String nextPageLink) {
         return getAvailableStacksNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(ServiceResponse<Page<ApplicationStackInner>> page) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(ServiceResponse<Page<ApplicationStackResourceInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -715,24 +715,24 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
-    ServiceResponse<PageImpl<ApplicationStackInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ApplicationStackResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationStackInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> getAvailableStacksNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> getAvailableStacksNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
         return service.getAvailableStacksNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationStackInner>> result = getAvailableStacksNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationStackInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ApplicationStackResourceInner>> result = getAvailableStacksNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationStackResourceInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -740,16 +740,16 @@ public class ProvidersInner {
             });
     }
 
-    private ServiceResponse<PageImpl<ApplicationStackInner>> getAvailableStacksNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ApplicationStackInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ApplicationStackResourceInner>> getAvailableStacksNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ApplicationStackResourceInner>>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -769,7 +769,7 @@ public class ProvidersInner {
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -791,7 +791,7 @@ public class ProvidersInner {
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -809,7 +809,7 @@ public class ProvidersInner {
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -831,7 +831,7 @@ public class ProvidersInner {
 
     /**
      * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
-     * Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
+     * Description for Gets all available operations for the Microsoft.Web resource provider. Also exposes resource metric definitions.
      *
     ServiceResponse<PageImpl<CsmOperationDescriptionInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
@@ -865,19 +865,19 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @throws DefaultErrorResponseException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the PagedList&lt;ApplicationStackInner&gt; object if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object if successful.
      */
-    public PagedList<ApplicationStackInner> listNext(final String nextPageLink) {
-        ServiceResponse<Page<ApplicationStackInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
-        return new PagedList<ApplicationStackInner>(response.body()) {
+    public PagedList<ApplicationStackResourceInner> listNext(final String nextPageLink) {
+        ServiceResponse<Page<ApplicationStackResourceInner>> response = listNextSinglePageAsync(nextPageLink).toBlocking().single();
+        return new PagedList<ApplicationStackResourceInner>(response.body()) {
             @Override
-            public Page<ApplicationStackInner> nextPage(String nextPageLink) {
+            public Page<ApplicationStackResourceInner> nextPage(String nextPageLink) {
                 return listNextSinglePageAsync(nextPageLink).toBlocking().single().body();
             }
         };
@@ -885,7 +885,7 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @param serviceFuture the ServiceFuture object tracking the Retrofit calls
@@ -893,12 +893,12 @@ public class ProvidersInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<List<ApplicationStackInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationStackInner>> serviceFuture, final ListOperationCallback<ApplicationStackInner> serviceCallback) {
+    public ServiceFuture<List<ApplicationStackResourceInner>> listNextAsync(final String nextPageLink, final ServiceFuture<List<ApplicationStackResourceInner>> serviceFuture, final ListOperationCallback<ApplicationStackResourceInner> serviceCallback) {
         return AzureServiceFuture.fromPageResponse(
             listNextSinglePageAsync(nextPageLink),
-            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            new Func1<String, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(String nextPageLink) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(String nextPageLink) {
                     return listNextSinglePageAsync(nextPageLink);
                 }
             },
@@ -907,17 +907,17 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<Page<ApplicationStackInner>> listNextAsync(final String nextPageLink) {
+    public Observable<Page<ApplicationStackResourceInner>> listNextAsync(final String nextPageLink) {
         return listNextWithServiceResponseAsync(nextPageLink)
-            .map(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Page<ApplicationStackInner>>() {
+            .map(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Page<ApplicationStackResourceInner>>() {
                 @Override
-                public Page<ApplicationStackInner> call(ServiceResponse<Page<ApplicationStackInner>> response) {
+                public Page<ApplicationStackResourceInner> call(ServiceResponse<Page<ApplicationStackResourceInner>> response) {
                     return response.body();
                 }
             });
@@ -925,17 +925,17 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the PagedList&lt;ApplicationStackInner&gt; object
+     * @return the observable to the PagedList&lt;ApplicationStackResourceInner&gt; object
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> listNextWithServiceResponseAsync(final String nextPageLink) {
         return listNextSinglePageAsync(nextPageLink)
-            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackInner>>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .concatMap(new Func1<ServiceResponse<Page<ApplicationStackResourceInner>>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(ServiceResponse<Page<ApplicationStackInner>> page) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(ServiceResponse<Page<ApplicationStackResourceInner>> page) {
                     String nextPageLink = page.body().nextPageLink();
                     if (nextPageLink == null) {
                         return Observable.just(page);
@@ -947,24 +947,24 @@ public class ProvidersInner {
 
     /**
      * Get available application frameworks and their versions.
-     * Get available application frameworks and their versions.
+     * Description for Get available application frameworks and their versions.
      *
-    ServiceResponse<PageImpl<ApplicationStackInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
+    ServiceResponse<PageImpl<ApplicationStackResourceInner>> * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the PagedList&lt;ApplicationStackInner&gt; object wrapped in {@link ServiceResponse} if successful.
+     * @return the PagedList&lt;ApplicationStackResourceInner&gt; object wrapped in {@link ServiceResponse} if successful.
      */
-    public Observable<ServiceResponse<Page<ApplicationStackInner>>> listNextSinglePageAsync(final String nextPageLink) {
+    public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> listNextSinglePageAsync(final String nextPageLink) {
         if (nextPageLink == null) {
             throw new IllegalArgumentException("Parameter nextPageLink is required and cannot be null.");
         }
         String nextUrl = String.format("%s", nextPageLink);
         return service.listNext(nextUrl, this.client.acceptLanguage(), this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackInner>>>>() {
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ApplicationStackResourceInner>>>>() {
                 @Override
-                public Observable<ServiceResponse<Page<ApplicationStackInner>>> call(Response<ResponseBody> response) {
+                public Observable<ServiceResponse<Page<ApplicationStackResourceInner>>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<PageImpl<ApplicationStackInner>> result = listNextDelegate(response);
-                        return Observable.just(new ServiceResponse<Page<ApplicationStackInner>>(result.body(), result.response()));
+                        ServiceResponse<PageImpl<ApplicationStackResourceInner>> result = listNextDelegate(response);
+                        return Observable.just(new ServiceResponse<Page<ApplicationStackResourceInner>>(result.body(), result.response()));
                     } catch (Throwable t) {
                         return Observable.error(t);
                     }
@@ -972,9 +972,9 @@ public class ProvidersInner {
             });
     }
 
-    private ServiceResponse<PageImpl<ApplicationStackInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
-                .register(200, new TypeToken<PageImpl<ApplicationStackInner>>() { }.getType())
+    private ServiceResponse<PageImpl<ApplicationStackResourceInner>> listNextDelegate(Response<ResponseBody> response) throws DefaultErrorResponseException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<ApplicationStackResourceInner>, DefaultErrorResponseException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<PageImpl<ApplicationStackResourceInner>>() { }.getType())
                 .registerError(DefaultErrorResponseException.class)
                 .build(response);
     }

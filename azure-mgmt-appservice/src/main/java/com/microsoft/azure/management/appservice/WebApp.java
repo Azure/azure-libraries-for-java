@@ -153,14 +153,14 @@ public interface WebApp extends
              * @param groupName the name of an existing resource group to put this resource in.
              * @return the next stage of the definition
              */
-            WithCreate withExistingResourceGroup(String groupName);
+            WithWindowsRuntimeStack withExistingResourceGroup(String groupName);
 
             /**
              * Associates the resource with an existing resource group.
              * @param group an existing resource group to put the resource in
              * @return the next stage of the definition
              */
-            WithCreate withExistingResourceGroup(ResourceGroup group);
+            WithWindowsRuntimeStack withExistingResourceGroup(ResourceGroup group);
 
             /**
              * Creates a new resource group to put the resource in.
@@ -169,7 +169,7 @@ public interface WebApp extends
              * @param name the name of the new group
              * @return the next stage of the definition
              */
-            WithCreate withNewResourceGroup(String name);
+            WithWindowsRuntimeStack withNewResourceGroup(String name);
 
             /**
              * Creates a new resource group to put the resource in.
@@ -178,14 +178,14 @@ public interface WebApp extends
              * The group's name is automatically derived from the resource's name.
              * @return the next stage of the definition
              */
-            WithCreate withNewResourceGroup();
+            WithWindowsRuntimeStack withNewResourceGroup();
 
             /**
              * Creates a new resource group to put the resource in, based on the definition specified.
              * @param groupDefinition a creatable definition for a new resource group
              * @return the next stage of the definition
              */
-            WithCreate withNewResourceGroup(Creatable<ResourceGroup> groupDefinition);
+            WithWindowsRuntimeStack withNewResourceGroup(Creatable<ResourceGroup> groupDefinition);
         }
 
         /**
@@ -242,14 +242,14 @@ public interface WebApp extends
              *
              * @return the next stage of the definition
              */
-            WithCreate withNewFreeAppServicePlan();
+            WithWindowsRuntimeStack withNewFreeAppServicePlan();
 
             /**
              * Creates a new shared app service plan.
              *
              * @return the next stage of the definition
              */
-            WithCreate withNewSharedAppServicePlan();
+            WithWindowsRuntimeStack withNewSharedAppServicePlan();
 
             /**
              * Creates a new app service plan to use.
@@ -257,7 +257,16 @@ public interface WebApp extends
              * @param pricingTier the sku of the app service plan
              * @return the next stage of the definition
              */
-            WithCreate withNewWindowsPlan(PricingTier pricingTier);
+            WithWindowsRuntimeStack withNewWindowsPlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new app service plan to use.
+             *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            WithWindowsRuntimeStack withNewWindowsPlan(String appServicePlanName, PricingTier pricingTier);
 
             /**
              * Creates a new app service plan to use.
@@ -265,7 +274,7 @@ public interface WebApp extends
              * @param appServicePlanCreatable the new app service plan creatable
              * @return the next stage of the definition
              */
-            WithCreate withNewWindowsPlan(Creatable<AppServicePlan> appServicePlanCreatable);
+            WithWindowsRuntimeStack withNewWindowsPlan(Creatable<AppServicePlan> appServicePlanCreatable);
 
             /**
              * Creates a new app service plan to use.
@@ -274,6 +283,15 @@ public interface WebApp extends
              * @return the next stage of the definition
              */
             WithDockerContainerImage withNewLinuxPlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new app service plan to use.
+             *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the definition
+             */
+            WithDockerContainerImage withNewLinuxPlan(String appServicePlanName, PricingTier pricingTier);
 
             /**
              * Creates a new app service plan to use.
@@ -345,6 +363,18 @@ public interface WebApp extends
         }
 
         /**
+         * A web app definition allowing runtime stack on Windows operating system to be specified.
+         */
+        interface WithWindowsRuntimeStack extends WithCreate {
+            /**
+             * Specifies the runtime stack for the web app on Windows operating system.
+             * @param runtimeStack the runtime stack for web app
+             * @return the next stage of the definition
+             */
+            WithCreate withRuntimeStack(WebAppRuntimeStack runtimeStack);
+        }
+
+        /**
          * A site definition with sufficient inputs to create a new web app /
          * deployments slot in the cloud, but exposing additional optional
          * inputs to specify.
@@ -385,6 +415,15 @@ public interface WebApp extends
              * @return the next stage of the web app update
              */
             Update withNewAppServicePlan(PricingTier pricingTier);
+
+            /**
+             * Creates a new app service plan to use.
+             *
+             * @param appServicePlanName the name of the new app service plan
+             * @param pricingTier the sku of the app service plan
+             * @return the next stage of the web app update
+             */
+            Update withNewAppServicePlan(String appServicePlanName, PricingTier pricingTier);
 
             /**
              * Creates a new app service plan to use.
@@ -450,16 +489,28 @@ public interface WebApp extends
         }
 
         /**
-         * A web app definition allowing docker startup command to be specified.
+         * A web app update allowing docker startup command to be specified.
          * This will replace the "CMD" section in the Dockerfile.
          */
         interface WithStartUpCommand extends Update {
             /**
              * Specifies the startup command.
              * @param startUpCommand startup command to replace "CMD" in Dockerfile
-             * @return the next stage of the definition
+             * @return the next stage of the web app update
              */
             Update withStartUpCommand(String startUpCommand);
+        }
+
+        /**
+         * A web app update allowing runtime stack on Windows operating system to be specified.
+         */
+        interface WithWindowsRuntimeStack {
+            /**
+             * Specifies the runtime stack for the web app on Windows operating system.
+             * @param runtimeStack the runtime stack for web app
+             * @return the next stage of the web app update
+             */
+            Update withRuntimeStack(WebAppRuntimeStack runtimeStack);
         }
     }
 
@@ -467,9 +518,10 @@ public interface WebApp extends
      * The template for a web app update operation, containing all the settings that can be modified.
      */
     interface Update extends
-        Appliable<WebApp>,
-        UpdateStages.WithAppServicePlan,
-        WebAppBase.Update<WebApp>,
-        UpdateStages.WithDockerContainerImage {
+            Appliable<WebApp>,
+            UpdateStages.WithAppServicePlan,
+            UpdateStages.WithWindowsRuntimeStack,
+            WebAppBase.Update<WebApp>,
+            UpdateStages.WithDockerContainerImage {
     }
 }

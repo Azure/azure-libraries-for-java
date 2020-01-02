@@ -38,6 +38,7 @@ import com.microsoft.azure.management.appservice.SiteAvailabilityState;
 import com.microsoft.azure.management.appservice.SiteConfig;
 import com.microsoft.azure.management.appservice.SitePatchResource;
 import com.microsoft.azure.management.appservice.SslState;
+import com.microsoft.azure.management.appservice.SupportedTlsVersions;
 import com.microsoft.azure.management.appservice.UsageState;
 import com.microsoft.azure.management.appservice.VirtualApplication;
 import com.microsoft.azure.management.appservice.WebAppAuthentication;
@@ -118,8 +119,8 @@ abstract class WebAppBaseImpl<
     private List<String> hostNameBindingsToDelete;
     private TreeMap<String, HostNameSslBindingImpl<FluentT, FluentImplT>> sslBindingsToCreate;
 
-    private Map<String, String> appSettingsToAdd;
-    private List<String> appSettingsToRemove;
+    protected Map<String, String> appSettingsToAdd;
+    protected List<String> appSettingsToRemove;
     private Map<String, Boolean> appSettingStickiness;
     private Map<String, ConnStringValueTypePair> connectionStringsToAdd;
     private List<String> connectionStringsToRemove;
@@ -536,6 +537,14 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    public SupportedTlsVersions minTlsVersion() {
+        if (siteConfig == null) {
+            return null;
+        }
+        return siteConfig.minTlsVersion();
+    }
+
+    @Override
     public OperatingSystem operatingSystem() {
         if (inner().kind() != null && inner().kind().toLowerCase().contains("linux")) {
             return OperatingSystem.LINUX;
@@ -787,17 +796,22 @@ abstract class WebAppBaseImpl<
                 return submitSiteConfig();
             }
         });
-        // App settings and connection strings
+        // Metadata, app settings, and connection strings
         lastTaskItem = sequentialTask(lastTaskItem, new FunctionalTaskItem() {
             @Override
             public Observable<Indexable> call(Context context) {
-                return submitAppSettings().mergeWith(submitConnectionStrings())
-                        .last().flatMap(new Func1<Indexable, Observable<Indexable>>() {
-                            @Override
-                            public Observable<Indexable> call(Indexable indexable) {
-                                return submitStickiness();
-                            }
-                        });
+                return submitMetadata().flatMap(new Func1<Indexable, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(Indexable indexable) {
+                        return submitAppSettings().mergeWith(submitConnectionStrings())
+                                .last();
+                    }
+                }).flatMap(new Func1<Indexable, Observable<Indexable>>() {
+                    @Override
+                    public Observable<Indexable> call(Indexable indexable) {
+                        return submitStickiness();
+                    }
+                });
             }
         });
         // Source control
@@ -880,11 +894,11 @@ abstract class WebAppBaseImpl<
         siteUpdate.withCloningInfo(siteInner.cloningInfo());
         siteUpdate.withHttpsOnly(siteInner.httpsOnly());
         siteUpdate.withRedundancyMode(siteInner.redundancyMode());
-        siteUpdate.withGeoDistributions(siteInner.geoDistributions());
 
         this.webAppMsiHandler.handleExternalIdentities(siteUpdate);
         return submitSite(siteUpdate).map(new Func1<SiteInner, FluentT>() {
             @Override
+            @SuppressWarnings("unchecked")
             public FluentT call(SiteInner siteInner) {
                 setInner(siteInner);
                 webAppMsiHandler.clear();
@@ -932,6 +946,7 @@ abstract class WebAppBaseImpl<
                 });
     }
 
+    @SuppressWarnings("unchecked")
     Observable<FluentT> submitHostNameBindings() {
         final List<Observable<HostNameBinding>> bindingObservables = new ArrayList<>();
         for (HostNameBindingImpl<FluentT, FluentImplT> binding : hostNameBindingsToCreate.values()) {
@@ -974,6 +989,7 @@ abstract class WebAppBaseImpl<
                 }
             }).flatMap(new Func1<WebAppBaseImpl, Observable<FluentT>>() {
                 @Override
+                @SuppressWarnings("unchecked")
                 public Observable<FluentT> call(WebAppBaseImpl webAppBase) {
                     return webAppBase.refreshAsync();
                 }
@@ -1051,6 +1067,12 @@ abstract class WebAppBaseImpl<
                         }
                     });
         }
+        return observable;
+    }
+
+    Observable<Indexable> submitMetadata() {
+        // NOOP
+        Observable<Indexable> observable = Observable.just((Indexable) this);
         return observable;
     }
 
@@ -1503,6 +1525,16 @@ abstract class WebAppBaseImpl<
         return (FluentImplT) this;
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public FluentImplT withMinTlsVersion(SupportedTlsVersions minTlsVersion) {
+        if (siteConfig == null) {
+            siteConfig = new SiteConfigResourceInner();
+        }
+        siteConfig.withMinTlsVersion(minTlsVersion);
+        return (FluentImplT) this;
+    }
+
     @SuppressWarnings("unchecked")
     public FluentImplT withAppSetting(String key, String value) {
         appSettingsToAdd.put(key, value);
@@ -1674,6 +1706,7 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public FluentImplT withoutSystemAssignedManagedServiceIdentity() {
         this.webAppMsiHandler.withoutLocalManagedServiceIdentity();
         return (FluentImplT) this;
@@ -1714,18 +1747,21 @@ abstract class WebAppBaseImpl<
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public FluentImplT withNewUserAssignedManagedServiceIdentity(Creatable<Identity> creatableIdentity) {
         this.webAppMsiHandler.withNewExternalManagedServiceIdentity(creatableIdentity);
         return (FluentImplT) this;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public FluentImplT withExistingUserAssignedManagedServiceIdentity(Identity identity) {
         this.webAppMsiHandler.withExistingExternalManagedServiceIdentity(identity);
         return (FluentImplT) this;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public FluentImplT withoutUserAssignedManagedServiceIdentity(String identityId) {
         this.webAppMsiHandler.withoutExternalManagedServiceIdentity(identityId);
         return (FluentImplT) this;

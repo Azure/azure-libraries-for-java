@@ -48,6 +48,27 @@ public class StackMajorVersion {
     private Boolean applicationInsights;
 
     /**
+     * &lt;code&gt;true&lt;/code&gt; if this stack is in Preview, otherwise
+     * &lt;code&gt;false&lt;/code&gt;.
+     */
+    @JsonProperty(value = "isPreview")
+    private Boolean isPreview;
+
+    /**
+     * &lt;code&gt;true&lt;/code&gt; if this stack has been deprecated,
+     * otherwise &lt;code&gt;false&lt;/code&gt;.
+     */
+    @JsonProperty(value = "isDeprecated")
+    private Boolean isDeprecated;
+
+    /**
+     * &lt;code&gt;true&lt;/code&gt; if this stack should be hidden for new
+     * customers on portal, otherwise &lt;code&gt;false&lt;/code&gt;.
+     */
+    @JsonProperty(value = "isHidden")
+    private Boolean isHidden;
+
+    /**
      * Get application stack major version (display only).
      *
      * @return the displayVersion value
@@ -144,6 +165,66 @@ public class StackMajorVersion {
      */
     public StackMajorVersion withApplicationInsights(Boolean applicationInsights) {
         this.applicationInsights = applicationInsights;
+        return this;
+    }
+
+    /**
+     * Get &lt;code&gt;true&lt;/code&gt; if this stack is in Preview, otherwise &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @return the isPreview value
+     */
+    public Boolean isPreview() {
+        return this.isPreview;
+    }
+
+    /**
+     * Set &lt;code&gt;true&lt;/code&gt; if this stack is in Preview, otherwise &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param isPreview the isPreview value to set
+     * @return the StackMajorVersion object itself.
+     */
+    public StackMajorVersion withIsPreview(Boolean isPreview) {
+        this.isPreview = isPreview;
+        return this;
+    }
+
+    /**
+     * Get &lt;code&gt;true&lt;/code&gt; if this stack has been deprecated, otherwise &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @return the isDeprecated value
+     */
+    public Boolean isDeprecated() {
+        return this.isDeprecated;
+    }
+
+    /**
+     * Set &lt;code&gt;true&lt;/code&gt; if this stack has been deprecated, otherwise &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param isDeprecated the isDeprecated value to set
+     * @return the StackMajorVersion object itself.
+     */
+    public StackMajorVersion withIsDeprecated(Boolean isDeprecated) {
+        this.isDeprecated = isDeprecated;
+        return this;
+    }
+
+    /**
+     * Get &lt;code&gt;true&lt;/code&gt; if this stack should be hidden for new customers on portal, otherwise &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @return the isHidden value
+     */
+    public Boolean isHidden() {
+        return this.isHidden;
+    }
+
+    /**
+     * Set &lt;code&gt;true&lt;/code&gt; if this stack should be hidden for new customers on portal, otherwise &lt;code&gt;false&lt;/code&gt;.
+     *
+     * @param isHidden the isHidden value to set
+     * @return the StackMajorVersion object itself.
+     */
+    public StackMajorVersion withIsHidden(Boolean isHidden) {
+        this.isHidden = isHidden;
         return this;
     }
 

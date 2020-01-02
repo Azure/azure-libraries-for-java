@@ -10,6 +10,7 @@ package com.microsoft.azure.management.compute.implementation;
 
 import com.microsoft.azure.management.compute.OperatingSystemTypes;
 import com.microsoft.azure.management.compute.OperatingSystemStateTypes;
+import com.microsoft.azure.management.compute.HyperVGeneration;
 import org.joda.time.DateTime;
 import com.microsoft.azure.management.compute.GalleryImageIdentifier;
 import com.microsoft.azure.management.compute.RecommendedMachineConfiguration;
@@ -67,6 +68,13 @@ public class GalleryImageInner extends Resource {
      */
     @JsonProperty(value = "properties.osState", required = true)
     private OperatingSystemStateTypes osState;
+
+    /**
+     * The hypervisor generation of the Virtual Machine. Applicable to OS disks
+     * only. Possible values include: 'V1', 'V2'.
+     */
+    @JsonProperty(value = "properties.hyperVGeneration")
+    private HyperVGeneration hyperVGeneration;
 
     /**
      * The end of life date of the gallery Image Definition. This property can
@@ -225,6 +233,26 @@ public class GalleryImageInner extends Resource {
      */
     public GalleryImageInner withOsState(OperatingSystemStateTypes osState) {
         this.osState = osState;
+        return this;
+    }
+
+    /**
+     * Get the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @return the hyperVGeneration value
+     */
+    public HyperVGeneration hyperVGeneration() {
+        return this.hyperVGeneration;
+    }
+
+    /**
+     * Set the hypervisor generation of the Virtual Machine. Applicable to OS disks only. Possible values include: 'V1', 'V2'.
+     *
+     * @param hyperVGeneration the hyperVGeneration value to set
+     * @return the GalleryImageInner object itself.
+     */
+    public GalleryImageInner withHyperVGeneration(HyperVGeneration hyperVGeneration) {
+        this.hyperVGeneration = hyperVGeneration;
         return this;
     }
 

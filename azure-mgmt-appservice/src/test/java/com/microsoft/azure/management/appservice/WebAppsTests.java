@@ -18,11 +18,15 @@ public class WebAppsTests extends AppServiceTest {
     private static String RG_NAME_2 = "";
     private static String WEBAPP_NAME_1 = "";
     private static String WEBAPP_NAME_2 = "";
+    private static String WEBAPP_NAME_3 = "";
+    private static String APP_SERVICE_PLAN_NAME_1 = "";
 
     @Override
     protected void initializeClients(RestClient restClient, String defaultSubscription, String domain) {
         WEBAPP_NAME_1 = generateRandomResourceName("java-webapp-", 20);
         WEBAPP_NAME_2 = generateRandomResourceName("java-webapp-", 20);
+        WEBAPP_NAME_3 = generateRandomResourceName("java-webapp-", 20);
+        APP_SERVICE_PLAN_NAME_1 = generateRandomResourceName("java-asp-", 20);
         RG_NAME_1 = generateRandomResourceName("javacsmrg", 20);
         RG_NAME_2 = generateRandomResourceName("javacsmrg", 20);
 
@@ -41,13 +45,14 @@ public class WebAppsTests extends AppServiceTest {
         WebApp webApp1 = appServiceManager.webApps().define(WEBAPP_NAME_1)
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME_1)
-                .withNewWindowsPlan(PricingTier.BASIC_B1)
-                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2015)
+                .withNewWindowsPlan(APP_SERVICE_PLAN_NAME_1, PricingTier.BASIC_B1)
+                .withRemoteDebuggingEnabled(RemoteVisualStudioVersion.VS2019)
                 .create();
         Assert.assertNotNull(webApp1);
         Assert.assertEquals(Region.US_WEST, webApp1.region());
         AppServicePlan plan1 = appServiceManager.appServicePlans().getById(webApp1.appServicePlanId());
         Assert.assertNotNull(plan1);
+        Assert.assertEquals(APP_SERVICE_PLAN_NAME_1, plan1.name());
         Assert.assertEquals(Region.US_WEST, plan1.region());
         Assert.assertEquals(PricingTier.BASIC_B1, plan1.pricingTier());
 
@@ -74,10 +79,20 @@ public class WebAppsTests extends AppServiceTest {
         // Update
         webApp1.update()
                 .withNewAppServicePlan(PricingTier.STANDARD_S2)
+                .withRuntimeStack(WebAppRuntimeStack.NETCORE)
                 .apply();
         AppServicePlan plan2 = appServiceManager.appServicePlans().getById(webApp1.appServicePlanId());
         Assert.assertNotNull(plan2);
         Assert.assertEquals(Region.US_WEST, plan2.region());
         Assert.assertEquals(PricingTier.STANDARD_S2, plan2.pricingTier());
+        Assert.assertEquals(WebAppRuntimeStack.NETCORE.runtime(), webApp1.manager().inner().webApps().listMetadata(webApp1.resourceGroupName(), webApp1.name()).properties().get("CURRENT_STACK"));
+
+        WebApp webApp3 = appServiceManager.webApps().define(WEBAPP_NAME_3)
+                .withExistingWindowsPlan(plan1)
+                .withExistingResourceGroup(RG_NAME_2)
+                .withRuntimeStack(WebAppRuntimeStack.NET)
+                .withNetFrameworkVersion(NetFrameworkVersion.V4_6)
+                .create();
+        Assert.assertEquals(WebAppRuntimeStack.NET.runtime(), webApp3.manager().inner().webApps().listMetadata(webApp3.resourceGroupName(), webApp3.name()).properties().get("CURRENT_STACK"));
     }
 }

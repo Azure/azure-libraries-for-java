@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
+import com.microsoft.azure.management.compute.GalleryApplicationVersionUpdate;
 import com.microsoft.azure.management.compute.ReplicationStatusTypes;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
@@ -28,6 +29,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Headers;
 import retrofit2.http.HTTP;
+import retrofit2.http.PATCH;
 import retrofit2.http.Path;
 import retrofit2.http.PUT;
 import retrofit2.http.Query;
@@ -69,6 +71,14 @@ public class GalleryApplicationVersionsInner {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryApplicationVersions beginCreateOrUpdate" })
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
         Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryApplicationName") String galleryApplicationName, @Path("galleryApplicationVersionName") String galleryApplicationVersionName, @Query("api-version") String apiVersion, @Body GalleryApplicationVersionInner galleryApplicationVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryApplicationVersions update" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
+        Observable<Response<ResponseBody>> update(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryApplicationName") String galleryApplicationName, @Path("galleryApplicationVersionName") String galleryApplicationVersionName, @Query("api-version") String apiVersion, @Body GalleryApplicationVersionUpdate galleryApplicationVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryApplicationVersions beginUpdate" })
+        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
+        Observable<Response<ResponseBody>> beginUpdate(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("galleryName") String galleryName, @Path("galleryApplicationName") String galleryApplicationName, @Path("galleryApplicationVersionName") String galleryApplicationVersionName, @Query("api-version") String apiVersion, @Body GalleryApplicationVersionUpdate galleryApplicationVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.compute.GalleryApplicationVersions get" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{galleryApplicationName}/versions/{galleryApplicationVersionName}")
@@ -176,7 +186,7 @@ public class GalleryApplicationVersionsInner {
             throw new IllegalArgumentException("Parameter galleryApplicationVersion is required and cannot be null.");
         }
         Validator.validate(galleryApplicationVersion);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, galleryApplicationVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryApplicationVersionInner>() { }.getType());
     }
@@ -265,7 +275,7 @@ public class GalleryApplicationVersionsInner {
             throw new IllegalArgumentException("Parameter galleryApplicationVersion is required and cannot be null.");
         }
         Validator.validate(galleryApplicationVersion);
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, galleryApplicationVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryApplicationVersionInner>>>() {
                 @Override
@@ -285,6 +295,201 @@ public class GalleryApplicationVersionsInner {
                 .register(200, new TypeToken<GalleryApplicationVersionInner>() { }.getType())
                 .register(201, new TypeToken<GalleryApplicationVersionInner>() { }.getType())
                 .register(202, new TypeToken<GalleryApplicationVersionInner>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Update a gallery Application Version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
+     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is to be updated.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the GalleryApplicationVersionInner object if successful.
+     */
+    public GalleryApplicationVersionInner update(String resourceGroupName, String galleryName, String galleryApplicationName, String galleryApplicationVersionName, GalleryApplicationVersionUpdate galleryApplicationVersion) {
+        return updateWithServiceResponseAsync(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, galleryApplicationVersion).toBlocking().last().body();
+    }
+
+    /**
+     * Update a gallery Application Version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
+     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is to be updated.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<GalleryApplicationVersionInner> updateAsync(String resourceGroupName, String galleryName, String galleryApplicationName, String galleryApplicationVersionName, GalleryApplicationVersionUpdate galleryApplicationVersion, final ServiceCallback<GalleryApplicationVersionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, galleryApplicationVersion), serviceCallback);
+    }
+
+    /**
+     * Update a gallery Application Version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
+     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is to be updated.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<GalleryApplicationVersionInner> updateAsync(String resourceGroupName, String galleryName, String galleryApplicationName, String galleryApplicationVersionName, GalleryApplicationVersionUpdate galleryApplicationVersion) {
+        return updateWithServiceResponseAsync(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, galleryApplicationVersion).map(new Func1<ServiceResponse<GalleryApplicationVersionInner>, GalleryApplicationVersionInner>() {
+            @Override
+            public GalleryApplicationVersionInner call(ServiceResponse<GalleryApplicationVersionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Update a gallery Application Version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
+     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is to be updated.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<GalleryApplicationVersionInner>> updateWithServiceResponseAsync(String resourceGroupName, String galleryName, String galleryApplicationName, String galleryApplicationVersionName, GalleryApplicationVersionUpdate galleryApplicationVersion) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (galleryName == null) {
+            throw new IllegalArgumentException("Parameter galleryName is required and cannot be null.");
+        }
+        if (galleryApplicationName == null) {
+            throw new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null.");
+        }
+        if (galleryApplicationVersionName == null) {
+            throw new IllegalArgumentException("Parameter galleryApplicationVersionName is required and cannot be null.");
+        }
+        if (galleryApplicationVersion == null) {
+            throw new IllegalArgumentException("Parameter galleryApplicationVersion is required and cannot be null.");
+        }
+        Validator.validate(galleryApplicationVersion);
+        final String apiVersion = "2019-07-01";
+        Observable<Response<ResponseBody>> observable = service.update(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, galleryApplicationVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<GalleryApplicationVersionInner>() { }.getType());
+    }
+
+    /**
+     * Update a gallery Application Version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
+     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is to be updated.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the GalleryApplicationVersionInner object if successful.
+     */
+    public GalleryApplicationVersionInner beginUpdate(String resourceGroupName, String galleryName, String galleryApplicationName, String galleryApplicationVersionName, GalleryApplicationVersionUpdate galleryApplicationVersion) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, galleryApplicationVersion).toBlocking().single().body();
+    }
+
+    /**
+     * Update a gallery Application Version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
+     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is to be updated.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<GalleryApplicationVersionInner> beginUpdateAsync(String resourceGroupName, String galleryName, String galleryApplicationName, String galleryApplicationVersionName, GalleryApplicationVersionUpdate galleryApplicationVersion, final ServiceCallback<GalleryApplicationVersionInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, galleryApplicationVersion), serviceCallback);
+    }
+
+    /**
+     * Update a gallery Application Version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
+     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is to be updated.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the GalleryApplicationVersionInner object
+     */
+    public Observable<GalleryApplicationVersionInner> beginUpdateAsync(String resourceGroupName, String galleryName, String galleryApplicationName, String galleryApplicationVersionName, GalleryApplicationVersionUpdate galleryApplicationVersion) {
+        return beginUpdateWithServiceResponseAsync(resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, galleryApplicationVersion).map(new Func1<ServiceResponse<GalleryApplicationVersionInner>, GalleryApplicationVersionInner>() {
+            @Override
+            public GalleryApplicationVersionInner call(ServiceResponse<GalleryApplicationVersionInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Update a gallery Application Version.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param galleryName The name of the Shared Application Gallery in which the Application Definition resides.
+     * @param galleryApplicationName The name of the gallery Application Definition in which the Application Version is to be updated.
+     * @param galleryApplicationVersionName The name of the gallery Application Version to be updated. Needs to follow semantic version name pattern: The allowed characters are digit and period. Digits must be within the range of a 32-bit integer. Format: &lt;MajorVersion&gt;.&lt;MinorVersion&gt;.&lt;Patch&gt;
+     * @param galleryApplicationVersion Parameters supplied to the update gallery Application Version operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the GalleryApplicationVersionInner object
+     */
+    public Observable<ServiceResponse<GalleryApplicationVersionInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String galleryName, String galleryApplicationName, String galleryApplicationVersionName, GalleryApplicationVersionUpdate galleryApplicationVersion) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (galleryName == null) {
+            throw new IllegalArgumentException("Parameter galleryName is required and cannot be null.");
+        }
+        if (galleryApplicationName == null) {
+            throw new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null.");
+        }
+        if (galleryApplicationVersionName == null) {
+            throw new IllegalArgumentException("Parameter galleryApplicationVersionName is required and cannot be null.");
+        }
+        if (galleryApplicationVersion == null) {
+            throw new IllegalArgumentException("Parameter galleryApplicationVersion is required and cannot be null.");
+        }
+        Validator.validate(galleryApplicationVersion);
+        final String apiVersion = "2019-07-01";
+        return service.beginUpdate(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, galleryApplicationVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryApplicationVersionInner>>>() {
+                @Override
+                public Observable<ServiceResponse<GalleryApplicationVersionInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<GalleryApplicationVersionInner> clientResponse = beginUpdateDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<GalleryApplicationVersionInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<GalleryApplicationVersionInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<GalleryApplicationVersionInner>() { }.getType())
                 .registerError(CloudException.class)
                 .build(response);
     }
@@ -365,7 +570,7 @@ public class GalleryApplicationVersionsInner {
         if (galleryApplicationVersionName == null) {
             throw new IllegalArgumentException("Parameter galleryApplicationVersionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         final ReplicationStatusTypes expand = null;
         return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryApplicationVersionInner>>>() {
@@ -461,7 +666,7 @@ public class GalleryApplicationVersionsInner {
         if (galleryApplicationVersionName == null) {
             throw new IllegalArgumentException("Parameter galleryApplicationVersionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.get(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, expand, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<GalleryApplicationVersionInner>>>() {
                 @Override
@@ -558,7 +763,7 @@ public class GalleryApplicationVersionsInner {
         if (galleryApplicationVersionName == null) {
             throw new IllegalArgumentException("Parameter galleryApplicationVersionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -638,7 +843,7 @@ public class GalleryApplicationVersionsInner {
         if (galleryApplicationVersionName == null) {
             throw new IllegalArgumentException("Parameter galleryApplicationVersionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, galleryApplicationVersionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -769,7 +974,7 @@ public class GalleryApplicationVersionsInner {
         if (galleryApplicationName == null) {
             throw new IllegalArgumentException("Parameter galleryApplicationName is required and cannot be null.");
         }
-        final String apiVersion = "2019-03-01";
+        final String apiVersion = "2019-07-01";
         return service.listByGalleryApplication(this.client.subscriptionId(), resourceGroupName, galleryName, galleryApplicationName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<GalleryApplicationVersionInner>>>>() {
                 @Override

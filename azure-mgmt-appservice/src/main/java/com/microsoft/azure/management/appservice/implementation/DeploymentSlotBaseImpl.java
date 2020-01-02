@@ -437,7 +437,7 @@ abstract class DeploymentSlotBaseImpl<
 
     @Override
     public Completable verifyDomainOwnershipAsync(String certificateOrderName, String domainVerificationToken) {
-        IdentifierInner identifierInner = new IdentifierInner().withIdentifierId(domainVerificationToken);
+        IdentifierInner identifierInner = new IdentifierInner().withValue(domainVerificationToken);
         return manager().inner().webApps().createOrUpdateDomainOwnershipIdentifierSlotAsync(resourceGroupName(), parent().name(), name(), certificateOrderName, identifierInner)
                 .map(new Func1<IdentifierInner, Void>() {
                     @Override

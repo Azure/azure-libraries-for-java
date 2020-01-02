@@ -605,18 +605,18 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 
 ### Use single library
 
-For instance, if you only need azure-mgmt-appservice library from 1.27.2, and wish to limit the dependencies, using following dependency instead in POM.
+For instance, if you only need azure-mgmt-appservice library from 1.29.0, and wish to limit the dependencies, using following dependency instead in POM.
 
 ```xml
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-mgmt-appservice</artifactId>
-    <version>1.27.2</version>
+    <version>1.29.0</version>
 </dependency>
 <dependency>
     <groupId>com.microsoft.azure</groupId>
     <artifactId>azure-client-authentication</artifactId>
-    <version>1.6.14</version>
+    <version>1.7.0</version>
 </dependency>
 ```
 

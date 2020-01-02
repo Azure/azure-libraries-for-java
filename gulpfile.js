@@ -108,9 +108,9 @@ var codegen = function(project, cb) {
     }
 
     // path.join won't work if specRoot is a URL
-    let readmeFile = specRoot + '/' + mappings[project].source;
-    let transcodedReadmeFile = readmeFile + '.temp.md';
-    let tag = findTag(mappings[project].package + ' ' + mappings[project].args);
+    const readmeFile = specRoot + '/' + mappings[project].source;
+    const transcodedReadmeFile = readmeFile + '.temp.md';
+    const tag = findTag(mappings[project].package + ' ' + mappings[project].args);
     transcodeReadme(readmeFile, transcodedReadmeFile, tag);
 
     console.log('Generating "' + project + '" from spec file ' + readmeFile);
@@ -151,23 +151,22 @@ var codegen = function(project, cb) {
 };
 
 var findTag = function(stringContainsTag) {
-    let regex = new RegExp('--tag=(\\S+)');
+    const regex = new RegExp('--tag=(\\S+)');
     return stringContainsTag.match(regex)[1];
 }
 
 var transcodeReadme = function(inputFile, outputFile, tag) {
-    let content = fs.readFileSync(inputFile).toString('utf8');
-    let lines = content.split("\n")
-    let outputHeader = `# Resource
+    const lines = fs.readFileSync(inputFile).toString('utf8').split("\n")
+    const outputHeader = `# Resource
 > see https://aka.ms/autorest
 This is the AutoRest configuration file for Resource.
 ---
 `;
-    let outputLines = []
+    const outputLines = []
     let tagFound = false;
     let inputFileFound = false;
     for (let i = 0; i < lines.length; i++) {
-        let line = lines[i]
+        const line = lines[i]
         if (!tagFound && line.indexOf('yaml $(tag)') >= 0 && line.indexOf(tag) >= 0) {
             tagFound = true;
             outputLines.push('``` yaml $(java)')

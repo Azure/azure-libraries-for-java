@@ -10,8 +10,8 @@ package com.microsoft.azure.management.storage.implementation;
 
 import com.microsoft.azure.AzureClient;
 import com.microsoft.azure.AzureServiceClient;
-import com.microsoft.rest.credentials.ServiceClientCredentials;
 import com.microsoft.rest.RestClient;
+import com.microsoft.rest.credentials.ServiceClientCredentials;
 
 /**
  * Initializes a new instance of the StorageManagementClientImpl class.
@@ -198,6 +198,32 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     /**
+     * The PrivateEndpointConnectionsInner object to access its operations.
+     */
+    private PrivateEndpointConnectionsInner privateEndpointConnections;
+
+    /**
+     * Gets the PrivateEndpointConnectionsInner object to access its operations.
+     * @return the PrivateEndpointConnectionsInner object.
+     */
+    public PrivateEndpointConnectionsInner privateEndpointConnections() {
+        return this.privateEndpointConnections;
+    }
+
+    /**
+     * The PrivateLinkResourcesInner object to access its operations.
+     */
+    private PrivateLinkResourcesInner privateLinkResources;
+
+    /**
+     * Gets the PrivateLinkResourcesInner object to access its operations.
+     * @return the PrivateLinkResourcesInner object.
+     */
+    public PrivateLinkResourcesInner privateLinkResources() {
+        return this.privateLinkResources;
+    }
+
+    /**
      * The BlobServicesInner object to access its operations.
      */
     private BlobServicesInner blobServices;
@@ -221,6 +247,32 @@ public class StorageManagementClientImpl extends AzureServiceClient {
      */
     public BlobContainersInner blobContainers() {
         return this.blobContainers;
+    }
+
+    /**
+     * The FileServicesInner object to access its operations.
+     */
+    private FileServicesInner fileServices;
+
+    /**
+     * Gets the FileServicesInner object to access its operations.
+     * @return the FileServicesInner object.
+     */
+    public FileServicesInner fileServices() {
+        return this.fileServices;
+    }
+
+    /**
+     * The FileSharesInner object to access its operations.
+     */
+    private FileSharesInner fileShares;
+
+    /**
+     * Gets the FileSharesInner object to access its operations.
+     * @return the FileSharesInner object.
+     */
+    public FileSharesInner fileShares() {
+        return this.fileShares;
     }
 
     /**
@@ -254,7 +306,7 @@ public class StorageManagementClientImpl extends AzureServiceClient {
     }
 
     protected void initialize() {
-        this.apiVersion = "2018-11-01";
+        this.apiVersion = "2019-06-01";
         this.acceptLanguage = "en-US";
         this.longRunningOperationRetryTimeout = 30;
         this.generateClientRequestId = true;
@@ -263,8 +315,12 @@ public class StorageManagementClientImpl extends AzureServiceClient {
         this.storageAccounts = new StorageAccountsInner(restClient().retrofit(), this);
         this.usages = new UsagesInner(restClient().retrofit(), this);
         this.managementPolicies = new ManagementPoliciesInner(restClient().retrofit(), this);
+        this.privateEndpointConnections = new PrivateEndpointConnectionsInner(restClient().retrofit(), this);
+        this.privateLinkResources = new PrivateLinkResourcesInner(restClient().retrofit(), this);
         this.blobServices = new BlobServicesInner(restClient().retrofit(), this);
         this.blobContainers = new BlobContainersInner(restClient().retrofit(), this);
+        this.fileServices = new FileServicesInner(restClient().retrofit(), this);
+        this.fileShares = new FileSharesInner(restClient().retrofit(), this);
         this.azureClient = new AzureClient(this);
     }
 
@@ -275,6 +331,6 @@ public class StorageManagementClientImpl extends AzureServiceClient {
      */
     @Override
     public String userAgent() {
-        return String.format("%s (%s, %s)", super.userAgent(), "StorageManagementClient", "2018-11-01");
+        return String.format("%s (%s, %s)", super.userAgent(), "StorageManagementClient", "2019-06-01");
     }
 }

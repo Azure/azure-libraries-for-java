@@ -156,6 +156,7 @@ public class TestNetworkWatcher extends TestTemplate<NetworkWatcher, NetworkWatc
         return  storageAccounts.define("sa" + TEST_ID)
                 .withRegion(REGION)
                 .withExistingResourceGroup(groupName)
+                .withGeneralPurposeAccountKindV2()
                 .create();
     }
 

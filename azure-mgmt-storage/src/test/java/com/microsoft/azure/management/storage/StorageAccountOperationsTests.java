@@ -142,6 +142,20 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
 //        Assert.assertFalse(blobServiceEncryptionStatus.isEnabled());
     }
 
+
+    @Test
+    public void canEnableLargeFileSharesOnStorageAccount() throws Exception {
+        StorageAccount storageAccount = storageManager.storageAccounts()
+                .define(SA_NAME)
+                .withRegion(Region.US_EAST2)
+                .withNewResourceGroup(RG_NAME)
+                .withSku(StorageAccountSkuType.STANDARD_LRS)
+                .withLargeFileShares(true)
+                .create();
+
+        Assert.assertTrue(storageAccount.isLargeFileSharesEnabled());
+    }
+
     @Test
     public void canEnableDisableFileEncryptionOnStorageAccount() throws Exception {
         StorageAccount storageAccount = storageManager.storageAccounts()

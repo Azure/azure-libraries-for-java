@@ -25,9 +25,9 @@ import java.util.List;
  */
 @LangDefinition
 class StorageSkuImpl implements StorageSku {
-    private final SkuInner inner;
+    private final SkuInformationInner inner;
 
-    StorageSkuImpl(SkuInner skuInner) {
+    StorageSkuImpl(SkuInformationInner skuInner) {
         this.inner = skuInner;
     }
 
@@ -93,7 +93,7 @@ class StorageSkuImpl implements StorageSku {
     }
 
     @Override
-    public SkuInner inner() {
+    public SkuInformationInner inner() {
         return this.inner;
     }
 }

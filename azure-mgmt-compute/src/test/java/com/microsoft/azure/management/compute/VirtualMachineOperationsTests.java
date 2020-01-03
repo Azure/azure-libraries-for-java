@@ -340,7 +340,7 @@ public class VirtualMachineOperationsTests extends ComputeManagementTest {
                     .withProximityPlacementGroup(setCreated2.proximityPlacementGroup().id())
                     .apply();
         } catch (CloudException clEx) {
-            Assert.assertTrue(clEx.getMessage().equalsIgnoreCase("Changing property 'proximityPlacementGroup.id' is not allowed."));
+            Assert.assertTrue(clEx.getMessage().equalsIgnoreCase("Updating proximity placement group of VM javavm is not allowed while the VM is running. Please stop/deallocate the VM and retry the operation."));
         }
 
         // Delete VM

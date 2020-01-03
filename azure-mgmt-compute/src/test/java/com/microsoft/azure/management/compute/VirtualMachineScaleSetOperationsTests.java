@@ -90,7 +90,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         Assert.assertTrue(keys.size() > 0);
         String storageAccountKey = keys.get(0).value();
 
-        final String storageConnectionString = String.format("DefaultEndpointsProtocol=http;AccountName=%s;AccountKey=%s",
+        final String storageConnectionString = String.format("DefaultEndpointsProtocol=https;AccountName=%s;AccountKey=%s",
                 storageAccount.name(),
                 storageAccountKey);
         // Get the script to upload
@@ -206,7 +206,7 @@ public class VirtualMachineScaleSetOperationsTests extends ComputeManagementTest
         final String vmssName = generateRandomResourceName("vmss", 10);
         final String uname = "jvuser";
         final String password = "123OData!@#123";
-        final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-java/master/azure-mgmt-compute/src/test/assets/install_apache.sh";
+        final String apacheInstallScript = "https://raw.githubusercontent.com/Azure/azure-libraries-for-net/master/Samples/Asset/install_apache.sh";
         final String installCommand = "bash install_apache.sh Abc.123x(";
         List<String> fileUris = new ArrayList<>();
         fileUris.add(apacheInstallScript);

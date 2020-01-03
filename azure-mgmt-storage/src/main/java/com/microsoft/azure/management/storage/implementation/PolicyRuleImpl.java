@@ -123,7 +123,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Integer daysAfterBaseBlobModificationUntilCooling() {
+    public Double daysAfterBaseBlobModificationUntilCooling() {
         if (this.inner.definition().actions().baseBlob() == null || this.inner.definition().actions().baseBlob().tierToCool() == null) {
             return null;
         }
@@ -131,7 +131,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Integer daysAfterBaseBlobModificationUntilArchiving() {
+    public Double daysAfterBaseBlobModificationUntilArchiving() {
         if (this.inner.definition().actions().baseBlob() == null || this.inner.definition().actions().baseBlob().tierToArchive() == null) {
             return null;
         }
@@ -139,7 +139,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Integer daysAfterBaseBlobModificationUntilDeleting() {
+    public Double daysAfterBaseBlobModificationUntilDeleting() {
         if (this.inner.definition().actions().baseBlob() == null || this.inner.definition().actions().baseBlob().delete() == null) {
             return null;
         }
@@ -147,7 +147,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public Integer daysAfterSnapShotCreationUntilDeleting() {
+    public Double daysAfterSnapShotCreationUntilDeleting() {
         if (this.inner.definition().actions().snapshot() == null || this.inner.definition().actions().snapshot().delete() == null) {
             return null;
         }
@@ -225,7 +225,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withTierToCoolActionOnBaseBlob(int daysAfterBaseBlobModificationUntilCooling) {
+    public PolicyRuleImpl withTierToCoolActionOnBaseBlob(double daysAfterBaseBlobModificationUntilCooling) {
         ManagementPolicyBaseBlob currentBaseBlob = this.inner.definition().actions().baseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
@@ -236,7 +236,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withTierToArchiveActionOnBaseBlob(int daysAfterBaseBlobModificationUntilArchiving) {
+    public PolicyRuleImpl withTierToArchiveActionOnBaseBlob(double daysAfterBaseBlobModificationUntilArchiving) {
         ManagementPolicyBaseBlob currentBaseBlob = this.inner.definition().actions().baseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
@@ -247,7 +247,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withDeleteActionOnBaseBlob(int daysAfterBaseBlobModificationUntilDeleting) {
+    public PolicyRuleImpl withDeleteActionOnBaseBlob(double daysAfterBaseBlobModificationUntilDeleting) {
         ManagementPolicyBaseBlob currentBaseBlob = this.inner.definition().actions().baseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
@@ -258,7 +258,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public PolicyRuleImpl withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting) {
+    public PolicyRuleImpl withDeleteActionOnSnapShot(double daysAfterSnapShotCreationUntilDeleting) {
         ManagementPolicySnapShot currentSnapShot = new ManagementPolicySnapShot();
         if (currentSnapShot == null) {
             currentSnapShot = new ManagementPolicySnapShot();

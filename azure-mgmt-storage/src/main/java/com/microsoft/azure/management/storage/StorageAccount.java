@@ -198,6 +198,15 @@ public interface StorageAccount extends
     @Beta()
     boolean isHnsEnabled();
 
+
+    /**
+     * Checks whether large file shares enabled on this storage account.
+     *
+     * @return true if large file shares is enabled, false otherwise
+     */
+    @Beta
+    boolean isLargeFileSharesEnabled();
+
     /**
      * Fetch the up-to-date access keys from Azure for this storage account.
      *
@@ -279,10 +288,10 @@ public interface StorageAccount extends
         interface WithSku {
             /**
              * Specifies the sku of the storage account.
-             * @deprecated use {@link WithSku#withSku(StorageAccountSkuType)} instead
              *
              * @param skuName the sku
              * @return the next stage of storage account definition
+             * @deprecated use {@link WithSku#withSku(StorageAccountSkuType)} instead
              */
             @Deprecated
             WithCreate withSku(SkuName skuName);
@@ -332,6 +341,32 @@ public interface StorageAccount extends
              */
             @Method
             WithCreate withGeneralPurposeAccountKindV2();
+        }
+
+
+        /**
+         * The stage of a storage account definition allowing to specify account kind as block blob storage.
+         */
+        interface WithBlockBlobStorageAccountKind {
+            /**
+             * Specifies the storage account kind to be "BlockBlobStorage".
+             *
+             * @return The next stage of storage account definition.
+             */
+            WithCreate withBlockBlobStorageAccountKind();
+        }
+
+        /**
+         * The stage of a storage account definition allowing to specify account kind as file storage.
+         */
+        interface WithFileStorageAccountKind {
+            /**
+             * Specifies the storage account kind to be "FileStorage".
+             *
+             * @return the next stage of storage account definition.
+             *
+             */
+            WithCreate withFileStorageAccountKind();
         }
 
         /**
@@ -553,6 +588,22 @@ public interface StorageAccount extends
             WithCreate withAzureFilesAadIntegrationEnabled(boolean enabled);
         }
 
+
+        /**
+         * The stage of storage account definition allowing to specify whether large file shares will be enabled.
+         */
+        interface WithLargeFileShares {
+            /**
+             * Allow large file shares if sets to enabled. It cannot be disabled once it is enabled.
+             *
+             * @param enabled whether large file shares will be enabled or not
+             * @return the next stage of storage account definition
+             */
+            @Beta(Beta.SinceVersion.V1_30_0)
+            @Method
+            WithCreate withLargeFileShares(boolean enabled);
+        }
+
         /**
          * The stage of the storage account definition allowing to specify whether Hns is enabled.
          */
@@ -578,12 +629,15 @@ public interface StorageAccount extends
                 DefinitionStages.WithSku,
                 DefinitionStages.WithBlobStorageAccountKind,
                 DefinitionStages.WithGeneralPurposeAccountKind,
+                DefinitionStages.WithBlockBlobStorageAccountKind,
+                DefinitionStages.WithFileStorageAccountKind,
                 DefinitionStages.WithEncryption,
                 DefinitionStages.WithCustomDomain,
                 DefinitionStages.WithManagedServiceIdentity,
                 DefinitionStages.WithAccessTraffic,
                 DefinitionStages.WithNetworkAccess,
                 DefinitionStages.WithAzureFilesAadIntegration,
+                DefinitionStages.WithLargeFileShares,
                 DefinitionStages.WithHns,
                 Resource.DefinitionWithTags<WithCreate> {
         }

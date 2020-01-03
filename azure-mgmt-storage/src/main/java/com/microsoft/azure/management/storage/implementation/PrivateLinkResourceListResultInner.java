@@ -9,35 +9,34 @@
 package com.microsoft.azure.management.storage.implementation;
 
 import java.util.List;
-import com.microsoft.azure.management.storage.ListContainerItem;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * The list of blob containers.
+ * A list of private link resources.
  */
-public class ListContainerItemsInner {
+public class PrivateLinkResourceListResultInner {
     /**
-     * The list of blob containers.
+     * Array of private link resources.
      */
     @JsonProperty(value = "value")
-    private List<ListContainerItem> value;
+    private List<PrivateLinkResourceInner> value;
 
     /**
-     * Get the list of blob containers.
+     * Get array of private link resources.
      *
      * @return the value value
      */
-    public List<ListContainerItem> value() {
+    public List<PrivateLinkResourceInner> value() {
         return this.value;
     }
 
     /**
-     * Set the list of blob containers.
+     * Set array of private link resources.
      *
      * @param value the value value to set
-     * @return the ListContainerItemsInner object itself.
+     * @return the PrivateLinkResourceListResultInner object itself.
      */
-    public ListContainerItemsInner withValue(List<ListContainerItem> value) {
+    public PrivateLinkResourceListResultInner withValue(List<PrivateLinkResourceInner> value) {
         this.value = value;
         return this;
     }

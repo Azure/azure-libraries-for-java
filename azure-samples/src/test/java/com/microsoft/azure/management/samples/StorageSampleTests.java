@@ -6,9 +6,9 @@
 
 package com.microsoft.azure.management.samples;
 
-import com.microsoft.azure.management.storage.samples.ManageStorageAccount;
-import com.microsoft.azure.management.storage.samples.ManageStorageAccountAsync;
-import com.microsoft.azure.management.storage.samples.ManageStorageAccountNetworkRules;
+import com.azure.management.storage.samples.ManageStorageAccount;
+import com.azure.management.storage.samples.ManageStorageAccountAsync;
+import com.azure.management.storage.samples.ManageStorageAccountNetworkRules;
 import org.junit.Assert;
 import org.junit.Test;
 

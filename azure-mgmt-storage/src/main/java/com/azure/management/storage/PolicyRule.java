@@ -6,18 +6,17 @@
 
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
+
 import java.util.List;
 
 /**
  * An immutable client-side representation of a rule in an Azure Management Policy.
  */
 @Fluent
-@Beta()
 public interface PolicyRule extends
         HasInner<ManagementPolicyRule> {
     /**
@@ -243,7 +242,7 @@ public interface PolicyRule extends
          */
         interface WithPolicyRuleAttachable extends PolicyRule.DefinitionStages.WithRuleActions,
                 PolicyRule.DefinitionStages.WithPrefixesToFilterFor,
-                Attachable<ManagementPolicy.DefinitionStages.WithCreate>  {
+                Attachable<ManagementPolicy.DefinitionStages.WithCreate> {
 
         }
     }

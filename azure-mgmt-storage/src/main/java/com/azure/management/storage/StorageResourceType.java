@@ -6,17 +6,15 @@
 
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+
+
+import com.azure.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
 /**
  * Storage resource types.
  */
-@Fluent
-@Beta(Beta.SinceVersion.V1_5_0)
 public class StorageResourceType extends ExpandableStringEnum<StorageResourceType> {
     /**
      * Static value storageAccounts for StorageResourceType.

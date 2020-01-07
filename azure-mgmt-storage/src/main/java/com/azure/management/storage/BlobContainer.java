@@ -7,25 +7,24 @@
 package com.azure.management.storage;
 
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.storage.implementation.BlobContainerInner;
-import org.joda.time.DateTime;
+import com.azure.management.storage.models.BlobContainerInner;
 
+
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 /**
  * Type representing BlobContainer.
  */
 @Fluent
-@Beta
 public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, Updatable<BlobContainer.Update>, HasManager<StorageManager> {
     /**
      * @return the etag value.
@@ -55,7 +54,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
     /**
      * @return the lastModifiedTime value.
      */
-    DateTime lastModifiedTime();
+    OffsetDateTime lastModifiedTime();
 
     /**
      * @return the leaseDuration value.
@@ -121,7 +120,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
              * Specifies resourceGroupName, accountName.
              *
              * @param resourceGroupName The name of the resource group within the user's subscription. The name is case insensitive
-             * @param accountName The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only
+             * @param accountName       The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only
              * @return the next definition stage
              */
             WithPublicAccess withExistingBlobService(String resourceGroupName, String accountName);
@@ -155,7 +154,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
             /**
              * Specifies a singluar instance of metadata.
              *
-             * @param name A name to associate with the container as metadata
+             * @param name  A name to associate with the container as metadata
              * @param value A value to associate with the container as metadata
              * @return the next definition stage
              */
@@ -170,6 +169,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
         interface WithCreate extends WithMetadata, Creatable<BlobContainer> {
         }
     }
+
     /**
      * The template for a BlobContainer update operation, containing all the settings that can be modified.
      */
@@ -208,7 +208,7 @@ public interface BlobContainer extends HasInner<BlobContainerInner>, Indexable, 
             /**
              * Specifies a singluar instance of metadata.
              *
-             * @param name A name to associate with the container as metadata
+             * @param name  A name to associate with the container as metadata
              * @param value A value to associate with the container as metadata
              * @return the next definition stage
              */

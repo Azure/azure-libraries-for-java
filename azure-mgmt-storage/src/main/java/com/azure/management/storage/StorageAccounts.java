@@ -6,24 +6,21 @@
 
 package com.azure.management.storage;
 
-import com.azure.management.storage.implementation.StorageAccountsInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
+import com.azure.management.storage.models.StorageAccountsInner;
+import reactor.core.publisher.Mono;
 
 /**
  * Entry point for storage accounts management API.
@@ -55,16 +52,8 @@ public interface StorageAccounts extends
      * @param name the account name to check
      * @return a representation of the deferred computation of this call, returning whether the name is available and other info if not
      */
-    Observable<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
+    Mono<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name);
 
-    /**
-     * Checks that account name is valid and is not in use asynchronously.
-     *
-     * @param name the account name to check
-     * @param callback the callback to call on success or failure
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<CheckNameAvailabilityResult> checkNameAvailabilityAsync(String name, ServiceCallback<CheckNameAvailabilityResult> callback);
 
     /**
      * Creates an Sas token for the storage account.
@@ -84,7 +73,7 @@ public interface StorageAccounts extends
      * @param parameters the parameters to list service SAS credentials of a specific resource
      * @return an observable of the created Sas token
      */
-    Observable<String> createSasTokenAsync(String resourceGroupName, String accountName, ServiceSasParameters parameters);
+    Mono<String> createSasTokenAsync(String resourceGroupName, String accountName, ServiceSasParameters parameters);
 
     /**
      * Sets a failover request that can be triggered for a storage account in case of availability issues.
@@ -101,5 +90,5 @@ public interface StorageAccounts extends
      * @param accountName the account name to check
      * @return a completable
      */
-    Completable failoverAsync(String resourceGroupName, String accountName);
+    Mono<Void> failoverAsync(String resourceGroupName, String accountName);
 }

@@ -7,19 +7,16 @@
 package com.azure.management.storage;
 
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.storage.implementation.ManagementPoliciesInner;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.storage.models.ManagementPoliciesInner;
+import reactor.core.publisher.Mono;
 
 /**
  * Type representing ManagementPolicies.
  */
 @Fluent
-@Beta
 public interface ManagementPolicies extends SupportsCreating<ManagementPolicy.DefinitionStages.Blank>, HasInner<ManagementPoliciesInner> {
     /**
      * Gets the managementpolicy associated with the specified storage account.
@@ -29,7 +26,7 @@ public interface ManagementPolicies extends SupportsCreating<ManagementPolicy.De
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<ManagementPolicy> getAsync(String resourceGroupName, String accountName);
+    Mono<ManagementPolicy> getAsync(String resourceGroupName, String accountName);
 
     /**
      * Deletes the managementpolicy associated with the specified storage account.
@@ -39,6 +36,5 @@ public interface ManagementPolicies extends SupportsCreating<ManagementPolicy.De
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Completable deleteAsync(String resourceGroupName, String accountName);
-
+    Mono<Void> deleteAsync(String resourceGroupName, String accountName);
 }

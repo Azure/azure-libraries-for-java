@@ -6,13 +6,11 @@
 
 package com.azure.management.storage;
 
-import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The BlobContainersCreateOrUpdateImmutabilityPolicyHeaders model.
  */
-@Fluent
 public final class BlobContainersCreateOrUpdateImmutabilityPolicyHeaders {
     /*
      * The ETag property.

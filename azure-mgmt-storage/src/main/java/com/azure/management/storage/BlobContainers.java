@@ -6,10 +6,9 @@
 
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import rx.Completable;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ import java.util.List;
  * Type representing BlobContainers.
  */
 @Fluent
-@Beta
 public interface BlobContainers {
     /**
      * Begins definition for a new Container resource.
@@ -41,7 +39,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<ListContainerItem> listAsync(String resourceGroupName, String accountName);
+    Flux<ListContainerItem> listAsync(String resourceGroupName, String accountName);
 
     /**
      * Gets properties of a specified container.
@@ -52,7 +50,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<BlobContainer> getAsync(String resourceGroupName, String accountName, String containerName);
+    Mono<BlobContainer> getAsync(String resourceGroupName, String accountName, String containerName);
 
     /**
      * Deletes specified container under its account.
@@ -63,7 +61,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Completable deleteAsync(String resourceGroupName, String accountName, String containerName);
+    Mono<Void> deleteAsync(String resourceGroupName, String accountName, String containerName);
 
     /**
      * Sets legal hold tags. Setting the same tag results in an idempotent operation. SetLegalHold follows an append pattern and does not clear out the existing tags that are not specified in the request.
@@ -75,7 +73,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<LegalHold> setLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags);
+    Mono<LegalHold> setLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags);
 
     /**
      * Clears legal hold tags. Clearing the same or non-existent tag results in an idempotent operation. ClearLegalHold clears out only the specified tags in the request.
@@ -87,7 +85,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<LegalHold> clearLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags);
+    Mono<LegalHold> clearLegalHoldAsync(String resourceGroupName, String accountName, String containerName, List<String> tags);
 
     /**
      * Gets the existing immutability policy along with the corresponding ETag in response headers and body.
@@ -98,7 +96,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<ImmutabilityPolicy> getImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName);
+    Mono<ImmutabilityPolicy> getImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName);
 
     /**
      * Aborts an unlocked immutability policy. The response of delete has immutabilityPeriodSinceCreationInDays set to 0. ETag in If-Match is required for this operation. Deleting a locked immutability policy is not allowed, only way is to delete the container after deleting all blobs inside the container.
@@ -110,7 +108,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Completable deleteImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch);
+    Mono<Void> deleteImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch);
 
     /**
      * Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.
@@ -122,7 +120,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<ImmutabilityPolicy> lockImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch);
+    Mono<ImmutabilityPolicy> lockImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch);
 
     /**
      * Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
@@ -135,6 +133,6 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<ImmutabilityPolicy> extendImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, int immutabilityPeriodSinceCreationInDays);
+    Mono<ImmutabilityPolicy> extendImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch, int immutabilityPeriodSinceCreationInDays);
 
 }

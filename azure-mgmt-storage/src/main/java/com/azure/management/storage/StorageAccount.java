@@ -6,23 +6,20 @@
 
 package com.azure.management.storage;
 
-import com.azure.management.storage.implementation.StorageAccountInner;
-import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.storage.implementation.AccountStatuses;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import org.joda.time.DateTime;
-import rx.Observable;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.storage.implementation.AccountStatuses;
+import com.azure.management.storage.implementation.StorageManager;
+import com.azure.management.storage.models.StorageAccountInner;
+import reactor.core.publisher.Mono;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +49,6 @@ public interface StorageAccount extends
     /**
      * @return the sku of this storage account.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     StorageAccountSkuType skuType();
 
     /**
@@ -64,7 +60,7 @@ public interface StorageAccount extends
     /**
      * @return the creation date and time of the storage account in UTC
      */
-    DateTime creationTime();
+    OffsetDateTime creationTime();
 
     /**
      * @return the user assigned custom domain assigned to this storage account
@@ -77,7 +73,7 @@ public interface StorageAccount extends
      * element is not returned if there has never been a failover instance.
      * Only available if the accountType is StandardGRS or StandardRAGRS
      */
-    DateTime lastGeoFailoverTime();
+    OffsetDateTime lastGeoFailoverTime();
 
     /**
      * @return the status of the storage account at the time the operation was
@@ -122,14 +118,12 @@ public interface StorageAccount extends
      * @return the Managed Service Identity specific Active Directory tenant ID assigned to the
      * storage account.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityTenantId();
 
     /**
      * @return the Managed Service Identity specific Active Directory service principal ID assigned
      * to the storage account.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     String systemAssignedManagedServiceIdentityPrincipalId();
 
     /**
@@ -137,25 +131,21 @@ public interface StorageAccount extends
      * storage account, false if only application from whitelisted network (subnet, ip address,
      * ip address range) can access the storage account.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     boolean isAccessAllowedFromAllNetworks();
 
     /**
      * @return the list of resource id of virtual network subnet having access to the storage account.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     List<String> networkSubnetsWithAccess();
 
     /**
      * @return the list of ip addresses having access to the storage account.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     List<String> ipAddressesWithAccess();
 
     /**
      * @return the list of ip address ranges having access to the storage account.
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     List<String> ipAddressRangesWithAccess();
 
     /**
@@ -163,7 +153,6 @@ public interface StorageAccount extends
      *
      * @return true if storage log entries can be read from any network, false otherwise
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     boolean canReadLogEntriesFromAnyNetwork();
 
     /**
@@ -171,7 +160,6 @@ public interface StorageAccount extends
      *
      * @return true if storage metrics can be read from any network, false otherwise
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     boolean canReadMetricsFromAnyNetwork();
 
     /**
@@ -179,7 +167,6 @@ public interface StorageAccount extends
      *
      * @return true if storage can be accessed from application running on azure, false otherwise
      */
-    @Beta(Beta.SinceVersion.V1_5_0)
     boolean canAccessFromAzureServices();
 
     /**
@@ -187,7 +174,6 @@ public interface StorageAccount extends
      *
      * @return true if Aad integration is enabled, false otherwise
      */
-    @Beta()
     boolean isAzureFilesAadIntegrationEnabled();
 
     /**
@@ -195,7 +181,6 @@ public interface StorageAccount extends
      *
      * @return true if Hns is enabled, false otherwise
      */
-    @Beta()
     boolean isHnsEnabled();
 
 
@@ -204,7 +189,6 @@ public interface StorageAccount extends
      *
      * @return true if large file shares is enabled, false otherwise
      */
-    @Beta
     boolean isLargeFileSharesEnabled();
 
     /**
@@ -212,7 +196,6 @@ public interface StorageAccount extends
      *
      * @return the access keys for this storage account
      */
-    @Method
     List<StorageAccountKey> getKeys();
 
     /**
@@ -220,16 +203,7 @@ public interface StorageAccount extends
      *
      * @return a representation of the deferred computation of this call, returning the access keys
      */
-    @Method
-    Observable<List<StorageAccountKey>> getKeysAsync();
-
-    /**
-     * Fetch the up-to-date access keys from Azure for this storage account asynchronously.
-     *
-     * @param callback the callback to call on success or failure, with access keys as parameter.
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<List<StorageAccountKey>> getKeysAsync(ServiceCallback<List<StorageAccountKey>> callback);
+    Mono<List<StorageAccountKey>> getKeysAsync();
 
     /**
      * Regenerates the access keys for this storage account.
@@ -245,16 +219,7 @@ public interface StorageAccount extends
      * @param keyName if the key name
      * @return a representation of the deferred computation of this call, returning the regenerated access key
      */
-    Observable<List<StorageAccountKey>> regenerateKeyAsync(String keyName);
-
-    /**
-     * Regenerates the access keys for this storage account asynchronously.
-     *
-     * @param keyName if the key name
-     * @param callback the callback to call on success or failure, with access keys as parameter.
-     * @return a handle to cancel the request
-     */
-    ServiceFuture<List<StorageAccountKey>> regenerateKeyAsync(String keyName, ServiceCallback<List<StorageAccountKey>> callback);
+    Mono<List<StorageAccountKey>> regenerateKeyAsync(String keyName);
 
     /**
      * Container interface for all the definitions that need to be implemented.
@@ -302,7 +267,6 @@ public interface StorageAccount extends
              * @param sku the sku
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withSku(StorageAccountSkuType sku);
         }
 
@@ -316,7 +280,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Method
             WithCreateAndAccessTier withBlobStorageAccountKind();
         }
 
@@ -330,7 +293,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Method
             WithCreate withGeneralPurposeAccountKind();
 
             /**
@@ -339,7 +301,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Method
             WithCreate withGeneralPurposeAccountKindV2();
         }
 
@@ -380,7 +341,6 @@ public interface StorageAccount extends
              * @return the next stage of storage account definition
              */
             @Deprecated
-            @Method
             WithCreate withEncryption();
 
             /**
@@ -388,8 +348,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withBlobEncryption();
 
             /**
@@ -397,8 +355,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withoutBlobEncryption();
 
             /**
@@ -406,8 +362,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withFileEncryption();
 
             /**
@@ -415,8 +369,6 @@ public interface StorageAccount extends
              *
              * @return he next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withoutFileEncryption();
 
             /**
@@ -427,7 +379,6 @@ public interface StorageAccount extends
              * @param keyVersion the KeyVault key version
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withEncryptionKeyFromKeyVault(String keyVaultUri, String keyName, String keyVersion);
         }
 
@@ -470,38 +421,30 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withSystemAssignedManagedServiceIdentity();
         }
 
         /**
          * The stage of storage account definition allowing to restrict access protocol.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithAccessTraffic {
             /**
              * Specifies that only https traffic should be allowed to storage account.
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withOnlyHttpsTraffic();
         }
 
         /**
          * The stage of storage account definition allowing to configure network access settings.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithNetworkAccess {
             /**
              * Specifies that by default access to storage account should be allowed from all networks.
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withAccessFromAllNetworks();
 
             /**
@@ -513,8 +456,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withAccessFromSelectedNetworks();
 
             /**
@@ -523,7 +464,6 @@ public interface StorageAccount extends
              * @param subnetId the virtual network subnet id
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromNetworkSubnet(String subnetId);
 
             /**
@@ -532,7 +472,6 @@ public interface StorageAccount extends
              * @param ipAddress the ip address
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromIpAddress(String ipAddress);
 
             /**
@@ -541,7 +480,6 @@ public interface StorageAccount extends
              * @param ipAddressCidr the ip address range expressed in cidr format
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             WithCreate withAccessFromIpAddressRange(String ipAddressCidr);
 
             /**
@@ -549,8 +487,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withReadAccessToLogEntriesFromAnyNetwork();
 
             /**
@@ -558,8 +494,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -568,8 +502,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withAccessFromAzureServices();
         }
 
@@ -583,8 +515,6 @@ public interface StorageAccount extends
              * @param enabled whether Azure files aad integration will be enabled or not
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withAzureFilesAadIntegrationEnabled(boolean enabled);
         }
 
@@ -599,8 +529,6 @@ public interface StorageAccount extends
              * @param enabled whether large file shares will be enabled or not
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_30_0)
-            @Method
             WithCreate withLargeFileShares(boolean enabled);
         }
 
@@ -614,8 +542,6 @@ public interface StorageAccount extends
              * @param enabled whether Hns will be enabled or not
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             WithCreate withHnsEnabled(boolean enabled);
         }
 
@@ -685,7 +611,6 @@ public interface StorageAccount extends
              * @param sku the sku
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             Update withSku(StorageAccountSkuType sku);
         }
 
@@ -730,7 +655,6 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Deprecated
-            @Method
             Update withEncryption();
 
             /**
@@ -738,8 +662,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withBlobEncryption();
 
             /**
@@ -747,8 +669,6 @@ public interface StorageAccount extends
              *
              * @return he next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withFileEncryption();
 
             /**
@@ -758,7 +678,6 @@ public interface StorageAccount extends
              * @return the next stage of storage account update
              */
             @Deprecated
-            @Method
             Update withoutEncryption();
 
             /**
@@ -766,8 +685,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withoutBlobEncryption();
 
             /**
@@ -775,8 +692,6 @@ public interface StorageAccount extends
              *
              * @return he next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withoutFileEncryption();
 
             /**
@@ -787,7 +702,6 @@ public interface StorageAccount extends
              * @param keyVersion the KeyVault key version
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             Update withEncryptionKeyFromKeyVault(String keyVaultUri, String keyName, String keyVersion);
         }
 
@@ -817,23 +731,18 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withSystemAssignedManagedServiceIdentity();
         }
 
         /**
          * The stage of the storage account update allowing to specify the protocol to be used to access account.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithAccessTraffic {
             /**
              * Specifies that only https traffic should be allowed to storage account.
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withOnlyHttpsTraffic();
 
             /**
@@ -841,8 +750,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withHttpAndHttpsTraffic();
         }
 
@@ -850,7 +757,6 @@ public interface StorageAccount extends
         /**
          * The stage of storage account update allowing to configure network access.
          */
-        @Beta(Beta.SinceVersion.V1_5_0)
         interface WithNetworkAccess {
             /**
              * Specifies that by default access to storage account should be allowed from
@@ -858,8 +764,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withAccessFromAllNetworks();
 
             /**
@@ -871,8 +775,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withAccessFromSelectedNetworks();
 
             /**
@@ -882,7 +784,6 @@ public interface StorageAccount extends
              * @param subnetId the virtual network subnet id
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromNetworkSubnet(String subnetId);
 
             /**
@@ -891,7 +792,6 @@ public interface StorageAccount extends
              * @param ipAddress the ip address
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromIpAddress(String ipAddress);
 
             /**
@@ -900,7 +800,6 @@ public interface StorageAccount extends
              * @param ipAddressCidr the ip address range expressed in cidr format
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             Update withAccessFromIpAddressRange(String ipAddressCidr);
 
             /**
@@ -908,8 +807,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withReadAccessToLogEntriesFromAnyNetwork();
 
             /**
@@ -917,8 +814,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -927,8 +822,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account definition
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withAccessFromAzureServices();
 
             /**
@@ -937,7 +830,6 @@ public interface StorageAccount extends
              * @param subnetId the virtual network subnet id
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutNetworkSubnetAccess(String subnetId);
 
             /**
@@ -946,7 +838,6 @@ public interface StorageAccount extends
              * @param ipAddress the ip address
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutIpAddressAccess(String ipAddress);
 
             /**
@@ -955,7 +846,6 @@ public interface StorageAccount extends
              * @param ipAddressCidr the ip address range expressed in cidr format
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
             Update withoutIpAddressRangeAccess(String ipAddressCidr);
 
             /**
@@ -964,8 +854,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withoutReadAccessToLoggingFromAnyNetwork();
 
             /**
@@ -974,8 +862,6 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withoutReadAccessToMetricsFromAnyNetwork();
 
             /**
@@ -984,22 +870,17 @@ public interface StorageAccount extends
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_0)
-            @Method
             Update withoutAccessFromAzureServices();
 
             Update withAzureFilesAadIntegrationEnabled(boolean enabled);
         }
 
-        @Beta(Beta.SinceVersion.V1_5_1)
         interface WithUpgrade {
             /**
              * Specifies that the storage account should be upgraded to V2 kind.
              *
              * @return the next stage of storage account update
              */
-            @Beta(Beta.SinceVersion.V1_5_1)
-            @Method
             Update upgradeToGeneralPurposeAccountKindV2();
         }
     }

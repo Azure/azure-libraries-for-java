@@ -6,14 +6,10 @@
 
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 /**
  * Defines sku values for storage account resource.
  */
-@LangDefinition
-@Beta(Beta.SinceVersion.V1_5_0)
 public final class StorageAccountSkuType {
     /** Static value STANDARD_LRS for StorageAccountSkuType. */
     public static final StorageAccountSkuType STANDARD_LRS = new StorageAccountSkuType(SkuName.STANDARD_LRS);

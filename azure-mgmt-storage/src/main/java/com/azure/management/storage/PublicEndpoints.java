@@ -6,14 +6,12 @@
 
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 /**
  * An instance of this class stores the The URIs associated with a storage
  * account that are used to perform a retrieval of a public blob, queue or
  * table object.
  */
-@LangDefinition
 public class PublicEndpoints {
     private Endpoints primary;
     private Endpoints secondary;

@@ -6,26 +6,24 @@
 
 package com.azure.management.storage;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Indexable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Indexable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-import com.azure.management.storage.implementation.ManagementPolicyInner;
-import org.joda.time.DateTime;
+import com.azure.management.storage.models.ManagementPolicyInner;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
  * Type representing ManagementPolicy.
  */
 @Fluent
-@Beta
 public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Indexable, Refreshable<ManagementPolicy>, Updatable<ManagementPolicy.Update>, HasManager<StorageManager> {
     /**
      * @return the id value.
@@ -35,7 +33,7 @@ public interface ManagementPolicy extends HasInner<ManagementPolicyInner>, Index
     /**
      * @return the lastModifiedTime value.
      */
-    DateTime lastModifiedTime();
+    OffsetDateTime lastModifiedTime();
 
     /**
      * @return the name value.

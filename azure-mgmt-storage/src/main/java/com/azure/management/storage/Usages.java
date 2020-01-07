@@ -6,18 +6,19 @@
 
 package com.azure.management.storage;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.storage.implementation.StorageManager;
-import com.azure.management.storage.implementation.UsagesInner;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.storage.models.UsagesInner;
+
 
 /**
  * Entry point for storage resource usage management API.
  */
 @Fluent
-public interface Usages extends SupportsListing<StorageUsage>,
+public interface Usages extends SupportsListing<Usage>,
         HasInner<UsagesInner>,
         HasManager<StorageManager> {
 }

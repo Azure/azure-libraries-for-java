@@ -6,14 +6,13 @@
 
 package com.azure.management.storage;
 
-import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 
 /**
  * The AccountSasParameters model.
  */
-@Fluent
 public final class AccountSasParameters {
     /*
      * The signed services accessible with the account SAS. Possible values

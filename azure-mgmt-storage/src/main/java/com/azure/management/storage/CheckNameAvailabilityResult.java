@@ -7,13 +7,11 @@
 package com.azure.management.storage;
 
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.storage.implementation.CheckNameAvailabilityResultInner;
+import com.azure.management.storage.models.CheckNameAvailabilityResultInner;
 
 /**
  * The {@link StorageAccounts#checkNameAvailability} action result.
  */
-@LangDefinition
 public class CheckNameAvailabilityResult {
     private CheckNameAvailabilityResultInner inner;
 
@@ -32,7 +30,7 @@ public class CheckNameAvailabilityResult {
      * already been taken or invalid and cannot be used.
      */
     public boolean isAvailable() {
-        return inner.nameAvailable();
+        return inner.isNameAvailable();
     }
 
     /**
@@ -41,13 +39,13 @@ public class CheckNameAvailabilityResult {
      * values include: 'AccountNameInvalid', 'AlreadyExists'.
      */
     public Reason reason() {
-        return inner.reason();
+        return inner.getReason();
     }
 
     /**
      * @return an error message explaining the Reason value in more detail
      */
     public String message() {
-        return inner.message();
+        return inner.getMessage();
     }
 }

@@ -7,18 +7,16 @@
 package com.azure.management.storage;
 
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.azure.management.storage.implementation.BlobServicesInner;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.storage.models.BlobServicesInner;
+import reactor.core.publisher.Mono;
 
 /**
  * Type representing BlobServices.
  */
 @Fluent
-@Beta
 public interface BlobServices extends SupportsCreating<BlobServiceProperties.DefinitionStages.Blank>, HasInner<BlobServicesInner> {
     /**
      * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
@@ -28,6 +26,5 @@ public interface BlobServices extends SupportsCreating<BlobServiceProperties.Def
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Observable<BlobServiceProperties> getServicePropertiesAsync(String resourceGroupName, String accountName);
-
+    Mono<BlobServiceProperties> getServicePropertiesAsync(String resourceGroupName, String accountName);
 }

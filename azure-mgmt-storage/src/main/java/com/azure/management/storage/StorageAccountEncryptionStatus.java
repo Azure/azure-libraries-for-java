@@ -6,8 +6,10 @@
 
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import org.joda.time.DateTime;
+
+import com.azure.core.annotation.Fluent;
+
+import java.time.OffsetDateTime;
 
 /**
  * Type representing the encryption status of a storage service.
@@ -26,5 +28,5 @@ public interface StorageAccountEncryptionStatus {
      * @return rough estimate of the date/time when the encryption was last enabled, null if
      * the encryption is disabled
      */
-    DateTime lastEnabledTime();
+    OffsetDateTime lastEnabledTime();
 }

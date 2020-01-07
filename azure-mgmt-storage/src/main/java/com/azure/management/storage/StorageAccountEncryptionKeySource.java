@@ -6,15 +6,14 @@
 
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+
+import com.azure.core.util.ExpandableStringEnum;
 
 import java.util.Collection;
 
 /**
  * Azure storage account encryption key sources.
  */
-@LangDefinition
 public class StorageAccountEncryptionKeySource extends ExpandableStringEnum<StorageAccountEncryptionKeySource> {
     /** Static value Microsoft.Storage for StorageAccountEncryptionKeySource. */
     public static final StorageAccountEncryptionKeySource MICROSOFT_STORAGE = fromString("Microsoft.Storage");

@@ -7,6 +7,7 @@
 package com.azure.management.storage;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.storage.models.ImmutabilityPolicyInner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -108,7 +109,7 @@ public interface BlobContainers {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    Mono<Void> deleteImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch);
+    Mono<ImmutabilityPolicyInner> deleteImmutabilityPolicyAsync(String resourceGroupName, String accountName, String containerName, String ifMatch);
 
     /**
      * Sets the ImmutabilityPolicy to Locked state. The only action allowed on a Locked policy is ExtendImmutabilityPolicy action. ETag in If-Match is required for this operation.

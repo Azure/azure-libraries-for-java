@@ -6,6 +6,8 @@
 
 package com.azure.management.storage;
 
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.resources.core.TestUtilities;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -15,8 +17,8 @@ public class UsageOperationsTests extends StorageManagementTest {
     @Test
     @Ignore("Service is no longer supporting listing")
     public void canGetUsages() throws Exception {
-        List<StorageUsage> usages = storageManager.usages().list();
-        System.out.println(usages.size());
+        PagedIterable<Usage> usages = storageManager.usages().list();
+        System.out.println(TestUtilities.getPagedIterableSize(usages));
     }
 
 

@@ -6,22 +6,23 @@
 
 package com.azure.management.storage.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
+import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
+import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.azure.management.resources.fluentcore.arm.implementation.Manager;
+import com.azure.management.resources.models.ResourceManagementClientBuilder;
 import com.azure.management.storage.BlobContainers;
 import com.azure.management.storage.BlobServices;
 import com.azure.management.storage.ManagementPolicies;
 import com.azure.management.storage.StorageAccounts;
 import com.azure.management.storage.StorageSkus;
 import com.azure.management.storage.Usages;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.azure.management.storage.models.StorageManagementClientBuilder;
+import com.azure.management.storage.models.StorageManagementClientImpl;
 
 /**
  * Entry point to Azure storage resource management.
@@ -47,25 +48,24 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
     /**
      * Creates an instance of StorageManager that exposes storage resource management API entry points.
      *
-     * @param credentials the credentials to use
+     * @param credential     the credentials to use
      * @param subscriptionId the subscription UUID
      * @return the StorageManager
      */
-    public static StorageManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new StorageManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
+    public static StorageManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+        return new StorageManager(new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), subscriptionId);
+//                .withPolicy(new ProviderRegistrationPolicy())
+//                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .buildClient(), subscriptionId);
     }
 
     /**
      * Creates an instance of StorageManager that exposes storage resource management API entry points.
      *
-     * @param restClient the RestClient to be used for API calls.
+     * @param restClient     the RestClient to be used for API calls.
      * @param subscriptionId the subscription UUID
      * @return the StorageManager
      */
@@ -80,27 +80,30 @@ public final class StorageManager extends Manager<StorageManager, StorageManagem
         /**
          * Creates an instance of StorageManager that exposes storage management API entry points.
          *
-         * @param credentials the credentials to use
+         * @param credentials    the credentials to use
          * @param subscriptionId the subscription UUID
          * @return the interface exposing storage management API entry points that work across subscriptions
          */
-        StorageManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
+        StorageManager authenticate(AzureTokenCredential credentials, String subscriptionId);
     }
 
     /**
      * The implementation for Configurable interface.
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
-        public StorageManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
+        public StorageManager authenticate(AzureTokenCredential credentials, String subscriptionId) {
             return StorageManager.authenticate(buildRestClient(credentials), subscriptionId);
         }
     }
 
     private StorageManager(RestClient restClient, String subscriptionId) {
-        super(
-                restClient,
+        super(restClient,
                 subscriptionId,
-                new StorageManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+                new StorageManagementClientBuilder()
+                        .pipeline(restClient.getHttpPipeline())
+                        .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                        .subscriptionId(subscriptionId)
+                        .build());
     }
 
     /**

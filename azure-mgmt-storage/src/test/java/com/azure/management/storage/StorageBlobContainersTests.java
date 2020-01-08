@@ -1,7 +1,7 @@
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
+import com.azure.management.RestClient;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 import org.junit.Test;
 

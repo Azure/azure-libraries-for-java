@@ -6,18 +6,18 @@
 
 package com.azure.management.storage.implementation;
 
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.storage.BlobServiceProperties;
 import com.azure.management.storage.CorsRule;
 import com.azure.management.storage.CorsRules;
 import com.azure.management.storage.DeleteRetentionPolicy;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
+import com.azure.management.storage.models.BlobServicePropertiesInner;
+import com.azure.management.storage.models.BlobServicesInner;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@LangDefinition
 class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProperties, BlobServicePropertiesInner, BlobServicePropertiesImpl> implements BlobServiceProperties, BlobServiceProperties.Definition, BlobServiceProperties.Update {
     private final StorageManager manager;
     private String resourceGroupName;
@@ -32,75 +32,75 @@ class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProper
     }
 
     BlobServicePropertiesImpl(BlobServicePropertiesInner inner, StorageManager manager) {
-        super(inner.name(), inner);
+        super(inner.getName(), inner);
         this.manager = manager;
         // Set resource name
-        this.accountName = inner.name();
+        this.accountName = inner.getName();
         // set resource ancestor and positional variables
-        this.resourceGroupName = IdParsingUtils.getValueFromIdByName(inner.id(), "resourceGroups");
-        this.accountName = IdParsingUtils.getValueFromIdByName(inner.id(), "storageAccounts");
+        this.resourceGroupName = IdParsingUtils.getValueFromIdByName(inner.getId(), "resourceGroups");
+        this.accountName = IdParsingUtils.getValueFromIdByName(inner.getId(), "storageAccounts");
         //
     }
 
     @Override
-    public StorageManager manager() {
+    public StorageManager getManager() {
         return this.manager;
     }
 
     @Override
-    public Observable<BlobServiceProperties> createResourceAsync() {
-        BlobServicesInner client = this.manager().inner().blobServices();
-        return client.setServicePropertiesAsync(this.resourceGroupName, this.accountName, this.inner())
+    public Mono<BlobServiceProperties> createResourceAsync() {
+        BlobServicesInner client = this.getManager().getInner().blobServices();
+        return client.setServicePropertiesAsync(this.resourceGroupName, this.accountName, this.getInner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    public Observable<BlobServiceProperties> updateResourceAsync() {
-        BlobServicesInner client = this.manager().inner().blobServices();
-        return client.setServicePropertiesAsync(this.resourceGroupName, this.accountName, this.inner())
+    public Mono<BlobServiceProperties> updateResourceAsync() {
+        BlobServicesInner client = this.getManager().getInner().blobServices();
+        return client.setServicePropertiesAsync(this.resourceGroupName, this.accountName, this.getInner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<BlobServicePropertiesInner> getInnerAsync() {
-        BlobServicesInner client = this.manager().inner().blobServices();
+    protected Mono<BlobServicePropertiesInner> getInnerAsync() {
+        BlobServicesInner client = this.getManager().getInner().blobServices();
         return client.getServicePropertiesAsync(this.resourceGroupName, this.accountName);
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.getInner().getId() == null;
     }
 
 
     @Override
     public CorsRules cors() {
-        return this.inner().cors();
+        return this.getInner().getCors();
     }
 
     @Override
     public String defaultServiceVersion() {
-        return this.inner().defaultServiceVersion();
+        return this.getInner().getDefaultServiceVersion();
     }
 
     @Override
     public DeleteRetentionPolicy deleteRetentionPolicy() {
-        return this.inner().deleteRetentionPolicy();
+        return this.getInner().getDeleteRetentionPolicy();
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.getInner().getId();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.getInner().getName();
     }
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.getInner().getType();
     }
 
     @Override
@@ -112,46 +112,46 @@ class BlobServicePropertiesImpl extends CreatableUpdatableImpl<BlobServiceProper
 
     @Override
     public BlobServicePropertiesImpl withCORSRules(List<CorsRule> corsRules) {
-        this.inner().withCors(new CorsRules().withCorsRules(corsRules));
+        this.getInner().setCors(new CorsRules().setCorsRules(corsRules));
         return this;
     }
 
     @Override
     public BlobServicePropertiesImpl withCORSRule(CorsRule corsRule) {
-        CorsRules corsRules = this.inner().cors();
+        CorsRules corsRules = this.getInner().getCors();
         if (corsRules == null) {
             List<CorsRule> firstCorsRule = new ArrayList<>();
             firstCorsRule.add(corsRule);
-            this.inner().withCors(new CorsRules().withCorsRules(firstCorsRule));
+            this.getInner().setCors(new CorsRules().setCorsRules(firstCorsRule));
         } else {
-            List<CorsRule> currentCorsRules = corsRules.corsRules();
+            List<CorsRule> currentCorsRules = corsRules.getCorsRules();
             currentCorsRules.add(corsRule);
-            this.inner().withCors(corsRules.withCorsRules(currentCorsRules));
+            this.getInner().setCors(corsRules.setCorsRules(currentCorsRules));
         }
         return this;
     }
 
     @Override
     public BlobServicePropertiesImpl withDefaultServiceVersion(String defaultServiceVersion) {
-        this.inner().withDefaultServiceVersion(defaultServiceVersion);
+        this.getInner().setDefaultServiceVersion(defaultServiceVersion);
         return this;
     }
 
     @Override
     public BlobServicePropertiesImpl withDeleteRetentionPolicy(DeleteRetentionPolicy deleteRetentionPolicy) {
-        this.inner().withDeleteRetentionPolicy(deleteRetentionPolicy);
+        this.getInner().setDeleteRetentionPolicy(deleteRetentionPolicy);
         return this;
     }
 
     @Override
     public BlobServicePropertiesImpl withDeleteRetentionPolicyEnabled(int numDaysEnabled) {
-        this.inner().withDeleteRetentionPolicy(new DeleteRetentionPolicy().withEnabled(true).withDays(numDaysEnabled));
+        this.getInner().setDeleteRetentionPolicy(new DeleteRetentionPolicy().setEnabled(true).setDays(numDaysEnabled));
         return this;
     }
 
     @Override
     public BlobServicePropertiesImpl withDeleteRetentionPolicyDisabled() {
-        this.inner().withDeleteRetentionPolicy(new DeleteRetentionPolicy().withEnabled(false));
+        this.getInner().setDeleteRetentionPolicy(new DeleteRetentionPolicy().setEnabled(false));
         return this;
     }
 }

@@ -1,7 +1,7 @@
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
+import com.azure.management.RestClient;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -33,12 +33,12 @@ public class StorageBlobServicesTests extends StorageManagementTest {
 
         BlobServices blobServices = this.storageManager.blobServices();
         BlobServiceProperties blobService = blobServices.define("blobServicesTest")
-                .withExistingStorageAccount(storageAccount.resourceGroupName(), storageAccount.name())
+                .withExistingStorageAccount(storageAccount.getResourceGroupName(), storageAccount.getName())
                 .withDeleteRetentionPolicyEnabled(5)
                 .create();
 
-        Assert.assertTrue(blobService.deleteRetentionPolicy().enabled());
-        Assert.assertEquals(5, blobService.deleteRetentionPolicy().days().intValue());
+        Assert.assertTrue(blobService.deleteRetentionPolicy().isEnabled());
+        Assert.assertEquals(5, blobService.deleteRetentionPolicy().getDays().intValue());
 
     }
 
@@ -54,7 +54,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
 
         BlobServices blobServices = this.storageManager.blobServices();
         BlobServiceProperties blobService = blobServices.define("blobServicesTest")
-                .withExistingStorageAccount(storageAccount.resourceGroupName(), storageAccount.name())
+                .withExistingStorageAccount(storageAccount.getResourceGroupName(), storageAccount.getName())
                 .withDeleteRetentionPolicyEnabled(5)
                 .create();
 
@@ -62,7 +62,7 @@ public class StorageBlobServicesTests extends StorageManagementTest {
                 .withDeleteRetentionPolicyDisabled()
                 .apply();
 
-        Assert.assertFalse(blobService.deleteRetentionPolicy().enabled());
+        Assert.assertFalse(blobService.deleteRetentionPolicy().isEnabled());
 
     }
 }

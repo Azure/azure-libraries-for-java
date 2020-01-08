@@ -6,10 +6,10 @@
 
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.resources.core.TestBase;
-import com.microsoft.azure.management.resources.implementation.ResourceManager;
+import com.azure.management.RestClient;
+import com.azure.management.resources.core.TestBase;
+import com.azure.management.resources.implementation.ResourceManager;
 import com.azure.management.storage.implementation.StorageManager;
-import com.microsoft.rest.RestClient;
 
 /**
  * The base for storage manager tests.

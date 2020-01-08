@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.storage.AzureEntityResource;
 import com.azure.management.storage.ImmutabilityPolicyState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

@@ -6,6 +6,7 @@
 
 package com.azure.management.storage.implementation;
 
+import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.storage.BlobTypes;
 import com.azure.management.storage.DateAfterCreation;
 import com.azure.management.storage.DateAfterModification;
@@ -17,14 +18,11 @@ import com.azure.management.storage.ManagementPolicyFilter;
 import com.azure.management.storage.ManagementPolicyRule;
 import com.azure.management.storage.ManagementPolicySnapShot;
 import com.azure.management.storage.PolicyRule;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@LangDefinition
 class PolicyRuleImpl implements
         PolicyRule,
         PolicyRule.Definition,
@@ -36,19 +34,19 @@ class PolicyRuleImpl implements
 
     PolicyRuleImpl(ManagementPolicyImpl managementPolicyImpl, String name) {
         this.inner = new ManagementPolicyRule();
-        this.inner.withDefinition(new ManagementPolicyDefinition());
-        this.inner.definition().withFilters(new ManagementPolicyFilter());
-        this.inner.definition().withActions(new ManagementPolicyAction());
+        this.inner.setDefinition(new ManagementPolicyDefinition());
+        this.inner.getDefinition().setFilters(new ManagementPolicyFilter());
+        this.inner.getDefinition().setActions(new ManagementPolicyAction());
         this.managementPolicyImpl = managementPolicyImpl;
-        this.inner.withName(name);
+        this.inner.setName(name);
     }
 
     PolicyRuleImpl(String name) {
         this.inner = new ManagementPolicyRule();
-        this.inner.withDefinition(new ManagementPolicyDefinition());
-        this.inner.definition().withFilters(new ManagementPolicyFilter());
-        this.inner.definition().withActions(new ManagementPolicyAction());
-        this.inner.withName(name);
+        this.inner.setDefinition(new ManagementPolicyDefinition());
+        this.inner.getDefinition().setFilters(new ManagementPolicyFilter());
+        this.inner.getDefinition().setActions(new ManagementPolicyAction());
+        this.inner.setName(name);
     }
 
     PolicyRuleImpl(ManagementPolicyRule managementPolicyRule, ManagementPolicyImpl managementPolicyImpl) {
@@ -58,18 +56,18 @@ class PolicyRuleImpl implements
 
     @Override
     public String name() {
-        return this.inner.name();
+        return this.inner.getName();
     }
 
     @Override
     public String type() {
-        return this.inner.type();
+        return this.inner.getType();
     }
 
     @Override
     public List<BlobTypes> blobTypesToFilterFor() {
         List<BlobTypes> blobTypes = new ArrayList<>();
-        for (String blobTypeString : this.inner.definition().filters().blobTypes()) {
+        for (String blobTypeString : this.inner.getDefinition().getFilters().getBlobTypes()) {
             blobTypes.add(BlobTypes.fromString(blobTypeString));
         }
         return Collections.unmodifiableList(blobTypes);
@@ -77,91 +75,91 @@ class PolicyRuleImpl implements
 
     @Override
     public List<String> prefixesToFilterFor() {
-        return Collections.unmodifiableList(this.inner.definition().filters().prefixMatch());
+        return Collections.unmodifiableList(this.inner.getDefinition().getFilters().getPrefixMatch());
     }
 
     @Override
     public ManagementPolicyBaseBlob actionsOnBaseBlob() {
-        return this.inner.definition().actions().baseBlob();
+        return this.inner.getDefinition().getActions().getBaseBlob();
     }
 
     @Override
     public ManagementPolicySnapShot actionsOnSnapShot() {
-        return this.inner.definition().actions().snapshot();
+        return this.inner.getDefinition().getActions().getSnapshot();
     }
 
     @Override
     public boolean tierToCoolActionOnBaseBlobEnabled() {
-        if (this.inner.definition().actions().baseBlob() == null) {
+        if (this.inner.getDefinition().getActions().getBaseBlob() == null) {
             return false;
         }
-        return this.inner.definition().actions().baseBlob().tierToCool() != null;
+        return this.inner.getDefinition().getActions().getBaseBlob().getTierToCool() != null;
     }
 
     @Override
     public boolean tierToArchiveActionOnBaseBlobEnabled() {
-        if (this.inner.definition().actions().baseBlob() == null) {
+        if (this.inner.getDefinition().getActions().getBaseBlob() == null) {
             return false;
         }
-        return this.inner.definition().actions().baseBlob().tierToArchive() != null;
+        return this.inner.getDefinition().getActions().getBaseBlob().getTierToArchive() != null;
     }
 
     @Override
     public boolean deleteActionOnBaseBlobEnabled() {
-        if (this.inner.definition().actions().baseBlob() == null) {
+        if (this.inner.getDefinition().getActions().getBaseBlob() == null) {
             return false;
         }
-        return this.inner.definition().actions().baseBlob().delete() != null;
+        return this.inner.getDefinition().getActions().getBaseBlob().getDelete() != null;
     }
 
     @Override
     public boolean deleteActionOnSnapShotEnabled() {
-        if (this.inner.definition().actions().snapshot() == null) {
+        if (this.inner.getDefinition().getActions().getSnapshot() == null) {
             return false;
         }
-        return this.inner.definition().actions().snapshot().delete() != null;
+        return this.inner.getDefinition().getActions().getSnapshot().getDelete() != null;
     }
 
     @Override
-    public Double daysAfterBaseBlobModificationUntilCooling() {
-        if (this.inner.definition().actions().baseBlob() == null || this.inner.definition().actions().baseBlob().tierToCool() == null) {
+    public Integer daysAfterBaseBlobModificationUntilCooling() {
+        if (this.inner.getDefinition().getActions().getBaseBlob() == null || this.inner.getDefinition().getActions().getBaseBlob().getTierToCool() == null) {
             return null;
         }
-        return this.inner.definition().actions().baseBlob().tierToCool().daysAfterModificationGreaterThan();
+        return this.inner.getDefinition().getActions().getBaseBlob().getTierToCool().getDaysAfterModificationGreaterThan();
     }
 
     @Override
-    public Double daysAfterBaseBlobModificationUntilArchiving() {
-        if (this.inner.definition().actions().baseBlob() == null || this.inner.definition().actions().baseBlob().tierToArchive() == null) {
+    public Integer daysAfterBaseBlobModificationUntilArchiving() {
+        if (this.inner.getDefinition().getActions().getBaseBlob() == null || this.inner.getDefinition().getActions().getBaseBlob().getTierToArchive() == null) {
             return null;
         }
-        return this.inner.definition().actions().baseBlob().tierToArchive().daysAfterModificationGreaterThan();
+        return this.inner.getDefinition().getActions().getBaseBlob().getTierToArchive().getDaysAfterModificationGreaterThan();
     }
 
     @Override
-    public Double daysAfterBaseBlobModificationUntilDeleting() {
-        if (this.inner.definition().actions().baseBlob() == null || this.inner.definition().actions().baseBlob().delete() == null) {
+    public Integer daysAfterBaseBlobModificationUntilDeleting() {
+        if (this.inner.getDefinition().getActions().getBaseBlob() == null || this.inner.getDefinition().getActions().getBaseBlob().getDelete() == null) {
             return null;
         }
-        return this.inner.definition().actions().baseBlob().delete().daysAfterModificationGreaterThan();
+        return this.inner.getDefinition().getActions().getBaseBlob().getDelete().getDaysAfterModificationGreaterThan();
     }
 
     @Override
-    public Double daysAfterSnapShotCreationUntilDeleting() {
-        if (this.inner.definition().actions().snapshot() == null || this.inner.definition().actions().snapshot().delete() == null) {
+    public Integer daysAfterSnapShotCreationUntilDeleting() {
+        if (this.inner.getDefinition().getActions().getSnapshot() == null || this.inner.getDefinition().getActions().getSnapshot().getDelete() == null) {
             return null;
         }
-        return this.inner.definition().actions().snapshot().delete().daysAfterCreationGreaterThan();
+        return this.inner.getDefinition().getActions().getSnapshot().getDelete().getDaysAfterCreationGreaterThan();
     }
 
     @Override
-    public ManagementPolicyRule inner() {
+    public ManagementPolicyRule getInner() {
         return this.inner;
     }
 
     @Override
     public PolicyRuleImpl withLifecycleRuleType() {
-        this.inner.withType("Lifecycle");
+        this.inner.setType("Lifecycle");
         return this;
     }
 
@@ -172,13 +170,13 @@ class PolicyRuleImpl implements
         for (BlobTypes blobType : blobTypes) {
             blobTypesString.add(blobType.toString());
         }
-        this.inner.definition().filters().withBlobTypes(blobTypesString);
+        this.inner.getDefinition().getFilters().setBlobTypes(blobTypesString);
         return this;
     }
 
     @Override
     public PolicyRuleImpl withBlobTypeToFilterFor(BlobTypes blobType) {
-        List<String> blobTypesToFilterFor = this.inner.definition().filters().blobTypes();
+        List<String> blobTypesToFilterFor = this.inner.getDefinition().getFilters().getBlobTypes();
         if (blobTypesToFilterFor == null) {
             blobTypesToFilterFor = new ArrayList<>();
         }
@@ -186,27 +184,27 @@ class PolicyRuleImpl implements
             return this;
         }
         blobTypesToFilterFor.add(blobType.toString());
-        this.inner.definition().filters().withBlobTypes(blobTypesToFilterFor);
+        this.inner.getDefinition().getFilters().setBlobTypes(blobTypesToFilterFor);
         return this;
     }
 
     @Override
     public Update withBlobTypeToFilterForRemoved(BlobTypes blobType) {
-        List<String> blobTypesToFilterFor = this.inner.definition().filters().blobTypes();
+        List<String> blobTypesToFilterFor = this.inner.getDefinition().getFilters().getBlobTypes();
         blobTypesToFilterFor.remove(blobType.toString());
-        this.inner.definition().filters().withBlobTypes(blobTypesToFilterFor);
+        this.inner.getDefinition().getFilters().setBlobTypes(blobTypesToFilterFor);
         return this;
     }
 
     @Override
     public PolicyRuleImpl withPrefixesToFilterFor(List<String> prefixes) {
-        this.inner.definition().filters().withPrefixMatch(prefixes);
+        this.inner.getDefinition().getFilters().setPrefixMatch(prefixes);
         return this;
     }
 
     @Override
     public PolicyRuleImpl withPrefixToFilterFor(String prefix) {
-        List<String> prefixesToFilterFor = this.inner.definition().filters().prefixMatch();
+        List<String> prefixesToFilterFor = this.inner.getDefinition().getFilters().getPrefixMatch();
         if (prefixesToFilterFor == null) {
             prefixesToFilterFor = new ArrayList<>();
         }
@@ -214,81 +212,81 @@ class PolicyRuleImpl implements
             return this;
         }
         prefixesToFilterFor.add(prefix);
-        this.inner.definition().filters().withPrefixMatch(prefixesToFilterFor);
+        this.inner.getDefinition().getFilters().setPrefixMatch(prefixesToFilterFor);
         return this;
     }
 
     @Override
     public Update withoutPrefixesToFilterFor() {
-        this.inner.definition().filters().withPrefixMatch(null);
+        this.inner.getDefinition().getFilters().setPrefixMatch(null);
         return this;
     }
 
     @Override
-    public PolicyRuleImpl withTierToCoolActionOnBaseBlob(double daysAfterBaseBlobModificationUntilCooling) {
-        ManagementPolicyBaseBlob currentBaseBlob = this.inner.definition().actions().baseBlob();
+    public PolicyRuleImpl withTierToCoolActionOnBaseBlob(int daysAfterBaseBlobModificationUntilCooling) {
+        ManagementPolicyBaseBlob currentBaseBlob = this.inner.getDefinition().getActions().getBaseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
         }
-        currentBaseBlob.withTierToCool(new DateAfterModification().withDaysAfterModificationGreaterThan(daysAfterBaseBlobModificationUntilCooling));
-        this.inner.definition().actions().withBaseBlob(currentBaseBlob);
+        currentBaseBlob.setTierToCool(new DateAfterModification().setDaysAfterModificationGreaterThan(daysAfterBaseBlobModificationUntilCooling));
+        this.inner.getDefinition().getActions().setBaseBlob(currentBaseBlob);
         return this;
     }
 
     @Override
-    public PolicyRuleImpl withTierToArchiveActionOnBaseBlob(double daysAfterBaseBlobModificationUntilArchiving) {
-        ManagementPolicyBaseBlob currentBaseBlob = this.inner.definition().actions().baseBlob();
+    public PolicyRuleImpl withTierToArchiveActionOnBaseBlob(int daysAfterBaseBlobModificationUntilArchiving) {
+        ManagementPolicyBaseBlob currentBaseBlob = this.inner.getDefinition().getActions().getBaseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
         }
-        currentBaseBlob.withTierToArchive(new DateAfterModification().withDaysAfterModificationGreaterThan(daysAfterBaseBlobModificationUntilArchiving));
-        this.inner.definition().actions().withBaseBlob(currentBaseBlob);
+        currentBaseBlob.setTierToArchive(new DateAfterModification().setDaysAfterModificationGreaterThan(daysAfterBaseBlobModificationUntilArchiving));
+        this.inner.getDefinition().getActions().setBaseBlob(currentBaseBlob);
         return this;
     }
 
     @Override
-    public PolicyRuleImpl withDeleteActionOnBaseBlob(double daysAfterBaseBlobModificationUntilDeleting) {
-        ManagementPolicyBaseBlob currentBaseBlob = this.inner.definition().actions().baseBlob();
+    public PolicyRuleImpl withDeleteActionOnBaseBlob(int daysAfterBaseBlobModificationUntilDeleting) {
+        ManagementPolicyBaseBlob currentBaseBlob = this.inner.getDefinition().getActions().getBaseBlob();
         if (currentBaseBlob == null) {
             currentBaseBlob = new ManagementPolicyBaseBlob();
         }
-        currentBaseBlob.withDelete(new DateAfterModification().withDaysAfterModificationGreaterThan(daysAfterBaseBlobModificationUntilDeleting));
-        this.inner.definition().actions().withBaseBlob(currentBaseBlob);
+        currentBaseBlob.setDelete(new DateAfterModification().setDaysAfterModificationGreaterThan(daysAfterBaseBlobModificationUntilDeleting));
+        this.inner.getDefinition().getActions().setBaseBlob(currentBaseBlob);
         return this;
     }
 
     @Override
-    public PolicyRuleImpl withDeleteActionOnSnapShot(double daysAfterSnapShotCreationUntilDeleting) {
+    public PolicyRuleImpl withDeleteActionOnSnapShot(int daysAfterSnapShotCreationUntilDeleting) {
         ManagementPolicySnapShot currentSnapShot = new ManagementPolicySnapShot();
         if (currentSnapShot == null) {
             currentSnapShot = new ManagementPolicySnapShot();
         }
-        currentSnapShot.withDelete(new DateAfterCreation().withDaysAfterCreationGreaterThan(daysAfterSnapShotCreationUntilDeleting));
-        this.inner.definition().actions().withSnapshot(currentSnapShot);
+        currentSnapShot.setDelete(new DateAfterCreation().setDaysAfterCreationGreaterThan(daysAfterSnapShotCreationUntilDeleting));
+        this.inner.getDefinition().getActions().setSnapshot(currentSnapShot);
         return this;
     }
 
     @Override
     public DefinitionStages.WithPolicyRuleAttachable withActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions) {
-        this.inner.definition().actions().withBaseBlob(baseBlobActions);
+        this.inner.getDefinition().getActions().setBaseBlob(baseBlobActions);
         return this;
     }
 
     @Override
     public DefinitionStages.WithPolicyRuleAttachable withActionsOnSnapShot(ManagementPolicySnapShot snapShotActions) {
-        this.inner.definition().actions().withSnapshot(snapShotActions);
+        this.inner.getDefinition().getActions().setSnapshot(snapShotActions);
         return this;
     }
 
     @Override
     public Update updateActionsOnBaseBlob(ManagementPolicyBaseBlob baseBlobActions) {
-        this.inner.definition().actions().withBaseBlob(baseBlobActions);
+        this.inner.getDefinition().getActions().setBaseBlob(baseBlobActions);
         return this;
     }
 
     @Override
     public Update updateActionsOnSnapShot(ManagementPolicySnapShot snapShotActions) {
-        this.inner.definition().actions().withSnapshot(snapShotActions);
+        this.inner.getDefinition().getActions().setSnapshot(snapShotActions);
         return this;
     }
 
@@ -299,7 +297,7 @@ class PolicyRuleImpl implements
     }
 
     @Override
-    public ManagementPolicy.Update parent() {
+    public ManagementPolicy.Update getParent() {
         this.managementPolicyImpl.defineRule(this);
         return this.managementPolicyImpl;
     }

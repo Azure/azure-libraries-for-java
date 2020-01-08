@@ -1,7 +1,7 @@
 package com.azure.management.storage;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.rest.RestClient;
+import com.azure.management.RestClient;
+import com.azure.management.resources.fluentcore.arm.Region;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -57,13 +57,13 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
         prefixesToFilterFor.add("container1/foo");
 
         //Assert.assertEquals("management-test", managementPolicy.policy().);
-        Assert.assertEquals("rule1", managementPolicy.policy().rules().get(0).name());
-        Assert.assertEquals(blobTypesToFilterFor, managementPolicy.policy().rules().get(0).definition().filters().blobTypes());
-        Assert.assertEquals(prefixesToFilterFor, managementPolicy.policy().rules().get(0).definition().filters().prefixMatch());
-        Assert.assertEquals(30, managementPolicy.policy().rules().get(0).definition().actions().baseBlob().tierToCool().daysAfterModificationGreaterThan(), 0.001);
-        Assert.assertEquals(90, managementPolicy.policy().rules().get(0).definition().actions().baseBlob().tierToArchive().daysAfterModificationGreaterThan(), 0.001);
-        Assert.assertEquals(2555, managementPolicy.policy().rules().get(0).definition().actions().baseBlob().delete().daysAfterModificationGreaterThan(), 0.001);
-        Assert.assertEquals(90, managementPolicy.policy().rules().get(0).definition().actions().snapshot().delete().daysAfterCreationGreaterThan(),0.001);
+        Assert.assertEquals("rule1", managementPolicy.policy().getRules().get(0).getName());
+        Assert.assertEquals(blobTypesToFilterFor, managementPolicy.policy().getRules().get(0).getDefinition().getFilters().getBlobTypes());
+        Assert.assertEquals(prefixesToFilterFor, managementPolicy.policy().getRules().get(0).getDefinition().getFilters().getPrefixMatch());
+        Assert.assertEquals(30, managementPolicy.policy().getRules().get(0).getDefinition().getActions().getBaseBlob().getTierToCool().getDaysAfterModificationGreaterThan(), 0.001);
+        Assert.assertEquals(90, managementPolicy.policy().getRules().get(0).getDefinition().getActions().getBaseBlob().getTierToArchive().getDaysAfterModificationGreaterThan(), 0.001);
+        Assert.assertEquals(2555, managementPolicy.policy().getRules().get(0).getDefinition().getActions().getBaseBlob().getDelete().getDaysAfterModificationGreaterThan(), 0.001);
+        Assert.assertEquals(90, managementPolicy.policy().getRules().get(0).getDefinition().getActions().getSnapshot().getDelete().getDaysAfterCreationGreaterThan(),0.001);
     }
 
     @Test
@@ -153,7 +153,7 @@ public class StorageManagementPoliciesTests extends StorageManagementTest {
                     .withTierToArchiveActionOnBaseBlob(90)
                     .withDeleteActionOnBaseBlob(2555)
                     .withDeleteActionOnSnapShot(90)
-                    .parent()
+                    .getParent()
                 .withoutRule("rule2")
                 .apply();
 

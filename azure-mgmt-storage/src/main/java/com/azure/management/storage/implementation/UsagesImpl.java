@@ -5,20 +5,19 @@
  */
 package com.azure.management.storage.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.azure.management.storage.StorageUsage;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.storage.Usage;
 import com.azure.management.storage.Usages;
-import rx.Observable;
+import com.azure.management.storage.models.UsagesInner;
 
 /**
  * The implementation of {@link Usages}.
  */
-@LangDefinition
-class UsagesImpl extends ReadableWrappersImpl<StorageUsage, UsageImpl, UsageInner>
+class UsagesImpl
         implements
         Usages {
+
     private final StorageManager manager;
 
     UsagesImpl(StorageManager storageManager) {
@@ -26,30 +25,22 @@ class UsagesImpl extends ReadableWrappersImpl<StorageUsage, UsageImpl, UsageInne
     }
 
     @Override
-    public PagedList<StorageUsage> list() {
-        throw new RuntimeException("Storage is no longer supporting usages listing anymore");
-    }
-
-    @Override
-    public Observable<StorageUsage> listAsync() {
-        throw new RuntimeException("Storage is no longer supporting usages listing anymore");
-    }
-
-    @Override
-    protected UsageImpl wrapModel(UsageInner usageInner) {
-        if (usageInner == null) {
-            return null;
-        }
-        return new UsageImpl(usageInner);
-    }
-
-    @Override
-    public UsagesInner inner() {
-        return this.manager.inner().usages();
-    }
-
-    @Override
-    public StorageManager manager() {
+    public StorageManager getManager() {
         return this.manager;
+    }
+
+    @Override
+    public PagedIterable<Usage> list() {
+        return null;
+    }
+
+    @Override
+    public PagedFlux<Usage> listAsync() {
+        return null;
+    }
+
+    @Override
+    public UsagesInner getInner() {
+        return this.getManager().getInner().usages();
     }
 }

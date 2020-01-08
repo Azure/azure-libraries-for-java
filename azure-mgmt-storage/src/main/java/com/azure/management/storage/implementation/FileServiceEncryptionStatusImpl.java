@@ -9,12 +9,10 @@ package com.azure.management.storage.implementation;
 import com.azure.management.storage.EncryptionService;
 import com.azure.management.storage.EncryptionServices;
 import com.azure.management.storage.StorageService;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 /**
  * Implementation of StorageAccountEncryptionStatus for File service.
  */
-@LangDefinition
 class FileServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImpl {
     FileServiceEncryptionStatusImpl(EncryptionServices encryptionServices) {
         super(encryptionServices);
@@ -30,7 +28,7 @@ class FileServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImpl
         if (super.encryptionServices == null) {
             return null;
         } else {
-            return  super.encryptionServices.file();
+            return super.encryptionServices.getFile();
         }
     }
 }

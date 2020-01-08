@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.storage.AzureEntityResource;
 import com.azure.management.storage.ImmutabilityPolicyProperties;
 import com.azure.management.storage.LeaseDuration;
 import com.azure.management.storage.LeaseState;

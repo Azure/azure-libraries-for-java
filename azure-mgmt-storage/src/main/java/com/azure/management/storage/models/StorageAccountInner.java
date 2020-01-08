@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.management.Resource;
 import com.azure.management.storage.AccessTier;
 import com.azure.management.storage.AccountStatus;
 import com.azure.management.storage.CustomDomain;
@@ -19,13 +20,14 @@ import com.azure.management.storage.NetworkRuleSet;
 import com.azure.management.storage.ProvisioningState;
 import com.azure.management.storage.Sku;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.time.OffsetDateTime;
 
 /**
  * The StorageAccount model.
  */
 @Fluent
-public final class StorageAccountInner extends TrackedResource {
+public final class StorageAccountInner extends Resource {
     /*
      * The SKU of the storage account.
      */
@@ -169,7 +171,7 @@ public final class StorageAccountInner extends TrackedResource {
 
     /**
      * Get the sku property: The SKU of the storage account.
-     * 
+     *
      * @return the sku value.
      */
     public Sku getSku() {
@@ -178,7 +180,7 @@ public final class StorageAccountInner extends TrackedResource {
 
     /**
      * Get the kind property: Indicates the type of storage account.
-     * 
+     *
      * @return the kind value.
      */
     public Kind getKind() {
@@ -187,7 +189,7 @@ public final class StorageAccountInner extends TrackedResource {
 
     /**
      * Get the identity property: Identity for the resource.
-     * 
+     *
      * @return the identity value.
      */
     public Identity getIdentity() {
@@ -196,7 +198,7 @@ public final class StorageAccountInner extends TrackedResource {
 
     /**
      * Set the identity property: Identity for the resource.
-     * 
+     *
      * @param identity the identity value to set.
      * @return the StorageAccountInner object itself.
      */
@@ -208,7 +210,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the provisioningState property: Gets the status of the storage
      * account at the time the operation was called.
-     * 
+     *
      * @return the provisioningState value.
      */
     public ProvisioningState getProvisioningState() {
@@ -218,7 +220,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the primaryEndpoints property: The URIs that are used to perform a
      * retrieval of a public blob, queue, table, web or dfs object.
-     * 
+     *
      * @return the primaryEndpoints value.
      */
     public Endpoints getPrimaryEndpoints() {
@@ -228,7 +230,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the primaryLocation property: Gets the location of the primary data
      * center for the storage account.
-     * 
+     *
      * @return the primaryLocation value.
      */
     public String getPrimaryLocation() {
@@ -238,7 +240,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the statusOfPrimary property: Gets the status indicating whether the
      * primary location of the storage account is available or unavailable.
-     * 
+     *
      * @return the statusOfPrimary value.
      */
     public AccountStatus getStatusOfPrimary() {
@@ -251,7 +253,7 @@ public final class StorageAccountInner extends TrackedResource {
      * recent timestamp is retained. This element is not returned if there has
      * never been a failover instance. Only available if the accountType is
      * Standard_GRS or Standard_RAGRS.
-     * 
+     *
      * @return the lastGeoFailoverTime value.
      */
     public OffsetDateTime getLastGeoFailoverTime() {
@@ -262,7 +264,7 @@ public final class StorageAccountInner extends TrackedResource {
      * Get the secondaryLocation property: Gets the location of the
      * geo-replicated secondary for the storage account. Only available if the
      * accountType is Standard_GRS or Standard_RAGRS.
-     * 
+     *
      * @return the secondaryLocation value.
      */
     public String getSecondaryLocation() {
@@ -272,7 +274,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the statusOfSecondary property: Gets the status indicating whether
      * the primary location of the storage account is available or unavailable.
-     * 
+     *
      * @return the statusOfSecondary value.
      */
     public AccountStatus getStatusOfSecondary() {
@@ -282,7 +284,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the creationTime property: Gets the creation date and time of the
      * storage account in UTC.
-     * 
+     *
      * @return the creationTime value.
      */
     public OffsetDateTime getCreationTime() {
@@ -292,7 +294,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the customDomain property: The custom domain assigned to this
      * storage account. This can be set via Update.
-     * 
+     *
      * @return the customDomain value.
      */
     public CustomDomain getCustomDomain() {
@@ -302,7 +304,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the secondaryEndpoints property: The URIs that are used to perform a
      * retrieval of a public blob, queue, table, web or dfs object.
-     * 
+     *
      * @return the secondaryEndpoints value.
      */
     public Endpoints getSecondaryEndpoints() {
@@ -312,7 +314,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the encryption property: The encryption settings on the storage
      * account.
-     * 
+     *
      * @return the encryption value.
      */
     public Encryption getEncryption() {
@@ -322,7 +324,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the accessTier property: Required for storage accounts where kind =
      * BlobStorage. The access tier used for billing.
-     * 
+     *
      * @return the accessTier value.
      */
     public AccessTier getAccessTier() {
@@ -332,7 +334,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the enableAzureFilesAadIntegration property: Enables Azure Files AAD
      * Integration for SMB if sets to true.
-     * 
+     *
      * @return the enableAzureFilesAadIntegration value.
      */
     public Boolean isEnableAzureFilesAadIntegration() {
@@ -342,9 +344,9 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Set the enableAzureFilesAadIntegration property: Enables Azure Files AAD
      * Integration for SMB if sets to true.
-     * 
+     *
      * @param enableAzureFilesAadIntegration the enableAzureFilesAadIntegration
-     * value to set.
+     *                                       value to set.
      * @return the StorageAccountInner object itself.
      */
     public StorageAccountInner setEnableAzureFilesAadIntegration(Boolean enableAzureFilesAadIntegration) {
@@ -355,7 +357,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the enableHttpsTrafficOnly property: Allows https traffic only to
      * storage service if sets to true.
-     * 
+     *
      * @return the enableHttpsTrafficOnly value.
      */
     public Boolean isEnableHttpsTrafficOnly() {
@@ -365,7 +367,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Set the enableHttpsTrafficOnly property: Allows https traffic only to
      * storage service if sets to true.
-     * 
+     *
      * @param enableHttpsTrafficOnly the enableHttpsTrafficOnly value to set.
      * @return the StorageAccountInner object itself.
      */
@@ -376,7 +378,7 @@ public final class StorageAccountInner extends TrackedResource {
 
     /**
      * Get the networkRuleSet property: Network rule set.
-     * 
+     *
      * @return the networkRuleSet value.
      */
     public NetworkRuleSet getNetworkRuleSet() {
@@ -386,7 +388,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the isHnsEnabled property: Account HierarchicalNamespace enabled if
      * sets to true.
-     * 
+     *
      * @return the isHnsEnabled value.
      */
     public Boolean isHnsEnabled() {
@@ -396,7 +398,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Set the isHnsEnabled property: Account HierarchicalNamespace enabled if
      * sets to true.
-     * 
+     *
      * @param isHnsEnabled the isHnsEnabled value to set.
      * @return the StorageAccountInner object itself.
      */
@@ -410,7 +412,7 @@ public final class StorageAccountInner extends TrackedResource {
      * for storage account's Blob, Table, Queue and File services. It is only
      * available when geo-redundant replication is enabled for the storage
      * account.
-     * 
+     *
      * @return the geoReplicationStats value.
      */
     public GeoReplicationStats getGeoReplicationStats() {
@@ -420,7 +422,7 @@ public final class StorageAccountInner extends TrackedResource {
     /**
      * Get the failoverInProgress property: If the failover is in progress, the
      * value will be true, otherwise, it will be null.
-     * 
+     *
      * @return the failoverInProgress value.
      */
     public Boolean isFailoverInProgress() {

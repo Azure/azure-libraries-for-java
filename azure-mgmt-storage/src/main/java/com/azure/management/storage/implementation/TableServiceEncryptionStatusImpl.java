@@ -6,7 +6,6 @@
 
 package com.azure.management.storage.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.storage.EncryptionService;
 import com.azure.management.storage.EncryptionServices;
 import com.azure.management.storage.StorageService;
@@ -14,7 +13,6 @@ import com.azure.management.storage.StorageService;
 /**
  * Implementation of StorageAccountEncryptionStatus for Table service.
  */
-@LangDefinition
 class TableServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImpl {
     TableServiceEncryptionStatusImpl(EncryptionServices encryptionServices) {
         super(encryptionServices);
@@ -30,7 +28,7 @@ class TableServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImp
         if (super.encryptionServices == null) {
             return null;
         } else {
-            return  super.encryptionServices.table();
+            return  super.encryptionServices.getTable();
         }
     }
 }

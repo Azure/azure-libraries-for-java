@@ -6,17 +6,16 @@
 
 package com.azure.management.storage.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.storage.EncryptionService;
 import com.azure.management.storage.EncryptionServices;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * Shared implementation of StorageAccountEncryptionStatus.
  */
-@LangDefinition
-public abstract class StorageAccountEncryptionStatusImpl implements StorageAccountEncryptionStatus  {
+public abstract class StorageAccountEncryptionStatusImpl implements StorageAccountEncryptionStatus {
     protected final EncryptionServices encryptionServices;
 
     protected StorageAccountEncryptionStatusImpl(EncryptionServices encryptionServices) {
@@ -28,20 +27,20 @@ public abstract class StorageAccountEncryptionStatusImpl implements StorageAccou
         EncryptionService encryptionService = this.encryptionService();
         if (encryptionService == null) {
             return false;
-        } else if (encryptionService.enabled() != null) {
-            return encryptionService.enabled();
+        } else if (encryptionService.isEnabled() != null) {
+            return encryptionService.isEnabled();
         } else {
             return false;
         }
     }
 
     @Override
-    public DateTime lastEnabledTime() {
+    public OffsetDateTime lastEnabledTime() {
         EncryptionService encryptionService = this.encryptionService();
         if (encryptionService == null) {
             return null;
         } else {
-            return encryptionService.lastEnabledTime();
+            return encryptionService.getLastEnabledTime();
         }
     }
 

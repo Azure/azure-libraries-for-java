@@ -6,20 +6,16 @@
 
 package com.azure.management.storage.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.azure.management.storage.StorageSku;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.storage.Sku;
 import com.azure.management.storage.StorageSkus;
-import rx.Observable;
+import com.azure.management.storage.models.SkusInner;
 
 /**
  * The implementation for {@link StorageSkus}.
  */
-@LangDefinition
 class StorageSkusImpl
-        extends
-        ReadableWrappersImpl<StorageSku, StorageSkuImpl, SkuInformationInner>
         implements
         StorageSkus {
 
@@ -30,27 +26,22 @@ class StorageSkusImpl
     }
 
     @Override
-    protected StorageSkuImpl wrapModel(SkuInformationInner inner) {
-        return new StorageSkuImpl(inner);
-    }
-
-    @Override
-    public PagedList<StorageSku> list() {
-        return wrapList(this.inner().list());
-    }
-
-    @Override
-    public Observable<StorageSku> listAsync() {
-        return wrapPageAsync(this.inner().listAsync());
-    }
-
-    @Override
-    public SkusInner inner() {
-        return this.manager.inner().skus();
-    }
-
-    @Override
-    public StorageManager manager() {
+    public StorageManager getManager() {
         return this.manager;
+    }
+
+    @Override
+    public PagedIterable<Sku> list() {
+        return this.getInner().list();
+    }
+
+    @Override
+    public PagedFlux<Sku> listAsync() {
+        return this.getInner().listAsync();
+    }
+
+    @Override
+    public SkusInner getInner() {
+        return this.getInner();
     }
 }

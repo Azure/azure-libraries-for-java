@@ -9,12 +9,10 @@ package com.azure.management.storage.implementation;
 import com.azure.management.storage.EncryptionService;
 import com.azure.management.storage.EncryptionServices;
 import com.azure.management.storage.StorageService;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 /**
  * Implementation of StorageAccountEncryptionStatus for Blob service.
  */
-@LangDefinition
 class BlobServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImpl {
     BlobServiceEncryptionStatusImpl(EncryptionServices encryptionServices) {
         super(encryptionServices);
@@ -30,7 +28,7 @@ class BlobServiceEncryptionStatusImpl extends StorageAccountEncryptionStatusImpl
         if (super.encryptionServices == null) {
             return null;
         } else {
-            return  super.encryptionServices.blob();
+            return super.encryptionServices.getBlob();
         }
     }
 }

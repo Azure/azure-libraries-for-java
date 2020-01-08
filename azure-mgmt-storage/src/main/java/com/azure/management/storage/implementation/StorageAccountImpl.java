@@ -6,17 +6,13 @@
 
 package com.azure.management.storage.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.storage.AccessTier;
-import com.azure.management.storage.AzureFilesIdentityBasedAuthentication;
 import com.azure.management.storage.CustomDomain;
-import com.azure.management.storage.DirectoryServiceOptions;
 import com.azure.management.storage.Encryption;
 import com.azure.management.storage.Identity;
 import com.azure.management.storage.Kind;
-import com.azure.management.storage.LargeFileSharesState;
 import com.azure.management.storage.ProvisioningState;
 import com.azure.management.storage.PublicEndpoints;
 import com.azure.management.storage.Sku;
@@ -26,23 +22,22 @@ import com.azure.management.storage.StorageAccountCreateParameters;
 import com.azure.management.storage.StorageAccountEncryptionKeySource;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
 import com.azure.management.storage.StorageAccountKey;
+import com.azure.management.storage.StorageAccountRegenerateKeyParameters;
 import com.azure.management.storage.StorageAccountSkuType;
 import com.azure.management.storage.StorageAccountUpdateParameters;
 import com.azure.management.storage.StorageService;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
+import com.azure.management.storage.models.StorageAccountInner;
+import com.azure.management.storage.models.StorageAccountsInner;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 
 /**
  * Implementation for {@link StorageAccount}.
  */
-@LangDefinition
 class StorageAccountImpl
         extends GroupableResourceImpl<
         StorageAccount,
@@ -73,7 +68,7 @@ class StorageAccountImpl
     @Override
     public AccountStatuses accountStatuses() {
         if (accountStatuses == null) {
-            accountStatuses = new AccountStatuses(this.inner().statusOfPrimary(), this.inner().statusOfSecondary());
+            accountStatuses = new AccountStatuses(this.getInner().getStatusOfPrimary(), this.getInner().getStatusOfSecondary());
         }
         return accountStatuses;
     }
@@ -81,7 +76,7 @@ class StorageAccountImpl
     @Override
     @Deprecated
     public Sku sku() {
-        return new Sku().withName(this.inner().sku().name());
+        return new Sku().setName(this.getInner().getSku().getName());
     }
 
     @Override
@@ -89,38 +84,38 @@ class StorageAccountImpl
         // We deprecated the sku() getter. When we remove it we wanted to rename this
         // 'beta' getter skuType() to sku().
         //
-        return StorageAccountSkuType.fromSkuName(this.inner().sku().name());
+        return StorageAccountSkuType.fromSkuName(this.getInner().getSku().getName());
     }
 
     @Override
     public Kind kind() {
-        return inner().kind();
+        return getInner().getKind();
     }
 
     @Override
-    public DateTime creationTime() {
-        return this.inner().creationTime();
+    public OffsetDateTime creationTime() {
+        return this.getInner().getCreationTime();
     }
 
     @Override
     public CustomDomain customDomain() {
-        return this.inner().customDomain();
+        return this.getInner().getCustomDomain();
     }
 
     @Override
-    public DateTime lastGeoFailoverTime() {
-        return this.inner().lastGeoFailoverTime();
+    public OffsetDateTime lastGeoFailoverTime() {
+        return this.getInner().getLastGeoFailoverTime();
     }
 
     @Override
     public ProvisioningState provisioningState() {
-        return this.inner().provisioningState();
+        return this.getInner().getProvisioningState();
     }
 
     @Override
     public PublicEndpoints endPoints() {
         if (publicEndpoints == null) {
-            publicEndpoints = new PublicEndpoints(this.inner().primaryEndpoints(), this.inner().secondaryEndpoints());
+            publicEndpoints = new PublicEndpoints(this.getInner().getPrimaryEndpoints(), this.getInner().getSecondaryEndpoints());
         }
         return publicEndpoints;
     }
@@ -128,150 +123,132 @@ class StorageAccountImpl
     @Override
     @Deprecated
     public Encryption encryption() {
-        return inner().encryption();
+        return getInner().getEncryption();
     }
 
     @Override
     public StorageAccountEncryptionKeySource encryptionKeySource() {
-        return StorageEncryptionHelper.encryptionKeySource(this.inner());
+        return StorageEncryptionHelper.encryptionKeySource(this.getInner());
     }
 
     @Override
     public Map<StorageService, StorageAccountEncryptionStatus> encryptionStatuses() {
-        return StorageEncryptionHelper.encryptionStatuses(this.inner());
+        return StorageEncryptionHelper.encryptionStatuses(this.getInner());
     }
 
     @Override
     public AccessTier accessTier() {
-        return inner().accessTier();
+        return getInner().getAccessTier();
     }
 
     @Override
     public String systemAssignedManagedServiceIdentityTenantId() {
-        if (this.inner().identity() == null) {
+        if (this.getInner().getIdentity() == null) {
             return null;
         } else {
-            return this.inner().identity().tenantId();
+            return this.getInner().getIdentity().getTenantId();
         }
     }
 
     @Override
     public String systemAssignedManagedServiceIdentityPrincipalId() {
-        if (this.inner().identity() == null) {
+        if (this.getInner().getIdentity() == null) {
             return null;
         } else {
-            return this.inner().identity().principalId();
+            return this.getInner().getIdentity().getPrincipalId();
         }
     }
 
     @Override
     public boolean isAccessAllowedFromAllNetworks() {
-        return StorageNetworkRulesHelper.isAccessAllowedFromAllNetworks(this.inner());
+        return StorageNetworkRulesHelper.isAccessAllowedFromAllNetworks(this.getInner());
     }
 
     @Override
     public List<String> networkSubnetsWithAccess() {
-        return StorageNetworkRulesHelper.networkSubnetsWithAccess(this.inner());
+        return StorageNetworkRulesHelper.networkSubnetsWithAccess(this.getInner());
     }
 
     @Override
     public List<String> ipAddressesWithAccess() {
-        return StorageNetworkRulesHelper.ipAddressesWithAccess(this.inner());
+        return StorageNetworkRulesHelper.ipAddressesWithAccess(this.getInner());
     }
 
     @Override
     public List<String> ipAddressRangesWithAccess() {
-        return StorageNetworkRulesHelper.ipAddressRangesWithAccess(this.inner());
+        return StorageNetworkRulesHelper.ipAddressRangesWithAccess(this.getInner());
     }
 
     @Override
     public boolean canReadLogEntriesFromAnyNetwork() {
-        return StorageNetworkRulesHelper.canReadLogEntriesFromAnyNetwork(this.inner());
+        return StorageNetworkRulesHelper.canReadLogEntriesFromAnyNetwork(this.getInner());
     }
 
     @Override
     public boolean canReadMetricsFromAnyNetwork() {
-        return StorageNetworkRulesHelper.canReadMetricsFromAnyNetwork(this.inner());
+        return StorageNetworkRulesHelper.canReadMetricsFromAnyNetwork(this.getInner());
     }
 
     @Override
     public boolean canAccessFromAzureServices() {
-        return StorageNetworkRulesHelper.canAccessFromAzureServices(this.inner());
+        return StorageNetworkRulesHelper.canAccessFromAzureServices(this.getInner());
     }
 
     @Override
     public boolean isAzureFilesAadIntegrationEnabled() {
-        return this.inner().azureFilesIdentityBasedAuthentication() != null
-                && this.inner().azureFilesIdentityBasedAuthentication().directoryServiceOptions() == DirectoryServiceOptions.AADDS;
+        // FIXME: Update the storage API version
+        return true;
+//        return this.getInner().azureFilesIdentityBasedAuthentication() != null
+//                && this.getInner().azureFilesIdentityBasedAuthentication().directoryServiceOptions() == DirectoryServiceOptions.AADDS;
     }
 
     @Override
     public boolean isHnsEnabled() {
-        return Utils.toPrimitiveBoolean(this.inner().isHnsEnabled());
+        return Utils.toPrimitiveBoolean(this.getInner().isHnsEnabled());
     }
 
-    @Override
-    public boolean isLargeFileSharesEnabled() {
-        return this.inner().largeFileSharesState() == LargeFileSharesState.ENABLED;
-    }
+//    @Override
+//    public boolean isLargeFileSharesEnabled() {
+//        return this.getInner().largeFileSharesState() == LargeFileSharesState.ENABLED;
+//    }
 
     @Override
     public List<StorageAccountKey> getKeys() {
-        return this.getKeysAsync().toBlocking().last();
+        return this.getKeysAsync().block();
     }
 
     @Override
-    public Observable<List<StorageAccountKey>> getKeysAsync() {
-        return this.manager().inner().storageAccounts().listKeysAsync(
-                this.resourceGroupName(), this.name()).map(new Func1<StorageAccountListKeysResultInner, List<StorageAccountKey>>() {
-            @Override
-            public List<StorageAccountKey> call(StorageAccountListKeysResultInner storageAccountListKeysResultInner) {
-                return storageAccountListKeysResultInner.keys();
-            }
-        });
+    public Mono<List<StorageAccountKey>> getKeysAsync() {
+        return this.getManager().getInner().storageAccounts().listKeysAsync(this.getResourceGroupName(), this.getName())
+                .map(storageAccountListKeysResultInner -> storageAccountListKeysResultInner.getKeys());
     }
 
-    @Override
-    public ServiceFuture<List<StorageAccountKey>> getKeysAsync(ServiceCallback<List<StorageAccountKey>> callback) {
-        return ServiceFuture.fromBody(this.getKeysAsync(), callback);
-    }
 
     @Override
     public List<StorageAccountKey> regenerateKey(String keyName) {
-        return this.regenerateKeyAsync(keyName).toBlocking().last();
+        return this.regenerateKeyAsync(keyName).block();
     }
 
     @Override
-    public Observable<List<StorageAccountKey>> regenerateKeyAsync(String keyName) {
-        return this.manager().inner().storageAccounts().regenerateKeyAsync(
-                this.resourceGroupName(), this.name(), keyName).map(new Func1<StorageAccountListKeysResultInner, List<StorageAccountKey>>() {
-            @Override
-            public List<StorageAccountKey> call(StorageAccountListKeysResultInner storageAccountListKeysResultInner) {
-                return storageAccountListKeysResultInner.keys();
-            }
+    public Mono<List<StorageAccountKey>> regenerateKeyAsync(String keyName) {
+        StorageAccountRegenerateKeyParameters parameters = new StorageAccountRegenerateKeyParameters().setKeyName(keyName);
+        return this.getManager().getInner().storageAccounts().regenerateKeyAsync(this.getResourceGroupName(), this.getName(), parameters)
+                .map(storageAccountListKeysResultInner -> storageAccountListKeysResultInner.getKeys());
+    }
+
+    @Override
+    public Mono<StorageAccount> refreshAsync() {
+        return super.refreshAsync().map(storageAccount -> {
+            StorageAccountImpl impl = (StorageAccountImpl) storageAccount;
+            impl.clearWrapperProperties();
+            return impl;
         });
     }
 
     @Override
-    public ServiceFuture<List<StorageAccountKey>> regenerateKeyAsync(String keyName, ServiceCallback<List<StorageAccountKey>> callback) {
-        return ServiceFuture.fromBody(this.regenerateKeyAsync(keyName), callback);
-    }
-
-    @Override
-    public Observable<StorageAccount> refreshAsync() {
-        return super.refreshAsync().map(new Func1<StorageAccount, StorageAccount>() {
-            @Override
-            public StorageAccount call(StorageAccount storageAccount) {
-                StorageAccountImpl impl = (StorageAccountImpl) storageAccount;
-                impl.clearWrapperProperties();
-                return impl;
-            }
-        });
-    }
-
-    @Override
-    protected Observable<StorageAccountInner> getInnerAsync() {
-        return this.manager().inner().storageAccounts().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    protected Mono<StorageAccountInner> getInnerAsync() {
+        // FIXME: Double check the API
+        return this.getManager().getInner().storageAccounts().getPropertiesAsync(this.getResourceGroupName(), this.getName());
     }
 
     @Override
@@ -283,40 +260,40 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl withSku(StorageAccountSkuType sku) {
         if (isInCreateMode()) {
-            createParameters.withSku(new SkuInner().withName(sku.name()));
+            createParameters.setSku(new Sku().setName(sku.name()));
         } else {
-            updateParameters.withSku(new SkuInner().withName(sku.name()));
+            updateParameters.setSku(new Sku().setName(sku.name()));
         }
         return this;
     }
 
     @Override
     public StorageAccountImpl withBlobStorageAccountKind() {
-        createParameters.withKind(Kind.BLOB_STORAGE);
+        createParameters.setKind(Kind.BLOB_STORAGE);
         return this;
     }
 
     @Override
     public StorageAccountImpl withGeneralPurposeAccountKind() {
-        createParameters.withKind(Kind.STORAGE);
+        createParameters.setKind(Kind.STORAGE);
         return this;
     }
 
     @Override
     public StorageAccountImpl withGeneralPurposeAccountKindV2() {
-        createParameters.withKind(Kind.STORAGE_V2);
+        createParameters.setKind(Kind.STORAGE_V2);
         return this;
     }
 
     @Override
     public StorageAccountImpl withBlockBlobStorageAccountKind() {
-        createParameters.withKind(Kind.BLOCK_BLOB_STORAGE);
+        createParameters.setKind(Kind.BLOCK_BLOB_STORAGE);
         return this;
     }
 
     @Override
     public StorageAccountImpl withFileStorageAccountKind() {
-        createParameters.withKind(Kind.FILE_STORAGE);
+        createParameters.setKind(Kind.FILE_STORAGE);
         return this;
     }
 
@@ -371,51 +348,51 @@ class StorageAccountImpl
     public StorageAccountImpl update() {
         createParameters = null;
         updateParameters = new StorageAccountUpdateParameters();
-        this.networkRulesHelper = new StorageNetworkRulesHelper(this.updateParameters, this.inner());
-        this.encryptionHelper = new StorageEncryptionHelper(this.updateParameters, this.inner());
+        this.networkRulesHelper = new StorageNetworkRulesHelper(this.updateParameters, this.getInner());
+        this.encryptionHelper = new StorageEncryptionHelper(this.updateParameters, this.getInner());
         return super.update();
     }
 
     @Override
     public StorageAccountImpl withCustomDomain(CustomDomain customDomain) {
         if (isInCreateMode()) {
-            createParameters.withCustomDomain(customDomain);
+            createParameters.setCustomDomain(customDomain);
         } else {
-            updateParameters.withCustomDomain(customDomain);
+            updateParameters.setCustomDomain(customDomain);
         }
         return this;
     }
 
     @Override
     public StorageAccountImpl withCustomDomain(String name) {
-        return withCustomDomain(new CustomDomain().withName(name));
+        return withCustomDomain(new CustomDomain().setName(name));
     }
 
     @Override
     public StorageAccountImpl withCustomDomain(String name, boolean useSubDomain) {
-        return withCustomDomain(new CustomDomain().withName(name).withUseSubDomainName(useSubDomain));
+        return withCustomDomain(new CustomDomain().setName(name).setUseSubDomainName(useSubDomain));
     }
 
     @Override
     public StorageAccountImpl withAccessTier(AccessTier accessTier) {
         if (isInCreateMode()) {
-            createParameters.withAccessTier(accessTier);
+            createParameters.setAccessTier(accessTier);
         } else {
-            if (this.inner().kind() != Kind.BLOB_STORAGE) {
+            if (this.getInner().getKind() != Kind.BLOB_STORAGE) {
                 throw new UnsupportedOperationException("Access tier can not be changed for general purpose storage accounts.");
             }
-            updateParameters.withAccessTier(accessTier);
+            updateParameters.setAccessTier(accessTier);
         }
         return this;
     }
 
     @Override
     public StorageAccountImpl withSystemAssignedManagedServiceIdentity() {
-        if (this.inner().identity() == null) {
+        if (this.getInner().getIdentity() == null) {
             if (isInCreateMode()) {
-                createParameters.withIdentity(new Identity().withType("SystemAssigned"));
+                createParameters.setIdentity(new Identity().setType("SystemAssigned"));
             } else {
-                updateParameters.withIdentity(new Identity().withType("SystemAssigned"));
+                updateParameters.setIdentity(new Identity().setType("SystemAssigned"));
             }
         }
         return this;
@@ -424,16 +401,16 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl withOnlyHttpsTraffic() {
         if (isInCreateMode()) {
-            createParameters.withEnableHttpsTrafficOnly(true);
+            createParameters.setEnableHttpsTrafficOnly(true);
         } else {
-            updateParameters.withEnableHttpsTrafficOnly(true);
+            updateParameters.setEnableHttpsTrafficOnly(true);
         }
         return this;
     }
 
     @Override
     public StorageAccountImpl withHttpAndHttpsTraffic() {
-        updateParameters.withEnableHttpsTrafficOnly(false);
+        updateParameters.setEnableHttpsTrafficOnly(false);
         return this;
     }
 
@@ -524,83 +501,70 @@ class StorageAccountImpl
 
     @Override
     public Update upgradeToGeneralPurposeAccountKindV2() {
-        updateParameters.withKind(Kind.STORAGE_V2);
+        updateParameters.setKind(Kind.STORAGE_V2);
         return this;
     }
 
     // CreateUpdateTaskGroup.ResourceCreator implementation
     @Override
-    public Observable<StorageAccount> createResourceAsync() {
+    public Mono<StorageAccount> createResourceAsync() {
         this.networkRulesHelper.setDefaultActionIfRequired();
-        createParameters.withLocation(this.regionName());
-        createParameters.withTags(this.inner().getTags());
-        final StorageAccountsInner client = this.manager().inner().storageAccounts();
-        return this.manager().inner().storageAccounts().createAsync(
-                this.resourceGroupName(), this.name(), createParameters)
-                .flatMap(new Func1<StorageAccountInner, Observable<StorageAccountInner>>() {
-                    @Override
-                    public Observable<StorageAccountInner> call(StorageAccountInner storageAccountInner) {
-                        return client.getByResourceGroupAsync(resourceGroupName(), name());
-                    }
-                })
-                .map(innerToFluentMap(this))
-                .doOnNext(new Action1<StorageAccount>() {
-                    @Override
-                    public void call(StorageAccount storageAccount) {
-                        clearWrapperProperties();
-                    }
-                });
+        createParameters.setLocation(this.getRegionName());
+        createParameters.setTags(this.getInner().getTags());
+        final StorageAccountsInner client = this.getManager().getInner().storageAccounts();
+        return this.getManager().getInner().storageAccounts().createAsync(
+                this.getResourceGroupName(), this.getName(), createParameters)
+                // FIXME: Double check the method calling
+                .flatMap(storageAccountInner -> client.getPropertiesAsync(getResourceGroupName(), getName())
+                        .map(innerToFluentMap(this))
+                        .doOnNext(storageAccount -> clearWrapperProperties()));
     }
 
     @Override
-    public Observable<StorageAccount> updateResourceAsync() {
+    public Mono<StorageAccount> updateResourceAsync() {
         this.networkRulesHelper.setDefaultActionIfRequired();
-        updateParameters.withTags(this.inner().getTags());
-        return this.manager().inner().storageAccounts().updateAsync(
-                resourceGroupName(), name(), updateParameters)
+        updateParameters.setTags(this.getInner().getTags());
+        return this.getManager().getInner().storageAccounts().updateAsync(
+                getResourceGroupName(), getName(), updateParameters)
                 .map(innerToFluentMap(this))
-                .doOnNext(new Action1<StorageAccount>() {
-                    @Override
-                    public void call(StorageAccount storageAccount) {
-                        clearWrapperProperties();
-                    }
-                });
+                .doOnNext(storageAccount -> clearWrapperProperties());
     }
 
     @Override
     public StorageAccountImpl withAzureFilesAadIntegrationEnabled(boolean enabled) {
-        if (isInCreateMode()) {
-            if (enabled) {
-                this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS));
-            }
-        } else {
-            if (this.createParameters.azureFilesIdentityBasedAuthentication() == null) {
-                this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication());
-            }
-            if (enabled) {
-                this.updateParameters.azureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS);
-            } else {
-                this.updateParameters.azureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.NONE);
-            }
-        }
+        // FIXME: Update storage API version.
+//        if (isInCreateMode()) {
+//            if (enabled) {
+//                this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS));
+//            }
+//        } else {
+//            if (this.createParameters.azureFilesIdentityBasedAuthentication() == null) {
+//                this.createParameters.withAzureFilesIdentityBasedAuthentication(new AzureFilesIdentityBasedAuthentication());
+//            }
+//            if (enabled) {
+//                this.updateParameters.azureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.AADDS);
+//            } else {
+//                this.updateParameters.azureFilesIdentityBasedAuthentication().withDirectoryServiceOptions(DirectoryServiceOptions.NONE);
+//            }
+//        }
         return this;
     }
 
-    @Override
-    public StorageAccountImpl withLargeFileShares(boolean enabled) {
-        if (isInCreateMode()) {
-            if (enabled) {
-                this.createParameters.withLargeFileSharesState(LargeFileSharesState.ENABLED);
-            } else {
-                this.createParameters.withLargeFileSharesState(LargeFileSharesState.DISABLED);
-            }
-        }
-        return this;
-    }
+//    @Override
+//    public StorageAccountImpl withLargeFileShares(boolean enabled) {
+//        if (isInCreateMode()) {
+//            if (enabled) {
+//                this.createParameters.withLargeFileSharesState(LargeFileSharesState.ENABLED);
+//            } else {
+//                this.createParameters.withLargeFileSharesState(LargeFileSharesState.DISABLED);
+//            }
+//        }
+//        return this;
+//    }
 
     @Override
     public StorageAccountImpl withHnsEnabled(boolean enabled) {
-        this.createParameters.withIsHnsEnabled(enabled);
+        this.createParameters.setIsHnsEnabled(enabled);
         return this;
     }
 }

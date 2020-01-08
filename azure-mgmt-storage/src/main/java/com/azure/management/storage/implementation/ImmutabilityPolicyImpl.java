@@ -6,14 +6,16 @@
 
 package com.azure.management.storage.implementation;
 
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.storage.ImmutabilityPolicy;
 import com.azure.management.storage.ImmutabilityPolicyState;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import rx.Observable;
+import com.azure.management.storage.models.BlobContainersInner;
+import com.azure.management.storage.models.ImmutabilityPolicyInner;
+import reactor.core.publisher.Mono;
 
-@LangDefinition
-class ImmutabilityPolicyImpl extends CreatableUpdatableImpl<ImmutabilityPolicy, ImmutabilityPolicyInner, ImmutabilityPolicyImpl> implements ImmutabilityPolicy, ImmutabilityPolicy.Definition, ImmutabilityPolicy.Update {
+class ImmutabilityPolicyImpl
+        extends CreatableUpdatableImpl<ImmutabilityPolicy, ImmutabilityPolicyInner, ImmutabilityPolicyImpl>
+        implements ImmutabilityPolicy, ImmutabilityPolicy.Definition, ImmutabilityPolicy.Update {
     private final StorageManager manager;
     private String resourceGroupName;
     private String accountName;
@@ -32,76 +34,80 @@ class ImmutabilityPolicyImpl extends CreatableUpdatableImpl<ImmutabilityPolicy, 
     }
 
     ImmutabilityPolicyImpl(ImmutabilityPolicyInner inner, StorageManager manager) {
-        super(inner.name(), inner);
+        super(inner.getName(), inner);
         this.manager = manager;
         // Set resource name
-        this.containerName = inner.name();
+        this.containerName = inner.getName();
         // set resource ancestor and positional variables
-        this.resourceGroupName = IdParsingUtils.getValueFromIdByName(inner.id(), "resourceGroups");
-        this.accountName = IdParsingUtils.getValueFromIdByName(inner.id(), "storageAccounts");
-        this.containerName = IdParsingUtils.getValueFromIdByName(inner.id(), "containers");
+        this.resourceGroupName = IdParsingUtils.getValueFromIdByName(inner.getId(), "resourceGroups");
+        this.accountName = IdParsingUtils.getValueFromIdByName(inner.getId(), "storageAccounts");
+        this.containerName = IdParsingUtils.getValueFromIdByName(inner.getId(), "containers");
         //
     }
 
     @Override
-    public StorageManager manager() {
+    public StorageManager getManager() {
         return this.manager;
     }
 
     @Override
-    public Observable<ImmutabilityPolicy> createResourceAsync() {
-        BlobContainersInner client = this.manager().inner().blobContainers();
-        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.cimmutabilityPeriodSinceCreationInDays, this.cifMatch)
+    public Mono<ImmutabilityPolicy> createResourceAsync() {
+        BlobContainersInner client = this.getManager().getInner().blobContainers();
+        ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
+        inner.setImmutabilityPeriodSinceCreationInDays(this.uimmutabilityPeriodSinceCreationInDays);
+        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.cifMatch, inner)
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    public Observable<ImmutabilityPolicy> updateResourceAsync() {
-        BlobContainersInner client = this.manager().inner().blobContainers();
-        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uimmutabilityPeriodSinceCreationInDays, this.uifMatch)
+    public Mono<ImmutabilityPolicy> updateResourceAsync() {
+        BlobContainersInner client = this.getManager().getInner().blobContainers();
+        ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
+        inner.setImmutabilityPeriodSinceCreationInDays(this.uimmutabilityPeriodSinceCreationInDays);
+        return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uifMatch, inner)
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<ImmutabilityPolicyInner> getInnerAsync() {
-        BlobContainersInner client = this.manager().inner().blobContainers();
-        return client.getImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName);
+    protected Mono<ImmutabilityPolicyInner> getInnerAsync() {
+        BlobContainersInner client = this.getManager().getInner().blobContainers();
+        return client.getImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.uifMatch);
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.getInner().getId() == null;
     }
 
 
     @Override
     public String etag() {
-        return this.inner().etag();
+        return this.getInner().getEtag();
     }
 
     @Override
     public String id() {
-        return this.inner().id();
+        return this.getInner().getId();
     }
 
     @Override
     public int immutabilityPeriodSinceCreationInDays() {
-        return this.inner().immutabilityPeriodSinceCreationInDays();
+        return this.getInner().getImmutabilityPeriodSinceCreationInDays();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.getInner().getName();
     }
 
     @Override
     public ImmutabilityPolicyState state() {
-        return this.inner().state();
+        return this.getInner().getState();
     }
 
     @Override
     public String type() {
-        return this.inner().type();
+        return this.getInner().getType();
     }
 
     @Override

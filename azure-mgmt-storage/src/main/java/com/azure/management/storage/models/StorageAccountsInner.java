@@ -29,6 +29,9 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import com.azure.management.storage.AccountSasParameters;
 import com.azure.management.storage.ServiceSasParameters;
 import com.azure.management.storage.StorageAccountCheckNameAvailabilityParameters;
@@ -41,7 +44,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * StorageAccounts.
  */
-public final class StorageAccountsInner {
+public final class StorageAccountsInner implements InnerSupportsGet<StorageAccountInner>, InnerSupportsDelete<Void>, InnerSupportsListing<StorageAccountInner> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -60,6 +63,17 @@ public final class StorageAccountsInner {
     public StorageAccountsInner(StorageManagementClientImpl client) {
         this.service = RestProxy.create(StorageAccountsService.class, client.getHttpPipeline());
         this.client = client;
+    }
+
+    // FIXME: Need this two methods auto-generated.
+    @Override
+    public StorageAccountInner getByResourceGroup(String resourceGroupName, String resourceName) {
+        return null;
+    }
+
+    @Override
+    public Mono<StorageAccountInner> getByResourceGroupAsync(String resourceGroupName, String resourceName) {
+        return null;
     }
 
     /**

@@ -188,7 +188,7 @@ public class RuntimeStack {
     }
 
     /**
-     * List the pre-defined app service runtime stacks.
+     * Lists the pre-defined app service runtime stacks.
      *
      * @return immutable collection of the pre-defined app service runtime stacks
      */

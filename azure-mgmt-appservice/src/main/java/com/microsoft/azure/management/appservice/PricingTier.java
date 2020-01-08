@@ -89,7 +89,7 @@ public final class PricingTier {
     }
 
     /**
-     * List the pre-defined app service pricing tiers.
+     * Lists the pre-defined app service pricing tiers.
      *
      * @return immutable collection of the pre-defined app service pricing tiers
      */

@@ -34,4 +34,8 @@
   
   - ResourceManagerClientImpl & SubscriptionClientImpl both have OperationsInner
   
+ 
+ ## Storage 
+  - StorageAccountsInner: Should support listing
+  
   

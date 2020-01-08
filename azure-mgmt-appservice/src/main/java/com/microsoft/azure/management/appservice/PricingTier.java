@@ -9,52 +9,56 @@ package com.microsoft.azure.management.appservice;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.microsoft.azure.management.apigeneration.Fluent;
 
+import java.util.Collection;
+
 /**
  * Defines App service pricing tiers.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 public final class PricingTier {
+    private static final AttributeEnumCollection<PricingTier> ENUM_COLLECTION = new AttributeEnumCollection<>();
+
     /** Basic pricing tier with a small size. */
-    public static final PricingTier BASIC_B1 = new PricingTier("Basic", "B1");
+    public static final PricingTier BASIC_B1 = ENUM_COLLECTION.addValue(new PricingTier("Basic", "B1"));
 
     /** Basic pricing tier with a medium size. */
-    public static final PricingTier BASIC_B2 = new PricingTier("Basic", "B2");
+    public static final PricingTier BASIC_B2 = ENUM_COLLECTION.addValue(new PricingTier("Basic", "B2"));
 
     /** Basic pricing tier with a large size. */
-    public static final PricingTier BASIC_B3 = new PricingTier("Basic", "B3");
+    public static final PricingTier BASIC_B3 = ENUM_COLLECTION.addValue(new PricingTier("Basic", "B3"));
 
     /** Standard pricing tier with a small size. */
-    public static final PricingTier STANDARD_S1 = new PricingTier("Standard", "S1");
+    public static final PricingTier STANDARD_S1 = ENUM_COLLECTION.addValue(new PricingTier("Standard", "S1"));
 
     /** Standard pricing tier with a medium size. */
-    public static final PricingTier STANDARD_S2 = new PricingTier("Standard", "S2");
+    public static final PricingTier STANDARD_S2 = ENUM_COLLECTION.addValue(new PricingTier("Standard", "S2"));
 
     /** Standard pricing tier with a large size. */
-    public static final PricingTier STANDARD_S3 = new PricingTier("Standard", "S3");
+    public static final PricingTier STANDARD_S3 = ENUM_COLLECTION.addValue(new PricingTier("Standard", "S3"));
 
     /** Premium pricing tier with a small size. */
-    public static final PricingTier PREMIUM_P1 = new PricingTier("Premium", "P1");
+    public static final PricingTier PREMIUM_P1 = ENUM_COLLECTION.addValue(new PricingTier("Premium", "P1"));
 
     /** Premium pricing tier with a medium size. */
-    public static final PricingTier PREMIUM_P2 = new PricingTier("Premium", "P2");
+    public static final PricingTier PREMIUM_P2 = ENUM_COLLECTION.addValue(new PricingTier("Premium", "P2"));
 
     /** Premium pricing tier with a large size. */
-    public static final PricingTier PREMIUM_P3 = new PricingTier("Premium", "P3");
+    public static final PricingTier PREMIUM_P3 = ENUM_COLLECTION.addValue(new PricingTier("Premium", "P3"));
 
     /** V2 Premium pricing tier with a small size. */
-    public static final PricingTier PREMIUM_P1V2 = new PricingTier("PremiumV2", "P1v2");
+    public static final PricingTier PREMIUM_P1V2 = ENUM_COLLECTION.addValue(new PricingTier("PremiumV2", "P1v2"));
 
     /** V2 Premium pricing tier with a medium size. */
-    public static final PricingTier PREMIUM_P2V2 = new PricingTier("PremiumV2", "P2v2");
+    public static final PricingTier PREMIUM_P2V2 = ENUM_COLLECTION.addValue(new PricingTier("PremiumV2", "P2v2"));
 
     /** V2 Premium pricing tier with a large size. */
-    public static final PricingTier PREMIUM_P3V2 = new PricingTier("PremiumV2", "P3v2");
+    public static final PricingTier PREMIUM_P3V2 = ENUM_COLLECTION.addValue(new PricingTier("PremiumV2", "P3v2"));
 
     /** Free pricing tier. This does not work with Linux web apps, host name bindings, and SSL bindings. */
-    public static final PricingTier FREE_F1 = new PricingTier("Free", "F1");
+    public static final PricingTier FREE_F1 = ENUM_COLLECTION.addValue(new PricingTier("Free", "F1"));
 
     /** Shared pricing tier. This does not work with Linux web apps, host name bindings, and SSL bindings. */
-    public static final PricingTier SHARED_D1 = new PricingTier("Shared", "D1");
+    public static final PricingTier SHARED_D1 = ENUM_COLLECTION.addValue(new PricingTier("Shared", "D1"));
 
     /** The actual serialized value for a SiteAvailabilityState instance. */
     private SkuDescription skuDescription;
@@ -82,6 +86,15 @@ public final class PricingTier {
             return null;
         }
         return new PricingTier(skuDescription.tier(), skuDescription.size());
+    }
+
+    /**
+     * List the pre-defined app service pricing tiers.
+     *
+     * @return immutable collection of the pre-defined app service pricing tiers
+     */
+    public static Collection<PricingTier> values() {
+        return ENUM_COLLECTION.values();
     }
 
     @Override

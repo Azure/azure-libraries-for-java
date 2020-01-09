@@ -19,7 +19,7 @@ steps:
 
 - task: Maven@3
   displayName: Start Jetty
-  condition: eq(variables['buildFromPom'], true)
+  condition: eq(variables['Snapshot'], true)
   inputs:
     mavenPomFile: pom.xml
     javaHomeOption: 'JDKVersion'
@@ -30,7 +30,7 @@ steps:
 
 - task: Maven@3
   displayName: Build package with pom.xml
-  condition: and(succeeded(), eq(variables['buildFromPom'], true))
+  condition: and(succeeded(), eq(variables['Snapshot'], true))
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: ''
@@ -42,7 +42,7 @@ steps:
 
 - task: Maven@3
   displayName: Uploaded package
-  condition: and(succeeded(), eq(variables['buildFromPom'], true))
+  condition: and(succeeded(), eq(variables['Snapshot'], true))
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: ''
@@ -54,7 +54,7 @@ steps:
 
 - task: Maven@3
   displayName: Auto build release with new version
-  condition: ne(variables['buildFromPom'], true)
+  condition: ne(variables['Snapshot'], true)
   inputs:
     mavenPomFile: 'pom.xml'
     mavenOptions: '-Xmx3072m -Dversion=$(VERSION) -DdevVersion=$(DEVVERSION)-SNAPSHOT'
@@ -71,4 +71,4 @@ steps:
   displayName: Create pull request
   env:
     GITHUB_TOKEN: $(GITHUB_TOKEN)
-  condition: and(succeeded(), ne(variables['buildFromPom'], true))
+  condition: and(succeeded(), ne(variables['Snapshot'], true))

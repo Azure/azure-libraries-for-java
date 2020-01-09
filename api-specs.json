@@ -306,8 +306,8 @@
   "storage": {
     "dir": "azure-mgmt-storage",
     "source": "specification/storage/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.storage",
-    "args": "--payload-flattening-threshold=2 --tag=package-2018-11"
+    "package": "com.azure.management.storage",
+    "args": "--payload-flattening-threshold=2 --tag=package-2018-11 --add-client-flatten=BlobContainer,ImmutabilityPolicyProperties,ImmutabilityPolicy,ListContainerItem,BlobServiceProperties,Operation,StorageAccountCreateParameters,StorageAccount,StorageAccountUpdateParameters,ManagementPolicy,PrivateEndpointConnection,PrivateLinkResource"
   },
   "storsimple8000series": {
     "dir": "azure-mgmt-storsimple8000series",

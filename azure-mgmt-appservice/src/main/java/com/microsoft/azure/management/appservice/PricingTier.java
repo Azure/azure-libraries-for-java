@@ -9,52 +9,56 @@ package com.microsoft.azure.management.appservice;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.microsoft.azure.management.apigeneration.Fluent;
 
+import java.util.Collection;
+
 /**
  * Defines App service pricing tiers.
  */
 @Fluent(ContainerName = "/Microsoft.Azure.Management.AppService.Fluent")
 public final class PricingTier {
+    private static final AttributeCollection<PricingTier> COLLECTION = new AttributeCollection<>();
+
     /** Basic pricing tier with a small size. */
-    public static final PricingTier BASIC_B1 = new PricingTier("Basic", "B1");
+    public static final PricingTier BASIC_B1 = COLLECTION.addValue(new PricingTier("Basic", "B1"));
 
     /** Basic pricing tier with a medium size. */
-    public static final PricingTier BASIC_B2 = new PricingTier("Basic", "B2");
+    public static final PricingTier BASIC_B2 = COLLECTION.addValue(new PricingTier("Basic", "B2"));
 
     /** Basic pricing tier with a large size. */
-    public static final PricingTier BASIC_B3 = new PricingTier("Basic", "B3");
+    public static final PricingTier BASIC_B3 = COLLECTION.addValue(new PricingTier("Basic", "B3"));
 
     /** Standard pricing tier with a small size. */
-    public static final PricingTier STANDARD_S1 = new PricingTier("Standard", "S1");
+    public static final PricingTier STANDARD_S1 = COLLECTION.addValue(new PricingTier("Standard", "S1"));
 
     /** Standard pricing tier with a medium size. */
-    public static final PricingTier STANDARD_S2 = new PricingTier("Standard", "S2");
+    public static final PricingTier STANDARD_S2 = COLLECTION.addValue(new PricingTier("Standard", "S2"));
 
     /** Standard pricing tier with a large size. */
-    public static final PricingTier STANDARD_S3 = new PricingTier("Standard", "S3");
+    public static final PricingTier STANDARD_S3 = COLLECTION.addValue(new PricingTier("Standard", "S3"));
 
     /** Premium pricing tier with a small size. */
-    public static final PricingTier PREMIUM_P1 = new PricingTier("Premium", "P1");
+    public static final PricingTier PREMIUM_P1 = COLLECTION.addValue(new PricingTier("Premium", "P1"));
 
     /** Premium pricing tier with a medium size. */
-    public static final PricingTier PREMIUM_P2 = new PricingTier("Premium", "P2");
+    public static final PricingTier PREMIUM_P2 = COLLECTION.addValue(new PricingTier("Premium", "P2"));
 
     /** Premium pricing tier with a large size. */
-    public static final PricingTier PREMIUM_P3 = new PricingTier("Premium", "P3");
+    public static final PricingTier PREMIUM_P3 = COLLECTION.addValue(new PricingTier("Premium", "P3"));
 
     /** V2 Premium pricing tier with a small size. */
-    public static final PricingTier PREMIUM_P1V2 = new PricingTier("PremiumV2", "P1v2");
+    public static final PricingTier PREMIUM_P1V2 = COLLECTION.addValue(new PricingTier("PremiumV2", "P1v2"));
 
     /** V2 Premium pricing tier with a medium size. */
-    public static final PricingTier PREMIUM_P2V2 = new PricingTier("PremiumV2", "P2v2");
+    public static final PricingTier PREMIUM_P2V2 = COLLECTION.addValue(new PricingTier("PremiumV2", "P2v2"));
 
     /** V2 Premium pricing tier with a large size. */
-    public static final PricingTier PREMIUM_P3V2 = new PricingTier("PremiumV2", "P3v2");
+    public static final PricingTier PREMIUM_P3V2 = COLLECTION.addValue(new PricingTier("PremiumV2", "P3v2"));
 
     /** Free pricing tier. This does not work with Linux web apps, host name bindings, and SSL bindings. */
-    public static final PricingTier FREE_F1 = new PricingTier("Free", "F1");
+    public static final PricingTier FREE_F1 = COLLECTION.addValue(new PricingTier("Free", "F1"));
 
     /** Shared pricing tier. This does not work with Linux web apps, host name bindings, and SSL bindings. */
-    public static final PricingTier SHARED_D1 = new PricingTier("Shared", "D1");
+    public static final PricingTier SHARED_D1 = COLLECTION.addValue(new PricingTier("Shared", "D1"));
 
     /** The actual serialized value for a SiteAvailabilityState instance. */
     private SkuDescription skuDescription;
@@ -82,6 +86,15 @@ public final class PricingTier {
             return null;
         }
         return new PricingTier(skuDescription.tier(), skuDescription.size());
+    }
+
+    /**
+     * Lists the pre-defined app service pricing tiers.
+     *
+     * @return immutable collection of the pre-defined app service pricing tiers
+     */
+    public static Collection<PricingTier> getAll() {
+        return COLLECTION.getAllValues();
     }
 
     @Override

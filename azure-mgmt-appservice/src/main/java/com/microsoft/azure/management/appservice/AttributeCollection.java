@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-class AttributeEnumCollection<T> {
+class AttributeCollection<T> {
     private final List<T> values = new ArrayList<>();
 
     T addValue(T value) {
@@ -19,7 +19,7 @@ class AttributeEnumCollection<T> {
         return value;
     }
 
-    Collection<T> values() {
+    Collection<T> getAllValues() {
         return Collections.unmodifiableCollection(new ArrayList<>(values));
     }
 }

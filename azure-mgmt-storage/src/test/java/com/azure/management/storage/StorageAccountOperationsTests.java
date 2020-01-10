@@ -49,7 +49,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
                 .withNewResourceGroup(RG_NAME)
                 .withGeneralPurposeAccountKindV2()
                 .withTag("tag1", "value1")
-                .withHnsEnabled(true)
+//                .withHnsEnabled(true)
                 .withAzureFilesAadIntegrationEnabled(false)
                 .createAsync();
         StorageAccount storageAccount = Utils.<StorageAccount>rootResource(resourceStream.last()).block();

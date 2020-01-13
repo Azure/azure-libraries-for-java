@@ -63,7 +63,7 @@ class WebAppsImpl
             @Override
             public Observable<WebApp> call(final SiteInner siteInner) {
                 if (siteInner == null) {
-                    return null;
+                    return Observable.just(null);
                 }
                 return Observable.zip(
                         self.inner().getConfigurationAsync(groupName, name),

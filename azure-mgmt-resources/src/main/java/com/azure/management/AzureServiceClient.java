@@ -4,7 +4,28 @@
 package com.azure.management;
 
 import com.azure.core.http.HttpPipeline;
+import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.implementation.polling.PollerFactory;
+import com.azure.core.management.implementation.polling.PollingState;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.core.polling.PollResult;
+import com.azure.core.util.FluxUtil;
+import com.azure.core.util.polling.PollerFlux;
+import com.azure.core.util.polling.PollingContext;
+import com.azure.core.util.serializer.SerializerAdapter;
+import com.azure.core.util.serializer.SerializerEncoding;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.util.function.Function;
+
+import static com.azure.core.util.FluxUtil.withContext;
 
 /**
  * ServiceClient is the abstraction for accessing REST operations and their payload data types.
@@ -75,4 +96,44 @@ public abstract class AzureServiceClient {
         JAVA_VERSION = version != null ? version : "Unknown";
     }
 
+    private SerializerAdapter serializerAdapter = new AzureJacksonAdapter();
+
+    private int longRunningOperationRetryTimeout = -1;
+
+    public SerializerAdapter getSerializerAdapter() {
+        return this.serializerAdapter;
+    }
+
+    public <T, U> PollerFlux<PollResult<T>, U> getLroResultAsync(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit,
+                                                                 HttpPipeline httpPipeline,
+                                                                 Type pollResultType, Type finalResultType) {
+        return PollerFactory.create(
+                getSerializerAdapter(),
+                httpPipeline,
+                pollResultType,
+                finalResultType,
+                Duration.ofSeconds(this.longRunningOperationRetryTimeout),
+                activationOperationRaw(lroInit, pollResultType));
+    }
+
+    private <T> Function<PollingContext<PollResult<T>>, Mono<PollResult<T>>> activationOperationRaw(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit, Type type) {
+        return (pollingContext) -> withContext(context -> lroInit
+                .flatMap(response -> {
+                    Mono<String> bodyAsString = FluxUtil.collectBytesInByteBufferStream(response.getValue().map(ByteBuffer::duplicate)).map(bytes -> bytes == null ? null : new String(bytes, StandardCharsets.UTF_8));
+                    return bodyAsString.map(body -> {
+                        PollingState state = PollingState.create(getSerializerAdapter(), response.getRequest(), response.getStatusCode(), response.getHeaders(), body);
+                        if (response.getStatusCode() == 200) {
+                            // pollingContext.setData("INIT_STATUS", LongRunningOperationStatus.SUCCESSFULLY_COMPLETED.toString());
+                        }
+                        state.store(pollingContext);
+                        try {
+                            return getSerializerAdapter().deserialize(body, type, SerializerEncoding.JSON);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            return (T) null;
+                        }
+                    }).map(PollResult::new);
+                }));
+        // TODO: onErrorMap(error -> Mono.just(new PollResult<T>((PollResult.Error) error)));
+    }
 }

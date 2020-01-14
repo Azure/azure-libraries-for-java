@@ -134,12 +134,28 @@ public final class ResourceGroupsInner {
         return service.checkExistence(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether a resource group exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAsync(String resourceGroupName) {
         return checkExistenceWithResponseAsync(resourceGroupName)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks whether a resource group exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistence(String resourceGroupName) {
         return checkExistenceAsync(resourceGroupName).block();

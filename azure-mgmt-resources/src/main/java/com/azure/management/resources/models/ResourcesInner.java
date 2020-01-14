@@ -406,12 +406,36 @@ public final class ResourcesInner {
         return service.checkExistence(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether a resource exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return checkExistenceWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks whether a resource exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistence(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return checkExistenceAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).block();
@@ -656,12 +680,28 @@ public final class ResourcesInner {
         return service.checkExistenceById(this.client.getHost(), resourceId, this.client.getApiVersion());
     }
 
+    /**
+     * Checks by ID whether a resource exists.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceByIdAsync(String resourceId) {
         return checkExistenceByIdWithResponseAsync(resourceId)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks by ID whether a resource exists.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistenceById(String resourceId) {
         return checkExistenceByIdAsync(resourceId).block();

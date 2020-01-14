@@ -429,12 +429,30 @@ public final class DeploymentsInner {
         return service.checkExistenceAtScope(this.client.getHost(), scope, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAtScopeAsync(String scope, String deploymentName) {
         return checkExistenceAtScopeWithResponseAsync(scope, deploymentName)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistenceAtScope(String scope, String deploymentName) {
         return checkExistenceAtScopeAsync(scope, deploymentName).block();
@@ -789,12 +807,28 @@ public final class DeploymentsInner {
         return service.checkExistenceAtTenantScope(this.client.getHost(), deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAtTenantScopeAsync(String deploymentName) {
         return checkExistenceAtTenantScopeWithResponseAsync(deploymentName)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistenceAtTenantScope(String deploymentName) {
         return checkExistenceAtTenantScopeAsync(deploymentName).block();
@@ -1135,12 +1169,30 @@ public final class DeploymentsInner {
         return service.checkExistenceAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAtManagementGroupScopeAsync(String groupId, String deploymentName) {
         return checkExistenceAtManagementGroupScopeWithResponseAsync(groupId, deploymentName)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistenceAtManagementGroupScope(String groupId, String deploymentName) {
         return checkExistenceAtManagementGroupScopeAsync(groupId, deploymentName).block();
@@ -1495,12 +1547,28 @@ public final class DeploymentsInner {
         return service.checkExistenceAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAtSubscriptionScopeAsync(String deploymentName) {
         return checkExistenceAtSubscriptionScopeWithResponseAsync(deploymentName)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistenceAtSubscriptionScope(String deploymentName) {
         return checkExistenceAtSubscriptionScopeAsync(deploymentName).block();
@@ -1886,12 +1954,30 @@ public final class DeploymentsInner {
         return service.checkExistence(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAsync(String resourceGroupName, String deploymentName) {
         return checkExistenceWithResponseAsync(resourceGroupName, deploymentName)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistence(String resourceGroupName, String deploymentName) {
         return checkExistenceAsync(resourceGroupName, deploymentName).block();

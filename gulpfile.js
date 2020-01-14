@@ -174,7 +174,7 @@ This is the AutoRest configuration file for Resource.
             inputFileFound = true;
             outputLines.push(line)
         } else if (inputFileFound) {
-            if (line.startsWith('- ')) {
+            if (line.trim().startsWith('- ')) {
                 outputLines.push(line)
             } else {
                 outputLines.push('```')

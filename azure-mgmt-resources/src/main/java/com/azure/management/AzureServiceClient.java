@@ -114,10 +114,10 @@ public abstract class AzureServiceClient {
                 pollResultType,
                 finalResultType,
                 Duration.ofSeconds(this.longRunningOperationRetryTimeout),
-                activationOperationRaw(lroInit, pollResultType));
+                activationOperation(lroInit, pollResultType));
     }
 
-    private <T> Function<PollingContext<PollResult<T>>, Mono<PollResult<T>>> activationOperationRaw(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit, Type type) {
+    private <T> Function<PollingContext<PollResult<T>>, Mono<PollResult<T>>> activationOperation(Mono<SimpleResponse<Flux<ByteBuffer>>> lroInit, Type type) {
         return (pollingContext) -> withContext(context -> lroInit
                 .flatMap(response -> {
                     Mono<String> bodyAsString = FluxUtil.collectBytesInByteBufferStream(response.getValue().map(ByteBuffer::duplicate)).map(bytes -> bytes == null ? null : new String(bytes, StandardCharsets.UTF_8));

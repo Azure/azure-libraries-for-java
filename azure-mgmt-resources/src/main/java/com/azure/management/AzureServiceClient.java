@@ -23,6 +23,7 @@ import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static com.azure.core.util.FluxUtil.withContext;
@@ -127,12 +128,13 @@ public abstract class AzureServiceClient {
                         }
                         state.store(pollingContext);
                         try {
-                            return getSerializerAdapter().deserialize(body, type, SerializerEncoding.JSON);
+                            T result = getSerializerAdapter().deserialize(body, type, SerializerEncoding.JSON);
+                            return Optional.ofNullable(result);
                         } catch (IOException e) {
                             e.printStackTrace();
-                            return (T) null;
+                            return Optional.<T>empty();
                         }
-                    }).map(PollResult::new);
+                    }).map(result -> result.map(PollResult::new).orElseGet(() -> new PollResult<T>((T) null)));
                 }));
         // TODO: onErrorMap(error -> Mono.just(new PollResult<T>((PollResult.Error) error)));
     }

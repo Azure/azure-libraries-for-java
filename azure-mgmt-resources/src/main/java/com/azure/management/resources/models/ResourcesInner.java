@@ -30,7 +30,10 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.ResourcesMoveInfo;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -74,12 +77,12 @@ public final class ResourcesInner {
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/moveResources")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> moveResources(@HostParam("$host") String host, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> moveResources(@HostParam("$host") String host, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/validateMoveResources")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> validateMoveResources(@HostParam("$host") String host, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> validateMoveResources(@HostParam("$host") String host, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resources")
         @ExpectedResponses({200})
@@ -94,17 +97,17 @@ public final class ResourcesInner {
         @Delete("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 201, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GenericResourceInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GenericResourceInner>> update(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> update(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
         @ExpectedResponses({200})
@@ -119,22 +122,62 @@ public final class ResourcesInner {
         @Delete("/{resourceId}")
         @ExpectedResponses({200, 202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> deleteById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion);
 
         @Put("/{resourceId}")
         @ExpectedResponses({200, 201, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GenericResourceInner>> createOrUpdateById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/{resourceId}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<GenericResourceInner>> updateById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> updateById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/{resourceId}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
         Mono<SimpleResponse<GenericResourceInner>> getById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion);
+
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/moveResources")
+        @ExpectedResponses({202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginMoveResources(@HostParam("$host") String host, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion);
+
+        @Post("/subscriptions/{subscriptionId}/resourceGroups/{sourceResourceGroupName}/validateMoveResources")
+        @ExpectedResponses({202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginValidateMoveResources(@HostParam("$host") String host, @PathParam("sourceResourceGroupName") String sourceResourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourcesMoveInfo parameters, @QueryParam("api-version") String apiVersion);
+
+        @Delete("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginDelete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+
+        @Put("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
+        @ExpectedResponses({200, 201, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<GenericResourceInner>> beginCreateOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
+
+        @Patch("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}")
+        @ExpectedResponses({200, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<GenericResourceInner>> beginUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("resourceProviderNamespace") String resourceProviderNamespace, @PathParam(value = "parentResourcePath", encoded = true) String parentResourcePath, @PathParam(value = "resourceType", encoded = true) String resourceType, @PathParam("resourceName") String resourceName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
+
+        @Delete("/{resourceId}")
+        @ExpectedResponses({200, 202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginDeleteById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @QueryParam("api-version") String apiVersion);
+
+        @Put("/{resourceId}")
+        @ExpectedResponses({200, 201, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<GenericResourceInner>> beginCreateOrUpdateById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
+
+        @Patch("/{resourceId}")
+        @ExpectedResponses({200, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<GenericResourceInner>> beginUpdateById(@HostParam("$host") String host, @PathParam(value = "resourceId", encoded = true) String resourceId, @BodyParam("application/json") GenericResourceInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("{nextLink}")
         @ExpectedResponses({200})
@@ -147,6 +190,17 @@ public final class ResourcesInner {
         Mono<SimpleResponse<ResourceListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Get all the resources for a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param expand The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<GenericResourceInner>> listByResourceGroupSinglePageAsync(String resourceGroupName, String filter, String expand, Integer top) {
         return service.listByResourceGroup(this.client.getHost(), resourceGroupName, filter, expand, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -158,6 +212,17 @@ public final class ResourcesInner {
             null));
     }
 
+    /**
+     * Get all the resources for a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param expand The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<GenericResourceInner> listByResourceGroupAsync(String resourceGroupName, String filter, String expand, Integer top) {
         return new PagedFlux<>(
@@ -166,10 +231,12 @@ public final class ResourcesInner {
     }
 
     /**
-     * @param resourceGroupName null
-     * @param filter null
-     * @param expand null
-     * @param top null
+     * Get all the resources for a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param expand The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -179,38 +246,106 @@ public final class ResourcesInner {
         return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, filter, expand, top));
     }
 
+    /**
+     * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> moveResourcesWithResponseAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> moveResourcesWithResponseAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
         return service.moveResources(this.client.getHost(), sourceResourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> moveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
-        return moveResourcesWithResponseAsync(sourceResourceGroupName, parameters)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = moveResourcesWithResponseAsync(sourceResourceGroupName, parameters);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void moveResources(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
         moveResourcesAsync(sourceResourceGroupName, parameters).block();
     }
 
+    /**
+     * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> validateMoveResourcesWithResponseAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> validateMoveResourcesWithResponseAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
         return service.validateMoveResources(this.client.getHost(), sourceResourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> validateMoveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
-        return validateMoveResourcesWithResponseAsync(sourceResourceGroupName, parameters)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = validateMoveResourcesWithResponseAsync(sourceResourceGroupName, parameters);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void validateMoveResources(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
         validateMoveResourcesAsync(sourceResourceGroupName, parameters).block();
     }
 
+    /**
+     * Get all the resources in a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param expand The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<GenericResourceInner>> listSinglePageAsync(String filter, String expand, Integer top) {
         return service.list(this.client.getHost(), filter, expand, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -222,6 +357,16 @@ public final class ResourcesInner {
             null));
     }
 
+    /**
+     * Get all the resources in a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param expand The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<GenericResourceInner> listAsync(String filter, String expand, Integer top) {
         return new PagedFlux<>(
@@ -230,9 +375,11 @@ public final class ResourcesInner {
     }
 
     /**
-     * @param filter null
-     * @param expand null
-     * @param top null
+     * Get all the resources in a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param expand The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -242,6 +389,18 @@ public final class ResourcesInner {
         return new PagedIterable<>(listAsync(filter, expand, top));
     }
 
+    /**
+     * Checks whether a resource exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> checkExistenceWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return service.checkExistence(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), this.client.getApiVersion());
@@ -258,71 +417,203 @@ public final class ResourcesInner {
         return checkExistenceAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).block();
     }
 
+    /**
+     * Deletes a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return service.delete(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Deletes a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
-        return deleteWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Deletes a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         deleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).block();
     }
 
+    /**
+     * Creates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<GenericResourceInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Creates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<GenericResourceInner> createOrUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters)
-            .flatMap((SimpleResponse<GenericResourceInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters);
+        return client.<GenericResourceInner, GenericResourceInner>getLroResultAsync(response, client.getHttpPipeline(), GenericResourceInner.class, GenericResourceInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Creates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public GenericResourceInner createOrUpdate(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
         return createOrUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters).block();
     }
 
+    /**
+     * Updates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<GenericResourceInner>> updateWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
         return service.update(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Updates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<GenericResourceInner> updateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
-        return updateWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters)
-            .flatMap((SimpleResponse<GenericResourceInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters);
+        return client.<GenericResourceInner, GenericResourceInner>getLroResultAsync(response, client.getHttpPipeline(), GenericResourceInner.class, GenericResourceInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Updates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public GenericResourceInner update(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
         return updateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters).block();
     }
 
+    /**
+     * Gets a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<GenericResourceInner>> getWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return service.get(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<GenericResourceInner> getAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return getWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
@@ -335,11 +626,31 @@ public final class ResourcesInner {
             });
     }
 
+    /**
+     * Gets a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public GenericResourceInner get(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return getAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).block();
     }
 
+    /**
+     * Checks by ID whether a resource exists.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> checkExistenceByIdWithResponseAsync(String resourceId) {
         return service.checkExistenceById(this.client.getHost(), resourceId, this.client.getApiVersion());
@@ -356,71 +667,159 @@ public final class ResourcesInner {
         return checkExistenceByIdAsync(resourceId).block();
     }
 
+    /**
+     * Deletes a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteByIdWithResponseAsync(String resourceId) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteByIdWithResponseAsync(String resourceId) {
         return service.deleteById(this.client.getHost(), resourceId, this.client.getApiVersion());
     }
 
+    /**
+     * Deletes a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteByIdAsync(String resourceId) {
-        return deleteByIdWithResponseAsync(resourceId)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteByIdWithResponseAsync(resourceId);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Deletes a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteById(String resourceId) {
         deleteByIdAsync(resourceId).block();
     }
 
+    /**
+     * Create a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<GenericResourceInner>> createOrUpdateByIdWithResponseAsync(String resourceId, GenericResourceInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateByIdWithResponseAsync(String resourceId, GenericResourceInner parameters) {
         return service.createOrUpdateById(this.client.getHost(), resourceId, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Create a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<GenericResourceInner> createOrUpdateByIdAsync(String resourceId, GenericResourceInner parameters) {
-        return createOrUpdateByIdWithResponseAsync(resourceId, parameters)
-            .flatMap((SimpleResponse<GenericResourceInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateByIdWithResponseAsync(resourceId, parameters);
+        return client.<GenericResourceInner, GenericResourceInner>getLroResultAsync(response, client.getHttpPipeline(), GenericResourceInner.class, GenericResourceInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Create a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public GenericResourceInner createOrUpdateById(String resourceId, GenericResourceInner parameters) {
         return createOrUpdateByIdAsync(resourceId, parameters).block();
     }
 
+    /**
+     * Updates a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<GenericResourceInner>> updateByIdWithResponseAsync(String resourceId, GenericResourceInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> updateByIdWithResponseAsync(String resourceId, GenericResourceInner parameters) {
         return service.updateById(this.client.getHost(), resourceId, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Updates a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<GenericResourceInner> updateByIdAsync(String resourceId, GenericResourceInner parameters) {
-        return updateByIdWithResponseAsync(resourceId, parameters)
-            .flatMap((SimpleResponse<GenericResourceInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = updateByIdWithResponseAsync(resourceId, parameters);
+        return client.<GenericResourceInner, GenericResourceInner>getLroResultAsync(response, client.getHttpPipeline(), GenericResourceInner.class, GenericResourceInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Updates a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public GenericResourceInner updateById(String resourceId, GenericResourceInner parameters) {
         return updateByIdAsync(resourceId, parameters).block();
     }
 
+    /**
+     * Gets a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<GenericResourceInner>> getByIdWithResponseAsync(String resourceId) {
         return service.getById(this.client.getHost(), resourceId, this.client.getApiVersion());
     }
 
+    /**
+     * Gets a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<GenericResourceInner> getByIdAsync(String resourceId) {
         return getByIdWithResponseAsync(resourceId)
@@ -433,11 +832,425 @@ public final class ResourcesInner {
             });
     }
 
+    /**
+     * Gets a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public GenericResourceInner getById(String resourceId) {
         return getByIdAsync(resourceId).block();
     }
 
+    /**
+     * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginMoveResourcesWithResponseAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+        return service.beginMoveResources(this.client.getHost(), sourceResourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginMoveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+        return beginMoveResourcesWithResponseAsync(sourceResourceGroupName, parameters)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * The resources to move must be in the same source resource group. The target resource group may be in a different subscription. When moving resources, both the source group and the target group are locked for the duration of the operation. Write and delete operations are blocked on the groups until the move completes.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginMoveResources(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+        beginMoveResourcesAsync(sourceResourceGroupName, parameters).block();
+    }
+
+    /**
+     * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginValidateMoveResourcesWithResponseAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+        return service.beginValidateMoveResources(this.client.getHost(), sourceResourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginValidateMoveResourcesAsync(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+        return beginValidateMoveResourcesWithResponseAsync(sourceResourceGroupName, parameters)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * This operation checks whether the specified resources can be moved to the target. The resources to move must be in the same source resource group. The target resource group may be in a different subscription. If validation succeeds, it returns HTTP response code 204 (no content). If validation fails, it returns HTTP response code 409 (Conflict) with an error message. Retrieve the URL in the Location header value to check the result of the long-running operation.
+     * 
+     * @param sourceResourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters of move resources.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginValidateMoveResources(String sourceResourceGroupName, ResourcesMoveInfo parameters) {
+        beginValidateMoveResourcesAsync(sourceResourceGroupName, parameters).block();
+    }
+
+    /**
+     * Deletes a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginDeleteWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+        return service.beginDelete(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), this.client.getApiVersion());
+    }
+
+    /**
+     * Deletes a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginDeleteAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+        return beginDeleteWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * Deletes a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginDelete(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+        beginDeleteAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName).block();
+    }
+
+    /**
+     * Creates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<GenericResourceInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
+        return service.beginCreateOrUpdate(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Creates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<GenericResourceInner> beginCreateOrUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
+        return beginCreateOrUpdateWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters)
+            .flatMap((SimpleResponse<GenericResourceInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Creates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public GenericResourceInner beginCreateOrUpdate(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters).block();
+    }
+
+    /**
+     * Updates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<GenericResourceInner>> beginUpdateWithResponseAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
+        return service.beginUpdate(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Updates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<GenericResourceInner> beginUpdateAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
+        return beginUpdateWithResponseAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters)
+            .flatMap((SimpleResponse<GenericResourceInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Updates a resource.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceProviderNamespace The additional properties.
+     * @param parentResourcePath The additional properties.
+     * @param resourceType The additional properties.
+     * @param resourceName The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public GenericResourceInner beginUpdate(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, GenericResourceInner parameters) {
+        return beginUpdateAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, parameters).block();
+    }
+
+    /**
+     * Deletes a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginDeleteByIdWithResponseAsync(String resourceId) {
+        return service.beginDeleteById(this.client.getHost(), resourceId, this.client.getApiVersion());
+    }
+
+    /**
+     * Deletes a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginDeleteByIdAsync(String resourceId) {
+        return beginDeleteByIdWithResponseAsync(resourceId)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * Deletes a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginDeleteById(String resourceId) {
+        beginDeleteByIdAsync(resourceId).block();
+    }
+
+    /**
+     * Create a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<GenericResourceInner>> beginCreateOrUpdateByIdWithResponseAsync(String resourceId, GenericResourceInner parameters) {
+        return service.beginCreateOrUpdateById(this.client.getHost(), resourceId, parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Create a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<GenericResourceInner> beginCreateOrUpdateByIdAsync(String resourceId, GenericResourceInner parameters) {
+        return beginCreateOrUpdateByIdWithResponseAsync(resourceId, parameters)
+            .flatMap((SimpleResponse<GenericResourceInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Create a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public GenericResourceInner beginCreateOrUpdateById(String resourceId, GenericResourceInner parameters) {
+        return beginCreateOrUpdateByIdAsync(resourceId, parameters).block();
+    }
+
+    /**
+     * Updates a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<GenericResourceInner>> beginUpdateByIdWithResponseAsync(String resourceId, GenericResourceInner parameters) {
+        return service.beginUpdateById(this.client.getHost(), resourceId, parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Updates a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<GenericResourceInner> beginUpdateByIdAsync(String resourceId, GenericResourceInner parameters) {
+        return beginUpdateByIdWithResponseAsync(resourceId, parameters)
+            .flatMap((SimpleResponse<GenericResourceInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Updates a resource by ID.
+     * 
+     * @param resourceId The additional properties.
+     * @param parameters Resource information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public GenericResourceInner beginUpdateById(String resourceId, GenericResourceInner parameters) {
+        return beginUpdateByIdAsync(resourceId, parameters).block();
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<GenericResourceInner>> listByResourceGroupNextSinglePageAsync(String nextLink) {
         return service.listByResourceGroupNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -449,6 +1262,14 @@ public final class ResourcesInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<GenericResourceInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(

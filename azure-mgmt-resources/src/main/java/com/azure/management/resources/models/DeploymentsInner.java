@@ -29,8 +29,11 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.DeploymentWhatIf;
 import com.azure.management.resources.ScopedDeployment;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -69,7 +72,7 @@ public final class DeploymentsInner {
         @Delete("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> deleteAtScope(@HostParam("$host") String host, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteAtScope(@HostParam("$host") String host, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
 
         @Head("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
@@ -79,7 +82,7 @@ public final class DeploymentsInner {
         @Put("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateAtScope(@HostParam("$host") String host, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateAtScope(@HostParam("$host") String host, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200})
@@ -109,7 +112,7 @@ public final class DeploymentsInner {
         @Delete("/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> deleteAtTenantScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteAtTenantScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
 
         @Head("/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
@@ -119,7 +122,7 @@ public final class DeploymentsInner {
         @Put("/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateAtTenantScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateAtTenantScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200})
@@ -149,7 +152,7 @@ public final class DeploymentsInner {
         @Delete("/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> deleteAtManagementGroupScope(@HostParam("$host") String host, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteAtManagementGroupScope(@HostParam("$host") String host, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
 
         @Head("/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
@@ -159,7 +162,7 @@ public final class DeploymentsInner {
         @Put("/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateAtManagementGroupScope(@HostParam("$host") String host, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateAtManagementGroupScope(@HostParam("$host") String host, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200})
@@ -189,7 +192,7 @@ public final class DeploymentsInner {
         @Delete("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> deleteAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> deleteAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Head("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
@@ -199,7 +202,7 @@ public final class DeploymentsInner {
         @Put("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200})
@@ -219,7 +222,7 @@ public final class DeploymentsInner {
         @Post("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<DeploymentsWhatIfAtSubscriptionScopeResponse> whatIfAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> whatIfAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
         @ExpectedResponses({200})
@@ -229,12 +232,12 @@ public final class DeploymentsInner {
         @Get("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DeploymentListResultInner>> listAtSubscriptionScope(@HostParam("$host") String host, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DeploymentListResultInner>> list(@HostParam("$host") String host, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({202, 204})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Head("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({204, 404})
@@ -244,12 +247,12 @@ public final class DeploymentsInner {
         @Put("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DeploymentExtendedInner>> get(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DeploymentExtendedInner>> getByResourceGroup(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/cancel")
         @ExpectedResponses({204})
@@ -264,7 +267,7 @@ public final class DeploymentsInner {
         @Post("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<DeploymentsWhatIfResponse> whatIf(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> whatIf(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion);
 
         @Post("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/exportTemplate")
         @ExpectedResponses({200})
@@ -280,6 +283,66 @@ public final class DeploymentsInner {
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
         Mono<SimpleResponse<TemplateHashResultInner>> calculateTemplateHash(@HostParam("$host") String host, @BodyParam("application/json") Object template, @QueryParam("api-version") String apiVersion);
+
+        @Delete("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginDeleteAtScope(@HostParam("$host") String host, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+
+        @Put("/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtScope(@HostParam("$host") String host, @PathParam("scope") String scope, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
+
+        @Delete("/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginDeleteAtTenantScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+
+        @Put("/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtTenantScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion);
+
+        @Delete("/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginDeleteAtManagementGroupScope(@HostParam("$host") String host, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @QueryParam("api-version") String apiVersion);
+
+        @Put("/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtManagementGroupScope(@HostParam("$host") String host, @PathParam("groupId") String groupId, @PathParam("deploymentName") String deploymentName, @BodyParam("application/json") ScopedDeployment parameters, @QueryParam("api-version") String apiVersion);
+
+        @Delete("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginDeleteAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+
+        @Put("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
+
+        @Post("/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
+        @ExpectedResponses({200, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<DeploymentsBeginWhatIfAtSubscriptionScopeResponse> beginWhatIfAtSubscriptionScope(@HostParam("$host") String host, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion);
+
+        @Delete("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({202, 204})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginDelete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+
+        @Put("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}")
+        @ExpectedResponses({200, 201})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentInner parameters, @QueryParam("api-version") String apiVersion);
+
+        @Post("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments/{deploymentName}/whatIf")
+        @ExpectedResponses({200, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<DeploymentsBeginWhatIfResponse> beginWhatIf(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") DeploymentWhatIf parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("{nextLink}")
         @ExpectedResponses({200})
@@ -307,22 +370,60 @@ public final class DeploymentsInner {
         Mono<SimpleResponse<DeploymentListResultInner>> listByResourceGroupNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteAtScopeWithResponseAsync(String scope, String deploymentName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteAtScopeWithResponseAsync(String scope, String deploymentName) {
         return service.deleteAtScope(this.client.getHost(), scope, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAtScopeAsync(String scope, String deploymentName) {
-        return deleteAtScopeWithResponseAsync(scope, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteAtScopeWithResponseAsync(scope, deploymentName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteAtScope(String scope, String deploymentName) {
         deleteAtScopeAsync(scope, deploymentName).block();
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> checkExistenceAtScopeWithResponseAsync(String scope, String deploymentName) {
         return service.checkExistenceAtScope(this.client.getHost(), scope, deploymentName, this.client.getApiVersion());
@@ -339,33 +440,77 @@ public final class DeploymentsInner {
         return checkExistenceAtScopeAsync(scope, deploymentName).block();
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateAtScopeWithResponseAsync(String scope, String deploymentName, DeploymentInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateAtScopeWithResponseAsync(String scope, String deploymentName, DeploymentInner parameters) {
         return service.createOrUpdateAtScope(this.client.getHost(), scope, deploymentName, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> createOrUpdateAtScopeAsync(String scope, String deploymentName, DeploymentInner parameters) {
-        return createOrUpdateAtScopeWithResponseAsync(scope, deploymentName, parameters)
-            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateAtScopeWithResponseAsync(scope, deploymentName, parameters);
+        return client.<DeploymentExtendedInner, DeploymentExtendedInner>getLroResultAsync(response, client.getHttpPipeline(), DeploymentExtendedInner.class, DeploymentExtendedInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner createOrUpdateAtScope(String scope, String deploymentName, DeploymentInner parameters) {
         return createOrUpdateAtScopeAsync(scope, deploymentName, parameters).block();
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExtendedInner>> getAtScopeWithResponseAsync(String scope, String deploymentName) {
         return service.getAtScope(this.client.getHost(), scope, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> getAtScopeAsync(String scope, String deploymentName) {
         return getAtScopeWithResponseAsync(scope, deploymentName)
@@ -378,32 +523,88 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner getAtScope(String scope, String deploymentName) {
         return getAtScopeAsync(scope, deploymentName).block();
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> cancelAtScopeWithResponseAsync(String scope, String deploymentName) {
         return service.cancelAtScope(this.client.getHost(), scope, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> cancelAtScopeAsync(String scope, String deploymentName) {
         return cancelAtScopeWithResponseAsync(scope, deploymentName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void cancelAtScope(String scope, String deploymentName) {
         cancelAtScopeAsync(scope, deploymentName).block();
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentValidateResultInner>> validateAtScopeWithResponseAsync(String scope, String deploymentName, DeploymentInner parameters) {
         return service.validateAtScope(this.client.getHost(), scope, deploymentName, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentValidateResultInner> validateAtScopeAsync(String scope, String deploymentName, DeploymentInner parameters) {
         return validateAtScopeWithResponseAsync(scope, deploymentName, parameters)
@@ -416,16 +617,44 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentValidateResultInner validateAtScope(String scope, String deploymentName, DeploymentInner parameters) {
         return validateAtScopeAsync(scope, deploymentName, parameters).block();
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExportResultInner>> exportTemplateAtScopeWithResponseAsync(String scope, String deploymentName) {
         return service.exportTemplateAtScope(this.client.getHost(), scope, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExportResultInner> exportTemplateAtScopeAsync(String scope, String deploymentName) {
         return exportTemplateAtScopeWithResponseAsync(scope, deploymentName)
@@ -438,11 +667,30 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExportResultInner exportTemplateAtScope(String scope, String deploymentName) {
         return exportTemplateAtScopeAsync(scope, deploymentName).block();
     }
 
+    /**
+     * Get all the deployments at the given scope.
+     * 
+     * @param scope The additional properties.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listAtScopeSinglePageAsync(String scope, String filter, Integer top) {
         return service.listAtScope(this.client.getHost(), scope, filter, top, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -454,6 +702,16 @@ public final class DeploymentsInner {
             null));
     }
 
+    /**
+     * Get all the deployments at the given scope.
+     * 
+     * @param scope The additional properties.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeploymentExtendedInner> listAtScopeAsync(String scope, String filter, Integer top) {
         return new PagedFlux<>(
@@ -462,9 +720,11 @@ public final class DeploymentsInner {
     }
 
     /**
-     * @param scope null
-     * @param filter null
-     * @param top null
+     * Get all the deployments at the given scope.
+     * 
+     * @param scope The additional properties.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -474,22 +734,56 @@ public final class DeploymentsInner {
         return new PagedIterable<>(listAtScopeAsync(scope, filter, top));
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteAtTenantScopeWithResponseAsync(String deploymentName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteAtTenantScopeWithResponseAsync(String deploymentName) {
         return service.deleteAtTenantScope(this.client.getHost(), deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAtTenantScopeAsync(String deploymentName) {
-        return deleteAtTenantScopeWithResponseAsync(deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteAtTenantScopeWithResponseAsync(deploymentName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteAtTenantScope(String deploymentName) {
         deleteAtTenantScopeAsync(deploymentName).block();
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> checkExistenceAtTenantScopeWithResponseAsync(String deploymentName) {
         return service.checkExistenceAtTenantScope(this.client.getHost(), deploymentName, this.client.getApiVersion());
@@ -506,33 +800,72 @@ public final class DeploymentsInner {
         return checkExistenceAtTenantScopeAsync(deploymentName).block();
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateAtTenantScopeWithResponseAsync(String deploymentName, ScopedDeployment parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateAtTenantScopeWithResponseAsync(String deploymentName, ScopedDeployment parameters) {
         return service.createOrUpdateAtTenantScope(this.client.getHost(), deploymentName, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> createOrUpdateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters) {
-        return createOrUpdateAtTenantScopeWithResponseAsync(deploymentName, parameters)
-            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateAtTenantScopeWithResponseAsync(deploymentName, parameters);
+        return client.<DeploymentExtendedInner, DeploymentExtendedInner>getLroResultAsync(response, client.getHttpPipeline(), DeploymentExtendedInner.class, DeploymentExtendedInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner createOrUpdateAtTenantScope(String deploymentName, ScopedDeployment parameters) {
         return createOrUpdateAtTenantScopeAsync(deploymentName, parameters).block();
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExtendedInner>> getAtTenantScopeWithResponseAsync(String deploymentName) {
         return service.getAtTenantScope(this.client.getHost(), deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> getAtTenantScopeAsync(String deploymentName) {
         return getAtTenantScopeWithResponseAsync(deploymentName)
@@ -545,32 +878,82 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner getAtTenantScope(String deploymentName) {
         return getAtTenantScopeAsync(deploymentName).block();
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> cancelAtTenantScopeWithResponseAsync(String deploymentName) {
         return service.cancelAtTenantScope(this.client.getHost(), deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> cancelAtTenantScopeAsync(String deploymentName) {
         return cancelAtTenantScopeWithResponseAsync(deploymentName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void cancelAtTenantScope(String deploymentName) {
         cancelAtTenantScopeAsync(deploymentName).block();
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentValidateResultInner>> validateAtTenantScopeWithResponseAsync(String deploymentName, ScopedDeployment parameters) {
         return service.validateAtTenantScope(this.client.getHost(), deploymentName, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentValidateResultInner> validateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters) {
         return validateAtTenantScopeWithResponseAsync(deploymentName, parameters)
@@ -583,16 +966,41 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentValidateResultInner validateAtTenantScope(String deploymentName, ScopedDeployment parameters) {
         return validateAtTenantScopeAsync(deploymentName, parameters).block();
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExportResultInner>> exportTemplateAtTenantScopeWithResponseAsync(String deploymentName) {
         return service.exportTemplateAtTenantScope(this.client.getHost(), deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExportResultInner> exportTemplateAtTenantScopeAsync(String deploymentName) {
         return exportTemplateAtTenantScopeWithResponseAsync(deploymentName)
@@ -605,11 +1013,28 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExportResultInner exportTemplateAtTenantScope(String deploymentName) {
         return exportTemplateAtTenantScopeAsync(deploymentName).block();
     }
 
+    /**
+     * Get all the deployments at the tenant scope.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listAtTenantScopeSinglePageAsync(String filter, Integer top) {
         return service.listAtTenantScope(this.client.getHost(), filter, top, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -621,6 +1046,15 @@ public final class DeploymentsInner {
             null));
     }
 
+    /**
+     * Get all the deployments at the tenant scope.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeploymentExtendedInner> listAtTenantScopeAsync(String filter, Integer top) {
         return new PagedFlux<>(
@@ -629,8 +1063,10 @@ public final class DeploymentsInner {
     }
 
     /**
-     * @param filter null
-     * @param top null
+     * Get all the deployments at the tenant scope.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -640,22 +1076,60 @@ public final class DeploymentsInner {
         return new PagedIterable<>(listAtTenantScopeAsync(filter, top));
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
         return service.deleteAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAtManagementGroupScopeAsync(String groupId, String deploymentName) {
-        return deleteAtManagementGroupScopeWithResponseAsync(groupId, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteAtManagementGroupScopeWithResponseAsync(groupId, deploymentName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteAtManagementGroupScope(String groupId, String deploymentName) {
         deleteAtManagementGroupScopeAsync(groupId, deploymentName).block();
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> checkExistenceAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
         return service.checkExistenceAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, this.client.getApiVersion());
@@ -672,33 +1146,77 @@ public final class DeploymentsInner {
         return checkExistenceAtManagementGroupScopeAsync(groupId, deploymentName).block();
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
         return service.createOrUpdateAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> createOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
-        return createOrUpdateAtManagementGroupScopeWithResponseAsync(groupId, deploymentName, parameters)
-            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateAtManagementGroupScopeWithResponseAsync(groupId, deploymentName, parameters);
+        return client.<DeploymentExtendedInner, DeploymentExtendedInner>getLroResultAsync(response, client.getHttpPipeline(), DeploymentExtendedInner.class, DeploymentExtendedInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner createOrUpdateAtManagementGroupScope(String groupId, String deploymentName, ScopedDeployment parameters) {
         return createOrUpdateAtManagementGroupScopeAsync(groupId, deploymentName, parameters).block();
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExtendedInner>> getAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
         return service.getAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> getAtManagementGroupScopeAsync(String groupId, String deploymentName) {
         return getAtManagementGroupScopeWithResponseAsync(groupId, deploymentName)
@@ -711,32 +1229,88 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner getAtManagementGroupScope(String groupId, String deploymentName) {
         return getAtManagementGroupScopeAsync(groupId, deploymentName).block();
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> cancelAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
         return service.cancelAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> cancelAtManagementGroupScopeAsync(String groupId, String deploymentName) {
         return cancelAtManagementGroupScopeWithResponseAsync(groupId, deploymentName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void cancelAtManagementGroupScope(String groupId, String deploymentName) {
         cancelAtManagementGroupScopeAsync(groupId, deploymentName).block();
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentValidateResultInner>> validateAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
         return service.validateAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentValidateResultInner> validateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
         return validateAtManagementGroupScopeWithResponseAsync(groupId, deploymentName, parameters)
@@ -749,16 +1323,44 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentValidateResultInner validateAtManagementGroupScope(String groupId, String deploymentName, ScopedDeployment parameters) {
         return validateAtManagementGroupScopeAsync(groupId, deploymentName, parameters).block();
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExportResultInner>> exportTemplateAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
         return service.exportTemplateAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, this.client.getApiVersion());
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExportResultInner> exportTemplateAtManagementGroupScopeAsync(String groupId, String deploymentName) {
         return exportTemplateAtManagementGroupScopeWithResponseAsync(groupId, deploymentName)
@@ -771,11 +1373,30 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExportResultInner exportTemplateAtManagementGroupScope(String groupId, String deploymentName) {
         return exportTemplateAtManagementGroupScopeAsync(groupId, deploymentName).block();
     }
 
+    /**
+     * Get all the deployments for a management group.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listAtManagementGroupScopeSinglePageAsync(String groupId, String filter, Integer top) {
         return service.listAtManagementGroupScope(this.client.getHost(), groupId, filter, top, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -787,6 +1408,16 @@ public final class DeploymentsInner {
             null));
     }
 
+    /**
+     * Get all the deployments for a management group.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeploymentExtendedInner> listAtManagementGroupScopeAsync(String groupId, String filter, Integer top) {
         return new PagedFlux<>(
@@ -795,9 +1426,11 @@ public final class DeploymentsInner {
     }
 
     /**
-     * @param groupId null
-     * @param filter null
-     * @param top null
+     * Get all the deployments for a management group.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -807,22 +1440,56 @@ public final class DeploymentsInner {
         return new PagedIterable<>(listAtManagementGroupScopeAsync(groupId, filter, top));
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteAtSubscriptionScopeWithResponseAsync(String deploymentName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteAtSubscriptionScopeWithResponseAsync(String deploymentName) {
         return service.deleteAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAtSubscriptionScopeAsync(String deploymentName) {
-        return deleteAtSubscriptionScopeWithResponseAsync(deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteAtSubscriptionScopeWithResponseAsync(deploymentName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteAtSubscriptionScope(String deploymentName) {
         deleteAtSubscriptionScopeAsync(deploymentName).block();
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> checkExistenceAtSubscriptionScopeWithResponseAsync(String deploymentName) {
         return service.checkExistenceAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
@@ -839,33 +1506,72 @@ public final class DeploymentsInner {
         return checkExistenceAtSubscriptionScopeAsync(deploymentName).block();
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateAtSubscriptionScopeWithResponseAsync(String deploymentName, DeploymentInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateAtSubscriptionScopeWithResponseAsync(String deploymentName, DeploymentInner parameters) {
         return service.createOrUpdateAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> createOrUpdateAtSubscriptionScopeAsync(String deploymentName, DeploymentInner parameters) {
-        return createOrUpdateAtSubscriptionScopeWithResponseAsync(deploymentName, parameters)
-            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateAtSubscriptionScopeWithResponseAsync(deploymentName, parameters);
+        return client.<DeploymentExtendedInner, DeploymentExtendedInner>getLroResultAsync(response, client.getHttpPipeline(), DeploymentExtendedInner.class, DeploymentExtendedInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner createOrUpdateAtSubscriptionScope(String deploymentName, DeploymentInner parameters) {
         return createOrUpdateAtSubscriptionScopeAsync(deploymentName, parameters).block();
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExtendedInner>> getAtSubscriptionScopeWithResponseAsync(String deploymentName) {
         return service.getAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> getAtSubscriptionScopeAsync(String deploymentName) {
         return getAtSubscriptionScopeWithResponseAsync(deploymentName)
@@ -878,32 +1584,82 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner getAtSubscriptionScope(String deploymentName) {
         return getAtSubscriptionScopeAsync(deploymentName).block();
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> cancelAtSubscriptionScopeWithResponseAsync(String deploymentName) {
         return service.cancelAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> cancelAtSubscriptionScopeAsync(String deploymentName) {
         return cancelAtSubscriptionScopeWithResponseAsync(deploymentName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resources partially deployed.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void cancelAtSubscriptionScope(String deploymentName) {
         cancelAtSubscriptionScopeAsync(deploymentName).block();
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentValidateResultInner>> validateAtSubscriptionScopeWithResponseAsync(String deploymentName, DeploymentInner parameters) {
         return service.validateAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentValidateResultInner> validateAtSubscriptionScopeAsync(String deploymentName, DeploymentInner parameters) {
         return validateAtSubscriptionScopeWithResponseAsync(deploymentName, parameters)
@@ -916,38 +1672,86 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentValidateResultInner validateAtSubscriptionScope(String deploymentName, DeploymentInner parameters) {
         return validateAtSubscriptionScopeAsync(deploymentName, parameters).block();
     }
 
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the subscription.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<DeploymentsWhatIfAtSubscriptionScopeResponse> whatIfAtSubscriptionScopeWithResponseAsync(String deploymentName, DeploymentWhatIf parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> whatIfAtSubscriptionScopeWithResponseAsync(String deploymentName, DeploymentWhatIf parameters) {
         return service.whatIfAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the subscription.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<WhatIfOperationResultInner> whatIfAtSubscriptionScopeAsync(String deploymentName, DeploymentWhatIf parameters) {
-        return whatIfAtSubscriptionScopeWithResponseAsync(deploymentName, parameters)
-            .flatMap((DeploymentsWhatIfAtSubscriptionScopeResponse res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = whatIfAtSubscriptionScopeWithResponseAsync(deploymentName, parameters);
+        return client.<WhatIfOperationResultInner, WhatIfOperationResultInner>getLroResultAsync(response, client.getHttpPipeline(), WhatIfOperationResultInner.class, WhatIfOperationResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the subscription.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public WhatIfOperationResultInner whatIfAtSubscriptionScope(String deploymentName, DeploymentWhatIf parameters) {
         return whatIfAtSubscriptionScopeAsync(deploymentName, parameters).block();
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExportResultInner>> exportTemplateAtSubscriptionScopeWithResponseAsync(String deploymentName) {
         return service.exportTemplateAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExportResultInner> exportTemplateAtSubscriptionScopeAsync(String deploymentName) {
         return exportTemplateAtSubscriptionScopeWithResponseAsync(deploymentName)
@@ -960,14 +1764,31 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExportResultInner exportTemplateAtSubscriptionScope(String deploymentName) {
         return exportTemplateAtSubscriptionScopeAsync(deploymentName).block();
     }
 
+    /**
+     * Get all the deployments for a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DeploymentExtendedInner>> listAtSubscriptionScopeSinglePageAsync(String filter, Integer top) {
-        return service.listAtSubscriptionScope(this.client.getHost(), filter, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+    public Mono<PagedResponse<DeploymentExtendedInner>> listSinglePageAsync(String filter, Integer top) {
+        return service.list(this.client.getHost(), filter, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -976,41 +1797,90 @@ public final class DeploymentsInner {
             null));
     }
 
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<DeploymentExtendedInner> listAtSubscriptionScopeAsync(String filter, Integer top) {
-        return new PagedFlux<>(
-            () -> listAtSubscriptionScopeSinglePageAsync(filter, top),
-            nextLink -> listAtSubscriptionScopeNextSinglePageAsync(nextLink));
-    }
-
     /**
-     * @param filter null
-     * @param top null
+     * Get all the deployments for a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<DeploymentExtendedInner> listAtSubscriptionScope(String filter, Integer top) {
-        return new PagedIterable<>(listAtSubscriptionScopeAsync(filter, top));
+    public PagedFlux<DeploymentExtendedInner> listAsync(String filter, Integer top) {
+        return new PagedFlux<>(
+            () -> listSinglePageAsync(filter, top),
+            nextLink -> listAtSubscriptionScopeNextSinglePageAsync(nextLink));
     }
 
+    /**
+     * Get all the deployments for a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentExtendedInner> list(String filter, Integer top) {
+        return new PagedIterable<>(listAsync(filter, top));
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String deploymentName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName, String deploymentName) {
         return service.delete(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String deploymentName) {
-        return deleteWithResponseAsync(resourceGroupName, deploymentName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName, deploymentName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName, String deploymentName) {
         deleteAsync(resourceGroupName, deploymentName).block();
     }
 
+    /**
+     * Checks whether the deployment exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> checkExistenceWithResponseAsync(String resourceGroupName, String deploymentName) {
         return service.checkExistence(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
@@ -1027,36 +1897,80 @@ public final class DeploymentsInner {
         return checkExistenceAsync(resourceGroupName, deploymentName).block();
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DeploymentExtendedInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExtendedInner> createOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, deploymentName, parameters)
-            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, deploymentName, parameters);
+        return client.<DeploymentExtendedInner, DeploymentExtendedInner>getLroResultAsync(response, client.getHttpPipeline(), DeploymentExtendedInner.class, DeploymentExtendedInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExtendedInner createOrUpdate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         return createOrUpdateAsync(resourceGroupName, deploymentName, parameters).block();
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DeploymentExtendedInner>> getWithResponseAsync(String resourceGroupName, String deploymentName) {
-        return service.get(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
+    public Mono<SimpleResponse<DeploymentExtendedInner>> getByResourceGroupWithResponseAsync(String resourceGroupName, String deploymentName) {
+        return service.getByResourceGroup(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<DeploymentExtendedInner> getAsync(String resourceGroupName, String deploymentName) {
-        return getWithResponseAsync(resourceGroupName, deploymentName)
+    public Mono<DeploymentExtendedInner> getByResourceGroupAsync(String resourceGroupName, String deploymentName) {
+        return getByResourceGroupWithResponseAsync(resourceGroupName, deploymentName)
             .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -1066,32 +1980,88 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Gets a deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DeploymentExtendedInner get(String resourceGroupName, String deploymentName) {
-        return getAsync(resourceGroupName, deploymentName).block();
+    public DeploymentExtendedInner getByResourceGroup(String resourceGroupName, String deploymentName) {
+        return getByResourceGroupAsync(resourceGroupName, deploymentName).block();
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> cancelWithResponseAsync(String resourceGroupName, String deploymentName) {
         return service.cancel(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> cancelAsync(String resourceGroupName, String deploymentName) {
         return cancelWithResponseAsync(resourceGroupName, deploymentName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * You can cancel a deployment only if the provisioningState is Accepted or Running. After the deployment is canceled, the provisioningState is set to Canceled. Canceling a template deployment stops the currently running template deployment and leaves the resource group partially deployed.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void cancel(String resourceGroupName, String deploymentName) {
         cancelAsync(resourceGroupName, deploymentName).block();
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentValidateResultInner>> validateWithResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         return service.validate(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentValidateResultInner> validateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         return validateWithResponseAsync(resourceGroupName, deploymentName, parameters)
@@ -1104,38 +2074,92 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Validates whether the specified template is syntactically correct and will be accepted by Azure Resource Manager..
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentValidateResultInner validate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
         return validateAsync(resourceGroupName, deploymentName, parameters).block();
     }
 
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<DeploymentsWhatIfResponse> whatIfWithResponseAsync(String resourceGroupName, String deploymentName, DeploymentWhatIf parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> whatIfWithResponseAsync(String resourceGroupName, String deploymentName, DeploymentWhatIf parameters) {
         return service.whatIf(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<WhatIfOperationResultInner> whatIfAsync(String resourceGroupName, String deploymentName, DeploymentWhatIf parameters) {
-        return whatIfWithResponseAsync(resourceGroupName, deploymentName, parameters)
-            .flatMap((DeploymentsWhatIfResponse res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = whatIfWithResponseAsync(resourceGroupName, deploymentName, parameters);
+        return client.<WhatIfOperationResultInner, WhatIfOperationResultInner>getLroResultAsync(response, client.getHttpPipeline(), WhatIfOperationResultInner.class, WhatIfOperationResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public WhatIfOperationResultInner whatIf(String resourceGroupName, String deploymentName, DeploymentWhatIf parameters) {
         return whatIfAsync(resourceGroupName, deploymentName, parameters).block();
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentExportResultInner>> exportTemplateWithResponseAsync(String resourceGroupName, String deploymentName) {
         return service.exportTemplate(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentExportResultInner> exportTemplateAsync(String resourceGroupName, String deploymentName) {
         return exportTemplateWithResponseAsync(resourceGroupName, deploymentName)
@@ -1148,11 +2172,30 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Exports the template used for specified deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentExportResultInner exportTemplate(String resourceGroupName, String deploymentName) {
         return exportTemplateAsync(resourceGroupName, deploymentName).block();
     }
 
+    /**
+     * Get all the deployments for a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listByResourceGroupSinglePageAsync(String resourceGroupName, String filter, Integer top) {
         return service.listByResourceGroup(this.client.getHost(), resourceGroupName, filter, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -1164,6 +2207,16 @@ public final class DeploymentsInner {
             null));
     }
 
+    /**
+     * Get all the deployments for a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeploymentExtendedInner> listByResourceGroupAsync(String resourceGroupName, String filter, Integer top) {
         return new PagedFlux<>(
@@ -1172,9 +2225,11 @@ public final class DeploymentsInner {
     }
 
     /**
-     * @param resourceGroupName null
-     * @param filter null
-     * @param top null
+     * Get all the deployments for a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1184,11 +2239,27 @@ public final class DeploymentsInner {
         return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, filter, top));
     }
 
+    /**
+     * Calculate the hash of the given template.
+     * 
+     * @param template MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<TemplateHashResultInner>> calculateTemplateHashWithResponseAsync(Object template) {
         return service.calculateTemplateHash(this.client.getHost(), template, this.client.getApiVersion());
     }
 
+    /**
+     * Calculate the hash of the given template.
+     * 
+     * @param template MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<TemplateHashResultInner> calculateTemplateHashAsync(Object template) {
         return calculateTemplateHashWithResponseAsync(template)
@@ -1201,11 +2272,591 @@ public final class DeploymentsInner {
             });
     }
 
+    /**
+     * Calculate the hash of the given template.
+     * 
+     * @param template MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public TemplateHashResultInner calculateTemplateHash(Object template) {
         return calculateTemplateHashAsync(template).block();
     }
 
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginDeleteAtScopeWithResponseAsync(String scope, String deploymentName) {
+        return service.beginDeleteAtScope(this.client.getHost(), scope, deploymentName, this.client.getApiVersion());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginDeleteAtScopeAsync(String scope, String deploymentName) {
+        return beginDeleteAtScopeWithResponseAsync(scope, deploymentName)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginDeleteAtScope(String scope, String deploymentName) {
+        beginDeleteAtScopeAsync(scope, deploymentName).block();
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtScopeWithResponseAsync(String scope, String deploymentName, DeploymentInner parameters) {
+        return service.beginCreateOrUpdateAtScope(this.client.getHost(), scope, deploymentName, parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<DeploymentExtendedInner> beginCreateOrUpdateAtScopeAsync(String scope, String deploymentName, DeploymentInner parameters) {
+        return beginCreateOrUpdateAtScopeWithResponseAsync(scope, deploymentName, parameters)
+            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DeploymentExtendedInner beginCreateOrUpdateAtScope(String scope, String deploymentName, DeploymentInner parameters) {
+        return beginCreateOrUpdateAtScopeAsync(scope, deploymentName, parameters).block();
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginDeleteAtTenantScopeWithResponseAsync(String deploymentName) {
+        return service.beginDeleteAtTenantScope(this.client.getHost(), deploymentName, this.client.getApiVersion());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginDeleteAtTenantScopeAsync(String deploymentName) {
+        return beginDeleteAtTenantScopeWithResponseAsync(deploymentName)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginDeleteAtTenantScope(String deploymentName) {
+        beginDeleteAtTenantScopeAsync(deploymentName).block();
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtTenantScopeWithResponseAsync(String deploymentName, ScopedDeployment parameters) {
+        return service.beginCreateOrUpdateAtTenantScope(this.client.getHost(), deploymentName, parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<DeploymentExtendedInner> beginCreateOrUpdateAtTenantScopeAsync(String deploymentName, ScopedDeployment parameters) {
+        return beginCreateOrUpdateAtTenantScopeWithResponseAsync(deploymentName, parameters)
+            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DeploymentExtendedInner beginCreateOrUpdateAtTenantScope(String deploymentName, ScopedDeployment parameters) {
+        return beginCreateOrUpdateAtTenantScopeAsync(deploymentName, parameters).block();
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginDeleteAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName) {
+        return service.beginDeleteAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, this.client.getApiVersion());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginDeleteAtManagementGroupScopeAsync(String groupId, String deploymentName) {
+        return beginDeleteAtManagementGroupScopeWithResponseAsync(groupId, deploymentName)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginDeleteAtManagementGroupScope(String groupId, String deploymentName) {
+        beginDeleteAtManagementGroupScopeAsync(groupId, deploymentName).block();
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
+        return service.beginCreateOrUpdateAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<DeploymentExtendedInner> beginCreateOrUpdateAtManagementGroupScopeAsync(String groupId, String deploymentName, ScopedDeployment parameters) {
+        return beginCreateOrUpdateAtManagementGroupScopeWithResponseAsync(groupId, deploymentName, parameters)
+            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DeploymentExtendedInner beginCreateOrUpdateAtManagementGroupScope(String groupId, String deploymentName, ScopedDeployment parameters) {
+        return beginCreateOrUpdateAtManagementGroupScopeAsync(groupId, deploymentName, parameters).block();
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginDeleteAtSubscriptionScopeWithResponseAsync(String deploymentName) {
+        return service.beginDeleteAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginDeleteAtSubscriptionScopeAsync(String deploymentName) {
+        return beginDeleteAtSubscriptionScopeWithResponseAsync(deploymentName)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginDeleteAtSubscriptionScope(String deploymentName) {
+        beginDeleteAtSubscriptionScopeAsync(deploymentName).block();
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateAtSubscriptionScopeWithResponseAsync(String deploymentName, DeploymentInner parameters) {
+        return service.beginCreateOrUpdateAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<DeploymentExtendedInner> beginCreateOrUpdateAtSubscriptionScopeAsync(String deploymentName, DeploymentInner parameters) {
+        return beginCreateOrUpdateAtSubscriptionScopeWithResponseAsync(deploymentName, parameters)
+            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DeploymentExtendedInner beginCreateOrUpdateAtSubscriptionScope(String deploymentName, DeploymentInner parameters) {
+        return beginCreateOrUpdateAtSubscriptionScopeAsync(deploymentName, parameters).block();
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the subscription.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<DeploymentsBeginWhatIfAtSubscriptionScopeResponse> beginWhatIfAtSubscriptionScopeWithResponseAsync(String deploymentName, DeploymentWhatIf parameters) {
+        return service.beginWhatIfAtSubscriptionScope(this.client.getHost(), deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the subscription.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<WhatIfOperationResultInner> beginWhatIfAtSubscriptionScopeAsync(String deploymentName, DeploymentWhatIf parameters) {
+        return beginWhatIfAtSubscriptionScopeWithResponseAsync(deploymentName, parameters)
+            .flatMap((DeploymentsBeginWhatIfAtSubscriptionScopeResponse res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the subscription.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public WhatIfOperationResultInner beginWhatIfAtSubscriptionScope(String deploymentName, DeploymentWhatIf parameters) {
+        return beginWhatIfAtSubscriptionScopeAsync(deploymentName, parameters).block();
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginDeleteWithResponseAsync(String resourceGroupName, String deploymentName) {
+        return service.beginDelete(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), this.client.getApiVersion());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginDeleteAsync(String resourceGroupName, String deploymentName) {
+        return beginDeleteWithResponseAsync(resourceGroupName, deploymentName)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * A template deployment that is currently running cannot be deleted. Deleting a template deployment removes the associated deployment operations. Deleting a template deployment does not affect the state of the resource group. This is an asynchronous operation that returns a status of 202 until the template deployment is successfully deleted. The Location response header contains the URI that is used to obtain the status of the process. While the process is running, a call to the URI in the Location header returns a status of 202. When the process finishes, the URI in the Location header returns a status of 204 on success. If the asynchronous request failed, the URI in the Location header returns an error-level status code.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginDelete(String resourceGroupName, String deploymentName) {
+        beginDeleteAsync(resourceGroupName, deploymentName).block();
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<DeploymentExtendedInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+        return service.beginCreateOrUpdate(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<DeploymentExtendedInner> beginCreateOrUpdateAsync(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+        return beginCreateOrUpdateWithResponseAsync(resourceGroupName, deploymentName, parameters)
+            .flatMap((SimpleResponse<DeploymentExtendedInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * You can provide the template and parameters directly in the request or link to JSON files.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public DeploymentExtendedInner beginCreateOrUpdate(String resourceGroupName, String deploymentName, DeploymentInner parameters) {
+        return beginCreateOrUpdateAsync(resourceGroupName, deploymentName, parameters).block();
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<DeploymentsBeginWhatIfResponse> beginWhatIfWithResponseAsync(String resourceGroupName, String deploymentName, DeploymentWhatIf parameters) {
+        return service.beginWhatIf(this.client.getHost(), resourceGroupName, deploymentName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<WhatIfOperationResultInner> beginWhatIfAsync(String resourceGroupName, String deploymentName, DeploymentWhatIf parameters) {
+        return beginWhatIfWithResponseAsync(resourceGroupName, deploymentName, parameters)
+            .flatMap((DeploymentsBeginWhatIfResponse res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Returns changes that will be made by the deployment if executed at the scope of the resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Deployment What-if operation parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public WhatIfOperationResultInner beginWhatIf(String resourceGroupName, String deploymentName, DeploymentWhatIf parameters) {
+        return beginWhatIfAsync(resourceGroupName, deploymentName, parameters).block();
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listAtScopeNextSinglePageAsync(String nextLink) {
         return service.listAtScopeNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -1217,6 +2868,14 @@ public final class DeploymentsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listAtTenantScopeNextSinglePageAsync(String nextLink) {
         return service.listAtTenantScopeNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -1228,6 +2887,14 @@ public final class DeploymentsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listAtManagementGroupScopeNextSinglePageAsync(String nextLink) {
         return service.listAtManagementGroupScopeNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -1239,6 +2906,14 @@ public final class DeploymentsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listAtSubscriptionScopeNextSinglePageAsync(String nextLink) {
         return service.listAtSubscriptionScopeNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -1250,6 +2925,14 @@ public final class DeploymentsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentExtendedInner>> listByResourceGroupNextSinglePageAsync(String nextLink) {
         return service.listByResourceGroupNext(nextLink).map(res -> new PagedResponseBase<>(

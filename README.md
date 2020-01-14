@@ -173,6 +173,8 @@ You can create a virtual machine scale set instance by using a `define() … cre
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-vmss-in-availability-zones">Manage virtual machine scale sets in availability zones</a></li>
 
 <li><a href="https://github.com/Azure-Samples/compute-java-list-compute-skus">List compute SKUs</a></li>
+<li><a href="https://github.com/Azure-Samples/compute-java-manage-managed-disks">Manage virtual machine with managed disks</li>
+<li><a href="https://github.com/Azure-Samples/compute-java-manage-virtual-machine-with-disks">Manage virtual machine with disks</li>
 
 </ul></td>
   </tr>
@@ -304,6 +306,7 @@ ApplicationGateway applicationGateway = azure.applicationGateways().define("myFi
     <td>Traffic Manager</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/traffic-manager-java-manage-profiles">Manage traffic manager profiles</a></li>
+<li><a href="https://github.com/Azure-Samples/traffic-manager-java-manage-simple-profiles">Manage simple traffic manager profiles</a></li>
 </ul></td>
   </tr>
 
@@ -362,6 +365,7 @@ WebApp webApp = azure.webApps()
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-authentication-for-web-apps">Manage authentication for Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-access-key-vault-by-msi-for-web-apps">Safegaurd Web app secrets in Key Vault</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-access-key-vault-convenience-for-web-apps">Safegaurd Web app secrets in Key Vault using convenience API</a></li>
+<li><a href="https://github.com/Azure-Samples/app-service-java-manage-logs-for-web-apps">Get logs for Web apps</a></li>
 </ul></td>
   </tr>
 
@@ -375,6 +379,7 @@ WebApp webApp = azure.webApps()
 <li><a href="https://github.com/Azure-Samples/app-service-java-scale-web-apps-on-linux">Scale Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-storage-connections-for-web-apps-on-linux">Manage storage connections for Web apps</a></li>
 <li><a href="https://github.com/Azure-Samples/app-service-java-manage-data-connections-for-web-apps-on-linux">Manage data connections (such as SQL database and Redis cache) for Web apps</a></li>
+<li><a href="https://github.com/Azure-Samples/app-service-java-access-key-vault-convenience-for-web-apps-on-linux">Safegaurd Web app secrets in Key Vault on Linux</a></li>
 </ul></td>
   </tr>
 
@@ -459,19 +464,21 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-recover-restore-db">Restore and recover SQL databases</a></li>
 <li><a href="https://github.com/Azure-Samples/sql-database-java-get-sql-metrics">Get SQL Database metrics</a></li>
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-failover-groups">Manage SQL Database Failover Groups</a></li>
-<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-server-dns-aliases">Manage SQL Server DNL aliases</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-server-dns-aliases">Manage SQL Server DNS aliases</a></li>
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-secrets-in-key-vault">Manage SQL secrets (Server Keys) in Azure Key Vault</a></li>
 <li><a href="https://github.com/Azure-Samples/sql-database-java-manage-virtual-network-rules">Manage SQL Virtual Network Rules</a></li>
+<li><a href="https://github.com/Azure-Samples/sql-database-java-manage-sql-server-security-alert-policy">Manage SQL Server Security Alert Policy</a></li>
 </ul></td>
   </tr>
 
   <tr>
     <td>Cosmos DB</td>
     <td><ul style="list-style-type:circle">
-<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-documentdb-and-configure-for-high-availability">Create a CosmosDB and configure it for high availability</a></li>
-<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-documentdb-and-configure-for-eventual-consistency">Create a CosmosDB and configure it with eventual consistency</a></li>
-<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-documentdb-and-configure-firewall">Create a CosmosDB, configure it for high availability and create a firewall to limit access from an approved set of IP addresses</li>
-<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-documentdb-and-get-mongodb-connection-string">Create a CosmosDB and get MongoDB connection string</li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-configure-for-high-availability">Create a CosmosDB and configure it for high availability</a></li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-configure-for-eventual-consistency">Create a CosmosDB and configure it with eventual consistency</a></li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-configure-firewall">Create a CosmosDB, configure it for high availability and create a firewall to limit access from an approved set of IP addresses</li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-and-get-mongodb-connection-string">Create a CosmosDB and get MongoDB connection string</li>
+<li><a href="https://github.com/Azure-Samples/cosmosdb-java-create-cosmosdb-table-with-virtual-network-rule">Create a CosmosDB Table with a virtual network rule</li>
 </ul></td>
   </tr>
 
@@ -489,6 +496,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
     <td>Active Directory</td>
     <td><ul style="list-style-type:circle">
 <li><a href="https://github.com/Azure-Samples/aad-java-manage-service-principals">Manage service principals using Java</a></li>
+<li><a href="https://github.com/Azure-Samples/aad-java-manage-service-principal-credentials">Manage credentials for service principals using Java</a></li>
 <li><a href="https://github.com/Azure-Samples/aad-java-manage-users-groups-and-roles">Manage users and groups and manage their roles</a></li>
 <li><a href="https://github.com/Azure-Samples/aad-java-manage-passwords">Manage passwords</li>
 <li><a href="https://github.com/Azure-Samples/compute-java-manage-resources-from-vm-with-msi-in-aad-group">Manage Azure resources from a managed service identity (MSI) enabled virtual machine that belongs to an Azure Active Directory (AAD) security group</a></li>
@@ -502,6 +510,7 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/acr-java-manage-azure-container-registry-with-webhooks">Manage container registry with Web hooks</a></li>
 <li><a href="https://github.com/Azure-Samples/aks-java-manage-kubernetes-cluster">Manage Kubernetes cluster (AKS)</a></li>
 <li><a href="https://github.com/Azure-Samples/aks-java-deploy-image-from-acr-to-kubernetes">Deploy an image from container registry to Kubernetes cluster (AKS)</a></li>
+<li><a href="https://github.com/Azure-Samples/aks-java-manage-kubernetes-cluster-with-advanced-networking">Manage Kubernetes clusters with advanced networking</a></li>
 
 <li><a href="https://github.com/Azure-Samples/acs-java-deploy-image-from-acr-to-acs-orchestrator">Deploy an image from container registry to ACS with Kubernetes orchestrator</a></li>
 <!--
@@ -533,7 +542,10 @@ SqlDatabase database = sqlServer.databases().define("myNewDatabase")
 <li><a href="https://github.com/Azure-Samples/resources-java-manage-resource-group">Manage resource groups</a></li>
 <li><a href="https://github.com/Azure-Samples/resources-java-manage-resource">Manage resources</a></li>
 <li><a href="https://github.com/Azure-Samples/locks-java-manage-locks">Manage resource locks</a></li>
+<li><a href="https://github.com/Azure-Samples/resources-java-web-server-with-delegated-credentials">Manage delegated credentials</a></li>
 <li><a href="https://github.com/Azure-Samples/resources-java-deploy-using-arm-template">Deploy resources with ARM templates</a></li>
+<li><a href="https://github.com/Azure-Samples/resources-java-deploy-using-arm-template-async">Deploy resources with ARM templates asynchronously</a></li>
+<li><a href="https://github.com/Azure-Samples/resources-java-deploy-using-arm-template-with-deployment-operations">Deploy resources with ARM templates with deployment operations</a></li>
 <li><a href="https://github.com/Azure-Samples/resources-java-deploy-using-arm-template-with-progress">Deploy resources with ARM templates (with progress)</a></li>
 <li><a href="https://github.com/Azure-Samples/resources-java-deploy-virtual-machine-with-managed-disks-using-arm-template">Deploy a virtual machine with managed disks using an ARM template</li></ul></td>
   </tr>

@@ -98,7 +98,7 @@ public abstract class AzureServiceClient {
 
     private SerializerAdapter serializerAdapter = new AzureJacksonAdapter();
 
-    private int longRunningOperationRetryTimeout = -1;
+    private int longRunningOperationRetryTimeout = 30;
 
     public SerializerAdapter getSerializerAdapter() {
         return this.serializerAdapter;

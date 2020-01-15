@@ -64,6 +64,12 @@ public final class SkusInner {
         Mono<SimpleResponse<StorageSkuListResultInner>> list(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Lists the available SKUs supported by Microsoft.Storage for given subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Sku>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -75,6 +81,12 @@ public final class SkusInner {
             null));
     }
 
+    /**
+     * Lists the available SKUs supported by Microsoft.Storage for given subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<Sku> listAsync() {
         return new PagedFlux<>(
@@ -82,6 +94,8 @@ public final class SkusInner {
     }
 
     /**
+     * Lists the available SKUs supported by Microsoft.Storage for given subscription.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */

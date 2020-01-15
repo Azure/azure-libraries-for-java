@@ -91,27 +91,72 @@ public final class TagsInner {
         Mono<SimpleResponse<TagsListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Deletes a tag value.
+     * 
+     * @param tagName The additional properties.
+     * @param tagValue The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteValueWithResponseAsync(String tagName, String tagValue) {
         return service.deleteValue(this.client.getHost(), tagName, tagValue, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Deletes a tag value.
+     * 
+     * @param tagName The additional properties.
+     * @param tagValue The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteValueAsync(String tagName, String tagValue) {
         return deleteValueWithResponseAsync(tagName, tagValue)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Deletes a tag value.
+     * 
+     * @param tagName The additional properties.
+     * @param tagValue The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void deleteValue(String tagName, String tagValue) {
         deleteValueAsync(tagName, tagValue).block();
     }
 
+    /**
+     * Creates a tag value. The name of the tag must already exist.
+     * 
+     * @param tagName The additional properties.
+     * @param tagValue The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<TagValueInner>> createOrUpdateValueWithResponseAsync(String tagName, String tagValue) {
         return service.createOrUpdateValue(this.client.getHost(), tagName, tagValue, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Creates a tag value. The name of the tag must already exist.
+     * 
+     * @param tagName The additional properties.
+     * @param tagValue The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<TagValueInner> createOrUpdateValueAsync(String tagName, String tagValue) {
         return createOrUpdateValueWithResponseAsync(tagName, tagValue)
@@ -124,16 +169,41 @@ public final class TagsInner {
             });
     }
 
+    /**
+     * Creates a tag value. The name of the tag must already exist.
+     * 
+     * @param tagName The additional properties.
+     * @param tagValue The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public TagValueInner createOrUpdateValue(String tagName, String tagValue) {
         return createOrUpdateValueAsync(tagName, tagValue).block();
     }
 
+    /**
+     * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
+     * 
+     * @param tagName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<TagDetailsInner>> createOrUpdateWithResponseAsync(String tagName) {
         return service.createOrUpdate(this.client.getHost(), tagName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
+     * 
+     * @param tagName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<TagDetailsInner> createOrUpdateAsync(String tagName) {
         return createOrUpdateWithResponseAsync(tagName)
@@ -146,27 +216,65 @@ public final class TagsInner {
             });
     }
 
+    /**
+     * The tag name can have a maximum of 512 characters and is case insensitive. Tag names created by Azure have prefixes of microsoft, azure, or windows. You cannot create tags with one of these prefixes.
+     * 
+     * @param tagName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public TagDetailsInner createOrUpdate(String tagName) {
         return createOrUpdateAsync(tagName).block();
     }
 
+    /**
+     * You must remove all values from a resource tag before you can delete it.
+     * 
+     * @param tagName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteWithResponseAsync(String tagName) {
         return service.delete(this.client.getHost(), tagName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * You must remove all values from a resource tag before you can delete it.
+     * 
+     * @param tagName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String tagName) {
         return deleteWithResponseAsync(tagName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * You must remove all values from a resource tag before you can delete it.
+     * 
+     * @param tagName The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String tagName) {
         deleteAsync(tagName).block();
     }
 
+    /**
+     * Gets the names and values of all resource tags that are defined in a subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<TagDetailsInner>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -178,6 +286,12 @@ public final class TagsInner {
             null));
     }
 
+    /**
+     * Gets the names and values of all resource tags that are defined in a subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<TagDetailsInner> listAsync() {
         return new PagedFlux<>(
@@ -186,6 +300,8 @@ public final class TagsInner {
     }
 
     /**
+     * Gets the names and values of all resource tags that are defined in a subscription.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -194,6 +310,14 @@ public final class TagsInner {
         return new PagedIterable<>(listAsync());
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<TagDetailsInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(

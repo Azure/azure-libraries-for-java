@@ -70,6 +70,12 @@ public final class OperationsInner {
         Mono<SimpleResponse<OperationListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Lists all of the available Microsoft.Resources REST API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Operation>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -81,6 +87,12 @@ public final class OperationsInner {
             null));
     }
 
+    /**
+     * Lists all of the available Microsoft.Resources REST API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<Operation> listAsync() {
         return new PagedFlux<>(
@@ -89,6 +101,8 @@ public final class OperationsInner {
     }
 
     /**
+     * Lists all of the available Microsoft.Resources REST API operations.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -97,6 +111,14 @@ public final class OperationsInner {
         return new PagedIterable<>(listAsync());
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Operation>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(

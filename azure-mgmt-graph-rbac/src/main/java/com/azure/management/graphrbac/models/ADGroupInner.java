@@ -7,7 +7,6 @@
 package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -18,7 +17,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 @JsonTypeName("Group")
 @Fluent
-public final class ADGroupInner extends DirectoryObject {
+public final class ADGroupInner extends DirectoryObjectInner {
     /*
      * The display name of the group.
      */

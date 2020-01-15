@@ -22,7 +22,6 @@ import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.graphrbac.DirectoryObject;
 import reactor.core.publisher.Mono;
 
 /**
@@ -121,7 +120,7 @@ public final class SignedInUsersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> listOwnedObjectsSinglePageAsync() {
+    public Mono<PagedResponse<DirectoryObjectInner>> listOwnedObjectsSinglePageAsync() {
         return service.listOwnedObjects(this.client.getHost(), this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -138,7 +137,7 @@ public final class SignedInUsersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<DirectoryObject> listOwnedObjectsAsync() {
+    public PagedFlux<DirectoryObjectInner> listOwnedObjectsAsync() {
         return new PagedFlux<>(
             () -> listOwnedObjectsSinglePageAsync(),
             nextLink -> listOwnedObjectsNextSinglePageAsync(nextLink));
@@ -151,7 +150,7 @@ public final class SignedInUsersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<DirectoryObject> listOwnedObjects() {
+    public PagedIterable<DirectoryObjectInner> listOwnedObjects() {
         return new PagedIterable<>(listOwnedObjectsAsync());
     }
 
@@ -164,7 +163,7 @@ public final class SignedInUsersInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> listOwnedObjectsNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<DirectoryObjectInner>> listOwnedObjectsNextSinglePageAsync(String nextLink) {
         return service.listOwnedObjectsNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

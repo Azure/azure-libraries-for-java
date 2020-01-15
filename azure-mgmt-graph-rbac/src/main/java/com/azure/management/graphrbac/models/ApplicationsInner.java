@@ -30,7 +30,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.management.graphrbac.AddOwnerParameters;
 import com.azure.management.graphrbac.ApplicationCreateParameters;
 import com.azure.management.graphrbac.ApplicationUpdateParameters;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.KeyCredential;
 import com.azure.management.graphrbac.KeyCredentialsUpdateParameters;
 import com.azure.management.graphrbac.PasswordCredential;
@@ -377,7 +376,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> listOwnersSinglePageAsync(String applicationObjectId) {
+    public Mono<PagedResponse<DirectoryObjectInner>> listOwnersSinglePageAsync(String applicationObjectId) {
         return service.listOwners(this.client.getHost(), applicationObjectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -396,7 +395,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<DirectoryObject> listOwnersAsync(String applicationObjectId) {
+    public PagedFlux<DirectoryObjectInner> listOwnersAsync(String applicationObjectId) {
         return new PagedFlux<>(
             () -> listOwnersSinglePageAsync(applicationObjectId),
             nextLink -> listOwnersNextSinglePageAsync(nextLink));
@@ -411,7 +410,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<DirectoryObject> listOwners(String applicationObjectId) {
+    public PagedIterable<DirectoryObjectInner> listOwners(String applicationObjectId) {
         return new PagedIterable<>(listOwnersAsync(applicationObjectId));
     }
 
@@ -753,7 +752,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> listOwnersNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<DirectoryObjectInner>> listOwnersNextSinglePageAsync(String nextLink) {
         return service.listOwnersNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

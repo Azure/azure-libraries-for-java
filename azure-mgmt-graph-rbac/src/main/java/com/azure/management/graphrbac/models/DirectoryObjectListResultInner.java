@@ -7,7 +7,6 @@
 package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public final class DirectoryObjectListResultInner {
      * A collection of DirectoryObject.
      */
     @JsonProperty(value = "value")
-    private List<DirectoryObject> value;
+    private List<DirectoryObjectInner> value;
 
     /*
      * The URL to get the next set of results.
@@ -33,7 +32,7 @@ public final class DirectoryObjectListResultInner {
      * 
      * @return the value value.
      */
-    public List<DirectoryObject> getValue() {
+    public List<DirectoryObjectInner> getValue() {
         return this.value;
     }
 
@@ -43,7 +42,7 @@ public final class DirectoryObjectListResultInner {
      * @param value the value value to set.
      * @return the DirectoryObjectListResultInner object itself.
      */
-    public DirectoryObjectListResultInner setValue(List<DirectoryObject> value) {
+    public DirectoryObjectListResultInner setValue(List<DirectoryObjectInner> value) {
         this.value = value;
         return this;
     }

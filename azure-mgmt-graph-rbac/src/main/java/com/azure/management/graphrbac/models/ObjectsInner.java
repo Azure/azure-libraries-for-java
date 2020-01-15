@@ -24,7 +24,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.GetObjectsParameters;
 import reactor.core.publisher.Mono;
 
@@ -81,7 +80,7 @@ public final class ObjectsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> getObjectsByObjectIdsSinglePageAsync(GetObjectsParameters parameters) {
+    public Mono<PagedResponse<DirectoryObjectInner>> getObjectsByObjectIdsSinglePageAsync(GetObjectsParameters parameters) {
         return service.getObjectsByObjectIds(this.client.getHost(), this.client.getTenantID(), parameters, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -100,7 +99,7 @@ public final class ObjectsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<DirectoryObject> getObjectsByObjectIdsAsync(GetObjectsParameters parameters) {
+    public PagedFlux<DirectoryObjectInner> getObjectsByObjectIdsAsync(GetObjectsParameters parameters) {
         return new PagedFlux<>(
             () -> getObjectsByObjectIdsSinglePageAsync(parameters),
             nextLink -> getObjectsByObjectIdsNextSinglePageAsync(nextLink));
@@ -115,7 +114,7 @@ public final class ObjectsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<DirectoryObject> getObjectsByObjectIds(GetObjectsParameters parameters) {
+    public PagedIterable<DirectoryObjectInner> getObjectsByObjectIds(GetObjectsParameters parameters) {
         return new PagedIterable<>(getObjectsByObjectIdsAsync(parameters));
     }
 
@@ -128,7 +127,7 @@ public final class ObjectsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> getObjectsByObjectIdsNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<DirectoryObjectInner>> getObjectsByObjectIdsNextSinglePageAsync(String nextLink) {
         return service.getObjectsByObjectIdsNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

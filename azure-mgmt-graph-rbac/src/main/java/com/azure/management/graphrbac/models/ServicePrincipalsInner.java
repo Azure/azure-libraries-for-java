@@ -27,7 +27,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.KeyCredential;
 import com.azure.management.graphrbac.KeyCredentialsUpdateParameters;
 import com.azure.management.graphrbac.PasswordCredential;
@@ -361,7 +360,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> listOwnersSinglePageAsync(String objectId) {
+    public Mono<PagedResponse<DirectoryObjectInner>> listOwnersSinglePageAsync(String objectId) {
         return service.listOwners(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -380,7 +379,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<DirectoryObject> listOwnersAsync(String objectId) {
+    public PagedFlux<DirectoryObjectInner> listOwnersAsync(String objectId) {
         return new PagedFlux<>(
             () -> listOwnersSinglePageAsync(objectId),
             nextLink -> listOwnersNextSinglePageAsync(nextLink));
@@ -395,7 +394,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<DirectoryObject> listOwners(String objectId) {
+    public PagedIterable<DirectoryObjectInner> listOwners(String objectId) {
         return new PagedIterable<>(listOwnersAsync(objectId));
     }
 
@@ -605,7 +604,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> listOwnersNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<DirectoryObjectInner>> listOwnersNextSinglePageAsync(String nextLink) {
         return service.listOwnersNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

@@ -8,7 +8,6 @@ package com.azure.management.graphrbac.models;
 
 import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.HttpResponse;
-import com.azure.management.graphrbac.GraphError;
 
 /**
  * Exception thrown for an invalid response with GraphError information.

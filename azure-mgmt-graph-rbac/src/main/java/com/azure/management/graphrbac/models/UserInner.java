@@ -7,7 +7,6 @@
 package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.SignInName;
 import com.azure.management.graphrbac.UserType;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +20,7 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 @JsonTypeName("User")
 @Fluent
-public final class UserInner extends DirectoryObject {
+public final class UserInner extends DirectoryObjectInner {
     /*
      * This must be specified if you are using a federated domain for the
      * user's userPrincipalName (UPN) property when creating a new user

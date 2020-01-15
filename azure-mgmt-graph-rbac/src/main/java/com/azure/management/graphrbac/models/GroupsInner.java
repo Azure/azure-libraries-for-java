@@ -28,7 +28,6 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.management.graphrbac.AddOwnerParameters;
 import com.azure.management.graphrbac.CheckGroupMembershipParameters;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.GroupAddMemberParameters;
 import com.azure.management.graphrbac.GroupCreateParameters;
 import com.azure.management.graphrbac.GroupGetMemberGroupsParameters;
@@ -377,7 +376,7 @@ public final class GroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> getGroupMembersSinglePageAsync(String objectId) {
+    public Mono<PagedResponse<DirectoryObjectInner>> getGroupMembersSinglePageAsync(String objectId) {
         return service.getGroupMembers(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -396,7 +395,7 @@ public final class GroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<DirectoryObject> getGroupMembersAsync(String objectId) {
+    public PagedFlux<DirectoryObjectInner> getGroupMembersAsync(String objectId) {
         return new PagedFlux<>(
             () -> getGroupMembersSinglePageAsync(objectId),
             nextLink -> getGroupMembersNextSinglePageAsync(nextLink));
@@ -411,7 +410,7 @@ public final class GroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<DirectoryObject> getGroupMembers(String objectId) {
+    public PagedIterable<DirectoryObjectInner> getGroupMembers(String objectId) {
         return new PagedIterable<>(getGroupMembersAsync(objectId));
     }
 
@@ -559,7 +558,7 @@ public final class GroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> listOwnersSinglePageAsync(String objectId) {
+    public Mono<PagedResponse<DirectoryObjectInner>> listOwnersSinglePageAsync(String objectId) {
         return service.listOwners(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -578,7 +577,7 @@ public final class GroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<DirectoryObject> listOwnersAsync(String objectId) {
+    public PagedFlux<DirectoryObjectInner> listOwnersAsync(String objectId) {
         return new PagedFlux<>(
             () -> listOwnersSinglePageAsync(objectId),
             nextLink -> listOwnersNextSinglePageAsync(nextLink));
@@ -593,7 +592,7 @@ public final class GroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<DirectoryObject> listOwners(String objectId) {
+    public PagedIterable<DirectoryObjectInner> listOwners(String objectId) {
         return new PagedIterable<>(listOwnersAsync(objectId));
     }
 
@@ -711,7 +710,7 @@ public final class GroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> getGroupMembersNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<DirectoryObjectInner>> getGroupMembersNextSinglePageAsync(String nextLink) {
         return service.getGroupMembersNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -730,7 +729,7 @@ public final class GroupsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DirectoryObject>> listOwnersNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<DirectoryObjectInner>> listOwnersNextSinglePageAsync(String nextLink) {
         return service.listOwnersNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

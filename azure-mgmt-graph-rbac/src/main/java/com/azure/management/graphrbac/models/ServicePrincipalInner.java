@@ -8,7 +8,6 @@ package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.graphrbac.AppRole;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.KeyCredential;
 import com.azure.management.graphrbac.OAuth2Permission;
 import com.azure.management.graphrbac.PasswordCredential;
@@ -23,7 +22,7 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 @JsonTypeName("ServicePrincipal")
 @Fluent
-public final class ServicePrincipalInner extends DirectoryObject {
+public final class ServicePrincipalInner extends DirectoryObjectInner {
     /*
      * whether or not the service principal account is enabled
      */

@@ -8,7 +8,6 @@ package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.graphrbac.AppRole;
-import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.GroupMembershipClaimTypes;
 import com.azure.management.graphrbac.InformationalUrl;
 import com.azure.management.graphrbac.KeyCredential;
@@ -28,7 +27,7 @@ import java.util.List;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 @JsonTypeName("Application")
 @Fluent
-public final class ApplicationInner extends DirectoryObject {
+public final class ApplicationInner extends DirectoryObjectInner {
     /*
      * The application ID.
      */

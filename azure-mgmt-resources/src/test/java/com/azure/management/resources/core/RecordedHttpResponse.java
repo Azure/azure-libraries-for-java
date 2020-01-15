@@ -18,23 +18,23 @@ import java.nio.charset.StandardCharsets;
 /**
  * HTTP response which will cache the response's body when/if it is read.
  */
-public class CachedHttpResponse extends HttpResponse {
+public class RecordedHttpResponse extends HttpResponse {
     private final HttpHeaders headers;
     private final int statusCode;
     private Flux<ByteBuffer> cachedBody;
 
-    public CachedHttpResponse(int statusCode, HttpRequest request) {
+    public RecordedHttpResponse(int statusCode, HttpRequest request) {
         super(request);
         this.headers = new HttpHeaders();
         this.statusCode = statusCode;
     }
 
-    public CachedHttpResponse setBody(byte[] body) {
+    public RecordedHttpResponse setBody(byte[] body) {
         this.cachedBody = Flux.just(ByteBuffer.wrap(body));
         return this;
     }
 
-    public CachedHttpResponse setBody(ByteBuffer body) {
+    public RecordedHttpResponse setBody(ByteBuffer body) {
         this.cachedBody = Flux.just(body);
         return this;
     }

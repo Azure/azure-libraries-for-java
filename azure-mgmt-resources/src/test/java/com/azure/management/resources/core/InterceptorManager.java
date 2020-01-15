@@ -189,10 +189,9 @@ public class InterceptorManager {
 
         final NetworkCallRecord finalNetworkCallRecord = networkCallRecord;
         return next.process().flatMap(originalResponse -> {
-            // TODO: Close socket
-            // originalResponse.body().close();
+            originalResponse.close();
 
-            CachedHttpResponse response = new CachedHttpResponse(recordStatusCode, originalResponse.getRequest());
+            RecordedHttpResponse response = new RecordedHttpResponse(recordStatusCode, originalResponse.getRequest());
 
             for (Map.Entry<String, String> pair : finalNetworkCallRecord.Response.entrySet()) {
                 if (!pair.getKey().equals("StatusCode") && !pair.getKey().equals("Body") && !pair.getKey().equals("Content-Length")) {

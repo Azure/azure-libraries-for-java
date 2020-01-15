@@ -33,6 +33,13 @@ public final class Identity {
     private String type;
 
     /**
+     * Creates an instance of Identity class.
+     */
+    public Identity() {
+        type = "SystemAssigned";
+    }
+
+    /**
      * Get the principalId property: The principal ID of resource identity.
      * 
      * @return the principalId value.

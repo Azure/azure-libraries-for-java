@@ -28,6 +28,13 @@ public final class IPRule {
     private String action;
 
     /**
+     * Creates an instance of IPRule class.
+     */
+    public IPRule() {
+        action = "Allow";
+    }
+
+    /**
      * Get the iPAddressOrRange property: Specifies the IP or IP range in CIDR
      * format. Only IPV4 address is allowed.
      * 

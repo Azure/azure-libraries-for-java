@@ -6,7 +6,6 @@
 
 package com.azure.management.storage.implementation;
 
-import com.azure.management.storage.Action;
 import com.azure.management.storage.Bypass;
 import com.azure.management.storage.DefaultAction;
 import com.azure.management.storage.IPRule;
@@ -223,9 +222,7 @@ final class StorageNetworkRulesHelper {
         }
         if (!found) {
             networkRuleSet.getVirtualNetworkRules().add(new VirtualNetworkRule()
-                    .setVirtualNetworkResourceId(subnetId)
-                    // FIXME: Aaction should be removed
-                    .setAction(Action.ALLOW.toString()));
+                    .setVirtualNetworkResourceId(subnetId));
         }
         return this;
     }

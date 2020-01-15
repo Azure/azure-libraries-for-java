@@ -64,6 +64,12 @@ public final class OperationsInner {
         Mono<SimpleResponse<OperationListResultInner>> list(@HostParam("$host") String host, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Lists all of the available Storage Rest API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Operation>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -75,6 +81,12 @@ public final class OperationsInner {
             null));
     }
 
+    /**
+     * Lists all of the available Storage Rest API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<Operation> listAsync() {
         return new PagedFlux<>(
@@ -82,6 +94,8 @@ public final class OperationsInner {
     }
 
     /**
+     * Lists all of the available Storage Rest API operations.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */

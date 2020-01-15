@@ -8,8 +8,9 @@ package com.azure.management.resources.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.ErrorResponse;
-import com.azure.management.resources.WhatIfOperationProperties;
+import com.azure.management.resources.WhatIfChange;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.List;
 
 /**
  * The WhatIfOperationResult model.
@@ -23,10 +24,10 @@ public final class WhatIfOperationResultInner {
     private String status;
 
     /*
-     * Deployment operation properties.
+     * List of resource changes predicted by What-If operation.
      */
-    @JsonProperty(value = "properties")
-    private WhatIfOperationProperties properties;
+    @JsonProperty(value = "properties.changes")
+    private List<WhatIfChange> changes;
 
     /*
      * The resource management error response.
@@ -55,22 +56,24 @@ public final class WhatIfOperationResultInner {
     }
 
     /**
-     * Get the properties property: Deployment operation properties.
+     * Get the changes property: List of resource changes predicted by What-If
+     * operation.
      * 
-     * @return the properties value.
+     * @return the changes value.
      */
-    public WhatIfOperationProperties getProperties() {
-        return this.properties;
+    public List<WhatIfChange> getChanges() {
+        return this.changes;
     }
 
     /**
-     * Set the properties property: Deployment operation properties.
+     * Set the changes property: List of resource changes predicted by What-If
+     * operation.
      * 
-     * @param properties the properties value to set.
+     * @param changes the changes value to set.
      * @return the WhatIfOperationResultInner object itself.
      */
-    public WhatIfOperationResultInner setProperties(WhatIfOperationProperties properties) {
-        this.properties = properties;
+    public WhatIfOperationResultInner setChanges(List<WhatIfChange> changes) {
+        this.changes = changes;
         return this;
     }
 

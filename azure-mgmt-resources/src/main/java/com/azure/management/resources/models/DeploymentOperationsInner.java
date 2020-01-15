@@ -106,7 +106,7 @@ public final class DeploymentOperationsInner {
         @Get("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<DeploymentOperationsListResultInner>> list(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @QueryParam("$top") Integer top, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<DeploymentOperationsListResultInner>> listByResourceGroup(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("deploymentName") String deploymentName, @QueryParam("$top") Integer top, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("{nextLink}")
         @ExpectedResponses({200})
@@ -134,11 +134,31 @@ public final class DeploymentOperationsInner {
         Mono<SimpleResponse<DeploymentOperationsListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentOperationInner>> getAtScopeWithResponseAsync(String scope, String deploymentName, String operationId) {
         return service.getAtScope(this.client.getHost(), scope, deploymentName, operationId, this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentOperationInner> getAtScopeAsync(String scope, String deploymentName, String operationId) {
         return getAtScopeWithResponseAsync(scope, deploymentName, operationId)
@@ -151,11 +171,31 @@ public final class DeploymentOperationsInner {
             });
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentOperationInner getAtScope(String scope, String deploymentName, String operationId) {
         return getAtScopeAsync(scope, deploymentName, operationId).block();
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listAtScopeSinglePageAsync(String scope, String deploymentName, Integer top) {
         return service.listAtScope(this.client.getHost(), scope, deploymentName, top, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -167,6 +207,16 @@ public final class DeploymentOperationsInner {
             null));
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeploymentOperationInner> listAtScopeAsync(String scope, String deploymentName, Integer top) {
         return new PagedFlux<>(
@@ -175,9 +225,11 @@ public final class DeploymentOperationsInner {
     }
 
     /**
-     * @param scope null
-     * @param deploymentName null
-     * @param top null
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param scope The additional properties.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -187,11 +239,29 @@ public final class DeploymentOperationsInner {
         return new PagedIterable<>(listAtScopeAsync(scope, deploymentName, top));
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentOperationInner>> getAtTenantScopeWithResponseAsync(String deploymentName, String operationId) {
         return service.getAtTenantScope(this.client.getHost(), deploymentName, operationId, this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentOperationInner> getAtTenantScopeAsync(String deploymentName, String operationId) {
         return getAtTenantScopeWithResponseAsync(deploymentName, operationId)
@@ -204,11 +274,29 @@ public final class DeploymentOperationsInner {
             });
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentOperationInner getAtTenantScope(String deploymentName, String operationId) {
         return getAtTenantScopeAsync(deploymentName, operationId).block();
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listAtTenantScopeSinglePageAsync(String deploymentName, Integer top) {
         return service.listAtTenantScope(this.client.getHost(), deploymentName, top, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -220,6 +308,15 @@ public final class DeploymentOperationsInner {
             null));
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeploymentOperationInner> listAtTenantScopeAsync(String deploymentName, Integer top) {
         return new PagedFlux<>(
@@ -228,8 +325,10 @@ public final class DeploymentOperationsInner {
     }
 
     /**
-     * @param deploymentName null
-     * @param top null
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -239,11 +338,31 @@ public final class DeploymentOperationsInner {
         return new PagedIterable<>(listAtTenantScopeAsync(deploymentName, top));
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentOperationInner>> getAtManagementGroupScopeWithResponseAsync(String groupId, String deploymentName, String operationId) {
         return service.getAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, operationId, this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentOperationInner> getAtManagementGroupScopeAsync(String groupId, String deploymentName, String operationId) {
         return getAtManagementGroupScopeWithResponseAsync(groupId, deploymentName, operationId)
@@ -256,11 +375,31 @@ public final class DeploymentOperationsInner {
             });
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentOperationInner getAtManagementGroupScope(String groupId, String deploymentName, String operationId) {
         return getAtManagementGroupScopeAsync(groupId, deploymentName, operationId).block();
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listAtManagementGroupScopeSinglePageAsync(String groupId, String deploymentName, Integer top) {
         return service.listAtManagementGroupScope(this.client.getHost(), groupId, deploymentName, top, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -272,6 +411,16 @@ public final class DeploymentOperationsInner {
             null));
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeploymentOperationInner> listAtManagementGroupScopeAsync(String groupId, String deploymentName, Integer top) {
         return new PagedFlux<>(
@@ -280,9 +429,11 @@ public final class DeploymentOperationsInner {
     }
 
     /**
-     * @param groupId null
-     * @param deploymentName null
-     * @param top null
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param groupId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -292,11 +443,29 @@ public final class DeploymentOperationsInner {
         return new PagedIterable<>(listAtManagementGroupScopeAsync(groupId, deploymentName, top));
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentOperationInner>> getAtSubscriptionScopeWithResponseAsync(String deploymentName, String operationId) {
         return service.getAtSubscriptionScope(this.client.getHost(), deploymentName, operationId, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentOperationInner> getAtSubscriptionScopeAsync(String deploymentName, String operationId) {
         return getAtSubscriptionScopeWithResponseAsync(deploymentName, operationId)
@@ -309,11 +478,29 @@ public final class DeploymentOperationsInner {
             });
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentOperationInner getAtSubscriptionScope(String deploymentName, String operationId) {
         return getAtSubscriptionScopeAsync(deploymentName, operationId).block();
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listAtSubscriptionScopeSinglePageAsync(String deploymentName, Integer top) {
         return service.listAtSubscriptionScope(this.client.getHost(), deploymentName, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -325,6 +512,15 @@ public final class DeploymentOperationsInner {
             null));
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeploymentOperationInner> listAtSubscriptionScopeAsync(String deploymentName, Integer top) {
         return new PagedFlux<>(
@@ -333,8 +529,10 @@ public final class DeploymentOperationsInner {
     }
 
     /**
-     * @param deploymentName null
-     * @param top null
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -344,11 +542,31 @@ public final class DeploymentOperationsInner {
         return new PagedIterable<>(listAtSubscriptionScopeAsync(deploymentName, top));
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeploymentOperationInner>> getWithResponseAsync(String resourceGroupName, String deploymentName, String operationId) {
         return service.get(this.client.getHost(), resourceGroupName, deploymentName, operationId, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeploymentOperationInner> getAsync(String resourceGroupName, String deploymentName, String operationId) {
         return getWithResponseAsync(resourceGroupName, deploymentName, operationId)
@@ -361,14 +579,34 @@ public final class DeploymentOperationsInner {
             });
     }
 
+    /**
+     * Gets a deployments operation.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationId The additional properties.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeploymentOperationInner get(String resourceGroupName, String deploymentName, String operationId) {
         return getAsync(resourceGroupName, deploymentName, operationId).block();
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<DeploymentOperationInner>> listSinglePageAsync(String resourceGroupName, String deploymentName, Integer top) {
-        return service.list(this.client.getHost(), resourceGroupName, deploymentName, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
+    public Mono<PagedResponse<DeploymentOperationInner>> listByResourceGroupSinglePageAsync(String resourceGroupName, String deploymentName, Integer top) {
+        return service.listByResourceGroup(this.client.getHost(), resourceGroupName, deploymentName, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
             res.getHeaders(),
@@ -377,26 +615,46 @@ public final class DeploymentOperationsInner {
             null));
     }
 
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<DeploymentOperationInner> listAsync(String resourceGroupName, String deploymentName, Integer top) {
-        return new PagedFlux<>(
-            () -> listSinglePageAsync(resourceGroupName, deploymentName, top),
-            nextLink -> listNextSinglePageAsync(nextLink));
-    }
-
     /**
-     * @param resourceGroupName null
-     * @param deploymentName null
-     * @param top null
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<DeploymentOperationInner> list(String resourceGroupName, String deploymentName, Integer top) {
-        return new PagedIterable<>(listAsync(resourceGroupName, deploymentName, top));
+    public PagedFlux<DeploymentOperationInner> listByResourceGroupAsync(String resourceGroupName, String deploymentName, Integer top) {
+        return new PagedFlux<>(
+            () -> listByResourceGroupSinglePageAsync(resourceGroupName, deploymentName, top),
+            nextLink -> listNextSinglePageAsync(nextLink));
     }
 
+    /**
+     * Gets all deployments operations for a deployment.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param deploymentName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<DeploymentOperationInner> listByResourceGroup(String resourceGroupName, String deploymentName, Integer top) {
+        return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, deploymentName, top));
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listAtScopeNextSinglePageAsync(String nextLink) {
         return service.listAtScopeNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -408,6 +666,14 @@ public final class DeploymentOperationsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listAtTenantScopeNextSinglePageAsync(String nextLink) {
         return service.listAtTenantScopeNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -419,6 +685,14 @@ public final class DeploymentOperationsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listAtManagementGroupScopeNextSinglePageAsync(String nextLink) {
         return service.listAtManagementGroupScopeNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -430,6 +704,14 @@ public final class DeploymentOperationsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listAtSubscriptionScopeNextSinglePageAsync(String nextLink) {
         return service.listAtSubscriptionScopeNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -441,6 +723,14 @@ public final class DeploymentOperationsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeploymentOperationInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(

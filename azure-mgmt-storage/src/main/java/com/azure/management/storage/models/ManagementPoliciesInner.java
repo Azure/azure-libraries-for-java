@@ -74,12 +74,30 @@ public final class ManagementPoliciesInner {
         Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @PathParam("managementPolicyName") String managementPolicyName, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Gets the managementpolicy associated with the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ManagementPolicyInner>> getWithResponseAsync(String resourceGroupName, String accountName) {
         final String managementPolicyName = "default";
         return service.get(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), managementPolicyName, this.client.getApiVersion());
     }
 
+    /**
+     * Gets the managementpolicy associated with the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ManagementPolicyInner> getAsync(String resourceGroupName, String accountName) {
         return getWithResponseAsync(resourceGroupName, accountName)
@@ -92,17 +110,46 @@ public final class ManagementPoliciesInner {
             });
     }
 
+    /**
+     * Gets the managementpolicy associated with the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ManagementPolicyInner get(String resourceGroupName, String accountName) {
         return getAsync(resourceGroupName, accountName).block();
     }
 
+    /**
+     * Sets the managementpolicy to the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param properties The Get Storage Account ManagementPolicies operation response.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ManagementPolicyInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String accountName, ManagementPolicyInner properties) {
         final String managementPolicyName = "default";
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), managementPolicyName, properties, this.client.getApiVersion());
     }
 
+    /**
+     * Sets the managementpolicy to the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param properties The Get Storage Account ManagementPolicies operation response.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ManagementPolicyInner> createOrUpdateAsync(String resourceGroupName, String accountName, ManagementPolicyInner properties) {
         return createOrUpdateWithResponseAsync(resourceGroupName, accountName, properties)
@@ -115,23 +162,60 @@ public final class ManagementPoliciesInner {
             });
     }
 
+    /**
+     * Sets the managementpolicy to the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param properties The Get Storage Account ManagementPolicies operation response.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ManagementPolicyInner createOrUpdate(String resourceGroupName, String accountName, ManagementPolicyInner properties) {
         return createOrUpdateAsync(resourceGroupName, accountName, properties).block();
     }
 
+    /**
+     * Deletes the managementpolicy associated with the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String accountName) {
         final String managementPolicyName = "default";
         return service.delete(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), managementPolicyName, this.client.getApiVersion());
     }
 
+    /**
+     * Deletes the managementpolicy associated with the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String accountName) {
         return deleteWithResponseAsync(resourceGroupName, accountName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Deletes the managementpolicy associated with the specified storage account.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName, String accountName) {
         deleteAsync(resourceGroupName, accountName).block();

@@ -506,8 +506,7 @@ final class StorageNetworkRulesHelper {
         }
         if (!found) {
             networkRuleSet.getIpRules().add(new IPRule()
-                    .setIPAddressOrRange(ipAddressOrRange)
-                    .setAction(Action.ALLOW.toString()));
+                    .setIPAddressOrRange(ipAddressOrRange));
         }
         return this;
     }

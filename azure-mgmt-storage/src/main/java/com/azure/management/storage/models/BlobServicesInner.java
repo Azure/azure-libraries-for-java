@@ -67,12 +67,32 @@ public final class BlobServicesInner {
         Mono<SimpleResponse<BlobServicePropertiesInner>> getServiceProperties(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("accountName") String accountName, @PathParam("subscriptionId") String subscriptionId, @PathParam("BlobServicesName") String blobServicesName, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters The properties of a storage account’s Blob service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<BlobServicePropertiesInner>> setServicePropertiesWithResponseAsync(String resourceGroupName, String accountName, BlobServicePropertiesInner parameters) {
         final String blobServicesName = "default";
         return service.setServiceProperties(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), blobServicesName, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters The properties of a storage account’s Blob service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<BlobServicePropertiesInner> setServicePropertiesAsync(String resourceGroupName, String accountName, BlobServicePropertiesInner parameters) {
         return setServicePropertiesWithResponseAsync(resourceGroupName, accountName, parameters)
@@ -85,17 +105,45 @@ public final class BlobServicesInner {
             });
     }
 
+    /**
+     * Sets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters The properties of a storage account’s Blob service.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public BlobServicePropertiesInner setServiceProperties(String resourceGroupName, String accountName, BlobServicePropertiesInner parameters) {
         return setServicePropertiesAsync(resourceGroupName, accountName, parameters).block();
     }
 
+    /**
+     * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<BlobServicePropertiesInner>> getServicePropertiesWithResponseAsync(String resourceGroupName, String accountName) {
         final String blobServicesName = "default";
         return service.getServiceProperties(this.client.getHost(), resourceGroupName, accountName, this.client.getSubscriptionId(), blobServicesName, this.client.getApiVersion());
     }
 
+    /**
+     * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<BlobServicePropertiesInner> getServicePropertiesAsync(String resourceGroupName, String accountName) {
         return getServicePropertiesWithResponseAsync(resourceGroupName, accountName)
@@ -108,6 +156,15 @@ public final class BlobServicesInner {
             });
     }
 
+    /**
+     * Gets the properties of a storage account’s Blob service, including properties for Storage Analytics and CORS (Cross-Origin Resource Sharing) rules.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param accountName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public BlobServicePropertiesInner getServiceProperties(String resourceGroupName, String accountName) {
         return getServicePropertiesAsync(resourceGroupName, accountName).block();

@@ -248,7 +248,7 @@ class StorageAccountImpl
     @Override
     protected Mono<StorageAccountInner> getInnerAsync() {
         // FIXME: Double check the API
-        return this.getManager().getInner().storageAccounts().getPropertiesAsync(this.getResourceGroupName(), this.getName());
+        return this.getManager().getInner().storageAccounts().getByResourceGroupAsync(this.getResourceGroupName(), this.getName());
     }
 
     @Override
@@ -515,7 +515,7 @@ class StorageAccountImpl
         return this.getManager().getInner().storageAccounts().createAsync(
                 this.getResourceGroupName(), this.getName(), createParameters)
                 // FIXME: Double check the method calling
-                .flatMap(storageAccountInner -> client.getPropertiesAsync(getResourceGroupName(), getName())
+                .flatMap(storageAccountInner -> client.getByResourceGroupAsync(getResourceGroupName(), getName())
                         .map(innerToFluentMap(this))
                         .doOnNext(storageAccount -> clearWrapperProperties()));
     }

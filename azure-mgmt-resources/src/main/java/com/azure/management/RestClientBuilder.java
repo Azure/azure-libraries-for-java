@@ -8,12 +8,14 @@ import com.azure.core.credential.TokenCredential;
 import com.azure.core.http.HttpClient;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.HttpPipelineBuilder;
+import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.HttpPolicyProviders;
 import com.azure.core.http.policy.RetryPolicy;
+import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.CoreUtils;
@@ -40,6 +42,7 @@ public final class RestClientBuilder {
     private HttpLogOptions httpLogOptions;
     private Configuration configuration;
     private SerializerAdapter serializerAdapter;
+    private String clientId;
 
     private final RetryPolicy retryPolicy;
 
@@ -66,7 +69,8 @@ public final class RestClientBuilder {
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
         // TODO: Add UserAgent
-        // TODO Add credential policy
+        // policies.add(new UserAgentPolicy("test", this.getClass().getPackage().getName(), this.getClass().getPackage().getImplementationVersion(), Configuration.getGlobalConfiguration()));
+        policies.add(new BearerTokenAuthenticationPolicy(this.credential, (this.clientId == null ? "" : this.clientId) + "/.default"));
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);
         policies.addAll(this.policies);
@@ -141,6 +145,11 @@ public final class RestClientBuilder {
 
     public RestClientBuilder withConfiguration(Configuration configuration) {
         this.configuration = configuration;
+        return this;
+    }
+
+    public RestClientBuilder withClientId(String clientId) {
+        this.clientId = clientId;
         return this;
     }
 

@@ -74,11 +74,23 @@ public final class SignedInUsersInner {
         Mono<SimpleResponse<DirectoryObjectListResultInner>> listOwnedObjectsNext(@HostParam("$host") String host, @PathParam(value = "nextLink", encoded = true) String nextLink, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Gets the details for the currently logged-in user.
+     * 
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<UserInner>> getWithResponseAsync() {
         return service.get(this.client.getHost(), this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets the details for the currently logged-in user.
+     * 
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<UserInner> getAsync() {
         return getWithResponseAsync()
@@ -91,11 +103,23 @@ public final class SignedInUsersInner {
             });
     }
 
+    /**
+     * Gets the details for the currently logged-in user.
+     * 
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public UserInner get() {
         return getAsync().block();
     }
 
+    /**
+     * Get the list of directory objects that are owned by the user.
+     * 
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> listOwnedObjectsSinglePageAsync() {
         return service.listOwnedObjects(this.client.getHost(), this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -107,6 +131,12 @@ public final class SignedInUsersInner {
             null));
     }
 
+    /**
+     * Get the list of directory objects that are owned by the user.
+     * 
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DirectoryObject> listOwnedObjectsAsync() {
         return new PagedFlux<>(
@@ -115,6 +145,8 @@ public final class SignedInUsersInner {
     }
 
     /**
+     * Get the list of directory objects that are owned by the user.
+     * 
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -123,6 +155,14 @@ public final class SignedInUsersInner {
         return new PagedIterable<>(listOwnedObjectsAsync());
     }
 
+    /**
+     * Get the list of directory objects that are owned by the user.
+     * 
+     * @param nextLink MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> listOwnedObjectsNextSinglePageAsync(String nextLink) {
         return service.listOwnedObjectsNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(

@@ -83,6 +83,14 @@ public final class OAuth2PermissionGrantsInner {
         Mono<SimpleResponse<OAuth2PermissionGrantListResultInner>> listNext(@HostParam("$host") String host, @PathParam(value = "nextLink", encoded = true) String nextLink, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Queries OAuth2 permissions grants for the relevant SP ObjectId of an app.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<OAuth2PermissionGrantInner>> listSinglePageAsync(String filter) {
         return service.list(this.client.getHost(), filter, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -94,6 +102,14 @@ public final class OAuth2PermissionGrantsInner {
             null));
     }
 
+    /**
+     * Queries OAuth2 permissions grants for the relevant SP ObjectId of an app.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<OAuth2PermissionGrantInner> listAsync(String filter) {
         return new PagedFlux<>(
@@ -102,7 +118,9 @@ public final class OAuth2PermissionGrantsInner {
     }
 
     /**
-     * @param filter null
+     * Queries OAuth2 permissions grants for the relevant SP ObjectId of an app.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -112,11 +130,27 @@ public final class OAuth2PermissionGrantsInner {
         return new PagedIterable<>(listAsync(filter));
     }
 
+    /**
+     * Grants OAuth2 permissions for the relevant resource Ids of an app.
+     * 
+     * @param body MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<OAuth2PermissionGrantInner>> createWithResponseAsync(OAuth2PermissionGrantInner body) {
         return service.create(this.client.getHost(), this.client.getTenantID(), body, this.client.getApiVersion());
     }
 
+    /**
+     * Grants OAuth2 permissions for the relevant resource Ids of an app.
+     * 
+     * @param body MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<OAuth2PermissionGrantInner> createAsync(OAuth2PermissionGrantInner body) {
         return createWithResponseAsync(body)
@@ -129,27 +163,67 @@ public final class OAuth2PermissionGrantsInner {
             });
     }
 
+    /**
+     * Grants OAuth2 permissions for the relevant resource Ids of an app.
+     * 
+     * @param body MISSING·SCHEMA-DESCRIPTION-OBJECTSCHEMA.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public OAuth2PermissionGrantInner create(OAuth2PermissionGrantInner body) {
         return createAsync(body).block();
     }
 
+    /**
+     * Delete a OAuth2 permission grant for the relevant resource Ids of an app.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteWithResponseAsync(String objectId) {
         return service.delete(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Delete a OAuth2 permission grant for the relevant resource Ids of an app.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String objectId) {
         return deleteWithResponseAsync(objectId)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Delete a OAuth2 permission grant for the relevant resource Ids of an app.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String objectId) {
         deleteAsync(objectId).block();
     }
 
+    /**
+     * Gets the next page of OAuth2 permission grants.
+     * 
+     * @param nextLink MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<OAuth2PermissionGrantInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(

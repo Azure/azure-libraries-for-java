@@ -130,11 +130,27 @@ public final class ServicePrincipalsInner {
         Mono<SimpleResponse<DirectoryObjectListResultInner>> listOwnersNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Creates a service principal in the directory.
+     * 
+     * @param parameters Request parameters for creating a new service principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ServicePrincipalInner>> createWithResponseAsync(ServicePrincipalCreateParameters parameters) {
         return service.create(this.client.getHost(), this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Creates a service principal in the directory.
+     * 
+     * @param parameters Request parameters for creating a new service principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ServicePrincipalInner> createAsync(ServicePrincipalCreateParameters parameters) {
         return createWithResponseAsync(parameters)
@@ -147,11 +163,27 @@ public final class ServicePrincipalsInner {
             });
     }
 
+    /**
+     * Creates a service principal in the directory.
+     * 
+     * @param parameters Request parameters for creating a new service principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ServicePrincipalInner create(ServicePrincipalCreateParameters parameters) {
         return createAsync(parameters).block();
     }
 
+    /**
+     * Gets a list of service principals from the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<ServicePrincipalInner>> listSinglePageAsync(String filter) {
         return service.list(this.client.getHost(), filter, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -163,6 +195,14 @@ public final class ServicePrincipalsInner {
             null));
     }
 
+    /**
+     * Gets a list of service principals from the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<ServicePrincipalInner> listAsync(String filter) {
         return new PagedFlux<>(
@@ -171,7 +211,9 @@ public final class ServicePrincipalsInner {
     }
 
     /**
-     * @param filter null
+     * Gets a list of service principals from the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -181,43 +223,110 @@ public final class ServicePrincipalsInner {
         return new PagedIterable<>(listAsync(filter));
     }
 
+    /**
+     * Updates a service principal in the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for update an existing service principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> updateWithResponseAsync(String objectId, ServicePrincipalUpdateParameters parameters) {
         return service.update(this.client.getHost(), objectId, this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Updates a service principal in the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for update an existing service principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> updateAsync(String objectId, ServicePrincipalUpdateParameters parameters) {
         return updateWithResponseAsync(objectId, parameters)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Updates a service principal in the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for update an existing service principal.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void update(String objectId, ServicePrincipalUpdateParameters parameters) {
         updateAsync(objectId, parameters).block();
     }
 
+    /**
+     * Deletes a service principal from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteWithResponseAsync(String objectId) {
         return service.delete(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Deletes a service principal from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String objectId) {
         return deleteWithResponseAsync(objectId)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Deletes a service principal from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String objectId) {
         deleteAsync(objectId).block();
     }
 
+    /**
+     * Gets service principal information from the directory. Query by objectId or pass a filter to query by appId.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ServicePrincipalInner>> getWithResponseAsync(String objectId) {
         return service.get(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets service principal information from the directory. Query by objectId or pass a filter to query by appId.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ServicePrincipalInner> getAsync(String objectId) {
         return getWithResponseAsync(objectId)
@@ -230,11 +339,27 @@ public final class ServicePrincipalsInner {
             });
     }
 
+    /**
+     * Gets service principal information from the directory. Query by objectId or pass a filter to query by appId.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ServicePrincipalInner get(String objectId) {
         return getAsync(objectId).block();
     }
 
+    /**
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> listOwnersSinglePageAsync(String objectId) {
         return service.listOwners(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -246,6 +371,14 @@ public final class ServicePrincipalsInner {
             null));
     }
 
+    /**
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DirectoryObject> listOwnersAsync(String objectId) {
         return new PagedFlux<>(
@@ -254,7 +387,9 @@ public final class ServicePrincipalsInner {
     }
 
     /**
-     * @param objectId null
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -264,6 +399,14 @@ public final class ServicePrincipalsInner {
         return new PagedIterable<>(listOwnersAsync(objectId));
     }
 
+    /**
+     * Get the keyCredentials associated with the specified service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<KeyCredential>> listKeyCredentialsSinglePageAsync(String objectId) {
         return service.listKeyCredentials(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -275,6 +418,14 @@ public final class ServicePrincipalsInner {
             null));
     }
 
+    /**
+     * Get the keyCredentials associated with the specified service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<KeyCredential> listKeyCredentialsAsync(String objectId) {
         return new PagedFlux<>(
@@ -282,7 +433,9 @@ public final class ServicePrincipalsInner {
     }
 
     /**
-     * @param objectId null
+     * Get the keyCredentials associated with the specified service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -292,22 +445,57 @@ public final class ServicePrincipalsInner {
         return new PagedIterable<>(listKeyCredentialsAsync(objectId));
     }
 
+    /**
+     * Update the keyCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for a KeyCredentials update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> updateKeyCredentialsWithResponseAsync(String objectId, KeyCredentialsUpdateParameters parameters) {
         return service.updateKeyCredentials(this.client.getHost(), objectId, this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Update the keyCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for a KeyCredentials update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> updateKeyCredentialsAsync(String objectId, KeyCredentialsUpdateParameters parameters) {
         return updateKeyCredentialsWithResponseAsync(objectId, parameters)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Update the keyCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for a KeyCredentials update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updateKeyCredentials(String objectId, KeyCredentialsUpdateParameters parameters) {
         updateKeyCredentialsAsync(objectId, parameters).block();
     }
 
+    /**
+     * Gets the passwordCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<PasswordCredential>> listPasswordCredentialsSinglePageAsync(String objectId) {
         return service.listPasswordCredentials(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -319,6 +507,14 @@ public final class ServicePrincipalsInner {
             null));
     }
 
+    /**
+     * Gets the passwordCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<PasswordCredential> listPasswordCredentialsAsync(String objectId) {
         return new PagedFlux<>(
@@ -326,7 +522,9 @@ public final class ServicePrincipalsInner {
     }
 
     /**
-     * @param objectId null
+     * Gets the passwordCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -336,22 +534,57 @@ public final class ServicePrincipalsInner {
         return new PagedIterable<>(listPasswordCredentialsAsync(objectId));
     }
 
+    /**
+     * Updates the passwordCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for a PasswordCredentials update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> updatePasswordCredentialsWithResponseAsync(String objectId, PasswordCredentialsUpdateParameters parameters) {
         return service.updatePasswordCredentials(this.client.getHost(), objectId, this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Updates the passwordCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for a PasswordCredentials update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> updatePasswordCredentialsAsync(String objectId, PasswordCredentialsUpdateParameters parameters) {
         return updatePasswordCredentialsWithResponseAsync(objectId, parameters)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Updates the passwordCredentials associated with a service principal.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for a PasswordCredentials update operation.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void updatePasswordCredentials(String objectId, PasswordCredentialsUpdateParameters parameters) {
         updatePasswordCredentialsAsync(objectId, parameters).block();
     }
 
+    /**
+     * Gets a list of service principals from the current tenant.
+     * 
+     * @param nextLink MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<ServicePrincipalInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -363,6 +596,14 @@ public final class ServicePrincipalsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> listOwnersNextSinglePageAsync(String nextLink) {
         return service.listOwnersNext(nextLink).map(res -> new PagedResponseBase<>(

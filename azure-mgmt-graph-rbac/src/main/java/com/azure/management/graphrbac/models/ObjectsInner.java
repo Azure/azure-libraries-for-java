@@ -72,6 +72,14 @@ public final class ObjectsInner {
         Mono<SimpleResponse<DirectoryObjectListResultInner>> getObjectsByObjectIdsNext(@HostParam("$host") String host, @PathParam(value = "nextLink", encoded = true) String nextLink, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Gets the directory objects specified in a list of object IDs. You can also specify which resource collections (users, groups, etc.) should be searched by specifying the optional types parameter.
+     * 
+     * @param parameters Request parameters for the GetObjectsByObjectIds API.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> getObjectsByObjectIdsSinglePageAsync(GetObjectsParameters parameters) {
         return service.getObjectsByObjectIds(this.client.getHost(), this.client.getTenantID(), parameters, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -83,6 +91,14 @@ public final class ObjectsInner {
             null));
     }
 
+    /**
+     * Gets the directory objects specified in a list of object IDs. You can also specify which resource collections (users, groups, etc.) should be searched by specifying the optional types parameter.
+     * 
+     * @param parameters Request parameters for the GetObjectsByObjectIds API.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DirectoryObject> getObjectsByObjectIdsAsync(GetObjectsParameters parameters) {
         return new PagedFlux<>(
@@ -91,7 +107,9 @@ public final class ObjectsInner {
     }
 
     /**
-     * @param parameters null
+     * Gets the directory objects specified in a list of object IDs. You can also specify which resource collections (users, groups, etc.) should be searched by specifying the optional types parameter.
+     * 
+     * @param parameters Request parameters for the GetObjectsByObjectIds API.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -101,6 +119,14 @@ public final class ObjectsInner {
         return new PagedIterable<>(getObjectsByObjectIdsAsync(parameters));
     }
 
+    /**
+     * Gets AD group membership for the specified AD object IDs.
+     * 
+     * @param nextLink MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> getObjectsByObjectIdsNextSinglePageAsync(String nextLink) {
         return service.getObjectsByObjectIdsNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(

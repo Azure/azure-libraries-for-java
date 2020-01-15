@@ -143,11 +143,27 @@ public final class GroupsInner {
         Mono<SimpleResponse<DirectoryObjectListResultInner>> listOwnersNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Checks whether the specified user, group, contact, or service principal is a direct or transitive member of the specified group.
+     * 
+     * @param parameters Request parameters for IsMemberOf API call.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<CheckGroupMembershipResultInner>> isMemberOfWithResponseAsync(CheckGroupMembershipParameters parameters) {
         return service.isMemberOf(this.client.getHost(), this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether the specified user, group, contact, or service principal is a direct or transitive member of the specified group.
+     * 
+     * @param parameters Request parameters for IsMemberOf API call.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<CheckGroupMembershipResultInner> isMemberOfAsync(CheckGroupMembershipParameters parameters) {
         return isMemberOfWithResponseAsync(parameters)
@@ -160,48 +176,126 @@ public final class GroupsInner {
             });
     }
 
+    /**
+     * Checks whether the specified user, group, contact, or service principal is a direct or transitive member of the specified group.
+     * 
+     * @param parameters Request parameters for IsMemberOf API call.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public CheckGroupMembershipResultInner isMemberOf(CheckGroupMembershipParameters parameters) {
         return isMemberOfAsync(parameters).block();
     }
 
+    /**
+     * Remove a member from a group.
+     * 
+     * @param groupObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param memberObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> removeMemberWithResponseAsync(String groupObjectId, String memberObjectId) {
         return service.removeMember(this.client.getHost(), groupObjectId, memberObjectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Remove a member from a group.
+     * 
+     * @param groupObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param memberObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> removeMemberAsync(String groupObjectId, String memberObjectId) {
         return removeMemberWithResponseAsync(groupObjectId, memberObjectId)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Remove a member from a group.
+     * 
+     * @param groupObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param memberObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void removeMember(String groupObjectId, String memberObjectId) {
         removeMemberAsync(groupObjectId, memberObjectId).block();
     }
 
+    /**
+     * Add a member to a group.
+     * 
+     * @param groupObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for adding a member to a group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> addMemberWithResponseAsync(String groupObjectId, GroupAddMemberParameters parameters) {
         return service.addMember(this.client.getHost(), groupObjectId, this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Add a member to a group.
+     * 
+     * @param groupObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for adding a member to a group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> addMemberAsync(String groupObjectId, GroupAddMemberParameters parameters) {
         return addMemberWithResponseAsync(groupObjectId, parameters)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Add a member to a group.
+     * 
+     * @param groupObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for adding a member to a group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void addMember(String groupObjectId, GroupAddMemberParameters parameters) {
         addMemberAsync(groupObjectId, parameters).block();
     }
 
+    /**
+     * Create a group in the directory.
+     * 
+     * @param parameters Request parameters for creating a new group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ADGroupInner>> createWithResponseAsync(GroupCreateParameters parameters) {
         return service.create(this.client.getHost(), this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Create a group in the directory.
+     * 
+     * @param parameters Request parameters for creating a new group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ADGroupInner> createAsync(GroupCreateParameters parameters) {
         return createWithResponseAsync(parameters)
@@ -214,11 +308,27 @@ public final class GroupsInner {
             });
     }
 
+    /**
+     * Create a group in the directory.
+     * 
+     * @param parameters Request parameters for creating a new group.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ADGroupInner create(GroupCreateParameters parameters) {
         return createAsync(parameters).block();
     }
 
+    /**
+     * Gets list of groups for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<ADGroupInner>> listSinglePageAsync(String filter) {
         return service.list(this.client.getHost(), filter, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -230,6 +340,14 @@ public final class GroupsInner {
             null));
     }
 
+    /**
+     * Gets list of groups for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<ADGroupInner> listAsync(String filter) {
         return new PagedFlux<>(
@@ -238,7 +356,9 @@ public final class GroupsInner {
     }
 
     /**
-     * @param filter null
+     * Gets list of groups for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -248,6 +368,14 @@ public final class GroupsInner {
         return new PagedIterable<>(listAsync(filter));
     }
 
+    /**
+     * Gets the members of a group.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> getGroupMembersSinglePageAsync(String objectId) {
         return service.getGroupMembers(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -259,6 +387,14 @@ public final class GroupsInner {
             null));
     }
 
+    /**
+     * Gets the members of a group.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DirectoryObject> getGroupMembersAsync(String objectId) {
         return new PagedFlux<>(
@@ -267,7 +403,9 @@ public final class GroupsInner {
     }
 
     /**
-     * @param objectId null
+     * Gets the members of a group.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -277,11 +415,27 @@ public final class GroupsInner {
         return new PagedIterable<>(getGroupMembersAsync(objectId));
     }
 
+    /**
+     * Gets group information from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ADGroupInner>> getWithResponseAsync(String objectId) {
         return service.get(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets group information from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ADGroupInner> getAsync(String objectId) {
         return getWithResponseAsync(objectId)
@@ -294,27 +448,68 @@ public final class GroupsInner {
             });
     }
 
+    /**
+     * Gets group information from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ADGroupInner get(String objectId) {
         return getAsync(objectId).block();
     }
 
+    /**
+     * Delete a group from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteWithResponseAsync(String objectId) {
         return service.delete(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Delete a group from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String objectId) {
         return deleteWithResponseAsync(objectId)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Delete a group from the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String objectId) {
         deleteAsync(objectId).block();
     }
 
+    /**
+     * Gets a collection of object IDs of groups of which the specified group is a member.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for GetMemberGroups API call.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<String>> getMemberGroupsSinglePageAsync(String objectId, GroupGetMemberGroupsParameters parameters) {
         return service.getMemberGroups(this.client.getHost(), objectId, this.client.getTenantID(), parameters, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -326,6 +521,15 @@ public final class GroupsInner {
             null));
     }
 
+    /**
+     * Gets a collection of object IDs of groups of which the specified group is a member.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for GetMemberGroups API call.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<String> getMemberGroupsAsync(String objectId, GroupGetMemberGroupsParameters parameters) {
         return new PagedFlux<>(
@@ -333,8 +537,10 @@ public final class GroupsInner {
     }
 
     /**
-     * @param objectId null
-     * @param parameters null
+     * Gets a collection of object IDs of groups of which the specified group is a member.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for GetMemberGroups API call.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -344,6 +550,14 @@ public final class GroupsInner {
         return new PagedIterable<>(getMemberGroupsAsync(objectId, parameters));
     }
 
+    /**
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> listOwnersSinglePageAsync(String objectId) {
         return service.listOwners(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -355,6 +569,14 @@ public final class GroupsInner {
             null));
     }
 
+    /**
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DirectoryObject> listOwnersAsync(String objectId) {
         return new PagedFlux<>(
@@ -363,7 +585,9 @@ public final class GroupsInner {
     }
 
     /**
-     * @param objectId null
+     * The owners are a set of non-admin users who are allowed to modify this object.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -373,38 +597,100 @@ public final class GroupsInner {
         return new PagedIterable<>(listOwnersAsync(objectId));
     }
 
+    /**
+     * Add an owner to a group.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for adding a owner to an application.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> addOwnerWithResponseAsync(String objectId, AddOwnerParameters parameters) {
         return service.addOwner(this.client.getHost(), objectId, this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Add an owner to a group.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for adding a owner to an application.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> addOwnerAsync(String objectId, AddOwnerParameters parameters) {
         return addOwnerWithResponseAsync(objectId, parameters)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Add an owner to a group.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for adding a owner to an application.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void addOwner(String objectId, AddOwnerParameters parameters) {
         addOwnerAsync(objectId, parameters).block();
     }
 
+    /**
+     * Remove a member from owners.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param ownerObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> removeOwnerWithResponseAsync(String objectId, String ownerObjectId) {
         return service.removeOwner(this.client.getHost(), objectId, ownerObjectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Remove a member from owners.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param ownerObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> removeOwnerAsync(String objectId, String ownerObjectId) {
         return removeOwnerWithResponseAsync(objectId, ownerObjectId)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Remove a member from owners.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param ownerObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void removeOwner(String objectId, String ownerObjectId) {
         removeOwnerAsync(objectId, ownerObjectId).block();
     }
 
+    /**
+     * Gets a list of groups for the current tenant.
+     * 
+     * @param nextLink MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<ADGroupInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -416,6 +702,14 @@ public final class GroupsInner {
             null));
     }
 
+    /**
+     * Gets the members of a group.
+     * 
+     * @param nextLink MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> getGroupMembersNextSinglePageAsync(String nextLink) {
         return service.getGroupMembersNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -427,6 +721,14 @@ public final class GroupsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DirectoryObject>> listOwnersNextSinglePageAsync(String nextLink) {
         return service.listOwnersNext(nextLink).map(res -> new PagedResponseBase<>(

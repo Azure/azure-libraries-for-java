@@ -101,11 +101,27 @@ public final class UsersInner {
         Mono<SimpleResponse<UserListResultInner>> listNext(@HostParam("$host") String host, @PathParam(value = "nextLink", encoded = true) String nextLink, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Create a new user.
+     * 
+     * @param parameters Request parameters for creating a new work or school account user.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<UserInner>> createWithResponseAsync(UserCreateParameters parameters) {
         return service.create(this.client.getHost(), this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Create a new user.
+     * 
+     * @param parameters Request parameters for creating a new work or school account user.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<UserInner> createAsync(UserCreateParameters parameters) {
         return createWithResponseAsync(parameters)
@@ -118,11 +134,27 @@ public final class UsersInner {
             });
     }
 
+    /**
+     * Create a new user.
+     * 
+     * @param parameters Request parameters for creating a new work or school account user.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public UserInner create(UserCreateParameters parameters) {
         return createAsync(parameters).block();
     }
 
+    /**
+     * Gets list of users for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<UserInner>> listSinglePageAsync(String filter) {
         return service.list(this.client.getHost(), filter, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -134,6 +166,14 @@ public final class UsersInner {
             null));
     }
 
+    /**
+     * Gets list of users for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<UserInner> listAsync(String filter) {
         return new PagedFlux<>(
@@ -142,7 +182,9 @@ public final class UsersInner {
     }
 
     /**
-     * @param filter null
+     * Gets list of users for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -152,11 +194,27 @@ public final class UsersInner {
         return new PagedIterable<>(listAsync(filter));
     }
 
+    /**
+     * Gets user information from the directory.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<UserInner>> getWithResponseAsync(String upnOrObjectId) {
         return service.get(this.client.getHost(), upnOrObjectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets user information from the directory.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<UserInner> getAsync(String upnOrObjectId) {
         return getWithResponseAsync(upnOrObjectId)
@@ -169,43 +227,111 @@ public final class UsersInner {
             });
     }
 
+    /**
+     * Gets user information from the directory.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public UserInner get(String upnOrObjectId) {
         return getAsync(upnOrObjectId).block();
     }
 
+    /**
+     * Updates a user.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for updating an existing work or school account user.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> updateWithResponseAsync(String upnOrObjectId, UserUpdateParameters parameters) {
         return service.update(this.client.getHost(), upnOrObjectId, this.client.getTenantID(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Updates a user.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for updating an existing work or school account user.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> updateAsync(String upnOrObjectId, UserUpdateParameters parameters) {
         return updateWithResponseAsync(upnOrObjectId, parameters)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Updates a user.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for updating an existing work or school account user.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void update(String upnOrObjectId, UserUpdateParameters parameters) {
         updateAsync(upnOrObjectId, parameters).block();
     }
 
+    /**
+     * Delete a user.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteWithResponseAsync(String upnOrObjectId) {
         return service.delete(this.client.getHost(), upnOrObjectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Delete a user.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String upnOrObjectId) {
         return deleteWithResponseAsync(upnOrObjectId)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Delete a user.
+     * 
+     * @param upnOrObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String upnOrObjectId) {
         deleteAsync(upnOrObjectId).block();
     }
 
+    /**
+     * Gets a collection that contains the object IDs of the groups of which the user is a member.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for GetMemberGroups API call.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<String>> getMemberGroupsSinglePageAsync(String objectId, UserGetMemberGroupsParameters parameters) {
         return service.getMemberGroups(this.client.getHost(), objectId, this.client.getTenantID(), parameters, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -217,6 +343,15 @@ public final class UsersInner {
             null));
     }
 
+    /**
+     * Gets a collection that contains the object IDs of the groups of which the user is a member.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for GetMemberGroups API call.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<String> getMemberGroupsAsync(String objectId, UserGetMemberGroupsParameters parameters) {
         return new PagedFlux<>(
@@ -224,8 +359,10 @@ public final class UsersInner {
     }
 
     /**
-     * @param objectId null
-     * @param parameters null
+     * Gets a collection that contains the object IDs of the groups of which the user is a member.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Request parameters for GetMemberGroups API call.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -235,6 +372,14 @@ public final class UsersInner {
         return new PagedIterable<>(getMemberGroupsAsync(objectId, parameters));
     }
 
+    /**
+     * Gets a list of users for the current tenant.
+     * 
+     * @param nextLink MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<UserInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(

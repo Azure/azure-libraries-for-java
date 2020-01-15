@@ -7,6 +7,7 @@
 package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.SignInName;
 import com.azure.management.graphrbac.UserType;
 import com.fasterxml.jackson.annotation.JsonProperty;

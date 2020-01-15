@@ -69,6 +69,14 @@ public final class DomainsInner {
         Mono<SimpleResponse<DomainInner>> get(@HostParam("$host") String host, @PathParam("domainName") String domainName, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Gets a list of domains for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DomainInner>> listSinglePageAsync(String filter) {
         return service.list(this.client.getHost(), filter, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -80,6 +88,14 @@ public final class DomainsInner {
             null));
     }
 
+    /**
+     * Gets a list of domains for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DomainInner> listAsync(String filter) {
         return new PagedFlux<>(
@@ -87,7 +103,9 @@ public final class DomainsInner {
     }
 
     /**
-     * @param filter null
+     * Gets a list of domains for the current tenant.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -97,11 +115,27 @@ public final class DomainsInner {
         return new PagedIterable<>(listAsync(filter));
     }
 
+    /**
+     * Gets a specific domain in the current tenant.
+     * 
+     * @param domainName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DomainInner>> getWithResponseAsync(String domainName) {
         return service.get(this.client.getHost(), domainName, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets a specific domain in the current tenant.
+     * 
+     * @param domainName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DomainInner> getAsync(String domainName) {
         return getWithResponseAsync(domainName)
@@ -114,6 +148,14 @@ public final class DomainsInner {
             });
     }
 
+    /**
+     * Gets a specific domain in the current tenant.
+     * 
+     * @param domainName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DomainInner get(String domainName) {
         return getAsync(domainName).block();

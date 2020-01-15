@@ -7,6 +7,10 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.graphrbac.models.ADGroupInner;
+import com.azure.management.graphrbac.models.ApplicationInner;
+import com.azure.management.graphrbac.models.ServicePrincipalInner;
+import com.azure.management.graphrbac.models.UserInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

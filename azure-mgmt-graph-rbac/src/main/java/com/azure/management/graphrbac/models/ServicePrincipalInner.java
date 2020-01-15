@@ -8,6 +8,7 @@ package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.graphrbac.AppRole;
+import com.azure.management.graphrbac.DirectoryObject;
 import com.azure.management.graphrbac.KeyCredential;
 import com.azure.management.graphrbac.OAuth2Permission;
 import com.azure.management.graphrbac.PasswordCredential;

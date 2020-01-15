@@ -81,11 +81,27 @@ public final class DeletedApplicationsInner {
         Mono<SimpleResponse<ApplicationListResultInner>> listNext(@HostParam("$host") String host, @PathParam(value = "nextLink", encoded = true) String nextLink, @PathParam("tenantID") String tenantID, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Restores the deleted application in the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ApplicationInner>> restoreWithResponseAsync(String objectId) {
         return service.restore(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Restores the deleted application in the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ApplicationInner> restoreAsync(String objectId) {
         return restoreWithResponseAsync(objectId)
@@ -98,11 +114,27 @@ public final class DeletedApplicationsInner {
             });
     }
 
+    /**
+     * Restores the deleted application in the directory.
+     * 
+     * @param objectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ApplicationInner restore(String objectId) {
         return restoreAsync(objectId).block();
     }
 
+    /**
+     * Gets a list of deleted applications in the directory.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<ApplicationInner>> listSinglePageAsync(String filter) {
         return service.list(this.client.getHost(), filter, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -114,6 +146,14 @@ public final class DeletedApplicationsInner {
             null));
     }
 
+    /**
+     * Gets a list of deleted applications in the directory.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<ApplicationInner> listAsync(String filter) {
         return new PagedFlux<>(
@@ -122,7 +162,9 @@ public final class DeletedApplicationsInner {
     }
 
     /**
-     * @param filter null
+     * Gets a list of deleted applications in the directory.
+     * 
+     * @param filter MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws GraphErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -132,22 +174,54 @@ public final class DeletedApplicationsInner {
         return new PagedIterable<>(listAsync(filter));
     }
 
+    /**
+     * Hard-delete an application.
+     * 
+     * @param applicationObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> hardDeleteWithResponseAsync(String applicationObjectId) {
         return service.hardDelete(this.client.getHost(), applicationObjectId, this.client.getTenantID(), this.client.getApiVersion());
     }
 
+    /**
+     * Hard-delete an application.
+     * 
+     * @param applicationObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> hardDeleteAsync(String applicationObjectId) {
         return hardDeleteWithResponseAsync(applicationObjectId)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Hard-delete an application.
+     * 
+     * @param applicationObjectId MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void hardDelete(String applicationObjectId) {
         hardDeleteAsync(applicationObjectId).block();
     }
 
+    /**
+     * Gets a list of deleted applications in the directory.
+     * 
+     * @param nextLink MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws GraphErrorException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<ApplicationInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(this.client.getHost(), nextLink, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(

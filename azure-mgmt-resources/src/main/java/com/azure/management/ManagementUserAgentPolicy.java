@@ -42,7 +42,12 @@ public class ManagementUserAgentPolicy implements HttpPipelinePolicy {
 
     @Override
     public Mono<HttpResponse> process(HttpPipelineCallContext context, HttpPipelineNextPolicy next){
-        String userAgent = context.getData(USER_AGENT_KEY).orElse("").toString();
+        String userAgent = context.getHttpRequest().getHeaders().getValue(USER_AGENT_KEY);
+        if (!userAgent.isEmpty()) {
+            return next.process();
+        }
+
+        userAgent = context.getData(USER_AGENT_KEY).orElse("").toString();
         if (!userAgent.isEmpty()) {
             context.getHttpRequest().setHeader(USER_AGENT_KEY, userAgent);
             return next.process();

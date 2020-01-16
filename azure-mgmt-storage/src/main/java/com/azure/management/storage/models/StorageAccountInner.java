@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.azure.management.storage.AccessTier;
 import com.azure.management.storage.AccountStatus;
 import com.azure.management.storage.CustomDomain;
@@ -25,8 +26,9 @@ import java.time.OffsetDateTime;
 /**
  * The StorageAccount model.
  */
+@JsonFlatten
 @Fluent
-public final class StorageAccountInner extends TrackedResource {
+public class StorageAccountInner extends TrackedResource {
     /*
      * The SKU of the storage account.
      */

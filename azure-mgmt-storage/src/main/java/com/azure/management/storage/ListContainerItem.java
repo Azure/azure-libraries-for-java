@@ -7,6 +7,7 @@
 package com.azure.management.storage;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import java.util.Map;
@@ -14,8 +15,9 @@ import java.util.Map;
 /**
  * The ListContainerItem model.
  */
+@JsonFlatten
 @Fluent
-public final class ListContainerItem extends AzureEntityResource {
+public class ListContainerItem extends AzureEntityResource {
     /*
      * Specifies whether data in the container may be accessed publicly and the
      * level of access.

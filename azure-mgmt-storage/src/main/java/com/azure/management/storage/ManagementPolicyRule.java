@@ -41,6 +41,13 @@ public final class ManagementPolicyRule {
     private ManagementPolicyDefinition definition;
 
     /**
+     * Creates an instance of ManagementPolicyRule class.
+     */
+    public ManagementPolicyRule() {
+        type = "Lifecycle";
+    }
+
+    /**
      * Get the enabled property: Rule is enabled if set to true.
      * 
      * @return the enabled value.

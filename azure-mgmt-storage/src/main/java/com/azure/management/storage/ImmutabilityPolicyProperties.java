@@ -7,14 +7,16 @@
 package com.azure.management.storage;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
 /**
  * The ImmutabilityPolicyProperties model.
  */
+@JsonFlatten
 @Fluent
-public final class ImmutabilityPolicyProperties {
+public class ImmutabilityPolicyProperties {
     /*
      * The immutability period for the blobs in the container since the policy
      * creation, in days.

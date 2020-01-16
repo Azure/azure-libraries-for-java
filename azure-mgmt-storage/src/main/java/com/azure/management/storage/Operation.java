@@ -7,13 +7,15 @@
 package com.azure.management.storage;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The Operation model.
  */
+@JsonFlatten
 @Fluent
-public final class Operation {
+public class Operation {
     /*
      * Operation name: {provider}/{resource}/{operation}
      */

@@ -7,6 +7,7 @@
 package com.azure.management.resources.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.azure.management.resources.ErrorResponse;
 import com.azure.management.resources.WhatIfChange;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,8 +16,9 @@ import java.util.List;
 /**
  * The WhatIfOperationResult model.
  */
+@JsonFlatten
 @Fluent
-public final class WhatIfOperationResultInner {
+public class WhatIfOperationResultInner {
     /*
      * Status of the What-If operation.
      */

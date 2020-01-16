@@ -34,6 +34,13 @@ public final class VirtualNetworkRule {
     private State state;
 
     /**
+     * Creates an instance of VirtualNetworkRule class.
+     */
+    public VirtualNetworkRule() {
+        action = "Allow";
+    }
+
+    /**
      * Get the virtualNetworkResourceId property: Resource ID of a subnet, for
      * example:
      * /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.

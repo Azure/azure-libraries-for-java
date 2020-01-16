@@ -7,14 +7,16 @@
 package com.azure.management.storage;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Map;
 
 /**
  * The StorageAccountCreateParameters model.
  */
+@JsonFlatten
 @Fluent
-public final class StorageAccountCreateParameters {
+public class StorageAccountCreateParameters {
     /*
      * The SKU of the storage account.
      */

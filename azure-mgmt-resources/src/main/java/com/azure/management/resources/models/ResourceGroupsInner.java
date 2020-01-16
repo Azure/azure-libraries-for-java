@@ -11,6 +11,7 @@ import com.azure.core.annotation.Delete;
 import com.azure.core.annotation.ExpectedResponses;
 import com.azure.core.annotation.Get;
 import com.azure.core.annotation.Head;
+import com.azure.core.annotation.HeaderParam;
 import com.azure.core.annotation.Host;
 import com.azure.core.annotation.HostParam;
 import com.azure.core.annotation.Patch;
@@ -30,6 +31,7 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.Context;
 import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.ExportTemplateRequest;
 import com.azure.management.resources.ResourceGroupPatchable;
@@ -78,7 +80,7 @@ public final class ResourceGroupsInner {
         @Put("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ResourceGroupInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourceGroupInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ResourceGroupInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourceGroupInner parameters, @QueryParam("api-version") String apiVersion, Context context);
 
         @Delete("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
         @ExpectedResponses({200, 202})
@@ -172,7 +174,7 @@ public final class ResourceGroupsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ResourceGroupInner>> createOrUpdateWithResponseAsync(String resourceGroupName, ResourceGroupInner parameters) {
-        return service.createOrUpdate(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+        return service.createOrUpdate(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion(), Context.NONE.addData("Sdk-Name", "aaa").addData("Sdk-Version", "1.2.3"));
     }
 
     /**

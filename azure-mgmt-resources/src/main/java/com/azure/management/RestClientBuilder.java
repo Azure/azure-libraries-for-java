@@ -65,7 +65,7 @@ public final class RestClientBuilder {
 
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
-        // TODO: Add UserAgent
+        policies.add(new ManagementUserAgentPolicy(httpLogOptions, configuration));
         // TODO Add credential policy
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);

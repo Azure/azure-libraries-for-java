@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.Resource;
 import com.azure.management.storage.ManagementPolicySchema;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -15,8 +16,9 @@ import java.time.OffsetDateTime;
 /**
  * The ManagementPolicy model.
  */
+@JsonFlatten
 @Fluent
-public final class ManagementPolicyInner extends Resource {
+public class ManagementPolicyInner extends Resource {
     /*
      * Returns the date and time the ManagementPolicies was last modified.
      */

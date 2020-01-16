@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.azure.management.storage.AzureEntityResource;
 import com.azure.management.storage.ImmutabilityPolicyState;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,8 +15,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * The ImmutabilityPolicy model.
  */
+@JsonFlatten
 @Fluent
-public final class ImmutabilityPolicyInner extends AzureEntityResource {
+public class ImmutabilityPolicyInner extends AzureEntityResource {
     /*
      * The immutability period for the blobs in the container since the policy
      * creation, in days.

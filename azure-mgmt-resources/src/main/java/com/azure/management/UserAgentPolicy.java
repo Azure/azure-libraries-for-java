@@ -38,8 +38,10 @@ public class UserAgentPolicy implements HttpPipelinePolicy {
     private final HttpLogOptions httpLogOptions;
     private final Configuration configuration;
 
-    public UserAgentPolicy() {
-        this(null, null);
+    private static final UserAgentPolicy defaultUserAgentPolicy = new UserAgentPolicy(null, null);
+
+    public static UserAgentPolicy getDefaultUserAgentPolicy() {
+        return defaultUserAgentPolicy;
     }
 
     public UserAgentPolicy(HttpLogOptions httpLogOptions, Configuration configuration) {

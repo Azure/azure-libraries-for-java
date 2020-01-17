@@ -9,6 +9,7 @@ import com.azure.core.http.HttpResponse;
 import com.azure.core.http.policy.HttpLogOptions;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.util.Configuration;
+import org.apache.commons.lang3.StringUtils;
 import reactor.core.publisher.Mono;
 
 public class UserAgentPolicy implements HttpPipelinePolicy {
@@ -88,28 +89,28 @@ public class UserAgentPolicy implements HttpPipelinePolicy {
     @Override
     public Mono<HttpResponse> process(HttpPipelineCallContext context, HttpPipelineNextPolicy next){
         String userAgent = context.getHttpRequest().getHeaders().getValue(USER_AGENT_KEY);
-        if (!userAgent.isEmpty()) {
+        if (!StringUtils.isEmpty(userAgent)) {
             return next.process();
         }
 
         userAgent = context.getData(USER_AGENT_KEY).orElse("").toString();
-        if (!userAgent.isEmpty()) {
+        if (!StringUtils.isEmpty(userAgent)) {
             context.getHttpRequest().setHeader(USER_AGENT_KEY, userAgent);
             return next.process();
         }
 
         String sdkName = context.getData(SDK_NAME_KEY).orElse("").toString();
-        if (sdkName.isEmpty()) {
+        if (StringUtils.isEmpty(sdkName)) {
             sdkName = defaultSdkName;
         }
 
         String sdkVersion = context.getData(SDK_VERSION_KEY).orElse("").toString();
-        if (sdkVersion.isEmpty()) {
+        if (StringUtils.isEmpty(sdkVersion)) {
             sdkVersion = defaultSdkVersion;
         }
 
         String applicationId = context.getData(APPLICATION_ID_KEY).orElse("").toString();
-        if (applicationId.isEmpty()) {
+        if (StringUtils.isEmpty(applicationId)) {
             applicationId = httpLogOptions.getApplicationId();
         }
 

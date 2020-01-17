@@ -54,7 +54,7 @@ class ImmutabilityPolicyImpl
     public Mono<ImmutabilityPolicy> createResourceAsync() {
         BlobContainersInner client = this.getManager().getInner().blobContainers();
         ImmutabilityPolicyInner inner = new ImmutabilityPolicyInner();
-        inner.setImmutabilityPeriodSinceCreationInDays(this.uimmutabilityPeriodSinceCreationInDays);
+        inner.setImmutabilityPeriodSinceCreationInDays(this.cimmutabilityPeriodSinceCreationInDays);
         return client.createOrUpdateImmutabilityPolicyAsync(this.resourceGroupName, this.accountName, this.containerName, this.cifMatch, inner)
                 .map(innerToFluentMap(this));
     }

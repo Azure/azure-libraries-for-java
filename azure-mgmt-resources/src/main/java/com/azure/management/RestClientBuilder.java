@@ -16,7 +16,6 @@ import com.azure.core.http.policy.HttpPolicyProviders;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.util.Configuration;
-import com.azure.core.util.CoreUtils;
 import com.azure.core.util.logging.ClientLogger;
 import com.azure.core.util.serializer.SerializerAdapter;
 
@@ -65,7 +64,7 @@ public final class RestClientBuilder {
 
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
-        policies.add(new ManagementUserAgentPolicy(httpLogOptions, configuration));
+        policies.add(new UserAgentPolicy(httpLogOptions, configuration));
         // TODO Add credential policy
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);

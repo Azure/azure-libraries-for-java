@@ -7,6 +7,8 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.graphrbac.models.KeyCredentialInner;
+import com.azure.management.graphrbac.models.PasswordCredentialInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -93,7 +95,7 @@ public class ApplicationBase {
      * A collection of KeyCredential objects.
      */
     @JsonProperty(value = "keyCredentials")
-    private List<KeyCredential> keyCredentials;
+    private List<KeyCredentialInner> keyCredentials;
 
     /*
      * Client applications that are tied to this resource application. Consent
@@ -156,7 +158,7 @@ public class ApplicationBase {
      * A collection of PasswordCredential objects
      */
     @JsonProperty(value = "passwordCredentials")
-    private List<PasswordCredential> passwordCredentials;
+    private List<PasswordCredentialInner> passwordCredentials;
 
     /*
      * list of pre-authorized applications.
@@ -465,7 +467,7 @@ public class ApplicationBase {
      * 
      * @return the keyCredentials value.
      */
-    public List<KeyCredential> getKeyCredentials() {
+    public List<KeyCredentialInner> getKeyCredentials() {
         return this.keyCredentials;
     }
 
@@ -475,7 +477,7 @@ public class ApplicationBase {
      * @param keyCredentials the keyCredentials value to set.
      * @return the ApplicationBase object itself.
      */
-    public ApplicationBase setKeyCredentials(List<KeyCredential> keyCredentials) {
+    public ApplicationBase setKeyCredentials(List<KeyCredentialInner> keyCredentials) {
         this.keyCredentials = keyCredentials;
         return this;
     }
@@ -678,7 +680,7 @@ public class ApplicationBase {
      * 
      * @return the passwordCredentials value.
      */
-    public List<PasswordCredential> getPasswordCredentials() {
+    public List<PasswordCredentialInner> getPasswordCredentials() {
         return this.passwordCredentials;
     }
 
@@ -689,7 +691,7 @@ public class ApplicationBase {
      * @param passwordCredentials the passwordCredentials value to set.
      * @return the ApplicationBase object itself.
      */
-    public ApplicationBase setPasswordCredentials(List<PasswordCredential> passwordCredentials) {
+    public ApplicationBase setPasswordCredentials(List<PasswordCredentialInner> passwordCredentials) {
         this.passwordCredentials = passwordCredentials;
         return this;
     }

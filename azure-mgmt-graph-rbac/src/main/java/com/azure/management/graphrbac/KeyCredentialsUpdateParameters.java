@@ -7,6 +7,7 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.graphrbac.models.KeyCredentialInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,14 +20,14 @@ public final class KeyCredentialsUpdateParameters {
      * A collection of KeyCredentials.
      */
     @JsonProperty(value = "value", required = true)
-    private List<KeyCredential> value;
+    private List<KeyCredentialInner> value;
 
     /**
      * Get the value property: A collection of KeyCredentials.
      * 
      * @return the value value.
      */
-    public List<KeyCredential> getValue() {
+    public List<KeyCredentialInner> getValue() {
         return this.value;
     }
 
@@ -36,7 +37,7 @@ public final class KeyCredentialsUpdateParameters {
      * @param value the value value to set.
      * @return the KeyCredentialsUpdateParameters object itself.
      */
-    public KeyCredentialsUpdateParameters setValue(List<KeyCredential> value) {
+    public KeyCredentialsUpdateParameters setValue(List<KeyCredentialInner> value) {
         this.value = value;
         return this;
     }

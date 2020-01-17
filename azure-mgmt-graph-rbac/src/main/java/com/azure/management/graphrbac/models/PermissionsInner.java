@@ -23,7 +23,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.graphrbac.Permission;
 import reactor.core.publisher.Mono;
 
 /**
@@ -89,7 +88,7 @@ public final class PermissionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Permission>> listByResourceGroupSinglePageAsync(String resourceGroupName) {
+    public Mono<PagedResponse<PermissionInner>> listByResourceGroupSinglePageAsync(String resourceGroupName) {
         return service.listByResourceGroup(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -108,7 +107,7 @@ public final class PermissionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Permission> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<PermissionInner> listByResourceGroupAsync(String resourceGroupName) {
         return new PagedFlux<>(
             () -> listByResourceGroupSinglePageAsync(resourceGroupName),
             nextLink -> listForResourceGroupNextSinglePageAsync(nextLink));
@@ -123,7 +122,7 @@ public final class PermissionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Permission> listByResourceGroup(String resourceGroupName) {
+    public PagedIterable<PermissionInner> listByResourceGroup(String resourceGroupName) {
         return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName));
     }
 
@@ -140,7 +139,7 @@ public final class PermissionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Permission>> listForResourceSinglePageAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+    public Mono<PagedResponse<PermissionInner>> listForResourceSinglePageAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return service.listForResource(this.client.getHost(), resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -163,7 +162,7 @@ public final class PermissionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Permission> listForResourceAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+    public PagedFlux<PermissionInner> listForResourceAsync(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return new PagedFlux<>(
             () -> listForResourceSinglePageAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName),
             nextLink -> listForResourceNextSinglePageAsync(nextLink));
@@ -182,7 +181,7 @@ public final class PermissionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Permission> listForResource(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
+    public PagedIterable<PermissionInner> listForResource(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName) {
         return new PagedIterable<>(listForResourceAsync(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName));
     }
 
@@ -195,7 +194,7 @@ public final class PermissionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Permission>> listForResourceGroupNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<PermissionInner>> listForResourceGroupNextSinglePageAsync(String nextLink) {
         return service.listForResourceGroupNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -214,7 +213,7 @@ public final class PermissionsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Permission>> listForResourceNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<PermissionInner>> listForResourceNextSinglePageAsync(String nextLink) {
         return service.listForResourceNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

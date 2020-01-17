@@ -7,6 +7,8 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.graphrbac.models.KeyCredentialInner;
+import com.azure.management.graphrbac.models.PasswordCredentialInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -32,14 +34,14 @@ public class ServicePrincipalBase {
      * The collection of key credentials associated with the service principal.
      */
     @JsonProperty(value = "keyCredentials")
-    private List<KeyCredential> keyCredentials;
+    private List<KeyCredentialInner> keyCredentials;
 
     /*
      * The collection of password credentials associated with the service
      * principal.
      */
     @JsonProperty(value = "passwordCredentials")
-    private List<PasswordCredential> passwordCredentials;
+    private List<PasswordCredentialInner> passwordCredentials;
 
     /*
      * the type of the service principal
@@ -107,7 +109,7 @@ public class ServicePrincipalBase {
      * 
      * @return the keyCredentials value.
      */
-    public List<KeyCredential> getKeyCredentials() {
+    public List<KeyCredentialInner> getKeyCredentials() {
         return this.keyCredentials;
     }
 
@@ -118,7 +120,7 @@ public class ServicePrincipalBase {
      * @param keyCredentials the keyCredentials value to set.
      * @return the ServicePrincipalBase object itself.
      */
-    public ServicePrincipalBase setKeyCredentials(List<KeyCredential> keyCredentials) {
+    public ServicePrincipalBase setKeyCredentials(List<KeyCredentialInner> keyCredentials) {
         this.keyCredentials = keyCredentials;
         return this;
     }
@@ -129,7 +131,7 @@ public class ServicePrincipalBase {
      * 
      * @return the passwordCredentials value.
      */
-    public List<PasswordCredential> getPasswordCredentials() {
+    public List<PasswordCredentialInner> getPasswordCredentials() {
         return this.passwordCredentials;
     }
 
@@ -140,7 +142,7 @@ public class ServicePrincipalBase {
      * @param passwordCredentials the passwordCredentials value to set.
      * @return the ServicePrincipalBase object itself.
      */
-    public ServicePrincipalBase setPasswordCredentials(List<PasswordCredential> passwordCredentials) {
+    public ServicePrincipalBase setPasswordCredentials(List<PasswordCredentialInner> passwordCredentials) {
         this.passwordCredentials = passwordCredentials;
         return this;
     }

@@ -10,10 +10,8 @@ import com.azure.core.annotation.Fluent;
 import com.azure.management.graphrbac.AppRole;
 import com.azure.management.graphrbac.GroupMembershipClaimTypes;
 import com.azure.management.graphrbac.InformationalUrl;
-import com.azure.management.graphrbac.KeyCredential;
 import com.azure.management.graphrbac.OAuth2Permission;
 import com.azure.management.graphrbac.OptionalClaims;
-import com.azure.management.graphrbac.PasswordCredential;
 import com.azure.management.graphrbac.PreAuthorizedApplication;
 import com.azure.management.graphrbac.RequiredResourceAccess;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -124,7 +122,7 @@ public final class ApplicationInner extends DirectoryObjectInner {
      * A collection of KeyCredential objects.
      */
     @JsonProperty(value = "keyCredentials")
-    private List<KeyCredential> keyCredentials;
+    private List<KeyCredentialInner> keyCredentials;
 
     /*
      * Client applications that are tied to this resource application. Consent
@@ -187,7 +185,7 @@ public final class ApplicationInner extends DirectoryObjectInner {
      * A collection of PasswordCredential objects
      */
     @JsonProperty(value = "passwordCredentials")
-    private List<PasswordCredential> passwordCredentials;
+    private List<PasswordCredentialInner> passwordCredentials;
 
     /*
      * list of pre-authorized applications.
@@ -558,7 +556,7 @@ public final class ApplicationInner extends DirectoryObjectInner {
      * 
      * @return the keyCredentials value.
      */
-    public List<KeyCredential> getKeyCredentials() {
+    public List<KeyCredentialInner> getKeyCredentials() {
         return this.keyCredentials;
     }
 
@@ -568,7 +566,7 @@ public final class ApplicationInner extends DirectoryObjectInner {
      * @param keyCredentials the keyCredentials value to set.
      * @return the ApplicationInner object itself.
      */
-    public ApplicationInner setKeyCredentials(List<KeyCredential> keyCredentials) {
+    public ApplicationInner setKeyCredentials(List<KeyCredentialInner> keyCredentials) {
         this.keyCredentials = keyCredentials;
         return this;
     }
@@ -771,7 +769,7 @@ public final class ApplicationInner extends DirectoryObjectInner {
      * 
      * @return the passwordCredentials value.
      */
-    public List<PasswordCredential> getPasswordCredentials() {
+    public List<PasswordCredentialInner> getPasswordCredentials() {
         return this.passwordCredentials;
     }
 
@@ -782,7 +780,7 @@ public final class ApplicationInner extends DirectoryObjectInner {
      * @param passwordCredentials the passwordCredentials value to set.
      * @return the ApplicationInner object itself.
      */
-    public ApplicationInner setPasswordCredentials(List<PasswordCredential> passwordCredentials) {
+    public ApplicationInner setPasswordCredentials(List<PasswordCredentialInner> passwordCredentials) {
         this.passwordCredentials = passwordCredentials;
         return this;
     }

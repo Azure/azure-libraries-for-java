@@ -8,9 +8,7 @@ package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.graphrbac.AppRole;
-import com.azure.management.graphrbac.KeyCredential;
 import com.azure.management.graphrbac.OAuth2Permission;
-import com.azure.management.graphrbac.PasswordCredential;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
@@ -90,7 +88,7 @@ public final class ServicePrincipalInner extends DirectoryObjectInner {
      * The collection of key credentials associated with the service principal.
      */
     @JsonProperty(value = "keyCredentials")
-    private List<KeyCredential> keyCredentials;
+    private List<KeyCredentialInner> keyCredentials;
 
     /*
      * A URL provided by the author of the associated application to logout
@@ -109,7 +107,7 @@ public final class ServicePrincipalInner extends DirectoryObjectInner {
      * principal.
      */
     @JsonProperty(value = "passwordCredentials")
-    private List<PasswordCredential> passwordCredentials;
+    private List<PasswordCredentialInner> passwordCredentials;
 
     /*
      * The thumbprint of preferred certificate to sign the token
@@ -356,7 +354,7 @@ public final class ServicePrincipalInner extends DirectoryObjectInner {
      * 
      * @return the keyCredentials value.
      */
-    public List<KeyCredential> getKeyCredentials() {
+    public List<KeyCredentialInner> getKeyCredentials() {
         return this.keyCredentials;
     }
 
@@ -367,7 +365,7 @@ public final class ServicePrincipalInner extends DirectoryObjectInner {
      * @param keyCredentials the keyCredentials value to set.
      * @return the ServicePrincipalInner object itself.
      */
-    public ServicePrincipalInner setKeyCredentials(List<KeyCredential> keyCredentials) {
+    public ServicePrincipalInner setKeyCredentials(List<KeyCredentialInner> keyCredentials) {
         this.keyCredentials = keyCredentials;
         return this;
     }
@@ -410,7 +408,7 @@ public final class ServicePrincipalInner extends DirectoryObjectInner {
      * 
      * @return the passwordCredentials value.
      */
-    public List<PasswordCredential> getPasswordCredentials() {
+    public List<PasswordCredentialInner> getPasswordCredentials() {
         return this.passwordCredentials;
     }
 
@@ -421,7 +419,7 @@ public final class ServicePrincipalInner extends DirectoryObjectInner {
      * @param passwordCredentials the passwordCredentials value to set.
      * @return the ServicePrincipalInner object itself.
      */
-    public ServicePrincipalInner setPasswordCredentials(List<PasswordCredential> passwordCredentials) {
+    public ServicePrincipalInner setPasswordCredentials(List<PasswordCredentialInner> passwordCredentials) {
         this.passwordCredentials = passwordCredentials;
         return this;
     }

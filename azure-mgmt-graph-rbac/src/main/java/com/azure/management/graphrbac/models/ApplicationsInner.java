@@ -30,10 +30,9 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.management.graphrbac.AddOwnerParameters;
 import com.azure.management.graphrbac.ApplicationCreateParameters;
 import com.azure.management.graphrbac.ApplicationUpdateParameters;
-import com.azure.management.graphrbac.KeyCredential;
 import com.azure.management.graphrbac.KeyCredentialsUpdateParameters;
-import com.azure.management.graphrbac.PasswordCredential;
 import com.azure.management.graphrbac.PasswordCredentialsUpdateParameters;
+import com.azure.management.graphrbac.implementation.GraphErrorException;
 import reactor.core.publisher.Mono;
 
 /**
@@ -509,7 +508,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<KeyCredential>> listKeyCredentialsSinglePageAsync(String applicationObjectId) {
+    public Mono<PagedResponse<KeyCredentialInner>> listKeyCredentialsSinglePageAsync(String applicationObjectId) {
         return service.listKeyCredentials(this.client.getHost(), applicationObjectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -528,7 +527,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<KeyCredential> listKeyCredentialsAsync(String applicationObjectId) {
+    public PagedFlux<KeyCredentialInner> listKeyCredentialsAsync(String applicationObjectId) {
         return new PagedFlux<>(
             () -> listKeyCredentialsSinglePageAsync(applicationObjectId));
     }
@@ -542,7 +541,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<KeyCredential> listKeyCredentials(String applicationObjectId) {
+    public PagedIterable<KeyCredentialInner> listKeyCredentials(String applicationObjectId) {
         return new PagedIterable<>(listKeyCredentialsAsync(applicationObjectId));
     }
 
@@ -598,7 +597,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<PasswordCredential>> listPasswordCredentialsSinglePageAsync(String applicationObjectId) {
+    public Mono<PagedResponse<PasswordCredentialInner>> listPasswordCredentialsSinglePageAsync(String applicationObjectId) {
         return service.listPasswordCredentials(this.client.getHost(), applicationObjectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -617,7 +616,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<PasswordCredential> listPasswordCredentialsAsync(String applicationObjectId) {
+    public PagedFlux<PasswordCredentialInner> listPasswordCredentialsAsync(String applicationObjectId) {
         return new PagedFlux<>(
             () -> listPasswordCredentialsSinglePageAsync(applicationObjectId));
     }
@@ -631,7 +630,7 @@ public final class ApplicationsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<PasswordCredential> listPasswordCredentials(String applicationObjectId) {
+    public PagedIterable<PasswordCredentialInner> listPasswordCredentials(String applicationObjectId) {
         return new PagedIterable<>(listPasswordCredentialsAsync(applicationObjectId));
     }
 

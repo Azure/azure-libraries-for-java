@@ -7,7 +7,6 @@
 package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.graphrbac.Permission;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public final class PermissionGetResultInner {
      * An array of permissions.
      */
     @JsonProperty(value = "value")
-    private List<Permission> value;
+    private List<PermissionInner> value;
 
     /*
      * The URL to use for getting the next set of results.
@@ -33,7 +32,7 @@ public final class PermissionGetResultInner {
      * 
      * @return the value value.
      */
-    public List<Permission> getValue() {
+    public List<PermissionInner> getValue() {
         return this.value;
     }
 
@@ -43,7 +42,7 @@ public final class PermissionGetResultInner {
      * @param value the value value to set.
      * @return the PermissionGetResultInner object itself.
      */
-    public PermissionGetResultInner setValue(List<Permission> value) {
+    public PermissionGetResultInner setValue(List<PermissionInner> value) {
         this.value = value;
         return this;
     }

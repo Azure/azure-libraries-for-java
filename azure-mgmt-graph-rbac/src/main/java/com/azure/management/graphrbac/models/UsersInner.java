@@ -30,6 +30,7 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.management.graphrbac.UserCreateParameters;
 import com.azure.management.graphrbac.UserGetMemberGroupsParameters;
 import com.azure.management.graphrbac.UserUpdateParameters;
+import com.azure.management.graphrbac.implementation.GraphErrorException;
 import reactor.core.publisher.Mono;
 
 /**

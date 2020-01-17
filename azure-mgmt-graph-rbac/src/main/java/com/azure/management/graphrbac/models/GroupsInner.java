@@ -31,6 +31,7 @@ import com.azure.management.graphrbac.CheckGroupMembershipParameters;
 import com.azure.management.graphrbac.GroupAddMemberParameters;
 import com.azure.management.graphrbac.GroupCreateParameters;
 import com.azure.management.graphrbac.GroupGetMemberGroupsParameters;
+import com.azure.management.graphrbac.implementation.GraphErrorException;
 import reactor.core.publisher.Mono;
 
 /**

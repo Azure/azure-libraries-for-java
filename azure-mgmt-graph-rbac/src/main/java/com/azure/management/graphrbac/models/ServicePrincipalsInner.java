@@ -27,9 +27,7 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.graphrbac.KeyCredential;
 import com.azure.management.graphrbac.KeyCredentialsUpdateParameters;
-import com.azure.management.graphrbac.PasswordCredential;
 import com.azure.management.graphrbac.PasswordCredentialsUpdateParameters;
 import com.azure.management.graphrbac.ServicePrincipalCreateParameters;
 import com.azure.management.graphrbac.ServicePrincipalUpdateParameters;
@@ -407,7 +405,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<KeyCredential>> listKeyCredentialsSinglePageAsync(String objectId) {
+    public Mono<PagedResponse<KeyCredentialInner>> listKeyCredentialsSinglePageAsync(String objectId) {
         return service.listKeyCredentials(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -426,7 +424,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<KeyCredential> listKeyCredentialsAsync(String objectId) {
+    public PagedFlux<KeyCredentialInner> listKeyCredentialsAsync(String objectId) {
         return new PagedFlux<>(
             () -> listKeyCredentialsSinglePageAsync(objectId));
     }
@@ -440,7 +438,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<KeyCredential> listKeyCredentials(String objectId) {
+    public PagedIterable<KeyCredentialInner> listKeyCredentials(String objectId) {
         return new PagedIterable<>(listKeyCredentialsAsync(objectId));
     }
 
@@ -496,7 +494,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<PasswordCredential>> listPasswordCredentialsSinglePageAsync(String objectId) {
+    public Mono<PagedResponse<PasswordCredentialInner>> listPasswordCredentialsSinglePageAsync(String objectId) {
         return service.listPasswordCredentials(this.client.getHost(), objectId, this.client.getTenantID(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -515,7 +513,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<PasswordCredential> listPasswordCredentialsAsync(String objectId) {
+    public PagedFlux<PasswordCredentialInner> listPasswordCredentialsAsync(String objectId) {
         return new PagedFlux<>(
             () -> listPasswordCredentialsSinglePageAsync(objectId));
     }
@@ -529,7 +527,7 @@ public final class ServicePrincipalsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<PasswordCredential> listPasswordCredentials(String objectId) {
+    public PagedIterable<PasswordCredentialInner> listPasswordCredentials(String objectId) {
         return new PagedIterable<>(listPasswordCredentialsAsync(objectId));
     }
 

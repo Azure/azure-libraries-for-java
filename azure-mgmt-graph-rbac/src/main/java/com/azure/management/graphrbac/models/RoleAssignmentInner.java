@@ -7,7 +7,6 @@
 package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.graphrbac.RoleAssignmentPropertiesWithScope;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -34,10 +33,28 @@ public final class RoleAssignmentInner {
     private String type;
 
     /*
-     * Role assignment properties with scope.
+     * The role assignment scope.
      */
-    @JsonProperty(value = "properties")
-    private RoleAssignmentPropertiesWithScope properties;
+    @JsonProperty(value = "properties.scope")
+    private String scope;
+
+    /*
+     * The role definition ID.
+     */
+    @JsonProperty(value = "properties.roleDefinitionId")
+    private String roleDefinitionId;
+
+    /*
+     * The principal ID.
+     */
+    @JsonProperty(value = "properties.principalId")
+    private String principalId;
+
+    /*
+     * The Delegation flag for the role assignment
+     */
+    @JsonProperty(value = "properties.canDelegate")
+    private Boolean canDelegate;
 
     /**
      * Get the id property: The role assignment ID.
@@ -67,22 +84,84 @@ public final class RoleAssignmentInner {
     }
 
     /**
-     * Get the properties property: Role assignment properties with scope.
+     * Get the scope property: The role assignment scope.
      * 
-     * @return the properties value.
+     * @return the scope value.
      */
-    public RoleAssignmentPropertiesWithScope getProperties() {
-        return this.properties;
+    public String getScope() {
+        return this.scope;
     }
 
     /**
-     * Set the properties property: Role assignment properties with scope.
+     * Set the scope property: The role assignment scope.
      * 
-     * @param properties the properties value to set.
+     * @param scope the scope value to set.
      * @return the RoleAssignmentInner object itself.
      */
-    public RoleAssignmentInner setProperties(RoleAssignmentPropertiesWithScope properties) {
-        this.properties = properties;
+    public RoleAssignmentInner setScope(String scope) {
+        this.scope = scope;
+        return this;
+    }
+
+    /**
+     * Get the roleDefinitionId property: The role definition ID.
+     * 
+     * @return the roleDefinitionId value.
+     */
+    public String getRoleDefinitionId() {
+        return this.roleDefinitionId;
+    }
+
+    /**
+     * Set the roleDefinitionId property: The role definition ID.
+     * 
+     * @param roleDefinitionId the roleDefinitionId value to set.
+     * @return the RoleAssignmentInner object itself.
+     */
+    public RoleAssignmentInner setRoleDefinitionId(String roleDefinitionId) {
+        this.roleDefinitionId = roleDefinitionId;
+        return this;
+    }
+
+    /**
+     * Get the principalId property: The principal ID.
+     * 
+     * @return the principalId value.
+     */
+    public String getPrincipalId() {
+        return this.principalId;
+    }
+
+    /**
+     * Set the principalId property: The principal ID.
+     * 
+     * @param principalId the principalId value to set.
+     * @return the RoleAssignmentInner object itself.
+     */
+    public RoleAssignmentInner setPrincipalId(String principalId) {
+        this.principalId = principalId;
+        return this;
+    }
+
+    /**
+     * Get the canDelegate property: The Delegation flag for the role
+     * assignment.
+     * 
+     * @return the canDelegate value.
+     */
+    public Boolean isCanDelegate() {
+        return this.canDelegate;
+    }
+
+    /**
+     * Set the canDelegate property: The Delegation flag for the role
+     * assignment.
+     * 
+     * @param canDelegate the canDelegate value to set.
+     * @return the RoleAssignmentInner object itself.
+     */
+    public RoleAssignmentInner setCanDelegate(Boolean canDelegate) {
+        this.canDelegate = canDelegate;
         return this;
     }
 }

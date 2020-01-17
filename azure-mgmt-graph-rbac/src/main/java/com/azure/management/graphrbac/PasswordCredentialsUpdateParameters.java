@@ -7,6 +7,7 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.graphrbac.models.PasswordCredentialInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -19,14 +20,14 @@ public final class PasswordCredentialsUpdateParameters {
      * A collection of PasswordCredentials.
      */
     @JsonProperty(value = "value", required = true)
-    private List<PasswordCredential> value;
+    private List<PasswordCredentialInner> value;
 
     /**
      * Get the value property: A collection of PasswordCredentials.
      * 
      * @return the value value.
      */
-    public List<PasswordCredential> getValue() {
+    public List<PasswordCredentialInner> getValue() {
         return this.value;
     }
 
@@ -36,7 +37,7 @@ public final class PasswordCredentialsUpdateParameters {
      * @param value the value value to set.
      * @return the PasswordCredentialsUpdateParameters object itself.
      */
-    public PasswordCredentialsUpdateParameters setValue(List<PasswordCredential> value) {
+    public PasswordCredentialsUpdateParameters setValue(List<PasswordCredentialInner> value) {
         this.value = value;
         return this;
     }

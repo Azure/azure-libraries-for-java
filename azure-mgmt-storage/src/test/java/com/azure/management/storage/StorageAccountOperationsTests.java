@@ -56,7 +56,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
         Assert.assertEquals(RG_NAME, storageAccount.getResourceGroupName());
         Assert.assertEquals(SkuName.STANDARD_GRS, storageAccount.skuType().name());
         Assert.assertTrue(storageAccount.isHnsEnabled());
-        //Assert.assertFalse(storageAccount.isAzureFilesAadIntegrationEnabled());
+        Assert.assertFalse(storageAccount.isAzureFilesAadIntegrationEnabled());
         // List
         PagedIterable<StorageAccount> accounts = storageManager.storageAccounts().listByResourceGroup(RG_NAME);
         boolean found = false;

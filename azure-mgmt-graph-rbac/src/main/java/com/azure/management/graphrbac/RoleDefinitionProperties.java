@@ -7,6 +7,7 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.graphrbac.models.PermissionInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -37,7 +38,7 @@ public final class RoleDefinitionProperties {
      * Role definition permissions.
      */
     @JsonProperty(value = "permissions")
-    private List<Permission> permissions;
+    private List<PermissionInner> permissions;
 
     /*
      * Role definition assignable scopes.
@@ -110,7 +111,7 @@ public final class RoleDefinitionProperties {
      * 
      * @return the permissions value.
      */
-    public List<Permission> getPermissions() {
+    public List<PermissionInner> getPermissions() {
         return this.permissions;
     }
 
@@ -120,7 +121,7 @@ public final class RoleDefinitionProperties {
      * @param permissions the permissions value to set.
      * @return the RoleDefinitionProperties object itself.
      */
-    public RoleDefinitionProperties setPermissions(List<Permission> permissions) {
+    public RoleDefinitionProperties setPermissions(List<PermissionInner> permissions) {
         this.permissions = permissions;
         return this;
     }

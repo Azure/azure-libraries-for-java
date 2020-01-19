@@ -23,10 +23,9 @@ import java.util.function.Function;
  */
 class ActiveDirectoryUserImpl
         extends CreatableUpdatableImpl<ActiveDirectoryUser, UserInner, ActiveDirectoryUserImpl>
-        implements
-        ActiveDirectoryUser,
-        ActiveDirectoryUser.Definition,
-        ActiveDirectoryUser.Update {
+        implements ActiveDirectoryUser,
+            ActiveDirectoryUser.Definition,
+            ActiveDirectoryUser.Update {
 
     private final GraphRbacManager manager;
     private UserCreateParameters createParameters;
@@ -92,7 +91,7 @@ class ActiveDirectoryUserImpl
 
     @Override
     protected Mono<UserInner> getInnerAsync() {
-        return manager.inner().users().getAsync(this.getId());
+        return manager.getInner().users().getAsync(this.getId());
     }
 
     @Override
@@ -104,27 +103,24 @@ class ActiveDirectoryUserImpl
     public Mono<ActiveDirectoryUser> createResourceAsync() {
         Mono<ActiveDirectoryUserImpl> domain;
         if (emailAlias != null) {
-            domain = getManager().inner().domains().listAsync(null)
-                    .map(new Function<DomainInner, Mono<ActiveDirectoryUserImpl>>() {
-                        @Override
-                        public Mono<ActiveDirectoryUserImpl> apply(DomainInner domainInner) {
-                            if (domainInner.isVerified() && domainInner.isDefault()) {
-                                if (emailAlias != null) {
-                                    withUserPrincipalName(emailAlias + "@" + domainInner.getName());
-                                }
+            domain = getManager().getInner().domains().listAsync(null)
+                    .map(domainInner -> {
+                        if (domainInner.isVerified() && domainInner.isDefault()) {
+                            if (emailAlias != null) {
+                                withUserPrincipalName(emailAlias + "@" + domainInner.getName());
                             }
-                            return Mono.just(ActiveDirectoryUserImpl.this);
                         }
-                    }).blockFirst();
+                        return Mono.just(ActiveDirectoryUserImpl.this);
+                    }).blockLast();
         } else {
             domain = Mono.just(this);
         }
-        return domain.flatMap((Function<ActiveDirectoryUserImpl, Mono<UserInner>>) activeDirectoryUser -> getManager().inner().users().createAsync(createParameters))
+        return domain.flatMap((Function<ActiveDirectoryUserImpl, Mono<UserInner>>) activeDirectoryUser -> getManager().getInner().users().createAsync(createParameters))
         .map(innerToFluentMap(this));
     }
 
     public Mono<ActiveDirectoryUser> updateResourceAsync() {
-        return getManager().inner().users().updateAsync(getId(), updateParameters)
+        return getManager().getInner().users().updateAsync(getId(), updateParameters)
                 .flatMap((Function<Void, Mono<ActiveDirectoryUser>>) aVoid -> refreshAsync());
     }
 

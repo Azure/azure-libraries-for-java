@@ -7,6 +7,7 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.graphrbac.models.RoleAssignmentsInner;
@@ -53,7 +54,7 @@ public interface RoleAssignments extends
      * @param scope the scope of the role assignments
      * @return an observable of role assignments
      */
-    Mono<RoleAssignment> listByScopeAsync(String scope);
+    PagedFlux<RoleAssignment> listByScopeAsync(String scope);
 
     /**
      * List role assignments in a scope.

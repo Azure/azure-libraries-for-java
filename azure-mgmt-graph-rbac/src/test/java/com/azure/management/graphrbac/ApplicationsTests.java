@@ -4,19 +4,13 @@
  * license information.
  */
 
-package com.microsoft.azure.management.graphrbac;
+package com.azure.management.graphrbac;
 
 import com.google.common.io.ByteStreams;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.joda.time.Duration;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
-
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class ApplicationsTests extends GraphRbacManagementTest {
     @Test
@@ -37,10 +31,10 @@ public class ApplicationsTests extends GraphRbacManagementTest {
                         .withDuration(Duration.standardDays(100))
                         .attach()
                     .create();
-            System.out.println(application.id() + " - " + application.applicationId());
-            Assert.assertNotNull(application.id());
+            System.out.println(application.getId() + " - " + application.applicationId());
+            Assert.assertNotNull(application.getId());
             Assert.assertNotNull(application.applicationId());
-            Assert.assertEquals(name, application.name());
+            Assert.assertEquals(name, application.getName());
             Assert.assertEquals(1, application.certificateCredentials().size());
             Assert.assertEquals(1, application.passwordCredentials().size());
             Assert.assertEquals(1, application.replyUrls().size());
@@ -50,11 +44,11 @@ public class ApplicationsTests extends GraphRbacManagementTest {
             application.update()
                     .withoutCredential("passwd")
                     .apply();
-            System.out.println(application.id() + " - " + application.applicationId());
+            System.out.println(application.getId() + " - " + application.applicationId());
             Assert.assertEquals(0, application.passwordCredentials().size());
         } finally {
             if (application != null) {
-                graphRbacManager.applications().deleteById(application.id());
+                graphRbacManager.applications().deleteById(application.getId());
             }
         }
     }

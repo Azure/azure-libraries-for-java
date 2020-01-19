@@ -6,36 +6,27 @@
 
 package com.azure.management.graphrbac.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.util.serializer.SerializerAdapter;
+import com.azure.core.util.serializer.SerializerEncoding;
 import com.azure.management.graphrbac.ActiveDirectoryGroup;
 import com.azure.management.graphrbac.ActiveDirectoryObject;
 import com.azure.management.graphrbac.ActiveDirectoryUser;
+import com.azure.management.graphrbac.GroupAddMemberParameters;
 import com.azure.management.graphrbac.GroupCreateParameters;
 import com.azure.management.graphrbac.ServicePrincipal;
 import com.azure.management.graphrbac.models.ADGroupInner;
 import com.azure.management.graphrbac.models.ApplicationInner;
-import com.azure.management.graphrbac.models.DirectoryObjectInner;
 import com.azure.management.graphrbac.models.ServicePrincipalInner;
 import com.azure.management.graphrbac.models.UserInner;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.Page;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroup;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryObject;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.protocol.SerializerAdapter;
-import org.reactivestreams.Publisher;
+import com.google.common.collect.Sets;
 import reactor.core.publisher.Mono;
-import rx.Observable;
-import rx.functions.Action0;
-import rx.functions.Func1;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -77,42 +68,36 @@ class ActiveDirectoryGroupImpl
 
     @Override
     public Set<ActiveDirectoryObject> listMembers() {
-        return Collections.unmodifiableSet(new HashSet<ActiveDirectoryObject>(listMembersAsync().map(new Function<ActiveDirectoryObject, Object>() {
-        }).toBlocking().single()));
+        return Collections.unmodifiableSet(Sets.newHashSet(listMembersAsync().toIterable()));
     }
 
     @Override
-    public Mono<ActiveDirectoryObject> listMembersAsync() {
-        return getManager().inner().groups().getGroupMembersAsync(getId())
-                .map(new Function<DirectoryObjectInner, ActiveDirectoryObject>() {
-                    @Override
-                    public ActiveDirectoryObject apply(DirectoryObjectInner aadObjectInner) {
-                        getManager().inner().
-                        SerializerAdapter<?> adapter = getManager().inner().getHttpPipeline().getPolicy(0).restClient().serializerAdapter();
-                        try {
-                            String serialized = adapter.serialize(aadObjectInner);
-                            switch (aadObjectInner.objectType()) {
-                                case "User":
-                                    return new ActiveDirectoryUserImpl(adapter.<UserInner>deserialize(serialized, UserInner.class), manager());
-                                case "Group":
-                                    return new ActiveDirectoryGroupImpl(adapter.<ADGroupInner>deserialize(serialized, ADGroupInner.class), manager());
-                                case "ServicePrincipal":
-                                    return new ServicePrincipalImpl(adapter.<ServicePrincipalInner>deserialize(serialized, ServicePrincipalInner.class), manager());
-                                case "Application":
-                                    return new ActiveDirectoryApplicationImpl(adapter.<ApplicationInner>deserialize(serialized, ApplicationInner.class), manager());
-                                default:
-                                    return null;
-                            }
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
+    public PagedFlux<ActiveDirectoryObject> listMembersAsync() {
+        return getManager().getInner().groups().getGroupMembersAsync(getId())
+                .mapPage(directoryObjectInner -> {
+                    SerializerAdapter adapter = getManager().getInner().getSerializerAdapter();
+                    try {
+                        String serialized = adapter.serialize(directoryObjectInner, SerializerEncoding.JSON);
+                        if (serialized.contains("User")) {
+                            return new ActiveDirectoryUserImpl(adapter.deserialize(serialized, UserInner.class, SerializerEncoding.JSON), getManager());
+                        } else if (serialized.contains("Group")) {
+                            return new ActiveDirectoryGroupImpl(adapter.deserialize(serialized, ADGroupInner.class, SerializerEncoding.JSON), getManager());
+                        } else if (serialized.contains("ServicePrincipal")) {
+                            return new ServicePrincipalImpl(adapter.deserialize(serialized, ServicePrincipalInner.class, SerializerEncoding.JSON), getManager());
+                        } else if (serialized.contains("Application")) {
+                            return new ActiveDirectoryApplicationImpl(adapter.deserialize(serialized, ApplicationInner.class, SerializerEncoding.JSON), getManager());
+                        } else {
+                            return null;
                         }
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
                 });
     }
 
     @Override
     protected Mono<ADGroupInner> getInnerAsync() {
-        return getManager().inner().groups().getAsync(getId());
+        return getManager().getInner().groups().getAsync(getId());
     }
 
     @Override
@@ -124,53 +109,30 @@ class ActiveDirectoryGroupImpl
     public Mono<ActiveDirectoryGroup> createResourceAsync() {
         Mono<?> group = Mono.just(this);
         if (isInCreateMode()) {
-            group = getManager().inner().groups().createAsync(createParameters)
+            group = getManager().getInner().groups().createAsync(createParameters)
                     .map(innerToFluentMap(this));
         }
         if (!membersToRemove.isEmpty()) {
-            group = group.flatMap(new Function<Object, Mono<?>>() {
-                @Override
-                public Mono<?> apply(Object o) {
-                    return Mono.from(membersToRemove)
-                            .flatMap(new Function<String, Mono<?>>() {
-                                @Override
-                                public Mono<?> apply(String s) {
-                                    return manager().inner().groups().removeMemberAsync(getId(), s);
-                                }
-                            }).last().doOnCompleted(new Action0() {
-                                @Override
-                                public void call() {
-                                    membersToRemove.clear();
-                                }
-                            });
-                }
-            });
+            group = group.flatMap((Function<Object, Mono<?>>) o -> Mono.just(membersToRemove.iterator())
+                    .flatMap((Function<Iterator<String>, Mono<?>>) stringIterator -> {
+                        if (stringIterator.hasNext()) {
+                            return getManager().getInner().groups().removeMemberAsync(getId(), stringIterator.next());
+                        }
+                        return null;
+                    })
+                    .doOnSuccess(o1 -> membersToRemove.clear()));
         }
         if (!membersToAdd.isEmpty()) {
-            group = group.flatMap(new Func1<Object, Observable<?>>() {
-                @Override
-                public Observable<?> call(Object o) {
-                    return Observable.from(membersToAdd)
-                            .flatMap(new Func1<String, Observable<?>>() {
-                                @Override
-                                public Observable<?> call(String s) {
-                                    return manager().inner().groups().addMemberAsync(id(), new GroupAddMemberParametersInner().withUrl(s));
-                                }
-                            }).last().doOnCompleted(new Action0() {
-                                @Override
-                                public void call() {
-                                    membersToAdd.clear();
-                                }
-                            });
-                }
-            });
+            group = group.flatMap((Function<Object, Mono<?>>) o -> Mono.just(membersToAdd.iterator())
+                    .flatMap((Function<Iterator<String>, Mono<?>>) stringIterator -> {
+                        if (stringIterator.hasNext()) {
+                            return getManager().getInner().groups().addMemberAsync(getId(), new GroupAddMemberParameters().setUrl(stringIterator.next()));
+                        }
+                        return null;
+                    })
+                    .doOnSuccess(o12 -> membersToRemove.clear()));
         }
-        return group.map(new Func1<Object, ActiveDirectoryGroup>() {
-            @Override
-            public ActiveDirectoryGroup call(Object o) {
-                return ActiveDirectoryGroupImpl.this;
-            }
-        });
+        return group.map((Function<Object, ActiveDirectoryGroup>) o -> ActiveDirectoryGroupImpl.this);
     }
 
     @Override
@@ -188,7 +150,7 @@ class ActiveDirectoryGroupImpl
     @Override
     public ActiveDirectoryGroupImpl withMember(String objectId) {
         membersToAdd.add(String.format("https://%s/%s/directoryObjects/%s",
-                getManager().inner().retrofit().baseUrl().host(), getManager().tenantId(), objectId));
+                getManager().getInner().getHost(), getManager().tenantId(), objectId));
         return this;
     }
 

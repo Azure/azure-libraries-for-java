@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.graphrbac;
+package com.azure.management.graphrbac;
 
 import org.junit.Assert;
 import org.junit.Ignore;
@@ -14,7 +14,7 @@ public class RoleDefinitionTests extends GraphRbacManagementTest {
     @Test
     public void canGetRoleByRoleName() throws Exception {
         RoleDefinition roleDefinition = graphRbacManager.roleDefinitions()
-                .getByScopeAndRoleName("subscriptions/" + resourceManager.subscriptionId(), "Contributor");
+                .getByScopeAndRoleName("subscriptions/" + resourceManager.getSubscriptionId(), "Contributor");
         Assert.assertNotNull(roleDefinition);
         Assert.assertEquals("Contributor", roleDefinition.roleName());
     }

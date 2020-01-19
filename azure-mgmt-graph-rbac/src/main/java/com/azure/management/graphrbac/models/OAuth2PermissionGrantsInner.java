@@ -27,6 +27,7 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.management.graphrbac.implementation.GraphErrorException;
 import reactor.core.publisher.Mono;
 
 /**

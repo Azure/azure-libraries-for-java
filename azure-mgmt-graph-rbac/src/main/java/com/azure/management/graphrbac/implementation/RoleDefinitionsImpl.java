@@ -6,30 +6,29 @@
 
 package com.azure.management.graphrbac.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.graphrbac.RoleDefinition;
-import com.microsoft.azure.management.graphrbac.RoleDefinitions;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.graphrbac.RoleDefinition;
+import com.azure.management.graphrbac.RoleDefinitions;
+import com.azure.management.graphrbac.models.RoleDefinitionInner;
+import com.azure.management.graphrbac.models.RoleDefinitionsInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
+
+import java.util.function.Function;
 
 /**
  * The implementation of RoleDefinitions and its parent interfaces.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
 class RoleDefinitionsImpl
         extends ReadableWrappersImpl<
-                            RoleDefinition,
-                            RoleDefinitionImpl,
-                            RoleDefinitionInner>
+                RoleDefinition,
+                RoleDefinitionImpl,
+                RoleDefinitionInner>
         implements
-            RoleDefinitions,
-            HasInner<RoleDefinitionsInner> {
+        RoleDefinitions,
+        HasInner<RoleDefinitionsInner> {
     private final GraphRbacManager manager;
 
     RoleDefinitionsImpl(
@@ -41,98 +40,79 @@ class RoleDefinitionsImpl
         if (roleDefinitionInner == null) {
             return null;
         }
-        return new RoleDefinitionImpl(roleDefinitionInner, manager());
+        return new RoleDefinitionImpl(roleDefinitionInner, getManager());
     }
 
     @Override
     public RoleDefinitionImpl getById(String objectId) {
-        return (RoleDefinitionImpl) getByIdAsync(objectId).toBlocking().single();
+        return (RoleDefinitionImpl) getByIdAsync(objectId).block();
     }
 
     @Override
-    public Observable<RoleDefinition> getByIdAsync(String id) {
-        return manager().roleInner().roleDefinitions().getByIdAsync(id).map(new Func1<RoleDefinitionInner, RoleDefinition>() {
-            @Override
-            public RoleDefinition call(RoleDefinitionInner roleDefinitionInner) {
-                if (roleDefinitionInner == null) {
-                    return null;
-                } else {
-                    return new RoleDefinitionImpl(roleDefinitionInner, manager());
-                }
+    public Mono<RoleDefinition> getByIdAsync(String id) {
+        return getInner().getByIdAsync(id).map(roleDefinitionInner -> {
+            if (roleDefinitionInner == null) {
+                return null;
+            } else {
+                return new RoleDefinitionImpl(roleDefinitionInner, getManager());
             }
         });
     }
 
     @Override
-    public ServiceFuture<RoleDefinition> getByIdAsync(String id, ServiceCallback<RoleDefinition> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
-    }
-
-    @Override
     public RoleDefinitionImpl getByScope(String scope,  String name) {
-        return (RoleDefinitionImpl) getByScopeAsync(scope, name).toBlocking().single();
+        return (RoleDefinitionImpl) getByScopeAsync(scope, name).block();
     }
 
     @Override
-    public ServiceFuture<RoleDefinition> getByScopeAsync(String scope, String name, ServiceCallback<RoleDefinition> callback) {
-        return ServiceFuture.fromBody(getByScopeAsync(scope, name), callback);
-    }
-
-    @Override
-    public Observable<RoleDefinition> getByScopeAsync(String scope,  String name) {
-        return manager().roleInner().roleDefinitions().getAsync(scope, name)
-                .map(new Func1<RoleDefinitionInner, RoleDefinition>() {
-                    @Override
-                    public RoleDefinition call(RoleDefinitionInner roleDefinitionInner) {
-                        if (roleDefinitionInner == null) {
-                            return null;
-                        }
-                        return new RoleDefinitionImpl(roleDefinitionInner, manager());
+    public Mono<RoleDefinition> getByScopeAsync(String scope,  String name) {
+        return getInner().getAsync(scope, name)
+                .map(roleDefinitionInner -> {
+                    if (roleDefinitionInner == null) {
+                        return null;
                     }
+                    return new RoleDefinitionImpl(roleDefinitionInner, getManager());
                 });
     }
 
     @Override
     public RoleDefinitionImpl getByScopeAndRoleName(String scope,  String roleName) {
-        return (RoleDefinitionImpl) getByScopeAndRoleNameAsync(scope, roleName).toBlocking().single();
+        return (RoleDefinitionImpl) getByScopeAndRoleNameAsync(scope, roleName).block();
     }
 
     @Override
-    public Observable<RoleDefinition> listByScopeAsync(String scope) {
-        return wrapPageAsync(manager().roleInner().roleDefinitions().listAsync(scope));
+    public PagedFlux<RoleDefinition> listByScopeAsync(String scope) {
+        return getInner().listAsync(scope, null).mapPage(roleDefinitionInner -> {
+            if (roleDefinitionInner == null) {
+                return null;
+            }
+            return new RoleDefinitionImpl(roleDefinitionInner, getManager());
+        });
     }
 
     @Override
-    public PagedList<RoleDefinition> listByScope(String scope) {
-        return wrapList(manager().roleInner().roleDefinitions().list(scope));
+    public PagedIterable<RoleDefinition> listByScope(String scope) {
+        return wrapList(getInner().list(scope, null));
     }
 
     @Override
-    public ServiceFuture<RoleDefinition> getByScopeAndRoleNameAsync(String scope, String roleName, ServiceCallback<RoleDefinition> callback) {
-        return ServiceFuture.fromBody(getByScopeAndRoleNameAsync(scope, roleName), callback);
-    }
-
-    @Override
-    public Observable<RoleDefinition> getByScopeAndRoleNameAsync(String scope,  String roleName) {
-        return manager().roleInner().roleDefinitions().listAsync(scope, String.format("roleName eq '%s'", roleName))
-                .map(new Func1<Page<RoleDefinitionInner>, RoleDefinition>() {
-                    @Override
-                    public RoleDefinition call(Page<RoleDefinitionInner> roleDefinitionInnerPage) {
-                        if (roleDefinitionInnerPage == null || roleDefinitionInnerPage.items() == null || roleDefinitionInnerPage.items().isEmpty()) {
-                            return null;
-                        }
-                        return new RoleDefinitionImpl(roleDefinitionInnerPage.items().get(0), manager());
+    public Mono<RoleDefinition> getByScopeAndRoleNameAsync(String scope,  String roleName) {
+        return getInner().listAsync(scope, String.format("roleName eq '%s'", roleName))
+                .map((Function<RoleDefinitionInner, RoleDefinition>) roleDefinitionInner -> {
+                    if (roleDefinitionInner == null) {
+                        return null;
                     }
-                });
+                    return new RoleDefinitionImpl(roleDefinitionInner, getManager());
+                }).last();
     }
 
     @Override
-    public RoleDefinitionsInner inner() {
-        return this.manager().roleInner().roleDefinitions();
+    public GraphRbacManager getManager() {
+        return this.manager;
     }
 
     @Override
-    public GraphRbacManager manager() {
-        return manager;
+    public RoleDefinitionsInner getInner() {
+        return getManager().roleInner().roleDefinitions();
     }
 }

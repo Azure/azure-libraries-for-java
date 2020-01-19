@@ -7,6 +7,7 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.graphrbac.models.RoleDefinitionsInner;
@@ -65,7 +66,7 @@ public interface RoleDefinitions extends
      * @param scope the scope of the role definition
      * @return an observable of role definitions
      */
-    Mono<RoleDefinition> listByScopeAsync(String scope);
+    PagedFlux<RoleDefinition> listByScopeAsync(String scope);
 
     /**
      * List role definitions in a scope.

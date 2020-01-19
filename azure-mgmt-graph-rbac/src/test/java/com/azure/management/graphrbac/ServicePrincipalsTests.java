@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.graphrbac;
+package com.azure.management.graphrbac;
 
+import com.azure.management.ApplicationTokenCredential;
 import com.google.common.base.Joiner;
 import com.google.common.io.ByteStreams;
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -39,8 +39,8 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                         .withPasswordValue("StrongPass!12")
                         .attach()
                     .create();
-            System.out.println(servicePrincipal.id() + " - " + Joiner.on(", ").join(servicePrincipal.servicePrincipalNames()));
-            Assert.assertNotNull(servicePrincipal.id());
+            System.out.println(servicePrincipal.getId() + " - " + Joiner.on(", ").join(servicePrincipal.servicePrincipalNames()));
+            Assert.assertNotNull(servicePrincipal.getId());
             Assert.assertNotNull(servicePrincipal.applicationId());
             Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
             Assert.assertEquals(1, servicePrincipal.passwordCredentials().size());
@@ -70,8 +70,8 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
             Assert.assertEquals(1, servicePrincipal.certificateCredentials().size());
         } finally {
             if (servicePrincipal != null) {
-                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
-                graphRbacManager.applications().deleteById(graphRbacManager.applications().getByName(servicePrincipal.applicationId()).id());
+                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.getId());
+                graphRbacManager.applications().deleteById(graphRbacManager.applications().getByName(servicePrincipal.applicationId()).getId());
             }
         }
     }
@@ -101,14 +101,14 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                         .attach()
                     .withNewRoleInSubscription(BuiltInRole.CONTRIBUTOR, subscription)
                     .create();
-            System.out.println(servicePrincipal.id() + " - " + Joiner.on(", ").join(servicePrincipal.servicePrincipalNames()));
-            Assert.assertNotNull(servicePrincipal.id());
+            System.out.println(servicePrincipal.getId() + " - " + Joiner.on(", ").join(servicePrincipal.servicePrincipalNames()));
+            Assert.assertNotNull(servicePrincipal.getId());
             Assert.assertNotNull(servicePrincipal.applicationId());
             Assert.assertEquals(2, servicePrincipal.servicePrincipalNames().size());
 
             SdkContext.sleep(10000);
             ResourceManager resourceManager = ResourceManager.authenticate(
-                    ApplicationTokenCredentials.fromFile(new File(authFile))).withSubscription(subscription);
+                    ApplicationTokenCredential.fromFile(new File(authFile))).withSubscription(subscription);
             ResourceGroup group = resourceManager.resourceGroups().define(rgName)
                     .withRegion(Region.US_WEST).create();
 
@@ -120,7 +120,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                     .apply();
 
             SdkContext.sleep(120000);
-            Assert.assertNotNull(resourceManager.resourceGroups().getByName(group.name()));
+            Assert.assertNotNull(resourceManager.resourceGroups().getByName(group.getName()));
             try {
                 resourceManager.resourceGroups().define(rgName + "2")
                         .withRegion(Region.US_WEST).create();
@@ -130,10 +130,10 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
             }
         } finally {
             try {
-                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
+                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.getId());
             } catch (Exception e) { }
             try {
-                graphRbacManager.applications().deleteById(graphRbacManager.applications().getByName(servicePrincipal.applicationId()).id());
+                graphRbacManager.applications().deleteById(graphRbacManager.applications().getByName(servicePrincipal.applicationId()).getId());
             } catch (Exception e) { }
         }
     }

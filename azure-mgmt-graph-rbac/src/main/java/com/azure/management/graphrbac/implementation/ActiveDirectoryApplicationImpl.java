@@ -62,19 +62,19 @@ class ActiveDirectoryApplicationImpl
             createParameters.setIdentifierUris(new ArrayList<String>());
             createParameters.getIdentifierUris().add(createParameters.getHomepage());
         }
-        return manager.inner().applications().createAsync(createParameters)
+        return manager.getInner().applications().createAsync(createParameters)
                 .map(innerToFluentMap(this))
                 .flatMap((Function<ActiveDirectoryApplication, Mono<ActiveDirectoryApplication>>) application -> refreshCredentialsAsync());
     }
 
     @Override
     public Mono<ActiveDirectoryApplication> updateResourceAsync() {
-        return manager.inner().applications().patchAsync(getId(), updateParameters)
+        return manager.getInner().applications().patchAsync(getId(), updateParameters)
                 .flatMap((Function<Void, Mono<ActiveDirectoryApplication>>) aVoid -> refreshAsync());
     }
 
     Mono<ActiveDirectoryApplication> refreshCredentialsAsync() {
-        final Mono<ActiveDirectoryApplication> keyCredentials = manager.inner().applications().listKeyCredentialsAsync(getId())
+        final Mono<ActiveDirectoryApplication> keyCredentials = manager.getInner().applications().listKeyCredentialsAsync(getId())
                 .map((Function<KeyCredentialInner, CertificateCredential>) keyCredentialInner -> new CertificateCredentialImpl<ActiveDirectoryApplication>(keyCredentialInner))
                 .collectMap(certificateCredential -> certificateCredential.getName())
                 .map(stringCertificateCredentialMap -> {
@@ -82,7 +82,7 @@ class ActiveDirectoryApplicationImpl
                     return ActiveDirectoryApplicationImpl.this;
                 });
 
-        final Mono<ActiveDirectoryApplication> passwordCredentials = manager.inner().applications().listPasswordCredentialsAsync(getId())
+        final Mono<ActiveDirectoryApplication> passwordCredentials = manager.getInner().applications().listPasswordCredentialsAsync(getId())
                 .map((Function<PasswordCredentialInner, PasswordCredential>) passwordCredentialInner -> new PasswordCredentialImpl<ActiveDirectoryApplication>(passwordCredentialInner))
                 .collectMap(passwordCredential -> passwordCredential.getName())
                 .map(stringPasswordCredentialMap -> {
@@ -97,12 +97,7 @@ class ActiveDirectoryApplicationImpl
     public Mono<ActiveDirectoryApplication> refreshAsync() {
         return getInnerAsync()
                 .map(innerToFluentMap(this))
-                .flatMap(new Function<ActiveDirectoryApplication, Mono<ActiveDirectoryApplication>>() {
-                    @Override
-                    public Mono<ActiveDirectoryApplication> apply(ActiveDirectoryApplication application) {
-                        return refreshCredentialsAsync();
-                    }
-                });
+                .flatMap((Function<ActiveDirectoryApplication, Mono<ActiveDirectoryApplication>>) application -> refreshCredentialsAsync());
     }
 
     @Override
@@ -166,7 +161,7 @@ class ActiveDirectoryApplicationImpl
 
     @Override
     protected Mono<ApplicationInner> getInnerAsync() {
-        return manager.inner().applications().getAsync(getId());
+        return manager.getInner().applications().getAsync(getId());
     }
 
     @Override
@@ -183,7 +178,7 @@ class ActiveDirectoryApplicationImpl
     public ActiveDirectoryApplicationImpl withReplyUrl(String replyUrl) {
         if (isInCreateMode()) {
             if (createParameters.getReplyUrls() == null) {
-                createParameters.setReplyUrls(new ArrayList<String>());
+                createParameters.setReplyUrls(new ArrayList<>());
             }
             createParameters.getReplyUrls().add(replyUrl);
         } else {

@@ -6,15 +6,19 @@
 
 package com.azure.management.graphrbac.implementation;
 
+import com.azure.core.management.AzureEnvironment;
+import com.azure.management.RestClient;
 import com.azure.management.graphrbac.CertificateCredential;
 import com.azure.management.graphrbac.CertificateType;
 import com.azure.management.graphrbac.models.KeyCredentialInner;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.google.common.io.BaseEncoding;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -36,7 +40,7 @@ class CertificateCredentialImpl<T>
     CertificateCredentialImpl(KeyCredentialInner keyCredential) {
         super(keyCredential);
         if (keyCredential.getCustomKeyIdentifier() != null && !keyCredential.getCustomKeyIdentifier().isEmpty()) {
-            this.name = keyCredential.getCustomKeyIdentifier();
+            this.name = new String(BaseEncoding.base64().decode(keyCredential.getCustomKeyIdentifier()));
         } else {
             this.name = keyCredential.getKeyId();
         }
@@ -45,7 +49,7 @@ class CertificateCredentialImpl<T>
     CertificateCredentialImpl(String name, HasCredential<?> parent) {
         super(new KeyCredentialInner()
                 .setUsage("Verify")
-                .setCustomKeyIdentifier(name)
+                .setCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()))
                 .setStartDate(DateTime.now())
                 .setEndDate(DateTime.now().plusYears(1)));
         this.name = name;
@@ -124,30 +128,28 @@ class CertificateCredentialImpl<T>
         return this;
     }
 
-//    void exportAuthFile(ServicePrincipalImpl servicePrincipal) {
-//        if (authFile == null) {
-//            return;
-//        }
-//        RestClient restClient = servicePrincipal.manager().roleInner().restClient();
-//        AzureEnvironment environment = Utils.extractAzureEnvironment(restClient);
-//
-//        StringBuilder builder = new StringBuilder("{\n");
-//        builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");
-//        builder.append("  ").append(String.format("\"clientCertificate\": \"%s\",", privateKeyPath.replace("\\", "\\\\"))).append("\n");
-//        builder.append("  ").append(String.format("\"clientCertificatePassword\": \"%s\",", privateKeyPassword)).append("\n");
-//        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.manager().tenantId())).append("\n");
-//        builder.append("  ").append(String.format("\"subscriptionId\": \"%s\",", servicePrincipal.assignedSubscription)).append("\n");
-//        builder.append("  ").append(String.format("\"activeDirectoryEndpointUrl\": \"%s\",", environment.activeDirectoryEndpoint())).append("\n");
-//        builder.append("  ").append(String.format("\"resourceManagerEndpointUrl\": \"%s\",", environment.resourceManagerEndpoint())).append("\n");
-//        builder.append("  ").append(String.format("\"activeDirectoryGraphResourceId\": \"%s\",", environment.graphEndpoint())).append("\n");
-//        builder.append("  ").append(String.format("\"managementEndpointUrl\": \"%s\"", environment.managementEndpoint())).append("\n");
-//        builder.append("}");
-//        try {
-//            authFile.write(builder.toString().getBytes());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    void exportAuthFile(ServicePrincipalImpl servicePrincipal) {
+        if (authFile == null) {
+            return;
+        }
+        AzureEnvironment environment = AzureEnvironment.AZURE;
+        StringBuilder builder = new StringBuilder("{\n");
+        builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");
+        builder.append("  ").append(String.format("\"clientCertificate\": \"%s\",", privateKeyPath.replace("\\", "\\\\"))).append("\n");
+        builder.append("  ").append(String.format("\"clientCertificatePassword\": \"%s\",", privateKeyPassword)).append("\n");
+        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.getManager().tenantId())).append("\n");
+        builder.append("  ").append(String.format("\"subscriptionId\": \"%s\",", servicePrincipal.assignedSubscription)).append("\n");
+        builder.append("  ").append(String.format("\"activeDirectoryEndpointUrl\": \"%s\",", environment.getActiveDirectoryEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"resourceManagerEndpointUrl\": \"%s\",", environment.getResourceManagerEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"activeDirectoryGraphResourceId\": \"%s\",", environment.getGraphEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"managementEndpointUrl\": \"%s\"", environment.getManagementEndpoint())).append("\n");
+        builder.append("}");
+        try {
+            authFile.write(builder.toString().getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public CertificateCredentialImpl<T> withAuthFileToExport(OutputStream outputStream) {

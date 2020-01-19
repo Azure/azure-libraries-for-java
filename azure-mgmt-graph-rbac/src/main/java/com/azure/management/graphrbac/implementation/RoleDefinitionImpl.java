@@ -6,11 +6,12 @@
 
 package com.azure.management.graphrbac.implementation;
 
+import com.azure.management.graphrbac.Permission;
+import com.azure.management.graphrbac.RoleDefinition;
+import com.azure.management.graphrbac.models.PermissionInner;
+import com.azure.management.graphrbac.models.RoleDefinitionInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 import com.google.common.collect.Sets;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.graphrbac.Permission;
-import com.microsoft.azure.management.graphrbac.RoleDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.Collections;
 import java.util.HashSet;
@@ -19,11 +20,10 @@ import java.util.Set;
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
 class RoleDefinitionImpl
         extends WrapperImpl<RoleDefinitionInner>
         implements
-            RoleDefinition {
+        RoleDefinition {
     private GraphRbacManager manager;
     // Active Directory identify info
     private String objectId;
@@ -39,39 +39,24 @@ class RoleDefinitionImpl
     }
 
     @Override
-    public String id() {
-        return inner().id();
-    }
-
-    @Override
-    public GraphRbacManager manager() {
-        return manager;
-    }
-
-    @Override
-    public String name() {
-        return inner().name();
-    }
-
-    @Override
     public String roleName() {
-        return inner().roleName();
+        return getInner().getRoleName();
     }
 
     @Override
     public String description() {
-        return inner().description();
+        return getInner().getDescription();
     }
 
     @Override
     public String type() {
-        return inner().type();
+        return getInner().getType();
     }
 
     @Override
     public Set<Permission> permissions() {
         HashSet<Permission> ret = new HashSet<>();
-        for (PermissionInner inner : inner().permissions()) {
+        for (PermissionInner inner : getInner().getPermissions()) {
             ret.add(new PermissionImpl(inner));
         }
         return ret;
@@ -79,6 +64,21 @@ class RoleDefinitionImpl
 
     @Override
     public Set<String> assignableScopes() {
-        return Collections.unmodifiableSet(Sets.newHashSet(inner().assignableScopes()));
+        return Collections.unmodifiableSet(Sets.newHashSet(getInner().getAssignableScopes()));
+    }
+
+    @Override
+    public String getId() {
+        return getInner().getId();
+    }
+
+    @Override
+    public GraphRbacManager getManager() {
+        return this.manager;
+    }
+
+    @Override
+    public String getName() {
+        return getInner().getName();
     }
 }

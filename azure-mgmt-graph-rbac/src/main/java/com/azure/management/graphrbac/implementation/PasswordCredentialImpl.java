@@ -6,14 +6,18 @@
 
 package com.azure.management.graphrbac.implementation;
 
+import com.azure.core.management.AzureEnvironment;
+import com.azure.management.RestClient;
 import com.azure.management.graphrbac.PasswordCredential;
 import com.azure.management.graphrbac.models.PasswordCredentialInner;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.google.common.io.BaseEncoding;
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import reactor.core.publisher.Mono;
 
+import java.io.IOException;
 import java.io.OutputStream;
 
 /**
@@ -21,10 +25,9 @@ import java.io.OutputStream;
  */
 class PasswordCredentialImpl<T>
         extends IndexableRefreshableWrapperImpl<PasswordCredential, PasswordCredentialInner>
-        implements
-        PasswordCredential,
-        PasswordCredential.Definition<T>,
-        PasswordCredential.UpdateDefinition<T> {
+        implements PasswordCredential,
+            PasswordCredential.Definition<T>,
+            PasswordCredential.UpdateDefinition<T> {
 
     private String name;
     private HasCredential<?> parent;
@@ -33,7 +36,7 @@ class PasswordCredentialImpl<T>
 
     PasswordCredentialImpl(PasswordCredentialInner passwordCredential) {
         super(passwordCredential);
-        if (passwordCredential.getCustomKeyIdentifier() != null && passwordCredential.getCustomKeyIdentifier().length != 0) {
+        if (passwordCredential.getCustomKeyIdentifier() != null && passwordCredential.getCustomKeyIdentifier().length > 0) {
             this.name = new String(passwordCredential.getCustomKeyIdentifier());
         } else {
             this.name = passwordCredential.getKeyId();
@@ -109,29 +112,28 @@ class PasswordCredentialImpl<T>
         return this;
     }
 
-//    void exportAuthFile(ServicePrincipalImpl servicePrincipal) {
-//        if (authFile == null) {
-//            return;
-//        }
-//        RestClient restClient = servicePrincipal.manager().roleInner().restClient();
-//        AzureEnvironment environment = Utils.extractAzureEnvironment(restClient);
-//
-//        StringBuilder builder = new StringBuilder("{\n");
-//        builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");
-//        builder.append("  ").append(String.format("\"clientSecret\": \"%s\",", value())).append("\n");
-//        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.manager().tenantId())).append("\n");
-//        builder.append("  ").append(String.format("\"subscriptionId\": \"%s\",", servicePrincipal.assignedSubscription)).append("\n");
-//        builder.append("  ").append(String.format("\"activeDirectoryEndpointUrl\": \"%s\",", environment.activeDirectoryEndpoint())).append("\n");
-//        builder.append("  ").append(String.format("\"resourceManagerEndpointUrl\": \"%s\",", environment.resourceManagerEndpoint())).append("\n");
-//        builder.append("  ").append(String.format("\"activeDirectoryGraphResourceId\": \"%s\",", environment.graphEndpoint())).append("\n");
-//        builder.append("  ").append(String.format("\"managementEndpointUrl\": \"%s\"", environment.managementEndpoint())).append("\n");
-//        builder.append("}");
-//        try {
-//            authFile.write(builder.toString().getBytes());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
+    void exportAuthFile(ServicePrincipalImpl servicePrincipal) {
+        if (authFile == null) {
+            return;
+        }
+        AzureEnvironment environment = AzureEnvironment.AZURE;
+
+        StringBuilder builder = new StringBuilder("{\n");
+        builder.append("  ").append(String.format("\"clientId\": \"%s\",", servicePrincipal.applicationId())).append("\n");
+        builder.append("  ").append(String.format("\"clientSecret\": \"%s\",", value())).append("\n");
+        builder.append("  ").append(String.format("\"tenantId\": \"%s\",", servicePrincipal.getManager().tenantId())).append("\n");
+        builder.append("  ").append(String.format("\"subscriptionId\": \"%s\",", servicePrincipal.assignedSubscription)).append("\n");
+        builder.append("  ").append(String.format("\"activeDirectoryEndpointUrl\": \"%s\",", environment.getActiveDirectoryEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"resourceManagerEndpointUrl\": \"%s\",", environment.getResourceManagerEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"activeDirectoryGraphResourceId\": \"%s\",", environment.getGraphEndpoint())).append("\n");
+        builder.append("  ").append(String.format("\"managementEndpointUrl\": \"%s\"", environment.getManagementEndpoint())).append("\n");
+        builder.append("}");
+        try {
+            authFile.write(builder.toString().getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Override
     public PasswordCredentialImpl<T> withSubscriptionId(String subscriptionId) {

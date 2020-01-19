@@ -22,6 +22,7 @@ import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
+import com.azure.management.graphrbac.implementation.GraphErrorException;
 import reactor.core.publisher.Mono;
 
 /**

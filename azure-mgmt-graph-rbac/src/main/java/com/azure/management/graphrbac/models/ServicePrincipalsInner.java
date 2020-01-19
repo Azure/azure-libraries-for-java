@@ -31,6 +31,7 @@ import com.azure.management.graphrbac.KeyCredentialsUpdateParameters;
 import com.azure.management.graphrbac.PasswordCredentialsUpdateParameters;
 import com.azure.management.graphrbac.ServicePrincipalCreateParameters;
 import com.azure.management.graphrbac.ServicePrincipalUpdateParameters;
+import com.azure.management.graphrbac.implementation.GraphErrorException;
 import reactor.core.publisher.Mono;
 
 /**

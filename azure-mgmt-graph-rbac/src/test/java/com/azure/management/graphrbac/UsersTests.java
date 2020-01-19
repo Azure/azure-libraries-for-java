@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.graphrbac;
+package com.azure.management.graphrbac;
 
 import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -17,21 +17,21 @@ public class UsersTests extends GraphRbacManagementTest {
     @Ignore("Need a specific domain")
     public void canGetUserByEmail() throws Exception {
         ActiveDirectoryUser user = graphRbacManager.users().getByName("admin@azuresdkteam.onmicrosoft.com");
-        Assert.assertEquals("Admin", user.name());
+        Assert.assertEquals("Admin", user.getName());
     }
 
     @Test
     @Ignore("Need a specific domain")
     public void canGetUserByForeignEmail() throws Exception {
         ActiveDirectoryUser user = graphRbacManager.users().getByName("jianghlu@microsoft.com");
-        Assert.assertEquals("Jianghao Lu", user.name());
+        Assert.assertEquals("Jianghao Lu", user.getName());
     }
 
     @Test
     @Ignore("Need a specific domain")
     public void canGetUserByDisplayName() throws Exception {
         ActiveDirectoryUser user = graphRbacManager.users().getByName("Reader zero");
-        Assert.assertEquals("Reader zero", user.name());
+        Assert.assertEquals("Reader zero", user.getName());
     }
 
     @Test
@@ -44,7 +44,7 @@ public class UsersTests extends GraphRbacManagementTest {
                 .create();
 
         Assert.assertNotNull(user);
-        Assert.assertNotNull(user.id());
+        Assert.assertNotNull(user.getId());
     }
 
     @Test

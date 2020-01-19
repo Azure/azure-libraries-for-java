@@ -84,40 +84,22 @@ class RoleAssignmentImpl
                 return new RoleAssignmentCreateParameters()
                         .setPrincipalId(objectId).setRoleDefinitionId(roleDefinitionId);
             }
-        }).flatMap(new Function<RoleAssignmentCreateParameters, Mono<RoleAssignmentInner>>() {
-            @Override
-            public Mono<RoleAssignmentInner> apply(RoleAssignmentCreateParameters roleAssignmentPropertiesInner) {
-                return getManager().roleInner().roleAssignments()
-                        .createAsync(scope(), getName(), roleAssignmentPropertiesInner)
-                        .retryWhen(new Function<Flux<Throwable>, Publisher<?>>() {
-                            @Override
-                            public Publisher<?> apply(Flux<Throwable> throwableFlux) {
-                                return throwableFlux.zipWith(Flux.range(1, 30), new BiFunction<Throwable, Integer, Integer>() {
-                                    @Override
-                                    public Integer apply(Throwable throwable, Integer integer) {
-                                        if (throwable instanceof  CloudException) {
-                                            CloudException cloudException = (CloudException) throwable;
-                                            if ((cloudException.getValue().getCode() != null && cloudException.getValue().getCode().equalsIgnoreCase("PrincipalNotFound"))
-                                                || (cloudException.getValue()).getMessage() != null && cloudException.getValue().getMessage().toLowerCase().contains("does not exist in the directory")) {
-                                                // ref: https://github.com/Azure/azure-cli/blob/dev/src/command_modules/azure-cli-role/azure/cli/command_modules/role/custom.py#L1048-L1065
-                                                return integer;
-                                            } else {
-                                                throw Exceptions.propagate(throwable);
-                                            }
-                                        } else {
-                                            throw Exceptions.propagate(throwable);
-                                        }
-                                    }
-                                }).flatMap(new Function<Integer, Publisher<?>>() {
-                                    @Override
-                                    public Publisher<?> apply(Integer i) {
-                                        return SdkContext.delayedEmitAsync(i, i * 1000);
-                                    }
-                                });
-                            }
-                        });
-            }
-        }).map(innerToFluentMap(this));
+        }).flatMap((Function<RoleAssignmentCreateParameters, Mono<RoleAssignmentInner>>) roleAssignmentPropertiesInner -> getManager().roleInner().roleAssignments()
+                .createAsync(scope(), getName(), roleAssignmentPropertiesInner)
+                .retryWhen(throwableFlux -> throwableFlux.zipWith(Flux.range(1, 30), (throwable, integer) -> {
+                    if (throwable instanceof  CloudException) {
+                        CloudException cloudException = (CloudException) throwable;
+                        if ((cloudException.getValue().getCode() != null && cloudException.getValue().getCode().equalsIgnoreCase("PrincipalNotFound"))
+                            || (cloudException.getValue()).getMessage() != null && cloudException.getValue().getMessage().toLowerCase().contains("does not exist in the directory")) {
+                            // ref: https://github.com/Azure/azure-cli/blob/dev/src/command_modules/azure-cli-role/azure/cli/command_modules/role/custom.py#L1048-L1065
+                            return integer;
+                        } else {
+                            throw Exceptions.propagate(throwable);
+                        }
+                    } else {
+                        throw Exceptions.propagate(throwable);
+                    }
+                }).flatMap((Function<Integer, Publisher<?>>) i -> SdkContext.delayedEmitAsync(i, i * 1000)))).map(innerToFluentMap(this));
     }
 
     @Override

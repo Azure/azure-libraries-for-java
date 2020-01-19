@@ -4,7 +4,7 @@
  * license information.
  */
 
-package com.microsoft.azure.management.graphrbac;
+package com.azure.management.graphrbac;
 
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.AfterClass;
@@ -29,7 +29,7 @@ public class RoleAssignmentTests extends GraphRbacManagementTest {
                 .define(roleAssignmentName)
                 .forServicePrincipal(sp)
                 .withBuiltInRole(BuiltInRole.CONTRIBUTOR)
-                .withSubscriptionScope(resourceManager.subscriptionId())
+                .withSubscriptionScope(resourceManager.getSubscriptionId())
                 .create();
 
         Assert.assertNotNull(roleAssignment);

@@ -7,6 +7,7 @@
 package com.azure.management.graphrbac;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.graphrbac.models.ADGroupInner;
 import com.azure.management.resources.fluentcore.model.Appliable;
 import com.azure.management.resources.fluentcore.model.Creatable;
@@ -44,7 +45,7 @@ public interface ActiveDirectoryGroup extends
      * Lists the members in the group.
      * @return an unmodifiable set of the members
      */
-    Mono<ActiveDirectoryObject> listMembersAsync();
+    PagedFlux<ActiveDirectoryObject> listMembersAsync();
 
     /**
      * Container interface for all the definitions that need to be implemented.

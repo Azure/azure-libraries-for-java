@@ -22,13 +22,9 @@ import java.util.function.Function;
  * The implementation of Users and its parent interfaces.
  */
 class ActiveDirectoryUsersImpl
-        extends CreatableWrappersImpl<
-                ActiveDirectoryUser,
-                    ActiveDirectoryUserImpl,
-                UserInner>
-        implements
-        ActiveDirectoryUsers,
-        HasInner<UsersInner> {
+        extends CreatableWrappersImpl<ActiveDirectoryUser, ActiveDirectoryUserImpl, UserInner>
+        implements ActiveDirectoryUsers,
+            HasInner<UsersInner> {
     private final GraphRbacManager manager;
 
     ActiveDirectoryUsersImpl(
@@ -38,7 +34,7 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public PagedIterable<ActiveDirectoryUser> list() {
-        return wrapList(this.getManager().inner().users().list(null));
+        return wrapList(this.getManager().getInner().users().list(null));
     }
 
     @Override
@@ -56,7 +52,7 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public Mono<ActiveDirectoryUser> getByIdAsync(String id) {
-        return getManager().inner().users().getAsync(id).map(userInner -> {
+        return getManager().getInner().users().getAsync(id).map(userInner -> {
             if (userInner == null) {
                 return null;
             } else {
@@ -72,7 +68,7 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public Mono<ActiveDirectoryUser> getByNameAsync(final String name) {
-        return getManager().inner().users().getAsync(name)
+        return getManager().getInner().users().getAsync(name)
                 .flatMap((Function<UserInner, Mono<UserInner>>) userInner -> {
                     // Exact match
                     if (userInner != null) {
@@ -80,12 +76,12 @@ class ActiveDirectoryUsersImpl
                     }
                     // Search mail & mail nickname
                     if (name.contains("@")) {
-                        return getManager().inner().users().listAsync(String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_")))
+                        return getManager().getInner().users().listAsync(String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_")))
                                 .last();
                     }
                     // Search display name
                     else {
-                        return getManager().inner().users().listAsync(String.format("displayName eq '%s'", name))
+                        return getManager().getInner().users().listAsync(String.format("displayName eq '%s'", name))
                                 .last();
                     }
                 })
@@ -114,7 +110,7 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public Mono<Void> deleteByIdAsync(String id) {
-        return getManager().inner().users().deleteAsync(id);
+        return getManager().getInner().users().deleteAsync(id);
     }
 
     @Override

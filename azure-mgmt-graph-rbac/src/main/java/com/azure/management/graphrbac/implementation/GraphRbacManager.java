@@ -17,7 +17,9 @@ import com.azure.management.graphrbac.ActiveDirectoryUsers;
 import com.azure.management.graphrbac.RoleAssignments;
 import com.azure.management.graphrbac.RoleDefinitions;
 import com.azure.management.graphrbac.ServicePrincipals;
+import com.azure.management.graphrbac.models.AuthorizationManagementClientBuilder;
 import com.azure.management.graphrbac.models.AuthorizationManagementClientImpl;
+import com.azure.management.graphrbac.models.GraphRbacManagementClientBuilder;
 import com.azure.management.graphrbac.models.GraphRbacManagementClientImpl;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
@@ -38,11 +40,6 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     private ActiveDirectoryApplications applications;
     private RoleAssignments roleAssignments;
     private RoleDefinitions roleDefinitions;
-
-    @Override
-    public GraphRbacManagementClientImpl inner() {
-        return graphRbacManagementClient;
-    }
 
     /**
      * Creates an instance of GraphRbacManager that exposes Graph RBAC management API entry points.
@@ -82,6 +79,11 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
         return new GraphRbacManager.ConfigurableImpl();
     }
 
+    @Override
+    public GraphRbacManagementClientImpl getInner() {
+        return this.graphRbacManagementClient;
+    }
+
     /**
      * The interface allowing configurations to be set.
      */
@@ -111,9 +113,16 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
         if (restClient.getCredential() instanceof AzureTokenCredential) {
             graphEndpoint = ((AzureTokenCredential) restClient.getCredential()).getEnvironment().getGraphEndpoint();
         }
-        this.graphRbacManagementClient = new GraphRbacManagementClientImpl(
-                restClient.newBuilder().withBaseUrl(graphEndpoint).build()).withTenantID(tenantId);
-        this.authorizationManagementClient = new AuthorizationManagementClientImpl(restClient.getHttpPipeline());
+        this.graphRbacManagementClient = new GraphRbacManagementClientBuilder()
+                .pipeline(restClient.getHttpPipeline())
+                .host(graphEndpoint)
+                .tenantID(tenantId)
+                .build();
+        this.authorizationManagementClient = new AuthorizationManagementClientBuilder()
+                .pipeline(restClient.getHttpPipeline())
+                .host(graphEndpoint)
+                .subscriptionId(((AzureTokenCredential) restClient.getCredential()).getDefaultSubscriptionId())
+                .build();
         this.tenantId = tenantId;
     }
 

@@ -6,6 +6,7 @@
 
 package com.azure.management.graphrbac.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.management.CloudException;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.graphrbac.RoleAssignment;
@@ -196,43 +197,24 @@ public class RoleAssignmentHelper {
      * @return RoleAssignmentHelper
      */
     public RoleAssignmentHelper withoutAccessTo(final String scope, final BuiltInRole asRole) {
-        FunctionalTaskItem remover = new FunctionalTaskItem() {
-            @Override
-            public Mono<Indexable> apply(final Context cxt) {
-                return rbacManager
-                        .roleDefinitions()
-                        .getByScopeAndRoleNameAsync(scope, asRole.toString())
-                        .flatMap(new Function<RoleDefinition, Mono<RoleAssignment>>() {
-                            @Override
-                            public Mono<RoleAssignment> apply(final RoleDefinition roleDefinition) {
-                                return rbacManager
-                                        .roleAssignments()
-                                        .listByScopeAsync(scope)
-                                        .filter(new Predicate<RoleAssignment>() {
-                                            @Override
-                                            public boolean test(RoleAssignment roleAssignment) {
-                                                if (roleDefinition != null && roleAssignment != null) {
-                                                    return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.getId())
-                                                            && roleAssignment.principalId().equalsIgnoreCase(idProvider.principalId());
-                                                } else {
-                                                    return false;
-                                                }
-                                            }
-                                        })
-                                        .first();
+        FunctionalTaskItem remover = cxt -> rbacManager
+                .roleDefinitions()
+                .getByScopeAndRoleNameAsync(scope, asRole.toString())
+                .flatMap((Function<RoleDefinition, Mono<RoleAssignment>>) roleDefinition -> rbacManager
+                        .roleAssignments()
+                        .listByScopeAsync(scope)
+                        .filter(roleAssignment -> {
+                            if (roleDefinition != null && roleAssignment != null) {
+                                return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.getId())
+                                        && roleAssignment.principalId().equalsIgnoreCase(idProvider.principalId());
+                            } else {
+                                return false;
                             }
-                        })
-                        .flatMap(new Function<RoleAssignment, Mono<Indexable>>() {
-                            @Override
-                            public Mono<Indexable> apply(final RoleAssignment roleAssignment) {
-                                return rbacManager
-                                        .roleAssignments()
-                                        .deleteByIdAsync(roleAssignment.getId())
-                                        .then(cxt.voidMono());
-                            }
-                        });
-            }
-        };
+                        }).last())
+                .flatMap((Function<RoleAssignment, Mono<Indexable>>) roleAssignment -> rbacManager
+                        .roleAssignments()
+                        .deleteByIdAsync(roleAssignment.getId())
+                        .then(cxt.voidMono()));
         this.preRunTaskGroup.addPostRunDependent(remover);
         return this;
     }

@@ -6,36 +6,28 @@
 
 package com.azure.management.graphrbac.implementation;
 
-import com.microsoft.azure.Page;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.graphrbac.ServicePrincipals;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import com.microsoft.rest.ServiceResponse;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.core.http.rest.PagedResponse;
+import com.azure.management.graphrbac.ServicePrincipal;
+import com.azure.management.graphrbac.ServicePrincipals;
+import com.azure.management.graphrbac.models.ServicePrincipalInner;
+import com.azure.management.graphrbac.models.ServicePrincipalsInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
+
+import java.util.function.Function;
 
 /**
  * The implementation of ServicePrincipals and its parent interfaces.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Graph.RBAC.Fluent")
 class ServicePrincipalsImpl
-        extends CreatableWrappersImpl<
-            ServicePrincipal,
-            ServicePrincipalImpl,
-            ServicePrincipalInner>
-        implements
-            ServicePrincipals,
+        extends CreatableWrappersImpl<ServicePrincipal, ServicePrincipalImpl, ServicePrincipalInner>
+        implements ServicePrincipals,
             HasManager<GraphRbacManager>,
             HasInner<ServicePrincipalsInner> {
-    private final PagedListConverter<ServicePrincipalInner, ServicePrincipal> converter;
     private ServicePrincipalsInner innerCollection;
     private GraphRbacManager manager;
 
@@ -44,29 +36,23 @@ class ServicePrincipalsImpl
             final GraphRbacManager graphRbacManager) {
         this.innerCollection = client;
         this.manager = graphRbacManager;
-        converter = new PagedListConverter<ServicePrincipalInner, ServicePrincipal>() {
-            @Override
-            public Observable<ServicePrincipal> typeConvertAsync(ServicePrincipalInner servicePrincipalInner) {
-                ServicePrincipalImpl impl = wrapModel(servicePrincipalInner);
-                return impl.refreshCredentialsAsync();
-            }
-        };
     }
 
     @Override
-    public PagedList<ServicePrincipal> list() {
-        return converter.convert(this.inner().list());
+    public PagedIterable<ServicePrincipal> list() {
+        return getInner().list(null).mapPage(servicePrincipalInner -> {
+            ServicePrincipalImpl servicePrincipal = wrapModel(servicePrincipalInner);
+            return servicePrincipal.refreshCredentialsAsync().block();
+        });
     }
 
     @Override
-    public Observable<ServicePrincipal> listAsync() {
-        return wrapPageAsync(this.inner().listAsync())
-                .flatMap(new Func1<ServicePrincipal, Observable<ServicePrincipal>>() {
-                    @Override
-                    public Observable<ServicePrincipal> call(ServicePrincipal servicePrincipal) {
-                        return ((ServicePrincipalImpl) servicePrincipal).refreshCredentialsAsync();
-                    }
-                });
+    public PagedFlux<ServicePrincipal> listAsync() {
+        return getInner().listAsync(null).mapPage(servicePrincipalInner -> {
+            ServicePrincipalImpl servicePrincipal = wrapModel(servicePrincipalInner);
+            servicePrincipal.refreshCredentialsAsync();
+            return servicePrincipal;
+        });
     }
 
     @Override
@@ -74,91 +60,79 @@ class ServicePrincipalsImpl
         if (servicePrincipalInner == null) {
             return null;
         }
-        return new ServicePrincipalImpl(servicePrincipalInner, manager());
+        return new ServicePrincipalImpl(servicePrincipalInner, getManager());
     }
 
     @Override
     public ServicePrincipalImpl getById(String id) {
-        return (ServicePrincipalImpl) getByIdAsync(id).toBlocking().single();
+        return (ServicePrincipalImpl) getByIdAsync(id).block();
     }
 
     @Override
-    public Observable<ServicePrincipal> getByIdAsync(String id) {
+    public Mono<ServicePrincipal> getByIdAsync(String id) {
         return innerCollection.getAsync(id)
-                .flatMap(new Func1<ServicePrincipalInner, Observable<ServicePrincipal>>() {
-                    @Override
-                    public Observable<ServicePrincipal> call(ServicePrincipalInner servicePrincipalInner) {
-                        if (servicePrincipalInner == null) {
-                            return Observable.just(null);
-                        } else {
-                            return new ServicePrincipalImpl(servicePrincipalInner, manager()).refreshCredentialsAsync();
-                        }
+                .flatMap((Function<ServicePrincipalInner, Mono<ServicePrincipal>>) servicePrincipalInner -> {
+                    if (servicePrincipalInner == null) {
+                        return Mono.just(null);
+                    } else {
+                        return new ServicePrincipalImpl(servicePrincipalInner, getManager()).refreshCredentialsAsync();
                     }
                 });
-    }
-
-    @Override
-    public ServiceFuture<ServicePrincipal> getByIdAsync(String id, ServiceCallback<ServicePrincipal> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
     }
 
     @Override
     public ServicePrincipal getByName(String spn) {
-        return getByNameAsync(spn).toBlocking().single();
+        return getByNameAsync(spn).block();
     }
 
     @Override
-    public Observable<ServicePrincipal> getByNameAsync(final String name) {
-        return innerCollection.listWithServiceResponseAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name))
-                .flatMap(new Func1<ServiceResponse<Page<ServicePrincipalInner>>, Observable<Page<ServicePrincipalInner>>>() {
-                    @Override
-                    public Observable<Page<ServicePrincipalInner>> call(ServiceResponse<Page<ServicePrincipalInner>> result) {
-                        if (result == null || result.body().items() == null || result.body().items().isEmpty()) {
-                            return innerCollection.listAsync(String.format("displayName eq '%s'", name));
-                        }
-                        return Observable.just(result.body());
+    public Mono<ServicePrincipal> getByNameAsync(final String name) {
+        return innerCollection.listNextSinglePageAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name))
+                .flatMap((Function<PagedResponse<ServicePrincipalInner>, Mono<PagedFlux<ServicePrincipalInner>>>) response -> {
+                    if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
+                        return Mono.just(innerCollection.listAsync(String.format("displayName eq '%s'", name)));
                     }
-                }).map(new Func1<Page<ServicePrincipalInner>, ServicePrincipalImpl>() {
-                    @Override
-                    public ServicePrincipalImpl call(Page<ServicePrincipalInner> result) {
-                        if (result == null || result.items() == null || result.items().isEmpty()) {
-                            return null;
-                        }
-                        return new ServicePrincipalImpl(result.items().get(0), manager());
+                    return Mono.just(new PagedFlux<>(
+                            () -> Mono.just(response),
+                            nextLink -> innerCollection.listNextSinglePageAsync(nextLink)
+                    ));
+                })
+                .map(result -> {
+                    if (result == null || result.toIterable() == null || !result.toIterable().iterator().hasNext()) {
+                        return null;
                     }
-                }).flatMap(new Func1<ServicePrincipalImpl, Observable<ServicePrincipal>>() {
-                    @Override
-                    public Observable<ServicePrincipal> call(ServicePrincipalImpl servicePrincipal) {
-                        if (servicePrincipal == null) {
-                            return Observable.just(null);
-                        }
-                        return servicePrincipal.refreshCredentialsAsync();
+                    return new ServicePrincipalImpl(result.toIterable().iterator().next(), getManager());
+                })
+                .flatMap((Function<ServicePrincipalImpl, Mono<ServicePrincipal>>) servicePrincipal -> {
+                    if (servicePrincipal == null) {
+                        return null;
                     }
+                    return servicePrincipal.refreshCredentialsAsync();
                 });
     }
 
     @Override
-    public GraphRbacManager manager() {
-        return this.manager;
-    }
-
-    @Override
-    public ServicePrincipalsInner inner() {
-        return this.innerCollection;
-    }
-
-    @Override
     public ServicePrincipalImpl define(String name) {
-        return new ServicePrincipalImpl((ServicePrincipalInner) new ServicePrincipalInner().withDisplayName(name), manager());
+        return new ServicePrincipalImpl(new ServicePrincipalInner().setDisplayName(name), getManager());
     }
 
     @Override
     protected ServicePrincipalImpl wrapModel(String name) {
-        return new ServicePrincipalImpl((ServicePrincipalInner) new ServicePrincipalInner().withDisplayName(name), manager());
+        return new ServicePrincipalImpl(new ServicePrincipalInner().setDisplayName(name), getManager());
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
-        return manager().inner().servicePrincipals().deleteAsync(id).toCompletable();
+    public Mono<Void> deleteByIdAsync(String id) {
+        return getInner().deleteAsync(id);
+    }
+
+    @Override
+    public GraphRbacManager getManager() {
+        return this.manager;
+    }
+
+    @Override
+    public ServicePrincipalsInner getInner() {
+        return getManager().getInner().servicePrincipals();
     }
 }

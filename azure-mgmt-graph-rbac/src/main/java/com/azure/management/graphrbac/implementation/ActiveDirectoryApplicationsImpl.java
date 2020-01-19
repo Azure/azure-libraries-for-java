@@ -26,14 +26,10 @@ import java.util.function.Function;
  */
 
 class ActiveDirectoryApplicationsImpl
-        extends CreatableResourcesImpl<
-                ActiveDirectoryApplication,
-                    ActiveDirectoryApplicationImpl,
-                ApplicationInner>
-        implements
-        ActiveDirectoryApplications,
-        HasManager<GraphRbacManager>,
-        HasInner<ApplicationsInner> {
+        extends CreatableResourcesImpl<ActiveDirectoryApplication, ActiveDirectoryApplicationImpl, ApplicationInner>
+        implements ActiveDirectoryApplications,
+            HasManager<GraphRbacManager>,
+            HasInner<ApplicationsInner> {
     private ApplicationsInner innerCollection;
     private GraphRbacManager manager;
 
@@ -48,8 +44,7 @@ class ActiveDirectoryApplicationsImpl
     public PagedIterable<ActiveDirectoryApplication> list() {
         return this.innerCollection.list(null).mapPage(inner -> {
             ActiveDirectoryApplicationImpl application = wrapModel(inner);
-            application.refreshCredentialsAsync();
-            return application;
+            return application.refreshCredentialsAsync().block();
         });
     }
 

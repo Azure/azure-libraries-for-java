@@ -7,12 +7,13 @@
 
 package com.azure.management.keyvault.implementation;
 
+import java.time.OffsetDateTime;
 import java.util.Map;
 
-import org.joda.time.DateTime;
+import com.azure.management.keyvault.models.DeletedVaultInner;
 
 import com.azure.management.keyvault.DeletedVault;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * Deleted vault information with extended details.
@@ -25,32 +26,32 @@ public class DeletedVaultImpl extends WrapperImpl<DeletedVaultInner> implements 
 
     @Override
     public String name() {
-        return inner().name();
+        return getInner().getName();
     }
 
     @Override
     public String id() {
-        return inner().id();
+        return getInner().getId();
     }
 
     @Override
     public String location() {
-        return inner().properties().location();
+        return getInner().getProperties().getLocation();
     }
 
     @Override
-    public DateTime deletionDate() {
-        return inner().properties().deletionDate();
+    public OffsetDateTime deletionDate() {
+        return getInner().getProperties().getDeletionDate();
     }
 
     @Override
-    public DateTime scheduledPurgeDate() {
-        return inner().properties().scheduledPurgeDate();
+    public OffsetDateTime scheduledPurgeDate() {
+        return getInner().getProperties().getScheduledPurgeDate();
     }
 
     @Override
     public Map<String, String> tags() {
-        return inner().properties().tags();
+        return getInner().getProperties().getTags();
     }
 
 }

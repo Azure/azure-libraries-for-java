@@ -7,12 +7,9 @@
 package com.azure.management.resources.core;
 
 import com.azure.core.http.policy.CookiePolicy;
-<<<<<<< HEAD
 import com.azure.core.http.policy.HostPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
-=======
->>>>>>> vnext
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.core.util.Configuration;
@@ -168,7 +165,6 @@ public abstract class TestBase {
                     .withBaseUrl(playbackUri + "/")
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     .withCredential(credentials)
-                    .withClientId(credentials.getClientId())
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .withPolicy(interceptorManager.initInterceptor())
                     .withPolicy(new HostPolicy(playbackUri + "/"))
@@ -202,9 +198,9 @@ public abstract class TestBase {
             RestClientBuilder builder = new RestClientBuilder()
                     .withBaseUrl(this.baseUri())
                     .withSerializerAdapter(new AzureJacksonAdapter())
+                    .withPolicy(new CookiePolicy())
                     // .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
                     .withCredential(credentials)
-                    .withClientId(credentials.getClientId())
                     .withHttpLogOptions(new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS))
                     .withPolicy(new CookiePolicy());
             if (!interceptorManager.isNoneMode()) {

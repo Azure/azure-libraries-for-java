@@ -42,6 +42,7 @@ public final class RestClientBuilder {
     private SerializerAdapter serializerAdapter;
     private List<String> scopes;
 
+    // TODO: add AzureEnvironment parameter for different default scopes
     private static final String[] defaultScopes = new String[] { AzureEnvironment.AZURE.getResourceManagerEndpoint() + "/.default" };
 
     private final RetryPolicy retryPolicy;

@@ -85,7 +85,7 @@ public class UserAgentPolicy implements HttpPipelinePolicy {
         return configuration.get(Configuration.PROPERTY_AZURE_TELEMETRY_DISABLED, false);
     }
 
-    private boolean isEmptyString(String s) {
+    private static boolean isEmptyString(String s) {
         return s == null || s.isEmpty();
     }
 

@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.azure.management.storage.AzureEntityResource;
 import com.azure.management.storage.ImmutabilityPolicyProperties;
 import com.azure.management.storage.LeaseDuration;
@@ -21,8 +22,9 @@ import java.util.Map;
 /**
  * The BlobContainer model.
  */
+@JsonFlatten
 @Fluent
-public final class BlobContainerInner extends AzureEntityResource {
+public class BlobContainerInner extends AzureEntityResource {
     /*
      * Specifies whether data in the container may be accessed publicly and the
      * level of access.

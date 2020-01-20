@@ -41,13 +41,6 @@ public interface StorageAccount extends
 
     /**
      * @return the sku of this storage account.
-     * @deprecated use {@link StorageAccount#skuType()} instead.
-     */
-    @Deprecated
-    Sku sku();
-
-    /**
-     * @return the sku of this storage account.
      */
     StorageAccountSkuType skuType();
 

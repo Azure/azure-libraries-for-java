@@ -22,7 +22,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.storage.Operation;
 import reactor.core.publisher.Mono;
 
 /**
@@ -64,8 +63,14 @@ public final class OperationsInner {
         Mono<SimpleResponse<OperationListResultInner>> list(@HostParam("$host") String host, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Lists all of the available Storage Rest API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Operation>> listSinglePageAsync() {
+    public Mono<PagedResponse<OperationInner>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -75,18 +80,26 @@ public final class OperationsInner {
             null));
     }
 
+    /**
+     * Lists all of the available Storage Rest API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Operation> listAsync() {
+    public PagedFlux<OperationInner> listAsync() {
         return new PagedFlux<>(
             () -> listSinglePageAsync());
     }
 
     /**
+     * Lists all of the available Storage Rest API operations.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Operation> list() {
+    public PagedIterable<OperationInner> list() {
         return new PagedIterable<>(listAsync());
     }
 }

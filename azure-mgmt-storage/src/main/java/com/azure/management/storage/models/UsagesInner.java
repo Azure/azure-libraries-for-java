@@ -23,7 +23,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.storage.Usage;
 import reactor.core.publisher.Mono;
 
 /**
@@ -65,8 +64,16 @@ public final class UsagesInner {
         Mono<SimpleResponse<UsageListResultInner>> listByLocation(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("location") String location, @QueryParam("api-version") String apiVersion);
     }
 
+    /**
+     * Gets the current usage count and the limit for the resources of the location under the subscription.
+     * 
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Usage>> listByLocationSinglePageAsync(String location) {
+    public Mono<PagedResponse<UsageInner>> listByLocationSinglePageAsync(String location) {
         return service.listByLocation(this.client.getHost(), this.client.getSubscriptionId(), location, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -76,20 +83,30 @@ public final class UsagesInner {
             null));
     }
 
-    @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Usage> listByLocationAsync(String location) {
-        return new PagedFlux<>(
-            () -> listByLocationSinglePageAsync(location));
-    }
-
     /**
-     * @param location null
+     * Gets the current usage count and the limit for the resources of the location under the subscription.
+     * 
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Usage> listByLocation(String location) {
+    public PagedFlux<UsageInner> listByLocationAsync(String location) {
+        return new PagedFlux<>(
+            () -> listByLocationSinglePageAsync(location));
+    }
+
+    /**
+     * Gets the current usage count and the limit for the resources of the location under the subscription.
+     * 
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.COLLECTION)
+    public PagedIterable<UsageInner> listByLocation(String location) {
         return new PagedIterable<>(listByLocationAsync(location));
     }
 }

@@ -10,6 +10,8 @@ import com.azure.core.http.policy.BearerTokenAuthenticationPolicy;
 import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.core.util.Configuration;
+import com.azure.core.util.logging.LogLevel;
 import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.RestClient;
 import com.azure.management.RestClientBuilder;
@@ -78,6 +80,8 @@ public abstract class TestBase {
     private static TestMode testMode = null;
 
     private static void initTestMode() throws IOException {
+        Configuration.getGlobalConfiguration().put(Configuration.PROPERTY_AZURE_LOG_LEVEL, String.valueOf(LogLevel.INFORMATIONAL));
+
         String azureTestMode = System.getenv("AZURE_TEST_MODE");
         if (azureTestMode != null) {
             if (azureTestMode.equalsIgnoreCase("Record")) {

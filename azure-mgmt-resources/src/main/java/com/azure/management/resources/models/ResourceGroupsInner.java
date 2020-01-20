@@ -11,6 +11,7 @@ import com.azure.core.annotation.Delete;
 import com.azure.core.annotation.ExpectedResponses;
 import com.azure.core.annotation.Get;
 import com.azure.core.annotation.Head;
+import com.azure.core.annotation.HeaderParam;
 import com.azure.core.annotation.Host;
 import com.azure.core.annotation.HostParam;
 import com.azure.core.annotation.Patch;
@@ -30,8 +31,12 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.util.Context;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.ExportTemplateRequest;
 import com.azure.management.resources.ResourceGroupPatchable;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -75,12 +80,12 @@ public final class ResourceGroupsInner {
         @Put("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ResourceGroupInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourceGroupInner parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ResourceGroupInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ResourceGroupInner parameters, @QueryParam("api-version") String apiVersion, Context context);
 
         @Delete("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> delete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
         @ExpectedResponses({200})
@@ -95,12 +100,22 @@ public final class ResourceGroupsInner {
         @Post("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<ResourceGroupExportResultInner>> exportTemplate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @BodyParam("application/json") ExportTemplateRequest parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> exportTemplate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @BodyParam("application/json") ExportTemplateRequest parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourcegroups")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
         Mono<SimpleResponse<ResourceGroupListResultInner>> list(@HostParam("$host") String host, @QueryParam("$filter") String filter, @QueryParam("$top") Integer top, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+
+        @Delete("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}")
+        @ExpectedResponses({200, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<Response<Void>> beginDelete(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+
+        @Post("/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/exportTemplate")
+        @ExpectedResponses({200, 202})
+        @UnexpectedResponseExceptionType(CloudException.class)
+        Mono<SimpleResponse<ResourceGroupExportResultInner>> beginExportTemplate(@HostParam("$host") String host, @PathParam("subscriptionId") String subscriptionId, @PathParam("resourceGroupName") String resourceGroupName, @BodyParam("application/json") ExportTemplateRequest parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("{nextLink}")
         @ExpectedResponses({200})
@@ -108,27 +123,69 @@ public final class ResourceGroupsInner {
         Mono<SimpleResponse<ResourceGroupListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Checks whether a resource group exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> checkExistenceWithResponseAsync(String resourceGroupName) {
         return service.checkExistence(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Checks whether a resource group exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Boolean> checkExistenceAsync(String resourceGroupName) {
         return checkExistenceWithResponseAsync(resourceGroupName)
             .flatMap((Response<Void> res) -> Mono.just(res.getStatusCode() / 100 == 2));
     }
 
+    /**
+     * Checks whether a resource group exists.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public boolean checkExistence(String resourceGroupName) {
         return checkExistenceAsync(resourceGroupName).block();
     }
 
+    /**
+     * Creates or updates a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Resource group information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ResourceGroupInner>> createOrUpdateWithResponseAsync(String resourceGroupName, ResourceGroupInner parameters) {
-        return service.createOrUpdate(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
+        return service.createOrUpdate(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion(), Context.NONE.addData("Sdk-Name", "aaa").addData("Sdk-Version", "1.2.3"));
     }
 
+    /**
+     * Creates or updates a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Resource group information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ResourceGroupInner> createOrUpdateAsync(String resourceGroupName, ResourceGroupInner parameters) {
         return createOrUpdateWithResponseAsync(resourceGroupName, parameters)
@@ -141,32 +198,83 @@ public final class ResourceGroupsInner {
             });
     }
 
+    /**
+     * Creates or updates a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Resource group information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ResourceGroupInner createOrUpdate(String resourceGroupName, ResourceGroupInner parameters) {
         return createOrUpdateAsync(resourceGroupName, parameters).block();
     }
 
+    /**
+     * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> deleteWithResponseAsync(String resourceGroupName) {
         return service.delete(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName) {
-        return deleteWithResponseAsync(resourceGroupName)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = deleteWithResponseAsync(resourceGroupName);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName) {
         deleteAsync(resourceGroupName).block();
     }
 
+    /**
+     * Gets a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ResourceGroupInner>> getWithResponseAsync(String resourceGroupName) {
         return service.get(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ResourceGroupInner> getAsync(String resourceGroupName) {
         return getWithResponseAsync(resourceGroupName)
@@ -179,16 +287,42 @@ public final class ResourceGroupsInner {
             });
     }
 
+    /**
+     * Gets a resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ResourceGroupInner get(String resourceGroupName) {
         return getAsync(resourceGroupName).block();
     }
 
+    /**
+     * Resource groups can be updated through a simple PATCH operation to a group address. The format of the request is the same as that for creating a resource group. If a field is unspecified, the current value is retained.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Resource group information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<ResourceGroupInner>> updateWithResponseAsync(String resourceGroupName, ResourceGroupPatchable parameters) {
         return service.update(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Resource groups can be updated through a simple PATCH operation to a group address. The format of the request is the same as that for creating a resource group. If a field is unspecified, the current value is retained.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Resource group information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ResourceGroupInner> updateAsync(String resourceGroupName, ResourceGroupPatchable parameters) {
         return updateWithResponseAsync(resourceGroupName, parameters)
@@ -201,33 +335,74 @@ public final class ResourceGroupsInner {
             });
     }
 
+    /**
+     * Resource groups can be updated through a simple PATCH operation to a group address. The format of the request is the same as that for creating a resource group. If a field is unspecified, the current value is retained.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Resource group information.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ResourceGroupInner update(String resourceGroupName, ResourceGroupPatchable parameters) {
         return updateAsync(resourceGroupName, parameters).block();
     }
 
+    /**
+     * Captures the specified resource group as a template.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Export resource group template request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ResourceGroupExportResultInner>> exportTemplateWithResponseAsync(String resourceGroupName, ExportTemplateRequest parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> exportTemplateWithResponseAsync(String resourceGroupName, ExportTemplateRequest parameters) {
         return service.exportTemplate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Captures the specified resource group as a template.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Export resource group template request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ResourceGroupExportResultInner> exportTemplateAsync(String resourceGroupName, ExportTemplateRequest parameters) {
-        return exportTemplateWithResponseAsync(resourceGroupName, parameters)
-            .flatMap((SimpleResponse<ResourceGroupExportResultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = exportTemplateWithResponseAsync(resourceGroupName, parameters);
+        return client.<ResourceGroupExportResultInner, ResourceGroupExportResultInner>getLroResultAsync(response, client.getHttpPipeline(), ResourceGroupExportResultInner.class, ResourceGroupExportResultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Captures the specified resource group as a template.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Export resource group template request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public ResourceGroupExportResultInner exportTemplate(String resourceGroupName, ExportTemplateRequest parameters) {
         return exportTemplateAsync(resourceGroupName, parameters).block();
     }
 
+    /**
+     * Gets all the resource groups for a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<ResourceGroupInner>> listSinglePageAsync(String filter, Integer top) {
         return service.list(this.client.getHost(), filter, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -239,6 +414,15 @@ public final class ResourceGroupsInner {
             null));
     }
 
+    /**
+     * Gets all the resource groups for a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<ResourceGroupInner> listAsync(String filter, Integer top) {
         return new PagedFlux<>(
@@ -247,8 +431,10 @@ public final class ResourceGroupsInner {
     }
 
     /**
-     * @param filter null
-     * @param top null
+     * Gets all the resource groups for a subscription.
+     * 
+     * @param filter The additional properties.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -258,6 +444,103 @@ public final class ResourceGroupsInner {
         return new PagedIterable<>(listAsync(filter, top));
     }
 
+    /**
+     * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Response<Void>> beginDeleteWithResponseAsync(String resourceGroupName) {
+        return service.beginDelete(this.client.getHost(), resourceGroupName, this.client.getSubscriptionId(), this.client.getApiVersion());
+    }
+
+    /**
+     * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<Void> beginDeleteAsync(String resourceGroupName) {
+        return beginDeleteWithResponseAsync(resourceGroupName)
+            .flatMap((Response<Void> res) -> Mono.empty());
+    }
+
+    /**
+     * When you delete a resource group, all of its resources are also deleted. Deleting a resource group deletes all of its template deployments and currently stored operations.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public void beginDelete(String resourceGroupName) {
+        beginDeleteAsync(resourceGroupName).block();
+    }
+
+    /**
+     * Captures the specified resource group as a template.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Export resource group template request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<SimpleResponse<ResourceGroupExportResultInner>> beginExportTemplateWithResponseAsync(String resourceGroupName, ExportTemplateRequest parameters) {
+        return service.beginExportTemplate(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, parameters, this.client.getApiVersion());
+    }
+
+    /**
+     * Captures the specified resource group as a template.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Export resource group template request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public Mono<ResourceGroupExportResultInner> beginExportTemplateAsync(String resourceGroupName, ExportTemplateRequest parameters) {
+        return beginExportTemplateWithResponseAsync(resourceGroupName, parameters)
+            .flatMap((SimpleResponse<ResourceGroupExportResultInner> res) -> {
+                if (res.getValue() != null) {
+                    return Mono.just(res.getValue());
+                } else {
+                    return Mono.empty();
+                }
+            });
+    }
+
+    /**
+     * Captures the specified resource group as a template.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Export resource group template request parameters.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
+    @ServiceMethod(returns = ReturnType.SINGLE)
+    public ResourceGroupExportResultInner beginExportTemplate(String resourceGroupName, ExportTemplateRequest parameters) {
+        return beginExportTemplateAsync(resourceGroupName, parameters).block();
+    }
+
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<ResourceGroupInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(

@@ -7,7 +7,6 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Immutable;
-import com.azure.management.storage.Sku;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public final class StorageSkuListResultInner {
      * Get the list result of storage SKUs and their properties.
      */
     @JsonProperty(value = "value", access = JsonProperty.Access.WRITE_ONLY)
-    private List<Sku> value;
+    private List<SkuInner> value;
 
     /**
      * Get the value property: Get the list result of storage SKUs and their
@@ -28,7 +27,7 @@ public final class StorageSkuListResultInner {
      * 
      * @return the value value.
      */
-    public List<Sku> getValue() {
+    public List<SkuInner> getValue() {
         return this.value;
     }
 }

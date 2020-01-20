@@ -34,7 +34,7 @@ final class DeploymentOperationsImpl
     @Override
     public PagedIterable<DeploymentOperation> list() {
         // FIXME: THe top parameter
-        return wrapList(client.listAtManagementGroupScope(deployment.resourceGroupName(), deployment.getName(), null));
+        return wrapList(client.listByResourceGroup(deployment.resourceGroupName(), deployment.getName(), null));
     }
 
     @Override

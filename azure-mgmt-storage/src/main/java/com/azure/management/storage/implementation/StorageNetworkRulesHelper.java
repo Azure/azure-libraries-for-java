@@ -6,15 +6,14 @@
 
 package com.azure.management.storage.implementation;
 
-import com.azure.management.storage.Action;
 import com.azure.management.storage.Bypass;
 import com.azure.management.storage.DefaultAction;
 import com.azure.management.storage.IPRule;
 import com.azure.management.storage.NetworkRuleSet;
-import com.azure.management.storage.StorageAccountCreateParameters;
-import com.azure.management.storage.StorageAccountUpdateParameters;
 import com.azure.management.storage.VirtualNetworkRule;
+import com.azure.management.storage.models.StorageAccountCreateParametersInner;
 import com.azure.management.storage.models.StorageAccountInner;
+import com.azure.management.storage.models.StorageAccountUpdateParametersInner;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -30,15 +29,15 @@ final class StorageNetworkRulesHelper {
     private static final String BYPASS_NONE_STR = Bypass.NONE.toString().toLowerCase();
     private final boolean isInCreateMode;
     private final StorageAccountInner inner;
-    private final StorageAccountCreateParameters createParameters;
-    private final StorageAccountUpdateParameters updateParameters;
+    private final StorageAccountCreateParametersInner createParameters;
+    private final StorageAccountUpdateParametersInner updateParameters;
 
     /**
      * Creates StorageNetworkRulesHelper.
      *
      * @param createParameters the model representing payload for storage account create.
      */
-    StorageNetworkRulesHelper(StorageAccountCreateParameters createParameters) {
+    StorageNetworkRulesHelper(StorageAccountCreateParametersInner createParameters) {
         this.isInCreateMode = true;
         this.createParameters = createParameters;
         this.updateParameters = null;
@@ -51,7 +50,7 @@ final class StorageNetworkRulesHelper {
      * @param updateParameters the model representing payload for storage account update
      * @param inner            the current state of storage account
      */
-    StorageNetworkRulesHelper(StorageAccountUpdateParameters updateParameters, final StorageAccountInner inner) {
+    StorageNetworkRulesHelper(StorageAccountUpdateParametersInner updateParameters, final StorageAccountInner inner) {
         this.isInCreateMode = false;
         this.createParameters = null;
         this.updateParameters = updateParameters;
@@ -223,9 +222,7 @@ final class StorageNetworkRulesHelper {
         }
         if (!found) {
             networkRuleSet.getVirtualNetworkRules().add(new VirtualNetworkRule()
-                    .setVirtualNetworkResourceId(subnetId)
-                    // FIXME: Aaction should be removed
-                    .setAction(Action.ALLOW.toString()));
+                    .setVirtualNetworkResourceId(subnetId));
         }
         return this;
     }
@@ -509,8 +506,7 @@ final class StorageNetworkRulesHelper {
         }
         if (!found) {
             networkRuleSet.getIpRules().add(new IPRule()
-                    .setIPAddressOrRange(ipAddressOrRange)
-                    .setAction(Action.ALLOW.toString()));
+                    .setIPAddressOrRange(ipAddressOrRange));
         }
         return this;
     }

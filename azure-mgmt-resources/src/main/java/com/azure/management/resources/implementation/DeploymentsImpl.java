@@ -69,7 +69,7 @@ final class DeploymentsImpl
 
     @Override
     public Mono<Deployment> getByResourceGroupAsync(String groupName, String name) {
-        return this.getManager().getInner().deployments().getAsync(groupName, name).map(deploymentExtendedInner -> {
+        return this.getManager().getInner().deployments().getByResourceGroupAsync(groupName, name).map(deploymentExtendedInner -> {
             if (deploymentExtendedInner != null) {
                 return createFluentModel(deploymentExtendedInner);
             } else {

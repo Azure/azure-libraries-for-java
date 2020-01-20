@@ -23,7 +23,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.resources.Operation;
 import reactor.core.publisher.Mono;
 
 /**
@@ -70,8 +69,14 @@ public final class OperationsInner {
         Mono<SimpleResponse<OperationListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Lists all of the available Microsoft.Resources REST API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Operation>> listSinglePageAsync() {
+    public Mono<PagedResponse<OperationInner>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -81,24 +86,40 @@ public final class OperationsInner {
             null));
     }
 
+    /**
+     * Lists all of the available Microsoft.Resources REST API operations.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Operation> listAsync() {
+    public PagedFlux<OperationInner> listAsync() {
         return new PagedFlux<>(
             () -> listSinglePageAsync(),
             nextLink -> listNextSinglePageAsync(nextLink));
     }
 
     /**
+     * Lists all of the available Microsoft.Resources REST API operations.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Operation> list() {
+    public PagedIterable<OperationInner> list() {
         return new PagedIterable<>(listAsync());
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Operation>> listNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<OperationInner>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

@@ -29,7 +29,6 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.CloudException;
-import com.azure.management.resources.Operation;
 import com.azure.management.AzureServiceClient;
 import reactor.core.publisher.Mono;
 
@@ -193,7 +192,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Operation>> listOperationsSinglePageAsync() {
+    public Mono<PagedResponse<OperationInner>> listOperationsSinglePageAsync() {
         return service.listOperations(this.getHost(), this.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -204,7 +203,7 @@ public final class FeatureClientImpl extends AzureServiceClient {
     }
 
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Operation> listOperationsAsync() {
+    public PagedFlux<OperationInner> listOperationsAsync() {
         return new PagedFlux<>(
             () -> listOperationsSinglePageAsync(),
             nextLink -> listOperationsNextSinglePageAsync(nextLink));
@@ -215,12 +214,12 @@ public final class FeatureClientImpl extends AzureServiceClient {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Operation> listOperations() {
+    public PagedIterable<OperationInner> listOperations() {
         return new PagedIterable<>(listOperationsAsync());
     }
 
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Operation>> listOperationsNextSinglePageAsync(String nextLink) {
+    public Mono<PagedResponse<OperationInner>> listOperationsNextSinglePageAsync(String nextLink) {
         return service.listOperationsNext(nextLink).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),

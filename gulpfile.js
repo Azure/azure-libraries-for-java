@@ -21,7 +21,7 @@ gulp.task('default', function() {
         "[--projects <project names>] " +
         "[--autorest <autorest info>] " +
         "[--autorest-java <autorest.java info>] " +
-        "[--debug] " +
+        "[--debugger] " +
         "[--parallel <number>] " +
         "[--autorest-args <AutoRest arguments>]\n");
 
@@ -60,7 +60,7 @@ var autoRestVersion = 'latest'; // default
 if (args['autorest'] !== undefined) {
     autoRestVersion = args['autorest'];
 }
-var debug = args['debug'];
+var debug = args['debugger'];
 var autoRestArgs = args['autorest-args'] || '';
 var autoRestExe;
 
@@ -143,7 +143,7 @@ var codegen = function(project, cb) {
     }
 
     if (debug) {
-        cmd += ' --java.debugger';
+        cmd += ' --debugger';
     }
 
     console.log('Command: ' + cmd);
@@ -174,7 +174,7 @@ This is the AutoRest configuration file for Resource.
             inputFileFound = true;
             outputLines.push(line)
         } else if (inputFileFound) {
-            if (line.startsWith('- ')) {
+            if (line.trim().startsWith('- ')) {
                 outputLines.push(line)
             } else {
                 outputLines.push('```')

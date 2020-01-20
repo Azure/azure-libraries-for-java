@@ -8,8 +8,8 @@ package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.joda.time.DateTime;
 
+import java.time.OffsetDateTime;
 import java.util.Map;
 
 /**
@@ -21,13 +21,13 @@ public final class KeyCredentialInner {
      * Start date.
      */
     @JsonProperty(value = "startDate")
-    private DateTime startDate;
+    private OffsetDateTime startDate;
 
     /*
      * End date.
      */
     @JsonProperty(value = "endDate")
-    private DateTime endDate;
+    private OffsetDateTime endDate;
 
     /*
      * Key value.
@@ -70,7 +70,7 @@ public final class KeyCredentialInner {
      * 
      * @return the startDate value.
      */
-    public DateTime getStartDate() {
+    public OffsetDateTime getStartDate() {
         return this.startDate;
     }
 
@@ -80,7 +80,7 @@ public final class KeyCredentialInner {
      * @param startDate the startDate value to set.
      * @return the KeyCredentialInner object itself.
      */
-    public KeyCredentialInner setStartDate(DateTime startDate) {
+    public KeyCredentialInner setStartDate(OffsetDateTime startDate) {
         this.startDate = startDate;
         return this;
     }
@@ -90,7 +90,7 @@ public final class KeyCredentialInner {
      * 
      * @return the endDate value.
      */
-    public DateTime getEndDate() {
+    public OffsetDateTime getEndDate() {
         return this.endDate;
     }
 
@@ -100,7 +100,7 @@ public final class KeyCredentialInner {
      * @param endDate the endDate value to set.
      * @return the KeyCredentialInner object itself.
      */
-    public KeyCredentialInner setEndDate(DateTime endDate) {
+    public KeyCredentialInner setEndDate(OffsetDateTime endDate) {
         this.endDate = endDate;
         return this;
     }

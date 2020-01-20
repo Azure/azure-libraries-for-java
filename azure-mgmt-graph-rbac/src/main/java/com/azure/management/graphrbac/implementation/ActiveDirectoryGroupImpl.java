@@ -149,7 +149,7 @@ class ActiveDirectoryGroupImpl
 
     @Override
     public ActiveDirectoryGroupImpl withMember(String objectId) {
-        membersToAdd.add(String.format("https://%s/%s/directoryObjects/%s",
+        membersToAdd.add(String.format("%s%s/directoryObjects/%s",
                 getManager().getInner().getHost(), getManager().tenantId(), objectId));
         return this;
     }

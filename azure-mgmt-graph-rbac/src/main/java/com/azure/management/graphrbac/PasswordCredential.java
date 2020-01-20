@@ -10,10 +10,10 @@ import com.azure.core.annotation.Fluent;
 import com.azure.management.graphrbac.models.PasswordCredentialInner;
 import com.azure.management.resources.fluentcore.model.Attachable;
 import com.azure.management.resources.fluentcore.model.HasInner;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 
 import java.io.OutputStream;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of an Azure AD credential.
@@ -72,7 +72,7 @@ public interface PasswordCredential extends
              * @param startDate the start date for validity
              * @return the next stage in credential definition
              */
-            WithAttach<ParentT> withStartDate(DateTime startDate);
+            WithAttach<ParentT> withStartDate(OffsetDateTime startDate);
         }
 
         /**
@@ -174,7 +174,7 @@ public interface PasswordCredential extends
              * @param startDate the start date for validity
              * @return the next stage in credential definition
              */
-            WithAttach<ParentT> withStartDate(DateTime startDate);
+            WithAttach<ParentT> withStartDate(OffsetDateTime startDate);
         }
 
         /**

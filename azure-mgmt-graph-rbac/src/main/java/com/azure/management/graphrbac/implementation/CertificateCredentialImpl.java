@@ -7,19 +7,17 @@
 package com.azure.management.graphrbac.implementation;
 
 import com.azure.core.management.AzureEnvironment;
-import com.azure.management.RestClient;
 import com.azure.management.graphrbac.CertificateCredential;
 import com.azure.management.graphrbac.CertificateType;
 import com.azure.management.graphrbac.models.KeyCredentialInner;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
-import com.azure.management.resources.fluentcore.utils.Utils;
 import com.google.common.io.BaseEncoding;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -50,8 +48,8 @@ class CertificateCredentialImpl<T>
         super(new KeyCredentialInner()
                 .setUsage("Verify")
                 .setCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()))
-                .setStartDate(DateTime.now())
-                .setEndDate(DateTime.now().plusYears(1)));
+                .setStartDate(OffsetDateTime.now())
+                .setEndDate(OffsetDateTime.now().plusYears(1)));
         this.name = name;
         this.parent = parent;
     }
@@ -67,12 +65,12 @@ class CertificateCredentialImpl<T>
     }
 
     @Override
-    public DateTime startDate() {
+    public OffsetDateTime startDate() {
         return getInner().getStartDate();
     }
 
     @Override
-    public DateTime endDate() {
+    public OffsetDateTime endDate() {
         return getInner().getEndDate();
     }
 
@@ -90,17 +88,17 @@ class CertificateCredentialImpl<T>
     }
 
     @Override
-    public CertificateCredentialImpl<T> withStartDate(DateTime startDate) {
-        DateTime original = startDate();
+    public CertificateCredentialImpl<T> withStartDate(OffsetDateTime startDate) {
+        OffsetDateTime original = startDate();
         getInner().setStartDate(startDate);
         // Adjust end time
-        withDuration(Duration.millis(endDate().getMillis() - original.getMillis()));
+        withDuration(Duration.between(original, endDate()));
         return this;
     }
 
     @Override
     public CertificateCredentialImpl<T> withDuration(Duration duration) {
-        getInner().setEndDate(startDate().plus(duration.getMillis()));
+        getInner().setEndDate(startDate().plus(duration));
         return this;
     }
 

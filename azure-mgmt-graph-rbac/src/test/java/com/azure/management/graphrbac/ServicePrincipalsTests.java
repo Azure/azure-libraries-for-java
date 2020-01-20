@@ -13,7 +13,6 @@ import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.implementation.ResourceManager;
-import org.joda.time.Duration;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Duration;
 
 import static org.junit.Assert.fail;
 
@@ -60,7 +60,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                     .defineCertificateCredential("spcert")
                         .withAsymmetricX509Certificate()
                         .withPublicKey(ByteStreams.toByteArray(ServicePrincipalsTests.class.getResourceAsStream("/myTest.cer")))
-                        .withDuration(Duration.standardDays(1))
+                        .withDuration(Duration.ofDays(1))
                         .attach()
                     .apply();
             Assert.assertNotNull(servicePrincipal);
@@ -94,7 +94,7 @@ public class ServicePrincipalsTests extends GraphRbacManagementTest {
                     .defineCertificateCredential("spcert")
                         .withAsymmetricX509Certificate()
                         .withPublicKey(Files.readAllBytes(Paths.get("/Users/jianghlu/Documents/code/certs/myserver.crt")))
-                        .withDuration(Duration.standardDays(7))
+                        .withDuration(Duration.ofDays(7))
                         .withAuthFileToExport(new FileOutputStream(authFile))
                         .withPrivateKeyFile("/Users/jianghlu/Documents/code/certs/myserver.pfx")
                         .withPrivateKeyPassword("StrongPass!123")

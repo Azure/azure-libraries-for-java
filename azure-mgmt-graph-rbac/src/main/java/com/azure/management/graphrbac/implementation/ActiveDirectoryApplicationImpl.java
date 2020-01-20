@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -69,8 +70,8 @@ class ActiveDirectoryApplicationImpl
 
     @Override
     public Mono<ActiveDirectoryApplication> updateResourceAsync() {
-        return manager.getInner().applications().patchAsync(getId(), updateParameters)
-                .flatMap((Function<Void, Mono<ActiveDirectoryApplication>>) aVoid -> refreshAsync());
+        return manager.getInner().applications().patchAsync(getId(), updateParameters).map(aVoid -> ActiveDirectoryApplicationImpl.this);
+                //.flatMap((Function<Void, Mono<ActiveDirectoryApplication>>) aVoid -> refreshAsync());
     }
 
     Mono<ActiveDirectoryApplication> refreshCredentialsAsync() {

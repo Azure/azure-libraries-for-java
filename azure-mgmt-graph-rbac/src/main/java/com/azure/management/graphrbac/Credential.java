@@ -10,7 +10,8 @@ import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.Indexable;
-import org.joda.time.DateTime;
+
+import java.time.OffsetDateTime;
 
 /**
  * An immutable client-side representation of an Azure AD credential.
@@ -23,12 +24,12 @@ public interface Credential extends
     /**
      * @return start date.
      */
-    DateTime startDate();
+    OffsetDateTime startDate();
 
     /**
      * @return end date.
      */
-    DateTime endDate();
+    OffsetDateTime endDate();
 
     /**
      * @return key value.

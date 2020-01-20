@@ -7,18 +7,16 @@
 package com.azure.management.graphrbac.implementation;
 
 import com.azure.core.management.AzureEnvironment;
-import com.azure.management.RestClient;
 import com.azure.management.graphrbac.PasswordCredential;
 import com.azure.management.graphrbac.models.PasswordCredentialInner;
 import com.azure.management.resources.fluentcore.model.implementation.IndexableRefreshableWrapperImpl;
-import com.azure.management.resources.fluentcore.utils.Utils;
 import com.google.common.io.BaseEncoding;
-import org.joda.time.DateTime;
-import org.joda.time.Duration;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 
 /**
  * Implementation for ServicePrincipal and its parent interfaces.
@@ -37,7 +35,7 @@ class PasswordCredentialImpl<T>
     PasswordCredentialImpl(PasswordCredentialInner passwordCredential) {
         super(passwordCredential);
         if (passwordCredential.getCustomKeyIdentifier() != null && passwordCredential.getCustomKeyIdentifier().length > 0) {
-            this.name = new String(passwordCredential.getCustomKeyIdentifier());
+            this.name = new String(BaseEncoding.base64().decode(new String(passwordCredential.getCustomKeyIdentifier())));
         } else {
             this.name = passwordCredential.getKeyId();
         }
@@ -46,8 +44,8 @@ class PasswordCredentialImpl<T>
     PasswordCredentialImpl(String name, HasCredential<?> parent) {
         super(new PasswordCredentialInner()
                 .setCustomKeyIdentifier(BaseEncoding.base64().encode(name.getBytes()).getBytes())
-                .setStartDate(DateTime.now())
-                .setEndDate(DateTime.now().plusYears(1)));
+                .setStartDate(OffsetDateTime.now())
+                .setEndDate(OffsetDateTime.now().plusYears(1)));
         this.name = name;
         this.parent = parent;
     }
@@ -63,12 +61,12 @@ class PasswordCredentialImpl<T>
     }
 
     @Override
-    public DateTime startDate() {
+    public OffsetDateTime startDate() {
         return getInner().getStartDate();
     }
 
     @Override
-    public DateTime endDate() {
+    public OffsetDateTime endDate() {
         return getInner().getEndDate();
     }
 
@@ -92,17 +90,17 @@ class PasswordCredentialImpl<T>
     }
 
     @Override
-    public PasswordCredentialImpl<T> withStartDate(DateTime startDate) {
-        DateTime original = startDate();
+    public PasswordCredentialImpl<T> withStartDate(OffsetDateTime startDate) {
+        OffsetDateTime original = startDate();
         getInner().setStartDate(startDate);
         // Adjust end time
-        withDuration(Duration.millis(endDate().getMillis() - original.getMillis()));
+        withDuration(Duration.between(original, endDate()));
         return this;
     }
 
     @Override
     public PasswordCredentialImpl<T> withDuration(Duration duration) {
-        getInner().setEndDate(startDate().plus(duration.getMillis()));
+        getInner().setEndDate(startDate().plus(duration));
         return this;
     }
 

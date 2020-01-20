@@ -79,7 +79,7 @@ public final class RoleDefinitionsInner {
         @Get("/{scope}/providers/Microsoft.Authorization/roleDefinitions")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<RoleDefinitionListResultInner>> list(@HostParam("$host") String host, @PathParam(value = "scope", encoded = true) String scope, @QueryParam("$filter") String filter, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<RoleDefinitionListResultInner>> list(@HostParam("$host") String host, @PathParam(value = "scope", encoded = true) String scope, @QueryParam("%24filter") String filter, @QueryParam("api-version") String apiVersion);
 
         @Get("/{roleId}")
         @ExpectedResponses({200})

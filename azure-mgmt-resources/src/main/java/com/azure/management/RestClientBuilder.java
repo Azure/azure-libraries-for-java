@@ -15,7 +15,6 @@ import com.azure.core.http.policy.HttpLoggingPolicy;
 import com.azure.core.http.policy.HttpPipelinePolicy;
 import com.azure.core.http.policy.HttpPolicyProviders;
 import com.azure.core.http.policy.RetryPolicy;
-import com.azure.core.http.policy.UserAgentPolicy;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.util.Configuration;
 import com.azure.core.util.logging.ClientLogger;
@@ -41,7 +40,9 @@ public final class RestClientBuilder {
     private HttpLogOptions httpLogOptions;
     private Configuration configuration;
     private SerializerAdapter serializerAdapter;
-    private String clientId;
+    private List<String> scopes;
+
+    private static final String[] defaultScopes = new String[] { AzureEnvironment.AZURE.getResourceManagerEndpoint() + "/.default" };
 
     private final RetryPolicy retryPolicy;
 
@@ -52,6 +53,7 @@ public final class RestClientBuilder {
         retryPolicy = new RetryPolicy();
         httpLogOptions = new HttpLogOptions().setLogLevel(HttpLogDetailLevel.BODY_AND_HEADERS);
         policies = new ArrayList<>();
+        scopes = new ArrayList<>();
     }
 
     public RestClient buildClient() {
@@ -68,7 +70,7 @@ public final class RestClientBuilder {
         // Closest to API goes first, closest to wire goes last.
         final List<HttpPipelinePolicy> policies = new ArrayList<>();
         policies.add(new UserAgentPolicy(httpLogOptions, configuration));
-        // TODO Add credential policy
+        policies.add(new BearerTokenAuthenticationPolicy(this.credential, this.getScopes()));
 
         HttpPolicyProviders.addBeforeRetryPolicies(policies);
         policies.add(retryPolicy);
@@ -147,9 +149,13 @@ public final class RestClientBuilder {
         return this;
     }
 
-    public RestClientBuilder withClientId(String clientId) {
-        this.clientId = clientId;
+    public RestClientBuilder withScope(String scope) {
+        this.scopes.add(scope);
         return this;
+    }
+
+    public String[] getScopes() {
+        return this.scopes.isEmpty() ? defaultScopes : this.scopes.toArray(new String[0]);
     }
 
     public SerializerAdapter getSerializerAdapter() {

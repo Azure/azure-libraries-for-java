@@ -165,7 +165,6 @@ public abstract class TestBase {
                     .withBaseUrl(playbackUri + "/")
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     .withPolicy(new CookiePolicy())
-                    .withPolicy(new BearerTokenAuthenticationPolicy(credentials, credentials.getClientId() + "/.default"))
                     .withCredential(credentials), true);
 
             defaultSubscription = ZERO_SUBSCRIPTION;
@@ -197,7 +196,6 @@ public abstract class TestBase {
                     .withBaseUrl(this.baseUri())
                     .withSerializerAdapter(new AzureJacksonAdapter())
                     .withPolicy(new CookiePolicy())
-                    .withPolicy(new BearerTokenAuthenticationPolicy(credentials, credentials.getClientId() + "/.default"))
                     // .withNetworkInterceptor(new ResourceGroupTaggingInterceptor())
                     .withCredential(credentials);
             restClient = buildRestClient(builder, false);

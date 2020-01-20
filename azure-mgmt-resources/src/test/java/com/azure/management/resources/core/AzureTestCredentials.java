@@ -8,6 +8,7 @@ package com.azure.management.resources.core;
 
 
 import com.azure.core.credential.AccessToken;
+import com.azure.core.credential.TokenRequestContext;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.management.ApplicationTokenCredential;
 import reactor.core.publisher.Mono;
@@ -33,9 +34,9 @@ public class AzureTestCredentials extends ApplicationTokenCredential {
     }
 
     @Override
-    public Mono<AccessToken> getToken(String resource) {
+    public Mono<AccessToken> getToken(TokenRequestContext request) {
         if (!isPlaybackMode) {
-            super.getToken(resource);
+            super.getToken(request);
         }
         return Mono.just(new AccessToken("https:/asdd.com", OffsetDateTime.MAX));
     }

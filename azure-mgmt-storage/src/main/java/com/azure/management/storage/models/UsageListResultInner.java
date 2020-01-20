@@ -7,7 +7,6 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.storage.Usage;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public final class UsageListResultInner {
      * Gets or sets the list of Storage Resource Usages.
      */
     @JsonProperty(value = "value")
-    private List<Usage> value;
+    private List<UsageInner> value;
 
     /**
      * Get the value property: Gets or sets the list of Storage Resource
@@ -28,7 +27,7 @@ public final class UsageListResultInner {
      * 
      * @return the value value.
      */
-    public List<Usage> getValue() {
+    public List<UsageInner> getValue() {
         return this.value;
     }
 
@@ -39,7 +38,7 @@ public final class UsageListResultInner {
      * @param value the value value to set.
      * @return the UsageListResultInner object itself.
      */
-    public UsageListResultInner setValue(List<Usage> value) {
+    public UsageListResultInner setValue(List<UsageInner> value) {
         this.value = value;
         return this;
     }

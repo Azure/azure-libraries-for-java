@@ -18,7 +18,6 @@ import com.azure.management.storage.Identity;
 import com.azure.management.storage.Kind;
 import com.azure.management.storage.NetworkRuleSet;
 import com.azure.management.storage.ProvisioningState;
-import com.azure.management.storage.Sku;
 import com.azure.management.storage.TrackedResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
@@ -33,7 +32,7 @@ public class StorageAccountInner extends TrackedResource {
      * The SKU of the storage account.
      */
     @JsonProperty(value = "sku", access = JsonProperty.Access.WRITE_ONLY)
-    private Sku sku;
+    private SkuInner sku;
 
     /*
      * Indicates the type of storage account.
@@ -175,7 +174,7 @@ public class StorageAccountInner extends TrackedResource {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public SkuInner getSku() {
         return this.sku;
     }
 

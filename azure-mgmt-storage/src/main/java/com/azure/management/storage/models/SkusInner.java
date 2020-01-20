@@ -23,7 +23,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.storage.Sku;
 import reactor.core.publisher.Mono;
 
 /**
@@ -71,7 +70,7 @@ public final class SkusInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Sku>> listSinglePageAsync() {
+    public Mono<PagedResponse<SkuInner>> listSinglePageAsync() {
         return service.list(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -88,7 +87,7 @@ public final class SkusInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Sku> listAsync() {
+    public PagedFlux<SkuInner> listAsync() {
         return new PagedFlux<>(
             () -> listSinglePageAsync());
     }
@@ -100,7 +99,7 @@ public final class SkusInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Sku> list() {
+    public PagedIterable<SkuInner> list() {
         return new PagedIterable<>(listAsync());
     }
 }

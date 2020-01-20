@@ -7,8 +7,8 @@ package com.azure.management.storage.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
-import com.azure.management.storage.Usage;
 import com.azure.management.storage.Usages;
+import com.azure.management.storage.models.UsageInner;
 import com.azure.management.storage.models.UsagesInner;
 
 /**
@@ -30,12 +30,12 @@ class UsagesImpl
     }
 
     @Override
-    public PagedIterable<Usage> list() {
+    public PagedIterable<UsageInner> list() {
         return null;
     }
 
     @Override
-    public PagedFlux<Usage> listAsync() {
+    public PagedFlux<UsageInner> listAsync() {
         return null;
     }
 

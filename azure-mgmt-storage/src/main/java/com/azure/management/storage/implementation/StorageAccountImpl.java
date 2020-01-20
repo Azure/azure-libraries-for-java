@@ -15,20 +15,19 @@ import com.azure.management.storage.Identity;
 import com.azure.management.storage.Kind;
 import com.azure.management.storage.ProvisioningState;
 import com.azure.management.storage.PublicEndpoints;
-import com.azure.management.storage.Sku;
 import com.azure.management.storage.SkuName;
 import com.azure.management.storage.StorageAccount;
-import com.azure.management.storage.StorageAccountCreateParameters;
 import com.azure.management.storage.StorageAccountEncryptionKeySource;
 import com.azure.management.storage.StorageAccountEncryptionStatus;
 import com.azure.management.storage.StorageAccountKey;
 import com.azure.management.storage.StorageAccountRegenerateKeyParameters;
 import com.azure.management.storage.StorageAccountSkuType;
-import com.azure.management.storage.StorageAccountUpdateParameters;
 import com.azure.management.storage.StorageService;
+import com.azure.management.storage.models.SkuInner;
+import com.azure.management.storage.models.StorageAccountCreateParametersInner;
 import com.azure.management.storage.models.StorageAccountInner;
+import com.azure.management.storage.models.StorageAccountUpdateParametersInner;
 import com.azure.management.storage.models.StorageAccountsInner;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.time.OffsetDateTime;
@@ -51,8 +50,8 @@ class StorageAccountImpl
 
     private PublicEndpoints publicEndpoints;
     private AccountStatuses accountStatuses;
-    private StorageAccountCreateParameters createParameters;
-    private StorageAccountUpdateParameters updateParameters;
+    private StorageAccountCreateParametersInner createParameters;
+    private StorageAccountUpdateParametersInner updateParameters;
     private StorageNetworkRulesHelper networkRulesHelper;
     private StorageEncryptionHelper encryptionHelper;
 
@@ -60,7 +59,7 @@ class StorageAccountImpl
                        StorageAccountInner innerModel,
                        final StorageManager storageManager) {
         super(name, innerModel, storageManager);
-        this.createParameters = new StorageAccountCreateParameters();
+        this.createParameters = new StorageAccountCreateParametersInner();
         this.networkRulesHelper = new StorageNetworkRulesHelper(this.createParameters);
         this.encryptionHelper = new StorageEncryptionHelper(this.createParameters);
     }
@@ -71,12 +70,6 @@ class StorageAccountImpl
             accountStatuses = new AccountStatuses(this.getInner().getStatusOfPrimary(), this.getInner().getStatusOfSecondary());
         }
         return accountStatuses;
-    }
-
-    @Override
-    @Deprecated
-    public Sku sku() {
-        return new Sku().setName(this.getInner().getSku().getName());
     }
 
     @Override
@@ -260,9 +253,9 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl withSku(StorageAccountSkuType sku) {
         if (isInCreateMode()) {
-            createParameters.setSku(new Sku().setName(sku.name()));
+            createParameters.setSku(new SkuInner().setName(sku.name()));
         } else {
-            updateParameters.setSku(new Sku().setName(sku.name()));
+            updateParameters.setSku(new SkuInner().setName(sku.name()));
         }
         return this;
     }
@@ -347,7 +340,7 @@ class StorageAccountImpl
     @Override
     public StorageAccountImpl update() {
         createParameters = null;
-        updateParameters = new StorageAccountUpdateParameters();
+        updateParameters = new StorageAccountUpdateParametersInner();
         this.networkRulesHelper = new StorageNetworkRulesHelper(this.updateParameters, this.getInner());
         this.encryptionHelper = new StorageEncryptionHelper(this.updateParameters, this.getInner());
         return super.update();

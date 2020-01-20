@@ -9,7 +9,8 @@ package com.azure.management.keyvault.implementation;
 
 import com.azure.management.keyvault.CheckNameAvailabilityResult;
 import com.azure.management.keyvault.Reason;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.keyvault.models.CheckNameAvailabilityResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 /**
  * The CheckNameAvailability operation response.
@@ -23,17 +24,17 @@ public class CheckNameAvailabilityResultImpl extends WrapperImpl<CheckNameAvaila
 
     @Override
     public Boolean nameAvailable() {
-        return inner().nameAvailable();
+        return getInner().isNameAvailable();
     }
 
     @Override
     public Reason reason() {
-        return inner().reason();
+        return getInner().getReason();
     }
 
     @Override
     public String message() {
-        return inner().message();
+        return getInner().getMessage();
     }
 
 }

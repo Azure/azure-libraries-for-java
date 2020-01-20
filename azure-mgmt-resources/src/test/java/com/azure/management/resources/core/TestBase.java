@@ -7,9 +7,12 @@
 package com.azure.management.resources.core;
 
 import com.azure.core.http.policy.CookiePolicy;
+<<<<<<< HEAD
 import com.azure.core.http.policy.HostPolicy;
 import com.azure.core.http.policy.HttpLogDetailLevel;
 import com.azure.core.http.policy.HttpLogOptions;
+=======
+>>>>>>> vnext
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
 import com.azure.core.util.Configuration;

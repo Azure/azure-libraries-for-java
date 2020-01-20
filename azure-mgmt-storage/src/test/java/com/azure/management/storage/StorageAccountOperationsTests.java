@@ -54,7 +54,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
                 .createAsync();
         StorageAccount storageAccount = Utils.<StorageAccount>rootResource(resourceStream.last()).block();
         Assert.assertEquals(RG_NAME, storageAccount.getResourceGroupName());
-        Assert.assertEquals(SkuName.STANDARD_GRS, storageAccount.sku().getName());
+        Assert.assertEquals(SkuName.STANDARD_GRS, storageAccount.skuType().name());
         Assert.assertTrue(storageAccount.isHnsEnabled());
         Assert.assertFalse(storageAccount.isAzureFilesAadIntegrationEnabled());
         // List
@@ -106,7 +106,7 @@ public class StorageAccountOperationsTests extends StorageManagementTest {
                 .withSku(SkuName.STANDARD_LRS)
                 .withTag("tag2", "value2")
                 .apply();
-        Assert.assertEquals(SkuName.STANDARD_LRS, storageAccount.sku().getName());
+        Assert.assertEquals(SkuName.STANDARD_LRS, storageAccount.skuType().name());
         Assert.assertEquals(2, storageAccount.getTags().size());
     }
 

@@ -23,7 +23,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.storage.Usage;
 import reactor.core.publisher.Mono;
 
 /**
@@ -74,7 +73,7 @@ public final class UsagesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PagedResponse<Usage>> listByLocationSinglePageAsync(String location) {
+    public Mono<PagedResponse<UsageInner>> listByLocationSinglePageAsync(String location) {
         return service.listByLocation(this.client.getHost(), this.client.getSubscriptionId(), location, this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
             res.getRequest(),
             res.getStatusCode(),
@@ -93,7 +92,7 @@ public final class UsagesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedFlux<Usage> listByLocationAsync(String location) {
+    public PagedFlux<UsageInner> listByLocationAsync(String location) {
         return new PagedFlux<>(
             () -> listByLocationSinglePageAsync(location));
     }
@@ -107,7 +106,7 @@ public final class UsagesInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.COLLECTION)
-    public PagedIterable<Usage> listByLocation(String location) {
+    public PagedIterable<UsageInner> listByLocation(String location) {
         return new PagedIterable<>(listByLocationAsync(location));
     }
 }

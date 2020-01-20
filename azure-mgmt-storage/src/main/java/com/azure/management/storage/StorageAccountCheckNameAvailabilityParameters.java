@@ -27,6 +27,14 @@ public final class StorageAccountCheckNameAvailabilityParameters {
     private String type;
 
     /**
+     * Creates an instance of StorageAccountCheckNameAvailabilityParameters
+     * class.
+     */
+    public StorageAccountCheckNameAvailabilityParameters() {
+        type = "Microsoft.Storage/storageAccounts";
+    }
+
+    /**
      * Get the name property: The storage account name.
      * 
      * @return the name value.

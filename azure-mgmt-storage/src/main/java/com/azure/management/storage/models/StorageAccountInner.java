@@ -7,6 +7,7 @@
 package com.azure.management.storage.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.azure.management.storage.AccessTier;
 import com.azure.management.storage.AccountStatus;
 import com.azure.management.storage.CustomDomain;
@@ -17,7 +18,6 @@ import com.azure.management.storage.Identity;
 import com.azure.management.storage.Kind;
 import com.azure.management.storage.NetworkRuleSet;
 import com.azure.management.storage.ProvisioningState;
-import com.azure.management.storage.Sku;
 import com.azure.management.storage.TrackedResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
@@ -25,13 +25,14 @@ import java.time.OffsetDateTime;
 /**
  * The StorageAccount model.
  */
+@JsonFlatten
 @Fluent
-public final class StorageAccountInner extends TrackedResource {
+public class StorageAccountInner extends TrackedResource {
     /*
      * The SKU of the storage account.
      */
     @JsonProperty(value = "sku", access = JsonProperty.Access.WRITE_ONLY)
-    private Sku sku;
+    private SkuInner sku;
 
     /*
      * Indicates the type of storage account.
@@ -173,7 +174,7 @@ public final class StorageAccountInner extends TrackedResource {
      * 
      * @return the sku value.
      */
-    public Sku getSku() {
+    public SkuInner getSku() {
         return this.sku;
     }
 

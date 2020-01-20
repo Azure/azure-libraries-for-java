@@ -11,11 +11,11 @@ import com.azure.management.storage.BlobContainer;
 import com.azure.management.storage.BlobContainers;
 import com.azure.management.storage.ImmutabilityPolicy;
 import com.azure.management.storage.LegalHold;
-import com.azure.management.storage.ListContainerItem;
 import com.azure.management.storage.models.BlobContainerInner;
 import com.azure.management.storage.models.BlobContainersInner;
 import com.azure.management.storage.models.ImmutabilityPolicyInner;
 import com.azure.management.storage.models.LegalHoldInner;
+import com.azure.management.storage.models.ListContainerItemInner;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -69,7 +69,7 @@ class BlobContainersImpl extends WrapperImpl<BlobContainersInner> implements Blo
     }
 
     @Override
-    public Flux<ListContainerItem> listAsync(String resourceGroupName, String accountName) {
+    public Flux<ListContainerItemInner> listAsync(String resourceGroupName, String accountName) {
         BlobContainersInner client = this.getInner();
         return client.listAsync(resourceGroupName, accountName)
                 .flatMapMany(inners -> Flux.fromIterable(inners.getValue()));

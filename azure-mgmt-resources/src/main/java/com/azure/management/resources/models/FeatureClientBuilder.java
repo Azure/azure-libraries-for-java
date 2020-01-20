@@ -19,7 +19,6 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.http.rest.PagedResponse;
 import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.management.AzureEnvironment;
-import com.azure.management.resources.Operation;
 import reactor.core.publisher.Mono;
 
 /**

@@ -8,8 +8,8 @@ package com.azure.management.storage.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
-import com.azure.management.storage.Sku;
 import com.azure.management.storage.StorageSkus;
+import com.azure.management.storage.models.SkuInner;
 import com.azure.management.storage.models.SkusInner;
 
 /**
@@ -31,12 +31,12 @@ class StorageSkusImpl
     }
 
     @Override
-    public PagedIterable<Sku> list() {
+    public PagedIterable<SkuInner> list() {
         return this.getInner().list();
     }
 
     @Override
-    public PagedFlux<Sku> listAsync() {
+    public PagedFlux<SkuInner> listAsync() {
         return this.getInner().listAsync();
     }
 

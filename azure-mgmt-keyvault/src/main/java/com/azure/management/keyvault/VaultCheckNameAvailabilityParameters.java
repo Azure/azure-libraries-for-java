@@ -27,6 +27,13 @@ public final class VaultCheckNameAvailabilityParameters {
     private String type;
 
     /**
+     * Creates an instance of VaultCheckNameAvailabilityParameters class.
+     */
+    public VaultCheckNameAvailabilityParameters() {
+        type = "Microsoft.KeyVault/vaults";
+    }
+
+    /**
      * Get the name property: The vault name.
      * 
      * @return the name value.

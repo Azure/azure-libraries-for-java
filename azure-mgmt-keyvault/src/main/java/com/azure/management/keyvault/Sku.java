@@ -28,6 +28,13 @@ public final class Sku {
     private SkuName name;
 
     /**
+     * Creates an instance of Sku class.
+     */
+    public Sku() {
+        family = "A";
+    }
+
+    /**
      * Get the family property: SKU family name.
      * 
      * @return the family value.

@@ -30,10 +30,13 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.core.management.Resource;
+import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.keyvault.AccessPolicyUpdateKind;
 import com.azure.management.keyvault.VaultCheckNameAvailabilityParameters;
 import com.azure.management.keyvault.VaultCreateOrUpdateParameters;
 import com.azure.management.keyvault.VaultPatchParameters;
+import java.nio.ByteBuffer;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -72,7 +75,7 @@ public final class VaultsInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VaultInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vaultName") String vaultName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VaultCreateOrUpdateParameters parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vaultName") String vaultName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") VaultCreateOrUpdateParameters parameters, @QueryParam("api-version") String apiVersion);
 
         @Patch("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}")
         @ExpectedResponses({200, 201})
@@ -87,7 +90,7 @@ public final class VaultsInner {
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}")
         @ExpectedResponses({200})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<SimpleResponse<VaultInner>> get(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vaultName") String vaultName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<VaultInner>> getByResourceGroup(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("vaultName") String vaultName, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}/accessPolicies/{operationKind}")
         @ExpectedResponses({200, 201})
@@ -117,7 +120,7 @@ public final class VaultsInner {
         @Post("/subscriptions/{subscriptionId}/providers/Microsoft.KeyVault/locations/{location}/deletedVaults/{vaultName}/purge")
         @ExpectedResponses({200, 202})
         @UnexpectedResponseExceptionType(CloudException.class)
-        Mono<Response<Void>> purgeDeleted(@HostParam("$host") String host, @PathParam("vaultName") String vaultName, @PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<Flux<ByteBuffer>>> purgeDeleted(@HostParam("$host") String host, @PathParam("vaultName") String vaultName, @PathParam("location") String location, @PathParam("subscriptionId") String subscriptionId, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resources")
         @ExpectedResponses({200})
@@ -160,33 +163,79 @@ public final class VaultsInner {
         Mono<SimpleResponse<ResourceListResultInner>> listNext(@PathParam(value = "nextLink", encoded = true) String nextLink);
     }
 
+    /**
+     * Create or update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VaultInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParameters parameters) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> createOrUpdateWithResponseAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParameters parameters) {
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, vaultName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Create or update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VaultInner> createOrUpdateAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParameters parameters) {
-        return createOrUpdateWithResponseAsync(resourceGroupName, vaultName, parameters)
-            .flatMap((SimpleResponse<VaultInner> res) -> {
-                if (res.getValue() != null) {
-                    return Mono.just(res.getValue());
-                } else {
-                    return Mono.empty();
-                }
-            });
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = createOrUpdateWithResponseAsync(resourceGroupName, vaultName, parameters);
+        return client.<VaultInner, VaultInner>getLroResultAsync(response, client.getHttpPipeline(), VaultInner.class, VaultInner.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Create or update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public VaultInner createOrUpdate(String resourceGroupName, String vaultName, VaultCreateOrUpdateParameters parameters) {
         return createOrUpdateAsync(resourceGroupName, vaultName, parameters).block();
     }
 
+    /**
+     * Update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<VaultInner>> updateWithResponseAsync(String resourceGroupName, String vaultName, VaultPatchParameters parameters) {
         return service.update(this.client.getHost(), resourceGroupName, vaultName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VaultInner> updateAsync(String resourceGroupName, String vaultName, VaultPatchParameters parameters) {
         return updateWithResponseAsync(resourceGroupName, vaultName, parameters)
@@ -199,35 +248,90 @@ public final class VaultsInner {
             });
     }
 
+    /**
+     * Update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public VaultInner update(String resourceGroupName, String vaultName, VaultPatchParameters parameters) {
         return updateAsync(resourceGroupName, vaultName, parameters).block();
     }
 
+    /**
+     * Deletes the specified Azure key vault.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> deleteWithResponseAsync(String resourceGroupName, String vaultName) {
         return service.delete(this.client.getHost(), resourceGroupName, vaultName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Deletes the specified Azure key vault.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> deleteAsync(String resourceGroupName, String vaultName) {
         return deleteWithResponseAsync(resourceGroupName, vaultName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Deletes the specified Azure key vault.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void delete(String resourceGroupName, String vaultName) {
         deleteAsync(resourceGroupName, vaultName).block();
     }
 
+    /**
+     * Gets the specified Azure key vault.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VaultInner>> getWithResponseAsync(String resourceGroupName, String vaultName) {
-        return service.get(this.client.getHost(), resourceGroupName, vaultName, this.client.getSubscriptionId(), this.client.getApiVersion());
+    public Mono<SimpleResponse<VaultInner>> getByResourceGroupWithResponseAsync(String resourceGroupName, String vaultName) {
+        return service.getByResourceGroup(this.client.getHost(), resourceGroupName, vaultName, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets the specified Azure key vault.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VaultInner> getAsync(String resourceGroupName, String vaultName) {
-        return getWithResponseAsync(resourceGroupName, vaultName)
+    public Mono<VaultInner> getByResourceGroupAsync(String resourceGroupName, String vaultName) {
+        return getByResourceGroupWithResponseAsync(resourceGroupName, vaultName)
             .flatMap((SimpleResponse<VaultInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -237,16 +341,47 @@ public final class VaultsInner {
             });
     }
 
+    /**
+     * Gets the specified Azure key vault.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VaultInner get(String resourceGroupName, String vaultName) {
-        return getAsync(resourceGroupName, vaultName).block();
+    public VaultInner getByResourceGroup(String resourceGroupName, String vaultName) {
+        return getByResourceGroupAsync(resourceGroupName, vaultName).block();
     }
 
+    /**
+     * Update access policies in a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationKind MISSING·SCHEMA-DESCRIPTION-CHOICE.
+     * @param parameters Parameters for updating the access policy in a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<VaultAccessPolicyParametersInner>> updateAccessPolicyWithResponseAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyParametersInner parameters) {
         return service.updateAccessPolicy(this.client.getHost(), resourceGroupName, vaultName, operationKind, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Update access policies in a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationKind MISSING·SCHEMA-DESCRIPTION-CHOICE.
+     * @param parameters Parameters for updating the access policy in a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VaultAccessPolicyParametersInner> updateAccessPolicyAsync(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyParametersInner parameters) {
         return updateAccessPolicyWithResponseAsync(resourceGroupName, vaultName, operationKind, parameters)
@@ -259,11 +394,31 @@ public final class VaultsInner {
             });
     }
 
+    /**
+     * Update access policies in a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param operationKind MISSING·SCHEMA-DESCRIPTION-CHOICE.
+     * @param parameters Parameters for updating the access policy in a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public VaultAccessPolicyParametersInner updateAccessPolicy(String resourceGroupName, String vaultName, AccessPolicyUpdateKind operationKind, VaultAccessPolicyParametersInner parameters) {
         return updateAccessPolicyAsync(resourceGroupName, vaultName, operationKind, parameters).block();
     }
 
+    /**
+     * The List operation gets information about the vaults associated with the subscription and within the specified resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<VaultInner>> listByResourceGroupSinglePageAsync(String resourceGroupName, Integer top) {
         return service.listByResourceGroup(this.client.getHost(), resourceGroupName, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -275,6 +430,15 @@ public final class VaultsInner {
             null));
     }
 
+    /**
+     * The List operation gets information about the vaults associated with the subscription and within the specified resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<VaultInner> listByResourceGroupAsync(String resourceGroupName, Integer top) {
         return new PagedFlux<>(
@@ -283,8 +447,10 @@ public final class VaultsInner {
     }
 
     /**
-     * @param resourceGroupName null
-     * @param top null
+     * The List operation gets information about the vaults associated with the subscription and within the specified resource group.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -294,6 +460,14 @@ public final class VaultsInner {
         return new PagedIterable<>(listByResourceGroupAsync(resourceGroupName, top));
     }
 
+    /**
+     * The List operation gets information about the vaults associated with the subscription.
+     * 
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<VaultInner>> listBySubscriptionSinglePageAsync(Integer top) {
         return service.listBySubscription(this.client.getHost(), top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -305,6 +479,14 @@ public final class VaultsInner {
             null));
     }
 
+    /**
+     * The List operation gets information about the vaults associated with the subscription.
+     * 
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<VaultInner> listBySubscriptionAsync(Integer top) {
         return new PagedFlux<>(
@@ -313,7 +495,9 @@ public final class VaultsInner {
     }
 
     /**
-     * @param top null
+     * The List operation gets information about the vaults associated with the subscription.
+     * 
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -323,6 +507,12 @@ public final class VaultsInner {
         return new PagedIterable<>(listBySubscriptionAsync(top));
     }
 
+    /**
+     * Gets information about the deleted vaults in a subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeletedVaultInner>> listDeletedSinglePageAsync() {
         return service.listDeleted(this.client.getHost(), this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -334,6 +524,12 @@ public final class VaultsInner {
             null));
     }
 
+    /**
+     * Gets information about the deleted vaults in a subscription.
+     * 
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<DeletedVaultInner> listDeletedAsync() {
         return new PagedFlux<>(
@@ -342,6 +538,8 @@ public final class VaultsInner {
     }
 
     /**
+     * Gets information about the deleted vaults in a subscription.
+     * 
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
@@ -350,11 +548,29 @@ public final class VaultsInner {
         return new PagedIterable<>(listDeletedAsync());
     }
 
+    /**
+     * Gets the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<DeletedVaultInner>> getDeletedWithResponseAsync(String vaultName, String location) {
         return service.getDeleted(this.client.getHost(), vaultName, location, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Gets the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<DeletedVaultInner> getDeletedAsync(String vaultName, String location) {
         return getDeletedWithResponseAsync(vaultName, location)
@@ -367,27 +583,73 @@ public final class VaultsInner {
             });
     }
 
+    /**
+     * Gets the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public DeletedVaultInner getDeleted(String vaultName, String location) {
         return getDeletedAsync(vaultName, location).block();
     }
 
+    /**
+     * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> purgeDeletedWithResponseAsync(String vaultName, String location) {
+    public Mono<SimpleResponse<Flux<ByteBuffer>>> purgeDeletedWithResponseAsync(String vaultName, String location) {
         return service.purgeDeleted(this.client.getHost(), vaultName, location, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> purgeDeletedAsync(String vaultName, String location) {
-        return purgeDeletedWithResponseAsync(vaultName, location)
-            .flatMap((Response<Void> res) -> Mono.empty());
+        Mono<SimpleResponse<Flux<ByteBuffer>>> response = purgeDeletedWithResponseAsync(vaultName, location);
+        return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
+            .last()
+            .flatMap(AsyncPollResponse::getFinalResult);
     }
 
+    /**
+     * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void purgeDeleted(String vaultName, String location) {
         purgeDeletedAsync(vaultName, location).block();
     }
 
+    /**
+     * The List operation gets information about the vaults associated with the subscription.
+     * 
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Resource>> listSinglePageAsync(Integer top) {
         return service.list(this.client.getHost(), filter, top, this.client.getSubscriptionId(), this.client.getApiVersion()).map(res -> new PagedResponseBase<>(
@@ -399,6 +661,14 @@ public final class VaultsInner {
             null));
     }
 
+    /**
+     * The List operation gets information about the vaults associated with the subscription.
+     * 
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.COLLECTION)
     public PagedFlux<Resource> listAsync(Integer top) {
         return new PagedFlux<>(
@@ -407,7 +677,9 @@ public final class VaultsInner {
     }
 
     /**
-     * @param top null
+     * The List operation gets information about the vaults associated with the subscription.
+     * 
+     * @param top MISSING·SCHEMA-DESCRIPTION-INTEGER.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -417,11 +689,27 @@ public final class VaultsInner {
         return new PagedIterable<>(listAsync(top));
     }
 
+    /**
+     * Checks that the vault name is valid and is not already in use.
+     * 
+     * @param vaultName The parameters used to check the availability of the vault name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<CheckNameAvailabilityResultInner>> checkNameAvailabilityWithResponseAsync(VaultCheckNameAvailabilityParameters vaultName) {
         return service.checkNameAvailability(this.client.getHost(), this.client.getSubscriptionId(), vaultName, this.client.getApiVersion());
     }
 
+    /**
+     * Checks that the vault name is valid and is not already in use.
+     * 
+     * @param vaultName The parameters used to check the availability of the vault name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<CheckNameAvailabilityResultInner> checkNameAvailabilityAsync(VaultCheckNameAvailabilityParameters vaultName) {
         return checkNameAvailabilityWithResponseAsync(vaultName)
@@ -434,16 +722,44 @@ public final class VaultsInner {
             });
     }
 
+    /**
+     * Checks that the vault name is valid and is not already in use.
+     * 
+     * @param vaultName The parameters used to check the availability of the vault name.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public CheckNameAvailabilityResultInner checkNameAvailability(VaultCheckNameAvailabilityParameters vaultName) {
         return checkNameAvailabilityAsync(vaultName).block();
     }
 
+    /**
+     * Create or update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<SimpleResponse<VaultInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParameters parameters) {
         return service.beginCreateOrUpdate(this.client.getHost(), resourceGroupName, vaultName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
+    /**
+     * Create or update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<VaultInner> beginCreateOrUpdateAsync(String resourceGroupName, String vaultName, VaultCreateOrUpdateParameters parameters) {
         return beginCreateOrUpdateWithResponseAsync(resourceGroupName, vaultName, parameters)
@@ -456,27 +772,72 @@ public final class VaultsInner {
             });
     }
 
+    /**
+     * Create or update a key vault in the specified subscription.
+     * 
+     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param parameters Parameters for creating or updating a vault.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public VaultInner beginCreateOrUpdate(String resourceGroupName, String vaultName, VaultCreateOrUpdateParameters parameters) {
         return beginCreateOrUpdateAsync(resourceGroupName, vaultName, parameters).block();
     }
 
+    /**
+     * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Response<Void>> beginPurgeDeletedWithResponseAsync(String vaultName, String location) {
         return service.beginPurgeDeleted(this.client.getHost(), vaultName, location, this.client.getSubscriptionId(), this.client.getApiVersion());
     }
 
+    /**
+     * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<Void> beginPurgeDeletedAsync(String vaultName, String location) {
         return beginPurgeDeletedWithResponseAsync(vaultName, location)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
+    /**
+     * Permanently deletes the specified vault. aka Purges the deleted Azure key vault.
+     * 
+     * @param vaultName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public void beginPurgeDeleted(String vaultName, String location) {
         beginPurgeDeletedAsync(vaultName, location).block();
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<VaultInner>> listByResourceGroupNextSinglePageAsync(String nextLink) {
         return service.listByResourceGroupNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -488,6 +849,14 @@ public final class VaultsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<VaultInner>> listBySubscriptionNextSinglePageAsync(String nextLink) {
         return service.listBySubscriptionNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -499,6 +868,14 @@ public final class VaultsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<DeletedVaultInner>> listDeletedNextSinglePageAsync(String nextLink) {
         return service.listDeletedNext(nextLink).map(res -> new PagedResponseBase<>(
@@ -510,6 +887,14 @@ public final class VaultsInner {
             null));
     }
 
+    /**
+     * Get the next page of items.
+     * 
+     * @param nextLink null
+     * @throws IllegalArgumentException thrown if parameters fail the validation.
+     * @throws CloudException thrown if the request is rejected by server.
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
+     */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<PagedResponse<Resource>> listNextSinglePageAsync(String nextLink) {
         return service.listNext(nextLink).map(res -> new PagedResponseBase<>(

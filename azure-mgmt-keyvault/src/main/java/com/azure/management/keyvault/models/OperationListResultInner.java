@@ -7,7 +7,6 @@
 package com.azure.management.keyvault.models;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.keyvault.Operation;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public final class OperationListResultInner {
      * List of Storage operations supported by the Storage resource provider.
      */
     @JsonProperty(value = "value")
-    private List<Operation> value;
+    private List<OperationInner> value;
 
     /*
      * The URL to get the next set of operations.
@@ -34,7 +33,7 @@ public final class OperationListResultInner {
      * 
      * @return the value value.
      */
-    public List<Operation> getValue() {
+    public List<OperationInner> getValue() {
         return this.value;
     }
 
@@ -45,7 +44,7 @@ public final class OperationListResultInner {
      * @param value the value value to set.
      * @return the OperationListResultInner object itself.
      */
-    public OperationListResultInner setValue(List<Operation> value) {
+    public OperationListResultInner setValue(List<OperationInner> value) {
         this.value = value;
         return this;
     }

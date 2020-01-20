@@ -32,6 +32,13 @@
     },
     {
       "file": [
+        "azure\\src\\test\\resources\\session-records\\testVirtualNetworkGatewayPointToSite.json"
+      ],
+      "_justification": "[AzureClient] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-compute\\src\\test\\resources\\session-records\\canCreateVirtualMachineScaleSetWithSecret.json",
         "azure-mgmt-compute\\src\\test\\resources\\session-records\\canEnableDiagnosticsExtension.json",
         "azure-mgmt-compute\\src\\test\\resources\\session-records\\canOperateOnEmptyManagedDisk.json",
         "azure-mgmt-compute\\src\\test\\resources\\session-records\\canUpdateVirtualMachineScaleSetWithExtensionProtectedSettings.json",
@@ -41,7 +48,24 @@
     },
     {
       "file": [
+        "azure-mgmt-containerregistry\\src\\test\\resources\\session-records\\GetLogSasUrl.json"
+      ],
+      "_justification": "[ContainerRegistry] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
         "azure-mgmt-datalake-analytics\\src\\test\\resources\\session-records\\canCreateGetUpdateDeleteAdlaAccount.json"
+      ],
+      "_justification": "[DatalakeAnalytics] Transient secret values exist in session records when operating the short-lived resources."
+    },
+    {
+      "file": [
+        "azure-mgmt-graph-rbac\\src\\test\\resources\\session-records\\canCRUDRoleAssignment.json",
+        "azure-mgmt-graph-rbac\\src\\test\\resources\\session-records\\canCreateUser.json",
+        "azure-mgmt-graph-rbac\\src\\test\\resources\\session-records\\canUpdateUser.json",
+        "azure-mgmt-graph-rbac\\src\\test\\resources\\session-records\\canCRUDServicePrincipal.json",
+        "azure-mgmt-graph-rbac\\src\\test\\resources\\session-records\\canCRUDApplication.json",
+        "azure-mgmt-graph-rbac\\src\\test\\resources\\session-records\\canCRUDGroup.json"
       ],
       "_justification": "[DatalakeAnalytics] Transient secret values exist in session records when operating the short-lived resources."
     },
@@ -54,10 +78,11 @@
     },
     {
       "file": [
-        "azure-mgmt-eventhub\\src\\test\\resources\\session-records\\canConfigureEventHubDataCapturing.json",
-        "azure-mgmt-eventhub\\src\\test\\resources\\session-records\\canEnableEventHubDataCaptureOnUpdate.json"
+        "azure-mgmt-keyvault\\src\\test\\resources\\session-records\\canCRUDVault.json",
+        "azure-mgmt-keyvault\\src\\test\\resources\\session-records\\canCRUDVaultAsync.json",
+        "azure-mgmt-keyvault\\src\\test\\resources\\session-records\\canEnableSoftDeleteAndPurge.json"
       ],
-      "_justification": "[EventHub] Transient secret values exist in session records when operating the short-lived resources."
+      "_justification": "[KeyVault] Transient secret values exist in session records when operating the short-lived resources."
     },
     {
       "file": [
@@ -81,7 +106,8 @@
         "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageBatchAccount.json",
         "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageRedisCache.json",
         "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageStorageAccount.json",
-        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageWebAppStorageAccountConnection.json"
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageWebAppStorageAccountConnection.json",
+        "azure-mgmt-resources\\src\\test\\resources\\session-records\\testManageKeyVault.json"
       ],
       "_justification": "[Resources] Transient secret values exist in session records when operating the short-lived resources."
     },
@@ -140,6 +166,7 @@
         "azure-samples\\src\\test\\resources\\session-records\\testServiceBusQueueAdvanceFeatures.json",
         "azure-samples\\src\\test\\resources\\session-records\\testServiceBusQueueBasic.json",
         "azure-samples\\src\\test\\resources\\session-records\\testServiceBusWithClaimBasedAuthorization.json",
+        "azure-samples\\src\\test\\resources\\session-records\\testManageKeyVault.json",
         "azure\\src\\test\\resources\\session-records\\testBatchAI.json",
         "azure\\src\\test\\resources\\session-records\\testRedis.json"
       ],

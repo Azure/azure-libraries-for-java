@@ -59,13 +59,13 @@ public class ApplicationTokenCredential extends AzureTokenCredential {
 
 
     @Override
-    public synchronized Mono<AccessToken> getToken(String resource) {
+    public synchronized Mono<AccessToken> getToken(TokenRequestContext request) {
         // TODO: Add client certificate token
         ClientSecretCredential clientSecretCredential = new ClientSecretCredentialBuilder()
                 .clientId(this.getClientId())
                 .clientSecret(this.getClientSecret())
                 .tenantId(getDomain())
                 .build();
-        return clientSecretCredential.getToken(new TokenRequestContext().addScopes(this.getDefaultScope()));
+        return clientSecretCredential.getToken(request);
     }
 }

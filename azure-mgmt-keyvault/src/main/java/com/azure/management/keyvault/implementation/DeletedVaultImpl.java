@@ -11,7 +11,6 @@ import java.time.OffsetDateTime;
 import java.util.Map;
 
 import com.azure.management.keyvault.models.DeletedVaultInner;
-
 import com.azure.management.keyvault.DeletedVault;
 import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
@@ -25,12 +24,12 @@ public class DeletedVaultImpl extends WrapperImpl<DeletedVaultInner> implements 
     }
 
     @Override
-    public String name() {
+    public String getName() {
         return getInner().getName();
     }
 
     @Override
-    public String id() {
+    public String getId() {
         return getInner().getId();
     }
 

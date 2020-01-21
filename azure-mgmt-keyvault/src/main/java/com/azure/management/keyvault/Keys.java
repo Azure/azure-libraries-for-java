@@ -8,7 +8,7 @@ package com.azure.management.keyvault;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-//import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByNameAsync;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
 import com.azure.management.resources.fluentcore.collection.SupportsCreating;
 import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
 import com.azure.management.resources.fluentcore.collection.SupportsListing;
@@ -22,7 +22,7 @@ public interface Keys extends
         SupportsCreating<Key.DefinitionStages.Blank>,
         SupportsDeletingById,
         SupportsGettingById<Key>,
-//        SupportsGettingByNameAsync<Key>,
+        SupportsGettingByName<Key>,
         SupportsListing<Key> {
     /**
      * Gets a Key Vault key.

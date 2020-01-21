@@ -26,9 +26,15 @@ import reactor.core.publisher.Mono;
  * Entry point for key vaults management API.
  */
 @Fluent
-public interface Vaults extends SupportsCreating<Vault.DefinitionStages.Blank>, SupportsDeletingById,
-        SupportsListingByResourceGroup<Vault>, SupportsGettingByResourceGroup<Vault>, SupportsGettingById<Vault>,
-        SupportsDeletingByResourceGroup, HasManager<KeyVaultManager>, HasInner<VaultsInner> {
+public interface Vaults extends
+        SupportsCreating<Vault.DefinitionStages.Blank>,
+        SupportsDeletingById,
+        SupportsListingByResourceGroup<Vault>,
+        SupportsGettingByResourceGroup<Vault>,
+        SupportsGettingById<Vault>,
+        SupportsDeletingByResourceGroup,
+        HasManager<KeyVaultManager>,
+        HasInner<VaultsInner> {
 
     /**
      * Gets information about the deleted vaults in a subscription.

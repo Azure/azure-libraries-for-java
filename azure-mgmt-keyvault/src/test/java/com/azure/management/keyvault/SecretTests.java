@@ -6,15 +6,14 @@
 
 package com.azure.management.keyvault;
 
-import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.keyvault.SecretIdentifier;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.ApplicationTokenCredential;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
 import org.junit.Assert;
 import org.junit.Ignore;
 
 import java.io.File;
-import java.util.List;
 
 public class SecretTests extends KeyVaultManagementTest {
     @Ignore("Mock framework doesn't support data plane")
@@ -22,13 +21,13 @@ public class SecretTests extends KeyVaultManagementTest {
         String vaultName = SdkContext.randomResourceName("vault", 20);
         String secretName = SdkContext.randomResourceName("secret", 20);
 
-        ApplicationTokenCredentials credentials = ApplicationTokenCredentials.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
+        ApplicationTokenCredential credentials = ApplicationTokenCredential.fromFile(new File(System.getenv("AZURE_AUTH_LOCATION")));
 
         Vault vault = keyVaultManager.vaults().define(vaultName)
                 .withRegion(Region.US_WEST)
                 .withNewResourceGroup(RG_NAME)
                 .defineAccessPolicy()
-                    .forServicePrincipal(credentials.clientId())
+                    .forServicePrincipal(credentials.getClientId())
                     .allowSecretAllPermissions()
                     .attach()
                 .create();
@@ -42,7 +41,7 @@ public class SecretTests extends KeyVaultManagementTest {
                 .create();
 
         Assert.assertNotNull(secret);
-        Assert.assertNotNull(secret.id());
+        Assert.assertNotNull(secret.getId());
         Assert.assertEquals("Some secret value", secret.getValue());
 
         secret = secret.update()
@@ -51,7 +50,7 @@ public class SecretTests extends KeyVaultManagementTest {
 
         Assert.assertEquals("Some updated value", secret.getValue());
 
-        List<Secret> versions = secret.listVersions();
+        PagedIterable<Secret> versions = secret.listVersions();
 
         int count = 2;
         for (Secret version : versions) {

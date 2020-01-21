@@ -243,8 +243,8 @@ class AccessPolicyImpl extends ChildResourceImpl<AccessPolicyEntry, VaultImpl, V
 
     @Override
     public VaultImpl attach() {
-        parent().withAccessPolicy(this);
-        return parent();
+        getParent().withAccessPolicy(this);
+        return getParent();
     }
 
     @Override
@@ -255,7 +255,7 @@ class AccessPolicyImpl extends ChildResourceImpl<AccessPolicyEntry, VaultImpl, V
 
     @Override
     public AccessPolicyImpl forUser(ActiveDirectoryUser user) {
-        getInner().setObjectId(user.id());
+        getInner().setObjectId(user.getId());
         return this;
     }
 
@@ -279,13 +279,13 @@ class AccessPolicyImpl extends ChildResourceImpl<AccessPolicyEntry, VaultImpl, V
 
     @Override
     public AccessPolicyImpl forGroup(ActiveDirectoryGroup activeDirectoryGroup) {
-        getInner().setObjectId(activeDirectoryGroup.id());
+        getInner().setObjectId(activeDirectoryGroup.getId());
         return this;
     }
 
     @Override
     public AccessPolicyImpl forServicePrincipal(ServicePrincipal servicePrincipal) {
-        getInner().setObjectId(servicePrincipal.id());
+        getInner().setObjectId(servicePrincipal.getId());
         return this;
     }
 

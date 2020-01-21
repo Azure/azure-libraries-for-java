@@ -6,22 +6,21 @@
 
 package com.azure.management.keyvault;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryGroup;
-import com.microsoft.azure.management.graphrbac.ActiveDirectoryUser;
-import com.microsoft.azure.management.graphrbac.ServicePrincipal;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.graphrbac.ActiveDirectoryGroup;
+import com.azure.management.graphrbac.ActiveDirectoryUser;
+import com.azure.management.graphrbac.ServicePrincipal;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
 
 /**
  * An immutable client-side representation of a key vault access policy.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
+@Fluent
 public interface AccessPolicy extends
         ChildResource<Vault>,
         HasInner<AccessPolicyEntry> {
@@ -153,7 +152,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy definition
              */
-            @Method
             WithAttach<ParentT> allowKeyAllPermissions();
 
             /**
@@ -177,7 +175,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy definition
              */
-            @Method
             WithAttach<ParentT> allowSecretAllPermissions();
 
             /**
@@ -201,7 +198,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy definition
              */
-            @Method
             WithAttach<ParentT> allowCertificateAllPermissions();
 
             /**
@@ -225,7 +221,6 @@ public interface AccessPolicy extends
              * 
              * @return the next stage of access policy definition
              */
-            @Method
             WithAttach<ParentT> allowStorageAllPermissions();
             
             /**
@@ -360,7 +355,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy definition
              */
-            @Method
             WithAttach<ParentT> allowKeyAllPermissions();
 
             /**
@@ -384,7 +378,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy definition
              */
-            @Method
             WithAttach<ParentT> allowSecretAllPermissions();
 
             /**
@@ -408,7 +401,6 @@ public interface AccessPolicy extends
              * 
              * @return the next stage of access policy definition
              */
-            @Method
             WithAttach<ParentT> allowStorageAllPermissions();
             
             /**
@@ -454,7 +446,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy update
              */
-            @Method
             Update allowKeyAllPermissions();
 
             /**
@@ -478,7 +469,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy update
              */
-            @Method
             Update disallowKeyAllPermissions();
 
             /**
@@ -501,7 +491,6 @@ public interface AccessPolicy extends
              * Allow all permissions for the AD identity to access secrets.
              *
              * @return the next stage of access policy definition
-             */
             @Method
             Update allowSecretAllPermissions();
 
@@ -526,7 +515,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy update
              */
-            @Method
             Update disallowSecretAllPermissions();
 
             /**
@@ -550,7 +538,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy update
              */
-            @Method
             Update allowCertificateAllPermissions();
 
             /**
@@ -574,7 +561,6 @@ public interface AccessPolicy extends
              *
              * @return the next stage of access policy update
              */
-            @Method
             Update disallowCertificateAllPermissions();
 
             /**
@@ -598,7 +584,6 @@ public interface AccessPolicy extends
              * 
              * @return the next stage of access policy definition
              */
-            @Method
             Update allowStorageAllPermissions();
             
             /**
@@ -622,7 +607,6 @@ public interface AccessPolicy extends
              * 
              * @return the next stage of access policy definition
              */
-            @Method
             Update disallowStorageAllPermissions();
             
             /**

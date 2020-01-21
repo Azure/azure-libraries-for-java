@@ -21,12 +21,20 @@ import com.azure.security.keyvault.keys.cryptography.models.SignatureAlgorithm;
 import com.azure.security.keyvault.keys.cryptography.models.UnwrapResult;
 import com.azure.security.keyvault.keys.cryptography.models.VerifyResult;
 import com.azure.security.keyvault.keys.cryptography.models.WrapResult;
+import com.azure.security.keyvault.keys.models.CreateEcKeyOptions;
+import com.azure.security.keyvault.keys.models.CreateKeyOptions;
+import com.azure.security.keyvault.keys.models.CreateRsaKeyOptions;
+import com.azure.security.keyvault.keys.models.ImportKeyOptions;
 import com.azure.security.keyvault.keys.models.JsonWebKey;
+import com.azure.security.keyvault.keys.models.KeyOperation;
 import com.azure.security.keyvault.keys.models.KeyProperties;
+import com.azure.security.keyvault.keys.models.KeyType;
 import com.azure.security.keyvault.keys.models.KeyVaultKey;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -44,13 +52,20 @@ class KeyImpl
                 Key.UpdateWithImport {
 
     private final Vault vault;
-    private CreateKeyRequest.Builder createKeyRequest;
-    private UpdateKeyRequest.Builder updateKeyRequest;
-    private ImportKeyRequest.Builder importKeyRequest;
+
+    private CreateKeyOptions createKeyRequest;
+    private UpdateKeyOptions updateKeyRequest;
+    private ImportKeyOptions importKeyRequest;
+
+    private static class UpdateKeyOptions {
+        private KeyProperties keyProperties = new KeyProperties();
+        private List<KeyOperation> keyOperations = new ArrayList<>();
+    }
 
     KeyImpl(String name, KeyVaultKey innerObject, Vault vault) {
         super(name, innerObject);
         this.vault = vault;
+        this.updateKeyRequest = new UpdateKeyOptions();
     }
 
     private KeyImpl wrapModel(KeyVaultKey key) {
@@ -59,7 +74,7 @@ class KeyImpl
 
     @Override
     public String getId() {
-        return this.getInner().getId();
+        return this.getInner() == null ? null : this.getInner().getId();
     }
 
     @Override
@@ -89,7 +104,7 @@ class KeyImpl
 
     @Override
     public PagedFlux<Key> listVersionsAsync() {
-        vault.keyClient().listPropertiesOfKeyVersions(this.getName())
+        return vault.keyClient().listPropertiesOfKeyVersions(this.getName())
                 .mapPage(p -> {
                     KeyVaultKey key = vault.keyClient().getKey(p.getId(), p.getVersion()).block();  // TODO async for PagedFlux
                     return wrapModel(key);
@@ -113,7 +128,7 @@ class KeyImpl
 
     @Override
     public Mono<byte[]> encryptAsync(final EncryptionAlgorithm algorithm, final byte[] content) {
-        vault.cryptographyClient().encrypt(algorithm, content).map(EncryptResult::getCipherText);
+        return vault.cryptographyClient().encrypt(algorithm, content).map(EncryptResult::getCipherText);
     }
 
     @Override
@@ -175,127 +190,129 @@ class KeyImpl
     public KeyImpl withTags(Map<String, String> tags) {
         if (isInCreateMode()) {
             if (createKeyRequest != null) {
-                createKeyRequest.withTags(tags);
-            } else {
-                importKeyRequest.withTags(tags);
+                createKeyRequest.setTags(tags);
+            } else if (importKeyRequest != null) {
+                importKeyRequest.setTags(tags);
             }
         } else {
-            updateKeyRequest.withTags(tags);
+            updateKeyRequest.keyProperties.setTags(tags);
         }
         return this;
     }
 
     @Override
     public boolean isInCreateMode() {
-        return id() == null;
+        return getId() == null;
     }
 
     @Override
-    public Observable<Key> createResourceAsync() {
-        return Observable.defer(new Func0<Observable<Key>>() {
-            @Override
-            public Observable<Key> call() {
-                if (createKeyRequest != null) {
-                    return Observable.from(vault.secretClient().createKeyAsync(createKeyRequest.build(), null))
-                            .map(innerToFluentMap(KeyImpl.this))
-                            .doOnCompleted(new Action0() {
-                                @Override
-                                public void call() {
-                                    createKeyRequest = null;
-                                    updateKeyRequest = new UpdateKeyRequest.Builder(vault.vaultUri(), name());
-                                }
-                            });
-                } else {
-                    return Observable.from(vault.secretClient().importKeyAsync(importKeyRequest.build(), null))
-                            .map(innerToFluentMap(KeyImpl.this))
-                            .doOnCompleted(new Action0() {
-                                @Override
-                                public void call() {
-                                    importKeyRequest = null;
-                                    updateKeyRequest = new UpdateKeyRequest.Builder(vault.vaultUri(), name());
-                                }
-                            });
-                }
-            }
-        });
-    }
-
-    @Override
-    public Observable<Key> updateResourceAsync() {
-        Observable<Key> set = Observable.just((Key) this);
-        if (createKeyRequest != null || importKeyRequest != null) {
-            set = createResourceAsync();
-        }
-        return set.flatMap(new Func1<Key, Observable<KeyBundle>>() {
-            @Override
-            public Observable<KeyBundle> call(Key secret) {
-                return Observable.from(vault.secretClient().updateKeyAsync(updateKeyRequest.build(), null));
-            }
-        }).flatMap(new Func1<KeyBundle, Observable<Key>>() {
-            @Override
-            public Observable<Key> call(KeyBundle secretBundle) {
-                return refreshAsync();
-            }
-        }).doOnCompleted(new Action0() {
-            @Override
-            public void call() {
-                createKeyRequest = null;
-                importKeyRequest = null;
-                updateKeyRequest = new UpdateKeyRequest.Builder(vault.vaultUri(), name());
-            }
-        });
-    }
-
-    @Override
-    public KeyImpl withAttributes(Attributes attributes) {
-        if (isInCreateMode()) {
-            if (createKeyRequest != null) {
-                createKeyRequest.withAttributes(attributes);
+    public Mono<Key> createResourceAsync() {
+        Mono<KeyVaultKey> mono = null;
+        if (createKeyRequest != null) {
+            if (createKeyRequest instanceof CreateEcKeyOptions) {
+                mono = vault.keyClient().createEcKey((CreateEcKeyOptions) createKeyRequest);
+            } else if (createKeyRequest instanceof CreateRsaKeyOptions) {
+                mono = vault.keyClient().createRsaKey((CreateRsaKeyOptions) createKeyRequest);
             } else {
-                importKeyRequest.withAttributes(attributes);
+                mono = vault.keyClient().createKey(createKeyRequest);
             }
         } else {
-            updateKeyRequest.withAttributes(attributes);
+            mono = vault.keyClient().importKey(importKeyRequest);
+        }
+        return mono.map(inner -> {
+            this.setInner(inner);
+            return (Key) this;
+        }).doOnSuccess(ignore -> {
+            createKeyRequest = null;
+            importKeyRequest = null;
+            this.updateKeyRequest = new UpdateKeyOptions();
+        });
+    }
+
+    @Override
+    public Mono<Key> updateResourceAsync() {
+        return vault.keyClient().updateKeyProperties(updateKeyRequest.keyProperties, updateKeyRequest.keyOperations.toArray(new KeyOperation[0]))
+                .map(inner -> {
+                    this.setInner(inner);
+                    return (Key) this;
+                }).doOnSuccess(ignore -> {
+                    createKeyRequest = null;
+                    importKeyRequest = null;
+                    this.updateKeyRequest = new UpdateKeyOptions();
+                });
+    }
+
+    @Override
+    public KeyImpl withAttributes(KeyProperties attributes) {
+        if (isInCreateMode()) {
+            if (createKeyRequest != null) {
+                createKeyRequest.setEnabled(attributes.isEnabled());
+                createKeyRequest.setExpiresOn(attributes.getExpiresOn());
+                createKeyRequest.setNotBefore(attributes.getNotBefore());
+            } else if (importKeyRequest != null) {
+                importKeyRequest.setEnabled(attributes.isEnabled());
+                importKeyRequest.setExpiresOn(attributes.getExpiresOn());
+                importKeyRequest.setNotBefore(attributes.getNotBefore());
+            }
+        } else {
+            updateKeyRequest.keyProperties = attributes;
         }
         return this;
     }
 
     @Override
-    public KeyImpl withKeyTypeToCreate(JsonWebKeyType keyType) {
-        createKeyRequest = new CreateKeyRequest.Builder(vault.vaultUri(), name(), keyType);
+    public KeyImpl withKeyTypeToCreate(KeyType keyType) {
+        if (keyType == KeyType.EC || keyType == KeyType.EC_HSM) {
+            CreateEcKeyOptions request = new CreateEcKeyOptions(getName());
+            request.setHardwareProtected(keyType == KeyType.EC_HSM);
+
+            createKeyRequest = request;
+        } else if (keyType == KeyType.RSA || keyType == KeyType.RSA_HSM) {
+            CreateRsaKeyOptions request = new CreateRsaKeyOptions(getName());
+            request.setHardwareProtected(keyType == KeyType.RSA_HSM);
+
+            createKeyRequest = request;
+        } else {
+            createKeyRequest = new CreateKeyOptions(getName(), keyType);
+        }
         return this;
     }
 
     @Override
     public KeyImpl withLocalKeyToImport(JsonWebKey key) {
-        importKeyRequest = new ImportKeyRequest.Builder(vault.vaultUri(), name(), key);
+        importKeyRequest = new ImportKeyOptions(getName(), key);
         return this;
     }
 
     @Override
-    public KeyImpl withKeyOperations(List<JsonWebKeyOperation> keyOperations) {
+    public KeyImpl withKeyOperations(List<KeyOperation> keyOperations) {
         if (isInCreateMode()) {
-            createKeyRequest.withKeyOperations(keyOperations);
+            createKeyRequest.setKeyOperations(keyOperations.toArray(new KeyOperation[0]));
         } else {
-            updateKeyRequest.withKeyOperations(keyOperations);
+            updateKeyRequest.keyOperations = keyOperations;
         }
         return this;
     }
 
     @Override
-    public KeyImpl withKeyOperations(JsonWebKeyOperation... keyOperations) {
+    public KeyImpl withKeyOperations(KeyOperation... keyOperations) {
         return withKeyOperations(Arrays.asList(keyOperations));
     }
 
     @Override
     public KeyImpl withHsm(boolean isHsm) {
-        importKeyRequest.withHsm(isHsm);
+        importKeyRequest.setHardwareProtected(isHsm);
         return this;
     }
 
     @Override
     public KeyImpl withKeySize(int size) {
-        createKeyRequest.withKeySize(size);
+        if (createKeyRequest instanceof CreateEcKeyOptions) {
+            // TODO
+            //((CreateEcKeyOptions) createKeyRequest).setKeySize(size);
+        } else if (createKeyRequest instanceof CreateRsaKeyOptions) {
+            ((CreateRsaKeyOptions) createKeyRequest).setKeySize(size);
+        }
         return this;
     }
 }

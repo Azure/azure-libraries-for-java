@@ -7,8 +7,8 @@
 package com.azure.management.keyvault;
 
 import com.azure.management.RestClient;
+import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.keyvault.implementation.KeyVaultManager;
-//import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.implementation.ResourceManager;
 
@@ -18,7 +18,7 @@ import com.azure.management.resources.implementation.ResourceManager;
 public class KeyVaultManagementTest extends TestBase {
     protected static ResourceManager resourceManager;
     protected static KeyVaultManager keyVaultManager;
-//    protected static GraphRbacManager graphRbacManager;
+    protected static GraphRbacManager graphRbacManager;
     protected static String RG_NAME = "";
     protected static String VAULT_NAME = "";
 
@@ -31,8 +31,8 @@ public class KeyVaultManagementTest extends TestBase {
                 .authenticate(restClient)
                 .withSubscription(defaultSubscription);
 
-//        graphRbacManager = GraphRbacManager
-//                .authenticate(restClient, domain);
+        graphRbacManager = GraphRbacManager
+                .authenticate(restClient, domain);
 
         keyVaultManager = KeyVaultManager
                 .authenticate(restClient, domain, defaultSubscription);

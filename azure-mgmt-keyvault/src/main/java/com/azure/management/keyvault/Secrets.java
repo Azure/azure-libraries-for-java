@@ -6,26 +6,23 @@
 
 package com.azure.management.keyvault;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByNameAsync;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import rx.Observable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import reactor.core.publisher.Mono;
 
 /**
  * Entry point for Key Vault secrets API.
  */
-@Beta(SinceVersion.V1_6_0)
-@Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
+@Fluent
 public interface Secrets extends
         SupportsCreating<Secret.DefinitionStages.Blank>,
         SupportsDeletingById,
         SupportsGettingById<Secret>,
-        SupportsGettingByNameAsync<Secret>,
+        SupportsGettingByName<Secret>,
         SupportsListing<Secret> {
     /**
      * Gets a Key Vault secret.
@@ -41,5 +38,5 @@ public interface Secrets extends
      * @param version the version of the secret
      * @return the secret
      */
-    Observable<Secret> getByNameAndVersionAsync(String name, String version);
+    Mono<Secret> getByNameAndVersionAsync(String name, String version);
 }

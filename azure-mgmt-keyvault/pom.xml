@@ -51,11 +51,11 @@
       <artifactId>azure-mgmt-resources</artifactId>
       <version>2.0.0-SNAPSHOT</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>com.microsoft.azure</groupId>-->
-<!--      <artifactId>azure-mgmt-graph-rbac</artifactId>-->
-<!--      <version>2.0.0-SNAPSHOT</version>-->
-<!--    </dependency>-->
+    <dependency>
+      <groupId>com.azure</groupId>
+      <artifactId>azure-mgmt-graph-rbac</artifactId>
+      <version>2.0.0-SNAPSHOT</version>
+    </dependency>
     <dependency>
       <groupId>com.azure</groupId>
       <artifactId>azure-security-keyvault-certificates</artifactId>
@@ -113,10 +113,10 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
-          <annotationProcessors>
-            <annotationProcessor>
-              com.microsoft.azure.management.apigeneration.LangDefinitionProcessor</annotationProcessor>
-          </annotationProcessors>
+<!--          <annotationProcessors>-->
+<!--            <annotationProcessor>-->
+<!--              com.microsoft.azure.management.apigeneration.LangDefinitionProcessor</annotationProcessor>-->
+<!--          </annotationProcessors>-->
           <debug>true</debug>
           <optimize>true</optimize>
           <compilerArguments>

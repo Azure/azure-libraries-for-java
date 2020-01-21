@@ -87,9 +87,10 @@ class SecretImpl
 
     @Override
     public PagedFlux<Secret> listVersionsAsync() {
+        // TODO async for PagedFlux
         return vault.secretClient().listPropertiesOfSecretVersions(getName())
                 .mapPage(p -> {
-                    KeyVaultSecret secret = vault.secretClient().getSecret(p.getId(), p.getVersion()).block();  // TODO async for PagedFlux
+                    KeyVaultSecret secret = vault.secretClient().getSecret(p.getId(), p.getVersion()).block();
                     return wrapModel(secret);
                 });
     }
@@ -115,10 +116,10 @@ class SecretImpl
         KeyVaultSecret newSecret = new KeyVaultSecret(this.getName(), valueToSet);
         newSecret.setProperties(this.getAttributes());
         return vault.secretClient().setSecret(newSecret)
-                .flatMap(s -> {
+                .map(s -> {
                     this.setInner(s);
                     valueToSet = null;
-                    return Mono.just(this);
+                    return this;
                 });
     }
 
@@ -127,9 +128,9 @@ class SecretImpl
         if (valueToSet == null) {
             // if no update on value, just update properties
             return vault.secretClient().updateSecretProperties(this.getAttributes())
-                    .flatMap(p -> {
+                    .map(p -> {
                         this.getInner().setProperties(p);
-                        return Mono.just(this);
+                        return this;
                     });
         } else {
             return this.createResourceAsync();
@@ -144,7 +145,7 @@ class SecretImpl
 
     @Override
     public SecretImpl withVersion(String version) {
-        // TODO updateSecretRequest.withVersion(version);
+        // TODO not supported
         return this;
     }
 

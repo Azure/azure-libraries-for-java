@@ -6,18 +6,18 @@
 
 package com.azure.management.keyvault.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
+import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.keyvault.Vaults;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.azure.management.keyvault.models.KeyVaultManagementClientBuilder;
+import com.azure.management.keyvault.models.KeyVaultManagementClientImpl;
+import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
+import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.azure.management.resources.fluentcore.arm.implementation.Manager;
 
 /**
  * Entry point to Azure KeyVault resource management.
@@ -42,19 +42,18 @@ public final class KeyVaultManager extends Manager<KeyVaultManager, KeyVaultMana
     /**
      * Creates an instance of KeyVaultManager that exposes KeyVault resource management API entry points.
      *
-     * @param credentials the credentials to use
+     * @param credential the credential to use
      * @param subscriptionId the subscription UUID
      * @return the KeyVaultManager
      */
-    public static KeyVaultManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new KeyVaultManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
+    public static KeyVaultManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+        return new KeyVaultManager(new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), credentials.domain(), subscriptionId);
+//                .withPolicy(new ProviderRegistrationPolicy())
+//                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .buildClient(), credential.getDomain(), subscriptionId);
     }
 
     /**
@@ -76,21 +75,21 @@ public final class KeyVaultManager extends Manager<KeyVaultManager, KeyVaultMana
         /**
          * Creates an instance of KeyVaultManager that exposes KeyVault management API entry points.
          *
-         * @param credentials the credentials to use
+         * @param credential the credential to use
          * @param tenantId the tenant UUID
          * @param subscriptionId the subscription UUID
          * @return the interface exposing KeyVault management API entry points that work across subscriptions
          */
-        KeyVaultManager authenticate(AzureTokenCredentials credentials, String tenantId, String subscriptionId);
+        KeyVaultManager authenticate(AzureTokenCredential credential, String tenantId, String subscriptionId);
     }
 
     /**
      * The implementation for Configurable interface.
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
-        public KeyVaultManager authenticate(AzureTokenCredentials credentials, String tenantId, String subscriptionId) {
+        public KeyVaultManager authenticate(AzureTokenCredential credential, String tenantId, String subscriptionId) {
             return KeyVaultManager.authenticate(
-                    buildRestClient(credentials, AzureEnvironment.Endpoint.RESOURCE_MANAGER),
+                    buildRestClient(credential, AzureEnvironment.Endpoint.RESOURCE_MANAGER),
                     tenantId, subscriptionId);
         }
     }
@@ -99,7 +98,11 @@ public final class KeyVaultManager extends Manager<KeyVaultManager, KeyVaultMana
         super(
                 restClient,
                 subscriptionId,
-                new KeyVaultManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+                new KeyVaultManagementClientBuilder()
+                        .pipeline(restClient.getHttpPipeline())
+                        .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                        .subscriptionId(subscriptionId)
+                        .build());
         graphRbacManager = GraphRbacManager.authenticate(restClient, tenantId);
         this.tenantId = tenantId;
     }

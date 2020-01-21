@@ -7,23 +7,19 @@
 
 package com.azure.management.keyvault;
 
+import java.time.OffsetDateTime;
 import java.util.Map;
 
-import com.azure.management.keyvault.implementation.DeletedVaultInner;
-import org.joda.time.DateTime;
-
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasId;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.keyvault.models.DeletedVaultInner;
+import com.azure.management.resources.fluentcore.arm.models.HasId;
+import com.azure.management.resources.fluentcore.arm.models.HasName;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * An immutable client-side representation of an Azure Key Vault.
  */
-@Fluent(ContainerName = "/Microsoft.Azure.Management.Fluent.KeyVault")
-@Beta(SinceVersion.V1_11_0)
+@Fluent
 public interface DeletedVault extends HasInner<DeletedVaultInner>, HasName, HasId {
 
     /**
@@ -38,14 +34,14 @@ public interface DeletedVault extends HasInner<DeletedVaultInner>, HasName, HasI
      *
      * @return the deletionDate value
      */
-    DateTime deletionDate();
+    OffsetDateTime deletionDate();
 
     /**
      * Get the scheduledPurgeDate value.
      *
      * @return the scheduledPurgeDate value
      */
-    DateTime scheduledPurgeDate();
+    OffsetDateTime scheduledPurgeDate();
 
     /**
      * Get the tags value.

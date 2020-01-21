@@ -18,6 +18,8 @@ import com.azure.management.keyvault.Vault;
 import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * The implementation of Secrets and its parent interfaces.
@@ -54,8 +56,8 @@ class SecretsImpl
 
     @Override
     public Mono<Secret> getByIdAsync(String id) {
-        // TODO name in getSecret
-        return inner.getSecret(id).map(this::wrapModel);
+        String name = nameFromId(id);
+        return inner.getSecret(name).map(this::wrapModel);
     }
 
     @Override
@@ -68,8 +70,8 @@ class SecretsImpl
 
     @Override
     public Mono<Void> deleteByIdAsync(String id) {
-        // TODO name in beginDeleteSecret
-        return inner.beginDeleteSecret(id).last().flatMap(asyncPollResponse -> {
+        String name = nameFromId(id);
+        return inner.beginDeleteSecret(name).last().flatMap(asyncPollResponse -> {
             if (asyncPollResponse.getStatus() == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED) {
                 return asyncPollResponse.getFinalResult();
             } else {
@@ -111,5 +113,17 @@ class SecretsImpl
     @Override
     public Mono<Secret> getByNameAndVersionAsync(final String name, final String version) {
         return inner.getSecret(name, version).map(this::wrapModel);
+    }
+
+    private static String nameFromId(String id) {
+        try {
+            URL url = new URL(id);
+            String[] tokens = url.getPath().split("/");
+            String name = (tokens.length >= 3 ? tokens[2] : null);
+            return name;
+        } catch (MalformedURLException e) {
+            // Should never come here.
+            throw new IllegalStateException("Received Malformed Id URL from KV Service");
+        }
     }
 }

@@ -7,6 +7,7 @@
 package com.azure.management.keyvault;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.management.RestClient;
 import com.azure.management.keyvault.implementation.KeyVaultManager;
 import com.azure.management.keyvault.models.VaultInner;
 import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
@@ -29,13 +30,19 @@ public interface Vault extends
         Refreshable<Vault>,
         Updatable<Vault.Update> {
     /**
-     * @return an authenticated Key Vault data client
+     * @return an authenticated Key Vault secret client
      */
     SecretAsyncClient secretClient();
 
+    /**
+     * @return an authenticated Key Vault key client
+     */
     KeyAsyncClient keyClient();
 
-    CryptographyAsyncClient cryptographyClient();
+    /**
+     * @return an authenticated Key Vault rest client
+     */
+    RestClient vaultRestClient();
 
     /**
      * @return the Key Vault key API entry point

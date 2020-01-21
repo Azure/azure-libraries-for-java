@@ -12,6 +12,8 @@ import com.azure.management.keyvault.Key;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.security.keyvault.keys.cryptography.CryptographyAsyncClient;
+import com.azure.security.keyvault.keys.cryptography.CryptographyClientBuilder;
 import com.azure.security.keyvault.keys.cryptography.models.DecryptResult;
 import com.azure.security.keyvault.keys.cryptography.models.EncryptResult;
 import com.azure.security.keyvault.keys.cryptography.models.EncryptionAlgorithm;
@@ -57,6 +59,12 @@ class KeyImpl
     private UpdateKeyOptions updateKeyRequest;
     private ImportKeyOptions importKeyRequest;
 
+    private CryptographyAsyncClient cryptographyClient;
+
+    private CryptographyAsyncClient cryptographyClient() {
+        return cryptographyClient;
+    }
+
     private static class UpdateKeyOptions {
         private KeyProperties keyProperties = new KeyProperties();
         private List<KeyOperation> keyOperations = new ArrayList<>();
@@ -65,7 +73,19 @@ class KeyImpl
     KeyImpl(String name, KeyVaultKey innerObject, Vault vault) {
         super(name, innerObject);
         this.vault = vault;
+    }
+
+    private void init() {
+        createKeyRequest = null;
+        updateKeyRequest = null;
         this.updateKeyRequest = new UpdateKeyOptions();
+        if (getInner() != null) {
+            updateKeyRequest.keyProperties = getInner().getProperties();
+            cryptographyClient = new CryptographyClientBuilder()
+                    .keyIdentifier(getInner().getKey().getId())
+                    .pipeline(vault.vaultRestClient().getHttpPipeline())
+                    .buildAsyncClient();
+        }
     }
 
     private KeyImpl wrapModel(KeyVaultKey key) {
@@ -128,7 +148,7 @@ class KeyImpl
 
     @Override
     public Mono<byte[]> encryptAsync(final EncryptionAlgorithm algorithm, final byte[] content) {
-        return vault.cryptographyClient().encrypt(algorithm, content).map(EncryptResult::getCipherText);
+        return cryptographyClient().encrypt(algorithm, content).map(EncryptResult::getCipherText);
     }
 
     @Override
@@ -138,7 +158,7 @@ class KeyImpl
 
     @Override
     public Mono<byte[]> decryptAsync(final EncryptionAlgorithm algorithm, final byte[] content) {
-        return vault.cryptographyClient().decrypt(algorithm, content).map(DecryptResult::getPlainText);
+        return cryptographyClient().decrypt(algorithm, content).map(DecryptResult::getPlainText);
     }
 
     @Override
@@ -148,7 +168,7 @@ class KeyImpl
 
     @Override
     public Mono<byte[]> signAsync(final SignatureAlgorithm algorithm, final byte[] digest) {
-        return vault.cryptographyClient().sign(algorithm, digest).map(SignResult::getSignature);
+        return cryptographyClient().sign(algorithm, digest).map(SignResult::getSignature);
     }
 
     @Override
@@ -158,7 +178,7 @@ class KeyImpl
 
     @Override
     public Mono<Boolean> verifyAsync(final SignatureAlgorithm algorithm, final byte[] digest, final byte[] signature) {
-        return vault.cryptographyClient().verify(algorithm, digest, signature).map(VerifyResult::isValid);
+        return cryptographyClient().verify(algorithm, digest, signature).map(VerifyResult::isValid);
     }
 
     @Override
@@ -168,7 +188,7 @@ class KeyImpl
 
     @Override
     public Mono<byte[]> wrapKeyAsync(final KeyWrapAlgorithm algorithm, final byte[] key) {
-        return vault.cryptographyClient().wrapKey(algorithm, key).map(WrapResult::getEncryptedKey);
+        return cryptographyClient().wrapKey(algorithm, key).map(WrapResult::getEncryptedKey);
     }
 
     @Override
@@ -178,7 +198,7 @@ class KeyImpl
 
     @Override
     public Mono<byte[]> unwrapKeyAsync(final KeyWrapAlgorithm algorithm, final byte[] key) {
-        return vault.cryptographyClient().unwrapKey(algorithm, key).map(UnwrapResult::getKey);
+        return cryptographyClient().unwrapKey(algorithm, key).map(UnwrapResult::getKey);
     }
 
     @Override
@@ -207,7 +227,7 @@ class KeyImpl
 
     @Override
     public Mono<Key> createResourceAsync() {
-        Mono<KeyVaultKey> mono = null;
+        Mono<KeyVaultKey> mono;
         if (createKeyRequest != null) {
             if (createKeyRequest instanceof CreateEcKeyOptions) {
                 mono = vault.keyClient().createEcKey((CreateEcKeyOptions) createKeyRequest);
@@ -221,11 +241,8 @@ class KeyImpl
         }
         return mono.map(inner -> {
             this.setInner(inner);
-            return (Key) this;
-        }).doOnSuccess(ignore -> {
-            createKeyRequest = null;
-            importKeyRequest = null;
-            this.updateKeyRequest = new UpdateKeyOptions();
+            init();
+            return this;
         });
     }
 
@@ -234,11 +251,8 @@ class KeyImpl
         return vault.keyClient().updateKeyProperties(updateKeyRequest.keyProperties, updateKeyRequest.keyOperations.toArray(new KeyOperation[0]))
                 .map(inner -> {
                     this.setInner(inner);
-                    return (Key) this;
-                }).doOnSuccess(ignore -> {
-                    createKeyRequest = null;
-                    importKeyRequest = null;
-                    this.updateKeyRequest = new UpdateKeyOptions();
+                    init();
+                    return this;
                 });
     }
 

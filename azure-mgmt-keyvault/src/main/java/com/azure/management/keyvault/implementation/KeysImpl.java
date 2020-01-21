@@ -11,12 +11,14 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.core.util.polling.LongRunningOperationStatus;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableWrappersImpl;
 import com.azure.security.keyvault.keys.KeyAsyncClient;
-import com.azure.security.keyvault.keys.models.KeyType;
 import com.azure.security.keyvault.keys.models.KeyVaultKey;
 import com.azure.management.keyvault.Key;
 import com.azure.management.keyvault.Keys;
 import com.azure.management.keyvault.Vault;
 import reactor.core.publisher.Mono;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * The implementation of Vaults and its parent interfaces.
@@ -53,8 +55,8 @@ class KeysImpl
 
     @Override
     public Mono<Key> getByIdAsync(String id) {
-        // TODO name in getKey
-        return inner.getKey(id).map(this::wrapModel);
+        String name = nameFromId(id);
+        return inner.getKey(name).map(this::wrapModel);
     }
 
     @Override
@@ -67,8 +69,8 @@ class KeysImpl
 
     @Override
     public Mono<Void> deleteByIdAsync(String id) {
-        // TODO name in beginDeleteKey
-        return inner.beginDeleteKey(id).last().flatMap(asyncPollResponse -> {
+        String name = nameFromId(id);
+        return inner.beginDeleteKey(name).last().flatMap(asyncPollResponse -> {
             if (asyncPollResponse.getStatus() == LongRunningOperationStatus.SUCCESSFULLY_COMPLETED) {
                 return asyncPollResponse.getFinalResult();
             } else {
@@ -119,5 +121,17 @@ class KeysImpl
     @Override
     public Key getByName(String name) {
         return getByNameAsync(name).block();
+    }
+
+    private static String nameFromId(String id) {
+        try {
+            URL url = new URL(id);
+            String[] tokens = url.getPath().split("/");
+            String name = (tokens.length >= 3 ? tokens[2] : null);
+            return name;
+        } catch (MalformedURLException e) {
+            // Should never come here.
+            throw new IllegalStateException("Received Malformed Id URL from KV Service");
+        }
     }
 }

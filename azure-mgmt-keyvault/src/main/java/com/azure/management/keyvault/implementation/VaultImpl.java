@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.azure.core.management.CloudException;
+import com.azure.management.RestClient;
 import com.azure.management.graphrbac.implementation.GraphRbacManager;
 import com.azure.management.keyvault.AccessPolicy;
 import com.azure.management.keyvault.AccessPolicyEntry;
@@ -34,7 +35,7 @@ import com.azure.management.resources.fluentcore.arm.models.implementation.Group
 import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.security.keyvault.keys.KeyAsyncClient;
-import com.azure.security.keyvault.keys.cryptography.CryptographyAsyncClient;
+import com.azure.security.keyvault.keys.KeyClientBuilder;
 import com.azure.security.keyvault.secrets.SecretAsyncClient;
 import com.azure.security.keyvault.secrets.SecretClientBuilder;
 import reactor.core.publisher.Mono;
@@ -49,7 +50,7 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
 
     private SecretAsyncClient secretClient;
     private KeyAsyncClient keyClient;
-    private CryptographyAsyncClient cryptographyClient;
+    private RestClient vaultRestClient;
 
     private Keys keys;
     private Secrets secrets;
@@ -64,11 +65,23 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
                 this.accessPolicies.add(new AccessPolicyImpl(entry, this));
             }
         }
-        // TODO new pipeline with new scope
+
+        vaultRestClient = getManager().getRestClient().newBuilder().withScope("https://vault.azure.net" + "/.default").buildClient();
+
+        final String vaultUrl = vaultUri();
         this.secretClient = new SecretClientBuilder()
-                .vaultUrl("https://{vaultBaseUrl}")
-                .pipeline(manager.getInner().getHttpPipeline())
+                .vaultUrl(vaultUrl)
+                .pipeline(vaultRestClient.getHttpPipeline())
                 .buildAsyncClient();
+        this.keyClient = new KeyClientBuilder()
+                .vaultUrl(vaultUrl)
+                .pipeline(vaultRestClient.getHttpPipeline())
+                .buildAsyncClient();
+    }
+
+    @Override
+    public RestClient vaultRestClient() {
+        return vaultRestClient;
     }
 
     @Override
@@ -79,11 +92,6 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
     @Override
     public KeyAsyncClient keyClient() {
         return keyClient;
-    }
-
-    @Override
-    public CryptographyAsyncClient cryptographyClient() {
-        return cryptographyClient;
     }
 
     @Override

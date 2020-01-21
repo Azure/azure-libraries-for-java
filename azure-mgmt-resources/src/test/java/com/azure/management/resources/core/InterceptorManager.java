@@ -43,7 +43,7 @@ public class InterceptorManager {
     // Stores a map of all the HTTP properties in a session
     // A state machine ensuring a test is always reset before another one is setup
 
-    protected RecordedData recordedData;
+    protected RecordedData recordedData = new RecordedData();
 
     private final String testName;
 
@@ -252,7 +252,7 @@ public class InterceptorManager {
 
         String bodyLoggingHeader = response.getRequest().getHeaders().getValue(BODY_LOGGING);
         boolean bodyLogging = bodyLoggingHeader == null || Boolean.parseBoolean(bodyLoggingHeader);
-        if (bodyLogging) {
+        if (bodyLogging && getContentLength(response.getHeaders()) > 0) {
             HttpResponse bufferedResponse = response.buffer();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             return bufferedResponse.getBody()
@@ -285,6 +285,21 @@ public class InterceptorManager {
                     .then(Mono.just(bufferedResponse));
         }
         return Mono.just(response);
+    }
+
+    private long getContentLength(HttpHeaders headers) {
+        long contentLength = 0;
+
+        String contentLengthString = headers.getValue("Content-Length");
+        if (contentLengthString == null || contentLengthString.isEmpty()) {
+            return contentLength;
+        }
+
+        try {
+            contentLength = Long.parseLong(contentLengthString);
+        } catch (NumberFormatException e) {}
+
+        return contentLength;
     }
 
     private void readDataFromFile() throws IOException {

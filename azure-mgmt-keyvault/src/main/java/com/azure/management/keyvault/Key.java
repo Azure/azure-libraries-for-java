@@ -7,8 +7,6 @@
 package com.azure.management.keyvault;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.http.rest.PagedFlux;
-import com.azure.core.http.rest.PagedIterable;
 import com.azure.security.keyvault.keys.cryptography.models.EncryptionAlgorithm;
 import com.azure.security.keyvault.keys.cryptography.models.KeyWrapAlgorithm;
 import com.azure.security.keyvault.keys.cryptography.models.SignatureAlgorithm;
@@ -25,6 +23,7 @@ import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.HasInner;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -64,12 +63,12 @@ public interface Key extends
     /**
      * @return a list of individual key versions with the same key name
      */
-    PagedIterable<Key> listVersions();
+    Iterable<Key> listVersions();
 
     /**
      * @return a list of individual key versions with the same key name
      */
-    PagedFlux<Key> listVersionsAsync();
+    Flux<Key> listVersionsAsync();
 
     /**
      * @return a backup of the specified key be downloaded to the client

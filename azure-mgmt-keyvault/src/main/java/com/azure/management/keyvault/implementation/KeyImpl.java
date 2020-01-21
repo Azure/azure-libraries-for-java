@@ -6,8 +6,6 @@
 
 package com.azure.management.keyvault.implementation;
 
-import com.azure.core.http.rest.PagedFlux;
-import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.keyvault.Key;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
@@ -32,6 +30,7 @@ import com.azure.security.keyvault.keys.models.KeyOperation;
 import com.azure.security.keyvault.keys.models.KeyProperties;
 import com.azure.security.keyvault.keys.models.KeyType;
 import com.azure.security.keyvault.keys.models.KeyVaultKey;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
@@ -118,17 +117,15 @@ class KeyImpl
     }
 
     @Override
-    public PagedIterable<Key> listVersions() {
-        return new PagedIterable<>(this.listVersionsAsync());
+    public Iterable<Key> listVersions() {
+        return listVersionsAsync().toIterable();
     }
 
     @Override
-    public PagedFlux<Key> listVersionsAsync() {
+    public Flux<Key> listVersionsAsync() {
         return vault.keyClient().listPropertiesOfKeyVersions(this.getName())
-                .mapPage(p -> {
-                    KeyVaultKey key = vault.keyClient().getKey(p.getId(), p.getVersion()).block();  // TODO async for PagedFlux
-                    return wrapModel(key);
-                });
+                .flatMap(p -> vault.keyClient().getKey(p.getName(), p.getVersion()))
+                .map(this::wrapModel);
     }
 
     @Override
@@ -248,12 +245,26 @@ class KeyImpl
 
     @Override
     public Mono<Key> updateResourceAsync() {
-        return vault.keyClient().updateKeyProperties(updateKeyRequest.keyProperties, updateKeyRequest.keyOperations.toArray(new KeyOperation[0]))
+        UpdateKeyOptions optionsToUpdate = updateKeyRequest;
+        Mono<Key> mono = Mono.just(this);
+        if (createKeyRequest != null || importKeyRequest != null) {
+            mono = createResourceAsync()
+                    .map(key -> {
+                        // merge optionsToUpdate into current updateKeyRequest
+                        updateKeyRequest.keyProperties.setTags(optionsToUpdate.keyProperties.getTags());
+                        updateKeyRequest.keyProperties.setEnabled(optionsToUpdate.keyProperties.isEnabled());
+                        updateKeyRequest.keyProperties.setExpiresOn(optionsToUpdate.keyProperties.getExpiresOn());
+                        updateKeyRequest.keyProperties.setNotBefore(optionsToUpdate.keyProperties.getNotBefore());
+                        updateKeyRequest.keyOperations = optionsToUpdate.keyOperations;
+                        return this;
+                    });
+        }
+        return mono.flatMap(ignore -> vault.keyClient().updateKeyProperties(updateKeyRequest.keyProperties, updateKeyRequest.keyOperations.toArray(new KeyOperation[0]))
                 .map(inner -> {
                     this.setInner(inner);
                     init();
                     return this;
-                });
+                }));
     }
 
     @Override

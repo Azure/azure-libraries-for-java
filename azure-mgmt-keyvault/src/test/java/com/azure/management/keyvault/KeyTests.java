@@ -19,6 +19,7 @@ import com.azure.security.keyvault.keys.models.KeyOperation;
 import com.azure.security.keyvault.keys.models.KeyType;
 import org.junit.Assert;
 import org.junit.Ignore;
+import org.junit.Test;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
@@ -67,7 +68,7 @@ public class KeyTests extends KeyVaultManagementTest {
         Assert.assertEquals(3, key.getJsonWebKey().getKeyOps().size());
 
         // List versions
-        PagedIterable<Key> keys = key.listVersions();
+        Iterable<Key> keys = key.listVersions();
         Assert.assertEquals(2, TestUtilities.getPagedIterableSize(keys));
     }
 

@@ -50,7 +50,7 @@ public class SecretTests extends KeyVaultManagementTest {
 
         Assert.assertEquals("Some updated value", secret.getValue());
 
-        PagedIterable<Secret> versions = secret.listVersions();
+        Iterable<Secret> versions = secret.listVersions();
 
         int count = 2;
         for (Secret version : versions) {

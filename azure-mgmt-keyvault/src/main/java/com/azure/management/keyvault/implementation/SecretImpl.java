@@ -6,14 +6,13 @@
 
 package com.azure.management.keyvault.implementation;
 
-import com.azure.core.http.rest.PagedFlux;
-import com.azure.core.http.rest.PagedIterable;
 import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.azure.management.keyvault.Secret;
 import com.azure.management.keyvault.Vault;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.security.keyvault.secrets.models.SecretProperties;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
@@ -81,18 +80,15 @@ class SecretImpl
     }
 
     @Override
-    public PagedIterable<Secret> listVersions() {
-        return new PagedIterable<>(this.listVersionsAsync());
+    public Iterable<Secret> listVersions() {
+        return this.listVersionsAsync().toIterable();
     }
 
     @Override
-    public PagedFlux<Secret> listVersionsAsync() {
-        // TODO async for PagedFlux
+    public Flux<Secret> listVersionsAsync() {
         return vault.secretClient().listPropertiesOfSecretVersions(getName())
-                .mapPage(p -> {
-                    KeyVaultSecret secret = vault.secretClient().getSecret(p.getId(), p.getVersion()).block();
-                    return wrapModel(secret);
-                });
+                .flatMap(p -> vault.secretClient().getSecret(p.getName(), p.getVersion()))
+                .map(this::wrapModel);
     }
 
     @Override

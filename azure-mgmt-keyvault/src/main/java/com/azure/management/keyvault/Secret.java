@@ -7,8 +7,6 @@
 package com.azure.management.keyvault;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.core.http.rest.PagedFlux;
-import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.resources.fluentcore.arm.models.HasId;
 import com.azure.management.resources.fluentcore.arm.models.HasName;
 import com.azure.management.resources.fluentcore.model.Appliable;
@@ -18,6 +16,7 @@ import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.model.Updatable;
 import com.azure.security.keyvault.secrets.models.KeyVaultSecret;
 import com.azure.security.keyvault.secrets.models.SecretProperties;
+import reactor.core.publisher.Flux;
 
 import java.util.Map;
 
@@ -66,12 +65,12 @@ public interface Secret extends
     /**
      * @return a list of individual secret versions with the same secret name
      */
-    PagedIterable<Secret> listVersions();
+    Iterable<Secret> listVersions();
 
     /**
      * @return a list of individual secret versions with the same secret name
      */
-    PagedFlux<Secret> listVersionsAsync();
+    Flux<Secret> listVersionsAsync();
 
     /**
      * Container interface for all the definitions.

@@ -67,16 +67,21 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
         }
 
         vaultRestClient = getManager().newRestClientBuilder().withScope("https://vault.azure.net" + "/.default").buildClient();
+        init();
+    }
 
-        final String vaultUrl = vaultUri();
-        this.secretClient = new SecretClientBuilder()
-                .vaultUrl(vaultUrl)
-                .pipeline(vaultRestClient.getHttpPipeline())
-                .buildAsyncClient();
-        this.keyClient = new KeyClientBuilder()
-                .vaultUrl(vaultUrl)
-                .pipeline(vaultRestClient.getHttpPipeline())
-                .buildAsyncClient();
+    private void init() {
+        if (getInner().getProperties().getVaultUri() != null) {
+            final String vaultUrl = vaultUri();
+            this.secretClient = new SecretClientBuilder()
+                    .vaultUrl(vaultUrl)
+                    .pipeline(vaultRestClient.getHttpPipeline())
+                    .buildAsyncClient();
+            this.keyClient = new KeyClientBuilder()
+                    .vaultUrl(vaultUrl)
+                    .pipeline(vaultRestClient.getHttpPipeline())
+                    .buildAsyncClient();
+        }
     }
 
     @Override
@@ -330,7 +335,10 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
                 parameters.getProperties().getAccessPolicies().add(accessPolicy.getInner());
             }
             return client.createOrUpdateAsync(getResourceGroupName(), getName(), parameters);
-        }).map(innerToFluentMap(this));
+        }).map(innerToFluentMap(this)).map(ignore -> {
+            init();
+            return this;
+        });
     }
 
     @Override

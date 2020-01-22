@@ -47,4 +47,8 @@ public class RestClient {
     public URL getBaseUrl() {
         return this.baseUrl;
     }
+
+    public RestClientBuilder newBuilder() {
+        return builder.clone();
+    }
 }

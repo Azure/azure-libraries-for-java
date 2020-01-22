@@ -87,7 +87,7 @@ class ServicePrincipalsImpl
 
     @Override
     public Mono<ServicePrincipal> getByNameAsync(final String name) {
-        return innerCollection.listNextSinglePageAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name))
+        return innerCollection.listSinglePageAsync(String.format("servicePrincipalNames/any(c:c eq '%s')", name))
                 .flatMap((Function<PagedResponse<ServicePrincipalInner>, Mono<PagedFlux<ServicePrincipalInner>>>) response -> {
                     if (response == null || response.getItems() == null || response.getItems().isEmpty()) {
                         return Mono.just(innerCollection.listAsync(String.format("displayName eq '%s'", name)));

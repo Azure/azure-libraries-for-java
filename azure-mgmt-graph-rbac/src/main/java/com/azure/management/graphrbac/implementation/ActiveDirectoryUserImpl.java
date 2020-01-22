@@ -16,6 +16,7 @@ import com.azure.management.resources.fluentcore.arm.CountryIsoCode;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import reactor.core.publisher.Mono;
 
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -121,7 +122,7 @@ class ActiveDirectoryUserImpl
 
     public Mono<ActiveDirectoryUser> updateResourceAsync() {
         return getManager().getInner().users().updateAsync(getId(), updateParameters)
-                .flatMap((Function<Void, Mono<ActiveDirectoryUser>>) aVoid -> refreshAsync());
+                .then(ActiveDirectoryUserImpl.this.refreshAsync());
     }
 
     private void withMailNickname(String mailNickname) {

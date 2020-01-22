@@ -110,17 +110,33 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
 
     private GraphRbacManager(RestClient restClient, String tenantId) {
         String graphEndpoint = AzureEnvironment.AZURE.getGraphEndpoint();
+        String resourceManagerEndpoint = AzureEnvironment.AZURE.getResourceManagerEndpoint();
         if (restClient.getCredential() instanceof AzureTokenCredential) {
             graphEndpoint = ((AzureTokenCredential) restClient.getCredential()).getEnvironment().getGraphEndpoint();
+            resourceManagerEndpoint = ((AzureTokenCredential) restClient.getCredential()).getEnvironment().getResourceManagerEndpoint();
         }
+        AzureTokenCredential credential = (AzureTokenCredential) restClient.getCredential();
+        RestClient graphRestClient = new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment().getGraphEndpoint())
+                .withCredential(credential)
+                .withSerializerAdapter(new AzureJacksonAdapter())
+                .withScope(AzureEnvironment.AZURE.getGraphEndpoint() + "/.default")
+                .buildClient();
         this.graphRbacManagementClient = new GraphRbacManagementClientBuilder()
-                .pipeline(restClient.getHttpPipeline())
+                .pipeline(graphRestClient.getHttpPipeline())
                 .host(graphEndpoint)
                 .tenantID(tenantId)
                 .build();
+
+        RestClient resourceRestClient = new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment().getResourceManagerEndpoint())
+                .withCredential(credential)
+                .withSerializerAdapter(new AzureJacksonAdapter())
+                .withScope(AzureEnvironment.AZURE.getResourceManagerEndpoint() + "/.default")
+                .buildClient();
         this.authorizationManagementClient = new AuthorizationManagementClientBuilder()
-                .pipeline(restClient.getHttpPipeline())
-                .host(graphEndpoint)
+                .pipeline(resourceRestClient.getHttpPipeline())
+                .host(resourceManagerEndpoint)
                 .subscriptionId(((AzureTokenCredential) restClient.getCredential()).getDefaultSubscriptionId())
                 .build();
         this.tenantId = tenantId;

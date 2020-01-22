@@ -133,7 +133,7 @@ class ServicePrincipalImpl
     }
 
     private Mono<ServicePrincipal> submitCredentialsAsync(final ServicePrincipal sp) {
-        Mono<Void> mono = Mono.empty();
+        Mono<ServicePrincipal> mono = Mono.empty();
         if (!certificateCredentialsToCreate.isEmpty() || !certificateCredentialsToDelete.isEmpty()) {
             Map<String, CertificateCredential> newCerts = new HashMap<>(cachedCertificateCredentials);
             for (String delete : certificateCredentialsToDelete) {
@@ -149,7 +149,7 @@ class ServicePrincipalImpl
             mono = mono.mergeWith(getManager().getInner().servicePrincipals().updateKeyCredentialsAsync(
                     sp.getId(),
                     new KeyCredentialsUpdateParameters().setValue(updateKeyCredentials)
-            )).last();
+            ).then(Mono.just(ServicePrincipalImpl.this))).last();
         }
         if (!passwordCredentialsToCreate.isEmpty() || !passwordCredentialsToDelete.isEmpty()) {
             Map<String, PasswordCredential> newPasses = new HashMap<>(cachedPasswordCredentials);
@@ -166,9 +166,9 @@ class ServicePrincipalImpl
             mono = mono.mergeWith(getManager().getInner().servicePrincipals().updatePasswordCredentialsAsync(
                     sp.getId(),
                     new PasswordCredentialsUpdateParameters().setValue(updatePasswordCredentials)
-            )).last();
+            ).then(Mono.just(ServicePrincipalImpl.this))).last();
         }
-        return mono.flatMap((Function<Void, Mono<ServicePrincipal>>) aVoid -> {
+        return mono.flatMap((Function<ServicePrincipal, Mono<ServicePrincipal>>) servicePrincipal -> {
             passwordCredentialsToDelete.clear();
             certificateCredentialsToDelete.clear();
             return refreshCredentialsAsync();
@@ -227,20 +227,42 @@ class ServicePrincipalImpl
     }
 
     Mono<ServicePrincipal> refreshCredentialsAsync() {
-        final Mono<ServicePrincipal> keyCredentials = manager.getInner().servicePrincipals().listKeyCredentialsAsync(getId())
-                .map((Function<KeyCredentialInner, ServicePrincipal>) keyCredentialInner -> {
-                    CertificateCredential credential = new CertificateCredentialImpl<>(keyCredentialInner);
-                    ServicePrincipalImpl.this.cachedCertificateCredentials.put(credential.getName(), credential);
-                    return ServicePrincipalImpl.this;
-                }).last();
-        final Mono<ServicePrincipal> passwordCredentials = manager.getInner().servicePrincipals().listPasswordCredentialsAsync(getId())
-                .map((Function<PasswordCredentialInner, ServicePrincipal>) passwordCredentialInner -> {
-                    PasswordCredential credential = new PasswordCredentialImpl<>(passwordCredentialInner);
-                    ServicePrincipalImpl.this.cachedPasswordCredentials.put(credential.getName(), credential);
-                    return ServicePrincipalImpl.this;
-                }).last();
-
-        return keyCredentials.mergeWith(passwordCredentials).last();
+        return Mono.just(ServicePrincipalImpl.this).map(new Function<ServicePrincipalImpl, ServicePrincipal>() {
+            @Override
+            public ServicePrincipal apply(ServicePrincipalImpl servicePrincipal) {
+                servicePrincipal.cachedCertificateCredentials.clear();
+                servicePrincipal.cachedPasswordCredentials.clear();
+                return servicePrincipal;
+            }
+        }).mergeWith(getManager().getInner().servicePrincipals().listKeyCredentialsAsync(getId()).map(new Function<KeyCredentialInner, ServicePrincipal>() {
+            @Override
+            public ServicePrincipal apply(KeyCredentialInner keyCredentialInner) {
+                CertificateCredential credential = new CertificateCredentialImpl<>(keyCredentialInner);
+                ServicePrincipalImpl.this.cachedCertificateCredentials.put(credential.getName(), credential);
+                return ServicePrincipalImpl.this;
+            }
+        })).mergeWith(getManager().getInner().servicePrincipals().listPasswordCredentialsAsync(getId()).map(new Function<PasswordCredentialInner, ServicePrincipal>() {
+            @Override
+            public ServicePrincipal apply(PasswordCredentialInner passwordCredentialInner) {
+                PasswordCredential credential = new PasswordCredentialImpl<>(passwordCredentialInner);
+                ServicePrincipalImpl.this.cachedPasswordCredentials.put(credential.getName(), credential);
+                return ServicePrincipalImpl.this;
+            }
+        })).last();
+//        final Mono<ServicePrincipal> keyCredentials = manager.getInner().servicePrincipals().listKeyCredentialsAsync(getId())
+//                .map((Function<KeyCredentialInner, ServicePrincipal>) keyCredentialInner -> {
+//                    CertificateCredential credential = new CertificateCredentialImpl<>(keyCredentialInner);
+//                    ServicePrincipalImpl.this.cachedCertificateCredentials.put(credential.getName(), credential);
+//                    return ServicePrincipalImpl.this;
+//                }).last().then(Mono.just(ServicePrincipalImpl.this));
+//        final Mono<ServicePrincipal> passwordCredentials = manager.getInner().servicePrincipals().listPasswordCredentialsAsync(getId())
+//                .map((Function<PasswordCredentialInner, ServicePrincipal>) passwordCredentialInner -> {
+//                    PasswordCredential credential = new PasswordCredentialImpl<>(passwordCredentialInner);
+//                    ServicePrincipalImpl.this.cachedPasswordCredentials.put(credential.getName(), credential);
+//                    return ServicePrincipalImpl.this;
+//                }).last().then(Mono.just(ServicePrincipalImpl.this));
+//
+//        return keyCredentials.mergeWith(passwordCredentials).last().then(Mono.just(ServicePrincipalImpl.this));
     }
 
     @Override

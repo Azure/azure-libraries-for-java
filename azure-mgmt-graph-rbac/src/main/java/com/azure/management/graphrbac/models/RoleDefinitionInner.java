@@ -7,6 +7,7 @@
 package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * The RoleDefinition model.
  */
 @Fluent
+@JsonFlatten
 public final class RoleDefinitionInner {
     /*
      * The role definition ID.

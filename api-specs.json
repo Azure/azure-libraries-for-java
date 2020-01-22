@@ -26,7 +26,7 @@
   "authorization": {
     "dir": "azure-mgmt-graph-rbac",
     "source": "specification/authorization/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.graphrbac",
+    "package": "com.azure.management.graphrbac",
     "args": "--payload-flattening-threshold=1 --tag=package-2018-01-01-preview"
   },
   "automation": {
@@ -168,7 +168,7 @@
   "graphrbac": {
     "dir": "azure-mgmt-graph-rbac",
     "source": "specification/graphrbac/data-plane/readme.md",
-    "package": "com.microsoft.azure.management.graphrbac",
+    "package": "com.azure.management.graphrbac",
     "args": "--payload-flattening-threshold=1 --tag=1.6"
   },
   "iothub": {
@@ -336,7 +336,7 @@
   "msi": {
     "dir": "azure-mgmt-msi",
     "source": "specification/msi/resource-manager/readme.md",
-    "package": "com.microsoft.azure.management.msi",
-    "args": "--payload-flattening-threshold=1 --tag=package-2018-11-30"
+    "package": "com.azure.management.msi",
+    "args": "--payload-flattening-threshold=1 --tag=package-2018-11-30 --add-client-flatten=Identity"
   }
 }

@@ -122,14 +122,18 @@ class ActiveDirectoryGroupImpl
                     .doOnSuccess(o1 -> membersToRemove.clear()));
         }
         if (!membersToAdd.isEmpty()) {
-            group = group.flatMap((Function<Object, Mono<?>>) o -> Mono.just(membersToAdd.iterator())
-                    .flatMap((Function<Iterator<String>, Mono<?>>) stringIterator -> {
-                        if (stringIterator.hasNext()) {
-                            return getManager().getInner().groups().addMemberAsync(getId(), new GroupAddMemberParameters().setUrl(stringIterator.next()));
-                        }
-                        return null;
-                    })
-                    .doOnSuccess(o12 -> membersToRemove.clear()));
+//            group = group.flatMap((Function<Object, Mono<?>>) o -> Mono.just(membersToAdd.iterator())
+//                    .flatMap((Function<Iterator<String>, Mono<?>>) stringIterator -> {
+//                        if (stringIterator.hasNext()) {
+//                            return getManager().getInner().groups().addMemberAsync(getId(), new GroupAddMemberParameters().setUrl(stringIterator.next())).then(Mono.just(ActiveDirectoryGroupImpl.this));
+//                        }
+//                        return null;
+//                    })
+//                    .doOnSuccess(o12 -> membersToAdd.clear()));
+
+            for (String member : membersToAdd) {
+                group = group.flatMap(ignore -> getManager().getInner().groups().addMemberAsync(getId(), new GroupAddMemberParameters().setUrl(member))).then(Mono.just(this));
+            }
         }
         return group.map((Function<Object, ActiveDirectoryGroup>) o -> ActiveDirectoryGroupImpl.this);
     }

@@ -98,6 +98,13 @@ abstract class AuthorizationRuleBaseImpl<RuleT extends AuthorizationRule<RuleT>,
     }
 
     @SuppressWarnings("unchecked")
+    public RuleImpl withSendAndListenAccess() {
+        withListenAccess();
+        withSendAccess();
+        return (RuleImpl) this;
+    }
+
+    @SuppressWarnings("unchecked")
     public RuleImpl withManageAccess() {
         withListenAccess();
         withSendAccess();

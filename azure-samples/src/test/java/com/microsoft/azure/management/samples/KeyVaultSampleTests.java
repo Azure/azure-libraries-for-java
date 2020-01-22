@@ -7,7 +7,7 @@
 package com.microsoft.azure.management.samples;
 
 import com.microsoft.azure.credentials.ApplicationTokenCredentials;
-import com.microsoft.azure.management.keyvault.samples.ManageKeyVault;
+import com.azure.management.keyvault.samples.ManageKeyVault;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;

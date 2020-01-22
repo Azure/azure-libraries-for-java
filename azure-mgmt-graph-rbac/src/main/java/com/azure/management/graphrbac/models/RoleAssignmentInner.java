@@ -7,12 +7,14 @@
 package com.azure.management.graphrbac.models;
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.annotation.JsonFlatten;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * The RoleAssignment model.
  */
 @Fluent
+@JsonFlatten
 public final class RoleAssignmentInner {
     /*
      * The role assignment ID.

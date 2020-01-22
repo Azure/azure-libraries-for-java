@@ -4,23 +4,22 @@
  * license information.
  */
 
-package com.microsoft.azure.management.msi.implementation;
+package com.azure.management.msi.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.graphrbac.BuiltInRole;
-import com.microsoft.azure.management.graphrbac.RoleAssignment;
-import com.microsoft.azure.management.graphrbac.implementation.RoleAssignmentHelper;
-import com.microsoft.azure.management.msi.Identity;
+import com.azure.management.graphrbac.BuiltInRole;
+import com.azure.management.graphrbac.RoleAssignment;
+import com.azure.management.graphrbac.implementation.RoleAssignmentHelper;
+import com.azure.management.msi.Identity;
+import com.azure.management.msi.models.IdentityInner;
 import com.azure.management.resources.fluentcore.arm.models.Resource;
 import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import rx.Observable;
+import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
 /**
  * The implementation for Identity and its create and update interfaces.
  */
-@LangDefinition
 final class IdentityImpl
         extends GroupableResourceImpl<Identity, IdentityInner, IdentityImpl, MSIManager>
         implements Identity, Identity.Definition, Identity.Update {
@@ -29,44 +28,44 @@ final class IdentityImpl
 
     protected IdentityImpl(String name, IdentityInner innerObject, MSIManager manager) {
         super(name, innerObject, manager);
-        this.roleAssignmentHelper = new RoleAssignmentHelper(manager.graphRbacManager(), this.taskGroup(), this.idProvider());
+        this.roleAssignmentHelper = new RoleAssignmentHelper(manager.graphRbacManager(), this.getTaskGroup(), this.idProvider());
     }
 
     @Override
     public String tenantId() {
-        if (this.inner().tenantId() == null) {
+        if (this.getInner().getTenantId() == null) {
             return null;
         } else {
-            return this.inner().tenantId().toString();
+            return this.getInner().getTenantId().toString();
         }
     }
 
     @Override
     public String principalId() {
-        if (this.inner().principalId() == null) {
+        if (this.getInner().getPrincipalId() == null) {
             return null;
         } else {
-            return this.inner().principalId().toString();
+            return this.getInner().getPrincipalId().toString();
         }
     }
 
     @Override
     public String clientId() {
-        if (this.inner().clientId() == null) {
+        if (this.getInner().getClientId() == null) {
             return null;
         } else {
-            return this.inner().clientId().toString();
+            return this.getInner().getClientId().toString();
         }
     }
 
     @Override
     public String clientSecretUrl() {
-        return this.inner().clientSecretUrl();
+        return this.getInner().getClientSecretUrl();
     }
 
     @Override
     public IdentityImpl withAccessTo(Resource resource, BuiltInRole role) {
-        this.roleAssignmentHelper.withAccessTo(resource.id(), role);
+        this.roleAssignmentHelper.withAccessTo(resource.getId(), role);
         return this;
     }
 
@@ -84,7 +83,7 @@ final class IdentityImpl
 
     @Override
     public IdentityImpl withAccessTo(Resource resource, String roleDefinitionId) {
-        this.roleAssignmentHelper.withAccessTo(resource.id(), roleDefinitionId);
+        this.roleAssignmentHelper.withAccessTo(resource.getId(), roleDefinitionId);
         return this;
     }
 
@@ -113,33 +112,33 @@ final class IdentityImpl
     }
 
     @Override
-    public Observable<Identity> createResourceAsync() {
-        return this.manager().inner().userAssignedIdentities()
-                .createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner())
+    public Mono<Identity> createResourceAsync() {
+        return this.getManager().getInner().userAssignedIdentities()
+                .createOrUpdateAsync(this.getResourceGroupName(), this.getName(), this.getInner())
                 .map(innerToFluentMap(this));
     }
 
     @Override
-    protected Observable<IdentityInner> getInnerAsync() {
+    protected Mono<IdentityInner> getInnerAsync() {
         return this.myManager
-                .inner()
+                .getInner()
                 .userAssignedIdentities()
-                .getByResourceGroupAsync(this.resourceGroupName(), this.name());
+                .getByResourceGroupAsync(this.getResourceGroupName(), this.getName());
     }
 
     private RoleAssignmentHelper.IdProvider idProvider() {
         return new RoleAssignmentHelper.IdProvider() {
             @Override
             public String principalId() {
-                Objects.requireNonNull(inner());
-                Objects.requireNonNull(inner().principalId());
-                return inner().principalId().toString();
+                Objects.requireNonNull(getInner());
+                Objects.requireNonNull(getInner().getPrincipalId());
+                return getInner().getPrincipalId().toString();
             }
             @Override
             public String resourceId() {
-                Objects.requireNonNull(inner());
-                Objects.requireNonNull(inner().id());
-                return inner().id();
+                Objects.requireNonNull(getInner());
+                Objects.requireNonNull(getInner().getId());
+                return getInner().getId();
             }
         };
     }

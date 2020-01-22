@@ -4,20 +4,20 @@
  * license information.
  */
 
-package com.microsoft.azure.management.msi.implementation;
+package com.azure.management.msi.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.graphrbac.implementation.GraphRbacManager;
-import com.microsoft.azure.management.msi.Identities;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
+import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
+import com.azure.management.graphrbac.implementation.GraphRbacManager;
+import com.azure.management.msi.Identities;
+import com.azure.management.msi.models.ManagedServiceIdentityClientBuilder;
+import com.azure.management.msi.models.ManagedServiceIdentityClientImpl;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
 import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
 import com.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
 
 /**
  * Entry point to Azure Managed Service Identity (MSI) resource management.
@@ -39,19 +39,19 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
     /**
      * Creates an instance of MSIManager that exposes Managed Service Identity (MSI) resource management API entry points.
      *
-     * @param credentials the credentials to use
+     * @param credential the credentials to use
      * @param subscriptionId the subscription UUID
      * @return the MSIManager
      */
-    public static MSIManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new MSIManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
+    public static MSIManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+        return new MSIManager(new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), subscriptionId);
+                //.withResponseBuilderFactory(new AzureResponseBuilder.Factory())
+                //.withInterceptor(new ProviderRegistrationInterceptor(credentials))
+                //.withInterceptor(new ResourceManagerThrottlingInterceptor())
+                .buildClient(), subscriptionId);
     }
 
     /**
@@ -72,25 +72,28 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
         /**
          * Creates an instance of MSIManager that exposes EventHub management API entry points.
          *
-         * @param credentials the credentials to use
+         * @param credential the credentials to use
          * @param subscriptionId the subscription UUID
          * @return the interface exposing Managed Service Identity (MSI) resource management API entry points that work across subscriptions
          */
-        MSIManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
+        MSIManager authenticate(AzureTokenCredential credential, String subscriptionId);
     }
 
     /**
      * The implementation for Configurable interface.
      */
     private static final class ConfigurableImpl extends AzureConfigurableImpl<Configurable> implements Configurable {
-        public MSIManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-            return MSIManager.authenticate(buildRestClient(credentials), subscriptionId);
+        public MSIManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+            return MSIManager.authenticate(buildRestClient(credential), subscriptionId);
         }
     }
 
     private MSIManager(RestClient restClient, String subscriptionId) {
-        super(restClient, subscriptionId, new ManagedServiceIdentityClientImpl(restClient).withSubscriptionId(subscriptionId));
-        rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredentials) (restClient.credentials())).domain());
+        super(restClient, subscriptionId, new ManagedServiceIdentityClientBuilder()
+                .pipeline(restClient.getHttpPipeline())
+                .subscriptionId(subscriptionId)
+                .build());
+        rbacManager = GraphRbacManager.authenticate(restClient, ((AzureTokenCredential) (restClient.getCredential())).getDomain());
     }
 
     /**
@@ -98,7 +101,7 @@ public final class MSIManager extends Manager<MSIManager, ManagedServiceIdentity
      */
     public Identities identities() {
         if (identities == null) {
-            this.identities = new IdentitesImpl(this.inner().userAssignedIdentities(), this);
+            this.identities = new IdentitesImpl(this.getInner().userAssignedIdentities(), this);
         }
         return this.identities;
     }

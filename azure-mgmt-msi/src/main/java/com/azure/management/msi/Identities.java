@@ -4,11 +4,11 @@
  * license information.
  */
 
-package com.microsoft.azure.management.msi;
+package com.azure.management.msi;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.msi.implementation.MSIManager;
-import com.microsoft.azure.management.msi.implementation.UserAssignedIdentitiesInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.msi.implementation.MSIManager;
+import com.azure.management.msi.models.UserAssignedIdentitiesInner;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;

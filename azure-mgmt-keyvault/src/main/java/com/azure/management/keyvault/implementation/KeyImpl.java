@@ -250,16 +250,17 @@ class KeyImpl
         if (createKeyRequest != null || importKeyRequest != null) {
             mono = createResourceAsync()
                     .map(key -> {
-                        // merge optionsToUpdate into current updateKeyRequest
-                        updateKeyRequest.keyProperties.setTags(optionsToUpdate.keyProperties.getTags());
+                        // merge optionsToUpdate into refreshed updateKeyRequest
                         updateKeyRequest.keyProperties.setEnabled(optionsToUpdate.keyProperties.isEnabled());
                         updateKeyRequest.keyProperties.setExpiresOn(optionsToUpdate.keyProperties.getExpiresOn());
                         updateKeyRequest.keyProperties.setNotBefore(optionsToUpdate.keyProperties.getNotBefore());
+                        updateKeyRequest.keyProperties.setTags(optionsToUpdate.keyProperties.getTags());
                         updateKeyRequest.keyOperations = optionsToUpdate.keyOperations;
                         return this;
                     });
         }
-        return mono.flatMap(ignore -> vault.keyClient().updateKeyProperties(updateKeyRequest.keyProperties, updateKeyRequest.keyOperations.toArray(new KeyOperation[0]))
+        return mono
+                .flatMap(ignore -> vault.keyClient().updateKeyProperties(updateKeyRequest.keyProperties, updateKeyRequest.keyOperations.toArray(new KeyOperation[0]))
                 .map(inner -> {
                     this.setInner(inner);
                     init();
@@ -274,13 +275,18 @@ class KeyImpl
                 createKeyRequest.setEnabled(attributes.isEnabled());
                 createKeyRequest.setExpiresOn(attributes.getExpiresOn());
                 createKeyRequest.setNotBefore(attributes.getNotBefore());
+                createKeyRequest.setTags(attributes.getTags());
             } else if (importKeyRequest != null) {
                 importKeyRequest.setEnabled(attributes.isEnabled());
                 importKeyRequest.setExpiresOn(attributes.getExpiresOn());
                 importKeyRequest.setNotBefore(attributes.getNotBefore());
+                importKeyRequest.setTags(attributes.getTags());
             }
         } else {
-            updateKeyRequest.keyProperties = attributes;
+            updateKeyRequest.keyProperties.setEnabled(attributes.isEnabled());
+            updateKeyRequest.keyProperties.setExpiresOn(attributes.getExpiresOn());
+            updateKeyRequest.keyProperties.setNotBefore(attributes.getNotBefore());
+            updateKeyRequest.keyProperties.setTags(attributes.getTags());
         }
         return this;
     }

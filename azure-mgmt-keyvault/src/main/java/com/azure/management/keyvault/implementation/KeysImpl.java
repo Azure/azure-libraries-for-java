@@ -44,7 +44,7 @@ class KeysImpl
 
     @Override
     protected KeyImpl wrapModel(String name) {
-        // TODO value not valid
+        // No valid KeyVaultKey object until service created one.
         return new KeyImpl(name, null, vault);
     }
 

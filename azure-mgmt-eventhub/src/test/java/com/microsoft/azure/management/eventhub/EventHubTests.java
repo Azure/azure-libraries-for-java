@@ -22,7 +22,10 @@ import org.junit.Ignore;
 import org.junit.Test;
 import rx.exceptions.CompositeException;
 
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class EventHubTests extends TestBase {
     protected EventHubManager eventHubManager;
@@ -215,6 +218,23 @@ public class EventHubTests extends TestBase {
         Assert.assertTrue(set.contains("mngRule1"));
         Assert.assertTrue(set.contains("sndRule1"));
         Assert.assertTrue(set.contains("sndRule2"));
+
+        eventHubManager.namespaces()
+                .authorizationRules()
+                .define("sndLsnRule3")
+                .withExistingNamespaceId(namespace.id())
+                .withSendAndListenAccess()
+                .create();
+
+        rules = namespace.listAuthorizationRules();
+        Map<String, EventHubNamespaceAuthorizationRule> rulesMap = new HashMap<>();
+        for (EventHubNamespaceAuthorizationRule rule : rules) {
+            rulesMap.put(rule.name(), rule);
+        }
+        Assert.assertTrue(rulesMap.containsKey("sndLsnRule3"));
+        Assert.assertEquals(
+                new HashSet<>(Arrays.asList(AccessRights.SEND, AccessRights.LISTEN)),
+                new HashSet<>(rulesMap.get("sndLsnRule3").rights()));
     }
 
     @Test

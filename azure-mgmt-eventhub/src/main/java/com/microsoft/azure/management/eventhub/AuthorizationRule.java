@@ -128,6 +128,13 @@ public interface AuthorizationRule<RuleT extends AuthorizationRule<RuleT>> exten
          */
         @Beta(Beta.SinceVersion.V1_7_0)
         interface WithListenOrSendOrManage<T> extends WithListen<T>, WithSendOrManage<T> {
+            /**
+             * Specifies that the rule should have sending and listening access enabled.
+             *
+             * @return the next stage of the definition
+             */
+            @Beta(Beta.SinceVersion.V1_30_0)
+            T withSendAndListenAccess();
         }
     }
 

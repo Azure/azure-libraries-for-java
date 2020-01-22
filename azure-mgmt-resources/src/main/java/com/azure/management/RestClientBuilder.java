@@ -169,4 +169,19 @@ public final class RestClientBuilder {
     public TokenCredential getCredential() {
         return this.credential;
     }
+
+    public RestClientBuilder clone() {
+        RestClientBuilder builder = new RestClientBuilder();
+        builder.baseUrl = this.baseUrl;
+        builder.credential = this.credential;
+        builder.pipeline = this.pipeline;
+        builder.policies.addAll(this.policies);
+        builder.httpClient = this.httpClient;
+        builder.httpLogOptions = this.httpLogOptions;
+        builder.httpLogOptions = this.httpLogOptions;
+        builder.configuration = this.configuration;
+        builder.serializerAdapter = this.serializerAdapter;
+        builder.scopes.addAll(this.scopes);
+        return builder;
+    }
 }

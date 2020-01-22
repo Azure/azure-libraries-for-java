@@ -50,32 +50,32 @@ class SecretImpl
     }
 
     @Override
-    public String getValue() {
+    public String value() {
         return getInner().getValue();
     }
 
     @Override
-    public SecretProperties getAttributes() {
+    public SecretProperties attributes() {
         return getInner().getProperties();
     }
 
     @Override
-    public Map<String, String> getTags() {
+    public Map<String, String> tags() {
         return getInner().getProperties().getTags();
     }
 
     @Override
-    public String getContentType() {
+    public String contentType() {
         return getInner().getProperties().getContentType();
     }
 
     @Override
-    public String getKid() {
+    public String kid() {
         return getInner().getProperties().getKeyId();
     }
 
     @Override
-    public boolean isManaged() {
+    public boolean managed() {
         return Utils.toPrimitiveBoolean(getInner().getProperties().isManaged());
     }
 
@@ -110,7 +110,7 @@ class SecretImpl
     @Override
     public Mono<Secret> createResourceAsync() {
         KeyVaultSecret newSecret = new KeyVaultSecret(this.getName(), valueToSet);
-        newSecret.setProperties(this.getAttributes());
+        newSecret.setProperties(this.attributes());
         return vault.secretClient().setSecret(newSecret)
                 .map(s -> {
                     this.setInner(s);
@@ -123,7 +123,7 @@ class SecretImpl
     public Mono<Secret> updateResourceAsync() {
         if (valueToSet == null) {
             // if no update on value, just update properties
-            return vault.secretClient().updateSecretProperties(this.getAttributes())
+            return vault.secretClient().updateSecretProperties(this.attributes())
                     .map(p -> {
                         this.getInner().setProperties(p);
                         return this;

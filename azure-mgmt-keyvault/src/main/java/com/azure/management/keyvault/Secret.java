@@ -33,34 +33,34 @@ public interface Secret extends
     /**
      * @return the secret value
      */
-    String getValue();
+    String value();
 
     /**
      * @return the secret management attributes
      */
-    SecretProperties getAttributes();
+    SecretProperties attributes();
 
     /**
      * @return application specific metadata in the form of key-value pairs
      */
-    Map<String, String> getTags();
+    Map<String, String> tags();
 
     /**
      * @return type of the secret value such as a password
      */
-    String getContentType();
+    String contentType();
 
     /**
      * @return the corresponding key backing the KV certificate if this is a
      * secret backing a KV certificate
      */
-    String getKid();
+    String kid();
 
     /**
      * @return true if the secret's lifetime is managed by key vault. If this is a key
      * backing a certificate, then managed will be true
      */
-    boolean isManaged();
+    boolean managed();
 
     /**
      * @return a list of individual secret versions with the same secret name

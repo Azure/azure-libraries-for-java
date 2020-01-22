@@ -6,7 +6,6 @@
 
 package com.azure.management.keyvault;
 
-import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.ApplicationTokenCredential;
 import com.azure.management.resources.fluentcore.arm.Region;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -42,22 +41,22 @@ public class SecretTests extends KeyVaultManagementTest {
 
         Assert.assertNotNull(secret);
         Assert.assertNotNull(secret.getId());
-        Assert.assertEquals("Some secret value", secret.getValue());
+        Assert.assertEquals("Some secret value", secret.value());
 
         secret = secret.update()
                 .withValue("Some updated value")
                 .apply();
 
-        Assert.assertEquals("Some updated value", secret.getValue());
+        Assert.assertEquals("Some updated value", secret.value());
 
         Iterable<Secret> versions = secret.listVersions();
 
         int count = 2;
         for (Secret version : versions) {
-            if ("Some secret value".equals(version.getValue())) {
+            if ("Some secret value".equals(version.value())) {
                 count --;
             }
-            if ("Some updated value".equals(version.getValue())) {
+            if ("Some updated value".equals(version.value())) {
                 count --;
             }
         }

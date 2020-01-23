@@ -39,3 +39,7 @@
   - StorageAccountsInner: Should support listing
   
   
+ ## Network 
+ - ErrorResponseException & ErrorException are generated under the models folder even I changed the folder name to `model` instead.
+  
+  

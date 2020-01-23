@@ -74,16 +74,18 @@ class KeyImpl
         this.vault = vault;
     }
 
-    private void init() {
+    private void init(boolean createNewCryptographyClient) {
         createKeyRequest = null;
         updateKeyRequest = null;
         this.updateKeyRequest = new UpdateKeyOptions();
         if (getInner() != null) {
             updateKeyRequest.keyProperties = getInner().getProperties();
-            cryptographyClient = new CryptographyClientBuilder()
-                    .keyIdentifier(getInner().getKey().getId())
-                    .pipeline(vault.vaultRestClient().getHttpPipeline())
-                    .buildAsyncClient();
+            if (createNewCryptographyClient) {
+                cryptographyClient = new CryptographyClientBuilder()
+                        .keyIdentifier(getInner().getKey().getId())
+                        .pipeline(vault.vaultRestClient().getHttpPipeline())
+                        .buildAsyncClient();
+            }
         }
     }
 
@@ -238,7 +240,7 @@ class KeyImpl
         }
         return mono.map(inner -> {
             this.setInner(inner);
-            init();
+            init(true);
             return this;
         });
     }
@@ -249,7 +251,7 @@ class KeyImpl
         Mono<Key> mono = Mono.just(this);
         if (createKeyRequest != null || importKeyRequest != null) {
             mono = createResourceAsync()
-                    .map(key -> {
+                    .then(Mono.fromCallable(() -> {
                         // merge optionsToUpdate into refreshed updateKeyRequest
                         updateKeyRequest.keyProperties.setEnabled(optionsToUpdate.keyProperties.isEnabled());
                         updateKeyRequest.keyProperties.setExpiresOn(optionsToUpdate.keyProperties.getExpiresOn());
@@ -257,13 +259,13 @@ class KeyImpl
                         updateKeyRequest.keyProperties.setTags(optionsToUpdate.keyProperties.getTags());
                         updateKeyRequest.keyOperations = optionsToUpdate.keyOperations;
                         return this;
-                    });
+                    }));
         }
         return mono
-                .flatMap(ignore -> vault.keyClient().updateKeyProperties(updateKeyRequest.keyProperties, updateKeyRequest.keyOperations.toArray(new KeyOperation[0]))
+                .then(vault.keyClient().updateKeyProperties(updateKeyRequest.keyProperties, updateKeyRequest.keyOperations.toArray(new KeyOperation[0]))
                 .map(inner -> {
                     this.setInner(inner);
-                    init();
+                    init(false);
                     return this;
                 }));
     }

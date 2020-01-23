@@ -83,7 +83,7 @@ class ManagementPolicyImpl extends
     public Mono<ManagementPolicy> updateResourceAsync() {
         ManagementPoliciesInner client = this.getManager().getInner().managementPolicies();
         ManagementPolicyInner inner = new ManagementPolicyInner();
-        inner.setPolicy(this.cpolicy);
+        inner.setPolicy(this.upolicy);
         return client.createOrUpdateAsync(this.resourceGroupName, this.accountName, inner)
                 .map(resource -> {
                     resetCreateUpdateParameters();
@@ -156,7 +156,7 @@ class ManagementPolicyImpl extends
             ManagementPolicyBaseBlob originalBaseBlobActions = originalRule.getDefinition().getActions().getBaseBlob();
             if (originalBaseBlobActions != null) {
                 if (originalBaseBlobActions.getTierToCool() != null) {
-                    ((PolicyRuleImpl) returnRule).withTierToCoolActionOnBaseBlob(originalBaseBlobActions.getTierToArchive().getDaysAfterModificationGreaterThan());
+                    ((PolicyRuleImpl) returnRule).withTierToCoolActionOnBaseBlob(originalBaseBlobActions.getTierToCool().getDaysAfterModificationGreaterThan());
                 }
                 if (originalBaseBlobActions.getTierToArchive() != null) {
                     ((PolicyRuleImpl) returnRule).withTierToArchiveActionOnBaseBlob(originalBaseBlobActions.getTierToArchive().getDaysAfterModificationGreaterThan());

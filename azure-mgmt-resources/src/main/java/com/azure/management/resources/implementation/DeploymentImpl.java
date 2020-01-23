@@ -301,7 +301,7 @@ public final class DeploymentImpl extends
         if (this.creatableResourceGroup != null) {
             this.creatableResourceGroup.create();
         }
-        setInner(this.getManager().getInner().deployments().createOrUpdate(resourceGroupName(), getName(), createRequestFromInner()));
+        setInner(this.getManager().getInner().deployments().beginCreateOrUpdate(resourceGroupName(), getName(), createRequestFromInner()));
         return this;
     }
 

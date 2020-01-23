@@ -14,7 +14,6 @@ import com.azure.management.storage.VirtualNetworkRule;
 import com.azure.management.storage.models.StorageAccountCreateParametersInner;
 import com.azure.management.storage.models.StorageAccountInner;
 import com.azure.management.storage.models.StorageAccountUpdateParametersInner;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -376,7 +375,7 @@ final class StorageNetworkRulesHelper {
             }
             bypassSet.add(bypassStr);
         }
-        networkRuleSet.setBypass(Bypass.fromString(StringUtils.join(bypassSet, ", ")));
+        networkRuleSet.setBypass(Bypass.fromString(String.join(", ", bypassSet)));
     }
 
     /**
@@ -397,7 +396,7 @@ final class StorageNetworkRulesHelper {
             if (bypassSet.isEmpty() && !bypassStr.equalsIgnoreCase(BYPASS_NONE_STR)) {
                 bypassSet.add(BYPASS_NONE_STR);
             }
-            networkRuleSet.setBypass(Bypass.fromString(StringUtils.join(bypassSet, ", ")));
+            networkRuleSet.setBypass(Bypass.fromString(String.join(", ", bypassSet)));
         }
     }
 

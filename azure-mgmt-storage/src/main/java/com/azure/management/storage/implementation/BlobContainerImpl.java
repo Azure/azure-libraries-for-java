@@ -72,8 +72,8 @@ class BlobContainerImpl extends CreatableUpdatableImpl<BlobContainer, BlobContai
     public Mono<BlobContainer> updateResourceAsync() {
         BlobContainersInner client = this.getManager().getInner().blobContainers();
         BlobContainerInner inner = new BlobContainerInner();
-        inner.setPublicAccess(this.cpublicAccess);
-        inner.setMetadata(this.cmetadata);
+        inner.setPublicAccess(this.upublicAccess);
+        inner.setMetadata(this.umetadata);
 
         return client.updateAsync(this.resourceGroupName, this.accountName, this.containerName, inner)
                 .map(innerToFluentMap(this));

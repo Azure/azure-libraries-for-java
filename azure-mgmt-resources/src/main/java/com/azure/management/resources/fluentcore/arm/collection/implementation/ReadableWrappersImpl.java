@@ -8,7 +8,6 @@ package com.azure.management.resources.fluentcore.arm.collection.implementation;
 import com.azure.core.http.rest.Page;
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
-import com.azure.management.resources.implementation.PageImpl;
 import reactor.core.publisher.Flux;
 
 import java.util.List;

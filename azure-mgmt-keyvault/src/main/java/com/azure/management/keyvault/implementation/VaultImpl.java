@@ -288,28 +288,25 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
         for (final AccessPolicyImpl accessPolicy : accessPolicies) {
             if (accessPolicy.objectId() == null) {
                 if (accessPolicy.userPrincipalName() != null) {
-                    observables.add(graphRbacManager.users().getByNameAsync(accessPolicy.userPrincipalName())
-                            .subscribeOn(SdkContext.getReactorScheduler()).doOnNext(user -> {
-                                if (user == null) {
-                                    throw new CloudException(
-                                            String.format("User principal name %s is not found in tenant %s",
-                                                    accessPolicy.userPrincipalName(), graphRbacManager.tenantId()),
-                                            null);
-                                }
-                                accessPolicy.forObjectId(user.getId());
-                            }));
+                    observables.add(
+                            graphRbacManager.users().getByNameAsync(accessPolicy.userPrincipalName())
+                                    .subscribeOn(SdkContext.getReactorScheduler())
+                                    .doOnNext(user -> accessPolicy.forObjectId(user.getId()))
+                                    .switchIfEmpty(Mono.error(new CloudException(String.format(
+                                            "User principal name %s is not found in tenant %s",
+                                            accessPolicy.userPrincipalName(), graphRbacManager.tenantId()),
+                                            null)))
+                    );
                 } else if (accessPolicy.servicePrincipalName() != null) {
                     observables.add(
                             graphRbacManager.servicePrincipals().getByNameAsync(accessPolicy.servicePrincipalName())
-                                    .subscribeOn(SdkContext.getReactorScheduler()).doOnNext(sp -> {
-                                        if (sp == null) {
-                                            throw new CloudException(String.format(
-                                                    "Service principal name %s is not found in tenant %s",
-                                                    accessPolicy.servicePrincipalName(), graphRbacManager.tenantId()),
-                                                    null);
-                                        }
-                                        accessPolicy.forObjectId(sp.getId());
-                                    }));
+                                    .subscribeOn(SdkContext.getReactorScheduler())
+                                    .doOnNext(sp -> accessPolicy.forObjectId(sp.getId()))
+                                    .switchIfEmpty(Mono.error(new CloudException(String.format(
+                                            "Service principal name %s is not found in tenant %s",
+                                            accessPolicy.servicePrincipalName(), graphRbacManager.tenantId()),
+                                            null)))
+                    );
                 } else {
                     throw new IllegalArgumentException("Access policy must specify object ID.");
                 }
@@ -325,20 +322,22 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
     @Override
     public Mono<Vault> createResourceAsync() {
         final VaultsInner client = this.getManager().getInner().vaults();
-        return populateAccessPolicies().flatMap(o -> {
-            VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
-            parameters.setLocation(getRegionName());
-            parameters.setProperties(getInner().getProperties());
-            parameters.setTags(getInner().getTags());
-            parameters.getProperties().setAccessPolicies(new ArrayList<>());
-            for (AccessPolicy accessPolicy : accessPolicies) {
-                parameters.getProperties().getAccessPolicies().add(accessPolicy.getInner());
-            }
-            return client.createOrUpdateAsync(getResourceGroupName(), getName(), parameters);
-        }).map(innerToFluentMap(this)).map(ignore -> {
-            init();
-            return this;
-        });
+        return populateAccessPolicies()
+                .then(Mono.defer(() -> {
+                    VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
+                    parameters.setLocation(getRegionName());
+                    parameters.setProperties(getInner().getProperties());
+                    parameters.setTags(getInner().getTags());
+                    parameters.getProperties().setAccessPolicies(new ArrayList<>());
+                    for (AccessPolicy accessPolicy : accessPolicies) {
+                        parameters.getProperties().getAccessPolicies().add(accessPolicy.getInner());
+                    }
+                    return client.createOrUpdateAsync(getResourceGroupName(), getName(), parameters);
+                })).map(inner -> {
+                    this.setInner(inner);
+                    init();
+                    return this;
+                });
     }
 
     @Override

@@ -112,8 +112,8 @@ class SecretImpl
         KeyVaultSecret newSecret = new KeyVaultSecret(this.getName(), valueToSet);
         newSecret.setProperties(this.attributes());
         return vault.secretClient().setSecret(newSecret)
-                .map(s -> {
-                    this.setInner(s);
+                .map(inner -> {
+                    this.setInner(inner);
                     valueToSet = null;
                     return this;
                 });

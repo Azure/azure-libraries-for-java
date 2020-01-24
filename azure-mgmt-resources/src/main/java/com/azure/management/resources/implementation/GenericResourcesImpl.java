@@ -72,23 +72,20 @@ final class GenericResourcesImpl
 
     @Override
     public boolean checkExistence(String resourceGroupName, String resourceProviderNamespace, String parentResourcePath, String resourceType, String resourceName, String apiVersion) {
-        // FIXME: why void
-//        return this.getInner().checkExistence(
-//                resourceGroupName,
-//                resourceProviderNamespace,
-//                parentResourcePath,
-//                resourceType,
-//                resourceName,
-//                apiVersion);
-        return false;
+        // FIXME: Where is API version
+        return this.getInner().checkExistence(
+                resourceGroupName,
+                resourceProviderNamespace,
+                parentResourcePath,
+                resourceType,
+                resourceName);
     }
 
     @Override
     public boolean checkExistenceById(String id) {
-        // FIXME: the apiversion usage & the checkExistenceById return value
-//        String apiVersion = getApiVersionFromId(id).block();
-//        return this.getInner().checkExistenceById(id);
-        return true;
+        // FIXME: The usage of API version
+        String apiVersion = getApiVersionFromId(id).block();
+        return this.getInner().checkExistenceById(id);
     }
 
     @Override

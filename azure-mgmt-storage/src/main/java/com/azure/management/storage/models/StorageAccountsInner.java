@@ -29,6 +29,7 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.core.management.polling.PollResult;
 import com.azure.core.util.polling.AsyncPollResponse;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
@@ -224,9 +225,9 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<StorageAccountInner> createAsync(String resourceGroupName, String accountName, StorageAccountCreateParametersInner parameters) {
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = createWithResponseAsync(resourceGroupName, accountName, parameters);
-        return client.<StorageAccountInner, StorageAccountInner>getLroResultAsync(response, client.getHttpPipeline(), StorageAccountInner.class, StorageAccountInner.class)
+        return client.<PollResult<StorageAccountInner>, StorageAccountInner>getLroResultAsync(response, client.getHttpPipeline(), StorageAccountInner.class, StorageAccountInner.class)
             .last()
-            .flatMap(AsyncPollResponse::getFinalResult);
+            .flatMap(res -> res.getFinalResult());
     }
 
     /**
@@ -708,7 +709,7 @@ public final class StorageAccountsInner implements InnerSupportsGet<StorageAccou
         Mono<SimpleResponse<Flux<ByteBuffer>>> response = failoverWithResponseAsync(resourceGroupName, accountName);
         return client.<Void, Void>getLroResultAsync(response, client.getHttpPipeline(), Void.class, Void.class)
             .last()
-            .flatMap(AsyncPollResponse::getFinalResult);
+            .flatMap(res -> res.getFinalResult());
     }
 
     /**

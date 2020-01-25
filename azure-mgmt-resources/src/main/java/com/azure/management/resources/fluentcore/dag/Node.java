@@ -49,14 +49,14 @@ public class Node<DataT, NodeT extends Node<DataT, NodeT>> {
     /**
      * @return this node's unique id
      */
-    public String getKey() {
+    public String key() {
         return this.key;
     }
 
     /**
      * @return data stored in this node
      */
-    public DataT getData() {
+    public DataT data() {
         return data;
     }
 
@@ -70,7 +70,7 @@ public class Node<DataT, NodeT extends Node<DataT, NodeT>> {
     /**
      * @return children (neighbours) of this node
      */
-    public List<String> getChildren() {
+    public List<String> children() {
         return Collections.unmodifiableList(this.children);
     }
 
@@ -103,7 +103,7 @@ public class Node<DataT, NodeT extends Node<DataT, NodeT>> {
     /**
      * @return the owner (container) graph of this node.
      */
-    public Graph<DataT, NodeT> getOwner() {
+    public Graph<DataT, NodeT> owner() {
         if (this.ownerGraph == null) {
             throw new RuntimeException("Required owner graph is not set");
         }

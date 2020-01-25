@@ -40,7 +40,7 @@ public class SecretTests extends KeyVaultManagementTest {
                 .create();
 
         Assert.assertNotNull(secret);
-        Assert.assertNotNull(secret.getId());
+        Assert.assertNotNull(secret.id());
         Assert.assertEquals("Some secret value", secret.value());
 
         secret = secret.update()

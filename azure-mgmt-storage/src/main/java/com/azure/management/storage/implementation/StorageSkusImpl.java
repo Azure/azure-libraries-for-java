@@ -26,22 +26,22 @@ class StorageSkusImpl
     }
 
     @Override
-    public StorageManager getManager() {
+    public StorageManager manager() {
         return this.manager;
     }
 
     @Override
     public PagedIterable<SkuInner> list() {
-        return this.getInner().list();
+        return this.inner().list();
     }
 
     @Override
     public PagedFlux<SkuInner> listAsync() {
-        return this.getInner().listAsync();
+        return this.inner().listAsync();
     }
 
     @Override
-    public SkusInner getInner() {
-        return this.getInner();
+    public SkusInner inner() {
+        return this.inner();
     }
 }

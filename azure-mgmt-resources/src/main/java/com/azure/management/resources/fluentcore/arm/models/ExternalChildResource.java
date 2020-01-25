@@ -17,5 +17,5 @@ public interface ExternalChildResource<FluentModelT, ParentT> extends ChildResou
     /**
      * @return the id of the external child resource
      */
-    String getId();
+    String id();
 }

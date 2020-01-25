@@ -51,7 +51,7 @@ public interface FunctionalTaskItem
          */
         @SuppressWarnings("unchecked")
         public <T extends Indexable> T taskResult(String key) {
-            Indexable result = this.wrapperTaskItem.getTaskGroup().taskResult(key);
+            Indexable result = this.wrapperTaskItem.taskGroup().taskResult(key);
             if (result == null) {
                 return null;
             } else {
@@ -65,18 +65,18 @@ public interface FunctionalTaskItem
          * the key of this TaskItem.
          */
         public Mono<Indexable> voidMono() {
-            Indexable voidIndexable = new VoidIndexable(this.wrapperTaskItem.getKey());
+            Indexable voidIndexable = new VoidIndexable(this.wrapperTaskItem.key());
             return Mono.just(voidIndexable);
         }
 
         @Override
-        public TaskGroup.InvocationContext getInner() {
+        public TaskGroup.InvocationContext inner() {
             return this.innerContext;
         }
 
         @Override
-        public String getKey() {
-            return this.wrapperTaskItem.getKey();
+        public String key() {
+            return this.wrapperTaskItem.key();
         }
     }
 }

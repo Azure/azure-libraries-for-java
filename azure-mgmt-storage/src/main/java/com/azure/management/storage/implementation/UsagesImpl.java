@@ -25,7 +25,7 @@ class UsagesImpl
     }
 
     @Override
-    public StorageManager getManager() {
+    public StorageManager manager() {
         return this.manager;
     }
 
@@ -40,7 +40,7 @@ class UsagesImpl
     }
 
     @Override
-    public UsagesInner getInner() {
-        return this.getManager().getInner().usages();
+    public UsagesInner inner() {
+        return this.manager().inner().usages();
     }
 }

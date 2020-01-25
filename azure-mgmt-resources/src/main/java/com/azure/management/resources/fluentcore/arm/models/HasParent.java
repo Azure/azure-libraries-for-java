@@ -16,5 +16,5 @@ public interface HasParent<ParentT> {
     /**
      * @return the parent of this child object
      */
-    ParentT getParent();
+    ParentT parent();
 }

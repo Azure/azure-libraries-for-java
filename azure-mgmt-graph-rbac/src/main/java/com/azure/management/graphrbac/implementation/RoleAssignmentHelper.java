@@ -6,7 +6,6 @@
 
 package com.azure.management.graphrbac.implementation;
 
-import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.management.CloudException;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.graphrbac.RoleAssignment;
@@ -20,7 +19,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 import java.util.function.Function;
-import java.util.function.Predicate;
 
 /**
  * A utility class to operate on role assignments for a resource with service principal (object id).
@@ -183,7 +181,7 @@ public class RoleAssignmentHelper {
         }
         FunctionalTaskItem remover = cxt -> rbacManager
                 .roleAssignments()
-                .deleteByIdAsync(roleAssignment.getId())
+                .deleteByIdAsync(roleAssignment.id())
                 .then(cxt.voidMono());
         this.preRunTaskGroup.addPostRunDependent(remover);
         return this;
@@ -205,7 +203,7 @@ public class RoleAssignmentHelper {
                         .listByScopeAsync(scope)
                         .filter(roleAssignment -> {
                             if (roleDefinition != null && roleAssignment != null) {
-                                return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.getId())
+                                return roleAssignment.roleDefinitionId().equalsIgnoreCase(roleDefinition.id())
                                         && roleAssignment.principalId().equalsIgnoreCase(idProvider.principalId());
                             } else {
                                 return false;
@@ -213,7 +211,7 @@ public class RoleAssignmentHelper {
                         }).last())
                 .flatMap((Function<RoleAssignment, Mono<Indexable>>) roleAssignment -> rbacManager
                         .roleAssignments()
-                        .deleteByIdAsync(roleAssignment.getId())
+                        .deleteByIdAsync(roleAssignment.id())
                         .then(cxt.voidMono()));
         this.preRunTaskGroup.addPostRunDependent(remover);
         return this;

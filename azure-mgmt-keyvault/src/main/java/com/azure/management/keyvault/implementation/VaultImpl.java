@@ -66,12 +66,12 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
             }
         }
 
-        vaultRestClient = getManager().newRestClientBuilder().withScope("https://vault.azure.net" + "/.default").buildClient();
+        vaultRestClient = manager().newRestClientBuilder().withScope("https://vault.azure.net" + "/.default").buildClient();
         init();
     }
 
     private void init() {
-        if (getInner().getProperties().getVaultUri() != null) {
+        if (inner().getProperties().getVaultUri() != null) {
             final String vaultUrl = vaultUri();
             this.secretClient = new SecretClientBuilder()
                     .vaultUrl(vaultUrl)
@@ -117,29 +117,29 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
 
     @Override
     public String vaultUri() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return null;
         }
-        return getInner().getProperties().getVaultUri();
+        return inner().getProperties().getVaultUri();
     }
 
     @Override
     public String tenantId() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return null;
         }
-        if (getInner().getProperties().getTenantId() == null) {
+        if (inner().getProperties().getTenantId() == null) {
             return null;
         }
-        return getInner().getProperties().getTenantId().toString();
+        return inner().getProperties().getTenantId().toString();
     }
 
     @Override
     public Sku sku() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return null;
         }
-        return getInner().getProperties().getSku();
+        return inner().getProperties().getSku();
     }
 
     @Override
@@ -150,42 +150,42 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
 
     @Override
     public boolean enabledForDeployment() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return false;
         }
-        return Utils.toPrimitiveBoolean(getInner().getProperties().isEnabledForDeployment());
+        return Utils.toPrimitiveBoolean(inner().getProperties().isEnabledForDeployment());
     }
 
     @Override
     public boolean enabledForDiskEncryption() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return false;
         }
-        return Utils.toPrimitiveBoolean(getInner().getProperties().isEnabledForDiskEncryption());
+        return Utils.toPrimitiveBoolean(inner().getProperties().isEnabledForDiskEncryption());
     }
 
     @Override
     public boolean enabledForTemplateDeployment() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return false;
         }
-        return Utils.toPrimitiveBoolean(getInner().getProperties().isEnabledForTemplateDeployment());
+        return Utils.toPrimitiveBoolean(inner().getProperties().isEnabledForTemplateDeployment());
     }
 
     @Override
     public boolean softDeleteEnabled() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return false;
         }
-        return Utils.toPrimitiveBoolean(getInner().getProperties().isEnableSoftDelete());
+        return Utils.toPrimitiveBoolean(inner().getProperties().isEnableSoftDelete());
     }
 
     @Override
     public boolean purgeProtectionEnabled() {
-        if (getInner().getProperties() == null) {
+        if (inner().getProperties() == null) {
             return false;
         }
-        return Utils.toPrimitiveBoolean(getInner().getProperties().isEnablePurgeProtection());
+        return Utils.toPrimitiveBoolean(inner().getProperties().isEnablePurgeProtection());
     }
 
     @Override
@@ -228,58 +228,58 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
 
     @Override
     public VaultImpl withDeploymentEnabled() {
-        getInner().getProperties().setEnabledForDeployment(true);
+        inner().getProperties().setEnabledForDeployment(true);
         return this;
     }
 
     @Override
     public VaultImpl withDiskEncryptionEnabled() {
-        getInner().getProperties().setEnabledForDiskEncryption(true);
+        inner().getProperties().setEnabledForDiskEncryption(true);
         return this;
     }
 
     @Override
     public VaultImpl withTemplateDeploymentEnabled() {
-        getInner().getProperties().setEnabledForTemplateDeployment(true);
+        inner().getProperties().setEnabledForTemplateDeployment(true);
         return this;
     }
 
     @Override
     public VaultImpl withSoftDeleteEnabled() {
-        getInner().getProperties().setEnableSoftDelete(true);
+        inner().getProperties().setEnableSoftDelete(true);
         return this;
     }
 
     @Override
     public VaultImpl withPurgeProtectionEnabled() {
-        getInner().getProperties().setEnablePurgeProtection(true);
+        inner().getProperties().setEnablePurgeProtection(true);
         return this;
     }
 
     @Override
     public VaultImpl withDeploymentDisabled() {
-        getInner().getProperties().setEnabledForDeployment(false);
+        inner().getProperties().setEnabledForDeployment(false);
         return this;
     }
 
     @Override
     public VaultImpl withDiskEncryptionDisabled() {
-        getInner().getProperties().setEnabledForDiskEncryption(false);
+        inner().getProperties().setEnabledForDiskEncryption(false);
         return this;
     }
 
     @Override
     public VaultImpl withTemplateDeploymentDisabled() {
-        getInner().getProperties().setEnabledForTemplateDeployment(false);
+        inner().getProperties().setEnabledForTemplateDeployment(false);
         return this;
     }
 
     @Override
     public VaultImpl withSku(SkuName skuName) {
-        if (getInner().getProperties() == null) {
-            getInner().setProperties(new VaultProperties());
+        if (inner().getProperties() == null) {
+            inner().setProperties(new VaultProperties());
         }
-        getInner().getProperties().setSku(new Sku().setName(skuName));
+        inner().getProperties().setSku(new Sku().setName(skuName));
         return this;
     }
 
@@ -291,7 +291,7 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
                     observables.add(
                             graphRbacManager.users().getByNameAsync(accessPolicy.userPrincipalName())
                                     .subscribeOn(SdkContext.getReactorScheduler())
-                                    .doOnNext(user -> accessPolicy.forObjectId(user.getId()))
+                                    .doOnNext(user -> accessPolicy.forObjectId(user.id()))
                                     .switchIfEmpty(Mono.error(new CloudException(String.format(
                                             "User principal name %s is not found in tenant %s",
                                             accessPolicy.userPrincipalName(), graphRbacManager.tenantId()),
@@ -301,7 +301,7 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
                     observables.add(
                             graphRbacManager.servicePrincipals().getByNameAsync(accessPolicy.servicePrincipalName())
                                     .subscribeOn(SdkContext.getReactorScheduler())
-                                    .doOnNext(sp -> accessPolicy.forObjectId(sp.getId()))
+                                    .doOnNext(sp -> accessPolicy.forObjectId(sp.id()))
                                     .switchIfEmpty(Mono.error(new CloudException(String.format(
                                             "Service principal name %s is not found in tenant %s",
                                             accessPolicy.servicePrincipalName(), graphRbacManager.tenantId()),
@@ -321,18 +321,18 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
 
     @Override
     public Mono<Vault> createResourceAsync() {
-        final VaultsInner client = this.getManager().getInner().vaults();
+        final VaultsInner client = this.manager().inner().vaults();
         return populateAccessPolicies()
                 .then(Mono.defer(() -> {
                     VaultCreateOrUpdateParameters parameters = new VaultCreateOrUpdateParameters();
-                    parameters.setLocation(getRegionName());
-                    parameters.setProperties(getInner().getProperties());
-                    parameters.setTags(getInner().getTags());
+                    parameters.setLocation(regionName());
+                    parameters.setProperties(inner().getProperties());
+                    parameters.setTags(inner().getTags());
                     parameters.getProperties().setAccessPolicies(new ArrayList<>());
                     for (AccessPolicy accessPolicy : accessPolicies) {
-                        parameters.getProperties().getAccessPolicies().add(accessPolicy.getInner());
+                        parameters.getProperties().getAccessPolicies().add(accessPolicy.inner());
                     }
-                    return client.createOrUpdateAsync(getResourceGroupName(), getName(), parameters);
+                    return client.createOrUpdateAsync(resourceGroupName(), this.name(), parameters);
                 })).map(inner -> {
                     this.setInner(inner);
                     init();
@@ -342,35 +342,35 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
 
     @Override
     protected Mono<VaultInner> getInnerAsync() {
-        return this.getManager().getInner().vaults().getByResourceGroupAsync(getResourceGroupName(), getName());
+        return this.manager().inner().vaults().getByResourceGroupAsync(resourceGroupName(), this.name());
     }
 
     @Override
     public CreateMode createMode() {
-        return getInner().getProperties().getCreateMode();
+        return inner().getProperties().getCreateMode();
     }
 
 
     @Override
     public NetworkRuleSet networkRuleSet() {
-        return getInner().getProperties().getNetworkAcls();
+        return inner().getProperties().getNetworkAcls();
     }
 
     @Override
     public VaultImpl withAccessFromAllNetworks() {
-        if (getInner().getProperties().getNetworkAcls() == null) {
-            getInner().getProperties().setNetworkAcls(new NetworkRuleSet());
+        if (inner().getProperties().getNetworkAcls() == null) {
+            inner().getProperties().setNetworkAcls(new NetworkRuleSet());
         }
-        getInner().getProperties().getNetworkAcls().setDefaultAction(NetworkRuleAction.ALLOW);
+        inner().getProperties().getNetworkAcls().setDefaultAction(NetworkRuleAction.ALLOW);
         return this;
     }
 
     @Override
     public VaultImpl withAccessFromSelectedNetworks() {
-        if (getInner().getProperties().getNetworkAcls() == null) {
-            getInner().getProperties().setNetworkAcls(new NetworkRuleSet());
+        if (inner().getProperties().getNetworkAcls() == null) {
+            inner().getProperties().setNetworkAcls(new NetworkRuleSet());
         }
-        getInner().getProperties().getNetworkAcls().setDefaultAction(NetworkRuleAction.DENY);
+        inner().getProperties().getNetworkAcls().setDefaultAction(NetworkRuleAction.DENY);
         return this;
     }
 
@@ -381,7 +381,7 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
      * @return VaultImpl
      */
     private VaultImpl withAccessAllowedFromIpAddressOrRange(String ipAddressOrRange) {
-        NetworkRuleSet networkRuleSet = getInner().getProperties().getNetworkAcls();
+        NetworkRuleSet networkRuleSet = inner().getProperties().getNetworkAcls();
         if (networkRuleSet.getIpRules() == null) {
             networkRuleSet.setIpRules(new ArrayList<>());
         }
@@ -411,37 +411,37 @@ class VaultImpl extends GroupableResourceImpl<Vault, VaultInner, VaultImpl, KeyV
 
     @Override
     public VaultImpl withAccessFromAzureServices() {
-        if (getInner().getProperties().getNetworkAcls() == null) {
-            getInner().getProperties().setNetworkAcls(new NetworkRuleSet());
+        if (inner().getProperties().getNetworkAcls() == null) {
+            inner().getProperties().setNetworkAcls(new NetworkRuleSet());
         }
-        getInner().getProperties().getNetworkAcls().setBypass(NetworkRuleBypassOptions.AZURE_SERVICES);
+        inner().getProperties().getNetworkAcls().setBypass(NetworkRuleBypassOptions.AZURE_SERVICES);
         return this;
     }
 
     @Override
     public VaultImpl withBypass(NetworkRuleBypassOptions bypass) {
-        if (getInner().getProperties().getNetworkAcls() == null) {
-            getInner().getProperties().setNetworkAcls(new NetworkRuleSet());
+        if (inner().getProperties().getNetworkAcls() == null) {
+            inner().getProperties().setNetworkAcls(new NetworkRuleSet());
         }
-        getInner().getProperties().getNetworkAcls().setBypass(bypass);
+        inner().getProperties().getNetworkAcls().setBypass(bypass);
         return this;
     }
 
     @Override
     public VaultImpl withDefaultAction(NetworkRuleAction defaultAction) {
-        if (getInner().getProperties().getNetworkAcls() == null) {
-            getInner().getProperties().setNetworkAcls(new NetworkRuleSet());
+        if (inner().getProperties().getNetworkAcls() == null) {
+            inner().getProperties().setNetworkAcls(new NetworkRuleSet());
         }
-        getInner().getProperties().getNetworkAcls().setDefaultAction(defaultAction);
+        inner().getProperties().getNetworkAcls().setDefaultAction(defaultAction);
         return this;
     }
 
     @Override
     public VaultImpl withVirtualNetworkRules(List<VirtualNetworkRule> virtualNetworkRules) {
-        if (getInner().getProperties().getNetworkAcls() == null) {
-            getInner().getProperties().setNetworkAcls(new NetworkRuleSet());
+        if (inner().getProperties().getNetworkAcls() == null) {
+            inner().getProperties().setNetworkAcls(new NetworkRuleSet());
         }
-        getInner().getProperties().getNetworkAcls().setVirtualNetworkRules(virtualNetworkRules);
+        inner().getProperties().getNetworkAcls().setVirtualNetworkRules(virtualNetworkRules);
         return this;
     }
 

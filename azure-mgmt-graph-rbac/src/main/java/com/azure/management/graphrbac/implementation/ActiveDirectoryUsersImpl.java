@@ -34,7 +34,7 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public PagedIterable<ActiveDirectoryUser> list() {
-        return wrapList(this.getManager().getInner().users().list(null));
+        return wrapList(this.manager().inner().users().list(null));
     }
 
     @Override
@@ -42,7 +42,7 @@ class ActiveDirectoryUsersImpl
         if (userInner == null) {
             return null;
         }
-        return new ActiveDirectoryUserImpl(userInner, getManager());
+        return new ActiveDirectoryUserImpl(userInner, manager());
     }
 
     @Override
@@ -52,11 +52,11 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public Mono<ActiveDirectoryUser> getByIdAsync(String id) {
-        return getManager().getInner().users().getAsync(id).map(userInner -> {
+        return manager().inner().users().getAsync(id).map(userInner -> {
             if (userInner == null) {
                 return null;
             } else {
-                return new ActiveDirectoryUserImpl(userInner, getManager());
+                return new ActiveDirectoryUserImpl(userInner, manager());
             }
         });
     }
@@ -68,7 +68,7 @@ class ActiveDirectoryUsersImpl
 
     @Override
     public Mono<ActiveDirectoryUser> getByNameAsync(final String name) {
-        return getManager().getInner().users().getAsync(name)
+        return manager().inner().users().getAsync(name)
                 .flatMap((Function<UserInner, Mono<UserInner>>) userInner -> {
                     // Exact match
                     if (userInner != null) {
@@ -76,12 +76,12 @@ class ActiveDirectoryUsersImpl
                     }
                     // Search mail & mail nickname
                     if (name.contains("@")) {
-                        return getManager().getInner().users().listAsync(String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_")))
+                        return manager().inner().users().listAsync(String.format("mail eq '%s' or mailNickName eq '%s#EXT#'", name, name.replace("@", "_")))
                                 .last();
                     }
                     // Search display name
                     else {
-                        return getManager().getInner().users().listAsync(String.format("displayName eq '%s'", name))
+                        return manager().inner().users().listAsync(String.format("displayName eq '%s'", name))
                                 .last();
                     }
                 })
@@ -89,13 +89,13 @@ class ActiveDirectoryUsersImpl
                     if (userInnerServiceResponse == null) {
                         return null;
                     }
-                    return new ActiveDirectoryUserImpl(userInnerServiceResponse, getManager());
+                    return new ActiveDirectoryUserImpl(userInnerServiceResponse, manager());
                 });
     }
 
     @Override
     public PagedFlux<ActiveDirectoryUser> listAsync() {
-        return wrapPageAsync(this.getInner().listAsync(null));
+        return wrapPageAsync(this.inner().listAsync(null));
     }
 
     @Override
@@ -105,21 +105,21 @@ class ActiveDirectoryUsersImpl
 
     @Override
     protected ActiveDirectoryUserImpl wrapModel(String name) {
-        return new ActiveDirectoryUserImpl((UserInner) new UserInner().setDisplayName(name), getManager());
+        return new ActiveDirectoryUserImpl((UserInner) new UserInner().setDisplayName(name), manager());
     }
 
     @Override
     public Mono<Void> deleteByIdAsync(String id) {
-        return getManager().getInner().users().deleteAsync(id);
+        return manager().inner().users().deleteAsync(id);
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public UsersInner getInner() {
-        return getManager().getInner().users();
+    public UsersInner inner() {
+        return manager().inner().users();
     }
 }

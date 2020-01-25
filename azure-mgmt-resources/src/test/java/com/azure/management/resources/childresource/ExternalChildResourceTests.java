@@ -12,7 +12,6 @@ import com.azure.management.resources.fluentcore.model.Indexable;
 import org.junit.Assert;
 import org.junit.Test;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,7 @@ public class ExternalChildResourceTests {
                 .attach()
                 .updatePullet("Clover")
                 .withAge(2)
-                .getParent()
+                .parent()
                 .withoutPullet("Pinky");
 
         final List<PulletImpl> changedPuppets = new ArrayList<>();
@@ -89,11 +88,11 @@ public class ExternalChildResourceTests {
                 .attach()
                 .updatePullet("Clover")
                 .withAge(2)
-                .getParent()
+                .parent()
                 .updatePullet("Goldilocks")
                 .withAge(2)
                 .withFailFlag(PulletImpl.FailFlag.OnUpdate)
-                .getParent()
+                .parent()
                 .withoutPullet("Pinky");
 
         final List<PulletImpl> changedPuppets = new ArrayList<>();

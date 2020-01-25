@@ -56,7 +56,7 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
 
         ResourceGroup resourceGroup = resourceManager
                 .resourceGroups()
-                .getByName(storageAccount1.getResourceGroupName());
+                .getByName(storageAccount1.resourceGroupName());
 
         StorageAccount storageAccount2 = storageManager.storageAccounts()
                 .define(SA_NAME2)
@@ -65,9 +65,9 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
                 .withAccessFromIpAddress("23.20.0.0")
                 .create();
 
-        Assert.assertNotNull(storageAccount2.getInner().getNetworkRuleSet());
-        Assert.assertNotNull(storageAccount2.getInner().getNetworkRuleSet().getDefaultAction());
-        Assert.assertNotNull(storageAccount2.getInner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.DENY));
+        Assert.assertNotNull(storageAccount2.inner().getNetworkRuleSet());
+        Assert.assertNotNull(storageAccount2.inner().getNetworkRuleSet().getDefaultAction());
+        Assert.assertNotNull(storageAccount2.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.DENY));
 
         Assert.assertNotNull(storageAccount2.networkSubnetsWithAccess());
         Assert.assertEquals(0, storageAccount2.networkSubnetsWithAccess().size());
@@ -91,9 +91,9 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
                 .withAccessFromIpAddress("23.20.0.0")
                 .create();
 
-        Assert.assertNotNull(storageAccount3.getInner().getNetworkRuleSet());
-        Assert.assertNotNull(storageAccount3.getInner().getNetworkRuleSet().getDefaultAction());
-        Assert.assertNotNull(storageAccount3.getInner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.ALLOW));
+        Assert.assertNotNull(storageAccount3.inner().getNetworkRuleSet());
+        Assert.assertNotNull(storageAccount3.inner().getNetworkRuleSet().getDefaultAction());
+        Assert.assertNotNull(storageAccount3.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.ALLOW));
 
         Assert.assertNotNull(storageAccount3.networkSubnetsWithAccess());
         Assert.assertEquals(0, storageAccount3.networkSubnetsWithAccess().size());
@@ -117,9 +117,9 @@ public class StorageAccountNetworkRuleTests extends StorageManagementTest {
                 .withReadAccessToMetricsFromAnyNetwork()
                 .create();
 
-        Assert.assertNotNull(storageAccount4.getInner().getNetworkRuleSet());
-        Assert.assertNotNull(storageAccount4.getInner().getNetworkRuleSet().getDefaultAction());
-        Assert.assertNotNull(storageAccount4.getInner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.DENY));
+        Assert.assertNotNull(storageAccount4.inner().getNetworkRuleSet());
+        Assert.assertNotNull(storageAccount4.inner().getNetworkRuleSet().getDefaultAction());
+        Assert.assertNotNull(storageAccount4.inner().getNetworkRuleSet().getDefaultAction().equals(DefaultAction.DENY));
 
         Assert.assertNotNull(storageAccount4.networkSubnetsWithAccess());
         Assert.assertEquals(0, storageAccount4.networkSubnetsWithAccess().size());

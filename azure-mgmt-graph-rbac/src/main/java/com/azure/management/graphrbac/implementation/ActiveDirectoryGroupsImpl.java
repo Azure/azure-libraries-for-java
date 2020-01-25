@@ -31,7 +31,7 @@ class ActiveDirectoryGroupsImpl
 
     @Override
     public PagedIterable<ActiveDirectoryGroup> list() {
-        return wrapList(this.manager.getInner().groups().list(null));
+        return wrapList(this.manager.inner().groups().list(null));
     }
 
     @Override
@@ -39,7 +39,7 @@ class ActiveDirectoryGroupsImpl
         if (groupInner == null) {
             return null;
         }
-        return new ActiveDirectoryGroupImpl(groupInner, getManager());
+        return new ActiveDirectoryGroupImpl(groupInner, manager());
     }
 
     @Override
@@ -49,29 +49,29 @@ class ActiveDirectoryGroupsImpl
 
     @Override
     public Mono<ActiveDirectoryGroup> getByIdAsync(String id) {
-        return manager.getInner().groups().getAsync(id)
+        return manager.inner().groups().getAsync(id)
                 .map(groupInner -> {
                     if (groupInner == null) {
                         return null;
                     } else {
-                        return new ActiveDirectoryGroupImpl(groupInner, getManager());
+                        return new ActiveDirectoryGroupImpl(groupInner, manager());
                     }
                 });
     }
 
     @Override
     public PagedFlux<ActiveDirectoryGroup> listAsync() {
-        return wrapPageAsync(getManager().getInner().groups().listAsync(null));
+        return wrapPageAsync(manager().inner().groups().listAsync(null));
     }
 
     @Override
     public Mono<ActiveDirectoryGroup> getByNameAsync(String name) {
-        return getManager().getInner().groups().listAsync(String.format("displayName eq '%s'", name))
+        return manager().inner().groups().listAsync(String.format("displayName eq '%s'", name))
                 .flatMap((Function<ADGroupInner, Mono<ActiveDirectoryGroup>>) adGroupInner -> {
                     if (adGroupInner == null) {
                         return null;
                     }
-                    ActiveDirectoryGroupImpl activeDirectoryGroup = new ActiveDirectoryGroupImpl(adGroupInner, getManager());
+                    ActiveDirectoryGroupImpl activeDirectoryGroup = new ActiveDirectoryGroupImpl(adGroupInner, manager());
                     return activeDirectoryGroup.refreshAsync();
                 }).last();
     }
@@ -93,16 +93,16 @@ class ActiveDirectoryGroupsImpl
 
     @Override
     public Mono<Void> deleteByIdAsync(String id) {
-        return getManager().getInner().groups().deleteAsync(id);
+        return manager().inner().groups().deleteAsync(id);
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public GroupsInner getInner() {
-        return getManager().getInner().groups();
+    public GroupsInner inner() {
+        return manager().inner().groups();
     }
 }

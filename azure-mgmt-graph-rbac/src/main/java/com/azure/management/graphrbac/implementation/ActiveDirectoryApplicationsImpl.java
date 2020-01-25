@@ -62,7 +62,7 @@ class ActiveDirectoryApplicationsImpl
         if (applicationInner == null) {
             return null;
         }
-        return new ActiveDirectoryApplicationImpl(applicationInner, getManager());
+        return new ActiveDirectoryApplicationImpl(applicationInner, manager());
     }
 
     @Override
@@ -77,7 +77,7 @@ class ActiveDirectoryApplicationsImpl
                     if (applicationInner == null) {
                         return Mono.just(null);
                     } else {
-                        return new ActiveDirectoryApplicationImpl(applicationInner, getManager())
+                        return new ActiveDirectoryApplicationImpl(applicationInner, manager())
                                 .refreshCredentialsAsync();
                     }
                 });
@@ -110,7 +110,7 @@ class ActiveDirectoryApplicationsImpl
                     if (result == null || result.toIterable() == null || !result.toIterable().iterator().hasNext()) {
                         return null;
                     }
-                    return new ActiveDirectoryApplicationImpl(result.toIterable().iterator().next(), getManager());
+                    return new ActiveDirectoryApplicationImpl(result.toIterable().iterator().next(), manager());
                 }).flatMap((Function<ActiveDirectoryApplicationImpl, Mono<ActiveDirectoryApplication>>) application -> {
                     if (application == null) {
                         return null;
@@ -121,12 +121,12 @@ class ActiveDirectoryApplicationsImpl
 
     @Override
     protected ActiveDirectoryApplicationImpl wrapModel(String name) {
-        return new ActiveDirectoryApplicationImpl(new ApplicationInner().setDisplayName(name), getManager());
+        return new ActiveDirectoryApplicationImpl(new ApplicationInner().setDisplayName(name), manager());
     }
 
     @Override
     public Mono<Void> deleteByIdAsync(String id) {
-        return getInner().deleteAsync(id);
+        return inner().deleteAsync(id);
     }
 
     @Override
@@ -135,12 +135,12 @@ class ActiveDirectoryApplicationsImpl
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public ApplicationsInner getInner() {
+    public ApplicationsInner inner() {
         return this.innerCollection;
     }
 }

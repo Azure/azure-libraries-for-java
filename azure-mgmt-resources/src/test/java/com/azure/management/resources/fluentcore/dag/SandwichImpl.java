@@ -11,7 +11,6 @@ import com.azure.management.resources.fluentcore.model.implementation.CreatableU
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of {@link ISandwich}
@@ -38,7 +37,7 @@ public class SandwichImpl
 
     @Override
     public Mono<ISandwich> createResourceAsync() {
-        System.out.println("Sandwich(" + this.getName() + ")::createResourceAsync() [Creating sandwich]");
+        System.out.println("Sandwich(" + this.name() + ")::createResourceAsync() [Creating sandwich]");
         return Mono.just(this)
                 .delayElement(Duration.ofMillis(250))
                 .map(sandwich -> sandwich);
@@ -51,6 +50,6 @@ public class SandwichImpl
 
     @Override
     protected Mono<SandwichInner> getInnerAsync() {
-        return Mono.just(this.getInner());
+        return Mono.just(this.inner());
     }
 }

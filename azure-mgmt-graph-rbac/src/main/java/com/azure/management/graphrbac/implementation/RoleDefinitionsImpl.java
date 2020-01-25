@@ -40,7 +40,7 @@ class RoleDefinitionsImpl
         if (roleDefinitionInner == null) {
             return null;
         }
-        return new RoleDefinitionImpl(roleDefinitionInner, getManager());
+        return new RoleDefinitionImpl(roleDefinitionInner, manager());
     }
 
     @Override
@@ -50,11 +50,11 @@ class RoleDefinitionsImpl
 
     @Override
     public Mono<RoleDefinition> getByIdAsync(String id) {
-        return getInner().getByIdAsync(id).map(roleDefinitionInner -> {
+        return inner().getByIdAsync(id).map(roleDefinitionInner -> {
             if (roleDefinitionInner == null) {
                 return null;
             } else {
-                return new RoleDefinitionImpl(roleDefinitionInner, getManager());
+                return new RoleDefinitionImpl(roleDefinitionInner, manager());
             }
         });
     }
@@ -66,12 +66,12 @@ class RoleDefinitionsImpl
 
     @Override
     public Mono<RoleDefinition> getByScopeAsync(String scope,  String name) {
-        return getInner().getAsync(scope, name)
+        return inner().getAsync(scope, name)
                 .map(roleDefinitionInner -> {
                     if (roleDefinitionInner == null) {
                         return null;
                     }
-                    return new RoleDefinitionImpl(roleDefinitionInner, getManager());
+                    return new RoleDefinitionImpl(roleDefinitionInner, manager());
                 });
     }
 
@@ -82,37 +82,37 @@ class RoleDefinitionsImpl
 
     @Override
     public PagedFlux<RoleDefinition> listByScopeAsync(String scope) {
-        return getInner().listAsync(scope, null).mapPage(roleDefinitionInner -> {
+        return inner().listAsync(scope, null).mapPage(roleDefinitionInner -> {
             if (roleDefinitionInner == null) {
                 return null;
             }
-            return new RoleDefinitionImpl(roleDefinitionInner, getManager());
+            return new RoleDefinitionImpl(roleDefinitionInner, manager());
         });
     }
 
     @Override
     public PagedIterable<RoleDefinition> listByScope(String scope) {
-        return wrapList(getInner().list(scope, null));
+        return wrapList(inner().list(scope, null));
     }
 
     @Override
     public Mono<RoleDefinition> getByScopeAndRoleNameAsync(String scope,  String roleName) {
-        return getInner().listAsync(scope, String.format("roleName eq '%s'", roleName))
+        return inner().listAsync(scope, String.format("roleName eq '%s'", roleName))
                 .map((Function<RoleDefinitionInner, RoleDefinition>) roleDefinitionInner -> {
                     if (roleDefinitionInner == null) {
                         return null;
                     }
-                    return new RoleDefinitionImpl(roleDefinitionInner, getManager());
+                    return new RoleDefinitionImpl(roleDefinitionInner, manager());
                 }).last();
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public RoleDefinitionsInner getInner() {
-        return getManager().roleInner().roleDefinitions();
+    public RoleDefinitionsInner inner() {
+        return manager().roleInner().roleDefinitions();
     }
 }

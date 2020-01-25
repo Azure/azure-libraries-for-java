@@ -16,5 +16,5 @@ public interface HasName {
     /**
      * @return the name of the resource
      */
-    String getName();
+    String name();
 }

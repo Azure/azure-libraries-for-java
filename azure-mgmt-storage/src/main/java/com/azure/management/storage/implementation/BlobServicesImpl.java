@@ -18,7 +18,7 @@ class BlobServicesImpl extends WrapperImpl<BlobServicesInner> implements BlobSer
     private final StorageManager manager;
 
     BlobServicesImpl(StorageManager manager) {
-        super(manager.getInner().blobServices());
+        super(manager.inner().blobServices());
         this.manager = manager;
     }
 
@@ -41,7 +41,7 @@ class BlobServicesImpl extends WrapperImpl<BlobServicesInner> implements BlobSer
 
     @Override
     public Mono<BlobServiceProperties> getServicePropertiesAsync(String resourceGroupName, String accountName) {
-        return getInner().getServicePropertiesAsync(resourceGroupName, accountName)
+        return inner().getServicePropertiesAsync(resourceGroupName, accountName)
                 .map(inner -> wrapModel(inner));
     }
 }

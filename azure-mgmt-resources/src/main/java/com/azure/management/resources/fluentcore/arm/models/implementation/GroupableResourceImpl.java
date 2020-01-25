@@ -50,7 +50,7 @@ public abstract class GroupableResourceImpl<
     protected String resourceIdBase() {
         return new StringBuilder()
                 .append("/subscriptions/").append(this.myManager.getSubscriptionId())
-                .append("/resourceGroups/").append(this.getResourceGroupName())
+                .append("/resourceGroups/").append(this.resourceGroupName())
                 .toString();
     }
 
@@ -59,14 +59,14 @@ public abstract class GroupableResourceImpl<
      *******************************************/
 
     @Override
-    public ManagerT getManager() {
+    public ManagerT manager() {
         return this.myManager;
     }
 
     @Override
-    public String getResourceGroupName() {
+    public String resourceGroupName() {
         if (this.groupName == null) {
-            return ResourceUtils.groupFromResourceId(this.getId());
+            return ResourceUtils.groupFromResourceId(this.id());
         } else {
             return this.groupName;
         }
@@ -86,7 +86,7 @@ public abstract class GroupableResourceImpl<
      */
     public final FluentModelImplT withNewResourceGroup(String groupName) {
         return this.withNewResourceGroup(
-                this.myManager.getResourceManager().resourceGroups().define(groupName).withRegion(this.getRegionName()));
+                this.myManager.getResourceManager().resourceGroups().define(groupName).withRegion(this.regionName()));
     }
 
     /**
@@ -112,7 +112,7 @@ public abstract class GroupableResourceImpl<
      * @return the next stage of the definition
      */
     public final FluentModelImplT withNewResourceGroup() {
-        return this.withNewResourceGroup(this.getName() + "group");
+        return this.withNewResourceGroup(this.name() + "group");
     }
 
     /**
@@ -125,7 +125,7 @@ public abstract class GroupableResourceImpl<
      * @return the next stage of the definition
      */
     public final FluentModelImplT withNewResourceGroup(Region region) {
-        return this.withNewResourceGroup(this.getName() + "group", region);
+        return this.withNewResourceGroup(this.name() + "group", region);
     }
 
     /**
@@ -136,7 +136,7 @@ public abstract class GroupableResourceImpl<
      */
     @SuppressWarnings("unchecked")
     public final FluentModelImplT withNewResourceGroup(Creatable<ResourceGroup> creatable) {
-        this.groupName = creatable.getName();
+        this.groupName = creatable.name();
         this.creatableGroup = creatable;
         this.addDependency(creatable);
         return (FluentModelImplT) this;
@@ -161,6 +161,6 @@ public abstract class GroupableResourceImpl<
      * @return the next stage of the definition
      */
     public final FluentModelImplT withExistingResourceGroup(ResourceGroup group) {
-        return this.withExistingResourceGroup(group.getName());
+        return this.withExistingResourceGroup(group.name());
     }
 }

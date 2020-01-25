@@ -60,7 +60,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         PagedIterable<Deployment> deployments = resourceClient.deployments().listByResourceGroup(rgName);
         boolean found = false;
         for (Deployment deployment : deployments) {
-            if (deployment.getName().equals(dpName)) {
+            if (deployment.name().equals(dpName)) {
                 found = true;
             }
         }
@@ -102,7 +102,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         PagedIterable<Deployment> deployments = resourceClient.deployments().listByResourceGroup(rgName);
         boolean found = false;
         for (Deployment deployment : deployments) {
-            if (deployment.getName().equals(dpName)) {
+            if (deployment.name().equals(dpName)) {
                 found = true;
             }
         }
@@ -142,7 +142,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
         PagedIterable<Deployment> deployments = resourceClient.deployments().listByResourceGroup(rgName);
         boolean found = false;
         for (Deployment deployment : deployments) {
-            if (deployment.getName().equals(dpName)) {
+            if (deployment.name().equals(dpName)) {
                 found = true;
             }
         }
@@ -181,7 +181,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .withMode(DeploymentMode.COMPLETE)
                 .beginCreate();
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
-        Assert.assertEquals(dp, deployment.getName());
+        Assert.assertEquals(dp, deployment.name());
         // Cancel
         deployment.cancel();
         deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
@@ -203,7 +203,7 @@ public class DeploymentsTests extends ResourceManagerTestBase {
                 .beginCreate();
         Deployment deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);
         Assert.assertEquals(createdDeployment.correlationId(), deployment.correlationId());
-        Assert.assertEquals(dp, deployment.getName());
+        Assert.assertEquals(dp, deployment.name());
         // Cancel
         deployment.cancel();
         deployment = resourceClient.deployments().getByResourceGroup(rgName, dp);

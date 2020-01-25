@@ -85,11 +85,11 @@ public class ProxyTaskGroupTests {
         //
         group.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group.getNext(); entry != null; entry = group.getNext()) {
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group.reportCompletion(entry);
         }
 
@@ -209,11 +209,11 @@ public class ProxyTaskGroupTests {
         //
         group1.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group1.getNext(); entry != null; entry = group1.getNext()) {
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group1.reportCompletion(entry);
         }
 
@@ -354,13 +354,13 @@ public class ProxyTaskGroupTests {
         //
         group2.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
-            Assert.assertTrue(shouldNotSee.containsKey(entry.getKey()));
-            Assert.assertFalse(seen.contains(entry.getKey()));
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group2.reportCompletion(entry);
         }
 
@@ -505,18 +505,18 @@ public class ProxyTaskGroupTests {
         Set<String> seen = new HashSet<>();
         // Test invocation order for "group-1 proxy"
         //
-        group1.proxyTaskGroupWrapper.getTaskGroup().prepareForEnumeration();
-        for (TaskGroupEntry<TaskItem> entry = group1.proxyTaskGroupWrapper.getTaskGroup().getNext();
+        group1.proxyTaskGroupWrapper.taskGroup().prepareForEnumeration();
+        for (TaskGroupEntry<TaskItem> entry = group1.proxyTaskGroupWrapper.taskGroup().getNext();
              entry != null;
-             entry = group1.proxyTaskGroupWrapper.getTaskGroup().getNext()) {
-            Assert.assertTrue(shouldNotSee.containsKey(entry.getKey()));
-            Assert.assertFalse(seen.contains(entry.getKey()));
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+             entry = group1.proxyTaskGroupWrapper.taskGroup().getNext()) {
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
-            group1.proxyTaskGroupWrapper.getTaskGroup().reportCompletion(entry);
+            seen.add(entry.key());
+            group1.proxyTaskGroupWrapper.taskGroup().reportCompletion(entry);
         }
 
         Assert.assertEquals(13, seen.size()); // 2 groups each with 6 nodes + 1 proxy (proxy-F)
@@ -530,7 +530,7 @@ public class ProxyTaskGroupTests {
 
 
         group1.invokeAsync(group1.newInvocationContext())
-                .subscribe(indexable -> System.out.println(indexable.getKey()));
+                .subscribe(indexable -> System.out.println(indexable.key()));
     }
 
     @Test
@@ -668,13 +668,13 @@ public class ProxyTaskGroupTests {
         //
         group2.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
-            Assert.assertTrue(shouldNotSee.containsKey(entry.getKey()));
-            Assert.assertFalse(seen.contains(entry.getKey()));
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group2.reportCompletion(entry);
         }
 
@@ -824,9 +824,9 @@ public class ProxyTaskGroupTests {
         //
         Assert.assertEquals(2, group1.parentDAGs.size());
         Assert.assertTrue(group1.parentDAGs.contains(group3));
-        Assert.assertTrue(group1.parentDAGs.contains(group1.proxyTaskGroupWrapper.getTaskGroup()));
-        Assert.assertEquals(1, group1.proxyTaskGroupWrapper.getTaskGroup().parentDAGs.size());
-        Assert.assertTrue(group1.proxyTaskGroupWrapper.getTaskGroup().parentDAGs.contains(group2));
+        Assert.assertTrue(group1.parentDAGs.contains(group1.proxyTaskGroupWrapper.taskGroup()));
+        Assert.assertEquals(1, group1.proxyTaskGroupWrapper.taskGroup().parentDAGs.size());
+        Assert.assertTrue(group1.proxyTaskGroupWrapper.taskGroup().parentDAGs.contains(group2));
 
         Map<String, Set<String>> shouldNotSee = new HashMap<>();
         // NotSeen entries for group-1
@@ -894,13 +894,13 @@ public class ProxyTaskGroupTests {
         //
         group2.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
-            Assert.assertTrue(shouldNotSee.containsKey(entry.getKey()));
-            Assert.assertFalse(seen.contains(entry.getKey()));
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group2.reportCompletion(entry);
         }
 
@@ -917,16 +917,16 @@ public class ProxyTaskGroupTests {
         // Test invocation order for "group-1 proxy"
         //
         seen.clear();
-        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.getTaskGroup();
+        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.taskGroup();
         group1Proxy.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
-            Assert.assertTrue(shouldNotSee.containsKey(entry.getKey()));
-            Assert.assertFalse(seen.contains(entry.getKey()));
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group1Proxy.reportCompletion(entry);
         }
 
@@ -1075,9 +1075,9 @@ public class ProxyTaskGroupTests {
         //
         Assert.assertEquals(2, group1.parentDAGs.size());
         Assert.assertTrue(group1.parentDAGs.contains(group3));
-        Assert.assertTrue(group1.parentDAGs.contains(group1.proxyTaskGroupWrapper.getTaskGroup()));
-        Assert.assertEquals(1, group1.proxyTaskGroupWrapper.getTaskGroup().parentDAGs.size());
-        Assert.assertTrue(group1.proxyTaskGroupWrapper.getTaskGroup().parentDAGs.contains(group2));
+        Assert.assertTrue(group1.parentDAGs.contains(group1.proxyTaskGroupWrapper.taskGroup()));
+        Assert.assertEquals(1, group1.proxyTaskGroupWrapper.taskGroup().parentDAGs.size());
+        Assert.assertTrue(group1.proxyTaskGroupWrapper.taskGroup().parentDAGs.contains(group2));
 
 
         // Prepare group-4
@@ -1323,16 +1323,16 @@ public class ProxyTaskGroupTests {
         //
         //
         Set<String> seen = new HashSet<>();
-        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.getTaskGroup();
+        TaskGroup group1Proxy = group1.proxyTaskGroupWrapper.taskGroup();
         group1Proxy.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group1Proxy.getNext(); entry != null; entry = group1Proxy.getNext()) {
-            Assert.assertTrue(shouldNotSee.containsKey(entry.getKey()));
-            Assert.assertFalse(seen.contains(entry.getKey()));
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group1Proxy.reportCompletion(entry);
         }
 
@@ -1352,16 +1352,16 @@ public class ProxyTaskGroupTests {
         // This cause -> group-1, group-4 and group-5 to invoked
         //
         seen.clear();
-        TaskGroup group4Proxy = group4.proxyTaskGroupWrapper.getTaskGroup();
+        TaskGroup group4Proxy = group4.proxyTaskGroupWrapper.taskGroup();
         group4Proxy.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group4Proxy.getNext(); entry != null; entry = group4Proxy.getNext()) {
-            Assert.assertTrue(shouldNotSee.containsKey(entry.getKey()));
-            Assert.assertFalse(seen.contains(entry.getKey()));
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group4Proxy.reportCompletion(entry);
         }
         Assert.assertEquals(19, seen.size()); // 3 groups each with 6 nodes + one proxy
@@ -1382,13 +1382,13 @@ public class ProxyTaskGroupTests {
         seen.clear();
         group2.prepareForEnumeration();
         for (TaskGroupEntry<TaskItem> entry = group2.getNext(); entry != null; entry = group2.getNext()) {
-            Assert.assertTrue(shouldNotSee.containsKey(entry.getKey()));
-            Assert.assertFalse(seen.contains(entry.getKey()));
-            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.getKey()), seen);
+            Assert.assertTrue(shouldNotSee.containsKey(entry.key()));
+            Assert.assertFalse(seen.contains(entry.key()));
+            Sets.SetView<String> common = Sets.intersection(shouldNotSee.get(entry.key()), seen);
             if (common.size() > 0) {
-                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.getKey(), false);
+                Assert.assertTrue("The entries " + common + " must be emitted before " + entry.key(), false);
             }
-            seen.add(entry.getKey());
+            seen.add(entry.key());
             group2.reportCompletion(entry);
         }
 
@@ -1453,10 +1453,10 @@ public class ProxyTaskGroupTests {
 
         final ArrayList<String> seen = new ArrayList<>();
         CountDownLatch down = new CountDownLatch(1);
-        itiC.getTaskGroup()
-                .invokeAsync(itiC.getTaskGroup().newInvocationContext())
+        itiC.taskGroup()
+                .invokeAsync(itiC.taskGroup().newInvocationContext())
                 .subscribe(indexable ->
-                                seen.add(indexable.getKey()),
+                                seen.add(indexable.key()),
                         throwable -> down.countDown(),
                         () -> down.countDown());
         down.await();
@@ -1518,9 +1518,9 @@ public class ProxyTaskGroupTests {
 
         final CountDownLatch monitor = new CountDownLatch(1);
         seen.clear();
-        itiF.getTaskGroup()
-                .invokeAsync(itiC.getTaskGroup().newInvocationContext())
-                .subscribe(indexable -> seen.add(indexable.getKey()),
+        itiF.taskGroup()
+                .invokeAsync(itiC.taskGroup().newInvocationContext())
+                .subscribe(indexable -> seen.add(indexable.key()),
                         throwable -> monitor.countDown(),
                         () -> monitor.countDown());
 
@@ -1595,7 +1595,7 @@ public class ProxyTaskGroupTests {
         }
 
         @Override
-        public Indexable getResult() {
+        public Indexable result() {
             return this.producedValue;
         }
 
@@ -1633,7 +1633,7 @@ public class ProxyTaskGroupTests {
         }
 
         @Override
-        public String getKey() {
+        public String key() {
             return this.str;
         }
     }

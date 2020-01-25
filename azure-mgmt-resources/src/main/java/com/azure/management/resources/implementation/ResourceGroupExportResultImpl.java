@@ -31,7 +31,7 @@ final class ResourceGroupExportResultImpl extends
 
     @Override
     public Object template() {
-        return getInner().getTemplate();
+        return inner().getTemplate();
     }
 
     @Override
@@ -45,6 +45,6 @@ final class ResourceGroupExportResultImpl extends
 
     @Override
     public ErrorResponse error() {
-        return getInner().getError();
+        return inner().getError();
     }
 }

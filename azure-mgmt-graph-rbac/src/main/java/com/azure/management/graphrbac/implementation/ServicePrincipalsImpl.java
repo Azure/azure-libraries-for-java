@@ -40,7 +40,7 @@ class ServicePrincipalsImpl
 
     @Override
     public PagedIterable<ServicePrincipal> list() {
-        return getInner().list(null).mapPage(servicePrincipalInner -> {
+        return inner().list(null).mapPage(servicePrincipalInner -> {
             ServicePrincipalImpl servicePrincipal = wrapModel(servicePrincipalInner);
             return servicePrincipal.refreshCredentialsAsync().block();
         });
@@ -48,7 +48,7 @@ class ServicePrincipalsImpl
 
     @Override
     public PagedFlux<ServicePrincipal> listAsync() {
-        return getInner().listAsync(null).mapPage(servicePrincipalInner -> {
+        return inner().listAsync(null).mapPage(servicePrincipalInner -> {
             ServicePrincipalImpl servicePrincipal = wrapModel(servicePrincipalInner);
             servicePrincipal.refreshCredentialsAsync();
             return servicePrincipal;
@@ -60,7 +60,7 @@ class ServicePrincipalsImpl
         if (servicePrincipalInner == null) {
             return null;
         }
-        return new ServicePrincipalImpl(servicePrincipalInner, getManager());
+        return new ServicePrincipalImpl(servicePrincipalInner, manager());
     }
 
     @Override
@@ -75,7 +75,7 @@ class ServicePrincipalsImpl
                     if (servicePrincipalInner == null) {
                         return Mono.just(null);
                     } else {
-                        return new ServicePrincipalImpl(servicePrincipalInner, getManager()).refreshCredentialsAsync();
+                        return new ServicePrincipalImpl(servicePrincipalInner, manager()).refreshCredentialsAsync();
                     }
                 });
     }
@@ -101,7 +101,7 @@ class ServicePrincipalsImpl
                     if (result == null || result.toIterable() == null || !result.toIterable().iterator().hasNext()) {
                         return null;
                     }
-                    return new ServicePrincipalImpl(result.toIterable().iterator().next(), getManager());
+                    return new ServicePrincipalImpl(result.toIterable().iterator().next(), manager());
                 })
                 .flatMap((Function<ServicePrincipalImpl, Mono<ServicePrincipal>>) servicePrincipal -> {
                     if (servicePrincipal == null) {
@@ -113,26 +113,26 @@ class ServicePrincipalsImpl
 
     @Override
     public ServicePrincipalImpl define(String name) {
-        return new ServicePrincipalImpl(new ServicePrincipalInner().setDisplayName(name), getManager());
+        return new ServicePrincipalImpl(new ServicePrincipalInner().setDisplayName(name), manager());
     }
 
     @Override
     protected ServicePrincipalImpl wrapModel(String name) {
-        return new ServicePrincipalImpl(new ServicePrincipalInner().setDisplayName(name), getManager());
+        return new ServicePrincipalImpl(new ServicePrincipalInner().setDisplayName(name), manager());
     }
 
     @Override
     public Mono<Void> deleteByIdAsync(String id) {
-        return getInner().deleteAsync(id);
+        return inner().deleteAsync(id);
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public ServicePrincipalsInner getInner() {
-        return getManager().getInner().servicePrincipals();
+    public ServicePrincipalsInner inner() {
+        return manager().inner().servicePrincipals();
     }
 }

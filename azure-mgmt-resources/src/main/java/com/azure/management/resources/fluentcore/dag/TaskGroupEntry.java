@@ -57,15 +57,15 @@ final class TaskGroupEntry<TaskT extends TaskItem>
     /**
      * @return the proxy entry if it is set, null if not set.
      */
-    public TaskGroupEntry<TaskT> getProxy() {
+    public TaskGroupEntry<TaskT> proxy() {
         return this.proxy;
     }
 
     /**
      * @return the result produced by the task.
      */
-    public Indexable getTaskResult() {
-        return getTaskItem().getResult();
+    public Indexable taskResult() {
+        return taskItem().result();
     }
 
     /**
@@ -94,9 +94,9 @@ final class TaskGroupEntry<TaskT extends TaskItem>
         if (hasFaultedDescentDependencyTasks) {
             return Mono.error(new ErroredDependencyTaskException());
         }
-        final TaskT taskItem = this.getTaskItem();
+        final TaskT taskItem = this.taskItem();
         if (!ignoreCachedResult && hasCachedResult()) {
-            return Mono.just(taskItem.getResult());
+            return Mono.just(taskItem.result());
         }
         if (taskItem.isHot()) {
             // Convert hot task to cold to delay it's execution until subscription.
@@ -115,14 +115,14 @@ final class TaskGroupEntry<TaskT extends TaskItem>
     /**
      * @return the {@link TaskItem} this entry holds.
      */
-    private TaskT getTaskItem() {
-        return super.getData();
+    private TaskT taskItem() {
+        return super.data();
     }
 
     /**
      * @return true, if the result of the task is cached.
      */
     private boolean hasCachedResult() {
-        return getTaskItem().getResult() != null;
+        return taskItem().result() != null;
     }
 }

@@ -15,7 +15,6 @@ import reactor.core.publisher.Mono;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of {@link IPasta}
@@ -73,24 +72,24 @@ class PastaImpl
     public void beforeGroupCreateOrUpdate() {
         Assert.assertFalse("PastaImpl::beforeGroupCreateOrUpdate() should not be called multiple times", this.prepareCalled);
         prepareCalled = true;
-        int oldCount = this.getTaskGroup().getNode(this.getKey()).dependencyKeys().size();
+        int oldCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
         for (Creatable<IPasta> pancake : this.delayedPastas) {
             this.addDependency(pancake);
         }
-        int newCount = this.getTaskGroup().getNode(this.getKey()).dependencyKeys().size();
-        System.out.println("Pasta(" + this.getName() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPastas.size()
+        int newCount = this.taskGroup().getNode(this.key()).dependencyKeys().size();
+        System.out.println("Pasta(" + this.name() + ")::beforeGroupCreateOrUpdate() 'delayedSize':" + this.delayedPastas.size()
                 + " 'dependency count [old, new]': [" + oldCount + "," + newCount + "]");
     }
 
     @Override
     public Mono<IPasta> createResourceAsync() {
         if (this.errorToThrow == null) {
-            System.out.println("Pasta(" + this.getName() + ")::createResourceAsync() 'onNext()'");
+            System.out.println("Pasta(" + this.name() + ")::createResourceAsync() 'onNext()'");
             return Mono.just(this)
                     .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
                     .map(pasta -> pasta);
         } else {
-            System.out.println("Pasta(" + this.getName() + ")::createResourceAsync() 'onError()'");
+            System.out.println("Pasta(" + this.name() + ")::createResourceAsync() 'onError()'");
             return Mono.just(this)
                     .delayElement(Duration.ofMillis(this.eventDelayInMilliseconds))
                     .flatMap(pasta -> toErrorObservable(errorToThrow));
@@ -104,7 +103,7 @@ class PastaImpl
 
     @Override
     protected Mono<PastaInner> getInnerAsync() {
-        return Mono.just(this.getInner());
+        return Mono.just(this.inner());
     }
 
     private Mono<IPasta> toErrorObservable(Throwable throwable) {

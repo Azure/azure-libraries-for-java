@@ -94,7 +94,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
     }
 
     @Override
-    public String getName() {
+    public String name() {
         return this.name;
     }
 
@@ -128,8 +128,8 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      * @return the task group associated with this external child resource.
      */
     @Override
-    public TaskGroup getTaskGroup() {
-        return this.childAction.getTaskGroup();
+    public TaskGroup taskGroup() {
+        return this.childAction.taskGroup();
     }
 
     /**
@@ -168,7 +168,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      * @return the key of this child resource in the collection maintained by ExternalChildResourceCollectionImpl
      */
     public String childResourceKey() {
-        return getName();
+        return name();
     }
 
     @Override
@@ -193,7 +193,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     protected String addDependency(FunctionalTaskItem dependency) {
         Objects.requireNonNull(dependency);
-        return this.getTaskGroup().addDependency(dependency);
+        return this.taskGroup().addDependency(dependency);
     }
 
     /**
@@ -205,8 +205,8 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     protected String addDependency(TaskGroup.HasTaskGroup dependency) {
         Objects.requireNonNull(dependency);
-        this.getTaskGroup().addDependencyTaskGroup(dependency.getTaskGroup());
-        return dependency.getTaskGroup().getKey();
+        this.taskGroup().addDependencyTaskGroup(dependency.taskGroup());
+        return dependency.taskGroup().key();
     }
 
     /**
@@ -255,7 +255,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     public String addPostRunDependent(FunctionalTaskItem dependent) {
         Objects.requireNonNull(dependent);
-        return this.getTaskGroup().addPostRunDependent(dependent);
+        return this.taskGroup().addPostRunDependent(dependent);
     }
 
     /**
@@ -267,8 +267,8 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
      */
     protected String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
         Objects.requireNonNull(dependent);
-        this.getTaskGroup().addPostRunDependentTaskGroup(dependent.getTaskGroup());
-        return dependent.getTaskGroup().getKey();
+        this.taskGroup().addPostRunDependentTaskGroup(dependent.taskGroup());
+        return dependent.taskGroup().key();
     }
 
     /**
@@ -318,7 +318,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
 
     @Override
     public Flux<Indexable> createAsync() {
-        return getTaskGroup().invokeAsync(this.getTaskGroup().newInvocationContext());
+        return taskGroup().invokeAsync(this.taskGroup().newInvocationContext());
     }
 
     @Override
@@ -328,7 +328,7 @@ public abstract class ExternalChildResourceImpl<FluentModelT extends Indexable,
 
     @Override
     public Mono<FluentModelT> applyAsync() {
-        return getTaskGroup().invokeAsync(this.getTaskGroup().newInvocationContext())
+        return taskGroup().invokeAsync(this.taskGroup().newInvocationContext())
                 .last()
                 .map(indexable -> (FluentModelT) indexable);
     }

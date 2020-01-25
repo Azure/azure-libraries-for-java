@@ -39,23 +39,23 @@ class RoleDefinitionImpl
 
     @Override
     public String roleName() {
-        return getInner().getRoleName();
+        return inner().getRoleName();
     }
 
     @Override
     public String description() {
-        return getInner().getDescription();
+        return inner().getDescription();
     }
 
     @Override
     public String type() {
-        return getInner().getType();
+        return inner().getType();
     }
 
     @Override
     public Set<Permission> permissions() {
         HashSet<Permission> ret = new HashSet<>();
-        for (PermissionInner inner : getInner().getPermissions()) {
+        for (PermissionInner inner : inner().getPermissions()) {
             ret.add(new PermissionImpl(inner));
         }
         return ret;
@@ -63,21 +63,21 @@ class RoleDefinitionImpl
 
     @Override
     public Set<String> assignableScopes() {
-        return Collections.unmodifiableSet(new HashSet(getInner().getAssignableScopes()));
+        return Collections.unmodifiableSet(new HashSet(inner().getAssignableScopes()));
     }
 
     @Override
-    public String getId() {
-        return getInner().getId();
+    public String id() {
+        return inner().getId();
     }
 
     @Override
-    public GraphRbacManager getManager() {
+    public GraphRbacManager manager() {
         return this.manager;
     }
 
     @Override
-    public String getName() {
-        return getInner().getName();
+    public String name() {
+        return inner().getName();
     }
 }

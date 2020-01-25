@@ -39,7 +39,7 @@ public class ExecuteTask<ResultT extends Indexable> implements TaskItem {
     }
 
     @Override
-    public ResultT getResult() {
+    public ResultT result() {
         return this.result;
     }
 

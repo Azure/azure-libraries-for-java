@@ -40,7 +40,7 @@ public class CreateUpdateTask<ResourceT extends Indexable> implements TaskItem {
     }
 
     @Override
-    public ResourceT getResult() {
+    public ResourceT result() {
         return resource;
     }
 

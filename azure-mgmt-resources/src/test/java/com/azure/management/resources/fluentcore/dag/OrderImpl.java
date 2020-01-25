@@ -10,7 +10,6 @@ import com.azure.management.resources.fluentcore.model.implementation.CreatableU
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation of {@link IOrder}
@@ -30,7 +29,7 @@ public class OrderImpl
 
     @Override
     public Mono<IOrder> createResourceAsync() {
-        System.out.println("Order(" + this.getName() + ")::createResourceAsync() [Creating order]");
+        System.out.println("Order(" + this.name() + ")::createResourceAsync() [Creating order]");
         return Mono.just(this)
                 .delayElement(Duration.ofMillis(250))
                 .map(sandwich -> sandwich);
@@ -43,6 +42,6 @@ public class OrderImpl
 
     @Override
     protected Mono<OrderInner> getInnerAsync() {
-        return Mono.just(this.getInner());
+        return Mono.just(this.inner());
     }
 }

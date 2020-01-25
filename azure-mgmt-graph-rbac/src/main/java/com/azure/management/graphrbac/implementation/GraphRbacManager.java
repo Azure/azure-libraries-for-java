@@ -80,7 +80,7 @@ public final class GraphRbacManager implements HasInner<GraphRbacManagementClien
     }
 
     @Override
-    public GraphRbacManagementClientImpl getInner() {
+    public GraphRbacManagementClientImpl inner() {
         return this.graphRbacManagementClient;
     }
 

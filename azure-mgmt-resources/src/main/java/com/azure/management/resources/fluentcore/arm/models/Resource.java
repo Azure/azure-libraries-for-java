@@ -22,22 +22,22 @@ public interface Resource extends
     /**
      * @return the type of the resource
      */
-    String getType();
+    String type();
 
     /**
      * @return the name of the region the resource is in
      */
-    String getRegionName();
+    String regionName();
 
     /**
      * @return the region the resource is in
      */
-    Region getRegion();
+    Region region();
 
     /**
      * @return the tags for the resource
      */
-    Map<String, String> getTags();
+    Map<String, String> tags();
 
     /**
      * A resource definition allowing a location be selected for the resource.

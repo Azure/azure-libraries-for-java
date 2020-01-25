@@ -25,7 +25,7 @@ public abstract class Manager<T, InnerT> extends ManagerBase implements HasInner
     }
 
     @Override
-    public InnerT getInner() {
+    public InnerT inner() {
         return this.innerManagementClient;
     }
 }

@@ -74,7 +74,7 @@ public abstract class IndexableTaskItem
      * @return the TaskGroup this this TaskItem as root.
      */
     @Override
-    public TaskGroup getTaskGroup() {
+    public TaskGroup taskGroup() {
         return this.taskGroup;
     }
 
@@ -86,7 +86,7 @@ public abstract class IndexableTaskItem
     }
 
     @Override
-    public String getKey() {
+    public String key() {
         return this.key;
     }
 
@@ -110,8 +110,8 @@ public abstract class IndexableTaskItem
      */
     protected String addDependency(TaskGroup.HasTaskGroup dependency) {
         Objects.requireNonNull(dependency);
-        this.taskGroup.addDependencyTaskGroup(dependency.getTaskGroup());
-        return dependency.getTaskGroup().getKey();
+        this.taskGroup.addDependencyTaskGroup(dependency.taskGroup());
+        return dependency.taskGroup().key();
     }
 
     /**
@@ -160,7 +160,7 @@ public abstract class IndexableTaskItem
      */
     public String addPostRunDependent(FunctionalTaskItem dependent) {
         Objects.requireNonNull(dependent);
-        return this.getTaskGroup().addPostRunDependent(dependent);
+        return this.taskGroup().addPostRunDependent(dependent);
     }
 
     /**
@@ -172,8 +172,8 @@ public abstract class IndexableTaskItem
      */
     public String addPostRunDependent(TaskGroup.HasTaskGroup dependent) {
         Objects.requireNonNull(dependent);
-        this.getTaskGroup().addPostRunDependentTaskGroup(dependent.getTaskGroup());
-        return dependent.getTaskGroup().getKey();
+        this.taskGroup().addPostRunDependentTaskGroup(dependent.taskGroup());
+        return dependent.taskGroup().key();
     }
 
     /**
@@ -232,7 +232,7 @@ public abstract class IndexableTaskItem
     }
 
     @Override
-    public Indexable getResult() {
+    public Indexable result() {
         return this.taskResult;
     }
 

@@ -38,22 +38,22 @@ public class GroupsTests extends GraphRbacManagementTest {
             SdkContext.sleep(15000);
             group2 = graphRbacManager.groups().define(group2Name)
                     .withEmailAlias(group2Name)
-                    .withMember(user.getId())
-                    .withMember(servicePrincipal.getId())
-                    .withMember(group1.getId())
+                    .withMember(user.id())
+                    .withMember(servicePrincipal.id())
+                    .withMember(group1.id())
                     .create();
 
             Assert.assertNotNull(group2);
-            Assert.assertNotNull(group2.getId());
+            Assert.assertNotNull(group2.id());
             Set<ActiveDirectoryObject> members = group2.listMembers();
             Assert.assertEquals(3, members.size());
-            Assert.assertNotNull(members.iterator().next().getId());
-            Assert.assertNotNull(members.iterator().next().getId());
-            Assert.assertNotNull(members.iterator().next().getId());
-            Assert.assertNotNull(members.iterator().next().getId());
+            Assert.assertNotNull(members.iterator().next().id());
+            Assert.assertNotNull(members.iterator().next().id());
+            Assert.assertNotNull(members.iterator().next().id());
+            Assert.assertNotNull(members.iterator().next().id());
         } finally {
             if (servicePrincipal != null) {
-                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.getId());
+                graphRbacManager.servicePrincipals().deleteById(servicePrincipal.id());
             }
             // cannot delete users or groups from service principal
 //            if (user != null) {

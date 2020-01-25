@@ -10,12 +10,10 @@ import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.RestClient;
 import com.azure.management.graphrbac.BuiltInRole;
 import com.azure.management.graphrbac.RoleAssignment;
-import com.azure.management.msi.Identity;
 import com.azure.management.msi.implementation.MSIManager;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.core.TestBase;
 import com.azure.management.resources.fluentcore.arm.Region;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
 import com.azure.management.resources.fluentcore.model.Creatable;
 import com.azure.management.resources.fluentcore.model.Indexable;
 import com.azure.management.resources.fluentcore.utils.SdkContext;
@@ -26,7 +24,6 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 
 public class MSIIdentityManagementTests extends TestBase {
     private static String RG_NAME = "";
@@ -62,19 +59,19 @@ public class MSIIdentityManagementTests extends TestBase {
                 .create();
 
         Assert.assertNotNull(identity);
-        Assert.assertNotNull(identity.getInner());
-        Assert.assertTrue(String.format("%s == %s", identityName, identity.getName()), identityName.equalsIgnoreCase(identity.getName()));
-        Assert.assertTrue(String.format("%s == %s", RG_NAME, identity.getResourceGroupName()), RG_NAME.equalsIgnoreCase(identity.getResourceGroupName()));
+        Assert.assertNotNull(identity.inner());
+        Assert.assertTrue(String.format("%s == %s", identityName, identity.name()), identityName.equalsIgnoreCase(identity.name()));
+        Assert.assertTrue(String.format("%s == %s", RG_NAME, identity.resourceGroupName()), RG_NAME.equalsIgnoreCase(identity.resourceGroupName()));
 
         Assert.assertNotNull(identity.clientId());
         Assert.assertNotNull(identity.principalId());
         Assert.assertNotNull(identity.tenantId());
         //Assert.assertNotNull(identity.clientSecretUrl());
 
-        identity = msiManager.identities().getById(identity.getId());
+        identity = msiManager.identities().getById(identity.id());
 
         Assert.assertNotNull(identity);
-        Assert.assertNotNull(identity.getInner());
+        Assert.assertNotNull(identity.inner());
 
         PagedIterable<Identity> identities = msiManager.identities()
                 .listByResourceGroup(RG_NAME);
@@ -84,8 +81,8 @@ public class MSIIdentityManagementTests extends TestBase {
         boolean found = false;
         for (Identity id : identities) {
             Assert.assertNotNull(id);
-            Assert.assertNotNull(id.getInner());
-            if (id.getName().equalsIgnoreCase(identityName)) {
+            Assert.assertNotNull(id.inner());
+            if (id.name().equalsIgnoreCase(identityName)) {
                 found = true;
             }
             Assert.assertNotNull(identity.clientId());
@@ -97,7 +94,7 @@ public class MSIIdentityManagementTests extends TestBase {
         Assert.assertTrue(found);
 
         msiManager.identities()
-                .deleteById(identity.getId());
+                .deleteById(identity.id());
     }
 
     @Test
@@ -118,8 +115,8 @@ public class MSIIdentityManagementTests extends TestBase {
 
         // Ensure role assigned
         //
-        ResourceGroup resourceGroup = this.resourceManager.resourceGroups().getByName(identity.getResourceGroupName());
-        PagedIterable<RoleAssignment> roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(resourceGroup.getId());
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups().getByName(identity.resourceGroupName());
+        PagedIterable<RoleAssignment> roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(resourceGroup.id());
         boolean found = false;
         for (RoleAssignment roleAssignment : roleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(identity.principalId())) {
@@ -130,14 +127,14 @@ public class MSIIdentityManagementTests extends TestBase {
         Assert.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
 
         identity.update()
-                .withoutAccessTo(resourceGroup.getId(), BuiltInRole.READER)
+                .withoutAccessTo(resourceGroup.id(), BuiltInRole.READER)
                 .apply();
 
         SdkContext.sleep(30 * 1000);
 
         // Ensure role assignment removed
         //
-        roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(resourceGroup.getId());
+        roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(resourceGroup.id());
         boolean notFound = true;
         for (RoleAssignment roleAssignment : roleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(identity.principalId())) {
@@ -148,7 +145,7 @@ public class MSIIdentityManagementTests extends TestBase {
         Assert.assertTrue("Role assignment to access resource group is not removed", notFound);
 
         msiManager.identities()
-                .deleteById(identity.getId());
+                .deleteById(identity.id());
 
     }
 
@@ -203,8 +200,8 @@ public class MSIIdentityManagementTests extends TestBase {
 
         // Ensure roles are assigned
         //
-        ResourceGroup resourceGroup = this.resourceManager.resourceGroups().getByName(identity.getResourceGroupName());
-        PagedIterable<RoleAssignment> roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(resourceGroup.getId());
+        ResourceGroup resourceGroup = this.resourceManager.resourceGroups().getByName(identity.resourceGroupName());
+        PagedIterable<RoleAssignment> roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(resourceGroup.id());
         boolean found = false;
         for (RoleAssignment roleAssignment : roleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(identity.principalId())) {
@@ -214,7 +211,7 @@ public class MSIIdentityManagementTests extends TestBase {
         }
         Assert.assertTrue("Expected role assignment not found for the resource group that identity belongs to", found);
 
-        roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(anotherResourceGroup.getId());
+        roleAssignments = this.msiManager.graphRbacManager().roleAssignments().listByScope(anotherResourceGroup.id());
         found = false;
         for (RoleAssignment roleAssignment : roleAssignments) {
             if (roleAssignment.principalId() != null && roleAssignment.principalId().equalsIgnoreCase(identity.principalId())) {
@@ -229,8 +226,8 @@ public class MSIIdentityManagementTests extends TestBase {
                 .withTag("a", "bb")
                 .apply();
 
-        Assert.assertNotNull(identity.getTags());
-        Assert.assertTrue(identity.getTags().containsKey("a"));
+        Assert.assertNotNull(identity.tags());
+        Assert.assertTrue(identity.tags().containsKey("a"));
 
         resourceManager.resourceGroups().deleteByName(anotherRgName);
     }

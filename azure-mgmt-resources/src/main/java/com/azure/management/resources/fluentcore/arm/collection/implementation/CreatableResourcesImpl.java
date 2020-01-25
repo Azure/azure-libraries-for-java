@@ -90,7 +90,7 @@ public abstract class CreatableResourcesImpl<T extends Indexable, ImplT extends 
         CreatedResourcesImpl(CreatableUpdatableResourcesRoot<ResourceT> creatableUpdatableResourcesRoot) {
             this.creatableUpdatableResourcesRoot = creatableUpdatableResourcesRoot;
             for (ResourceT resource : this.creatableUpdatableResourcesRoot.createdTopLevelResources()) {
-                super.put(resource.getKey(), resource);
+                super.put(resource.key(), resource);
             }
         }
 

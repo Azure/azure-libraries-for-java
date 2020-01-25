@@ -17,5 +17,5 @@ public interface HasManager<ManagerT> {
     /**
      * @return the manager client of this resource type
      */
-    ManagerT getManager();
+    ManagerT manager();
 }

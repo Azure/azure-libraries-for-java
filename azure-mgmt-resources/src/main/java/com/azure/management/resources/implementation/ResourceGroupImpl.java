@@ -41,32 +41,32 @@ class ResourceGroupImpl extends
 
     @Override
     public String provisioningState() {
-        return this.getInner().getProperties().getProvisioningState();
+        return this.inner().getProperties().getProvisioningState();
     }
 
     @Override
-    public String getRegionName() {
-        return this.getInner().getLocation();
+    public String regionName() {
+        return this.inner().getLocation();
     }
 
     @Override
-    public Region getRegion() {
-        return Region.fromName(this.getRegionName());
+    public Region region() {
+        return Region.fromName(this.regionName());
     }
 
     @Override
-    public String getId() {
-        return this.getInner().getId();
+    public String id() {
+        return this.inner().getId();
     }
 
     @Override
-    public String getType() {
+    public String type() {
         return null;
     }
 
     @Override
-    public Map<String, String> getTags() {
-        Map<String, String> tags = this.getInner().getTags();
+    public Map<String, String> tags() {
+        Map<String, String> tags = this.inner().getTags();
         if (tags == null) {
             tags = new HashMap<>();
         }
@@ -83,12 +83,12 @@ class ResourceGroupImpl extends
         ExportTemplateRequest inner = new ExportTemplateRequest()
                 .setResources(Arrays.asList("*"))
                 .setOptions(options.toString());
-        return client.exportTemplateAsync(getName(), inner).map(resourceGroupExportResultInner -> new ResourceGroupExportResultImpl(resourceGroupExportResultInner));
+        return client.exportTemplateAsync(name(), inner).map(resourceGroupExportResultInner -> new ResourceGroupExportResultImpl(resourceGroupExportResultInner));
     }
 
     @Override
     public ResourceGroupImpl withRegion(String regionName) {
-        this.getInner().setLocation(regionName);
+        this.inner().setLocation(regionName);
         return this;
     }
 
@@ -99,31 +99,31 @@ class ResourceGroupImpl extends
 
     @Override
     public ResourceGroupImpl withTags(Map<String, String> tags) {
-        this.getInner().setTags(new HashMap<>(tags));
+        this.inner().setTags(new HashMap<>(tags));
         return this;
     }
 
     @Override
     public ResourceGroupImpl withTag(String key, String value) {
-        if (this.getInner().getTags() == null) {
-            this.getInner().setTags(new HashMap<String, String>());
+        if (this.inner().getTags() == null) {
+            this.inner().setTags(new HashMap<String, String>());
         }
-        this.getInner().getTags().put(key, value);
+        this.inner().getTags().put(key, value);
         return this;
     }
 
     @Override
     public ResourceGroupImpl withoutTag(String key) {
-        this.getInner().getTags().remove(key);
+        this.inner().getTags().remove(key);
         return this;
     }
 
     @Override
     public Mono<ResourceGroup> createResourceAsync() {
         ResourceGroupInner params = new ResourceGroupInner();
-        params.setLocation(this.getInner().getLocation());
-        params.setTags(this.getInner().getTags());
-        return client.createOrUpdateAsync(this.getName(), params)
+        params.setLocation(this.inner().getLocation());
+        params.setTags(this.inner().getTags());
+        return client.createOrUpdateAsync(this.name(), params)
                 .map(innerToFluentMap(this));
     }
 
@@ -134,7 +134,7 @@ class ResourceGroupImpl extends
 
     @Override
     public boolean isInCreateMode() {
-        return this.getInner().getId() == null;
+        return this.inner().getId() == null;
     }
 
     @Override

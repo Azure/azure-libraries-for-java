@@ -5,21 +5,21 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.model.HasLoadBalancingRules;
-import com.azure.management.network.model.HasPort;
-import com.azure.management.network.model.HasProtocol;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.ProbeInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasLoadBalancingRules;
+import com.azure.management.network.models.HasPort;
+import com.azure.management.network.models.HasProtocol;
+import com.azure.management.network.models.ProbeInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * A client-side representation of a load balancing probe.
  */
 @Fluent()
 public interface LoadBalancerProbe extends
-    HasInner<ProbeInner>,
-    ChildResource<LoadBalancer>,
+        HasInner<ProbeInner>,
+        ChildResource<LoadBalancer>,
         HasLoadBalancingRules,
         HasProtocol<ProbeProtocol>,
         HasPort {

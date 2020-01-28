@@ -5,18 +5,16 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.NextHop;
 import com.azure.management.network.NextHopParameters;
 import com.azure.management.network.NextHopType;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.NextHopResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation of NextHop.
  */
-@LangDefinition
 public class NextHopImpl extends ExecutableImpl<NextHop>
         implements NextHop, NextHop.Definition {
     private final NetworkWatcherImpl parent;
@@ -29,25 +27,25 @@ public class NextHopImpl extends ExecutableImpl<NextHop>
 
     @Override
     public NextHopImpl withTargetResourceId(String targetResourceId) {
-        this.parameters.withTargetResourceId(targetResourceId);
+        this.parameters.setTargetResourceId(targetResourceId);
         return this;
     }
 
     @Override
     public NextHopImpl withSourceIPAddress(String sourceIPAddress) {
-        this.parameters.withSourceIPAddress(sourceIPAddress);
+        this.parameters.setSourceIPAddress(sourceIPAddress);
         return this;
     }
 
     @Override
     public NextHopImpl withDestinationIPAddress(String destinationIPAddress) {
-        this.parameters.withDestinationIPAddress(destinationIPAddress);
+        this.parameters.setDestinationIPAddress(destinationIPAddress);
         return this;
     }
 
     @Override
     public NextHopImpl withTargetNetworkInterfaceId(String targetNetworkInterfaceId) {
-        this.parameters.withTargetNicResourceId(targetNetworkInterfaceId);
+        this.parameters.setTargetNicResourceId(targetNetworkInterfaceId);
         return this;
     }
 
@@ -58,49 +56,46 @@ public class NextHopImpl extends ExecutableImpl<NextHop>
 
     @Override
     public String targetResourceId() {
-        return parameters.targetResourceId();
+        return parameters.getTargetResourceId();
     }
 
     @Override
     public String sourceIPAddress() {
-        return parameters.sourceIPAddress();
+        return parameters.getSourceIPAddress();
     }
 
     @Override
     public String destinationIPAddress() {
-        return parameters.destinationIPAddress();
+        return parameters.getDestinationIPAddress();
     }
 
     @Override
     public String targetNetworkInterfaceId() {
-        return parameters.destinationIPAddress();
+        return parameters.getTargetNicResourceId();
     }
 
     @Override
     public NextHopType nextHopType() {
-        return result.nextHopType();
+        return result.getNextHopType();
     }
 
     @Override
     public String nextHopIpAddress() {
-        return result.nextHopIpAddress();
+        return result.getNextHopIpAddress();
     }
 
     @Override
     public String routeTableId() {
-        return result.routeTableId();
+        return result.getRouteTableId();
     }
 
     @Override
-    public Observable<NextHop> executeWorkAsync() {
+    public Mono<NextHop> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getNextHopAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<NextHopResultInner, NextHop>() {
-                    @Override
-                    public NextHop call(NextHopResultInner nextHopResultInner) {
-                        NextHopImpl.this.result = nextHopResultInner;
-                        return NextHopImpl.this;
-                    }
+                .map(nextHopResultInner -> {
+                    NextHopImpl.this.result = nextHopResultInner;
+                    return NextHopImpl.this;
                 });
     }
 }

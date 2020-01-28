@@ -5,7 +5,6 @@
  */
 package com.azure.management.network.implementation;
 
-import com.azure.management.network.IPConfiguration;
 import com.azure.management.network.Network;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NetworkSecurityGroup;
@@ -14,10 +13,14 @@ import com.azure.management.network.RouteTable;
 import com.azure.management.network.ServiceEndpointPropertiesFormat;
 import com.azure.management.network.ServiceEndpointType;
 import com.azure.management.network.Subnet;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.IPAddressAvailabilityResultInner;
+import com.azure.management.network.models.IPConfigurationInner;
+import com.azure.management.network.models.NetworkSecurityGroupInner;
+import com.azure.management.network.models.RouteTableInner;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,12 +33,11 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- *  Implementation for Subnet and its create and update interfaces.
+ * Implementation for Subnet and its create and update interfaces.
  */
-@LangDefinition
 class SubnetImpl
-    extends ChildResourceImpl<SubnetInner, NetworkImpl, Network>
-    implements
+        extends ChildResourceImpl<SubnetInner, NetworkImpl, Network>
+        implements
         Subnet,
         Subnet.Definition<Network.DefinitionStages.WithCreateAndSubnet>,
         Subnet.UpdateDefinition<Network.Update>,
@@ -48,7 +50,7 @@ class SubnetImpl
     // Getters
     @Override
     public int networkInterfaceIPConfigurationCount() {
-        List<IPConfiguration> ipConfigRefs = this.inner().ipConfigurations();
+        List<IPConfigurationInner> ipConfigRefs = this.inner().getIpConfigurations();
         if (ipConfigRefs != null) {
             return ipConfigRefs.size();
         } else {
@@ -58,36 +60,36 @@ class SubnetImpl
 
     @Override
     public String addressPrefix() {
-        return this.inner().addressPrefix();
+        return this.inner().getAddressPrefix();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String networkSecurityGroupId() {
-        return (this.inner().networkSecurityGroup() != null) ? this.inner().networkSecurityGroup().id() : null;
+        return (this.inner().getNetworkSecurityGroup() != null) ? this.inner().getNetworkSecurityGroup().getId() : null;
     }
 
     @Override
     public String routeTableId() {
-        return (this.inner().routeTable() != null) ? this.inner().routeTable().id() : null;
+        return (this.inner().getRouteTable() != null) ? this.inner().getRouteTable().getId() : null;
     }
 
     @Override
     public Map<ServiceEndpointType, List<Region>> servicesWithAccess() {
         Map<ServiceEndpointType, List<Region>> services = new HashMap<>();
-        if (this.inner().serviceEndpoints() != null) {
-            for (ServiceEndpointPropertiesFormat endpoint : this.inner().serviceEndpoints()) {
-                ServiceEndpointType serviceEndpointType = ServiceEndpointType.fromString(endpoint.service());
+        if (this.inner().getServiceEndpoints() != null) {
+            for (ServiceEndpointPropertiesFormat endpoint : this.inner().getServiceEndpoints()) {
+                ServiceEndpointType serviceEndpointType = ServiceEndpointType.fromString(endpoint.getService());
                 if (!services.containsKey(serviceEndpointType)) {
                     services.put(serviceEndpointType, new ArrayList<Region>());
                 }
-                if (endpoint.locations() != null) {
+                if (endpoint.getLocations() != null) {
                     List<Region> regions = new ArrayList<>();
-                    for (String location : endpoint.locations()) {
+                    for (String location : endpoint.getLocations()) {
                         regions.add(Region.fromName(location));
                     }
                     services.get(serviceEndpointType).addAll(regions);
@@ -101,7 +103,7 @@ class SubnetImpl
 
     @Override
     public SubnetImpl withoutNetworkSecurityGroup() {
-        this.inner().withNetworkSecurityGroup(null);
+        this.inner().setNetworkSecurityGroup(null);
         return this;
     }
 
@@ -112,16 +114,17 @@ class SubnetImpl
 
     @Override
     public SubnetImpl withExistingNetworkSecurityGroup(String resourceId) {
+        // FIXME: What's this
         // Workaround for REST API's expectation of an object rather than string ID - should be fixed in Swagger specs or REST
         NetworkSecurityGroupInner reference = new NetworkSecurityGroupInner().withId(resourceId);
-        this.inner().withNetworkSecurityGroup(reference);
+        this.inner().setNetworkSecurityGroup(reference);
         return this;
     }
 
     @Override
     public SubnetImpl withExistingRouteTable(String resourceId) {
         RouteTableInner reference = new RouteTableInner().withId(resourceId);
-        this.inner().withRouteTable(reference);
+        this.inner().setRouteTable(reference);
         return this;
     }
 
@@ -132,53 +135,53 @@ class SubnetImpl
 
     @Override
     public Update withoutRouteTable() {
-        this.inner().withRouteTable(null);
+        this.inner().setRouteTable(null);
         return this;
     }
 
     @Override
     public SubnetImpl withAddressPrefix(String cidr) {
-        this.inner().withAddressPrefix(cidr);
+        this.inner().setAddressPrefix(cidr);
         return this;
     }
 
 
     @Override
     public SubnetImpl withAccessFromService(ServiceEndpointType service) {
-        if (this.inner().serviceEndpoints() == null) {
-            this.inner().withServiceEndpoints(new ArrayList<ServiceEndpointPropertiesFormat>());
+        if (this.inner().getServiceEndpoints() == null) {
+            this.inner().setServiceEndpoints(new ArrayList<ServiceEndpointPropertiesFormat>());
         }
         boolean found = false;
-        for (ServiceEndpointPropertiesFormat endpoint : this.inner().serviceEndpoints()) {
-            if (endpoint.service().equalsIgnoreCase(service.toString())) {
+        for (ServiceEndpointPropertiesFormat endpoint : this.inner().getServiceEndpoints()) {
+            if (endpoint.getService().equalsIgnoreCase(service.toString())) {
                 found = true;
                 break;
             }
         }
         if (!found) {
             this.inner()
-                    .serviceEndpoints()
+                    .getServiceEndpoints()
                     .add(new ServiceEndpointPropertiesFormat()
-                            .withService(service.toString())
-                            .withLocations(new ArrayList<String>()));
+                            .setService(service.toString())
+                            .setLocations(new ArrayList<String>()));
         }
         return this;
     }
 
     @Override
     public Update withoutAccessFromService(ServiceEndpointType service) {
-        if (this.inner().serviceEndpoints() != null) {
+        if (this.inner().getServiceEndpoints() != null) {
             int foundIndex = -1;
             int i = 0;
-            for (ServiceEndpointPropertiesFormat endpoint : this.inner().serviceEndpoints()) {
-                if (endpoint.service().equalsIgnoreCase(service.toString())) {
+            for (ServiceEndpointPropertiesFormat endpoint : this.inner().getServiceEndpoints()) {
+                if (endpoint.getService().equalsIgnoreCase(service.toString())) {
                     foundIndex = i;
                     break;
                 }
                 i++;
             }
             if (foundIndex != -1) {
-                this.inner().serviceEndpoints().remove(foundIndex);
+                this.inner().getServiceEndpoints().remove(foundIndex);
             }
         }
         return this;
@@ -195,7 +198,7 @@ class SubnetImpl
     public RouteTable getRouteTable() {
         return (this.routeTableId() != null)
                 ? this.parent().manager().routeTables().getById(this.routeTableId())
-                        : null;
+                : null;
     }
 
     @Override
@@ -215,14 +218,14 @@ class SubnetImpl
     public Collection<NicIPConfiguration> listNetworkInterfaceIPConfigurations() {
         Collection<NicIPConfiguration> ipConfigs = new ArrayList<>();
         Map<String, NetworkInterface> nics = new TreeMap<>();
-        List<IPConfiguration> ipConfigRefs = this.inner().ipConfigurations();
+        List<IPConfigurationInner> ipConfigRefs = this.inner().getIpConfigurations();
         if (ipConfigRefs == null) {
             return ipConfigs;
         }
 
-        for (IPConfiguration ipConfigRef : ipConfigRefs) {
-            String nicID = ResourceUtils.parentResourceIdFromResourceId(ipConfigRef.id());
-            String ipConfigName = ResourceUtils.nameFromResourceId(ipConfigRef.id());
+        for (IPConfigurationInner ipConfigRef : ipConfigRefs) {
+            String nicID = ResourceUtils.parentResourceIdFromResourceId(ipConfigRef.getId());
+            String ipConfigName = ResourceUtils.nameFromResourceId(ipConfigRef.getId());
             // Check if NIC already cached
             NetworkInterface nic = nics.get(nicID.toLowerCase());
             if (nic == null) {
@@ -269,7 +272,7 @@ class SubnetImpl
             return ipAddresses;
         }
 
-        ipAddresses.addAll(result.availableIPAddresses());
+        ipAddresses.addAll(result.getAvailableIPAddresses());
         return ipAddresses;
     }
 }

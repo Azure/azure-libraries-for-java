@@ -8,8 +8,8 @@ package com.azure.management.network.implementation;
 import com.azure.management.network.Access;
 import com.azure.management.network.RouteFilter;
 import com.azure.management.network.RouteFilterRule;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.RouteFilterRuleInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,9 +17,8 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  Implementation for {@link RouteFilterRule} and its create and update interfaces.
+ * Implementation for {@link RouteFilterRule} and its create and update interfaces.
  */
-@LangDefinition
 class RouteFilterRuleImpl
         extends ChildResourceImpl<RouteFilterRuleInner, RouteFilterImpl, RouteFilter>
         implements
@@ -39,66 +38,66 @@ class RouteFilterRuleImpl
 
     @Override
     public RouteFilterRuleImpl withBgpCommunities(String... communities) {
-        inner().withCommunities(Arrays.asList(communities));
+        inner().setCommunities(Arrays.asList(communities));
         return this;
     }
 
     @Override
     public RouteFilterRuleImpl withBgpCommunity(String community) {
-        if (inner().communities() == null) {
-            inner().withCommunities(new ArrayList<String>());
+        if (inner().getCommunities() == null) {
+            inner().setCommunities(new ArrayList<String>());
         }
-        inner().communities().add(community);
+        inner().getCommunities().add(community);
         return this;
     }
 
     @Override
     public Update withoutBgpCommunity(String community) {
-        if (inner().communities() != null) {
-            inner().communities().remove(community);
+        if (inner().getCommunities() != null) {
+            inner().getCommunities().remove(community);
         }
         return this;
     }
 
     @Override
     public RouteFilterRuleImpl allowAccess() {
-        inner().withAccess(Access.ALLOW);
+        inner().setAccess(Access.ALLOW);
         return this;
     }
 
     @Override
     public RouteFilterRuleImpl denyAccess() {
-        inner().withAccess(Access.DENY);
+        inner().setAccess(Access.DENY);
         return this;
     }
 
     @Override
     public String name() {
-        return inner().name();
+        return inner().getName();
     }
 
     @Override
     public Access access() {
-        return inner().access();
+        return inner().getAccess();
     }
 
     @Override
     public String routeFilterRuleType() {
-        return inner().routeFilterRuleType();
+        return inner().getRouteFilterRuleType();
     }
 
     @Override
     public List<String> communities() {
-        return Collections.unmodifiableList(inner().communities());
+        return Collections.unmodifiableList(inner().getCommunities());
     }
 
     @Override
     public String provisioningState() {
-        return inner().provisioningState();
+        return inner().getProvisioningState();
     }
 
     @Override
     public String location() {
-        return inner().location();
+        return inner().getLocation();
     }
 }

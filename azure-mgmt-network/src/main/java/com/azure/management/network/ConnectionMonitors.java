@@ -5,24 +5,22 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.ConnectionMonitorsInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByNameAsync;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingByName;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.ConnectionMonitorsInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByName;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingByName;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * Entry point to connection monitors management API in Azure.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_10_0)
 public interface ConnectionMonitors extends
         SupportsCreating<ConnectionMonitor.DefinitionStages.WithSource>,
         SupportsListing<ConnectionMonitor>,
-        SupportsGettingByNameAsync<ConnectionMonitor>,
+        SupportsGettingByName<ConnectionMonitor>,
         SupportsDeletingByName,
         HasInner<ConnectionMonitorsInner> {
 }

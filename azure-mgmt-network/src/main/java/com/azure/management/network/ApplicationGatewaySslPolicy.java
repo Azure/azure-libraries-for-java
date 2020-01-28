@@ -8,6 +8,7 @@ package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -49,7 +50,7 @@ public final class ApplicationGatewaySslPolicy {
     /**
      * Get the disabledSslProtocols property: Ssl protocols to be disabled on
      * application gateway.
-     * 
+     *
      * @return the disabledSslProtocols value.
      */
     public List<ApplicationGatewaySslProtocol> getDisabledSslProtocols() {
@@ -59,7 +60,7 @@ public final class ApplicationGatewaySslPolicy {
     /**
      * Set the disabledSslProtocols property: Ssl protocols to be disabled on
      * application gateway.
-     * 
+     *
      * @param disabledSslProtocols the disabledSslProtocols value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
@@ -70,7 +71,7 @@ public final class ApplicationGatewaySslPolicy {
 
     /**
      * Get the policyType property: Type of Ssl Policy.
-     * 
+     *
      * @return the policyType value.
      */
     public ApplicationGatewaySslPolicyType getPolicyType() {
@@ -79,7 +80,7 @@ public final class ApplicationGatewaySslPolicy {
 
     /**
      * Set the policyType property: Type of Ssl Policy.
-     * 
+     *
      * @param policyType the policyType value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
@@ -90,7 +91,7 @@ public final class ApplicationGatewaySslPolicy {
 
     /**
      * Get the policyName property: Ssl predefined policy name enums.
-     * 
+     *
      * @return the policyName value.
      */
     public ApplicationGatewaySslPolicyName getPolicyName() {
@@ -99,7 +100,7 @@ public final class ApplicationGatewaySslPolicy {
 
     /**
      * Set the policyName property: Ssl predefined policy name enums.
-     * 
+     *
      * @param policyName the policyName value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
@@ -111,7 +112,7 @@ public final class ApplicationGatewaySslPolicy {
     /**
      * Get the cipherSuites property: Ssl cipher suites to be enabled in the
      * specified order to application gateway.
-     * 
+     *
      * @return the cipherSuites value.
      */
     public List<ApplicationGatewaySslCipherSuite> getCipherSuites() {
@@ -121,7 +122,7 @@ public final class ApplicationGatewaySslPolicy {
     /**
      * Set the cipherSuites property: Ssl cipher suites to be enabled in the
      * specified order to application gateway.
-     * 
+     *
      * @param cipherSuites the cipherSuites value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */
@@ -132,7 +133,7 @@ public final class ApplicationGatewaySslPolicy {
 
     /**
      * Get the minProtocolVersion property: Ssl protocol enums.
-     * 
+     *
      * @return the minProtocolVersion value.
      */
     public ApplicationGatewaySslProtocol getMinProtocolVersion() {
@@ -141,7 +142,7 @@ public final class ApplicationGatewaySslPolicy {
 
     /**
      * Set the minProtocolVersion property: Ssl protocol enums.
-     * 
+     *
      * @param minProtocolVersion the minProtocolVersion value to set.
      * @return the ApplicationGatewaySslPolicy object itself.
      */

@@ -9,18 +9,16 @@ import com.azure.management.network.NetworkWatcher;
 import com.azure.management.network.Troubleshooting;
 import com.azure.management.network.TroubleshootingDetails;
 import com.azure.management.network.TroubleshootingParameters;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.TroubleshootingResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
  * Implementation of Troubleshooting interface.
  */
-@LangDefinition
 class TroubleshootingImpl extends ExecutableImpl<Troubleshooting>
         implements Troubleshooting, Troubleshooting.Definition {
 
@@ -34,19 +32,19 @@ class TroubleshootingImpl extends ExecutableImpl<Troubleshooting>
 
     @Override
     public TroubleshootingImpl withTargetResourceId(String targetResourceId) {
-        parameters.withTargetResourceId(targetResourceId);
+        parameters.setTargetResourceId(targetResourceId);
         return this;
     }
 
     @Override
     public TroubleshootingImpl withStorageAccount(String storageAccountId) {
-        parameters.withStorageId(storageAccountId);
+        parameters.setStorageId(storageAccountId);
         return this;
     }
 
     @Override
     public TroubleshootingImpl withStoragePath(String storagePath) {
-        parameters.withStoragePath(storagePath);
+        parameters.setStoragePath(storagePath);
         return this;
     }
 
@@ -56,15 +54,12 @@ class TroubleshootingImpl extends ExecutableImpl<Troubleshooting>
     }
 
     @Override
-    public Observable<Troubleshooting> executeWorkAsync() {
+    public Mono<Troubleshooting> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getTroubleshootingAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<TroubleshootingResultInner, Troubleshooting>() {
-                    @Override
-                    public Troubleshooting call(TroubleshootingResultInner troubleshootingResultInner) {
-                        TroubleshootingImpl.this.result = troubleshootingResultInner;
-                        return TroubleshootingImpl.this;
-                    }
+                .map(troubleshootingResultInner -> {
+                    TroubleshootingImpl.this.result = troubleshootingResultInner;
+                    return TroubleshootingImpl.this;
                 });
     }
 
@@ -72,36 +67,36 @@ class TroubleshootingImpl extends ExecutableImpl<Troubleshooting>
 
     @Override
     public String targetResourceId() {
-        return parameters.targetResourceId();
+        return parameters.getTargetResourceId();
     }
 
     @Override
     public String storageId() {
-        return parameters.storageId();
+        return parameters.getStorageId();
     }
 
     @Override
     public String storagePath() {
-        return parameters.storagePath();
+        return parameters.getStoragePath();
     }
 
     @Override
-    public DateTime startTime() {
-        return result.startTime();
+    public OffsetDateTime startTime() {
+        return result.getStartTime();
     }
 
     @Override
-    public DateTime endTime() {
-        return result.endTime();
+    public OffsetDateTime endTime() {
+        return result.getEndTime();
     }
 
     @Override
     public String code() {
-        return result.code();
+        return result.getCode();
     }
 
     @Override
     public List<TroubleshootingDetails> results() {
-        return result.results();
+        return result.getResults();
     }
 }

@@ -5,9 +5,10 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.UsageInner;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.UsageInner;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * An immutable client-side representation of an Azure compute resource usage info object.

@@ -8,6 +8,7 @@ package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -35,7 +36,7 @@ public final class AzureReachabilityReportItem {
 
     /**
      * Get the provider property: The Internet service provider.
-     * 
+     *
      * @return the provider value.
      */
     public String getProvider() {
@@ -44,7 +45,7 @@ public final class AzureReachabilityReportItem {
 
     /**
      * Set the provider property: The Internet service provider.
-     * 
+     *
      * @param provider the provider value to set.
      * @return the AzureReachabilityReportItem object itself.
      */
@@ -55,7 +56,7 @@ public final class AzureReachabilityReportItem {
 
     /**
      * Get the azureLocation property: The Azure region.
-     * 
+     *
      * @return the azureLocation value.
      */
     public String getAzureLocation() {
@@ -64,7 +65,7 @@ public final class AzureReachabilityReportItem {
 
     /**
      * Set the azureLocation property: The Azure region.
-     * 
+     *
      * @param azureLocation the azureLocation value to set.
      * @return the AzureReachabilityReportItem object itself.
      */
@@ -76,7 +77,7 @@ public final class AzureReachabilityReportItem {
     /**
      * Get the latencies property: List of latency details for each of the time
      * series.
-     * 
+     *
      * @return the latencies value.
      */
     public List<AzureReachabilityReportLatencyInfo> getLatencies() {
@@ -86,7 +87,7 @@ public final class AzureReachabilityReportItem {
     /**
      * Set the latencies property: List of latency details for each of the time
      * series.
-     * 
+     *
      * @param latencies the latencies value to set.
      * @return the AzureReachabilityReportItem object itself.
      */

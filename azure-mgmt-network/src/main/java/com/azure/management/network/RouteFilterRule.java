@@ -5,13 +5,13 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.RouteFilterRuleInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.RouteFilterRuleInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 import java.util.List;
 
@@ -19,7 +19,6 @@ import java.util.List;
  * A route filter rule in a route filter group.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_10_0)
 public interface RouteFilterRule extends
         HasInner<RouteFilterRuleInner>,
         ChildResource<RouteFilter> {
@@ -37,6 +36,7 @@ public interface RouteFilterRule extends
     /**
      * The collection for bgp community values to filter on. e.g.
      * ['12076:5010','12076:5020'].
+     *
      * @return collection of community values
      */
     List<String> communities();
@@ -50,8 +50,10 @@ public interface RouteFilterRule extends
      * @return resource location
      */
     String location();
+
     /**
      * The entirety of a route filter rule definition.
+     *
      * @param <ParentT> the return type of the final {@link Attachable#attach()}
      */
     interface Definition<ParentT> extends
@@ -66,6 +68,7 @@ public interface RouteFilterRule extends
     interface DefinitionStages {
         /**
          * The first stage of a route filter rule definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithBgpCommunities<ParentT> {
@@ -77,18 +80,23 @@ public interface RouteFilterRule extends
         interface WithBgpCommunities<ParentT> {
             /**
              * Set the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
+             *
              * @param communities service communities
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withBgpCommunities(String... communities);
+
             /**
              * Set bgp community value to filter on. e.g. '12076:5020'.
+             *
              * @param community service community
              * @return the next stage of the definition
              */
             WithAttach<ParentT> withBgpCommunity(String community);
+
             /**
              * Remove the bgp community value to filter on. e.g. '12076:5010'
+             *
              * @return the next stage of the update
              */
             Update withoutBgpCommunity(String community);
@@ -100,20 +108,25 @@ public interface RouteFilterRule extends
         interface WithAccessType<ParentT> {
             /**
              * Set 'Allow' acces type of the rule.
+             *
              * @return the next stage of the definition
              */
             WithAttach<ParentT> allowAccess();
+
             /**
              * Set 'Deny' access type of the rule.
+             *
              * @return the next stage of the definition
              */
             WithAttach<ParentT> denyAccess();
         }
 
-        /** The final stage of the route filter rule definition.
+        /**
+         * The final stage of the route filter rule definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the route filter rule definition
          * can be attached to the parent route filter group definition using {@link WithAttach#attach()}.
+         *
          * @param <ParentT> the return type of {@link WithAttach#attach()}
          */
         interface WithAttach<ParentT> extends
@@ -122,7 +135,9 @@ public interface RouteFilterRule extends
         }
     }
 
-    /** The entirety of a route filter rule definition as part of a route filter group update.
+    /**
+     * The entirety of a route filter rule definition as part of a route filter group update.
+     *
      * @param <ParentT> the return type of the final {@link UpdateDefinitionStages.WithAttach#attach()}
      */
     interface UpdateDefinition<ParentT> extends
@@ -136,6 +151,7 @@ public interface RouteFilterRule extends
     interface UpdateDefinitionStages {
         /**
          * The first stage of a route filter rule description as part of an update of a networking route filter group.
+         *
          * @param <ParentT> the return type of the final {@link Attachable#attach()}
          */
         interface Blank<ParentT> extends UpdateDefinitionStages.WithBgpCommunities<ParentT> {
@@ -147,18 +163,23 @@ public interface RouteFilterRule extends
         interface WithBgpCommunities<ParentT> {
             /**
              * Set the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
+             *
              * @param communities service communities
              * @return the next stage of the definition
              */
             UpdateDefinitionStages.WithAttach<ParentT> withBgpCommunities(String... communities);
+
             /**
              * Set bgp community value to filter on. e.g. '12076:5020'.
+             *
              * @param community service community
              * @return the next stage of the definition
              */
             UpdateDefinitionStages.WithAttach<ParentT> withBgpCommunity(String community);
+
             /**
              * Remove the bgp community value to filter on. e.g. '12076:5010'
+             *
              * @return the next stage of the update
              */
             Update withoutBgpCommunity(String community);
@@ -170,20 +191,25 @@ public interface RouteFilterRule extends
         interface WithAccessType<ParentT> {
             /**
              * Set 'Allow' acces type of the rule.
+             *
              * @return the next stage of the definition
              */
             WithAttach<ParentT> allowAccess();
+
             /**
              * Set 'Deny' access type of the rule.
+             *
              * @return the next stage of the definition
              */
             WithAttach<ParentT> denyAccess();
         }
 
-        /** The final stage of the route filter rule definition.
+        /**
+         * The final stage of the route filter rule definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the route filter rule definition
          * can be attached to the parent route filter group definition using {@link WithAttach#attach()}.
+         *
          * @param <ParentT> the return type of {@link WithAttach#attach()}
          */
         interface WithAttach<ParentT> extends Attachable.InUpdate<ParentT> {
@@ -210,18 +236,22 @@ public interface RouteFilterRule extends
         interface WithBgpCommunities {
             /**
              * The collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020']. Note: this method will overwrite existing communities.
+             *
              * @param communities service communities
              * @return the next stage of the update
              */
             Update withBgpCommunities(String... communities);
+
             /**
              * The bgp community values to filter on. e.g. '12076:5010'. This method has additive effect.
+             *
              * @return the next stage of the update
              */
             Update withBgpCommunity(String community);
 
             /**
              * Remove the bgp community value to filter on. e.g. '12076:5010'
+             *
              * @return the next stage of the update
              */
             Update withoutBgpCommunity(String community);
@@ -233,11 +263,14 @@ public interface RouteFilterRule extends
         interface WithAccessType {
             /**
              * Set 'Allow' acces type of the rule.
+             *
              * @return the next stage of the definition
              */
             Update allowAccess();
+
             /**
              * Set 'Deny' access type of the rule.
+             *
              * @return the next stage of the definition
              */
             Update denyAccess();

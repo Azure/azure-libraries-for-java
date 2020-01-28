@@ -8,6 +8,7 @@ package com.azure.management.network;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Collection;
 
 /**
@@ -31,7 +32,7 @@ public final class ApplicationGatewaySslPolicyName extends ExpandableStringEnum<
 
     /**
      * Creates or finds a ApplicationGatewaySslPolicyName from its string representation.
-     * 
+     *
      * @param name a name to look for.
      * @return the corresponding ApplicationGatewaySslPolicyName.
      */

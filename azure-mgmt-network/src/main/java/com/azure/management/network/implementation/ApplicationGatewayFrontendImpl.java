@@ -5,8 +5,7 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayFrontend;
 import com.azure.management.network.ApplicationGatewayFrontendIPConfiguration;
@@ -14,16 +13,15 @@ import com.azure.management.network.IPAllocationMethod;
 import com.azure.management.network.Network;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 /**
- *  Implementation for ApplicationGatewayFrontend.
+ * Implementation for ApplicationGatewayFrontend.
  */
-@LangDefinition
 class ApplicationGatewayFrontendImpl
-    extends ChildResourceImpl<ApplicationGatewayFrontendIPConfiguration, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewayFrontendIPConfiguration, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewayFrontend,
         ApplicationGatewayFrontend.Definition<ApplicationGateway.DefinitionStages.WithListener>,
         ApplicationGatewayFrontend.UpdateDefinition<ApplicationGateway.Update>,
@@ -37,9 +35,9 @@ class ApplicationGatewayFrontendImpl
 
     @Override
     public String networkId() {
-        SubResource subnetRef = this.inner().subnet();
+        SubResource subnetRef = this.inner().getSubnet();
         if (subnetRef != null) {
-            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.id());
+            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.getId());
         } else {
             return null;
         }
@@ -47,9 +45,9 @@ class ApplicationGatewayFrontendImpl
 
     @Override
     public String subnetName() {
-        SubResource subnetRef = this.inner().subnet();
+        SubResource subnetRef = this.inner().getSubnet();
         if (subnetRef != null) {
-            return ResourceUtils.nameFromResourceId(subnetRef.id());
+            return ResourceUtils.nameFromResourceId(subnetRef.getId());
         } else {
             return null;
         }
@@ -57,23 +55,23 @@ class ApplicationGatewayFrontendImpl
 
     @Override
     public String privateIPAddress() {
-        return this.inner().privateIPAddress();
+        return this.inner().getPrivateIPAddress();
     }
 
     @Override
     public IPAllocationMethod privateIPAllocationMethod() {
-        return this.inner().privateIPAllocationMethod();
+        return this.inner().getPrivateIPAllocationMethod();
     }
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String publicIPAddressId() {
-        if (this.inner().publicIPAddress() != null) {
-            return this.inner().publicIPAddress().id();
+        if (this.inner().getPublicIPAddress() != null) {
+            return this.inner().getPublicIPAddress().getId();
         } else {
             return null;
         }
@@ -81,12 +79,12 @@ class ApplicationGatewayFrontendImpl
 
     @Override
     public boolean isPublic() {
-        return (this.inner().publicIPAddress() != null);
+        return (this.inner().getPublicIPAddress() != null);
     }
 
     @Override
     public boolean isPrivate() {
-        return (this.inner().subnet() != null);
+        return (this.inner().getSubnet() != null);
     }
 
     // Fluent setters
@@ -99,8 +97,8 @@ class ApplicationGatewayFrontendImpl
     @Override
     public ApplicationGatewayFrontendImpl withExistingSubnet(String parentNetworkResourceId, String subnetName) {
         SubResource subnetRef = new SubResource()
-                .withId(parentNetworkResourceId + "/subnets/" + subnetName);
-        this.inner().withSubnet(subnetRef);
+                .setId(parentNetworkResourceId + "/subnets/" + subnetName);
+        this.inner().setSubnet(subnetRef);
 
         // Ensure this frontend is not public
         this.withoutPublicIPAddress();
@@ -114,39 +112,39 @@ class ApplicationGatewayFrontendImpl
 
     @Override
     public ApplicationGatewayFrontendImpl withExistingPublicIPAddress(String resourceId) {
-        SubResource pipRef = new SubResource().withId(resourceId);
-        this.inner().withPublicIPAddress(pipRef);
+        SubResource pipRef = new SubResource().setId(resourceId);
+        this.inner().setPublicIPAddress(pipRef);
         this.withoutSubnet(); // Ensure no conflicting public and private settings
         return this;
     }
 
     @Override
     public ApplicationGatewayFrontendImpl withoutPublicIPAddress() {
-        this.inner().withPublicIPAddress(null);
+        this.inner().setPublicIPAddress(null);
         return this;
     }
 
     public ApplicationGatewayFrontendImpl withoutSubnet() {
         this.inner()
-            .withSubnet(null)
-            .withPrivateIPAddress(null)
-            .withPrivateIPAllocationMethod(null);
+                .setSubnet(null)
+                .setPrivateIPAddress(null)
+                .setPrivateIPAllocationMethod(null);
         return this;
     }
 
     @Override
     public ApplicationGatewayFrontendImpl withPrivateIPAddressDynamic() {
         this.inner()
-            .withPrivateIPAddress(null)
-            .withPrivateIPAllocationMethod(IPAllocationMethod.DYNAMIC);
+                .setPrivateIPAddress(null)
+                .setPrivateIPAllocationMethod(IPAllocationMethod.DYNAMIC);
         return this;
     }
 
     @Override
     public ApplicationGatewayFrontendImpl withPrivateIPAddressStatic(String ipAddress) {
         this.inner()
-            .withPrivateIPAddress(ipAddress)
-            .withPrivateIPAllocationMethod(IPAllocationMethod.STATIC);
+                .setPrivateIPAddress(ipAddress)
+                .setPrivateIPAllocationMethod(IPAllocationMethod.STATIC);
         return this;
     }
 
@@ -154,7 +152,7 @@ class ApplicationGatewayFrontendImpl
 
     @Override
     public Subnet getSubnet() {
-        return this.parent().manager().getAssociatedSubnet(this.inner().subnet());
+        return this.parent().manager().getAssociatedSubnet(this.inner().getSubnet());
     }
 
     @Override

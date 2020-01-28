@@ -6,8 +6,9 @@
 
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.collection.SupportsListingByRegion;
 
 /**
  * Entry point for network resource usage management API.

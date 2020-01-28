@@ -5,30 +5,25 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.network.models.ConnectionMonitorResultInner;
+import com.azure.management.network.models.ConnectionMonitorsInner;
+import com.azure.management.resources.fluentcore.arm.ResourceId;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
 import com.azure.management.network.ConnectionMonitor;
 import com.azure.management.network.ConnectionMonitors;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+
 
 import java.util.List;
 
 /**
  * Represents Connection Monitors collection associated with Network Watcher.
  */
-@LangDefinition
 class ConnectionMonitorsImpl extends
         CreatableResourcesImpl<ConnectionMonitor,
-                ConnectionMonitorImpl,
-                ConnectionMonitorResultInner>
+                        ConnectionMonitorImpl,
+                        ConnectionMonitorResultInner>
         implements ConnectionMonitors {
     private final NetworkWatcherImpl parent;
     private final ConnectionMonitorsInner innerCollection;
@@ -44,7 +39,7 @@ class ConnectionMonitorsImpl extends
     }
 
     @Override
-    public final PagedList<ConnectionMonitor> list() {
+    public final PagedIterable<ConnectionMonitor> list() {
         return (new PagedListConverter<ConnectionMonitorResultInner, ConnectionMonitor>() {
             @Override
             public Observable<ConnectionMonitor> typeConvertAsync(ConnectionMonitorResultInner inner) {
@@ -57,7 +52,7 @@ class ConnectionMonitorsImpl extends
      * @return an observable emits connection monitors in this collection
      */
     @Override
-    public Observable<ConnectionMonitor> listAsync() {
+    public PagedIterable<ConnectionMonitor> listAsync() {
         Observable<List<ConnectionMonitorResultInner>> list = inner().listAsync(parent.resourceGroupName(), parent.name());
         return ReadableWrappersImpl.convertListToInnerAsync(list).map(new Func1<ConnectionMonitorResultInner, ConnectionMonitor>() {
             @Override
@@ -100,14 +95,6 @@ class ConnectionMonitorsImpl extends
     @Override
     public void deleteByName(String name) {
         deleteByNameAsync(name).await();
-    }
-
-    @Override
-    public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        return this.inner().deleteAsync(parent.resourceGroupName(),
-                parent.name(),
-                name,
-                callback);
     }
 
     @Override

@@ -5,31 +5,29 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.ApplicationGatewayBackendHealthServer;
 import com.azure.management.network.ApplicationGatewayBackendHealthStatus;
 import com.azure.management.network.ApplicationGatewayBackendHttpConfigurationHealth;
 import com.azure.management.network.ApplicationGatewayBackendServerHealth;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NicIPConfiguration;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.network.models.ApplicationGatewayBackendHealthServerInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 
 /**
  * Implementation of application gateway backend server health information.
  */
-@LangDefinition
 public class ApplicationGatewayBackendServerHealthImpl implements ApplicationGatewayBackendServerHealth {
 
-    private final ApplicationGatewayBackendHealthServer inner;
+    private final ApplicationGatewayBackendHealthServerInner inner;
     private final ApplicationGatewayBackendHttpConfigurationHealthImpl httpConfigHealth;
 
-    ApplicationGatewayBackendServerHealthImpl(ApplicationGatewayBackendHealthServer inner, ApplicationGatewayBackendHttpConfigurationHealthImpl httpConfigHealth) {
+    ApplicationGatewayBackendServerHealthImpl(ApplicationGatewayBackendHealthServerInner inner, ApplicationGatewayBackendHttpConfigurationHealthImpl httpConfigHealth) {
         this.inner = inner;
         this.httpConfigHealth = httpConfigHealth;
     }
 
     @Override
-    public ApplicationGatewayBackendHealthServer inner() {
+    public ApplicationGatewayBackendHealthServerInner inner() {
         return this.inner;
     }
 
@@ -40,15 +38,15 @@ public class ApplicationGatewayBackendServerHealthImpl implements ApplicationGat
 
     @Override
     public String ipAddress() {
-        return this.inner().address();
+        return this.inner().getAddress();
     }
 
     @Override
     public NicIPConfiguration getNetworkInterfaceIPConfiguration() {
-        if (this.inner().ipConfiguration() == null) {
+        if (this.inner().getIpConfiguration() == null) {
             return null;
         }
-        String nicIPConfigId = this.inner().ipConfiguration().id();
+        String nicIPConfigId = this.inner().getIpConfiguration().getId();
         if (nicIPConfigId == null) {
             return null;
         }
@@ -65,6 +63,6 @@ public class ApplicationGatewayBackendServerHealthImpl implements ApplicationGat
 
     @Override
     public ApplicationGatewayBackendHealthStatus status() {
-        return ApplicationGatewayBackendHealthStatus.fromString(this.inner.health().toString());
+        return ApplicationGatewayBackendHealthStatus.fromString(this.inner.getHealth().toString());
     }
 }

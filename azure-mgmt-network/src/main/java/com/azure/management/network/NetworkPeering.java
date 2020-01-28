@@ -5,20 +5,16 @@
  */
 package com.azure.management.network;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.azure.management.network.implementation.VirtualNetworkPeeringInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.IndependentChild;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
-
-import rx.Observable;
+import com.azure.management.network.models.VirtualNetworkPeeringInner;
+import com.azure.management.resources.fluentcore.arm.models.IndependentChild;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -26,12 +22,11 @@ import java.util.List;
  * An client-side representation of a network peering.
  */
 @Fluent()
-@Beta(SinceVersion.V1_3_0)
 public interface NetworkPeering extends
-    IndependentChild<NetworkManager>,
-    HasInner<VirtualNetworkPeeringInner>,
-    Refreshable<NetworkPeering>,
-    Updatable<NetworkPeering.Update> {
+        IndependentChild<NetworkManager>,
+        HasInner<VirtualNetworkPeeringInner>,
+        Refreshable<NetworkPeering>,
+        Updatable<NetworkPeering.Update> {
 
     /**
      * @return the local virtual network's ID
@@ -41,7 +36,6 @@ public interface NetworkPeering extends
     /**
      * @return the reference of the remote virtual network address space
      */
-    @Beta(SinceVersion.V1_10_0)
     List<String> remoteAddressSpaces();
 
     /**
@@ -49,7 +43,6 @@ public interface NetworkPeering extends
      * <p>
      * (Note this method makes a separate call to Azure.)
      */
-    @Method
     boolean checkAccessBetweenNetworks();
 
     /**
@@ -60,28 +53,24 @@ public interface NetworkPeering extends
     /**
      * @return the remote network if it is in the same subscription, otherwise null.
      */
-    @Method
     Network getRemoteNetwork();
 
     /**
      * Gets the remote network associated with this peering asynchronously.
      * @return a representation of the future computation of this call
      */
-    @Method
-    Observable<Network> getRemoteNetworkAsync();
+    Mono<Network> getRemoteNetworkAsync();
 
     /**
      * @return the associated matching peering on the remote network if it is in the same subscription, otherwise this future computation will evaluate to null.
      */
-    @Method
     NetworkPeering getRemotePeering();
 
     /**
      * Gets the associated matching peering on the remote network if it is in the same subscription.
      * @return a representation of the future computation of this call.
      */
-    @Method
-    Observable<NetworkPeering> getRemotePeeringAsync();
+    Mono<NetworkPeering> getRemotePeeringAsync();
 
     /**
      * @return the state of the peering between the two networks
@@ -233,7 +222,7 @@ public interface NetworkPeering extends
          * specify.
          */
         interface WithCreate extends
-            Creatable<NetworkPeering>,
+                Creatable<NetworkPeering>,
             WithGatewayUse,
             WithTrafficForwarding,
             WithAccess {
@@ -254,7 +243,7 @@ public interface NetworkPeering extends
      * can be modified.
      */
     interface Update extends
-        Appliable<NetworkPeering>,
+            Appliable<NetworkPeering>,
         UpdateStages.WithTrafficForwarding,
         UpdateStages.WithAccess,
         UpdateStages.WithGatewayUse {

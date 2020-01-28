@@ -5,21 +5,20 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.management.SubResource;
 import com.azure.management.network.IPAllocationMethod;
 import com.azure.management.network.Network;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
 import com.azure.management.network.VirtualNetworkGateway;
 import com.azure.management.network.VirtualNetworkGatewayIPConfiguration;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.VirtualNetworkGatewayIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 /**
- *  Implementation for VirtualNetworkGatewayIPConfiguration.
+ * Implementation for VirtualNetworkGatewayIPConfiguration.
  */
-@LangDefinition
 class VirtualNetworkGatewayIPConfigurationImpl
         extends ChildResourceImpl<VirtualNetworkGatewayIPConfigurationInner, VirtualNetworkGatewayImpl, VirtualNetworkGateway>
         implements
@@ -34,13 +33,13 @@ class VirtualNetworkGatewayIPConfigurationImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String publicIPAddressId() {
-        if (this.inner().publicIPAddress() != null) {
-            return this.inner().publicIPAddress().id();
+        if (this.inner().getPublicIPAddress() != null) {
+            return this.inner().getPublicIPAddress().getId();
         } else {
             return null;
         }
@@ -48,9 +47,9 @@ class VirtualNetworkGatewayIPConfigurationImpl
 
     @Override
     public String networkId() {
-        SubResource subnetRef = this.inner().subnet();
+        SubResource subnetRef = this.inner().getSubnet();
         if (subnetRef != null) {
-            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.id());
+            return ResourceUtils.parentResourceIdFromResourceId(subnetRef.getId());
         } else {
             return null;
         }
@@ -58,9 +57,9 @@ class VirtualNetworkGatewayIPConfigurationImpl
 
     @Override
     public String subnetName() {
-        SubResource subnetRef = this.inner().subnet();
+        SubResource subnetRef = this.inner().getSubnet();
         if (subnetRef != null) {
-            return ResourceUtils.nameFromResourceId(subnetRef.id());
+            return ResourceUtils.nameFromResourceId(subnetRef.getId());
         } else {
             return null;
         }
@@ -68,18 +67,18 @@ class VirtualNetworkGatewayIPConfigurationImpl
 
     @Override
     public IPAllocationMethod privateIPAllocationMethod() {
-        return inner().privateIPAllocationMethod();
+        return inner().getPrivateIPAllocationMethod();
     }
 
     @Override
     public Subnet getSubnet() {
-        return this.parent().manager().getAssociatedSubnet(this.inner().subnet());
+        return this.parent().manager().getAssociatedSubnet(this.inner().getSubnet());
     }
 
     @Override
     public VirtualNetworkGatewayIPConfigurationImpl withExistingSubnet(String networkId, String subnetName) {
-        SubResource subnetRef = new SubResource().withId(networkId + "/subnets/" + subnetName);
-        this.inner().withSubnet(subnetRef);
+        SubResource subnetRef = new SubResource().setId(networkId + "/subnets/" + subnetName);
+        this.inner().setSubnet(subnetRef);
         return this;
     }
 
@@ -105,8 +104,8 @@ class VirtualNetworkGatewayIPConfigurationImpl
 
     @Override
     public VirtualNetworkGatewayIPConfigurationImpl withExistingPublicIPAddress(String resourceId) {
-        SubResource pipRef = new SubResource().withId(resourceId);
-        this.inner().withPublicIPAddress(pipRef);
+        SubResource pipRef = new SubResource().setId(resourceId);
+        this.inner().setPublicIPAddress(pipRef);
         return this;
     }
 }

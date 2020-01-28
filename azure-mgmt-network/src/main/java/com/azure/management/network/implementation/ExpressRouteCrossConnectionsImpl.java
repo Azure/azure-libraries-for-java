@@ -5,18 +5,17 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.ExpressRouteCrossConnection;
 import com.azure.management.network.ExpressRouteCrossConnections;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceId;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.ExpressRouteCrossConnectionInner;
+import com.azure.management.network.models.ExpressRouteCrossConnectionsInner;
+import com.azure.management.resources.fluentcore.arm.ResourceId;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
+import reactor.core.publisher.Mono;
 
-@LangDefinition
+
 class ExpressRouteCrossConnectionsImpl extends
         ReadableWrappersImpl<ExpressRouteCrossConnection, ExpressRouteCrossConnectionImpl, ExpressRouteCrossConnectionInner>
         implements ExpressRouteCrossConnections {
@@ -31,52 +30,38 @@ class ExpressRouteCrossConnectionsImpl extends
         if (inner == null) {
             return null;
         }
-        return new ExpressRouteCrossConnectionImpl(inner.name(), inner, this.manager());
+        return new ExpressRouteCrossConnectionImpl(inner.getName(), inner, this.manager());
     }
 
     @Override
     public ExpressRouteCrossConnection getById(String id) {
-        return getByIdAsync(id).toBlocking().last();
+        return getByIdAsync(id).block();
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnection> getByIdAsync(String id) {
+    public Mono<ExpressRouteCrossConnection> getByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
         return getByResourceGroupAsync(resourceId.resourceGroupName(), resourceId.name());
     }
 
-    @Override
-    public ServiceFuture<ExpressRouteCrossConnection> getByIdAsync(String id, ServiceCallback<ExpressRouteCrossConnection> callback) {
-        return ServiceFuture.fromBody(getByIdAsync(id), callback);
-    }
 
     @Override
     public ExpressRouteCrossConnection getByResourceGroup(String resourceGroupName, String name) {
-        return getByResourceGroupAsync(resourceGroupName, name).toBlocking().last();
+        return getByResourceGroupAsync(resourceGroupName, name).block();
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnection> getByResourceGroupAsync(String resourceGroupName, String name) {
-        return this.inner().getByResourceGroupAsync(resourceGroupName, name).map(new Func1<ExpressRouteCrossConnectionInner, ExpressRouteCrossConnection>() {
-            @Override
-            public ExpressRouteCrossConnection call(ExpressRouteCrossConnectionInner inner) {
-                return wrapModel(inner);
-            }
-        });
+    public Mono<ExpressRouteCrossConnection> getByResourceGroupAsync(String resourceGroupName, String name) {
+        return this.inner().getByResourceGroupAsync(resourceGroupName, name).map(inner -> wrapModel(inner));
     }
 
     @Override
-    public ServiceFuture<ExpressRouteCrossConnection> getByResourceGroupAsync(String resourceGroupName, String name, ServiceCallback<ExpressRouteCrossConnection> callback) {
-        return ServiceFuture.fromBody(getByResourceGroupAsync(resourceGroupName, name), callback);
-    }
-
-    @Override
-    public PagedList<ExpressRouteCrossConnection> listByResourceGroup(String resourceGroupName) {
+    public PagedIterable<ExpressRouteCrossConnection> listByResourceGroup(String resourceGroupName) {
         return wrapList(this.inner().listByResourceGroup(resourceGroupName));
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnection> listByResourceGroupAsync(String resourceGroupName) {
+    public PagedFlux<ExpressRouteCrossConnection> listByResourceGroupAsync(String resourceGroupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(resourceGroupName));
     }
 
@@ -86,12 +71,12 @@ class ExpressRouteCrossConnectionsImpl extends
     }
 
     @Override
-    public PagedList<ExpressRouteCrossConnection> list() {
+    public PagedIterable<ExpressRouteCrossConnection> list() {
         return wrapList(inner().list());
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnection> listAsync() {
+    public PagedFlux<ExpressRouteCrossConnection> listAsync() {
         return wrapPageAsync(inner().listAsync());
     }
 

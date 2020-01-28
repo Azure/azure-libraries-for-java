@@ -5,24 +5,25 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ExpressRouteCircuit;
 import com.azure.management.network.ExpressRouteCircuitPeering;
 import com.azure.management.network.ExpressRouteCircuitPeerings;
 import com.azure.management.network.ExpressRouteCircuitServiceProviderProperties;
 import com.azure.management.network.ExpressRouteCircuitSkuType;
 import com.azure.management.network.ServiceProviderProvisioningState;
-import com.azure.management.network.model.GroupableParentResourceWithTagsImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.TagsObject;
+import com.azure.management.network.models.ExpressRouteCircuitAuthorizationInner;
+import com.azure.management.network.models.ExpressRouteCircuitInner;
+import com.azure.management.network.models.ExpressRouteCircuitPeeringInner;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@LangDefinition
 class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
         ExpressRouteCircuit,
         ExpressRouteCircuitInner,
@@ -42,59 +43,59 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
 
     @Override
     public ExpressRouteCircuitImpl withServiceProvider(String serviceProviderName) {
-        ensureServiceProviderProperties().withServiceProviderName(serviceProviderName);
+        ensureServiceProviderProperties().setServiceProviderName(serviceProviderName);
         return this;
     }
 
     @Override
     public ExpressRouteCircuitImpl withPeeringLocation(String location) {
-        ensureServiceProviderProperties().withPeeringLocation(location);
+        ensureServiceProviderProperties().setPeeringLocation(location);
         return this;
     }
 
     @Override
     public ExpressRouteCircuitImpl withBandwidthInMbps(int bandwidthInMbps) {
-        ensureServiceProviderProperties().withBandwidthInMbps(bandwidthInMbps);
+        ensureServiceProviderProperties().setBandwidthInMbps(bandwidthInMbps);
         return this;
     }
 
     @Override
     public ExpressRouteCircuitImpl withSku(ExpressRouteCircuitSkuType sku) {
-        inner().withSku(sku.sku());
+        inner().setSku(sku.sku());
         return this;
     }
 
 
     @Override
     public ExpressRouteCircuitImpl withClassicOperations() {
-        inner().withAllowClassicOperations(true);
+        inner().setAllowClassicOperations(true);
         return this;
     }
 
     @Override
     public ExpressRouteCircuitImpl withoutClassicOperations() {
-        inner().withAllowClassicOperations(false);
+        inner().setAllowClassicOperations(false);
         return this;
     }
 
     @Override
     public ExpressRouteCircuitImpl withAuthorization(String authorizationName) {
-        ensureAuthorizations().add(new ExpressRouteCircuitAuthorizationInner().withName(authorizationName));
+        ensureAuthorizations().add(new ExpressRouteCircuitAuthorizationInner().setName(authorizationName));
         return this;
     }
 
     private List<ExpressRouteCircuitAuthorizationInner> ensureAuthorizations() {
-        if (inner().authorizations() == null) {
-            inner().withAuthorizations(new ArrayList<ExpressRouteCircuitAuthorizationInner>());
+        if (inner().getAuthorizations() == null) {
+            inner().setAuthorizations(new ArrayList<ExpressRouteCircuitAuthorizationInner>());
         }
-        return inner().authorizations();
+        return inner().getAuthorizations();
     }
 
     private ExpressRouteCircuitServiceProviderProperties ensureServiceProviderProperties() {
-        if (inner().serviceProviderProperties() == null) {
-            inner().withServiceProviderProperties(new ExpressRouteCircuitServiceProviderProperties());
+        if (inner().getServiceProviderProperties() == null) {
+            inner().setServiceProviderProperties(new ExpressRouteCircuitServiceProviderProperties());
         }
-        return inner().serviceProviderProperties();
+        return inner().getServiceProviderProperties();
     }
 
     protected void beforeCreating() {
@@ -105,7 +106,7 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitInner> createInner() {
+    protected Mono<ExpressRouteCircuitInner> createInner() {
         return this.manager().inner().expressRouteCircuits().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner());
     }
@@ -113,34 +114,32 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
     @Override
     protected void initializeChildrenFromInner() {
         expressRouteCircuitPeerings = new HashMap<>();
-        if (inner().peerings() != null) {
-            for (ExpressRouteCircuitPeeringInner peering : inner().peerings()) {
-                expressRouteCircuitPeerings.put(peering.name(),
-                        new ExpressRouteCircuitPeeringImpl(this, peering, manager().inner().expressRouteCircuitPeerings(), peering.peeringType()));
+        if (inner().getPeerings() != null) {
+            for (ExpressRouteCircuitPeeringInner peering : inner().getPeerings()) {
+                expressRouteCircuitPeerings.put(peering.getName(),
+                        new ExpressRouteCircuitPeeringImpl(this, peering, manager().inner().expressRouteCircuitPeerings(), peering.getPeeringType()));
             }
         }
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitInner> getInnerAsync() {
+    protected Mono<ExpressRouteCircuitInner> getInnerAsync() {
         return this.manager().inner().expressRouteCircuits().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<ExpressRouteCircuit> refreshAsync() {
-        return super.refreshAsync().map(new Func1<ExpressRouteCircuit, ExpressRouteCircuit>() {
-            @Override
-            public ExpressRouteCircuit call(ExpressRouteCircuit expressRouteCircuit) {
-                ExpressRouteCircuitImpl impl = (ExpressRouteCircuitImpl) expressRouteCircuit;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Mono<ExpressRouteCircuit> refreshAsync() {
+        return super.refreshAsync().map(expressRouteCircuit -> {
+            ExpressRouteCircuitImpl impl = (ExpressRouteCircuitImpl) expressRouteCircuit;
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<ExpressRouteCircuitInner> applyTagsToInnerAsync() {
-        return this.manager().inner().expressRouteCircuits().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+    protected Mono<ExpressRouteCircuitInner> applyTagsToInnerAsync() {
+        TagsObject parameters = new TagsObject().setTags(inner().getTags());
+        return this.manager().inner().expressRouteCircuits().updateTagsAsync(resourceGroupName(), name(), parameters);
     }
 
     // Getters
@@ -155,42 +154,42 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
 
     @Override
     public ExpressRouteCircuitSkuType sku() {
-        return ExpressRouteCircuitSkuType.fromSku(inner().sku());
+        return ExpressRouteCircuitSkuType.fromSku(inner().getSku());
     }
 
     @Override
     public boolean isAllowClassicOperations() {
-        return Utils.toPrimitiveBoolean(inner().allowClassicOperations());
+        return Utils.toPrimitiveBoolean(inner().isAllowClassicOperations());
     }
 
     @Override
     public String circuitProvisioningState() {
-        return inner().circuitProvisioningState();
+        return inner().getCircuitProvisioningState();
     }
 
     @Override
     public ServiceProviderProvisioningState serviceProviderProvisioningState() {
-        return inner().serviceProviderProvisioningState();
+        return inner().getServiceProviderProvisioningState();
     }
 
     @Override
     public String serviceKey() {
-        return inner().serviceKey();
+        return inner().getServiceKey();
     }
 
     @Override
     public String serviceProviderNotes() {
-        return inner().serviceProviderNotes();
+        return inner().getServiceProviderNotes();
     }
 
     @Override
     public ExpressRouteCircuitServiceProviderProperties serviceProviderProperties() {
-        return inner().serviceProviderProperties();
+        return inner().getServiceProviderProperties();
     }
 
     @Override
     public String provisioningState() {
-        return inner().provisioningState();
+        return inner().getProvisioningState();
     }
 
     @Override

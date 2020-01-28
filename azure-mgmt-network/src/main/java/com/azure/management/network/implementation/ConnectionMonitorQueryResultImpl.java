@@ -5,11 +5,11 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ConnectionMonitorQueryResult;
 import com.azure.management.network.ConnectionMonitorSourceStatus;
 import com.azure.management.network.ConnectionStateSnapshot;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.network.models.ConnectionMonitorQueryResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Implementation for {@link ConnectionMonitorQueryResult}.
  */
-@LangDefinition
 class ConnectionMonitorQueryResultImpl extends WrapperImpl<ConnectionMonitorQueryResultInner>
         implements ConnectionMonitorQueryResult {
     ConnectionMonitorQueryResultImpl(ConnectionMonitorQueryResultInner innerObject) {
@@ -26,11 +25,11 @@ class ConnectionMonitorQueryResultImpl extends WrapperImpl<ConnectionMonitorQuer
 
     @Override
     public ConnectionMonitorSourceStatus sourceStatus() {
-        return inner().sourceStatus();
+        return inner().getSourceStatus();
     }
 
     @Override
     public List<ConnectionStateSnapshot> states() {
-        return Collections.unmodifiableList(inner().states());
+        return Collections.unmodifiableList(inner().getStates());
     }
 }

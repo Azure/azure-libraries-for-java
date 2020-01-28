@@ -6,9 +6,9 @@
 
 package com.azure.management.network;
 
-import com.azure.management.network.model.HasPrivateIPAddress;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasSubnet;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasPrivateIPAddress;
+import com.azure.management.resources.fluentcore.arm.models.HasSubnet;
 
 import java.util.Collection;
 import java.util.List;

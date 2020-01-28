@@ -5,26 +5,25 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.management.network.ApplicationGateway;
+import com.azure.management.network.ApplicationGatewayProbe;
+import com.azure.management.network.ApplicationGatewayProbeHealthResponseMatch;
+import com.azure.management.network.ApplicationGatewayProtocol;
+import com.azure.management.network.models.ApplicationGatewayProbeInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.ApplicationGateway;
-import com.azure.management.network.ApplicationGatewayProbe;
-import com.azure.management.network.ApplicationGatewayProbeHealthResponseMatch;
-import com.azure.management.network.ApplicationGatewayProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-
 /**
- *  Implementation for ApplicationGatewayProbe.
+ * Implementation for ApplicationGatewayProbe.
  */
-@LangDefinition
 class ApplicationGatewayProbeImpl
-    extends ChildResourceImpl<ApplicationGatewayProbeInner, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewayProbeInner, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewayProbe,
         ApplicationGatewayProbe.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayProbe.UpdateDefinition<ApplicationGateway.Update>,
@@ -38,43 +37,43 @@ class ApplicationGatewayProbeImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String healthyHttpResponseBodyContents() {
-        ApplicationGatewayProbeHealthResponseMatch match = this.inner().match();
+        ApplicationGatewayProbeHealthResponseMatch match = this.inner().getMatch();
         if (match == null) {
             return null;
         } else {
-            return match.body();
+            return match.getBody();
         }
     }
 
     @Override
     public ApplicationGatewayProtocol protocol() {
-        return this.inner().protocol();
+        return this.inner().getProtocol();
     }
 
     @Override
     public int timeBetweenProbesInSeconds() {
-        return (this.inner().interval() != null) ? this.inner().interval().intValue() : 0;
+        return (this.inner().getInterval() != null) ? this.inner().getInterval().intValue() : 0;
     }
 
     @Override
     public String path() {
-        return this.inner().path();
+        return this.inner().getPath();
     }
 
     @Override
     public Set<String> healthyHttpResponseStatusCodeRanges() {
         Set<String> httpResponseStatusCodeRanges = new TreeSet<>();
-        if (this.inner().match() == null) {
+        if (this.inner().getMatch() == null) {
             // Empty
-        } else if (this.inner().match().statusCodes() == null) {
+        } else if (this.inner().getMatch().getStatusCodes() == null) {
             // Empty
         } else {
-            httpResponseStatusCodeRanges.addAll(this.inner().match().statusCodes());
+            httpResponseStatusCodeRanges.addAll(this.inner().getMatch().getStatusCodes());
         }
 
         return Collections.unmodifiableSet(httpResponseStatusCodeRanges);
@@ -82,24 +81,24 @@ class ApplicationGatewayProbeImpl
 
     @Override
     public int timeoutInSeconds() {
-        return (this.inner().timeout() != null) ? this.inner().timeout().intValue() : 0;
+        return (this.inner().getTimeout() != null) ? this.inner().getTimeout().intValue() : 0;
     }
 
     @Override
     public int retriesBeforeUnhealthy() {
-        return (this.inner().unhealthyThreshold() != null) ? this.inner().unhealthyThreshold() : 0;
+        return (this.inner().getUnhealthyThreshold() != null) ? this.inner().getUnhealthyThreshold() : 0;
     }
 
     @Override
     public String host() {
-        return this.inner().host();
+        return this.inner().getHost();
     }
 
     // Fluent setters
 
     @Override
     public ApplicationGatewayProbeImpl withProtocol(ApplicationGatewayProtocol protocol) {
-        this.inner().withProtocol(protocol);
+        this.inner().setProtocol(protocol);
         return this;
     }
 
@@ -118,31 +117,31 @@ class ApplicationGatewayProbeImpl
         if (path != null && !path.startsWith("/")) {
             path = "/" + path;
         }
-        this.inner().withPath(path);
+        this.inner().setPath(path);
         return this;
     }
 
     @Override
     public ApplicationGatewayProbeImpl withHost(String host) {
-        this.inner().withHost(host);
+        this.inner().setHost(host);
         return this;
     }
 
     @Override
     public ApplicationGatewayProbeImpl withTimeoutInSeconds(int seconds) {
-        this.inner().withTimeout(seconds);
+        this.inner().setTimeout(seconds);
         return this;
     }
 
     @Override
     public ApplicationGatewayProbeImpl withTimeBetweenProbesInSeconds(int seconds) {
-        this.inner().withInterval(seconds);
+        this.inner().setInterval(seconds);
         return this;
     }
 
     @Override
     public ApplicationGatewayProbeImpl withRetriesBeforeUnhealthy(int retryCount) {
-        this.inner().withUnhealthyThreshold(retryCount);
+        this.inner().setUnhealthyThreshold(retryCount);
         return this;
     }
 
@@ -159,16 +158,16 @@ class ApplicationGatewayProbeImpl
     @Override
     public ApplicationGatewayProbeImpl withHealthyHttpResponseStatusCodeRange(String range) {
         if (range != null) {
-            ApplicationGatewayProbeHealthResponseMatch match = this.inner().match();
+            ApplicationGatewayProbeHealthResponseMatch match = this.inner().getMatch();
             if (match == null) {
                 match = new ApplicationGatewayProbeHealthResponseMatch();
-                this.inner().withMatch(match);
+                this.inner().setMatch(match);
             }
 
-            List<String> ranges = match.statusCodes();
+            List<String> ranges = match.getStatusCodes();
             if (ranges == null) {
                 ranges = new ArrayList<>();
-                match.withStatusCodes(ranges);
+                match.setStatusCodes(ranges);
             }
 
             if (!ranges.contains(range)) {
@@ -192,11 +191,11 @@ class ApplicationGatewayProbeImpl
 
     @Override
     public ApplicationGatewayProbeImpl withoutHealthyHttpResponseStatusCodeRanges() {
-        ApplicationGatewayProbeHealthResponseMatch match = this.inner().match();
+        ApplicationGatewayProbeHealthResponseMatch match = this.inner().getMatch();
         if (match != null) {
-            match.withStatusCodes(null);
-            if (match.body() == null) {
-                this.inner().withMatch(null);
+            match.setStatusCodes(null);
+            if (match.getBody() == null) {
+                this.inner().setMatch(null);
             }
         }
 
@@ -205,21 +204,21 @@ class ApplicationGatewayProbeImpl
 
     @Override
     public ApplicationGatewayProbeImpl withHealthyHttpResponseBodyContents(String text) {
-        ApplicationGatewayProbeHealthResponseMatch match = this.inner().match();
+        ApplicationGatewayProbeHealthResponseMatch match = this.inner().getMatch();
         if (text != null) {
             if (match == null) {
                 match = new ApplicationGatewayProbeHealthResponseMatch();
-                this.inner().withMatch(match);
+                this.inner().setMatch(match);
             }
-            match.withBody(text);
+            match.setBody(text);
         } else {
             if (match == null) {
                 // Nothing else to do
-            } else if (match.statusCodes() == null || match.statusCodes().isEmpty()) {
+            } else if (match.getStatusCodes() == null || match.getStatusCodes().isEmpty()) {
                 // If match is becoming empty then remove altogether
-                this.inner().withMatch(null);
+                this.inner().setMatch(null);
             } else {
-                match.withBody(null);
+                match.setBody(null);
             }
         }
         return this;

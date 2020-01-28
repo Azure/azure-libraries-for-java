@@ -6,8 +6,8 @@
 
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+
+import com.azure.core.implementation.annotation.Beta;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,8 +16,6 @@ import java.util.Map;
 /**
  * Defines values for PublicIPSkuType.
  */
-@LangDefinition
-@Beta(Beta.SinceVersion.V1_3_0)
 public final class PublicIPSkuType {
     // This needs to be at the beginning for the initialization to happen correctly
     private static final Map<String, PublicIPSkuType> VALUES_BY_NAME = new HashMap<>();
@@ -61,14 +59,14 @@ public final class PublicIPSkuType {
         if (pipSku == null) {
             return null;
         }
-        if (pipSku.name() == null) {
+        if (pipSku.getName() == null) {
             return null;
         }
-        PublicIPSkuType result = VALUES_BY_NAME.get(pipSku.name().toString().toLowerCase());
+        PublicIPSkuType result = VALUES_BY_NAME.get(pipSku.getName().toString().toLowerCase());
         if (result != null) {
             return result;
         } else {
-            return new PublicIPSkuType(pipSku.name());
+            return new PublicIPSkuType(pipSku.getName());
         }
     }
 
@@ -76,7 +74,7 @@ public final class PublicIPSkuType {
      * @return the PublicIPAddressSku associated with the PublicIPAddressSkuType.
      */
     public PublicIPAddressSku sku() {
-        return (new PublicIPAddressSku()).withName(this.skuName);
+        return (new PublicIPAddressSku()).setName(this.skuName);
     }
 
     @Override

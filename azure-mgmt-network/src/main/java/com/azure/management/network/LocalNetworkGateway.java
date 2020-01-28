@@ -5,18 +5,17 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.LocalNetworkGatewayInner;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.LocalNetworkGatewayInner;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+
 
 import java.util.Set;
 
@@ -24,7 +23,6 @@ import java.util.Set;
  * Entry point for Local Network Gateway management API in Azure.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
 public interface LocalNetworkGateway extends
         GroupableResource<NetworkManager, LocalNetworkGatewayInner>,
         Refreshable<LocalNetworkGateway>,

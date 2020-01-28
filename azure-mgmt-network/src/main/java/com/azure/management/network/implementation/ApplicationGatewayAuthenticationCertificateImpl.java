@@ -5,26 +5,25 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.management.network.ApplicationGateway;
+import com.azure.management.network.ApplicationGatewayAuthenticationCertificate;
+import com.azure.management.network.models.ApplicationGatewayAuthenticationCertificateInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
-import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.ApplicationGateway;
-import com.azure.management.network.ApplicationGatewayAuthenticationCertificate;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import java.util.Base64;
 
 /**
- *  Implementation for ApplicationGatewayAuthenticationCertificate.
+ * Implementation for ApplicationGatewayAuthenticationCertificate.
  */
-@LangDefinition
 class ApplicationGatewayAuthenticationCertificateImpl
-    extends ChildResourceImpl<
+        extends ChildResourceImpl<
         ApplicationGatewayAuthenticationCertificateInner,
         ApplicationGatewayImpl,
         ApplicationGateway>
-    implements
+        implements
         ApplicationGatewayAuthenticationCertificate,
         ApplicationGatewayAuthenticationCertificate.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayAuthenticationCertificate.UpdateDefinition<ApplicationGateway.Update>,
@@ -40,12 +39,12 @@ class ApplicationGatewayAuthenticationCertificateImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String data() {
-        return this.inner().data();
+        return this.inner().getData();
     }
 
     // Verbs
@@ -59,7 +58,7 @@ class ApplicationGatewayAuthenticationCertificateImpl
 
     @Override
     public ApplicationGatewayAuthenticationCertificateImpl fromBytes(byte[] data) {
-        String encoded = new String(BaseEncoding.base64().encode(data));
+        String encoded = new String(Base64.getEncoder().encode(data));
         return this.fromBase64(encoded);
     }
 
@@ -79,7 +78,7 @@ class ApplicationGatewayAuthenticationCertificateImpl
             return this;
         }
 
-        this.inner().withData(base64data);
+        this.inner().setData(base64data);
         return this;
     }
 }

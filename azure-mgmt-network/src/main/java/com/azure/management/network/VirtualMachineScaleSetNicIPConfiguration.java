@@ -5,12 +5,13 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.NetworkInterfaceIPConfigurationInner;
-import com.azure.management.network.model.HasPrivateIPAddress;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasSubnet;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasPrivateIPAddress;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.arm.models.HasSubnet;
+import com.azure.management.resources.fluentcore.model.HasInner;
+
 
 /**
  * An IP configuration in a network interface associated with a virtual machine

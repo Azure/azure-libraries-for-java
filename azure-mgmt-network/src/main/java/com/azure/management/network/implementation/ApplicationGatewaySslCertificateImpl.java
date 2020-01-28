@@ -5,23 +5,22 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.management.network.ApplicationGateway;
+import com.azure.management.network.ApplicationGatewaySslCertificate;
+import com.azure.management.network.models.ApplicationGatewaySslCertificateInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-
-import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.ApplicationGateway;
-import com.azure.management.network.ApplicationGatewaySslCertificate;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import java.util.Base64;
 
 /**
- *  Implementation for ApplicationGatewaySslCertificate.
+ * Implementation for ApplicationGatewaySslCertificate.
  */
-@LangDefinition
 class ApplicationGatewaySslCertificateImpl
-    extends ChildResourceImpl<ApplicationGatewaySslCertificateInner, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewaySslCertificateInner, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewaySslCertificate,
         ApplicationGatewaySslCertificate.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewaySslCertificate.UpdateDefinition<ApplicationGateway.Update>,
@@ -37,17 +36,17 @@ class ApplicationGatewaySslCertificateImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String publicData() {
-        return this.inner().publicCertData();
+        return this.inner().getPublicCertData();
     }
 
     @Override
     public String keyVaultSecretId() {
-        return this.inner().keyVaultSecretId();
+        return this.inner().getKeyVaultSecretId();
     }
 
     // Verbs
@@ -62,8 +61,8 @@ class ApplicationGatewaySslCertificateImpl
 
     @Override
     public ApplicationGatewaySslCertificateImpl withPfxFromBytes(byte[] pfxData) {
-        String encoded = new String(BaseEncoding.base64().encode(pfxData));
-        this.inner().withData(encoded);
+        String encoded = new String(Base64.getEncoder().encode(pfxData));
+        this.inner().setData(encoded);
         return this;
     }
 
@@ -79,13 +78,13 @@ class ApplicationGatewaySslCertificateImpl
 
     @Override
     public ApplicationGatewaySslCertificateImpl withPfxPassword(String password) {
-        this.inner().withPassword(password);
+        this.inner().setPassword(password);
         return this;
     }
 
     @Override
     public ApplicationGatewaySslCertificateImpl withKeyVaultSecretId(String keyVaultSecretId) {
-        this.inner().withKeyVaultSecretId(keyVaultSecretId);
+        this.inner().setKeyVaultSecretId(keyVaultSecretId);
         return this;
     }
 

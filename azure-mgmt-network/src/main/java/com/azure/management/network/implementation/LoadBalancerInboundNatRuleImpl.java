@@ -5,28 +5,27 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
+import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.LoadBalancerFrontend;
 import com.azure.management.network.LoadBalancerInboundNatRule;
 import com.azure.management.network.Network;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
-import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.TransportProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.InboundNatRuleInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
- *  Implementation for LoadBalancerInboundNatRule.
+ * Implementation for LoadBalancerInboundNatRule.
  */
-@LangDefinition
 class LoadBalancerInboundNatRuleImpl
-    extends ChildResourceImpl<InboundNatRuleInner, LoadBalancerImpl, LoadBalancer>
-    implements
+        extends ChildResourceImpl<InboundNatRuleInner, LoadBalancerImpl, LoadBalancer>
+        implements
         LoadBalancerInboundNatRule,
         LoadBalancerInboundNatRule.Definition<LoadBalancer.DefinitionStages.WithCreateAndInboundNatRule>,
         LoadBalancerInboundNatRule.UpdateDefinition<LoadBalancer.Update>,
@@ -40,64 +39,64 @@ class LoadBalancerInboundNatRuleImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String backendNicIPConfigurationName() {
-        if (this.inner().backendIPConfiguration() == null) {
+        if (this.inner().getBackendIPConfiguration() == null) {
             return null;
         } else {
-            return ResourceUtils.nameFromResourceId(this.inner().backendIPConfiguration().id());
+            return ResourceUtils.nameFromResourceId(this.inner().getBackendIPConfiguration().getId());
         }
     }
 
     @Override
     public int backendPort() {
-        return Utils.toPrimitiveInt(this.inner().backendPort());
+        return Utils.toPrimitiveInt(this.inner().getBackendPort());
     }
 
     @Override
     public String backendNetworkInterfaceId() {
-        if (this.inner().backendIPConfiguration() == null) {
+        if (this.inner().getBackendIPConfiguration() == null) {
             return null;
         } else {
-            return ResourceUtils.parentResourceIdFromResourceId(this.inner().backendIPConfiguration().id());
+            return ResourceUtils.parentResourceIdFromResourceId(this.inner().getBackendIPConfiguration().getId());
         }
     }
 
     @Override
     public TransportProtocol protocol() {
-        return this.inner().protocol();
+        return this.inner().getProtocol();
     }
 
     @Override
     public int frontendPort() {
-        return Utils.toPrimitiveInt(this.inner().frontendPort());
+        return Utils.toPrimitiveInt(this.inner().getFrontendPort());
     }
 
     @Override
     public boolean floatingIPEnabled() {
-        return this.inner().enableFloatingIP().booleanValue();
+        return this.inner().isEnableFloatingIP().booleanValue();
     }
 
     @Override
     public LoadBalancerFrontend frontend() {
         return this.parent().frontends().get(
                 ResourceUtils.nameFromResourceId(
-                        this.inner().frontendIPConfiguration().id()));
+                        this.inner().getFrontendIPConfiguration().getId()));
     }
 
     @Override
     public int idleTimeoutInMinutes() {
-        return Utils.toPrimitiveInt(this.inner().idleTimeoutInMinutes());
+        return Utils.toPrimitiveInt(this.inner().getIdleTimeoutInMinutes());
     }
 
     // Fluent setters
 
     @Override
     public LoadBalancerInboundNatRuleImpl toBackendPort(int port) {
-        this.inner().withBackendPort(port);
+        this.inner().setBackendPort(port);
         return this;
     }
 
@@ -113,13 +112,13 @@ class LoadBalancerInboundNatRuleImpl
 
     @Override
     public LoadBalancerInboundNatRuleImpl withFloatingIP(boolean enabled) {
-        this.inner().withEnableFloatingIP(enabled);
+        this.inner().setEnableFloatingIP(enabled);
         return this;
     }
 
     @Override
     public LoadBalancerInboundNatRuleImpl fromFrontendPort(int port) {
-        this.inner().withFrontendPort(port);
+        this.inner().setFrontendPort(port);
         if (this.backendPort() == 0) {
             // By default, assume the same backend port
             return this.toBackendPort(port);
@@ -130,13 +129,13 @@ class LoadBalancerInboundNatRuleImpl
 
     @Override
     public LoadBalancerInboundNatRuleImpl withIdleTimeoutInMinutes(int minutes) {
-        this.inner().withIdleTimeoutInMinutes(minutes);
+        this.inner().setIdleTimeoutInMinutes(minutes);
         return this;
     }
 
     @Override
     public LoadBalancerInboundNatRuleImpl withProtocol(TransportProtocol protocol) {
-        this.inner().withProtocol(protocol);
+        this.inner().setProtocol(protocol);
         return this;
     }
 
@@ -144,7 +143,7 @@ class LoadBalancerInboundNatRuleImpl
     public LoadBalancerInboundNatRuleImpl fromFrontend(String frontendName) {
         SubResource frontendRef = this.parent().ensureFrontendRef(frontendName);
         if (frontendRef != null) {
-            this.inner().withFrontendIPConfiguration(frontendRef);
+            this.inner().setFrontendIPConfiguration(frontendRef);
         }
         return this;
     }

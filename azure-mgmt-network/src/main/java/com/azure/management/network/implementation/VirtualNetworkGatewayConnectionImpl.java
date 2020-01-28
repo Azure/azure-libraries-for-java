@@ -5,6 +5,7 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ExpressRouteCircuit;
 import com.azure.management.network.IpsecPolicy;
 import com.azure.management.network.LocalNetworkGateway;
@@ -13,15 +14,10 @@ import com.azure.management.network.VirtualNetworkGateway;
 import com.azure.management.network.VirtualNetworkGatewayConnection;
 import com.azure.management.network.VirtualNetworkGatewayConnectionStatus;
 import com.azure.management.network.VirtualNetworkGatewayConnectionType;
-import com.azure.management.network.model.AppliableWithTags;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.AppliableWithTags;
+import com.azure.management.network.models.VirtualNetworkGatewayConnectionInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -30,7 +26,6 @@ import java.util.Collections;
 /**
  * Implementation for VirtualNetworkGatewayConnection and its create and update interfaces.
  */
-@LangDefinition
 public class VirtualNetworkGatewayConnectionImpl
         extends GroupableResourceImpl<VirtualNetworkGatewayConnection, VirtualNetworkGatewayConnectionInner, VirtualNetworkGatewayConnectionImpl, NetworkManager>
         implements VirtualNetworkGatewayConnection,
@@ -53,15 +48,15 @@ public class VirtualNetworkGatewayConnectionImpl
 
     @Override
     public String authorizationKey() {
-        return inner().authorizationKey();
+        return inner().getAuthorizationKey();
     }
 
     @Override
     public String virtualNetworkGateway1Id() {
-        if (inner().virtualNetworkGateway1() == null) {
+        if (inner().getVirtualNetworkGateway1() == null) {
             return null;
         }
-        return inner().virtualNetworkGateway1().id();
+        return inner().getVirtualNetworkGateway1().getId();
     }
 
     @Override

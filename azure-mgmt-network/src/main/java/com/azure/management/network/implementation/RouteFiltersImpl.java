@@ -7,13 +7,13 @@ package com.azure.management.network.implementation;
 
 import com.azure.management.network.RouteFilter;
 import com.azure.management.network.RouteFilters;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.RouteFilterInner;
+import com.azure.management.network.models.RouteFiltersInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  * Implementation for RouteFilters.
  */
-@LangDefinition
 class RouteFiltersImpl
         extends TopLevelModifiableResourcesImpl<
         RouteFilter,
@@ -43,7 +43,7 @@ class RouteFiltersImpl
         if (inner == null) {
             return null;
         }
-        return new RouteFilterImpl(inner.name(), inner, this.manager());
+        return new RouteFilterImpl(inner.getName(), inner, this.manager());
     }
 }
 

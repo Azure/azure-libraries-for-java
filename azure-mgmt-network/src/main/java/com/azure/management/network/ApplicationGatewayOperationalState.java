@@ -8,6 +8,7 @@ package com.azure.management.network;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Collection;
 
 /**
@@ -36,7 +37,7 @@ public final class ApplicationGatewayOperationalState extends ExpandableStringEn
 
     /**
      * Creates or finds a ApplicationGatewayOperationalState from its string representation.
-     * 
+     *
      * @param name a name to look for.
      * @return the corresponding ApplicationGatewayOperationalState.
      */

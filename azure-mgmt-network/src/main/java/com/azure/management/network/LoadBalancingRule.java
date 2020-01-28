@@ -5,28 +5,28 @@
  */
 package com.azure.management.network;
 
-import java.util.Collection;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasBackendPort;
+import com.azure.management.network.models.HasFloatingIP;
+import com.azure.management.network.models.HasFrontend;
+import com.azure.management.network.models.HasFrontendPort;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import com.azure.management.network.models.HasProtocol;
+import com.azure.management.network.models.LoadBalancingRuleInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
-import com.azure.management.network.implementation.LoadBalancingRuleInner;
-import com.azure.management.network.model.HasBackendPort;
-import com.azure.management.network.model.HasFloatingIP;
-import com.azure.management.network.model.HasFrontend;
-import com.azure.management.network.model.HasFrontendPort;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.azure.management.network.model.HasProtocol;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import java.util.Collection;
 
 /**
  * A client-side representation of an HTTP load balancing rule.
  */
 @Fluent()
 public interface LoadBalancingRule extends
-    HasInner<LoadBalancingRuleInner>,
-    ChildResource<LoadBalancer>,
+        HasInner<LoadBalancingRuleInner>,
+        ChildResource<LoadBalancer>,
         HasBackendPort,
         HasFrontend,
         HasFloatingIP,
@@ -59,6 +59,7 @@ public interface LoadBalancingRule extends
     interface DefinitionStages {
         /**
          * The first stage of the load balancing rule definition.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ReturnT> extends WithProtocol<ReturnT> {
@@ -66,14 +67,16 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the transport protocol to apply the rule to.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProtocol<ReturnT> extends
-            HasProtocol.DefinitionStages.WithProtocol<WithFrontend<ReturnT>, TransportProtocol> {
+                HasProtocol.DefinitionStages.WithProtocol<WithFrontend<ReturnT>, TransportProtocol> {
         }
 
         /**
          * The stage of a load balancing rule definition allowing to specify the frontend port to load balance.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontendPort<ReturnT> extends HasFrontendPort.DefinitionStages.WithFrontendPort<WithBackend<ReturnT>> {
@@ -81,26 +84,31 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the frontend to associate with the rule.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontend<ReturnT> extends
-            HasFrontend.DefinitionStages.WithFrontend<WithFrontendPort<ReturnT>> {
+                HasFrontend.DefinitionStages.WithFrontend<WithFrontendPort<ReturnT>> {
         }
 
         /**
          * The stage of a load balancing rule definition allowing to specify the probe to associate with the rule.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProbe<ReturnT> {
             /**
              * Associates the specified existing HTTP or TCP probe of this load balancer with the load balancing rule.
+             *
              * @param name the name of an existing HTTP or TCP probe
              * @return the next stage of the definition
              */
             WithAttach<ReturnT> withProbe(String name);
         }
 
-        /** The stage of a load balancing rule definition allowing to specify the backend to associate the rule with.
+        /**
+         * The stage of a load balancing rule definition allowing to specify the backend to associate the rule with.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackend<ReturnT> extends WithVirtualMachine<ReturnT> {
@@ -108,6 +116,7 @@ public interface LoadBalancingRule extends
              * Specifies a backend on this load balancer to send network traffic to.
              * <p>
              * If a backend with the specified name does not yet exist on this load balancer, it will be created automatically.
+             *
              * @param backendName the name of a backend
              * @return the next stage of the definition
              */
@@ -117,6 +126,7 @@ public interface LoadBalancingRule extends
         /**
          * The stage of a load balancing rule definition allowing to select a set of virtual machines to load balance
          * the network traffic among.
+         *
          * @param <ReturnT> the next stage of the definition
          */
         interface WithVirtualMachine<ReturnT> {
@@ -131,10 +141,11 @@ public interface LoadBalancingRule extends
              * <p>
              * Only those virtual machines will be associated with the load balancer that already have an existing
              * network interface. Virtual machines without a network interface will be skipped.
+             *
              * @param vms existing virtual machines
              * @return the next stage of the definition
              */
-            WithBackendPort<ReturnT> toExistingVirtualMachines(HasNetworkInterfaces...vms);
+            WithBackendPort<ReturnT> toExistingVirtualMachines(HasNetworkInterfaces... vms);
 
             /**
              * Adds the specified set of virtual machines, assuming they are from the same
@@ -147,6 +158,7 @@ public interface LoadBalancingRule extends
              * <p>
              * Only those virtual machines will be associated with the load balancer that already have an existing
              * network interface. Virtual machines without a network interface will be skipped.
+             *
              * @param vms existing virtual machines
              * @return the next stage of the definition
              */
@@ -155,11 +167,12 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the backend port to send the load-balanced traffic to.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackendPort<ReturnT> extends
-            HasBackendPort.DefinitionStages.WithBackendPort<WithAttach<ReturnT>>,
-            WithAttach<ReturnT> {
+                HasBackendPort.DefinitionStages.WithBackendPort<WithAttach<ReturnT>>,
+                WithAttach<ReturnT> {
         }
 
         /**
@@ -167,18 +180,20 @@ public interface LoadBalancingRule extends
          * <p>
          * At this stage, any remaining optional settings can be specified, or the load balancing rule definition
          * can be attached to the parent load balancer definition.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ReturnT> extends
-            Attachable.InDefinition<ReturnT>,
-            DefinitionStages.WithFloatingIP<ReturnT>,
-            DefinitionStages.WithIdleTimeoutInMinutes<ReturnT>,
-            DefinitionStages.WithLoadDistribution<ReturnT>,
-            DefinitionStages.WithProbe<ReturnT> {
+                Attachable.InDefinition<ReturnT>,
+                DefinitionStages.WithFloatingIP<ReturnT>,
+                DefinitionStages.WithIdleTimeoutInMinutes<ReturnT>,
+                DefinitionStages.WithLoadDistribution<ReturnT>,
+                DefinitionStages.WithProbe<ReturnT> {
         }
 
         /**
          * The stage of a load balancing rule definition allowing to enable the floating IP functionality.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFloatingIP<ReturnT> extends HasFloatingIP.DefinitionStages.WithFloatingIP<WithAttach<ReturnT>> {
@@ -186,11 +201,13 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the connection timeout for idle connections.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithIdleTimeoutInMinutes<ReturnT> {
             /**
              * Specifies the number of minutes before an idle connection is closed.
+             *
              * @param minutes the desired number of minutes
              * @return the next stage of the definition
              */
@@ -199,11 +216,13 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the load distribution.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithLoadDistribution<ReturnT> {
             /**
              * Specifies the load distribution mode.
+             *
              * @param loadDistribution a supported load distribution mode
              * @return the next stage of the definition
              */
@@ -211,17 +230,19 @@ public interface LoadBalancingRule extends
         }
     }
 
-    /** The entirety of a load balancing rule definition.
+    /**
+     * The entirety of a load balancing rule definition.
+     *
      * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
      */
     interface Definition<ReturnT> extends
-        DefinitionStages.Blank<ReturnT>,
-        DefinitionStages.WithAttach<ReturnT>,
-        DefinitionStages.WithProtocol<ReturnT>,
-        DefinitionStages.WithFrontendPort<ReturnT>,
-        DefinitionStages.WithFrontend<ReturnT>,
-        DefinitionStages.WithBackend<ReturnT>,
-        DefinitionStages.WithBackendPort<ReturnT> {
+            DefinitionStages.Blank<ReturnT>,
+            DefinitionStages.WithAttach<ReturnT>,
+            DefinitionStages.WithProtocol<ReturnT>,
+            DefinitionStages.WithFrontendPort<ReturnT>,
+            DefinitionStages.WithFrontend<ReturnT>,
+            DefinitionStages.WithBackend<ReturnT>,
+            DefinitionStages.WithBackendPort<ReturnT> {
     }
 
     /**
@@ -232,7 +253,7 @@ public interface LoadBalancingRule extends
          * The stage of a load balancing rule update allowing to modify the transport protocol the rule applies to.
          */
         interface WithProtocol extends
-            HasProtocol.UpdateStages.WithProtocol<Update, TransportProtocol> {
+                HasProtocol.UpdateStages.WithProtocol<Update, TransportProtocol> {
         }
 
         /**
@@ -245,14 +266,14 @@ public interface LoadBalancingRule extends
          * The stage of a load balancing rule update allowing to modify the frontend reference.
          */
         interface WithFrontend extends
-            HasFrontend.UpdateStages.WithFrontend<Update> {
+                HasFrontend.UpdateStages.WithFrontend<Update> {
         }
 
         /**
          * The stage of a load balancing rule update allowing to modify the backend port.
          */
         interface WithBackendPort extends
-            HasBackendPort.UpdateStages.WithBackendPort<Update> {
+                HasBackendPort.UpdateStages.WithBackendPort<Update> {
         }
 
         /**
@@ -267,6 +288,7 @@ public interface LoadBalancingRule extends
         interface WithIdleTimeoutInMinutes {
             /**
              * Specifies the number of minutes before an idle connection is closed.
+             *
              * @param minutes the desired number of minutes
              * @return the next stage of the update
              */
@@ -279,6 +301,7 @@ public interface LoadBalancingRule extends
         interface WithProbe {
             /**
              * Associates the specified existing HTTP or TCP probe of this load balancer with the load balancing rule.
+             *
              * @param name the name of an existing HTTP or TCP probe
              * @return the next stage of the update
              */
@@ -286,6 +309,7 @@ public interface LoadBalancingRule extends
 
             /**
              * Removes any association with a probe and falls back to Azure's default probing mechanism.
+             *
              * @return the next stage of the update
              */
             Update withoutProbe();
@@ -297,6 +321,7 @@ public interface LoadBalancingRule extends
         interface WithLoadDistribution {
             /**
              * Specifies the load distribution mode.
+             *
              * @param loadDistribution a supported load distribution mode
              * @return the next stage of the definition
              */
@@ -308,15 +333,15 @@ public interface LoadBalancingRule extends
      * The entirety of a load balancing rule update as part of a load balancer update.
      */
     interface Update extends
-        Settable<LoadBalancer.Update>,
-        UpdateStages.WithFrontendPort,
-        UpdateStages.WithFrontend,
-        UpdateStages.WithProtocol,
-        UpdateStages.WithBackendPort,
-        UpdateStages.WithFloatingIP,
-        UpdateStages.WithIdleTimeoutInMinutes,
-        UpdateStages.WithLoadDistribution,
-        UpdateStages.WithProbe {
+            Settable<LoadBalancer.Update>,
+            UpdateStages.WithFrontendPort,
+            UpdateStages.WithFrontend,
+            UpdateStages.WithProtocol,
+            UpdateStages.WithBackendPort,
+            UpdateStages.WithFloatingIP,
+            UpdateStages.WithIdleTimeoutInMinutes,
+            UpdateStages.WithLoadDistribution,
+            UpdateStages.WithProbe {
     }
 
     /**
@@ -325,6 +350,7 @@ public interface LoadBalancingRule extends
     interface UpdateDefinitionStages {
         /**
          * The first stage of the load balancing rule definition.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ReturnT> extends WithProtocol<ReturnT> {
@@ -332,14 +358,16 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the transport protocol to apply the rule to.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProtocol<ReturnT> extends
-            HasProtocol.UpdateDefinitionStages.WithProtocol<WithFrontend<ReturnT>, TransportProtocol> {
+                HasProtocol.UpdateDefinitionStages.WithProtocol<WithFrontend<ReturnT>, TransportProtocol> {
         }
 
         /**
          * The stage of a load balancing rule definition allowing to specify the frontend port to load balance.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontendPort<ReturnT> extends HasFrontendPort.UpdateDefinitionStages.WithFrontendPort<WithBackend<ReturnT>> {
@@ -347,26 +375,31 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the frontend to associate with the rule.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFrontend<ReturnT> extends
-            HasFrontend.UpdateDefinitionStages.WithFrontend<WithFrontendPort<ReturnT>> {
+                HasFrontend.UpdateDefinitionStages.WithFrontend<WithFrontendPort<ReturnT>> {
         }
 
         /**
          * The stage of a load balancing rule definition allowing to specify the probe to associate with the rule.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithProbe<ReturnT> {
             /**
              * Associates the specified existing HTTP or TCP probe of this load balancer with the load balancing rule.
+             *
              * @param name the name of an existing HTTP or TCP probe
              * @return the next stage of the definition
              */
             WithAttach<ReturnT> withProbe(String name);
         }
 
-        /** The stage of a load balancing rule definition allowing to specify the backend to associate the rule with.
+        /**
+         * The stage of a load balancing rule definition allowing to specify the backend to associate the rule with.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackend<ReturnT> extends WithVirtualMachine<ReturnT> {
@@ -374,6 +407,7 @@ public interface LoadBalancingRule extends
              * Specifies a backend on this load balancer to send network traffic to.
              * <p>
              * If a backend with the specified name does not yet exist, it will be created automatically.
+             *
              * @param backendName the name of an existing backend
              * @return the next stage of the definition
              */
@@ -383,6 +417,7 @@ public interface LoadBalancingRule extends
         /**
          * The stage of a load balancing rule definition allowing to select a set of virtual machines to load balance
          * the network traffic among.
+         *
          * @param <ReturnT> the next stage of the definition
          */
         interface WithVirtualMachine<ReturnT> {
@@ -397,10 +432,11 @@ public interface LoadBalancingRule extends
              * <p>
              * Only those virtual machines will be associated with the load balancer that already have an existing
              * network interface. Virtual machines without a network interface will be skipped.
+             *
              * @param vms existing virtual machines
              * @return the next stage of the definition
              */
-            WithBackendPort<ReturnT> toExistingVirtualMachines(HasNetworkInterfaces...vms);
+            WithBackendPort<ReturnT> toExistingVirtualMachines(HasNetworkInterfaces... vms);
 
             /**
              * Adds the specified set of virtual machines, assuming they are from the same
@@ -413,6 +449,7 @@ public interface LoadBalancingRule extends
              * <p>
              * Only those virtual machines will be associated with the load balancer that already have an existing
              * network interface. Virtual machines without a network interface will be skipped.
+             *
              * @param vms existing virtual machines
              * @return the next stage of the definition
              */
@@ -421,15 +458,17 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the backend port to send the load-balanced traffic to.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithBackendPort<ReturnT> extends
-            HasBackendPort.UpdateDefinitionStages.WithBackendPort<WithAttach<ReturnT>>,
-            WithAttach<ReturnT> {
+                HasBackendPort.UpdateDefinitionStages.WithBackendPort<WithAttach<ReturnT>>,
+                WithAttach<ReturnT> {
         }
 
         /**
          * The stage of a load balancing rule definition allowing to enable the floating IP functionality.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithFloatingIP<ReturnT> extends HasFloatingIP.UpdateDefinitionStages.WithFloatingIP<WithAttach<ReturnT>> {
@@ -437,11 +476,13 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the connection timeout for idle connections.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithIdleTimeoutInMinutes<ReturnT> {
             /**
              * Specifies the number of minutes before an idle connection is closed.
+             *
              * @param minutes the desired number of minutes
              * @return the next stage of the definition
              */
@@ -450,11 +491,13 @@ public interface LoadBalancingRule extends
 
         /**
          * The stage of a load balancing rule definition allowing to specify the load distribution.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithLoadDistribution<ReturnT> {
             /**
              * Specifies the load distribution mode.
+             *
              * @param loadDistribution a supported load distribution mode
              * @return the next stage of the definition
              */
@@ -466,27 +509,30 @@ public interface LoadBalancingRule extends
          * <p>
          * At this stage, any remaining optional settings can be specified, or the load balancing rule definition
          * can be attached to the parent load balancer definition.
+         *
          * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ReturnT> extends
-            Attachable.InUpdate<ReturnT>,
-            UpdateDefinitionStages.WithFloatingIP<ReturnT>,
-            UpdateDefinitionStages.WithIdleTimeoutInMinutes<ReturnT>,
-            UpdateDefinitionStages.WithLoadDistribution<ReturnT>,
-            UpdateDefinitionStages.WithProbe<ReturnT> {
+                Attachable.InUpdate<ReturnT>,
+                UpdateDefinitionStages.WithFloatingIP<ReturnT>,
+                UpdateDefinitionStages.WithIdleTimeoutInMinutes<ReturnT>,
+                UpdateDefinitionStages.WithLoadDistribution<ReturnT>,
+                UpdateDefinitionStages.WithProbe<ReturnT> {
         }
     }
 
-    /** The entirety of a load balancing rule definition as part of a load balancer update.
+    /**
+     * The entirety of a load balancing rule definition as part of a load balancer update.
+     *
      * @param <ReturnT> the stage of the parent definition to return to after attaching this definition
      */
     interface UpdateDefinition<ReturnT> extends
-        UpdateDefinitionStages.Blank<ReturnT>,
-        UpdateDefinitionStages.WithAttach<ReturnT>,
-        UpdateDefinitionStages.WithProtocol<ReturnT>,
-        UpdateDefinitionStages.WithFrontendPort<ReturnT>,
-        UpdateDefinitionStages.WithFrontend<ReturnT>,
-        UpdateDefinitionStages.WithBackend<ReturnT>,
-        UpdateDefinitionStages.WithBackendPort<ReturnT> {
+            UpdateDefinitionStages.Blank<ReturnT>,
+            UpdateDefinitionStages.WithAttach<ReturnT>,
+            UpdateDefinitionStages.WithProtocol<ReturnT>,
+            UpdateDefinitionStages.WithFrontendPort<ReturnT>,
+            UpdateDefinitionStages.WithFrontend<ReturnT>,
+            UpdateDefinitionStages.WithBackend<ReturnT>,
+            UpdateDefinitionStages.WithBackendPort<ReturnT> {
     }
 }

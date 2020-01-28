@@ -28,7 +28,7 @@ public final class ApplicationGatewayBackendAddress {
 
     /**
      * Get the fqdn property: Fully qualified domain name (FQDN).
-     * 
+     *
      * @return the fqdn value.
      */
     public String getFqdn() {
@@ -37,7 +37,7 @@ public final class ApplicationGatewayBackendAddress {
 
     /**
      * Set the fqdn property: Fully qualified domain name (FQDN).
-     * 
+     *
      * @param fqdn the fqdn value to set.
      * @return the ApplicationGatewayBackendAddress object itself.
      */
@@ -48,7 +48,7 @@ public final class ApplicationGatewayBackendAddress {
 
     /**
      * Get the ipAddress property: IP address.
-     * 
+     *
      * @return the ipAddress value.
      */
     public String getIpAddress() {
@@ -57,7 +57,7 @@ public final class ApplicationGatewayBackendAddress {
 
     /**
      * Set the ipAddress property: IP address.
-     * 
+     *
      * @param ipAddress the ipAddress value to set.
      * @return the ApplicationGatewayBackendAddress object itself.
      */

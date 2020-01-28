@@ -5,19 +5,18 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import org.joda.time.DateTime;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Executable;
+
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
  * A client-side representation allowing user to get troubleshooting information for virtual network gateway or virtual network gateway connection.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_4_0)
 public interface Troubleshooting extends Executable<Troubleshooting>,
         HasParent<NetworkWatcher> {
     /**
@@ -34,19 +33,19 @@ public interface Troubleshooting extends Executable<Troubleshooting>,
     String storageId();
 
     /**
-    * @return the path to the blob to save the troubleshoot result in
-    */
-     String storagePath();
+     * @return the path to the blob to save the troubleshoot result in
+     */
+    String storagePath();
 
     /**
      * @return The start time of the troubleshooting
      */
-    DateTime startTime();
+    OffsetDateTime startTime();
 
     /**
      * @return the end time of the troubleshooting
      */
-    DateTime endTime();
+    OffsetDateTime endTime();
 
     /**
      * @return the result code of the troubleshooting

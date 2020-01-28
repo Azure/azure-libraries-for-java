@@ -8,6 +8,7 @@ package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public final class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Get the body property: Body that must be contained in the health
      * response. Default value is empty.
-     * 
+     *
      * @return the body value.
      */
     public String getBody() {
@@ -42,7 +43,7 @@ public final class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Set the body property: Body that must be contained in the health
      * response. Default value is empty.
-     * 
+     *
      * @param body the body value to set.
      * @return the ApplicationGatewayProbeHealthResponseMatch object itself.
      */
@@ -54,7 +55,7 @@ public final class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Get the statusCodes property: Allowed ranges of healthy status codes.
      * Default range of healthy status codes is 200-399.
-     * 
+     *
      * @return the statusCodes value.
      */
     public List<String> getStatusCodes() {
@@ -64,7 +65,7 @@ public final class ApplicationGatewayProbeHealthResponseMatch {
     /**
      * Set the statusCodes property: Allowed ranges of healthy status codes.
      * Default range of healthy status codes is 200-399.
-     * 
+     *
      * @param statusCodes the statusCodes value to set.
      * @return the ApplicationGatewayProbeHealthResponseMatch object itself.
      */

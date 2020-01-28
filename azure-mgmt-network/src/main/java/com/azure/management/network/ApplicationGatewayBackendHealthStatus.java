@@ -5,16 +5,14 @@
  */
 package com.azure.management.network;
 
+import com.azure.core.util.ExpandableStringEnum;
+
 import java.util.Collection;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
 
 /**
  * Application gateway backend health status.
  */
-@Beta(SinceVersion.V1_4_0)
 public class ApplicationGatewayBackendHealthStatus extends ExpandableStringEnum<ApplicationGatewayBackendHealthStatus> {
     /**
      * Unknown health status.
@@ -48,6 +46,7 @@ public class ApplicationGatewayBackendHealthStatus extends ExpandableStringEnum<
 
     /**
      * Finds or creates a backend health status based on the specified name.
+     *
      * @param name a name
      * @return an instance of ApplicationGatewayBackendHealthStatus
      */

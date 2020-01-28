@@ -8,10 +8,10 @@ package com.azure.management.network.implementation;
 import com.azure.management.network.NetworkWatcher;
 import com.azure.management.network.SecurityGroupNetworkInterface;
 import com.azure.management.network.SecurityGroupView;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.SecurityGroupViewParameters;
+import com.azure.management.network.models.SecurityGroupViewResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +21,6 @@ import java.util.TreeMap;
 /**
  * The implementation of SecurityGroupView.
  */
-@LangDefinition
 class SecurityGroupViewImpl extends RefreshableWrapperImpl<SecurityGroupViewResultInner, SecurityGroupView>
         implements SecurityGroupView {
     private Map<String, SecurityGroupNetworkInterface> networkInterfaces;
@@ -37,10 +36,10 @@ class SecurityGroupViewImpl extends RefreshableWrapperImpl<SecurityGroupViewResu
 
     private void initializeFromInner() {
         this.networkInterfaces = new TreeMap<>();
-        List<SecurityGroupNetworkInterface> securityGroupNetworkInterfaces = this.inner().networkInterfaces();
+        List<SecurityGroupNetworkInterface> securityGroupNetworkInterfaces = this.inner().getNetworkInterfaces();
         if (securityGroupNetworkInterfaces != null) {
             for (SecurityGroupNetworkInterface networkInterface : securityGroupNetworkInterfaces) {
-                this.networkInterfaces.put(networkInterface.id(), networkInterface);
+                this.networkInterfaces.put(networkInterface.getId(), networkInterface);
             }
         }
     }
@@ -61,20 +60,18 @@ class SecurityGroupViewImpl extends RefreshableWrapperImpl<SecurityGroupViewResu
     }
 
     @Override
-    public Observable<SecurityGroupView> refreshAsync() {
-        return super.refreshAsync().map(new Func1<SecurityGroupView, SecurityGroupView>() {
-            @Override
-            public SecurityGroupView call(SecurityGroupView securityGroupView) {
-                SecurityGroupViewImpl impl = (SecurityGroupViewImpl) securityGroupView;
-                impl.initializeFromInner();
-                return impl;
-            }
+    public Mono<SecurityGroupView> refreshAsync() {
+        return super.refreshAsync().map(securityGroupView -> {
+            SecurityGroupViewImpl impl = (SecurityGroupViewImpl) securityGroupView;
+            impl.initializeFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<SecurityGroupViewResultInner> getInnerAsync() {
+    protected Mono<SecurityGroupViewResultInner> getInnerAsync() {
+        SecurityGroupViewParameters parameters = new SecurityGroupViewParameters().setTargetResourceId(vmId);
         return this.parent().manager().inner().networkWatchers()
-                .getVMSecurityRulesAsync(parent.resourceGroupName(), parent.name(), vmId);
+                .getVMSecurityRulesAsync(parent.resourceGroupName(), parent.name(), parameters);
     }
 }

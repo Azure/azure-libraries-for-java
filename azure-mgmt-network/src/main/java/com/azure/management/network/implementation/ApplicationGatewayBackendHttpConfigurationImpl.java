@@ -5,18 +5,7 @@
  */
 package com.azure.management.network.implementation;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
-
-import com.google.common.io.BaseEncoding;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayAuthenticationCertificate;
 import com.azure.management.network.ApplicationGatewayBackendHttpConfiguration;
@@ -25,19 +14,28 @@ import com.azure.management.network.ApplicationGatewayConnectionDraining;
 import com.azure.management.network.ApplicationGatewayCookieBasedAffinity;
 import com.azure.management.network.ApplicationGatewayProbe;
 import com.azure.management.network.ApplicationGatewayProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
- *  Base implementation for ApplicationGatewayBackendConfiguration.
+ * Base implementation for ApplicationGatewayBackendConfiguration.
  */
-@LangDefinition
 class ApplicationGatewayBackendHttpConfigurationImpl
-    extends
+        extends
         ChildResourceImpl<ApplicationGatewayBackendHttpSettings, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        implements
         ApplicationGatewayBackendHttpConfiguration,
         ApplicationGatewayBackendHttpConfiguration.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayBackendHttpConfiguration.UpdateDefinition<ApplicationGateway.Update>,
@@ -52,11 +50,11 @@ class ApplicationGatewayBackendHttpConfigurationImpl
     @Override
     public Map<String, ApplicationGatewayAuthenticationCertificate> authenticationCertificates() {
         Map<String, ApplicationGatewayAuthenticationCertificate> certs = new TreeMap<>();
-        if (this.inner().authenticationCertificates() == null) {
+        if (this.inner().getAuthenticationCertificates() == null) {
             return Collections.unmodifiableMap(certs);
         } else {
-            for (SubResource ref : this.inner().authenticationCertificates()) {
-                ApplicationGatewayAuthenticationCertificate cert = this.parent().authenticationCertificates().get(ResourceUtils.nameFromResourceId(ref.id()));
+            for (SubResource ref : this.inner().getAuthenticationCertificates()) {
+                ApplicationGatewayAuthenticationCertificate cert = this.parent().authenticationCertificates().get(ResourceUtils.nameFromResourceId(ref.getId()));
                 if (cert != null) {
                     certs.put(cert.name(), cert);
                 }
@@ -67,13 +65,13 @@ class ApplicationGatewayBackendHttpConfigurationImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public ApplicationGatewayProbe probe() {
-        if (this.parent().probes() != null && this.inner().probe() != null) {
-            return this.parent().probes().get(ResourceUtils.nameFromResourceId(this.inner().probe().id()));
+        if (this.parent().probes() != null && this.inner().getProbe() != null) {
+            return this.parent().probes().get(ResourceUtils.nameFromResourceId(this.inner().getProbe().getId()));
         } else {
             return null;
         }
@@ -81,58 +79,58 @@ class ApplicationGatewayBackendHttpConfigurationImpl
 
     @Override
     public String hostHeader() {
-        return this.inner().hostName();
+        return this.inner().getHostName();
     }
 
     @Override
     public boolean isHostHeaderFromBackend() {
-        return Utils.toPrimitiveBoolean(this.inner().pickHostNameFromBackendAddress());
+        return Utils.toPrimitiveBoolean(this.inner().isPickHostNameFromBackendAddress());
     }
 
     @Override
     public boolean isProbeEnabled() {
-        return Utils.toPrimitiveBoolean(this.inner().probeEnabled());
+        return Utils.toPrimitiveBoolean(this.inner().isProbeEnabled());
     }
 
     @Override
     public int connectionDrainingTimeoutInSeconds() {
-        if (this.inner().connectionDraining() == null) {
+        if (this.inner().getConnectionDraining() == null) {
             return 0;
-        } else if (!this.inner().connectionDraining().enabled()) {
+        } else if (!this.inner().getConnectionDraining().isEnabled()) {
             return 0;
         } else {
-            return this.inner().connectionDraining().drainTimeoutInSec();
+            return this.inner().getConnectionDraining().getDrainTimeoutInSec();
         }
     }
 
     @Override
     public String affinityCookieName() {
-        return this.inner().affinityCookieName();
+        return this.inner().getAffinityCookieName();
     }
 
     @Override
     public String path() {
-        return this.inner().path();
+        return this.inner().getPath();
     }
 
     @Override
     public int port() {
-        return Utils.toPrimitiveInt(this.inner().port());
+        return Utils.toPrimitiveInt(this.inner().getPort());
     }
 
     @Override
     public ApplicationGatewayProtocol protocol() {
-        return this.inner().protocol();
+        return this.inner().getProtocol();
     }
 
     @Override
     public boolean cookieBasedAffinity() {
-        return this.inner().cookieBasedAffinity().equals(ApplicationGatewayCookieBasedAffinity.ENABLED);
+        return this.inner().getCookieBasedAffinity().equals(ApplicationGatewayCookieBasedAffinity.ENABLED);
     }
 
     @Override
     public int requestTimeout() {
-        return Utils.toPrimitiveInt(this.inner().requestTimeout());
+        return Utils.toPrimitiveInt(this.inner().getRequestTimeout());
     }
 
     // Verbs
@@ -145,27 +143,27 @@ class ApplicationGatewayBackendHttpConfigurationImpl
     // Withers
 
     public ApplicationGatewayBackendHttpConfigurationImpl withPort(int port) {
-        this.inner().withPort(port);
+        this.inner().setPort(port);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withCookieBasedAffinity() {
-        this.inner().withCookieBasedAffinity(ApplicationGatewayCookieBasedAffinity.ENABLED);
+        this.inner().setCookieBasedAffinity(ApplicationGatewayCookieBasedAffinity.ENABLED);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withoutCookieBasedAffinity() {
-        this.inner().withCookieBasedAffinity(ApplicationGatewayCookieBasedAffinity.DISABLED);
+        this.inner().setCookieBasedAffinity(ApplicationGatewayCookieBasedAffinity.DISABLED);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withProtocol(ApplicationGatewayProtocol protocol) {
-        this.inner().withProtocol(protocol);
+        this.inner().setProtocol(protocol);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withRequestTimeout(int seconds) {
-        this.inner().withRequestTimeout(seconds);
+        this.inner().setRequestTimeout(seconds);
         return this;
     }
 
@@ -174,55 +172,55 @@ class ApplicationGatewayBackendHttpConfigurationImpl
             return this.withoutProbe();
         } else {
             SubResource probeRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/probes/" + name);
-            this.inner().withProbe(probeRef);
+                    .setId(this.parent().futureResourceId() + "/probes/" + name);
+            this.inner().setProbe(probeRef);
             return this;
         }
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withoutProbe() {
-        this.inner().withProbe(null);
+        this.inner().setProbe(null);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withHostHeaderFromBackend() {
         this.inner()
-            .withPickHostNameFromBackendAddress(true)
-            .withHostName(null);
+                .setPickHostNameFromBackendAddress(true)
+                .setHostName(null);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withHostHeader(String hostHeader) {
         this.inner()
-            .withHostName(hostHeader)
-            .withPickHostNameFromBackendAddress(false);
+                .setHostName(hostHeader)
+                .setPickHostNameFromBackendAddress(false);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withoutHostHeader() {
         this.inner()
-            .withHostName(null)
-            .withPickHostNameFromBackendAddress(false);
+                .setHostName(null)
+                .setPickHostNameFromBackendAddress(false);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withConnectionDrainingTimeoutInSeconds(int seconds) {
-        if (this.inner().connectionDraining() == null) {
-            this.inner().withConnectionDraining(new ApplicationGatewayConnectionDraining());
+        if (this.inner().getConnectionDraining() == null) {
+            this.inner().setConnectionDraining(new ApplicationGatewayConnectionDraining());
         }
         if (seconds > 0) {
-            this.inner().connectionDraining().withDrainTimeoutInSec(seconds).withEnabled(true);
+            this.inner().getConnectionDraining().setDrainTimeoutInSec(seconds).setEnabled(true);
         }
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withoutConnectionDraining() {
-        this.inner().withConnectionDraining(null);
+        this.inner().setConnectionDraining(null);
         return this;
     }
 
     public ApplicationGatewayBackendHttpConfigurationImpl withAffinityCookieName(String name) {
-        this.inner().withAffinityCookieName(name);
+        this.inner().setAffinityCookieName(name);
         return this;
     }
 
@@ -235,7 +233,7 @@ class ApplicationGatewayBackendHttpConfigurationImpl
                 path += "/";
             }
         }
-        this.inner().withPath(path);
+        this.inner().setPath(path);
         return this;
     }
 
@@ -245,14 +243,14 @@ class ApplicationGatewayBackendHttpConfigurationImpl
             return this;
         }
         SubResource certRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/authenticationCertificates/" + name);
-        List<SubResource> refs = this.inner().authenticationCertificates();
+                .setId(this.parent().futureResourceId() + "/authenticationCertificates/" + name);
+        List<SubResource> refs = this.inner().getAuthenticationCertificates();
         if (refs == null) {
             refs = new ArrayList<>();
-            this.inner().withAuthenticationCertificates(refs);
+            this.inner().setAuthenticationCertificates(refs);
         }
         for (SubResource ref : refs) {
-            if (ref.id().equalsIgnoreCase(certRef.id())) {
+            if (ref.getId().equalsIgnoreCase(certRef.getId())) {
                 return this;
             }
         }
@@ -266,7 +264,7 @@ class ApplicationGatewayBackendHttpConfigurationImpl
             return this;
         }
 
-        String encoded = new String(BaseEncoding.base64().encode(derData));
+        String encoded = new String(Base64.getEncoder().encode(derData));
         return this.withAuthenticationCertificateFromBase64(encoded);
     }
 
@@ -288,8 +286,8 @@ class ApplicationGatewayBackendHttpConfigurationImpl
         if (certName == null) {
             certName = SdkContext.randomResourceName("cert", 20);
             this.parent().defineAuthenticationCertificate(certName)
-                .fromBase64(base64Data)
-                .attach();
+                    .fromBase64(base64Data)
+                    .attach();
         }
 
         return this.withAuthenticationCertificate(certName).withHttps();
@@ -310,9 +308,9 @@ class ApplicationGatewayBackendHttpConfigurationImpl
         if (name == null) {
             return this;
         }
-        for (SubResource ref : this.inner().authenticationCertificates()) {
-            if (ResourceUtils.nameFromResourceId(ref.id()).equalsIgnoreCase(name)) {
-                this.inner().authenticationCertificates().remove(ref);
+        for (SubResource ref : this.inner().getAuthenticationCertificates()) {
+            if (ResourceUtils.nameFromResourceId(ref.getId()).equalsIgnoreCase(name)) {
+                this.inner().getAuthenticationCertificates().remove(ref);
                 break;
             }
         }
@@ -333,7 +331,7 @@ class ApplicationGatewayBackendHttpConfigurationImpl
 
     @Override
     public ApplicationGatewayBackendHttpConfigurationImpl withoutAuthenticationCertificates() {
-        this.inner().withAuthenticationCertificates(null);
+        this.inner().setAuthenticationCertificates(null);
         return this;
     }
 }

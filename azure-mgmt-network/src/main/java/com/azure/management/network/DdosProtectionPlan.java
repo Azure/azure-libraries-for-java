@@ -5,17 +5,17 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.DdosProtectionPlanInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.DdosProtectionPlanInner;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
+
 
 import java.util.List;
 
@@ -23,7 +23,6 @@ import java.util.List;
  * DDoS protection plan.
  */
 @Fluent
-@Beta(Beta.SinceVersion.V1_10_0)
 public interface DdosProtectionPlan extends
         GroupableResource<NetworkManager, DdosProtectionPlanInner>,
         Refreshable<DdosProtectionPlan>,

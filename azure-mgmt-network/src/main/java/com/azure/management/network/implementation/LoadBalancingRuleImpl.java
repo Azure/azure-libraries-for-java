@@ -5,35 +5,34 @@
  */
 package com.azure.management.network.implementation;
 
-import java.util.Arrays;
-import java.util.Collection;
-
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
+import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.LoadBalancerBackend;
 import com.azure.management.network.LoadBalancerFrontend;
-import com.azure.management.network.LoadBalancer;
+import com.azure.management.network.LoadBalancerProbe;
 import com.azure.management.network.LoadBalancingRule;
 import com.azure.management.network.LoadDistribution;
 import com.azure.management.network.Network;
 import com.azure.management.network.PublicIPAddress;
 import com.azure.management.network.Subnet;
-import com.azure.management.network.LoadBalancerProbe;
 import com.azure.management.network.TransportProtocol;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import com.azure.management.network.models.LoadBalancingRuleInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.utils.SdkContext;
+import com.azure.management.resources.fluentcore.utils.Utils;
+
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
- *  Implementation for LoadBalancingRule.
+ * Implementation for LoadBalancingRule.
  */
-@LangDefinition
 class LoadBalancingRuleImpl
-    extends ChildResourceImpl<LoadBalancingRuleInner, LoadBalancerImpl, LoadBalancer>
-    implements
+        extends ChildResourceImpl<LoadBalancingRuleInner, LoadBalancerImpl, LoadBalancer>
+        implements
         LoadBalancingRule,
         LoadBalancingRule.Definition<LoadBalancer.DefinitionStages.WithLBRuleOrNatOrCreate>,
         LoadBalancingRule.UpdateDefinition<LoadBalancer.Update>,
@@ -47,68 +46,68 @@ class LoadBalancingRuleImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public TransportProtocol protocol() {
-        return this.inner().protocol();
+        return this.inner().getProtocol();
     }
 
     @Override
     public boolean floatingIPEnabled() {
-        return this.inner().enableFloatingIP();
+        return this.inner().isEnableFloatingIP();
     }
 
     @Override
     public int idleTimeoutInMinutes() {
-        return Utils.toPrimitiveInt(this.inner().idleTimeoutInMinutes());
+        return Utils.toPrimitiveInt(this.inner().getIdleTimeoutInMinutes());
     }
 
     @Override
     public int frontendPort() {
-        return Utils.toPrimitiveInt(this.inner().frontendPort());
+        return Utils.toPrimitiveInt(this.inner().getFrontendPort());
     }
 
     @Override
     public int backendPort() {
-        return Utils.toPrimitiveInt(this.inner().backendPort());
+        return Utils.toPrimitiveInt(this.inner().getBackendPort());
     }
 
     @Override
     public LoadDistribution loadDistribution() {
-        return this.inner().loadDistribution();
+        return this.inner().getLoadDistribution();
     }
 
     @Override
     public LoadBalancerFrontend frontend() {
-        SubResource frontendRef = this.inner().frontendIPConfiguration();
+        SubResource frontendRef = this.inner().getFrontendIPConfiguration();
         if (frontendRef == null) {
             return null;
         } else {
-            String frontendName = ResourceUtils.nameFromResourceId(frontendRef.id());
+            String frontendName = ResourceUtils.nameFromResourceId(frontendRef.getId());
             return this.parent().frontends().get(frontendName);
         }
     }
 
     @Override
     public LoadBalancerBackend backend() {
-        SubResource backendRef = this.inner().backendAddressPool();
+        SubResource backendRef = this.inner().getBackendAddressPool();
         if (backendRef == null) {
             return null;
         } else {
-            String backendName = ResourceUtils.nameFromResourceId(backendRef.id());
+            String backendName = ResourceUtils.nameFromResourceId(backendRef.getId());
             return this.parent().backends().get(backendName);
         }
     }
 
     @Override
     public LoadBalancerProbe probe() {
-        SubResource probeRef = this.inner().probe();
+        SubResource probeRef = this.inner().getProbe();
         if (probeRef == null) {
             return null;
         } else {
-            String probeName = ResourceUtils.nameFromResourceId(probeRef.id());
+            String probeName = ResourceUtils.nameFromResourceId(probeRef.getId());
             if (this.parent().httpProbes().containsKey(probeName)) {
                 return this.parent().httpProbes().get(probeName);
             } else if (this.parent().tcpProbes().containsKey(probeName)) {
@@ -174,13 +173,13 @@ class LoadBalancingRuleImpl
 
     @Override
     public LoadBalancingRuleImpl withIdleTimeoutInMinutes(int minutes) {
-        this.inner().withIdleTimeoutInMinutes(minutes);
+        this.inner().setIdleTimeoutInMinutes(minutes);
         return this;
     }
 
     @Override
     public LoadBalancingRuleImpl withFloatingIP(boolean enable) {
-        this.inner().withEnableFloatingIP(enable);
+        this.inner().setEnableFloatingIP(enable);
         return this;
     }
 
@@ -196,17 +195,17 @@ class LoadBalancingRuleImpl
 
     @Override
     public LoadBalancingRuleImpl withProtocol(TransportProtocol protocol) {
-        this.inner().withProtocol(protocol);
+        this.inner().setProtocol(protocol);
         return this;
     }
 
     @Override
     public LoadBalancingRuleImpl fromFrontendPort(int port) {
-        this.inner().withFrontendPort(port);
+        this.inner().setFrontendPort(port);
 
         // If backend port not specified earlier, make it the same as the frontend by default
-        if (this.inner().backendPort() == null || this.inner().backendPort() == 0) {
-            this.inner().withBackendPort(port);
+        if (this.inner().getBackendPort() == null || this.inner().getBackendPort() == 0) {
+            this.inner().setBackendPort(port);
         }
 
         return this;
@@ -214,7 +213,7 @@ class LoadBalancingRuleImpl
 
     @Override
     public LoadBalancingRuleImpl toBackendPort(int port) {
-        this.inner().withBackendPort(port);
+        this.inner().setBackendPort(port);
         return this;
     }
 
@@ -234,7 +233,7 @@ class LoadBalancingRuleImpl
 
     @Override
     public LoadBalancingRuleImpl withLoadDistribution(LoadDistribution loadDistribution) {
-        this.inner().withLoadDistribution(loadDistribution);
+        this.inner().setLoadDistribution(loadDistribution);
         return this;
     }
 
@@ -242,7 +241,7 @@ class LoadBalancingRuleImpl
     public LoadBalancingRuleImpl fromFrontend(String frontendName) {
         SubResource frontendRef = this.parent().ensureFrontendRef(frontendName);
         if (frontendRef != null) {
-            this.inner().withFrontendIPConfiguration(frontendRef);
+            this.inner().setFrontendIPConfiguration(frontendRef);
         }
         return this;
     }
@@ -253,22 +252,22 @@ class LoadBalancingRuleImpl
         this.parent().defineBackend(backendName).attach();
 
         SubResource backendRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/backendAddressPools/" + backendName);
-        this.inner().withBackendAddressPool(backendRef);
+                .setId(this.parent().futureResourceId() + "/backendAddressPools/" + backendName);
+        this.inner().setBackendAddressPool(backendRef);
         return this;
     }
 
     @Override
     public LoadBalancingRuleImpl withProbe(String name) {
         SubResource probeRef = new SubResource()
-                .withId(this.parent().futureResourceId() + "/probes/" + name);
-        this.inner().withProbe(probeRef);
+                .setId(this.parent().futureResourceId() + "/probes/" + name);
+        this.inner().setProbe(probeRef);
         return this;
     }
 
     @Override
     public LoadBalancingRuleImpl withoutProbe() {
-        this.inner().withProbe(null);
+        this.inner().setProbe(null);
         return this;
     }
 

@@ -6,17 +6,15 @@
 
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.NetworkInterfaceIPConfigurationInner;
-import com.azure.management.network.model.HasPrivateIPAddress;
-import com.azure.management.network.model.HasPublicIPAddress;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasPrivateIPAddress;
+import com.azure.management.network.models.HasPublicIPAddress;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 /**
  * An IP configuration in a network interface.
@@ -178,7 +176,6 @@ public interface NicIPConfiguration extends
              * @param backendName the name of an existing backend on the application gateway
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithAttach<ParentT> withExistingApplicationGatewayBackend(ApplicationGateway appGateway, String backendName);
         }
 
@@ -348,7 +345,6 @@ public interface NicIPConfiguration extends
              * @param backendName the name of an existing backend on the application gateway
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_4_0)
             WithAttach<ParentT> withExistingApplicationGatewayBackend(ApplicationGateway appGateway, String backendName);
         }
 
@@ -373,7 +369,7 @@ public interface NicIPConfiguration extends
      * The entirety of a network interface IP configuration update as part of a network interface update.
      */
     interface Update extends
-        Settable<NetworkInterface.Update>,
+            Settable<NetworkInterface.Update>,
         UpdateStages.WithSubnet,
         UpdateStages.WithPrivateIP,
         UpdateStages.WithPublicIPAddress,
@@ -461,14 +457,12 @@ public interface NicIPConfiguration extends
              * @param backendName the name of an existing backend on the application gateway
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
             Update withExistingApplicationGatewayBackend(ApplicationGateway appGateway, String backendName);
 
             /**
              * Removes all existing associations with application gateway backends.
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
             Update withoutApplicationGatewayBackends();
         }
     }

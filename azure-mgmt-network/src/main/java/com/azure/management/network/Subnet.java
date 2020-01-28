@@ -5,29 +5,27 @@
  */
 package com.azure.management.network;
 
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.resources.fluentcore.arm.Region;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.azure.management.network.implementation.SubnetInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.Region;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
 /**
  * A client-side representation of a subnet of a virtual network.
  */
 @Fluent()
 public interface Subnet extends
-    HasInner<SubnetInner>,
-    ChildResource<Network> {
+        HasInner<SubnetInner>,
+        ChildResource<Network> {
 
     /**
      * @return network interface IP configurations that are associated with this subnet
@@ -36,7 +34,6 @@ public interface Subnet extends
      * <p>
      * @deprecated Use {@link Subnet#listNetworkInterfaceIPConfigurations()} instead.
      */
-    @Method
     @Deprecated
     Set<NicIPConfiguration> getNetworkInterfaceIPConfigurations();
 
@@ -45,13 +42,11 @@ public interface Subnet extends
      * <p>
      * Note that this call may result in multiple calls to Azure to fetch all the referenced interfaces each time it is invoked.
      */
-    @Method
     Collection<NicIPConfiguration> listNetworkInterfaceIPConfigurations();
 
     /**
      * @return available private IP addresses within this network
      */
-    @Beta(SinceVersion.V1_3_0)
     Set<String> listAvailablePrivateIPAddresses();
 
     /**
@@ -91,7 +86,6 @@ public interface Subnet extends
     /**
      * @return the services that has access to the subnet.
      */
-    @Beta(SinceVersion.V1_6_0)
     Map<ServiceEndpointType, List<Region>> servicesWithAccess();
 
 
@@ -101,6 +95,7 @@ public interface Subnet extends
     interface DefinitionStages {
         /**
          * The first stage of the subnet definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithAddressPrefix<ParentT> {
@@ -108,11 +103,13 @@ public interface Subnet extends
 
         /**
          * The stage of the subnet definition allowing to specify the address space for the subnet.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAddressPrefix<ParentT> {
             /**
              * Specifies the IP address space of the subnet, within the address space of the network.
+             *
              * @param cidr the IP address space prefix using the CIDR notation
              * @return the next stage of the definition
              */
@@ -121,11 +118,13 @@ public interface Subnet extends
 
         /**
          * The stage of the subnet definition allowing to specify the network security group to assign to the subnet.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithNetworkSecurityGroup<ParentT> {
             /**
              * Assigns an existing network security group to this subnet.
+             *
              * @param resourceId the resource ID of the network security group
              * @return the next stage of the definition
              */
@@ -133,6 +132,7 @@ public interface Subnet extends
 
             /**
              * Assigns an existing network security group to this subnet.
+             *
              * @param nsg the network security group to assign
              * @return the next stage of the definition
              */
@@ -141,11 +141,13 @@ public interface Subnet extends
 
         /**
          * The stage of a subnet definition allowing to specify a route table to associate with the subnet.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithRouteTable<ParentT> {
             /**
              * Specifies an existing route table to associate with the subnet.
+             *
              * @param routeTable an existing route table to associate
              * @return the next stage of the definition
              */
@@ -153,6 +155,7 @@ public interface Subnet extends
 
             /**
              * Specifies an existing route table to associate with the subnet.
+             *
              * @param resourceId the resource ID of an existing route table
              * @return the next stage of the definition
              */
@@ -161,40 +164,44 @@ public interface Subnet extends
 
         /**
          * The stage of a subnet definition allowing to enable access from a service endpoint to the subnet.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_6_0)
         interface WithServiceEndpoint<ParentT> {
             /**
              * Specifies a service endpoint to enable access from.
+             *
              * @param service the service type
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_6_0)
             WithAttach<ParentT> withAccessFromService(ServiceEndpointType service);
         }
 
-        /** The final stage of the subnet definition.
+        /**
+         * The final stage of the subnet definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the subnet definition
          * can be attached to the parent virtual network definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-            Attachable.InDefinition<ParentT>,
-            WithNetworkSecurityGroup<ParentT>,
-            WithRouteTable<ParentT>,
-            WithServiceEndpoint<ParentT> {
+                Attachable.InDefinition<ParentT>,
+                WithNetworkSecurityGroup<ParentT>,
+                WithRouteTable<ParentT>,
+                WithServiceEndpoint<ParentT> {
         }
     }
 
-    /** The entirety of a Subnet definition.
+    /**
+     * The entirety of a Subnet definition.
+     *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface Definition<ParentT> extends
-        DefinitionStages.Blank<ParentT>,
-        DefinitionStages.WithAddressPrefix<ParentT>,
-        DefinitionStages.WithAttach<ParentT> {
+            DefinitionStages.Blank<ParentT>,
+            DefinitionStages.WithAddressPrefix<ParentT>,
+            DefinitionStages.WithAttach<ParentT> {
     }
 
     /**
@@ -207,6 +214,7 @@ public interface Subnet extends
         interface WithAddressPrefix {
             /**
              * Specifies the IP address space of the subnet, within the address space of the network.
+             *
              * @param cidr the IP address space prefix using the CIDR notation
              * @return the next stage
              */
@@ -219,6 +227,7 @@ public interface Subnet extends
         interface WithNetworkSecurityGroup {
             /**
              * Assigns an existing network security group to this subnet.
+             *
              * @param resourceId the resource ID of the network security group
              * @return the next stage of the update
              */
@@ -226,6 +235,7 @@ public interface Subnet extends
 
             /**
              * Assigns an existing network security group to this subnet.
+             *
              * @param nsg the network security group to assign
              * @return the next stage of the update
              */
@@ -233,6 +243,7 @@ public interface Subnet extends
 
             /**
              * Removes the association of this subnet with any network security group.
+             *
              * @return the next stage of the update
              */
             Update withoutNetworkSecurityGroup();
@@ -244,6 +255,7 @@ public interface Subnet extends
         interface WithRouteTable {
             /**
              * Specifies an existing route table to associate with the subnet.
+             *
              * @param routeTable an existing route table to associate
              * @return the next stage of the update
              */
@@ -251,6 +263,7 @@ public interface Subnet extends
 
             /**
              * Specifies an existing route table to associate with the subnet.
+             *
              * @param resourceId the resource ID of an existing route table
              * @return the next stage of the update
              */
@@ -258,6 +271,7 @@ public interface Subnet extends
 
             /**
              * Removes the association with a route table, if any.
+             *
              * @return the next stage of the update
              */
             Update withoutRouteTable();
@@ -268,22 +282,21 @@ public interface Subnet extends
          * The stage of a subnet definition allowing to enable or disable access from a service endpoint
          * to the subnet.
          */
-        @Beta(SinceVersion.V1_6_0)
         interface WithServiceEndpoint {
             /**
              * Specifies a service endpoint to enable access from.
+             *
              * @param service the service type
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_6_0)
             Update withAccessFromService(ServiceEndpointType service);
 
             /**
              * Specifies that existing access from a service endpoint should be removed.
+             *
              * @param service the service type
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_6_0)
             Update withoutAccessFromService(ServiceEndpointType service);
         }
 
@@ -293,11 +306,11 @@ public interface Subnet extends
      * The entirety of a subnet update as part of a network update.
      */
     interface Update extends
-        UpdateStages.WithAddressPrefix,
-        UpdateStages.WithNetworkSecurityGroup,
-        UpdateStages.WithRouteTable,
-        UpdateStages.WithServiceEndpoint,
-        Settable<Network.Update> {
+            UpdateStages.WithAddressPrefix,
+            UpdateStages.WithNetworkSecurityGroup,
+            UpdateStages.WithRouteTable,
+            UpdateStages.WithServiceEndpoint,
+            Settable<Network.Update> {
     }
 
     /**
@@ -306,6 +319,7 @@ public interface Subnet extends
     interface UpdateDefinitionStages {
         /**
          * The first stage of the subnet definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithAddressPrefix<ParentT> {
@@ -313,11 +327,13 @@ public interface Subnet extends
 
         /**
          * The stage of the subnet definition allowing to specify the address space for the subnet.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAddressPrefix<ParentT> {
             /**
              * Specifies the IP address space of the subnet, within the address space of the network.
+             *
              * @param cidr the IP address space prefix using the CIDR notation
              * @return the next stage of the definition
              */
@@ -326,11 +342,13 @@ public interface Subnet extends
 
         /**
          * The stage of the subnet definition allowing to specify the network security group to assign to the subnet.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithNetworkSecurityGroup<ParentT> {
             /**
              * Assigns an existing network security group to this subnet.
+             *
              * @param resourceId the resource ID of the network security group
              * @return the next stage of the definition
              */
@@ -338,6 +356,7 @@ public interface Subnet extends
 
             /**
              * Assigns an existing network security group to this subnet.
+             *
              * @param nsg the network security group to assign
              * @return the next stage of the definition
              */
@@ -346,11 +365,13 @@ public interface Subnet extends
 
         /**
          * The stage of a subnet definition allowing to specify a route table to associate with the subnet.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithRouteTable<ParentT> {
             /**
              * Specifies an existing route table to associate with the subnet.
+             *
              * @param routeTable an existing route table to associate
              * @return the next stage of the definition
              */
@@ -358,6 +379,7 @@ public interface Subnet extends
 
             /**
              * Specifies an existing route table to associate with the subnet.
+             *
              * @param resourceId the resource ID of an existing route table
              * @return the next stage of the definition
              */
@@ -366,40 +388,44 @@ public interface Subnet extends
 
         /**
          * The stage of a subnet definition allowing to enable access from a service endpoint to the subnet.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
-        @Beta(SinceVersion.V1_6_0)
         interface WithServiceEndpoint<ParentT> {
             /**
              * Specifies a service endpoint to enable access from.
+             *
              * @param service the service type
              * @return the next stage of the definition
              */
-            @Beta(SinceVersion.V1_6_0)
             WithAttach<ParentT> withAccessFromService(ServiceEndpointType service);
         }
 
-        /** The final stage of the subnet definition.
+        /**
+         * The final stage of the subnet definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the subnet definition
          * can be attached to the parent virtual network definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
-            Attachable.InUpdate<ParentT>,
-            WithNetworkSecurityGroup<ParentT>,
-            WithRouteTable<ParentT>,
-            WithServiceEndpoint<ParentT> {
+                Attachable.InUpdate<ParentT>,
+                WithNetworkSecurityGroup<ParentT>,
+                WithRouteTable<ParentT>,
+                WithServiceEndpoint<ParentT> {
         }
     }
 
-    /** The entirety of a subnet definition as part of a virtual network update.
+    /**
+     * The entirety of a subnet definition as part of a virtual network update.
+     *
      * @param <ParentT> the stage of the parent definition to return to after attaching this definition
      */
     interface UpdateDefinition<ParentT> extends
-       UpdateDefinitionStages.Blank<ParentT>,
-       UpdateDefinitionStages.WithAddressPrefix<ParentT>,
-       UpdateDefinitionStages.WithNetworkSecurityGroup<ParentT>,
-       UpdateDefinitionStages.WithAttach<ParentT> {
+            UpdateDefinitionStages.Blank<ParentT>,
+            UpdateDefinitionStages.WithAddressPrefix<ParentT>,
+            UpdateDefinitionStages.WithNetworkSecurityGroup<ParentT>,
+            UpdateDefinitionStages.WithAttach<ParentT> {
     }
 }

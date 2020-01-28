@@ -6,8 +6,10 @@
 
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
+import com.azure.management.network.models.BackendAddressPoolInner;
+import com.azure.management.network.models.InboundNatRuleInner;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
 import com.azure.management.network.ApplicationGatewayBackend;
 import com.azure.management.network.IPAllocationMethod;
 import com.azure.management.network.IPVersion;
@@ -18,10 +20,10 @@ import com.azure.management.network.Network;
 import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.NicIPConfigurationBase;
 import com.azure.management.network.Subnet;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,13 +36,12 @@ import java.util.Map;
  * Base class implementation for various network interface IP configurations.
  *
  * @param <ParentImplT> parent implementation
- * @param <ParentT> parent interface
+ * @param <ParentT>     parent interface
  */
-@LangDefinition
 abstract class NicIPConfigurationBaseImpl<ParentImplT extends ParentT, ParentT extends HasManager<NetworkManager>>
-    extends
+        extends
         ChildResourceImpl<NetworkInterfaceIPConfigurationInner, ParentImplT, ParentT>
-    implements
+        implements
         NicIPConfigurationBase {
     /**
      * the network client.
@@ -55,11 +56,11 @@ abstract class NicIPConfigurationBaseImpl<ParentImplT extends ParentT, ParentT e
     }
 
     public String name() {
-        return inner().name();
+        return inner().getName();
     }
 
     public boolean isPrimary() {
-        return Utils.toPrimitiveBoolean(this.inner().primary());
+        return Utils.toPrimitiveBoolean(this.inner().isPrimary());
     }
 
     @Override
@@ -84,25 +85,25 @@ abstract class NicIPConfigurationBaseImpl<ParentImplT extends ParentT, ParentT e
 
     @Override
     public String privateIPAddress() {
-        return this.inner().privateIPAddress();
+        return this.inner().getPrivateIPAddress();
     }
 
     @Override
     public IPAllocationMethod privateIPAllocationMethod() {
-        return this.inner().privateIPAllocationMethod();
+        return this.inner().getPrivateIPAllocationMethod();
     }
 
     @Override
     public IPVersion privateIPAddressVersion() {
-        return this.inner().privateIPAddressVersion();
+        return this.inner().getPrivateIPAddressVersion();
     }
 
     public String networkId() {
-        SubResource subnetRef = this.inner().subnet();
+        SubResource subnetRef = this.inner().getSubnet();
         if (subnetRef == null) {
             return null;
         }
-        return ResourceUtils.parentResourceIdFromResourceId(subnetRef.id());
+        return ResourceUtils.parentResourceIdFromResourceId(subnetRef.getId());
     }
 
     public Network getNetwork() {
@@ -115,34 +116,34 @@ abstract class NicIPConfigurationBaseImpl<ParentImplT extends ParentT, ParentT e
 
     @Override
     public String subnetName() {
-        SubResource subnetRef = this.inner().subnet();
+        SubResource subnetRef = this.inner().getSubnet();
         if (subnetRef == null) {
             return null;
         }
-        return ResourceUtils.nameFromResourceId(subnetRef.id());
+        return ResourceUtils.nameFromResourceId(subnetRef.getId());
     }
 
     @Override
     public Collection<ApplicationGatewayBackend> listAssociatedApplicationGatewayBackends() {
-        return this.parent().manager().listAssociatedApplicationGatewayBackends(this.inner().applicationGatewayBackendAddressPools());
+        return this.parent().manager().listAssociatedApplicationGatewayBackends(this.inner().getApplicationGatewayBackendAddressPools());
     }
 
     @Override
     public List<LoadBalancerBackend> listAssociatedLoadBalancerBackends() {
-        final List<BackendAddressPoolInner> backendRefs = this.inner().loadBalancerBackendAddressPools();
+        final List<BackendAddressPoolInner> backendRefs = this.inner().getLoadBalancerBackendAddressPools();
         if (backendRefs == null) {
             return Collections.unmodifiableList(new ArrayList<LoadBalancerBackend>());
         }
         final Map<String, LoadBalancer> loadBalancers = new HashMap<>();
         final List<LoadBalancerBackend> backends = new ArrayList<>();
         for (BackendAddressPoolInner backendRef : backendRefs) {
-            String loadBalancerId = ResourceUtils.parentResourceIdFromResourceId(backendRef.id());
+            String loadBalancerId = ResourceUtils.parentResourceIdFromResourceId(backendRef.getId());
             LoadBalancer loadBalancer = loadBalancers.get(loadBalancerId.toLowerCase());
             if (loadBalancer == null) {
                 loadBalancer = this.networkManager.loadBalancers().getById(loadBalancerId);
                 loadBalancers.put(loadBalancerId.toLowerCase(), loadBalancer);
             }
-            String backendName = ResourceUtils.nameFromResourceId(backendRef.id());
+            String backendName = ResourceUtils.nameFromResourceId(backendRef.getId());
             backends.add(loadBalancer.backends().get(backendName));
         }
         return Collections.unmodifiableList(backends);
@@ -150,20 +151,20 @@ abstract class NicIPConfigurationBaseImpl<ParentImplT extends ParentT, ParentT e
 
     @Override
     public List<LoadBalancerInboundNatRule> listAssociatedLoadBalancerInboundNatRules() {
-        final List<InboundNatRuleInner> inboundNatPoolRefs = this.inner().loadBalancerInboundNatRules();
+        final List<InboundNatRuleInner> inboundNatPoolRefs = this.inner().getLoadBalancerInboundNatRules();
         if (inboundNatPoolRefs == null) {
             return Collections.unmodifiableList(new ArrayList<LoadBalancerInboundNatRule>());
         }
         final Map<String, LoadBalancer> loadBalancers = new HashMap<>();
         final List<LoadBalancerInboundNatRule> rules = new ArrayList<>();
         for (InboundNatRuleInner ref : inboundNatPoolRefs) {
-            String loadBalancerId = ResourceUtils.parentResourceIdFromResourceId(ref.id());
+            String loadBalancerId = ResourceUtils.parentResourceIdFromResourceId(ref.getId());
             LoadBalancer loadBalancer = loadBalancers.get(loadBalancerId.toLowerCase());
             if (loadBalancer == null) {
                 loadBalancer = this.networkManager.loadBalancers().getById(loadBalancerId);
                 loadBalancers.put(loadBalancerId.toLowerCase(), loadBalancer);
             }
-            String ruleName = ResourceUtils.nameFromResourceId(ref.id());
+            String ruleName = ResourceUtils.nameFromResourceId(ref.getId());
             rules.add(loadBalancer.inboundNatRules().get(ruleName));
         }
         return Collections.unmodifiableList(rules);

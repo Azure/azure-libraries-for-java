@@ -9,10 +9,10 @@ import com.azure.management.network.Access;
 import com.azure.management.network.ExpressRouteCircuitPeering;
 import com.azure.management.network.RouteFilter;
 import com.azure.management.network.RouteFilterRule;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.RouteFilterInner;
+import com.azure.management.network.models.RouteFilterRuleInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableParentResourceImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,9 +20,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- *  Implementation for RouteFilter and its create and update interfaces.
+ * Implementation for RouteFilter and its create and update interfaces.
  */
-@LangDefinition
 class RouteFilterImpl
         extends GroupableParentResourceImpl<
         RouteFilter,
@@ -46,24 +45,24 @@ class RouteFilterImpl
     }
 
     @Override
-    protected Observable<RouteFilterInner> createInner() {
+    protected Mono<RouteFilterInner> createInner() {
         return this.manager().inner().routeFilters().createOrUpdateAsync(resourceGroupName(), name(), inner());
     }
 
     @Override
     protected void initializeChildrenFromInner() {
         this.rules = new TreeMap<>();
-        List<RouteFilterRuleInner> inners = this.inner().rules();
+        List<RouteFilterRuleInner> inners = this.inner().getRules();
         if (inners != null) {
             for (RouteFilterRuleInner inner : inners) {
-                this.rules.put(inner.name(), new RouteFilterRuleImpl(inner, this));
+                this.rules.put(inner.getName(), new RouteFilterRuleImpl(inner, this));
             }
         }
     }
 
     @Override
     protected void beforeCreating() {
-        this.inner().withRules(innersFromWrappers(this.rules.values()));
+        this.inner().setRules(innersFromWrappers(this.rules.values()));
     }
 
     @Override
@@ -71,25 +70,23 @@ class RouteFilterImpl
     }
 
     @Override
-    protected Observable<RouteFilterInner> getInnerAsync() {
-        return this.manager().inner().routeFilters().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    protected Mono<RouteFilterInner> getInnerAsync() {
+        // FIXME: exapnd parameter
+        return this.manager().inner().routeFilters().getByResourceGroupAsync(this.resourceGroupName(), this.name(), null);
     }
 
     @Override
-    public Observable<RouteFilter> refreshAsync() {
-        return super.refreshAsync().map(new Func1<RouteFilter, RouteFilter>() {
-            @Override
-            public RouteFilter call(RouteFilter routeFilter) {
-                RouteFilterImpl impl = (RouteFilterImpl) routeFilter;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Mono<RouteFilter> refreshAsync() {
+        return super.refreshAsync().map(routeFilter -> {
+            RouteFilterImpl impl = (RouteFilterImpl) routeFilter;
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
     public String provisioningState() {
-        return inner().provisioningState();
+        return inner().getProvisioningState();
     }
 
     @Override
@@ -116,9 +113,9 @@ class RouteFilterImpl
     @Override
     public RouteFilterRuleImpl defineRule(String name) {
         RouteFilterRuleInner inner = new RouteFilterRuleInner();
-        inner.withName(name);
-        inner.withRouteFilterRuleType(RULE_TYPE);
-        inner.withAccess(Access.ALLOW);
+        inner.setName(name);
+        inner.setRouteFilterRuleType(RULE_TYPE);
+        inner.setAccess(Access.ALLOW);
         return new RouteFilterRuleImpl(inner, this);
     }
 

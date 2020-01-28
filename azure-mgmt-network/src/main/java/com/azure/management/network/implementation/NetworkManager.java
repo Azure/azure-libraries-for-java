@@ -5,12 +5,11 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.AzureEnvironment;
-import com.microsoft.azure.AzureResponseBuilder;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.credentials.AzureTokenCredentials;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
+import com.azure.core.implementation.annotation.Beta;
+import com.azure.core.management.AzureEnvironment;
+import com.azure.core.management.SubResource;
+import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.RestClient;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayBackend;
 import com.azure.management.network.ApplicationGatewayBackendAddressPool;
@@ -32,14 +31,12 @@ import com.azure.management.network.RouteTables;
 import com.azure.management.network.Subnet;
 import com.azure.management.network.NetworkWatchers;
 import com.azure.management.network.VirtualNetworkGateways;
-import com.microsoft.azure.management.resources.fluentcore.arm.AzureConfigurable;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.implementation.Manager;
-import com.microsoft.azure.management.resources.fluentcore.utils.ProviderRegistrationInterceptor;
-import com.microsoft.azure.management.resources.fluentcore.utils.ResourceManagerThrottlingInterceptor;
-import com.microsoft.azure.serializer.AzureJacksonAdapter;
-import com.microsoft.rest.RestClient;
+import com.azure.management.network.models.NetworkManagementClientImpl;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.implementation.AzureConfigurableImpl;
+import com.azure.management.resources.fluentcore.arm.implementation.Manager;
 
 import java.util.ArrayList;
 import java.util.Collection;

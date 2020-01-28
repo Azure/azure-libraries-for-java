@@ -14,7 +14,7 @@ import com.azure.management.network.DhcpOptions;
 import com.azure.management.network.Network;
 import com.azure.management.network.NetworkPeerings;
 import com.azure.management.network.Subnet;
-import com.azure.management.network.model.GroupableParentResourceWithTagsImpl;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
 
 import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
 import com.microsoft.azure.management.resources.fluentcore.utils.SdkContext;

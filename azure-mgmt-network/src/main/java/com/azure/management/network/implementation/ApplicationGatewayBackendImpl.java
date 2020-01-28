@@ -5,6 +5,14 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.management.network.ApplicationGateway;
+import com.azure.management.network.ApplicationGatewayBackend;
+import com.azure.management.network.ApplicationGatewayBackendAddress;
+import com.azure.management.network.ApplicationGatewayBackendAddressPool;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -12,21 +20,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.ApplicationGateway;
-import com.azure.management.network.ApplicationGatewayBackend;
-import com.azure.management.network.ApplicationGatewayBackendAddress;
-import com.azure.management.network.ApplicationGatewayBackendAddressPool;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-
 /**
- *  Implementation for ApplicationGatewayBackend.
+ * Implementation for ApplicationGatewayBackend.
  */
-@LangDefinition
 class ApplicationGatewayBackendImpl
-    extends ChildResourceImpl<ApplicationGatewayBackendAddressPool, ApplicationGatewayImpl, ApplicationGateway>
-    implements
+        extends ChildResourceImpl<ApplicationGatewayBackendAddressPool, ApplicationGatewayImpl, ApplicationGateway>
+        implements
         ApplicationGatewayBackend,
         ApplicationGatewayBackend.Definition<ApplicationGateway.DefinitionStages.WithCreate>,
         ApplicationGatewayBackend.UpdateDefinition<ApplicationGateway.Update>,
@@ -39,10 +38,10 @@ class ApplicationGatewayBackendImpl
     // Helpers
 
     private List<ApplicationGatewayBackendAddress> ensureAddresses() {
-        List<ApplicationGatewayBackendAddress> addresses = this.inner().backendAddresses();
+        List<ApplicationGatewayBackendAddress> addresses = this.inner().getBackendAddresses();
         if (addresses == null) {
             addresses = new ArrayList<ApplicationGatewayBackendAddress>();
-            this.inner().withBackendAddresses(addresses);
+            this.inner().setBackendAddresses(addresses);
         }
         return addresses;
     }
@@ -51,7 +50,7 @@ class ApplicationGatewayBackendImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
@@ -59,10 +58,10 @@ class ApplicationGatewayBackendImpl
         // This assumes a NIC can only have one IP config associated with the backend of an app gateway,
         // which is correct at the time of this implementation and seems unlikely to ever change
         final Map<String, String> ipConfigNames = new TreeMap<>();
-        if (this.inner().backendIPConfigurations() != null) {
-            for (NetworkInterfaceIPConfigurationInner inner : this.inner().backendIPConfigurations()) {
-                String nicId = ResourceUtils.parentResourceIdFromResourceId(inner.id());
-                String ipConfigName = ResourceUtils.nameFromResourceId(inner.id());
+        if (this.inner().getBackendIPConfigurations() != null) {
+            for (NetworkInterfaceIPConfigurationInner inner : this.inner().getBackendIPConfigurations()) {
+                String nicId = ResourceUtils.parentResourceIdFromResourceId(inner.getId());
+                String ipConfigName = ResourceUtils.nameFromResourceId(inner.getId());
                 ipConfigNames.put(nicId, ipConfigName);
             }
         }
@@ -73,8 +72,8 @@ class ApplicationGatewayBackendImpl
     @Override
     public Collection<ApplicationGatewayBackendAddress> addresses() {
         Collection<ApplicationGatewayBackendAddress> addresses = new ArrayList<>();
-        if (this.inner().backendAddresses() != null) {
-            for (ApplicationGatewayBackendAddress address : this.inner().backendAddresses()) {
+        if (this.inner().getBackendAddresses() != null) {
+            for (ApplicationGatewayBackendAddress address : this.inner().getBackendAddresses()) {
                 addresses.add(address);
             }
         }
@@ -98,10 +97,10 @@ class ApplicationGatewayBackendImpl
         }
 
         ApplicationGatewayBackendAddress address = new ApplicationGatewayBackendAddress()
-                .withIpAddress(ipAddress);
+                .setIpAddress(ipAddress);
         List<ApplicationGatewayBackendAddress> addresses = ensureAddresses();
         for (ApplicationGatewayBackendAddress a : addresses) {
-            if (ipAddress.equalsIgnoreCase(a.ipAddress())) {
+            if (ipAddress.equalsIgnoreCase(a.getIpAddress())) {
                 return this; // Address already included, so skip
             }
         }
@@ -115,7 +114,7 @@ class ApplicationGatewayBackendImpl
             return this;
         }
         ApplicationGatewayBackendAddress address = new ApplicationGatewayBackendAddress()
-                .withFqdn(fqdn);
+                .setFqdn(fqdn);
         ensureAddresses().add(address);
         return this;
     }
@@ -125,13 +124,13 @@ class ApplicationGatewayBackendImpl
         if (ipAddress == null) {
             return this;
         }
-        if (this.inner().backendAddresses() == null) {
+        if (this.inner().getBackendAddresses() == null) {
             return this;
         }
 
         final List<ApplicationGatewayBackendAddress> addresses = ensureAddresses();
         for (int i = 0; i < addresses.size(); i++) {
-            String curIPAddress = addresses.get(i).ipAddress();
+            String curIPAddress = addresses.get(i).getIpAddress();
             if (curIPAddress != null && curIPAddress.equalsIgnoreCase(ipAddress)) {
                 addresses.remove(i);
                 break;
@@ -153,7 +152,7 @@ class ApplicationGatewayBackendImpl
         }
         final List<ApplicationGatewayBackendAddress> addresses = ensureAddresses();
         for (int i = 0; i < addresses.size(); i++) {
-            String curFqdn = addresses.get(i).fqdn();
+            String curFqdn = addresses.get(i).getFqdn();
             if (curFqdn != null && curFqdn.equalsIgnoreCase(fqdn)) {
                 addresses.remove(i);
                 break;
@@ -165,8 +164,8 @@ class ApplicationGatewayBackendImpl
     @Override
     public boolean containsIPAddress(String ipAddress) {
         if (ipAddress != null) {
-            for (ApplicationGatewayBackendAddress address : this.inner().backendAddresses()) {
-                if (ipAddress.equalsIgnoreCase(address.ipAddress())) {
+            for (ApplicationGatewayBackendAddress address : this.inner().getBackendAddresses()) {
+                if (ipAddress.equalsIgnoreCase(address.getIpAddress())) {
                     return true;
                 }
             }
@@ -177,8 +176,8 @@ class ApplicationGatewayBackendImpl
     @Override
     public boolean containsFqdn(String fqdn) {
         if (fqdn != null) {
-            for (ApplicationGatewayBackendAddress address : this.inner().backendAddresses()) {
-                if (fqdn.equalsIgnoreCase(address.fqdn())) {
+            for (ApplicationGatewayBackendAddress address : this.inner().getBackendAddresses()) {
+                if (fqdn.equalsIgnoreCase(address.getFqdn())) {
                     return true;
                 }
             }

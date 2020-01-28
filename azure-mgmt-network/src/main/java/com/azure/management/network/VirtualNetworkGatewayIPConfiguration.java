@@ -5,23 +5,20 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.model.HasPublicIPAddress;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.network.implementation.VirtualNetworkGatewayIPConfigurationInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasSubnet;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasPublicIPAddress;
+import com.azure.management.network.models.VirtualNetworkGatewayIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.arm.models.HasSubnet;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
+
 
 /**
  * A client-side representation of an virtual network gateway IP configuration.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
 public interface VirtualNetworkGatewayIPConfiguration extends
         HasInner<VirtualNetworkGatewayIPConfigurationInner>,
         ChildResource<VirtualNetworkGateway> {
@@ -50,7 +47,6 @@ public interface VirtualNetworkGatewayIPConfiguration extends
      * @return the subnet the virtual network gateway is in
      * Note, this results in a separate call to Azure.
      */
-    @Method
     Subnet getSubnet();
 
     /**
@@ -59,6 +55,7 @@ public interface VirtualNetworkGatewayIPConfiguration extends
     interface DefinitionStages {
         /**
          * The first stage of an virtual network gateway IP configuration definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> extends WithSubnet<ParentT> {
@@ -66,11 +63,13 @@ public interface VirtualNetworkGatewayIPConfiguration extends
 
         /**
          * The stage of virtual network gateway IP configuration definition allowing to specify the subnet the virtual network gateway is on.
+         *
          * @param <ParentT> the stage of the virtual network gateway definition to return to after attaching this definition
          */
         interface WithSubnet<ParentT> extends HasSubnet.DefinitionStages.WithSubnet<WithAttach<ParentT>> {
             /**
              * Specifies an existing subnet the virtual network gateway should be part of and get its private IP address from.
+             *
              * @param subnet an existing subnet
              * @return the next stage of the definition
              */
@@ -78,7 +77,8 @@ public interface VirtualNetworkGatewayIPConfiguration extends
 
             /**
              * Specifies an existing subnet the virtual network gateway should be part of and get its private IP address from.
-             * @param network an existing virtual network
+             *
+             * @param network    an existing virtual network
              * @param subnetName the name of a subnet within the selected network
              * @return the next stage of the definition
              */
@@ -88,15 +88,18 @@ public interface VirtualNetworkGatewayIPConfiguration extends
         /**
          * The stage of virtual network gateway frontend definition allowing to specify an existing public IP address to make
          * the virtual network gateway available at as Internet-facing.
+         *
          * @param <ParentT> the stage of the parent virtual network gateway definition to return to after attaching this definition
          */
         interface WithPublicIPAddress<ParentT> extends HasPublicIPAddress.DefinitionStages.WithExistingPublicIPAddress<WithAttach<ParentT>> {
         }
 
-        /** The final stage of the virtual network gateway IP configuration definition.
+        /**
+         * The final stage of the virtual network gateway IP configuration definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the definition
          * can be attached to the parent virtual network gateway definition.
+         *
          * @param <ParentT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
@@ -104,7 +107,9 @@ public interface VirtualNetworkGatewayIPConfiguration extends
         }
     }
 
-    /** The entirety of virtual network gateway IP configuration definition.
+    /**
+     * The entirety of virtual network gateway IP configuration definition.
+     *
      * @param <ParentT> the stage of the parent application gateway definition to return to after attaching this definition
      */
     interface Definition<ParentT> extends
@@ -132,15 +137,18 @@ public interface VirtualNetworkGatewayIPConfiguration extends
     interface UpdateDefinitionStages {
         /**
          * The first stage of a virtual network gateway IP configuration definition.
+         *
          * @param <ParentT> the stage of the parent definition to return to after attaching this definition
          */
         interface Blank<ParentT> {
         }
 
-        /** The final stage of a virtual network gateway IP configuration definition.
+        /**
+         * The final stage of a virtual network gateway IP configuration definition.
          * <p>
          * At this stage, any remaining optional settings can be specified, or the definition
          * can be attached to the parent application gateway definition.
+         *
          * @param <ParentT> the stage of the parent application gateway definition to return to after attaching this definition
          */
         interface WithAttach<ParentT> extends
@@ -148,7 +156,9 @@ public interface VirtualNetworkGatewayIPConfiguration extends
         }
     }
 
-    /** The entirety of an application gateway IP configuration definition as part of a virtual network gateway update.
+    /**
+     * The entirety of an application gateway IP configuration definition as part of a virtual network gateway update.
+     *
      * @param <ParentT> the parent type
      */
     interface UpdateDefinition<ParentT> extends

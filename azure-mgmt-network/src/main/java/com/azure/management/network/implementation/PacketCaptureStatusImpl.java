@@ -8,16 +8,15 @@ package com.azure.management.network.implementation;
 import com.azure.management.network.PacketCaptureStatus;
 import com.azure.management.network.PcError;
 import com.azure.management.network.PcStatus;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import org.joda.time.DateTime;
+import com.azure.management.network.models.PacketCaptureQueryStatusResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 /**
  * Implementation for {@link PacketCaptureStatus}.
  */
-@LangDefinition
 class PacketCaptureStatusImpl extends WrapperImpl<PacketCaptureQueryStatusResultInner>
         implements PacketCaptureStatus {
     PacketCaptureStatusImpl(PacketCaptureQueryStatusResultInner innerObject) {
@@ -26,31 +25,31 @@ class PacketCaptureStatusImpl extends WrapperImpl<PacketCaptureQueryStatusResult
 
     @Override
     public String name() {
-        return inner().name();
+        return inner().getName();
     }
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
-    public DateTime captureStartTime() {
-        return inner().captureStartTime();
+    public OffsetDateTime captureStartTime() {
+        return inner().getCaptureStartTime();
     }
 
     @Override
     public PcStatus packetCaptureStatus() {
-        return inner().packetCaptureStatus();
+        return inner().getPacketCaptureStatus();
     }
 
     @Override
     public String stopReason() {
-        return inner().stopReason();
+        return inner().getStopReason();
     }
 
     @Override
     public List<PcError> packetCaptureErrors() {
-        return inner().packetCaptureError();
+        return inner().getPacketCaptureError();
     }
 }

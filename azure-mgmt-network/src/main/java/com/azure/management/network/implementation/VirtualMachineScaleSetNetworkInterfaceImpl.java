@@ -10,11 +10,11 @@ import com.azure.management.network.IPAllocationMethod;
 import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.VirtualMachineScaleSetNetworkInterface;
 import com.azure.management.network.VirtualMachineScaleSetNicIPConfiguration;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.network.models.NetworkInterfaceInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,12 +25,11 @@ import java.util.TreeMap;
 /**
  * The implementation for VirtualMachineScaleSetNetworkInterface.
  */
-@LangDefinition
 class VirtualMachineScaleSetNetworkInterfaceImpl
         extends
         ResourceImpl<VirtualMachineScaleSetNetworkInterface,
-                NetworkInterfaceInner,
-                VirtualMachineScaleSetNetworkInterfaceImpl>
+                        NetworkInterfaceInner,
+                        VirtualMachineScaleSetNetworkInterfaceImpl>
         implements
             VirtualMachineScaleSetNetworkInterface {
     /**
@@ -59,12 +58,12 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
 
     @Override
     public boolean isIPForwardingEnabled() {
-        return Utils.toPrimitiveBoolean(this.inner().enableIPForwarding());
+        return Utils.toPrimitiveBoolean(this.inner().isEnableIPForwarding());
     }
 
     @Override
     public String macAddress() {
-        return this.inner().macAddress();
+        return this.inner().getMacAddress();
     }
 
     @Override

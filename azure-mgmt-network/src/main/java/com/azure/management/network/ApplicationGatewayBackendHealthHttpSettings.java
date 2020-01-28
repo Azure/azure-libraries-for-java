@@ -7,7 +7,7 @@
 package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
-import com.azure.management.network.model.ApplicationGatewayBackendHealthServerInner;
+import com.azure.management.network.models.ApplicationGatewayBackendHealthServerInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 

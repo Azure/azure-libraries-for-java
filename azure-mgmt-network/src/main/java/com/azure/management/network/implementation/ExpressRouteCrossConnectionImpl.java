@@ -10,10 +10,12 @@ import com.azure.management.network.ExpressRouteCrossConnection;
 import com.azure.management.network.ExpressRouteCrossConnectionPeering;
 import com.azure.management.network.ExpressRouteCrossConnectionPeerings;
 import com.azure.management.network.ServiceProviderProvisioningState;
-import com.azure.management.network.model.GroupableParentResourceWithTagsImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.TagsObject;
+import com.azure.management.network.models.ExpressRouteCrossConnectionInner;
+import com.azure.management.network.models.ExpressRouteCrossConnectionPeeringInner;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -46,7 +48,7 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
     }
 
     @Override
-    protected Observable<ExpressRouteCrossConnectionInner> createInner() {
+    protected Mono<ExpressRouteCrossConnectionInner> createInner() {
         return this.manager().inner().expressRouteCrossConnections().createOrUpdateAsync(
                 this.resourceGroupName(), this.name(), this.inner());
     }
@@ -54,34 +56,32 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
     @Override
     protected void initializeChildrenFromInner() {
         crossConnectionPeerings = new HashMap<>();
-        if (inner().peerings() != null) {
-            for (ExpressRouteCrossConnectionPeeringInner peering : inner().peerings()) {
-                crossConnectionPeerings.put(peering.name(),
-                        new ExpressRouteCrossConnectionPeeringImpl(this, peering, peering.peeringType()));
+        if (inner().getPeerings() != null) {
+            for (ExpressRouteCrossConnectionPeeringInner peering : inner().getPeerings()) {
+                crossConnectionPeerings.put(peering.getName(),
+                        new ExpressRouteCrossConnectionPeeringImpl(this, peering, peering.getPeeringType()));
             }
         }
     }
 
     @Override
-    protected Observable<ExpressRouteCrossConnectionInner> getInnerAsync() {
+    protected Mono<ExpressRouteCrossConnectionInner> getInnerAsync() {
         return this.manager().inner().expressRouteCrossConnections().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<ExpressRouteCrossConnection> refreshAsync() {
-        return super.refreshAsync().map(new Func1<ExpressRouteCrossConnection, ExpressRouteCrossConnection>() {
-            @Override
-            public ExpressRouteCrossConnection call(ExpressRouteCrossConnection expressRouteCrossConnection) {
-                ExpressRouteCrossConnectionImpl impl = (ExpressRouteCrossConnectionImpl) expressRouteCrossConnection;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Mono<ExpressRouteCrossConnection> refreshAsync() {
+        return super.refreshAsync().map(expressRouteCrossConnection -> {
+            ExpressRouteCrossConnectionImpl impl = (ExpressRouteCrossConnectionImpl) expressRouteCrossConnection;
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<ExpressRouteCrossConnectionInner> applyTagsToInnerAsync() {
-        return this.manager().inner().expressRouteCrossConnections().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+    protected Mono<ExpressRouteCrossConnectionInner> applyTagsToInnerAsync() {
+        TagsObject parameters = new TagsObject().setTags(inner().getTags());
+        return this.manager().inner().expressRouteCrossConnections().updateTagsAsync(resourceGroupName(), name(), parameters);
     }
 
     @Override
@@ -94,47 +94,47 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
 
     @Override
     public String primaryAzurePort() {
-        return inner().primaryAzurePort();
+        return inner().getPrimaryAzurePort();
     }
 
     @Override
     public String secondaryAzurePort() {
-        return inner().secondaryAzurePort();
+        return inner().getSecondaryAzurePort();
     }
 
     @Override
     public Integer sTag() {
-        return inner().sTag();
+        return inner().getSTag();
     }
 
     @Override
     public String peeringLocation() {
-        return inner().peeringLocation();
+        return inner().getPeeringLocation();
     }
 
     @Override
     public int bandwidthInMbps() {
-        return Utils.toPrimitiveInt(inner().bandwidthInMbps());
+        return Utils.toPrimitiveInt(inner().getBandwidthInMbps());
     }
 
     @Override
     public ExpressRouteCircuitReference expressRouteCircuit() {
-        return inner().expressRouteCircuit();
+        return inner().getExpressRouteCircuit();
     }
 
     @Override
     public ServiceProviderProvisioningState serviceProviderProvisioningState() {
-        return inner().serviceProviderProvisioningState();
+        return inner().getServiceProviderProvisioningState();
     }
 
     @Override
     public String serviceProviderNotes() {
-        return inner().serviceProviderNotes();
+        return inner().getServiceProviderNotes();
     }
 
     @Override
     public String provisioningState() {
-        return inner().provisioningState();
+        return inner().getProvisioningState();
     }
 
     @Override
@@ -144,13 +144,13 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
 
     @Override
     public Update withServiceProviderProvisioningState(ServiceProviderProvisioningState state) {
-        inner().withServiceProviderProvisioningState(state);
+        inner().setServiceProviderProvisioningState(state);
         return this;
     }
 
     @Override
     public Update withServiceProviderNotes(String notes) {
-        inner().withServiceProviderNotes(notes);
+        inner().setServiceProviderNotes(notes);
         return this;
     }
 }

@@ -6,27 +6,24 @@
 
 package com.azure.management.network;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.azure.management.network.implementation.VirtualNetworkPeeringsInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByParent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
 
-import rx.Observable;
+import com.azure.management.network.models.VirtualNetworkPeeringsInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByParent;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import reactor.core.publisher.Mono;
 
 /**
  *  Entry point to network peering management API.
  */
 @Fluent
-@Beta(SinceVersion.V1_3_0)
 public interface NetworkPeerings extends
         SupportsCreating<NetworkPeering.DefinitionStages.Blank>,
         SupportsDeletingById,
@@ -62,7 +59,7 @@ public interface NetworkPeerings extends
      * @param network an existing network
      * @return a representation of the future computation of this call, evaluating to null if no such peering is found
      */
-    Observable<NetworkPeering> getByRemoteNetworkAsync(Network network);
+    Mono<NetworkPeering> getByRemoteNetworkAsync(Network network);
 
     /**
      * Asynchronously finds the peering, if any, that is associated with the specified network.
@@ -71,5 +68,5 @@ public interface NetworkPeerings extends
      * @param remoteNetworkResourceId the resource ID of an existing network
      * @return a representation of the future computation of this call, evaluating to null if no such peering is found
      */
-    Observable<NetworkPeering> getByRemoteNetworkAsync(String remoteNetworkResourceId);
+    Mono<NetworkPeering> getByRemoteNetworkAsync(String remoteNetworkResourceId);
 }

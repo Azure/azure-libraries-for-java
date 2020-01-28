@@ -5,20 +5,21 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.network.models.ConnectionMonitorInner;
+import com.azure.management.network.models.ConnectionMonitorQueryResultInner;
+import com.azure.management.network.models.ConnectionMonitorResultInner;
+import com.azure.management.network.models.ConnectionMonitorsInner;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.network.ConnectionMonitor;
 import com.azure.management.network.ConnectionMonitorDestination;
 import com.azure.management.network.ConnectionMonitorQueryResult;
 import com.azure.management.network.ConnectionMonitorSource;
 import com.azure.management.network.NetworkWatcher;
 import com.azure.management.network.ProvisioningState;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import org.joda.time.DateTime;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import reactor.core.publisher.Mono;
+
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,7 +29,6 @@ import java.util.TreeMap;
 /**
  * Implementation for Connection Monitor and its create and update interfaces.
  */
-@LangDefinition
 public class ConnectionMonitorImpl extends
         CreatableUpdatableImpl<ConnectionMonitor, ConnectionMonitorResultInner, ConnectionMonitorImpl>
         implements
@@ -43,17 +43,17 @@ public class ConnectionMonitorImpl extends
         super(name, innerObject);
         this.client = client;
         this.parent = parent;
-        this.createParameters = new ConnectionMonitorInner().withLocation(parent.regionName());
+        this.createParameters = new ConnectionMonitorInner().setLocation(parent.regionName());
     }
 
     @Override
-    protected Observable<ConnectionMonitorResultInner> getInnerAsync() {
+    protected Mono<ConnectionMonitorResultInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public String location() {
-        return inner().location();
+        return inner().getLocation();
     }
 
     @Override
@@ -154,104 +154,104 @@ public class ConnectionMonitorImpl extends
     }
 
     @Override
-    public Observable<ConnectionMonitor> createResourceAsync() {
+    public Mono<ConnectionMonitor> createResourceAsync() {
         return this.client.createOrUpdateAsync(parent.resourceGroupName(), parent.name(), this.name(), createParameters)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
     public ConnectionMonitorImpl withSourceId(String resourceId) {
-        ensureConnectionMonitorSource().withResourceId(resourceId);
+        ensureConnectionMonitorSource().setResourceId(resourceId);
         return this;
     }
 
     @Override
     public ConnectionMonitorImpl withSource(HasNetworkInterfaces vm) {
-        ensureConnectionMonitorSource().withResourceId(vm.id());
+        ensureConnectionMonitorSource().setResourceId(vm.id());
         return this;
     }
 
     @Override
     public ConnectionMonitorImpl withDestinationId(String resourceId) {
-        ensureConnectionMonitorDestination().withResourceId(resourceId);
+        ensureConnectionMonitorDestination().setResourceId(resourceId);
         return this;
     }
 
     @Override
     public ConnectionMonitorImpl withDestination(HasNetworkInterfaces vm) {
-        ensureConnectionMonitorDestination().withResourceId(vm.id());
+        ensureConnectionMonitorDestination().setResourceId(vm.id());
         return this;
     }
 
     @Override
     public DefinitionStages.WithDestinationPort withDestinationAddress(String address) {
-        ensureConnectionMonitorDestination().withAddress(address);
+        ensureConnectionMonitorDestination().setAddress(address);
         return this;
     }
 
     private ConnectionMonitorSource ensureConnectionMonitorSource() {
-        if (createParameters.source() == null) {
-            createParameters.withSource(new ConnectionMonitorSource());
+        if (createParameters.getSource() == null) {
+            createParameters.setSource(new ConnectionMonitorSource());
         }
-        return createParameters.source();
+        return createParameters.getSource();
     }
 
     private ConnectionMonitorDestination ensureConnectionMonitorDestination() {
-        if (createParameters.destination() == null) {
-            createParameters.withDestination(new ConnectionMonitorDestination());
+        if (createParameters.getDestination() == null) {
+            createParameters.setDestination(new ConnectionMonitorDestination());
         }
-        return createParameters.destination();
+        return createParameters.getDestination();
     }
 
     @Override
     public ConnectionMonitorImpl withDestinationPort(int port) {
-        ensureConnectionMonitorDestination().withPort(port);
+        ensureConnectionMonitorDestination().setPort(port);
         return this;
     }
 
     @Override
     public ConnectionMonitorImpl withSourcePort(int port) {
-        ensureConnectionMonitorSource().withPort(port);
+        ensureConnectionMonitorSource().setPort(port);
         return this;
     }
 
     @Override
     public ConnectionMonitorImpl withoutAutoStart() {
-        createParameters.withAutoStart(false);
+        createParameters.setAutoStart(false);
         return this;
     }
 
     @Override
     public final ConnectionMonitorImpl withTags(Map<String, String> tags) {
-        this.createParameters.withTags(new HashMap<>(tags));
+        this.createParameters.setTags(new HashMap<>(tags));
         return this;
     }
 
     @Override
     public ConnectionMonitorImpl withTag(String key, String value) {
-        if (this.createParameters.tags() == null) {
-            this.createParameters.withTags(new HashMap<String, String>());
+        if (this.createParameters.getTags() == null) {
+            this.createParameters.setTags(new HashMap<String, String>());
         }
-        this.createParameters.tags().put(key, value);
+        this.createParameters.getTags().put(key, value);
         return this;
     }
 
     @Override
     public ConnectionMonitorImpl withoutTag(String key) {
-        if (this.createParameters.tags() != null) {
-            this.createParameters.tags().remove(key);
+        if (this.createParameters.getTags() != null) {
+            this.createParameters.getTags().remove(key);
         }
         return this;
     }
 
     @Override
     public ConnectionMonitorImpl withMonitoringInterval(int seconds) {
-        createParameters.withMonitoringIntervalInSeconds(seconds);
+        createParameters.setMonitoringIntervalInSeconds(seconds);
         return this;
     }
 }

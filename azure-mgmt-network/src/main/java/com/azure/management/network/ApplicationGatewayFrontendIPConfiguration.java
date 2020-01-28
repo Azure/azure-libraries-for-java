@@ -70,7 +70,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Get the name property: Name of the frontend IP configuration that is
      * unique within an Application Gateway.
-     * 
+     *
      * @return the name value.
      */
     public String getName() {
@@ -80,7 +80,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Set the name property: Name of the frontend IP configuration that is
      * unique within an Application Gateway.
-     * 
+     *
      * @param name the name value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
@@ -92,7 +92,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Get the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     * 
+     *
      * @return the etag value.
      */
     public String getEtag() {
@@ -102,7 +102,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Set the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     * 
+     *
      * @param etag the etag value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
@@ -113,7 +113,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
 
     /**
      * Get the type property: Type of the resource.
-     * 
+     *
      * @return the type value.
      */
     public String getType() {
@@ -122,7 +122,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
 
     /**
      * Set the type property: Type of the resource.
-     * 
+     *
      * @param type the type value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
@@ -134,7 +134,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Get the privateIPAddress property: PrivateIPAddress of the network
      * interface IP Configuration.
-     * 
+     *
      * @return the privateIPAddress value.
      */
     public String getPrivateIPAddress() {
@@ -144,7 +144,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Set the privateIPAddress property: PrivateIPAddress of the network
      * interface IP Configuration.
-     * 
+     *
      * @param privateIPAddress the privateIPAddress value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
@@ -156,7 +156,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Get the privateIPAllocationMethod property: IP address allocation
      * method.
-     * 
+     *
      * @return the privateIPAllocationMethod value.
      */
     public IPAllocationMethod getPrivateIPAllocationMethod() {
@@ -166,9 +166,9 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Set the privateIPAllocationMethod property: IP address allocation
      * method.
-     * 
+     *
      * @param privateIPAllocationMethod the privateIPAllocationMethod value to
-     * set.
+     *                                  set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
     public ApplicationGatewayFrontendIPConfiguration setPrivateIPAllocationMethod(IPAllocationMethod privateIPAllocationMethod) {
@@ -178,7 +178,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
 
     /**
      * Get the subnet property: Reference to another subresource.
-     * 
+     *
      * @return the subnet value.
      */
     public SubResource getSubnet() {
@@ -187,7 +187,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
 
     /**
      * Set the subnet property: Reference to another subresource.
-     * 
+     *
      * @param subnet the subnet value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
@@ -198,7 +198,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
 
     /**
      * Get the publicIPAddress property: Reference to another subresource.
-     * 
+     *
      * @return the publicIPAddress value.
      */
     public SubResource getPublicIPAddress() {
@@ -207,7 +207,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
 
     /**
      * Set the publicIPAddress property: Reference to another subresource.
-     * 
+     *
      * @param publicIPAddress the publicIPAddress value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */
@@ -219,7 +219,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Get the provisioningState property: Provisioning state of the public IP
      * resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     * 
+     *
      * @return the provisioningState value.
      */
     public String getProvisioningState() {
@@ -229,7 +229,7 @@ public class ApplicationGatewayFrontendIPConfiguration extends SubResource {
     /**
      * Set the provisioningState property: Provisioning state of the public IP
      * resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     * 
+     *
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayFrontendIPConfiguration object itself.
      */

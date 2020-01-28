@@ -5,14 +5,13 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.AvailableProviders;
 import com.azure.management.network.AvailableProvidersListCountry;
 import com.azure.management.network.AvailableProvidersListParameters;
 import com.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.AvailableProvidersListInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +23,6 @@ import java.util.TreeMap;
 /**
  * The implementation of AvailableProviders.
  */
-@LangDefinition
 class AvailableProvidersImpl extends ExecutableImpl<AvailableProviders>
         implements AvailableProviders,
         AvailableProviders.Definition {
@@ -49,10 +47,10 @@ class AvailableProvidersImpl extends ExecutableImpl<AvailableProviders>
 
     private void initializeResourcesFromInner() {
         this.providersByCountry = new TreeMap<>();
-        List<AvailableProvidersListCountry> availableProvidersList = this.inner().countries();
+        List<AvailableProvidersListCountry> availableProvidersList = this.inner().getCountries();
         if (availableProvidersList != null) {
             for (AvailableProvidersListCountry resource : availableProvidersList) {
-                this.providersByCountry.put(resource.countryName(), resource);
+                this.providersByCountry.put(resource.getCountryName(), resource);
             }
         }
     }
@@ -68,49 +66,46 @@ class AvailableProvidersImpl extends ExecutableImpl<AvailableProviders>
     }
 
     @Override
-    public Observable<AvailableProviders> executeWorkAsync() {
+    public Mono<AvailableProviders> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .listAvailableProvidersAsync(parent().resourceGroupName(), parent().name(), parameters)
-                .map(new Func1<AvailableProvidersListInner, AvailableProviders>() {
-                    @Override
-                    public AvailableProviders call(AvailableProvidersListInner availableProvidersListInner) {
-                        AvailableProvidersImpl.this.inner = availableProvidersListInner;
-                        AvailableProvidersImpl.this.initializeResourcesFromInner();
-                        return AvailableProvidersImpl.this;
-                    }
+                .map(availableProvidersListInner -> {
+                    AvailableProvidersImpl.this.inner = availableProvidersListInner;
+                    AvailableProvidersImpl.this.initializeResourcesFromInner();
+                    return AvailableProvidersImpl.this;
                 });
     }
 
     @Override
     public AvailableProvidersImpl withAzureLocations(String... azureLocations) {
-        parameters.withAzureLocations(Arrays.asList(azureLocations));
+        parameters.setAzureLocations(Arrays.asList(azureLocations));
         return this;
     }
 
     @Override
     public AvailableProvidersImpl withAzureLocation(String azureLocation) {
-        if (parameters.azureLocations() == null) {
-            parameters.withAzureLocations(new ArrayList<String>());
+        if (parameters.getAzureLocations() == null) {
+            parameters.setAzureLocations(new ArrayList<String>());
         }
-        parameters.azureLocations().add(azureLocation);
+        parameters.getAzureLocations().add(azureLocation);
         return this;
     }
 
     @Override
     public AvailableProvidersImpl withCountry(String country) {
-        parameters.withCountry(country);
+        parameters.setCountry(country);
         return this;
     }
 
     @Override
     public AvailableProvidersImpl withState(String state) {
-        parameters.withState(state);
+        parameters.setState(state);
         return this;
     }
 
     @Override
     public AvailableProvidersImpl withCity(String city) {
-        parameters.withCity(city);
+        parameters.setCity(city);
         return this;
     }
 }

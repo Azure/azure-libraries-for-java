@@ -6,7 +6,6 @@
 
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayBackendAddressPool;
 import com.azure.management.network.IPAllocationMethod;
@@ -16,7 +15,13 @@ import com.azure.management.network.Network;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NicIPConfiguration;
 import com.azure.management.network.PublicIPAddress;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.network.models.BackendAddressPoolInner;
+import com.azure.management.network.models.InboundNatRuleInner;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.network.models.PublicIPAddressInner;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.resources.fluentcore.model.Creatable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -24,7 +29,6 @@ import java.util.List;
 /**
  *  Implementation for NicIPConfiguration and its create and update interfaces.
  */
-@LangDefinition
 class NicIPConfigurationImpl
         extends
         NicIPConfigurationBaseImpl<NetworkInterfaceImpl, NetworkInterface>
@@ -80,7 +84,7 @@ class NicIPConfigurationImpl
             NetworkInterfaceImpl parent,
             final NetworkManager networkManager) {
         NetworkInterfaceIPConfigurationInner ipConfigurationInner = new NetworkInterfaceIPConfigurationInner();
-        ipConfigurationInner.withName(name);
+        ipConfigurationInner.setName(name);
         return new NicIPConfigurationImpl(ipConfigurationInner,
                 parent,
                 networkManager,
@@ -89,10 +93,10 @@ class NicIPConfigurationImpl
 
     @Override
     public String publicIPAddressId() {
-        if (this.inner().publicIPAddress() == null) {
+        if (this.inner().getPublicIPAddress() == null) {
             return null;
         }
-        return this.inner().publicIPAddress().id();
+        return this.inner().getPublicIPAddress().getId();
     }
 
     @Override

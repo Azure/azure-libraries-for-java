@@ -5,23 +5,21 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.model.HasProtocol;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.HasProtocol;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Executable;
 
 /**
  * A client-side representation allowing to verify IP packet flow from specific VM
  * based on direction, protocol, local IP, remote IP, local port and remote port.
  */
 @Fluent
-@Beta(SinceVersion.V1_2_0)
 public interface VerificationIPFlow extends Executable<VerificationIPFlow>,
         HasParent<NetworkWatcher> {
     /**
      * Get the access value. Indicates whether the traffic is allowed or denied.
+     *
      * @return the access value
      */
     Access access();

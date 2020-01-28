@@ -6,11 +6,12 @@
 
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.NetworkInterfaceInner;
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.network.models.NetworkInterfaceInner;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.model.HasInner;
+
 
 import java.util.List;
 
@@ -19,8 +20,8 @@ import java.util.List;
  */
 @Fluent
 public interface NetworkInterfaceBase extends
-    HasManager<NetworkManager>,
-    HasInner<NetworkInterfaceInner> {
+        HasManager<NetworkManager>,
+        HasInner<NetworkInterfaceInner> {
 
     /**
      * @return true if accelerated networking is enabled for this network interface

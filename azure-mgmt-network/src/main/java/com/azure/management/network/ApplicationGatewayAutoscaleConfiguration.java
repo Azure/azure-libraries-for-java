@@ -29,7 +29,7 @@ public final class ApplicationGatewayAutoscaleConfiguration {
     /**
      * Get the minCapacity property: Lower bound on number of Application
      * Gateway capacity.
-     * 
+     *
      * @return the minCapacity value.
      */
     public int getMinCapacity() {
@@ -39,7 +39,7 @@ public final class ApplicationGatewayAutoscaleConfiguration {
     /**
      * Set the minCapacity property: Lower bound on number of Application
      * Gateway capacity.
-     * 
+     *
      * @param minCapacity the minCapacity value to set.
      * @return the ApplicationGatewayAutoscaleConfiguration object itself.
      */
@@ -51,7 +51,7 @@ public final class ApplicationGatewayAutoscaleConfiguration {
     /**
      * Get the maxCapacity property: Upper bound on number of Application
      * Gateway capacity.
-     * 
+     *
      * @return the maxCapacity value.
      */
     public Integer getMaxCapacity() {
@@ -61,7 +61,7 @@ public final class ApplicationGatewayAutoscaleConfiguration {
     /**
      * Set the maxCapacity property: Upper bound on number of Application
      * Gateway capacity.
-     * 
+     *
      * @param maxCapacity the maxCapacity value to set.
      * @return the ApplicationGatewayAutoscaleConfiguration object itself.
      */

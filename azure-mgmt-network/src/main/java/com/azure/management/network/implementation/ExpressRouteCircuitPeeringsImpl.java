@@ -5,25 +5,21 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.ExpressRouteCircuit;
 import com.azure.management.network.ExpressRouteCircuitPeering;
 import com.azure.management.network.ExpressRouteCircuitPeerings;
 import com.azure.management.network.ExpressRoutePeeringType;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildrenImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.PagedListConverter;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.ExpressRouteCircuitPeeringInner;
+import com.azure.management.network.models.ExpressRouteCircuitPeeringsInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildrenImpl;
+import reactor.core.publisher.Mono;
+
 
 /**
  * Represents Express Route Circuit Peerings collection associated with Network Watcher.
  */
-@LangDefinition
 class ExpressRouteCircuitPeeringsImpl extends IndependentChildrenImpl<
         ExpressRouteCircuitPeering,
         ExpressRouteCircuitPeeringImpl,
@@ -45,20 +41,15 @@ class ExpressRouteCircuitPeeringsImpl extends IndependentChildrenImpl<
     }
 
     @Override
-    public final PagedList<ExpressRouteCircuitPeering> list() {
-        return (new PagedListConverter<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeering>() {
-            @Override
-            public Observable<ExpressRouteCircuitPeering> typeConvertAsync(ExpressRouteCircuitPeeringInner inner) {
-                return Observable.just((ExpressRouteCircuitPeering) wrapModel(inner));
-            }
-        }).convert(ReadableWrappersImpl.convertToPagedList(inner().list(parent.resourceGroupName(), parent.name())));
+    public final PagedIterable<ExpressRouteCircuitPeering> list() {
+        return wrapList(inner().list(parent.resourceGroupName(), parent.name()));
     }
 
     /**
      * @return an observable emits packet captures in this collection
      */
     @Override
-    public Observable<ExpressRouteCircuitPeering> listAsync() {
+    public PagedFlux<ExpressRouteCircuitPeering> listAsync() {
         return wrapPageAsync(inner().listAsync(parent.resourceGroupName(), parent.name()));
     }
 
@@ -68,7 +59,7 @@ class ExpressRouteCircuitPeeringsImpl extends IndependentChildrenImpl<
     }
 
     protected ExpressRouteCircuitPeeringImpl wrapModel(ExpressRouteCircuitPeeringInner inner) {
-        return (inner == null) ? null : new ExpressRouteCircuitPeeringImpl(parent, inner, inner(), inner.peeringType());
+        return (inner == null) ? null : new ExpressRouteCircuitPeeringImpl(parent, inner, inner(), inner.getPeeringType());
     }
 
     @Override
@@ -87,39 +78,26 @@ class ExpressRouteCircuitPeeringsImpl extends IndependentChildrenImpl<
     }
 
     @Override
-    public Observable<ExpressRouteCircuitPeering> getByNameAsync(String name) {
+    public Mono<ExpressRouteCircuitPeering> getByNameAsync(String name) {
         return inner().getAsync(parent.resourceGroupName(), parent.name(), name)
-                .map(new Func1<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeering>() {
-                    @Override
-                    public ExpressRouteCircuitPeering call(ExpressRouteCircuitPeeringInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> wrapModel(inner));
     }
 
     @Override
     public ExpressRouteCircuitPeering getByName(String name) {
-        return getByNameAsync(name).toBlocking().last();
+        return getByNameAsync(name).block();
     }
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).block();
     }
 
     @Override
-    public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
+    public Mono<Void> deleteByNameAsync(String name) {
         return this.inner().deleteAsync(parent.resourceGroupName(),
                 parent.name(),
-                name,
-                callback);
-    }
-
-    @Override
-    public Completable deleteByNameAsync(String name) {
-        return this.inner().deleteAsync(parent.resourceGroupName(),
-                parent.name(),
-                name).toCompletable();
+                name);
     }
 
     @Override
@@ -128,23 +106,18 @@ class ExpressRouteCircuitPeeringsImpl extends IndependentChildrenImpl<
     }
 
     @Override
-    public Completable deleteByParentAsync(String groupName, String parentName, String name) {
-        return this.inner().deleteAsync(groupName, parentName, name).toCompletable();
+    public Mono<Void> deleteByParentAsync(String groupName, String parentName, String name) {
+        return this.inner().deleteAsync(groupName, parentName, name);
     }
 
     @Override
-    public Observable<ExpressRouteCircuitPeering> getByParentAsync(String resourceGroup, String parentName, String name) {
+    public Mono<ExpressRouteCircuitPeering> getByParentAsync(String resourceGroup, String parentName, String name) {
         return inner().getAsync(resourceGroup, parentName, name)
-                .map(new Func1<ExpressRouteCircuitPeeringInner, ExpressRouteCircuitPeering>() {
-                    @Override
-                    public ExpressRouteCircuitPeering call(ExpressRouteCircuitPeeringInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> wrapModel(inner));
     }
 
     @Override
-    public PagedList<ExpressRouteCircuitPeering> listByParent(String resourceGroupName, String parentName) {
+    public PagedIterable<ExpressRouteCircuitPeering> listByParent(String resourceGroupName, String parentName) {
         return wrapList(this.inner().list(resourceGroupName, parentName));
     }
 }

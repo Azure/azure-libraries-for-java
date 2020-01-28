@@ -9,15 +9,13 @@ import com.azure.management.network.PCFilter;
 import com.azure.management.network.PacketCapture;
 import com.azure.management.network.PacketCaptureFilter;
 import com.azure.management.network.PcProtocol;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.util.List;
 
 /**
  * Represents Packet Capture filter.
  */
-@LangDefinition
 class PCFilterImpl extends IndexableWrapperImpl<PacketCaptureFilter>
         implements
         PCFilter,
@@ -33,44 +31,44 @@ class PCFilterImpl extends IndexableWrapperImpl<PacketCaptureFilter>
 
     @Override
     public PcProtocol protocol() {
-        return this.inner().protocol();
+        return this.inner().getProtocol();
     }
 
     @Override
     public String localIPAddress() {
-        return this.inner().localIPAddress();
+        return this.inner().getLocalIPAddress();
     }
 
     @Override
     public String remoteIPAddress() {
-        return this.inner().remoteIPAddress();
+        return this.inner().getRemoteIPAddress();
     }
 
     @Override
     public String localPort() {
-        return this.inner().localPort();
+        return this.inner().getLocalPort();
     }
 
     @Override
     public String remotePort() {
-        return this.inner().remotePort();
+        return this.inner().getRemotePort();
     }
 
     @Override
     public PCFilterImpl withProtocol(PcProtocol protocol) {
-        this.inner().withProtocol(protocol);
+        this.inner().setProtocol(protocol);
         return this;
     }
 
     @Override
     public PCFilterImpl withLocalIPAddress(String ipAddress) {
-        this.inner().withLocalIPAddress(ipAddress);
+        this.inner().setLocalIPAddress(ipAddress);
         return this;
     }
 
     @Override
     public Definition<PacketCapture.DefinitionStages.WithCreate> withLocalIPAddressesRange(String startIPAddress, String endIPAddress) {
-        this.inner().withLocalIPAddress(startIPAddress + RANGE_DELIMITER + endIPAddress);
+        this.inner().setLocalIPAddress(startIPAddress + RANGE_DELIMITER + endIPAddress);
         return this;
     }
 
@@ -80,19 +78,19 @@ class PCFilterImpl extends IndexableWrapperImpl<PacketCaptureFilter>
         for (String ipAddress : ipAddresses) {
             ipAddressesString.append(ipAddress).append(DELIMITER);
         }
-        this.inner().withLocalIPAddress(ipAddressesString.substring(0, ipAddressesString.length() - 1));
+        this.inner().setLocalIPAddress(ipAddressesString.substring(0, ipAddressesString.length() - 1));
         return this;
     }
 
     @Override
     public PCFilterImpl withRemoteIPAddress(String ipAddress) {
-        this.inner().withRemoteIPAddress(ipAddress);
+        this.inner().setRemoteIPAddress(ipAddress);
         return this;
     }
 
     @Override
     public Definition<PacketCapture.DefinitionStages.WithCreate> withRemoteIPAddressesRange(String startIPAddress, String endIPAddress) {
-        this.inner().withRemoteIPAddress(startIPAddress + RANGE_DELIMITER + endIPAddress);
+        this.inner().setRemoteIPAddress(startIPAddress + RANGE_DELIMITER + endIPAddress);
         return this;
     }
 
@@ -102,7 +100,7 @@ class PCFilterImpl extends IndexableWrapperImpl<PacketCaptureFilter>
         for (String ipAddress : ipAddresses) {
             ipAddressesString.append(ipAddress).append(DELIMITER);
         }
-        this.inner().withRemoteIPAddress(ipAddressesString.substring(0, ipAddressesString.length() - 1));
+        this.inner().setRemoteIPAddress(ipAddressesString.substring(0, ipAddressesString.length() - 1));
         return this;
     }
 
@@ -119,13 +117,13 @@ class PCFilterImpl extends IndexableWrapperImpl<PacketCaptureFilter>
 
     @Override
     public Definition<PacketCapture.DefinitionStages.WithCreate> withLocalPort(int port) {
-        this.inner().withLocalPort(String.valueOf(port));
+        this.inner().setLocalPort(String.valueOf(port));
         return this;
     }
 
     @Override
     public Definition<PacketCapture.DefinitionStages.WithCreate> withLocalPortRange(int startPort, int endPort) {
-        this.inner().withLocalPort(startPort + RANGE_DELIMITER + endPort);
+        this.inner().setLocalPort(startPort + RANGE_DELIMITER + endPort);
         return this;
     }
 
@@ -135,19 +133,19 @@ class PCFilterImpl extends IndexableWrapperImpl<PacketCaptureFilter>
         for (int port : ports) {
             portsString.append(port).append(DELIMITER);
         }
-        this.inner().withLocalPort(portsString.substring(0, portsString.length() - 1));
+        this.inner().setLocalPort(portsString.substring(0, portsString.length() - 1));
         return this;
     }
 
     @Override
     public Definition<PacketCapture.DefinitionStages.WithCreate> withRemotePort(int port) {
-        this.inner().withRemotePort(String.valueOf(port));
+        this.inner().setRemotePort(String.valueOf(port));
         return this;
     }
 
     @Override
     public Definition<PacketCapture.DefinitionStages.WithCreate> withRemotePortRange(int startPort, int endPort) {
-        this.inner().withRemotePort(startPort + RANGE_DELIMITER + endPort);
+        this.inner().setRemotePort(startPort + RANGE_DELIMITER + endPort);
         return this;
     }
 
@@ -157,7 +155,7 @@ class PCFilterImpl extends IndexableWrapperImpl<PacketCaptureFilter>
         for (int port : ports) {
             portsString.append(port).append(DELIMITER);
         }
-        this.inner().withRemotePort(portsString.substring(0, portsString.length() - 1));
+        this.inner().setRemotePort(portsString.substring(0, portsString.length() - 1));
         return this;
     }
 }

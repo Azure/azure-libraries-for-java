@@ -8,6 +8,7 @@ package com.azure.management.network;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
+
 import java.util.Collection;
 
 /**
@@ -51,7 +52,7 @@ public final class ApplicationGatewaySkuName extends ExpandableStringEnum<Applic
 
     /**
      * Creates or finds a ApplicationGatewaySkuName from its string representation.
-     * 
+     *
      * @param name a name to look for.
      * @return the corresponding ApplicationGatewaySkuName.
      */

@@ -14,23 +14,23 @@ import com.azure.management.network.Route;
 import com.azure.management.network.RouteNextHopType;
 import com.azure.management.network.RouteTable;
 import com.azure.management.network.Subnet;
-import com.azure.management.network.model.GroupableParentResourceWithTagsImpl;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.TagsObject;
+import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
+import com.azure.management.network.models.RouteInner;
+import com.azure.management.network.models.RouteTableInner;
+import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 /**
  * Implementation for RouteTable.
  */
-@LangDefinition
 class RouteTableImpl
-    extends GroupableParentResourceWithTagsImpl<
+        extends GroupableParentResourceWithTagsImpl<
         RouteTable,
-            RouteTableInner,
-            RouteTableImpl,
-            NetworkManager>
-    implements
+        RouteTableInner,
+        RouteTableImpl,
+        NetworkManager>
+        implements
         RouteTable,
         RouteTable.Definition,
         RouteTable.Update {
@@ -38,24 +38,25 @@ class RouteTableImpl
     private Map<String, Route> routes;
 
     RouteTableImpl(String name,
-            final RouteTableInner innerModel,
-            final NetworkManager networkManager) {
+                   final RouteTableInner innerModel,
+                   final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
     }
 
     @Override
-    protected Observable<RouteTableInner> applyTagsToInnerAsync() {
-        return this.manager().inner().routeTables().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
+    protected Mono<RouteTableInner> applyTagsToInnerAsync() {
+        TagsObject parameters = new TagsObject().setTags(inner().getTags());
+        return this.manager().inner().routeTables().updateTagsAsync(resourceGroupName(), name(), parameters);
     }
 
     @Override
     protected void initializeChildrenFromInner() {
         this.routes = new TreeMap<>();
-        List<RouteInner> inners = this.inner().routes();
+        List<RouteInner> inners = this.inner().getRoutes();
         if (inners != null) {
             for (RouteInner inner : inners) {
                 RouteImpl route = new RouteImpl(inner, this);
-                this.routes.put(inner.name(), route);
+                this.routes.put(inner.getName(), route);
             }
         }
     }
@@ -65,25 +66,23 @@ class RouteTableImpl
     // Verbs
 
     @Override
-    public Observable<RouteTable> refreshAsync() {
-        return super.refreshAsync().map(new Func1<RouteTable, RouteTable>() {
-            @Override
-            public RouteTable call(RouteTable routeTable) {
-                RouteTableImpl impl = (RouteTableImpl) routeTable;
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+    public Mono<RouteTable> refreshAsync() {
+        return super.refreshAsync().map(routeTable -> {
+            RouteTableImpl impl = (RouteTableImpl) routeTable;
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<RouteTableInner> getInnerAsync() {
-        return this.manager().inner().routeTables().getByResourceGroupAsync(this.resourceGroupName(), this.name());
+    protected Mono<RouteTableInner> getInnerAsync() {
+        // FIXME: expand
+        return this.manager().inner().routeTables().getByResourceGroupAsync(this.resourceGroupName(), this.name(), null);
     }
 
     @Override
     public List<Subnet> listAssociatedSubnets() {
-        return this.myManager.listAssociatedSubnets(this.inner().subnets());
+        return this.myManager.listAssociatedSubnets(this.inner().getSubnets());
     }
 
     // Setters (fluent)
@@ -91,7 +90,7 @@ class RouteTableImpl
     @Override
     public RouteImpl defineRoute(String name) {
         RouteInner inner = new RouteInner()
-                .withName(name);
+                .setName(name);
         return new RouteImpl(inner, this);
     }
 
@@ -132,7 +131,7 @@ class RouteTableImpl
     @Override
     protected void beforeCreating() {
         // Reset and update routes
-        this.inner().withRoutes(innersFromWrappers(this.routes.values()));
+        this.inner().setRoutes(innersFromWrappers(this.routes.values()));
     }
 
     @Override
@@ -141,7 +140,7 @@ class RouteTableImpl
     }
 
     @Override
-    protected Observable<RouteTableInner> createInner() {
+    protected Mono<RouteTableInner> createInner() {
         return this.manager().inner().routeTables().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
     }
 
@@ -152,18 +151,18 @@ class RouteTableImpl
 
     @Override
     public boolean isBgpRoutePropagationDisabled() {
-        return Utils.toPrimitiveBoolean(inner().disableBgpRoutePropagation());
+        return Utils.toPrimitiveBoolean(inner().isDisableBgpRoutePropagation());
     }
 
     @Override
     public RouteTableImpl withDisableBgpRoutePropagation() {
-        inner().withDisableBgpRoutePropagation(true);
+        inner().setDisableBgpRoutePropagation(true);
         return this;
     }
 
     @Override
     public RouteTableImpl withEnableBgpRoutePropagation() {
-        inner().withDisableBgpRoutePropagation(false);
+        inner().setDisableBgpRoutePropagation(false);
         return this;
     }
 }

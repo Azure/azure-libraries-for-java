@@ -6,21 +6,22 @@
 
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.NetworkInterfacesInner;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.implementation.NetworkManager;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasManager;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsCreating;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsDeletingById;
-import com.microsoft.azure.management.resources.fluentcore.collection.SupportsListing;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.network.models.NetworkInterfacesInner;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsBatchDeletion;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsDeletingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingById;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsGettingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.SupportsListingByResourceGroup;
+import com.azure.management.resources.fluentcore.arm.models.HasManager;
+import com.azure.management.resources.fluentcore.collection.SupportsBatchCreation;
+import com.azure.management.resources.fluentcore.collection.SupportsCreating;
+import com.azure.management.resources.fluentcore.collection.SupportsDeletingById;
+import com.azure.management.resources.fluentcore.collection.SupportsListing;
+import com.azure.management.resources.fluentcore.model.HasInner;
+
 
 /**
  * Entry point to network interface management.
@@ -57,7 +58,7 @@ public interface NetworkInterfaces  extends
      * @param scaleSetName scale set name
      * @return list of network interfaces
      */
-    PagedList<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSet(String resourceGroupName, String scaleSetName);
+    PagedIterable<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSet(String resourceGroupName, String scaleSetName);
 
     /**
      * List the network interfaces associated with a virtual machine scale set.
@@ -65,7 +66,7 @@ public interface NetworkInterfaces  extends
      * @param id virtual machine scale set resource id
      * @return list of network interfaces
      */
-    PagedList<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSetId(String id);
+    PagedIterable<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSetId(String id);
 
     /**
      * List the network interfaces associated with a specific virtual machine instance in a scale set.
@@ -75,5 +76,5 @@ public interface NetworkInterfaces  extends
      * @param instanceId the virtual machine scale set vm instance id
      * @return list of network interfaces
      */
-    PagedList<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSetInstanceId(String resourceGroupName, String scaleSetName, String instanceId);
+    PagedIterable<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSetInstanceId(String resourceGroupName, String scaleSetName, String instanceId);
 }

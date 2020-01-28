@@ -44,7 +44,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
     /**
      * Get the variable property: The condition parameter of the
      * RewriteRuleCondition.
-     * 
+     *
      * @return the variable value.
      */
     public String getVariable() {
@@ -54,7 +54,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
     /**
      * Set the variable property: The condition parameter of the
      * RewriteRuleCondition.
-     * 
+     *
      * @param variable the variable value to set.
      * @return the ApplicationGatewayRewriteRuleCondition object itself.
      */
@@ -66,7 +66,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
     /**
      * Get the pattern property: The pattern, either fixed string or regular
      * expression, that evaluates the truthfulness of the condition.
-     * 
+     *
      * @return the pattern value.
      */
     public String getPattern() {
@@ -76,7 +76,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
     /**
      * Set the pattern property: The pattern, either fixed string or regular
      * expression, that evaluates the truthfulness of the condition.
-     * 
+     *
      * @param pattern the pattern value to set.
      * @return the ApplicationGatewayRewriteRuleCondition object itself.
      */
@@ -88,7 +88,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
     /**
      * Get the ignoreCase property: Setting this paramter to truth value with
      * force the pattern to do a case in-sensitive comparison.
-     * 
+     *
      * @return the ignoreCase value.
      */
     public Boolean isIgnoreCase() {
@@ -98,7 +98,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
     /**
      * Set the ignoreCase property: Setting this paramter to truth value with
      * force the pattern to do a case in-sensitive comparison.
-     * 
+     *
      * @param ignoreCase the ignoreCase value to set.
      * @return the ApplicationGatewayRewriteRuleCondition object itself.
      */
@@ -110,7 +110,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
     /**
      * Get the negate property: Setting this value as truth will force to check
      * the negation of the condition given by the user.
-     * 
+     *
      * @return the negate value.
      */
     public Boolean isNegate() {
@@ -120,7 +120,7 @@ public final class ApplicationGatewayRewriteRuleCondition {
     /**
      * Set the negate property: Setting this value as truth will force to check
      * the negation of the condition given by the user.
-     * 
+     *
      * @param negate the negate value to set.
      * @return the ApplicationGatewayRewriteRuleCondition object itself.
      */

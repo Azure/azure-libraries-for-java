@@ -8,6 +8,7 @@ package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public final class ApplicationGatewayRewriteRule {
     /**
      * Get the name property: Name of the rewrite rule that is unique within an
      * Application Gateway.
-     * 
+     *
      * @return the name value.
      */
     public String getName() {
@@ -53,7 +54,7 @@ public final class ApplicationGatewayRewriteRule {
     /**
      * Set the name property: Name of the rewrite rule that is unique within an
      * Application Gateway.
-     * 
+     *
      * @param name the name value to set.
      * @return the ApplicationGatewayRewriteRule object itself.
      */
@@ -66,7 +67,7 @@ public final class ApplicationGatewayRewriteRule {
      * Get the ruleSequence property: Rule Sequence of the rewrite rule that
      * determines the order of execution of a particular rule in a
      * RewriteRuleSet.
-     * 
+     *
      * @return the ruleSequence value.
      */
     public Integer getRuleSequence() {
@@ -77,7 +78,7 @@ public final class ApplicationGatewayRewriteRule {
      * Set the ruleSequence property: Rule Sequence of the rewrite rule that
      * determines the order of execution of a particular rule in a
      * RewriteRuleSet.
-     * 
+     *
      * @param ruleSequence the ruleSequence value to set.
      * @return the ApplicationGatewayRewriteRule object itself.
      */
@@ -89,7 +90,7 @@ public final class ApplicationGatewayRewriteRule {
     /**
      * Get the conditions property: Conditions based on which the action set
      * execution will be evaluated.
-     * 
+     *
      * @return the conditions value.
      */
     public List<ApplicationGatewayRewriteRuleCondition> getConditions() {
@@ -99,7 +100,7 @@ public final class ApplicationGatewayRewriteRule {
     /**
      * Set the conditions property: Conditions based on which the action set
      * execution will be evaluated.
-     * 
+     *
      * @param conditions the conditions value to set.
      * @return the ApplicationGatewayRewriteRule object itself.
      */
@@ -111,7 +112,7 @@ public final class ApplicationGatewayRewriteRule {
     /**
      * Get the actionSet property: Set of actions in the Rewrite Rule in
      * Application Gateway.
-     * 
+     *
      * @return the actionSet value.
      */
     public ApplicationGatewayRewriteRuleActionSet getActionSet() {
@@ -121,7 +122,7 @@ public final class ApplicationGatewayRewriteRule {
     /**
      * Set the actionSet property: Set of actions in the Rewrite Rule in
      * Application Gateway.
-     * 
+     *
      * @param actionSet the actionSet value to set.
      * @return the ApplicationGatewayRewriteRule object itself.
      */

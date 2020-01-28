@@ -5,17 +5,16 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.AzureReachabilityReport;
 import com.azure.management.network.AzureReachabilityReportItem;
 import com.azure.management.network.AzureReachabilityReportLocation;
 import com.azure.management.network.AzureReachabilityReportParameters;
 import com.azure.management.network.NetworkWatcher;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.AzureReachabilityReportInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +22,6 @@ import java.util.List;
 /**
  * The implementation of AzureReachabilityReport.
  */
-@LangDefinition
 class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport>
         implements AzureReachabilityReport,
         AzureReachabilityReport.Definition {
@@ -37,17 +35,17 @@ class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport
 
     @Override
     public String aggregationLevel() {
-        return inner.aggregationLevel();
+        return inner.getAggregationLevel();
     }
 
     @Override
     public AzureReachabilityReportLocation providerLocation() {
-        return inner.providerLocation();
+        return inner.getProviderLocation();
     }
 
     @Override
     public List<AzureReachabilityReportItem> reachabilityReport() {
-        return Collections.unmodifiableList(inner.reachabilityReport());
+        return Collections.unmodifiableList(inner.getReachabilityReport());
     }
 
     @Override
@@ -66,57 +64,54 @@ class AzureReachabilityReportImpl extends ExecutableImpl<AzureReachabilityReport
     }
 
     @Override
-    public Observable<AzureReachabilityReport> executeWorkAsync() {
+    public Mono<AzureReachabilityReport> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getAzureReachabilityReportAsync(parent().resourceGroupName(), parent().name(), parameters)
-                .map(new Func1<AzureReachabilityReportInner, AzureReachabilityReport>() {
-                    @Override
-                    public AzureReachabilityReport call(AzureReachabilityReportInner azureReachabilityReportListInner) {
-                        AzureReachabilityReportImpl.this.inner = azureReachabilityReportListInner;
-                        return AzureReachabilityReportImpl.this;
-                    }
+                .map(azureReachabilityReportListInner -> {
+                    AzureReachabilityReportImpl.this.inner = azureReachabilityReportListInner;
+                    return AzureReachabilityReportImpl.this;
                 });
     }
 
     @Override
     public AzureReachabilityReportImpl withProviderLocation(String country) {
-        parameters.withProviderLocation(new AzureReachabilityReportLocation().withCountry(country));
+        parameters.setProviderLocation(new AzureReachabilityReportLocation().setCountry(country));
         return this;
     }
 
     @Override
     public AzureReachabilityReportImpl withProviderLocation(String country, String state) {
-        parameters.withProviderLocation(new AzureReachabilityReportLocation().withCountry(country).withState(state));
+        parameters.setProviderLocation(new AzureReachabilityReportLocation().setCountry(country).setState(state));
         return this;
     }
 
     @Override
     public AzureReachabilityReportImpl withProviderLocation(String country, String state, String city) {
-        parameters.withProviderLocation(new AzureReachabilityReportLocation().withCountry(country).withState(state).withCity(city));
+        parameters.setProviderLocation(new AzureReachabilityReportLocation().setCountry(country).setState(state).setCity(city));
         return this;
     }
 
     @Override
-    public AzureReachabilityReportImpl withStartTime(DateTime startTime) {
-        parameters.withStartTime(startTime);
+    public AzureReachabilityReportImpl withStartTime(OffsetDateTime startTime) {
+        parameters.setStartTime(startTime);
         return this;
     }
 
     @Override
-    public AzureReachabilityReportImpl withEndTime(DateTime endTime) {
-        parameters.withEndTime(endTime);
+    public AzureReachabilityReportImpl withEndTime(OffsetDateTime endTime) {
+        parameters.setEndTime(endTime);
         return this;
     }
 
     @Override
     public DefinitionStages.WithExecute withAzureLocations(String... azureLocations) {
-        parameters.withAzureLocations(Arrays.asList(azureLocations));
+        parameters.setAzureLocations(Arrays.asList(azureLocations));
         return this;
     }
 
     @Override
     public DefinitionStages.WithExecute withProviders(String... providers) {
-        parameters.withProviders(Arrays.asList(providers));
+        parameters.setProviders(Arrays.asList(providers));
         return this;
     }
 }

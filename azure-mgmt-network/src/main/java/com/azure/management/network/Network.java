@@ -8,19 +8,16 @@ package com.azure.management.network;
 import java.util.List;
 import java.util.Map;
 
+import com.azure.core.annotation.Fluent;
 import com.azure.management.network.implementation.NetworkManager;
-import com.azure.management.network.model.UpdatableWithTags;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Method;
-import com.azure.management.network.implementation.VirtualNetworkInner;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.GroupableResource;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.Resource;
-import com.microsoft.azure.management.resources.fluentcore.model.Appliable;
-import com.microsoft.azure.management.resources.fluentcore.model.Creatable;
-import com.microsoft.azure.management.resources.fluentcore.model.Refreshable;
-import com.microsoft.azure.management.resources.fluentcore.model.Updatable;
+import com.azure.management.network.models.UpdatableWithTags;
+import com.azure.management.network.models.VirtualNetworkInner;
+import com.azure.management.resources.fluentcore.arm.models.GroupableResource;
+import com.azure.management.resources.fluentcore.arm.models.Resource;
+import com.azure.management.resources.fluentcore.model.Appliable;
+import com.azure.management.resources.fluentcore.model.Creatable;
+import com.azure.management.resources.fluentcore.model.Refreshable;
+import com.azure.management.resources.fluentcore.model.Updatable;
 
 /**
  * Entry point for Virtual Network management API in Azure.
@@ -34,18 +31,18 @@ public interface Network extends
 
     /**
      * Checks if the specified private IP address is available in this network.
+     *
      * @param ipAddress an IP address from this network's address space
      * @return true if the address is within this network's address space and is available
      */
-    @Beta(SinceVersion.V1_3_0)
     boolean isPrivateIPAddressAvailable(String ipAddress);
 
     /**
      * Checks if the specified private IP address is within this network's address space.
+     *
      * @param ipAddress an IP address
      * @return true if the specified IP address is within this network's address space, otherwise false
      */
-    @Beta(SinceVersion.V1_3_0)
     boolean isPrivateIPAddressInNetwork(String ipAddress);
 
     /**
@@ -69,7 +66,6 @@ public interface Network extends
     /**
      * @return entry point to managing virtual network peerings for this network
      */
-    @Beta(SinceVersion.V1_3_0)
     NetworkPeerings peerings();
 
     /**
@@ -92,11 +88,11 @@ public interface Network extends
      * The entirety of the virtual network definition.
      */
     interface Definition extends
-        DefinitionStages.Blank,
-        DefinitionStages.WithGroup,
-        DefinitionStages.WithSubnet,
-        DefinitionStages.WithCreate,
-        DefinitionStages.WithCreateAndSubnet {
+            DefinitionStages.Blank,
+            DefinitionStages.WithGroup,
+            DefinitionStages.WithSubnet,
+            DefinitionStages.WithCreate,
+            DefinitionStages.WithCreateAndSubnet {
     }
 
     /**
@@ -107,14 +103,14 @@ public interface Network extends
          * The first stage of a virtual network definition.
          */
         interface Blank
-            extends GroupableResource.DefinitionWithRegion<WithGroup> {
+                extends GroupableResource.DefinitionWithRegion<WithGroup> {
         }
 
         /**
          * The stage of the virtual network definition allowing to specify the resource group.
          */
         interface WithGroup
-            extends GroupableResource.DefinitionStages.WithGroup<DefinitionStages.WithCreate> {
+                extends GroupableResource.DefinitionStages.WithGroup<DefinitionStages.WithCreate> {
         }
 
         /**
@@ -128,6 +124,7 @@ public interface Network extends
              * entire first address space will be created.
              * <p>
              * Note this method's effect is additive, i.e. each time it is used, a new subnet is added to the network.
+             *
              * @param name the name to assign to the subnet
              * @param cidr the address space of the subnet, within the address space of the network, using the CIDR notation
              * @return the next stage of the definition
@@ -136,6 +133,7 @@ public interface Network extends
 
             /**
              * Explicitly defines subnets in the virtual network based on the provided map.
+             *
              * @param nameCidrPairs a {@link Map} of CIDR addresses for the subnets, indexed by the name of each subnet to be defined
              * @return the next stage of the definition
              */
@@ -145,6 +143,7 @@ public interface Network extends
              * Begins the definition of a new subnet to add to the virtual network.
              * <p>
              * The definition must be completed with a call to {@link Subnet.DefinitionStages.WithAttach#attach()}
+             *
              * @param name the name of the subnet
              * @return the first stage of the new subnet definition
              */
@@ -158,13 +157,14 @@ public interface Network extends
             /**
              * Creates a new DDoS protection plan in the same region and group as the virtual network and associates it with the resource.
              * The internal name the DDoS protection plan will be derived from the resource's name.
+             *
              * @return the next stage of the definition
              */
-            @Method
             WithCreateAndSubnet withNewDdosProtectionPlan();
 
             /**
              * Associates existing DDoS protection plan with the virtual network.
+             *
              * @param planId DDoS protection plan resource id
              * @return the next stage of the definition
              */
@@ -177,9 +177,9 @@ public interface Network extends
         interface WithVmProtection {
             /**
              * Enable VM protection for all the subnets in the virtual network.
+             *
              * @return the next stage of the definition
              */
-            @Method
             WithCreateAndSubnet withVmProtection();
         }
 
@@ -191,16 +191,17 @@ public interface Network extends
          * Subnets can be added only right after the address space is explicitly specified.
          */
         interface WithCreate extends
-            Creatable<Network>,
-            Resource.DefinitionWithTags<WithCreate>,
-            DefinitionStages.WithDdosProtectionPlan,
-            DefinitionStages.WithVmProtection {
+                Creatable<Network>,
+                Resource.DefinitionWithTags<WithCreate>,
+                DefinitionStages.WithDdosProtectionPlan,
+                DefinitionStages.WithVmProtection {
 
             /**
              * Specifies the IP address of an existing DNS server to associate with the virtual network.
              * <p>
              * Note this method's effect is additive, i.e. each time it is used, a new dns server is added
              * to the network.
+             *
              * @param ipAddress the IP address of the DNS server
              * @return the next stage of the definition
              */
@@ -215,6 +216,7 @@ public interface Network extends
              * Note that this method's effect is additive, i.e. each time it is used, a new address space is added to the network.
              * This method does not check for conflicts or overlaps with other address spaces. If there is a conflict,
              * a cloud exception may be thrown at the time the network is created.
+             *
              * @param cidr the CIDR representation of the address space
              * @return the next stage of the definition
              */
@@ -227,8 +229,8 @@ public interface Network extends
          * for any other optional settings to be specified, including adding subnets.
          */
         interface WithCreateAndSubnet extends
-            DefinitionStages.WithCreate,
-            DefinitionStages.WithSubnet {
+                DefinitionStages.WithCreate,
+                DefinitionStages.WithSubnet {
         }
     }
 
@@ -244,6 +246,7 @@ public interface Network extends
              * Explicitly adds a subnet to the virtual network.
              * <p>
              * Note this method's effect is additive, i.e. each time it is used, a new subnet is added to the network.
+             *
              * @param name the name to assign to the subnet
              * @param cidr the address space of the subnet, within the address space of the network, using the CIDR notation
              * @return the next stage of the virtual network update
@@ -254,6 +257,7 @@ public interface Network extends
              * Explicitly defines all the subnets in the virtual network based on the provided map.
              * <p>
              * This replaces any previously existing subnets.
+             *
              * @param nameCidrPairs a {@link Map} of CIDR addresses for the subnets, indexed by the name of each subnet to be added
              * @return the next stage of the virtual network update
              */
@@ -261,6 +265,7 @@ public interface Network extends
 
             /**
              * Removes a subnet from the virtual network.
+             *
              * @param name name of the subnet to remove
              * @return the next stage of the virtual network update
              */
@@ -268,6 +273,7 @@ public interface Network extends
 
             /**
              * Begins the description of an update of an existing subnet of this network.
+             *
              * @param name the name of an existing subnet
              * @return the first stage of the subnet update description
              */
@@ -275,6 +281,7 @@ public interface Network extends
 
             /**
              * Begins the definition of a new subnet to be added to this virtual network.
+             *
              * @param name the name of the new subnet
              * @return the first stage of the new subnet definition
              */
@@ -290,6 +297,7 @@ public interface Network extends
              * <p>
              * Note this method's effect is additive, i.e. each time it is used, a new DNS server is
              * added to the network
+             *
              * @param ipAddress the IP address of the DNS server
              * @return the next stage of the virtual network update
              */
@@ -307,6 +315,7 @@ public interface Network extends
              * <p>
              * This method does not check for conflicts or overlaps with other address spaces. If there is a conflict,
              * a cloud exception may be thrown after the update is applied.
+             *
              * @param cidr the CIDR representation of the address space
              * @return the next stage of the update
              */
@@ -314,10 +323,10 @@ public interface Network extends
 
             /**
              * Removes the specified address space from the virtual network, assuming it's not in use bu any of the subnets.
+             *
              * @param cidr the address space to remove, in CIDR format, matching exactly one of the CIDRs associated with this network
              * @return the next stage of the update
              */
-            @Beta(SinceVersion.V1_4_0)
             Update withoutAddressSpace(String cidr);
         }
 
@@ -328,13 +337,14 @@ public interface Network extends
             /**
              * Creates a new DDoS protection plan in the same region and group as the virtual network and associates it with the resource.
              * The internal name the DDoS protection plan will be derived from the resource's name.
+             *
              * @return the next stage of the update
              */
-            @Method
             Update withNewDdosProtectionPlan();
 
             /**
              * Associates existing DDoS protection plan with the virtual network.
+             *
              * @param planId DDoS protection plan resource id
              * @return the next stage of the update
              */
@@ -342,6 +352,7 @@ public interface Network extends
 
             /**
              * Disassociates DDoS protection plan and disables Standard DDoS protection for this virtual network. Note: Plan resource is not deleted from Azure.
+             *
              * @return the next stage of the update
              */
             Update withoutDdosProtectionPlan();
@@ -353,15 +364,16 @@ public interface Network extends
         interface WithVmProtection {
             /**
              * Enable VM protection for all the subnets in the virtual network.
+             *
              * @return the next stage of the update
              */
-            @Method
             Update withVmProtection();
+
             /**
              * Disable VM protection for all the subnets in the virtual network.
+             *
              * @return the next stage of the update
              */
-            @Method
             Update withoutVmProtection();
         }
     }
@@ -371,12 +383,12 @@ public interface Network extends
      * can be modified.
      */
     interface Update extends
-        Appliable<Network>,
-        Resource.UpdateWithTags<Update>,
-        UpdateStages.WithSubnet,
-        UpdateStages.WithDnsServer,
-        UpdateStages.WithAddressSpace,
-        UpdateStages.WithDdosProtectionPlan,
-        UpdateStages.WithVmProtection {
+            Appliable<Network>,
+            Resource.UpdateWithTags<Update>,
+            UpdateStages.WithSubnet,
+            UpdateStages.WithDnsServer,
+            UpdateStages.WithAddressSpace,
+            UpdateStages.WithDdosProtectionPlan,
+            UpdateStages.WithVmProtection {
     }
 }

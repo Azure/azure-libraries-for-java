@@ -9,8 +9,9 @@ package com.azure.management.network;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.SubResource;
-import com.azure.management.network.model.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -60,7 +61,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
     /**
      * Get the name property: Name of the backend address pool that is unique
      * within an Application Gateway.
-     * 
+     *
      * @return the name value.
      */
     public String getName() {
@@ -70,7 +71,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
     /**
      * Set the name property: Name of the backend address pool that is unique
      * within an Application Gateway.
-     * 
+     *
      * @param name the name value to set.
      * @return the ApplicationGatewayBackendAddressPool object itself.
      */
@@ -82,7 +83,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
     /**
      * Get the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     * 
+     *
      * @return the etag value.
      */
     public String getEtag() {
@@ -92,7 +93,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
     /**
      * Set the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     * 
+     *
      * @param etag the etag value to set.
      * @return the ApplicationGatewayBackendAddressPool object itself.
      */
@@ -103,7 +104,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
 
     /**
      * Get the type property: Type of the resource.
-     * 
+     *
      * @return the type value.
      */
     public String getType() {
@@ -112,7 +113,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
 
     /**
      * Set the type property: Type of the resource.
-     * 
+     *
      * @param type the type value to set.
      * @return the ApplicationGatewayBackendAddressPool object itself.
      */
@@ -124,7 +125,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
     /**
      * Get the backendIPConfigurations property: Collection of references to
      * IPs defined in network interfaces.
-     * 
+     *
      * @return the backendIPConfigurations value.
      */
     public List<NetworkInterfaceIPConfigurationInner> getBackendIPConfigurations() {
@@ -134,7 +135,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
     /**
      * Set the backendIPConfigurations property: Collection of references to
      * IPs defined in network interfaces.
-     * 
+     *
      * @param backendIPConfigurations the backendIPConfigurations value to set.
      * @return the ApplicationGatewayBackendAddressPool object itself.
      */
@@ -145,7 +146,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
 
     /**
      * Get the backendAddresses property: Backend addresses.
-     * 
+     *
      * @return the backendAddresses value.
      */
     public List<ApplicationGatewayBackendAddress> getBackendAddresses() {
@@ -154,7 +155,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
 
     /**
      * Set the backendAddresses property: Backend addresses.
-     * 
+     *
      * @param backendAddresses the backendAddresses value to set.
      * @return the ApplicationGatewayBackendAddressPool object itself.
      */
@@ -167,7 +168,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
      * Get the provisioningState property: Provisioning state of the backend
      * address pool resource. Possible values are: 'Updating', 'Deleting', and
      * 'Failed'.
-     * 
+     *
      * @return the provisioningState value.
      */
     public String getProvisioningState() {
@@ -178,7 +179,7 @@ public class ApplicationGatewayBackendAddressPool extends SubResource {
      * Set the provisioningState property: Provisioning state of the backend
      * address pool resource. Possible values are: 'Updating', 'Deleting', and
      * 'Failed'.
-     * 
+     *
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayBackendAddressPool object itself.
      */

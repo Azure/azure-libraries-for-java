@@ -5,7 +5,9 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.network.models.ConnectivityInformationInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.network.ConnectionStatus;
 import com.azure.management.network.ConnectivityCheck;
 import com.azure.management.network.ConnectivityDestination;
@@ -13,18 +15,15 @@ import com.azure.management.network.ConnectivityHop;
 import com.azure.management.network.ConnectivityParameters;
 import com.azure.management.network.ConnectivitySource;
 import com.azure.management.network.Protocol;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.HasNetworkInterfaces;
+import reactor.core.publisher.Mono;
+
 
 import java.util.List;
 
 /**
  * Implementation of ConnectivityCheck.
  */
-@LangDefinition
 public class ConnectivityCheckImpl extends ExecutableImpl<ConnectivityCheck>
         implements ConnectivityCheck, ConnectivityCheck.Definition {
 
@@ -38,58 +37,58 @@ public class ConnectivityCheckImpl extends ExecutableImpl<ConnectivityCheck>
 
     @Override
     public ConnectivityCheckImpl fromSourceVirtualMachine(String sourceResourceId) {
-        ensureConnectivitySource().withResourceId(sourceResourceId);
+        ensureConnectivitySource().setResourceId(sourceResourceId);
         return this;
     }
 
     @Override
     public DefinitionStages.WithExecute fromSourceVirtualMachine(HasNetworkInterfaces vm) {
-        ensureConnectivitySource().withResourceId(vm.id());
+        ensureConnectivitySource().setResourceId(vm.id());
         return this;
     }
 
     @Override
     public ConnectivityCheckImpl toDestinationResourceId(String resourceId) {
-        ensureConnectivityDestination().withResourceId(resourceId);
+        ensureConnectivityDestination().setResourceId(resourceId);
         return this;
     }
 
     @Override
     public ConnectivityCheckImpl toDestinationAddress(String address) {
-        ensureConnectivityDestination().withAddress(address);
+        ensureConnectivityDestination().setAddress(address);
         return this;
     }
 
     @Override
     public ConnectivityCheckImpl toDestinationPort(int port) {
-        ensureConnectivityDestination().withPort(port);
+        ensureConnectivityDestination().setPort(port);
         return this;
     }
 
     @Override
     public ConnectivityCheckImpl fromSourcePort(int port) {
-        ensureConnectivitySource().withPort(port);
+        ensureConnectivitySource().setPort(port);
         return this;
     }
 
     @Override
     public ConnectivityCheckImpl withProtocol(Protocol protocol) {
-        parameters.withProtocol(protocol);
+        parameters.setProtocol(protocol);
         return this;
     }
 
     private ConnectivitySource ensureConnectivitySource() {
-        if (parameters.source() == null) {
-            parameters.withSource(new ConnectivitySource());
+        if (parameters.getSource() == null) {
+            parameters.setSource(new ConnectivitySource());
         }
-        return parameters.source();
+        return parameters.getSource();
     }
 
     private ConnectivityDestination ensureConnectivityDestination() {
-        if (parameters.destination() == null) {
-            parameters.withDestination(new ConnectivityDestination());
+        if (parameters.getDestination() == null) {
+            parameters.setDestination(new ConnectivityDestination());
         }
-        return parameters.destination();
+        return parameters.getDestination();
     }
 
     @Override
@@ -99,49 +98,46 @@ public class ConnectivityCheckImpl extends ExecutableImpl<ConnectivityCheck>
 
     @Override
     public List<ConnectivityHop> hops() {
-        return result.hops();
+        return result.getHops();
     }
 
     @Override
     public ConnectionStatus connectionStatus() {
-        return result.connectionStatus();
+        return result.getConnectionStatus();
     }
 
     @Override
     public int avgLatencyInMs() {
-        return Utils.toPrimitiveInt(result.avgLatencyInMs());
+        return Utils.toPrimitiveInt(result.getAvgLatencyInMs());
     }
 
     @Override
     public int minLatencyInMs() {
-        return Utils.toPrimitiveInt(result.minLatencyInMs());
+        return Utils.toPrimitiveInt(result.getMinLatencyInMs());
     }
 
     @Override
     public int maxLatencyInMs() {
-        return Utils.toPrimitiveInt(result.maxLatencyInMs());
+        return Utils.toPrimitiveInt(result.getMaxLatencyInMs());
     }
 
     @Override
     public int probesSent() {
-        return  Utils.toPrimitiveInt(result.probesSent());
+        return Utils.toPrimitiveInt(result.getProbesSent());
     }
 
     @Override
     public int probesFailed() {
-        return Utils.toPrimitiveInt(result.probesFailed());
+        return Utils.toPrimitiveInt(result.getProbesFailed());
     }
 
     @Override
-    public Observable<ConnectivityCheck> executeWorkAsync() {
+    public Mono<ConnectivityCheck> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .checkConnectivityAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<ConnectivityInformationInner, ConnectivityCheck>() {
-                    @Override
-                    public ConnectivityCheck call(ConnectivityInformationInner connectivityInformation) {
-                        ConnectivityCheckImpl.this.result = connectivityInformation;
-                        return ConnectivityCheckImpl.this;
-                    }
+                .map(connectivityInformation -> {
+                    ConnectivityCheckImpl.this.result = connectivityInformation;
+                    return ConnectivityCheckImpl.this;
                 });
     }
 }

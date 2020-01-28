@@ -13,21 +13,21 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.microsoft.azure.CloudException;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.CloudException;
+import com.azure.core.management.SubResource;
+import com.azure.management.network.models.BackendAddressPoolInner;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 import com.azure.management.network.LoadBalancerBackend;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.LoadBalancingRule;
 import com.azure.management.network.NetworkInterface;
-import com.azure.management.network.model.HasNetworkInterfaces;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.HasNetworkInterfaces;
 
 /**
  *  Implementation for LoadBalancerBackend.
  */
-@LangDefinition
 class LoadBalancerBackendImpl
     extends ChildResourceImpl<BackendAddressPoolInner, LoadBalancerImpl, LoadBalancer>
     implements
@@ -47,10 +47,10 @@ class LoadBalancerBackendImpl
         // This assumes a NIC can only have one IP config associated with the backend of an LB,
         // which is correct at the time of this implementation and seems unlikely to ever change
         final Map<String, String> ipConfigNames = new TreeMap<>();
-        if (this.inner().backendIPConfigurations() != null) {
-            for (NetworkInterfaceIPConfigurationInner inner : this.inner().backendIPConfigurations()) {
-                String nicId = ResourceUtils.parentResourceIdFromResourceId(inner.id());
-                String ipConfigName = ResourceUtils.nameFromResourceId(inner.id());
+        if (this.inner().getBackendIPConfigurations() != null) {
+            for (NetworkInterfaceIPConfigurationInner inner : this.inner().getBackendIPConfigurations()) {
+                String nicId = ResourceUtils.parentResourceIdFromResourceId(inner.getId());
+                String ipConfigName = ResourceUtils.nameFromResourceId(inner.getId());
                 ipConfigNames.put(nicId, ipConfigName);
             }
         }
@@ -61,9 +61,9 @@ class LoadBalancerBackendImpl
     @Override
     public Map<String, LoadBalancingRule> loadBalancingRules() {
         final Map<String, LoadBalancingRule> rules = new TreeMap<>();
-        if (this.inner().loadBalancingRules() != null) {
-            for (SubResource inner : this.inner().loadBalancingRules()) {
-                String name = ResourceUtils.nameFromResourceId(inner.id());
+        if (this.inner().getLoadBalancingRules() != null) {
+            for (SubResource inner : this.inner().getLoadBalancingRules()) {
+                String name = ResourceUtils.nameFromResourceId(inner.getId());
                 LoadBalancingRule rule = this.parent().loadBalancingRules().get(name);
                 if (rule != null) {
                     rules.put(name, rule);
@@ -76,7 +76,7 @@ class LoadBalancerBackendImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override

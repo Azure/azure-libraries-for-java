@@ -6,28 +6,29 @@
 
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.NetworkInterface;
 import com.azure.management.network.NetworkInterfaceDnsSettings;
 import com.azure.management.network.NetworkInterfaces;
 import com.azure.management.network.VirtualMachineScaleSetNetworkInterface;
-import com.microsoft.azure.management.resources.fluentcore.arm.ResourceUtils;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.NetworkInterfaceIPConfigurationInner;
+import com.azure.management.network.models.NetworkInterfaceInner;
+import com.azure.management.network.models.NetworkInterfacesInner;
+import com.azure.management.resources.fluentcore.arm.ResourceUtils;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 import java.util.ArrayList;
 
 /**
  *  Implementation for {@link NetworkInterfaces}.
  */
-@LangDefinition
 class NetworkInterfacesImpl
     extends TopLevelModifiableResourcesImpl<
-        NetworkInterface,
-        NetworkInterfaceImpl,
-        NetworkInterfaceInner,
-        NetworkInterfacesInner,
-        NetworkManager>
+            NetworkInterface,
+            NetworkInterfaceImpl,
+            NetworkInterfaceInner,
+            NetworkInterfacesInner,
+            NetworkManager>
     implements NetworkInterfaces {
 
     NetworkInterfacesImpl(final NetworkManager networkManager) {
@@ -47,8 +48,8 @@ class NetworkInterfacesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSet(String resourceGroupName,
-                                                                                          String scaleSetName) {
+    public PagedIterable<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSet(String resourceGroupName,
+                                                                                              String scaleSetName) {
         VirtualMachineScaleSetNetworkInterfacesImpl scaleSetNetworkInterfaces = new VirtualMachineScaleSetNetworkInterfacesImpl(
                 resourceGroupName,
                 scaleSetName,
@@ -57,12 +58,12 @@ class NetworkInterfacesImpl
     }
 
     @Override
-    public PagedList<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSetId(String id) {
+    public PagedIterable<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSetId(String id) {
         return this.listByVirtualMachineScaleSet(ResourceUtils.groupFromResourceId(id), ResourceUtils.nameFromResourceId(id));
     }
 
     @Override
-    public PagedList<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSetInstanceId(
+    public PagedIterable<VirtualMachineScaleSetNetworkInterface> listByVirtualMachineScaleSetInstanceId(
             String resourceGroupName,
             String scaleSetName,
             String instanceId) {
@@ -81,8 +82,8 @@ class NetworkInterfacesImpl
     @Override
     protected NetworkInterfaceImpl wrapModel(String name) {
         NetworkInterfaceInner inner = new NetworkInterfaceInner();
-        inner.withIpConfigurations(new ArrayList<NetworkInterfaceIPConfigurationInner>());
-        inner.withDnsSettings(new NetworkInterfaceDnsSettings());
+        inner.setIpConfigurations(new ArrayList<NetworkInterfaceIPConfigurationInner>());
+        inner.setDnsSettings(new NetworkInterfaceDnsSettings());
         return new NetworkInterfaceImpl(name, inner, super.manager());
     }
 
@@ -91,6 +92,6 @@ class NetworkInterfacesImpl
         if (inner == null) {
             return null;
         }
-        return new NetworkInterfaceImpl(inner.name(), inner, this.manager());
+        return new NetworkInterfaceImpl(inner.getName(), inner, this.manager());
     }
 }

@@ -5,8 +5,6 @@
  */
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -15,8 +13,6 @@ import java.util.Map;
 /**
  * Express route circuit sku type.
  */
-@LangDefinition
-@Beta(Beta.SinceVersion.V1_4_0)
 public class ExpressRouteCircuitSkuType {
     private static final Map<String, ExpressRouteCircuitSkuType> VALUES_BY_NAME = new HashMap<>();
 
@@ -57,18 +53,20 @@ public class ExpressRouteCircuitSkuType {
 
     /**
      * Creates a custom value for ExpressRouteCircuitSkuType.
-     * @param skuTier a SKU tier
+     *
+     * @param skuTier   a SKU tier
      * @param skuFamily an SKU family
      */
     public ExpressRouteCircuitSkuType(ExpressRouteCircuitSkuTier skuTier, ExpressRouteCircuitSkuFamily skuFamily) {
         this(new ExpressRouteCircuitSku()
-                .withName((skuTier == null ? "" : skuTier.toString()) + "_" + (skuFamily == null ? "" : skuFamily.toString()))
-                .withTier(skuTier)
-                .withFamily(skuFamily));
+                .setName((skuTier == null ? "" : skuTier.toString()) + "_" + (skuFamily == null ? "" : skuFamily.toString()))
+                .setTier(skuTier)
+                .setFamily(skuFamily));
     }
 
     /**
      * Creates a custom value for ExpressRouteCircuitSkuType.
+     *
      * @param sku the SKU
      */
     public ExpressRouteCircuitSkuType(ExpressRouteCircuitSku sku) {
@@ -77,7 +75,7 @@ public class ExpressRouteCircuitSkuType {
         //
         this.sku = createCopy(sku);
 
-        this.value = this.sku.name();
+        this.value = this.sku.getName();
         VALUES_BY_NAME.put(this.value.toLowerCase(), this);
     }
 
@@ -92,7 +90,7 @@ public class ExpressRouteCircuitSkuType {
             return null;
         }
 
-        String nameToLookFor = sku.name();
+        String nameToLookFor = sku.getName();
 
         ExpressRouteCircuitSkuType result = VALUES_BY_NAME.get(nameToLookFor.toLowerCase());
         if (result != null) {
@@ -144,8 +142,8 @@ public class ExpressRouteCircuitSkuType {
      */
     private static ExpressRouteCircuitSku createCopy(ExpressRouteCircuitSku sku) {
         return new ExpressRouteCircuitSku()
-                .withName(sku.name())
-                .withTier(sku.tier())
-                .withFamily(sku.family());
+                .setName(sku.getName())
+                .setTier(sku.getTier())
+                .setFamily(sku.getFamily());
     }
 }

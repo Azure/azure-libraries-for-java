@@ -5,16 +5,14 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.AddressSpace;
 import com.azure.management.network.BgpSettings;
 import com.azure.management.network.LocalNetworkGateway;
-import com.azure.management.network.model.AppliableWithTags;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.TagsObject;
+import com.azure.management.network.models.AppliableWithTags;
+import com.azure.management.network.models.LocalNetworkGatewayInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,13 +22,12 @@ import java.util.Set;
 /**
  * Implementation for LocalNetworkGateway and its create and update interfaces.
  */
-@LangDefinition
 class LocalNetworkGatewayImpl
         extends GroupableResourceImpl<
-                LocalNetworkGateway,
-                LocalNetworkGatewayInner,
-                LocalNetworkGatewayImpl,
-                NetworkManager>
+        LocalNetworkGateway,
+        LocalNetworkGatewayInner,
+        LocalNetworkGatewayImpl,
+        NetworkManager>
         implements
         LocalNetworkGateway,
         LocalNetworkGateway.Definition,
@@ -38,91 +35,91 @@ class LocalNetworkGatewayImpl
         AppliableWithTags<LocalNetworkGateway> {
 
     LocalNetworkGatewayImpl(String name,
-                              final LocalNetworkGatewayInner innerModel,
-                              final NetworkManager networkManager) {
+                            final LocalNetworkGatewayInner innerModel,
+                            final NetworkManager networkManager) {
         super(name, innerModel, networkManager);
     }
 
     @Override
     public String ipAddress() {
-        return inner().gatewayIpAddress();
+        return inner().getGatewayIpAddress();
     }
 
     @Override
     public BgpSettings bgpSettings() {
-        return inner().bgpSettings();
+        return inner().getBgpSettings();
     }
 
     @Override
     public Set<String> addressSpaces() {
         Set<String> addressSpaces = new HashSet<>();
-        if (this.inner().localNetworkAddressSpace() != null && this.inner().localNetworkAddressSpace().addressPrefixes() != null) {
-            addressSpaces.addAll(this.inner().localNetworkAddressSpace().addressPrefixes());
+        if (this.inner().getLocalNetworkAddressSpace() != null && this.inner().getLocalNetworkAddressSpace().getAddressPrefixes() != null) {
+            addressSpaces.addAll(this.inner().getLocalNetworkAddressSpace().getAddressPrefixes());
         }
         return Collections.unmodifiableSet(addressSpaces);
     }
 
     @Override
     public String provisioningState() {
-        return inner().provisioningState();
+        return inner().getProvisioningState();
     }
 
     @Override
     public LocalNetworkGatewayImpl withIPAddress(String ipAddress) {
-        this.inner().withGatewayIpAddress(ipAddress);
+        this.inner().setGatewayIpAddress(ipAddress);
         return this;
     }
 
     @Override
     public LocalNetworkGatewayImpl withAddressSpace(String cidr) {
-        if (this.inner().localNetworkAddressSpace() == null) {
-            this.inner().withLocalNetworkAddressSpace(new AddressSpace());
+        if (this.inner().getLocalNetworkAddressSpace() == null) {
+            this.inner().setLocalNetworkAddressSpace(new AddressSpace());
         }
-        if (this.inner().localNetworkAddressSpace().addressPrefixes() == null) {
-            this.inner().localNetworkAddressSpace().withAddressPrefixes(new ArrayList<String>());
+        if (this.inner().getLocalNetworkAddressSpace().getAddressPrefixes() == null) {
+            this.inner().getLocalNetworkAddressSpace().setAddressPrefixes(new ArrayList<String>());
         }
 
-        this.inner().localNetworkAddressSpace().addressPrefixes().add(cidr);
+        this.inner().getLocalNetworkAddressSpace().getAddressPrefixes().add(cidr);
         return this;
     }
 
     @Override
     public LocalNetworkGatewayImpl withoutAddressSpace(String cidr) {
-        if (this.inner().localNetworkAddressSpace() == null || this.inner().localNetworkAddressSpace().addressPrefixes() == null) {
+        if (this.inner().getLocalNetworkAddressSpace() == null || this.inner().getLocalNetworkAddressSpace().getAddressPrefixes() == null) {
             return this;
         }
-        this.inner().localNetworkAddressSpace().addressPrefixes().remove(cidr);
+        this.inner().getLocalNetworkAddressSpace().getAddressPrefixes().remove(cidr);
         return this;
     }
 
     @Override
     public LocalNetworkGatewayImpl withBgp(long asn, String bgpPeeringAddress) {
-        ensureBgpSettings().withAsn(asn).withBgpPeeringAddress(bgpPeeringAddress);
+        ensureBgpSettings().setAsn(asn).setBgpPeeringAddress(bgpPeeringAddress);
         return this;
     }
 
     @Override
     public LocalNetworkGatewayImpl withoutBgp() {
-        inner().withBgpSettings(null);
+        inner().setBgpSettings(null);
         return this;
     }
 
     @Override
-    protected Observable<LocalNetworkGatewayInner> getInnerAsync() {
+    protected Mono<LocalNetworkGatewayInner> getInnerAsync() {
         return this.manager().inner().localNetworkGateways().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    public Observable<LocalNetworkGateway> createResourceAsync() {
+    public Mono<LocalNetworkGateway> createResourceAsync() {
         return this.manager().inner().localNetworkGateways().createOrUpdateAsync(resourceGroupName(), name(), inner())
                 .map(innerToFluentMap(this));
     }
 
     private BgpSettings ensureBgpSettings() {
-        if (inner().bgpSettings() == null) {
-            inner().withBgpSettings(new BgpSettings());
+        if (inner().getBgpSettings() == null) {
+            inner().setBgpSettings(new BgpSettings());
         }
-        return inner().bgpSettings();
+        return inner().getBgpSettings();
     }
 
     @Override
@@ -132,22 +129,16 @@ class LocalNetworkGatewayImpl
 
     @Override
     public LocalNetworkGateway applyTags() {
-        return applyTagsAsync().toBlocking().last();
+        return applyTagsAsync().block();
     }
 
     @Override
-    public Observable<LocalNetworkGateway> applyTagsAsync() {
-        return this.manager().inner().localNetworkGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
-                .flatMap(new Func1<LocalNetworkGatewayInner, Observable<LocalNetworkGateway>>() {
-                    @Override
-                    public Observable<LocalNetworkGateway> call(LocalNetworkGatewayInner inner) {
-                        setInner(inner);
-                        return Observable.just((LocalNetworkGateway) LocalNetworkGatewayImpl.this);                    }
+    public Mono<LocalNetworkGateway> applyTagsAsync() {
+        TagsObject parameters = new TagsObject().setTags(inner().getTags());
+        return this.manager().inner().localNetworkGateways().updateTagsAsync(resourceGroupName(), name(), parameters)
+                .flatMap(inner -> {
+                    setInner(inner);
+                    return Mono.just((LocalNetworkGateway) LocalNetworkGatewayImpl.this);
                 });
-    }
-
-    @Override
-    public ServiceFuture<LocalNetworkGateway> applyTagsAsync(ServiceCallback<LocalNetworkGateway> callback) {
-        return ServiceFuture.fromBody(applyTagsAsync(), callback);
     }
 }

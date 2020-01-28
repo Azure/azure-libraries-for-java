@@ -9,7 +9,7 @@ import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.FlowLogSettings;
 import com.azure.management.network.NetworkWatcher;
 import com.azure.management.network.SecurityGroupView;
-import com.azure.management.network.model.AppliableWithTags;
+import com.azure.management.network.models.AppliableWithTags;
 import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupableResourceImpl;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;

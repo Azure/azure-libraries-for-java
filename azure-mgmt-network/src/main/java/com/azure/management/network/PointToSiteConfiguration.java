@@ -5,13 +5,11 @@
  */
 package com.azure.management.network;
 
-
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.resources.fluentcore.model.Attachable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
-import com.microsoft.azure.management.resources.fluentcore.model.Settable;
+import com.azure.core.annotation.Fluent;
+import com.azure.core.implementation.annotation.Beta;
+import com.azure.management.resources.fluentcore.model.Attachable;
+import com.azure.management.resources.fluentcore.model.HasInner;
+import com.azure.management.resources.fluentcore.model.Settable;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +18,6 @@ import java.io.IOException;
  * A client-side representation of point-to-site configuration for a virtual network gateway.
  */
 @Fluent
-@Beta(SinceVersion.V1_6_0)
 public interface PointToSiteConfiguration extends
         HasInner<VpnClientConfiguration> {
     /**

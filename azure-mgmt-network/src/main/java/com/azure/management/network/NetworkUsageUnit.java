@@ -5,9 +5,9 @@
  */
 package com.azure.management.network;
 
-import java.util.Collection;
+import com.azure.core.util.ExpandableStringEnum;
 
-import com.microsoft.azure.management.resources.fluentcore.arm.ExpandableStringEnum;
+import java.util.Collection;
 
 /**
  * Netowork usage units.

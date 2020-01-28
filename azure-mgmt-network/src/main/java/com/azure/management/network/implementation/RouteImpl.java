@@ -8,16 +8,15 @@ package com.azure.management.network.implementation;
 import com.azure.management.network.Route;
 import com.azure.management.network.RouteNextHopType;
 import com.azure.management.network.RouteTable;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.network.models.RouteInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
 
 /**
- *  Implementation of Route.
+ * Implementation of Route.
  */
-@LangDefinition
 class RouteImpl
-    extends ChildResourceImpl<RouteInner, RouteTableImpl, RouteTable>
-    implements
+        extends ChildResourceImpl<RouteInner, RouteTableImpl, RouteTable>
+        implements
         Route,
         Route.Definition<RouteTable.DefinitionStages.WithCreate>,
         Route.UpdateDefinition<RouteTable.Update>,
@@ -30,43 +29,43 @@ class RouteImpl
     // Getters
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public String destinationAddressPrefix() {
-        return this.inner().addressPrefix();
+        return this.inner().getAddressPrefix();
     }
 
     @Override
     public RouteNextHopType nextHopType() {
-        return this.inner().nextHopType();
+        return this.inner().getNextHopType();
     }
 
     @Override
     public String nextHopIPAddress() {
-        return this.inner().nextHopIpAddress();
+        return this.inner().getNextHopIpAddress();
     }
 
     // Fluent setters
 
     @Override
     public RouteImpl withNextHop(RouteNextHopType nextHopType) {
-        this.inner().withNextHopType(nextHopType);
+        this.inner().setNextHopType(nextHopType);
         return this;
     }
 
     @Override
     public RouteImpl withDestinationAddressPrefix(String cidr) {
-        this.inner().withAddressPrefix(cidr);
+        this.inner().setAddressPrefix(cidr);
         return this;
     }
 
     @Override
     public RouteImpl withNextHopToVirtualAppliance(String ipAddress) {
         this.inner()
-            .withNextHopType(RouteNextHopType.VIRTUAL_APPLIANCE)
-            .withNextHopIpAddress(ipAddress);
+                .setNextHopType(RouteNextHopType.VIRTUAL_APPLIANCE)
+                .setNextHopIpAddress(ipAddress);
         return this;
     }
 

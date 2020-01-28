@@ -5,13 +5,12 @@
  */
 package com.azure.management.network;
 
-import com.azure.management.network.implementation.AvailableProvidersListInner;
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.Executable;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.AvailableProvidersListInner;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.Executable;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
 import java.util.Map;
 
@@ -19,7 +18,6 @@ import java.util.Map;
  * An immutable client-side representation of available Internet service providers.
  */
 @Fluent
-@Beta(SinceVersion.V1_10_0)
 public interface AvailableProviders extends Executable<AvailableProviders>,
         HasInner<AvailableProvidersListInner>,
         HasParent<NetworkWatcher> {
@@ -37,8 +35,8 @@ public interface AvailableProviders extends Executable<AvailableProviders>,
      * The entirety of available providers parameters definition.
      */
     interface Definition extends DefinitionStages.WithExecuteAndCountry,
-        DefinitionStages.WithExecuteAndState,
-        DefinitionStages.WithExecuteAndCity {
+            DefinitionStages.WithExecuteAndState,
+            DefinitionStages.WithExecuteAndCity {
     }
 
     /**
@@ -56,6 +54,7 @@ public interface AvailableProviders extends Executable<AvailableProviders>,
              * @return the AvailableProviders object itself.
              */
             WithExecute withAzureLocations(String... azureLocations);
+
             /**
              * Sets Azure region name. Note: this method has additive effect.
              *

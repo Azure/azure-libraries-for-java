@@ -5,21 +5,19 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.core.management.SubResource;
 import com.azure.management.network.ExpressRouteCircuitPeeringConfig;
 import com.azure.management.network.ExpressRouteCrossConnectionPeering;
 import com.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
 import com.azure.management.network.Ipv6PeeringConfig;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Implementation for Ipv6PeeringConfig.
+ * Implementation for Ipv6PeeringConfig.
  */
-@LangDefinition
 class Ipv6PeeringConfigImpl
         extends IndexableWrapperImpl<Ipv6ExpressRouteCircuitPeeringConfig>
         implements
@@ -28,6 +26,7 @@ class Ipv6PeeringConfigImpl
         Ipv6PeeringConfig.UpdateDefinition<ExpressRouteCrossConnectionPeering.Update>,
         Ipv6PeeringConfig.Update {
     private final ExpressRouteCrossConnectionPeeringImpl parent;
+
     Ipv6PeeringConfigImpl(Ipv6ExpressRouteCircuitPeeringConfig innerObject, ExpressRouteCrossConnectionPeeringImpl parent) {
         super(innerObject);
         this.parent = parent;
@@ -35,7 +34,7 @@ class Ipv6PeeringConfigImpl
 
     @Override
     public Ipv6PeeringConfigImpl withAdvertisedPublicPrefixes(List<String> publicPrefixes) {
-        ensureMicrosoftPeeringConfig().withAdvertisedPublicPrefixes(publicPrefixes);
+        ensureMicrosoftPeeringConfig().setAdvertisedPublicPrefixes(publicPrefixes);
         return this;
     }
 
@@ -43,54 +42,54 @@ class Ipv6PeeringConfigImpl
     @Override
     public Ipv6PeeringConfigImpl withAdvertisedPublicPrefix(String publicPrefix) {
         ExpressRouteCircuitPeeringConfig peeringConfig = ensureMicrosoftPeeringConfig();
-        if (peeringConfig.advertisedPublicPrefixes() == null) {
-            peeringConfig.withAdvertisedPublicPrefixes(new ArrayList<String>());
+        if (peeringConfig.getAdvertisedPublicPrefixes() == null) {
+            peeringConfig.setAdvertisedPublicPrefixes(new ArrayList<String>());
         }
-        peeringConfig.advertisedPublicPrefixes().add(publicPrefix);
+        peeringConfig.getAdvertisedPublicPrefixes().add(publicPrefix);
         return this;
     }
 
     @Override
     public Ipv6PeeringConfigImpl withPrimaryPeerAddressPrefix(String addressPrefix) {
-        inner().withPrimaryPeerAddressPrefix(addressPrefix);
+        inner().setPrimaryPeerAddressPrefix(addressPrefix);
         return this;
     }
 
     @Override
     public Ipv6PeeringConfigImpl withSecondaryPeerAddressPrefix(String addressPrefix) {
-        inner().withSecondaryPeerAddressPrefix(addressPrefix);
+        inner().setSecondaryPeerAddressPrefix(addressPrefix);
         return this;
     }
 
     @Override
     public Ipv6PeeringConfigImpl withCustomerASN(int customerASN) {
-        ensureMicrosoftPeeringConfig().withCustomerASN(customerASN);
+        ensureMicrosoftPeeringConfig().setCustomerASN(customerASN);
         return this;
     }
 
     @Override
     public Ipv6PeeringConfigImpl withRouteFilter(String routeFilterId) {
-        inner().withRouteFilter(new SubResource().withId(routeFilterId));
+        inner().setRouteFilter(new SubResource().setId(routeFilterId));
         return this;
     }
 
     @Override
     public Ipv6PeeringConfigImpl withoutRouteFilter() {
-        inner().withRouteFilter(null);
+        inner().setRouteFilter(null);
         return this;
     }
 
     @Override
     public Ipv6PeeringConfigImpl withRoutingRegistryName(String routingRegistryName) {
-        ensureMicrosoftPeeringConfig().withRoutingRegistryName(routingRegistryName);
+        ensureMicrosoftPeeringConfig().setRoutingRegistryName(routingRegistryName);
         return this;
     }
 
     private ExpressRouteCircuitPeeringConfig ensureMicrosoftPeeringConfig() {
-        if (inner().microsoftPeeringConfig() == null) {
-            inner().withMicrosoftPeeringConfig(new ExpressRouteCircuitPeeringConfig());
+        if (inner().getMicrosoftPeeringConfig() == null) {
+            inner().setMicrosoftPeeringConfig(new ExpressRouteCircuitPeeringConfig());
         }
-        return inner().microsoftPeeringConfig();
+        return inner().getMicrosoftPeeringConfig();
     }
 
     @Override

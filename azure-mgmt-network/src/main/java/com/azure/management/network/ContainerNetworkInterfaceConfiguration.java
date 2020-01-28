@@ -9,7 +9,7 @@ package com.azure.management.network;
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.SubResource;
-import com.azure.management.network.model.IPConfigurationProfileInner;
+import com.azure.management.network.models.IPConfigurationProfileInner;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 

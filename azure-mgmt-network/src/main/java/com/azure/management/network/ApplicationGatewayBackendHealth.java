@@ -5,24 +5,21 @@
  */
 package com.azure.management.network;
 
-import java.util.Map;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.resources.fluentcore.arm.models.HasName;
+import com.azure.management.resources.fluentcore.arm.models.HasParent;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.Beta.SinceVersion;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasName;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.HasParent;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import java.util.Map;
 
 /**
  * A client-side representation of the health information of an application gateway backend.
  */
 @Fluent
-@Beta(SinceVersion.V1_4_0)
 public interface ApplicationGatewayBackendHealth extends
-    HasInner<ApplicationGatewayBackendHealthPool>,
-    HasName,
-    HasParent<ApplicationGateway> {
+        HasInner<ApplicationGatewayBackendHealthPool>,
+        HasName,
+        HasParent<ApplicationGateway> {
 
     /**
      * @return the application gateway backend address pool that is health information pertains to

@@ -5,15 +5,14 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.ExpressRouteCircuitStats;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.ExpressRouteCircuitStatsInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
  * Implementation for {@link ExpressRouteCircuitStats}.
  */
-@LangDefinition
 public class ExpressRouteCircuitStatsImpl extends WrapperImpl<ExpressRouteCircuitStatsInner>
         implements ExpressRouteCircuitStats {
     ExpressRouteCircuitStatsImpl(ExpressRouteCircuitStatsInner innerObject) {
@@ -22,22 +21,22 @@ public class ExpressRouteCircuitStatsImpl extends WrapperImpl<ExpressRouteCircui
 
     @Override
     public long primaryBytesIn() {
-        return Utils.toPrimitiveLong(inner().primarybytesIn());
+        return Utils.toPrimitiveLong(inner().getPrimarybytesIn());
     }
 
     @Override
     public long primaryBytesOut() {
-        return Utils.toPrimitiveLong(inner().primarybytesOut());
+        return Utils.toPrimitiveLong(inner().getPrimarybytesOut());
     }
 
     @Override
     public long secondaryBytesIn() {
-        return Utils.toPrimitiveLong(inner().secondarybytesIn());
+        return Utils.toPrimitiveLong(inner().getSecondarybytesIn());
     }
 
     @Override
     public long secondaryBytesOut() {
-        return Utils.toPrimitiveLong(inner().secondarybytesOut());
+        return Utils.toPrimitiveLong(inner().getSecondarybytesOut());
     }
 }
 

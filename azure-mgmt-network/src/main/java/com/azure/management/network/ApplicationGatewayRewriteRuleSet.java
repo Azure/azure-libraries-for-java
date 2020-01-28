@@ -10,6 +10,7 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
@@ -47,7 +48,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
     /**
      * Get the name property: Name of the rewrite rule set that is unique
      * within an Application Gateway.
-     * 
+     *
      * @return the name value.
      */
     public String getName() {
@@ -57,7 +58,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
     /**
      * Set the name property: Name of the rewrite rule set that is unique
      * within an Application Gateway.
-     * 
+     *
      * @param name the name value to set.
      * @return the ApplicationGatewayRewriteRuleSet object itself.
      */
@@ -69,7 +70,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
     /**
      * Get the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     * 
+     *
      * @return the etag value.
      */
     public String getEtag() {
@@ -78,7 +79,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
 
     /**
      * Get the rewriteRules property: Rewrite rules in the rewrite rule set.
-     * 
+     *
      * @return the rewriteRules value.
      */
     public List<ApplicationGatewayRewriteRule> getRewriteRules() {
@@ -87,7 +88,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
 
     /**
      * Set the rewriteRules property: Rewrite rules in the rewrite rule set.
-     * 
+     *
      * @param rewriteRules the rewriteRules value to set.
      * @return the ApplicationGatewayRewriteRuleSet object itself.
      */
@@ -100,7 +101,7 @@ public class ApplicationGatewayRewriteRuleSet extends SubResource {
      * Get the provisioningState property: Provisioning state of the rewrite
      * rule set resource. Possible values are: 'Updating', 'Deleting', and
      * 'Failed'.
-     * 
+     *
      * @return the provisioningState value.
      */
     public String getProvisioningState() {

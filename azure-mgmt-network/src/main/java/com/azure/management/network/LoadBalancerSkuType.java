@@ -6,8 +6,6 @@
 
 package com.azure.management.network;
 
-import com.microsoft.azure.management.apigeneration.Beta;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -16,19 +14,23 @@ import java.util.Map;
 /**
  * Defines values for LoadBalancerSkuType.
  */
-@LangDefinition(ContainerName = "/Microsoft.Azure.Management.Network.Fluent.Models")
-@Beta(Beta.SinceVersion.V1_3_0)
 public final class LoadBalancerSkuType {
     // This needs to be at the beginning for the initialization to happen correctly
     private static final Map<String, LoadBalancerSkuType> VALUES_BY_NAME = new HashMap<>();
 
-    /** Static value Basic for LoadBalancerSkuType. */
+    /**
+     * Static value Basic for LoadBalancerSkuType.
+     */
     public static final LoadBalancerSkuType BASIC = new LoadBalancerSkuType(LoadBalancerSkuName.BASIC);
 
-    /** Static value Standard for LoadBalancerSkuType. */
+    /**
+     * Static value Standard for LoadBalancerSkuType.
+     */
     public static final LoadBalancerSkuType STANDARD = new LoadBalancerSkuType(LoadBalancerSkuName.STANDARD);
 
-    /** The actual serialized value for a LoadBalancerSkuType instance. */
+    /**
+     * The actual serialized value for a LoadBalancerSkuType instance.
+     */
     private LoadBalancerSkuName skuName;
 
     /**
@@ -41,6 +43,7 @@ public final class LoadBalancerSkuType {
 
     /**
      * Creates a LoadBalancerSkuType from sku name.
+     *
      * @param skuName the sku name
      */
     private LoadBalancerSkuType(LoadBalancerSkuName skuName) {
@@ -61,14 +64,14 @@ public final class LoadBalancerSkuType {
         if (lbSku == null) {
             return null;
         }
-        if (lbSku.name() == null) {
+        if (lbSku.getName() == null) {
             return null;
         }
-        LoadBalancerSkuType result = VALUES_BY_NAME.get(lbSku.name().toString().toLowerCase());
+        LoadBalancerSkuType result = VALUES_BY_NAME.get(lbSku.getName().toString().toLowerCase());
         if (result != null) {
             return result;
         } else {
-            return new LoadBalancerSkuType(lbSku.name());
+            return new LoadBalancerSkuType(lbSku.getName());
         }
     }
 
@@ -76,7 +79,7 @@ public final class LoadBalancerSkuType {
      * @return the LoadBalancerSku associated with the LoadBalancerSkuType.
      */
     public LoadBalancerSku sku() {
-        return (new LoadBalancerSku()).withName(this.skuName);
+        return (new LoadBalancerSku()).setName(this.skuName);
     }
 
     @Override
@@ -90,7 +93,7 @@ public final class LoadBalancerSkuType {
             return false;
         } else if (obj == this) {
             return true;
-        } else  if (skuName == null) {
+        } else if (skuName == null) {
             return ((LoadBalancerSkuType) obj).skuName == null;
         } else {
             return skuName.equals(((LoadBalancerSkuType) obj).skuName);

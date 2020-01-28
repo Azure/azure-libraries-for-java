@@ -10,15 +10,14 @@ import com.azure.management.network.Direction;
 import com.azure.management.network.IpFlowProtocol;
 import com.azure.management.network.VerificationIPFlow;
 import com.azure.management.network.VerificationIPFlowParameters;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.VerificationIPFlowResultInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import reactor.core.publisher.Mono;
+
 
 /**
  * Implementation of VerificationIPFlow.
  */
-@LangDefinition
 public class VerificationIPFlowImpl extends ExecutableImpl<VerificationIPFlow>
         implements VerificationIPFlow, VerificationIPFlow.Definition {
     private final NetworkWatcherImpl parent;
@@ -31,13 +30,13 @@ public class VerificationIPFlowImpl extends ExecutableImpl<VerificationIPFlow>
 
     @Override
     public VerificationIPFlowImpl withTargetResourceId(String targetResourceId) {
-        parameters.withTargetResourceId(targetResourceId);
+        parameters.setTargetResourceId(targetResourceId);
         return this;
     }
 
     @Override
     public VerificationIPFlowImpl withDirection(Direction direction) {
-        parameters.withDirection(direction);
+        parameters.setDirection(direction);
         return this;
     }
 
@@ -53,7 +52,7 @@ public class VerificationIPFlowImpl extends ExecutableImpl<VerificationIPFlow>
 
     @Override
     public VerificationIPFlowImpl withProtocol(IpFlowProtocol protocol) {
-        parameters.withProtocol(protocol);
+        parameters.setProtocol(protocol);
         return this;
     }
 
@@ -69,31 +68,31 @@ public class VerificationIPFlowImpl extends ExecutableImpl<VerificationIPFlow>
 
     @Override
     public VerificationIPFlowImpl withLocalPort(String localPort) {
-        parameters.withLocalPort(localPort);
+        parameters.setLocalPort(localPort);
         return this;
     }
 
     @Override
     public VerificationIPFlowImpl withRemotePort(String remotePort) {
-        parameters.withRemotePort(remotePort);
+        parameters.setRemotePort(remotePort);
         return this;
     }
 
     @Override
     public VerificationIPFlowImpl withLocalIPAddress(String localIPAddress) {
-        parameters.withLocalIPAddress(localIPAddress);
+        parameters.setLocalIPAddress(localIPAddress);
         return this;
     }
 
     @Override
     public VerificationIPFlowImpl withRemoteIPAddress(String remoteIPAddress) {
-        parameters.withRemoteIPAddress(remoteIPAddress);
+        parameters.setRemoteIPAddress(remoteIPAddress);
         return this;
     }
 
     @Override
     public VerificationIPFlow withTargetNetworkInterfaceId(String targetNetworkInterfaceId) {
-        parameters.withTargetNicResourceId(targetNetworkInterfaceId);
+        parameters.setTargetNicResourceId(targetNetworkInterfaceId);
         return this;
     }
 
@@ -104,24 +103,21 @@ public class VerificationIPFlowImpl extends ExecutableImpl<VerificationIPFlow>
 
     @Override
     public Access access() {
-        return this.result.access();
+        return this.result.getAccess();
     }
 
     @Override
     public String ruleName() {
-        return this.result.ruleName();
+        return this.result.getRuleName();
     }
 
     @Override
-    public Observable<VerificationIPFlow> executeWorkAsync() {
+    public Mono<VerificationIPFlow> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .verifyIPFlowAsync(parent.resourceGroupName(), parent.name(), parameters)
-                .map(new Func1<VerificationIPFlowResultInner, VerificationIPFlow>() {
-                    @Override
-                    public VerificationIPFlow call(VerificationIPFlowResultInner verificationIPFlowResultInner) {
-                        VerificationIPFlowImpl.this.result = verificationIPFlowResultInner;
-                        return VerificationIPFlowImpl.this;
-                    }
+                .map(verificationIPFlowResultInner -> {
+                    VerificationIPFlowImpl.this.result = verificationIPFlowResultInner;
+                    return VerificationIPFlowImpl.this;
                 });
     }
 }

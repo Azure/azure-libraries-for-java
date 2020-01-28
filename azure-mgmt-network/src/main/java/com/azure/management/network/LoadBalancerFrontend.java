@@ -5,21 +5,21 @@
  */
 package com.azure.management.network;
 
-import java.util.Map;
+import com.azure.core.annotation.Fluent;
+import com.azure.management.network.models.FrontendIPConfigurationInner;
+import com.azure.management.network.models.HasLoadBalancingRules;
+import com.azure.management.resources.fluentcore.arm.models.ChildResource;
+import com.azure.management.resources.fluentcore.model.HasInner;
 
-import com.azure.management.network.implementation.FrontendIPConfigurationInner;
-import com.azure.management.network.model.HasLoadBalancingRules;
-import com.microsoft.azure.management.apigeneration.Fluent;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.ChildResource;
-import com.microsoft.azure.management.resources.fluentcore.model.HasInner;
+import java.util.Map;
 
 /**
  * An client-side representation of a load balancer frontend.
  */
 @Fluent()
 public interface LoadBalancerFrontend extends
-    HasInner<FrontendIPConfigurationInner>,
-    ChildResource<LoadBalancer>,
+        HasInner<FrontendIPConfigurationInner>,
+        ChildResource<LoadBalancer>,
         HasLoadBalancingRules {
 
     /**

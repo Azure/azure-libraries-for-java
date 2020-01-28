@@ -5,20 +5,17 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
+import com.azure.management.network.models.FlowLogInformationInner;
+import com.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 import com.azure.management.network.FlowLogSettings;
 import com.azure.management.network.RetentionPolicyParameters;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.RefreshableWrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Observable;
-import rx.functions.Func1;
+import reactor.core.publisher.Mono;
+
 
 /**
  * Implementation for {@link FlowLogSettings} and its create and update interfaces.
  */
-@LangDefinition
 class FlowLogSettingsImpl extends RefreshableWrapperImpl<FlowLogInformationInner,
         FlowLogSettings>
         implements
@@ -76,43 +73,43 @@ class FlowLogSettingsImpl extends RefreshableWrapperImpl<FlowLogInformationInner
     @Override
     public Update withRetentionPolicyEnabled() {
         ensureRetentionPolicy();
-        this.inner().retentionPolicy().withEnabled(true);
+        this.inner().getRetentionPolicy().setEnabled(true);
         return this;
     }
 
     @Override
     public Update withRetentionPolicyDisabled() {
         ensureRetentionPolicy();
-        this.inner().retentionPolicy().withEnabled(false);
+        this.inner().getRetentionPolicy().setEnabled(false);
         return this;
     }
 
     @Override
     public Update withRetentionPolicyDays(int days) {
         ensureRetentionPolicy();
-        this.inner().retentionPolicy().withDays(days);
+        this.inner().getRetentionPolicy().setDays(days);
         return this;
     }
 
     private void ensureRetentionPolicy() {
-        if (this.inner().retentionPolicy() == null) {
-            this.inner().withRetentionPolicy(new RetentionPolicyParameters());
+        if (this.inner().getRetentionPolicy() == null) {
+            this.inner().setRetentionPolicy(new RetentionPolicyParameters());
         }
     }
 
     @Override
     public Update update() {
-        if (this.inner().flowAnalyticsConfiguration() != null && this.inner().flowAnalyticsConfiguration().networkWatcherFlowAnalyticsConfiguration() == null) {
+        if (this.inner().getFlowAnalyticsConfiguration() != null && this.inner().getFlowAnalyticsConfiguration().getNetworkWatcherFlowAnalyticsConfiguration() == null) {
             // Service response could have such case, which is not valid in swagger that networkWatcherFlowAnalyticsConfiguration is a required field.
-            this.inner().withFlowAnalyticsConfiguration(null);
+            this.inner().setFlowAnalyticsConfiguration(null);
         }
         return this;
     }
 
     @Override
-    protected Observable<FlowLogInformationInner> getInnerAsync() {
+    protected Mono<FlowLogInformationInner> getInnerAsync() {
         return this.parent().manager().inner().networkWatchers()
-                .getFlowLogStatusAsync(parent().resourceGroupName(), parent().name(), inner().targetResourceId());
+                .getFlowLogStatusAsync(parent().resourceGroupName(), parent().name(), inner().getTargetResourceId());
     }
 
     @Override
@@ -127,31 +124,31 @@ class FlowLogSettingsImpl extends RefreshableWrapperImpl<FlowLogInformationInner
 
     @Override
     public String targetResourceId() {
-        return inner().targetResourceId();
+        return inner().getTargetResourceId();
     }
 
     @Override
     public String storageId() {
-        return inner().storageId();
+        return inner().getStorageId();
     }
 
     @Override
     public boolean enabled() {
-        return Utils.toPrimitiveBoolean(inner().enabled());
+        return Utils.toPrimitiveBoolean(inner().isEnabled());
     }
 
     @Override
     public boolean isRetentionEnabled() {
         // will return default values if server response for retention policy was empty
         ensureRetentionPolicy();
-        return Utils.toPrimitiveBoolean(inner().retentionPolicy().enabled());
+        return Utils.toPrimitiveBoolean(inner().getRetentionPolicy().isEnabled());
     }
 
     @Override
     public int retentionDays() {
         // will return default values if server response for retention policy was empty
         ensureRetentionPolicy();
-        return Utils.toPrimitiveInt(inner().retentionPolicy().days());
+        return Utils.toPrimitiveInt(inner().getRetentionPolicy().getDays());
     }
 
     @Override

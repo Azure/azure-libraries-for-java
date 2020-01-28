@@ -5,22 +5,22 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.LoadBalancer;
 import com.azure.management.network.LoadBalancers;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.LoadBalancerInner;
+import com.azure.management.network.models.LoadBalancersInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 /**
  *  Implementation for {@link LoadBalancers}.
  */
-@LangDefinition
 class LoadBalancersImpl
     extends TopLevelModifiableResourcesImpl<
-        LoadBalancer,
-        LoadBalancerImpl,
-        LoadBalancerInner,
-        LoadBalancersInner,
-        NetworkManager>
+            LoadBalancer,
+            LoadBalancerImpl,
+            LoadBalancerInner,
+            LoadBalancersInner,
+            NetworkManager>
     implements LoadBalancers {
 
     LoadBalancersImpl(final NetworkManager networkManager) {
@@ -49,7 +49,7 @@ class LoadBalancersImpl
             return null;
         }
         return new LoadBalancerImpl(
-                inner.name(),
+                inner.getName(),
                 inner,
                 this.manager());
     }

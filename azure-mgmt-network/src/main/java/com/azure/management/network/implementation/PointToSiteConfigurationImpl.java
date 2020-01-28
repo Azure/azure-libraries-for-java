@@ -12,8 +12,7 @@ import com.azure.management.network.VpnClientConfiguration;
 import com.azure.management.network.VpnClientProtocol;
 import com.azure.management.network.VpnClientRevokedCertificate;
 import com.azure.management.network.VpnClientRootCertificate;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
+import com.azure.management.resources.fluentcore.model.implementation.IndexableWrapperImpl;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +24,6 @@ import java.util.List;
 /**
  * Implementation for PointToSiteConfiguration and its create and update interfaces.
  */
-@LangDefinition
 class PointToSiteConfigurationImpl
         extends IndexableWrapperImpl<VpnClientConfiguration>
         implements
@@ -33,7 +31,7 @@ class PointToSiteConfigurationImpl
         PointToSiteConfiguration.Definition<VirtualNetworkGateway.Update>,
         PointToSiteConfiguration.Update {
     private static final String BEGIN_CERT = "-----BEGIN CERTIFICATE-----";
-    private  static final String END_CERT = "-----END CERTIFICATE-----";
+    private static final String END_CERT = "-----END CERTIFICATE-----";
 
     private VirtualNetworkGatewayImpl parent;
 
@@ -52,17 +50,17 @@ class PointToSiteConfigurationImpl
     public PointToSiteConfigurationImpl withAddressPool(String addressPool) {
         List<String> addressPrefixes = new ArrayList<>();
         addressPrefixes.add(addressPool);
-        inner().withVpnClientAddressPool(new AddressSpace().withAddressPrefixes(addressPrefixes));
+        inner().setVpnClientAddressPool(new AddressSpace().setAddressPrefixes(addressPrefixes));
         return this;
     }
 
     @Override
     public PointToSiteConfigurationImpl withAzureCertificate(String name, String certificateData) {
-        if (inner().vpnClientRootCertificates() == null) {
-            inner().withVpnClientRootCertificates(new ArrayList<VpnClientRootCertificate>());
+        if (inner().getVpnClientRootCertificates() == null) {
+            inner().setVpnClientRootCertificates(new ArrayList<VpnClientRootCertificate>());
         }
-        inner().vpnClientRootCertificates().add(new VpnClientRootCertificate().withName(name).withPublicCertData(certificateData));
-        inner().withRadiusServerAddress(null).withRadiusServerSecret(null);
+        inner().getVpnClientRootCertificates().add(new VpnClientRootCertificate().setName(name).setPublicCertData(certificateData));
+        inner().setRadiusServerAddress(null).setRadiusServerSecret(null);
         return this;
     }
 
@@ -79,10 +77,10 @@ class PointToSiteConfigurationImpl
 
     @Override
     public Update withoutAzureCertificate(String name) {
-        if (inner().vpnClientRootCertificates() != null) {
-            for (VpnClientRootCertificate certificateInner : inner().vpnClientRootCertificates()) {
-                if (name.equals(certificateInner.name())) {
-                    inner().vpnClientRootCertificates().remove(certificateInner);
+        if (inner().getVpnClientRootCertificates() != null) {
+            for (VpnClientRootCertificate certificateInner : inner().getVpnClientRootCertificates()) {
+                if (name.equals(certificateInner.getName())) {
+                    inner().getVpnClientRootCertificates().remove(certificateInner);
                     break;
                 }
             }
@@ -92,31 +90,31 @@ class PointToSiteConfigurationImpl
 
     @Override
     public PointToSiteConfigurationImpl withRadiusAuthentication(String serverIPAddress, String serverSecret) {
-        inner().withRadiusServerAddress(serverIPAddress).withRadiusServerSecret(serverSecret);
-        inner().withVpnClientRootCertificates(null);
-        inner().withVpnClientRevokedCertificates(null);
+        inner().setRadiusServerAddress(serverIPAddress).setRadiusServerSecret(serverSecret);
+        inner().setVpnClientRootCertificates(null);
+        inner().setVpnClientRevokedCertificates(null);
         return this;
     }
 
     @Override
     public PointToSiteConfigurationImpl withRevokedCertificate(String name, String thumbprint) {
-        if (inner().vpnClientRevokedCertificates() == null) {
-            inner().withVpnClientRevokedCertificates(new ArrayList<VpnClientRevokedCertificate>());
+        if (inner().getVpnClientRevokedCertificates() == null) {
+            inner().setVpnClientRevokedCertificates(new ArrayList<VpnClientRevokedCertificate>());
         }
-        inner().vpnClientRevokedCertificates().add(new VpnClientRevokedCertificate().withName(name).withThumbprint(thumbprint));
-        inner().withRadiusServerAddress(null).withRadiusServerSecret(null);
+        inner().getVpnClientRevokedCertificates().add(new VpnClientRevokedCertificate().setName(name).setThumbprint(thumbprint));
+        inner().setRadiusServerAddress(null).setRadiusServerSecret(null);
         return this;
     }
 
     @Override
     public PointToSiteConfigurationImpl withSstpOnly() {
-        inner().withVpnClientProtocols(Collections.singletonList(VpnClientProtocol.SSTP));
+        inner().setVpnClientProtocols(Collections.singletonList(VpnClientProtocol.SSTP));
         return this;
     }
 
     @Override
     public PointToSiteConfigurationImpl withIkeV2Only() {
-        inner().withVpnClientProtocols(Collections.singletonList(VpnClientProtocol.IKE_V2));
+        inner().setVpnClientProtocols(Collections.singletonList(VpnClientProtocol.IKE_V2));
         return this;
     }
 

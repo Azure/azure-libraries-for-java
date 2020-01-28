@@ -5,17 +5,16 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.management.SubResource;
 import com.azure.management.network.NetworkWatcher;
 import com.azure.management.network.Topology;
 import com.azure.management.network.TopologyParameters;
 import com.azure.management.network.TopologyResource;
-import com.microsoft.azure.SubResource;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
-import org.joda.time.DateTime;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.TopologyInner;
+import com.azure.management.resources.fluentcore.model.implementation.ExecutableImpl;
+import reactor.core.publisher.Mono;
 
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,6 @@ import java.util.TreeMap;
 /**
  * The implementation of Topology.
  */
-@LangDefinition
 class TopologyImpl extends ExecutableImpl<Topology>
         implements Topology,
         Topology.Definition {
@@ -39,7 +37,7 @@ class TopologyImpl extends ExecutableImpl<Topology>
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
@@ -48,13 +46,13 @@ class TopologyImpl extends ExecutableImpl<Topology>
     }
 
     @Override
-    public DateTime createdTime() {
-        return inner().createdDateTime();
+    public OffsetDateTime createdTime() {
+        return inner().getCreatedDateTime();
     }
 
     @Override
-    public DateTime lastModifiedTime() {
-        return inner().lastModified();
+    public OffsetDateTime lastModifiedTime() {
+        return inner().getLastModified();
     }
 
     @Override
@@ -64,10 +62,10 @@ class TopologyImpl extends ExecutableImpl<Topology>
 
     private void initializeResourcesFromInner() {
         this.resources = new TreeMap<>();
-        List<TopologyResource> topologyResources = this.inner().resources();
+        List<TopologyResource> topologyResources = this.inner().getResources();
         if (topologyResources != null) {
             for (TopologyResource resource : topologyResources) {
-                this.resources.put(resource.id(), resource);
+                this.resources.put(resource.getId(), resource);
             }
         }
     }
@@ -79,19 +77,19 @@ class TopologyImpl extends ExecutableImpl<Topology>
 
     @Override
     public TopologyImpl withTargetResourceGroup(String resourceGroupName) {
-        parameters.withTargetResourceGroupName(resourceGroupName);
+        parameters.setTargetResourceGroupName(resourceGroupName);
         return this;
     }
 
     @Override
     public TopologyImpl withTargetNetwork(String networkId) {
-        parameters.withTargetVirtualNetwork(new SubResource().withId(networkId));
+        parameters.setTargetVirtualNetwork(new SubResource().setId(networkId));
         return this;
     }
 
     @Override
     public TopologyImpl withTargetSubnet(String subnetName) {
-        parameters.withTargetSubnet(new SubResource().withId(parameters.targetVirtualNetwork().id() + "/subnets/" + subnetName));
+        parameters.setTargetSubnet(new SubResource().setId(parameters.getTargetVirtualNetwork().getId() + "/subnets/" + subnetName));
         return this;
     }
 
@@ -101,16 +99,13 @@ class TopologyImpl extends ExecutableImpl<Topology>
     }
 
     @Override
-    public Observable<Topology> executeWorkAsync() {
+    public Mono<Topology> executeWorkAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .getTopologyAsync(parent().resourceGroupName(), parent().name(), parameters)
-                .map(new Func1<TopologyInner, Topology>() {
-                    @Override
-                    public Topology call(TopologyInner topologyInner) {
-                        TopologyImpl.this.inner = topologyInner;
-                        TopologyImpl.this.initializeResourcesFromInner();
-                        return TopologyImpl.this;
-                    }
+                .map(topologyInner -> {
+                    TopologyImpl.this.inner = topologyInner;
+                    TopologyImpl.this.initializeResourcesFromInner();
+                    return TopologyImpl.this;
                 });
     }
 }

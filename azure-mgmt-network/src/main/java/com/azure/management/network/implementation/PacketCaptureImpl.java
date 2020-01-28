@@ -12,12 +12,11 @@ import com.azure.management.network.PacketCaptureFilter;
 import com.azure.management.network.PacketCaptureStatus;
 import com.azure.management.network.PacketCaptureStorageLocation;
 import com.azure.management.network.ProvisioningState;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.PacketCaptureQueryStatusResultInner;
+import com.azure.management.network.models.PacketCaptureResultInner;
+import com.azure.management.network.models.PacketCapturesInner;
+import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +24,9 @@ import java.util.List;
 /**
  * Implementation for Packet Capture and its create and update interfaces.
  */
-@LangDefinition
 public class PacketCaptureImpl extends
         CreatableUpdatableImpl<PacketCapture, PacketCaptureResultInner, PacketCaptureImpl>
-    implements
+        implements
         PacketCapture,
         PacketCapture.Definition {
     private final PacketCapturesInner client;
@@ -36,7 +34,7 @@ public class PacketCaptureImpl extends
     private final NetworkWatcher parent;
 
     PacketCaptureImpl(String name, NetworkWatcherImpl parent, PacketCaptureResultInner innerObject,
-                                PacketCapturesInner client) {
+                      PacketCapturesInner client) {
         super(name, innerObject);
         this.client = client;
         this.parent = parent;
@@ -126,7 +124,7 @@ public class PacketCaptureImpl extends
 
     @Override
     public PCFilter.Definition<DefinitionStages.WithCreate> definePacketCaptureFilter() {
-        return new PCFilterImpl(new PacketCaptureFilter(),  this);
+        return new PCFilterImpl(new PacketCaptureFilter(), this);
     }
 
     void attachPCFilter(PCFilterImpl pcFilter) {

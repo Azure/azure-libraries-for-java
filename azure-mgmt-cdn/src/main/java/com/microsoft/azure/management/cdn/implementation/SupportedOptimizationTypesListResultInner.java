@@ -23,7 +23,7 @@ public class SupportedOptimizationTypesListResultInner {
     private List<OptimizationType> supportedOptimizationTypes;
 
     /**
-     * Get the supportedOptimizationTypes value.
+     * Get supported optimization types for a profile.
      *
      * @return the supportedOptimizationTypes value
      */

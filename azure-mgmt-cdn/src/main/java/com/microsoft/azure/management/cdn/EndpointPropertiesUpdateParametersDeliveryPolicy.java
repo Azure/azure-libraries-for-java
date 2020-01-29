@@ -28,7 +28,7 @@ public class EndpointPropertiesUpdateParametersDeliveryPolicy {
     private List<DeliveryRule> rules;
 
     /**
-     * Get the description value.
+     * Get user-friendly description of the policy.
      *
      * @return the description value
      */
@@ -37,7 +37,7 @@ public class EndpointPropertiesUpdateParametersDeliveryPolicy {
     }
 
     /**
-     * Set the description value.
+     * Set user-friendly description of the policy.
      *
      * @param description the description value to set
      * @return the EndpointPropertiesUpdateParametersDeliveryPolicy object itself.
@@ -48,7 +48,7 @@ public class EndpointPropertiesUpdateParametersDeliveryPolicy {
     }
 
     /**
-     * Get the rules value.
+     * Get a list of the delivery rules.
      *
      * @return the rules value
      */
@@ -57,7 +57,7 @@ public class EndpointPropertiesUpdateParametersDeliveryPolicy {
     }
 
     /**
-     * Set the rules value.
+     * Set a list of the delivery rules.
      *
      * @param rules the rules value to set
      * @return the EndpointPropertiesUpdateParametersDeliveryPolicy object itself.

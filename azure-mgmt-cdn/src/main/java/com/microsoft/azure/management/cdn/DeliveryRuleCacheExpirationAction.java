@@ -25,7 +25,7 @@ public class DeliveryRuleCacheExpirationAction extends DeliveryRuleAction {
     private CacheExpirationActionParameters parameters;
 
     /**
-     * Get the parameters value.
+     * Get defines the parameters for the action.
      *
      * @return the parameters value
      */
@@ -34,7 +34,7 @@ public class DeliveryRuleCacheExpirationAction extends DeliveryRuleAction {
     }
 
     /**
-     * Set the parameters value.
+     * Set defines the parameters for the action.
      *
      * @param parameters the parameters value to set
      * @return the DeliveryRuleCacheExpirationAction object itself.

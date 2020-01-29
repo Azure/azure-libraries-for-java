@@ -11,6 +11,7 @@ package com.microsoft.azure.management.cdn.implementation;
 import com.microsoft.azure.management.cdn.OriginResourceState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * CDN origin is the source of the content being delivered via CDN. When the
@@ -18,7 +19,7 @@ import com.microsoft.rest.serializer.JsonFlatten;
  * cached, they attempt to fetch it from one or more of the configured origins.
  */
 @JsonFlatten
-public class OriginInner extends TrackedResourceInner {
+public class OriginInner extends Resource {
     /**
      * The address of the origin. Domain names, IPv4 addresses, and IPv6
      * addresses are supported.
@@ -52,7 +53,7 @@ public class OriginInner extends TrackedResourceInner {
     private String provisioningState;
 
     /**
-     * Get the hostName value.
+     * Get the address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.
      *
      * @return the hostName value
      */
@@ -61,7 +62,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the hostName value.
+     * Set the address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.
      *
      * @param hostName the hostName value to set
      * @return the OriginInner object itself.
@@ -72,7 +73,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the httpPort value.
+     * Get the value of the HTTP port. Must be between 1 and 65535.
      *
      * @return the httpPort value
      */
@@ -81,7 +82,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the httpPort value.
+     * Set the value of the HTTP port. Must be between 1 and 65535.
      *
      * @param httpPort the httpPort value to set
      * @return the OriginInner object itself.
@@ -92,7 +93,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the httpsPort value.
+     * Get the value of the https port. Must be between 1 and 65535.
      *
      * @return the httpsPort value
      */
@@ -101,7 +102,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the httpsPort value.
+     * Set the value of the https port. Must be between 1 and 65535.
      *
      * @param httpsPort the httpsPort value to set
      * @return the OriginInner object itself.
@@ -112,7 +113,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the resourceState value.
+     * Get resource status of the origin. Possible values include: 'Creating', 'Active', 'Deleting'.
      *
      * @return the resourceState value
      */
@@ -121,7 +122,7 @@ public class OriginInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning status of the origin.
      *
      * @return the provisioningState value
      */

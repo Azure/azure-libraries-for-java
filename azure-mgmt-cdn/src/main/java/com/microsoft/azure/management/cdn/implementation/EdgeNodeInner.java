@@ -12,13 +12,14 @@ import java.util.List;
 import com.microsoft.azure.management.cdn.IpAddressGroup;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Edgenode is a global Point of Presence (POP) location used to deliver CDN
  * content to end users.
  */
 @JsonFlatten
-public class EdgeNodeInner extends ProxyResourceInner {
+public class EdgeNodeInner extends ProxyResource {
     /**
      * List of ip address groups.
      */
@@ -26,7 +27,7 @@ public class EdgeNodeInner extends ProxyResourceInner {
     private List<IpAddressGroup> ipAddressGroups;
 
     /**
-     * Get the ipAddressGroups value.
+     * Get list of ip address groups.
      *
      * @return the ipAddressGroups value
      */
@@ -35,7 +36,7 @@ public class EdgeNodeInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the ipAddressGroups value.
+     * Set list of ip address groups.
      *
      * @param ipAddressGroups the ipAddressGroups value to set
      * @return the EdgeNodeInner object itself.

@@ -12,13 +12,14 @@ import com.microsoft.azure.management.cdn.Sku;
 import com.microsoft.azure.management.cdn.ProfileResourceState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.Resource;
 
 /**
  * CDN profile is a logical grouping of endpoints that share the same settings,
  * such as CDN provider and pricing tier.
  */
 @JsonFlatten
-public class ProfileInner extends TrackedResourceInner {
+public class ProfileInner extends Resource {
     /**
      * The pricing tier (defines a CDN provider, feature list and rate) of the
      * CDN profile.
@@ -40,7 +41,7 @@ public class ProfileInner extends TrackedResourceInner {
     private String provisioningState;
 
     /**
-     * Get the sku value.
+     * Get the pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
      *
      * @return the sku value
      */
@@ -49,7 +50,7 @@ public class ProfileInner extends TrackedResourceInner {
     }
 
     /**
-     * Set the sku value.
+     * Set the pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
      *
      * @param sku the sku value to set
      * @return the ProfileInner object itself.
@@ -60,7 +61,7 @@ public class ProfileInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the resourceState value.
+     * Get resource status of the profile. Possible values include: 'Creating', 'Active', 'Deleting', 'Disabled'.
      *
      * @return the resourceState value
      */
@@ -69,7 +70,7 @@ public class ProfileInner extends TrackedResourceInner {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning status of the profile.
      *
      * @return the provisioningState value
      */

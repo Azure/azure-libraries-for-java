@@ -42,7 +42,7 @@ public class DeepCreatedOrigin {
     private Integer httpsPort;
 
     /**
-     * Get the name value.
+     * Get origin name.
      *
      * @return the name value
      */
@@ -51,7 +51,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Set the name value.
+     * Set origin name.
      *
      * @param name the name value to set
      * @return the DeepCreatedOrigin object itself.
@@ -62,7 +62,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Get the hostName value.
+     * Get the address of the origin. It can be a domain name, IPv4 address, or IPv6 address.
      *
      * @return the hostName value
      */
@@ -71,7 +71,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Set the hostName value.
+     * Set the address of the origin. It can be a domain name, IPv4 address, or IPv6 address.
      *
      * @param hostName the hostName value to set
      * @return the DeepCreatedOrigin object itself.
@@ -82,7 +82,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Get the httpPort value.
+     * Get the value of the HTTP port. Must be between 1 and 65535.
      *
      * @return the httpPort value
      */
@@ -91,7 +91,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Set the httpPort value.
+     * Set the value of the HTTP port. Must be between 1 and 65535.
      *
      * @param httpPort the httpPort value to set
      * @return the DeepCreatedOrigin object itself.
@@ -102,7 +102,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Get the httpsPort value.
+     * Get the value of the HTTPS port. Must be between 1 and 65535.
      *
      * @return the httpsPort value
      */
@@ -111,7 +111,7 @@ public class DeepCreatedOrigin {
     }
 
     /**
-     * Set the httpsPort value.
+     * Set the value of the HTTPS port. Must be between 1 and 65535.
      *
      * @param httpsPort the httpsPort value to set
      * @return the DeepCreatedOrigin object itself.

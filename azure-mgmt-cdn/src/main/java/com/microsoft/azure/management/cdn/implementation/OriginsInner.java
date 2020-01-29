@@ -13,6 +13,7 @@ import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.cdn.ErrorResponseException;
+import com.microsoft.azure.management.cdn.OriginUpdateParameters;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
 import com.microsoft.rest.ServiceCallback;
@@ -70,11 +71,11 @@ public class OriginsInner {
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins update" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginUpdateParametersInner originUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginUpdateParameters originUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins beginUpdate" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginUpdateParametersInner originUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("profileName") String profileName, @Path("endpointName") String endpointName, @Path("originName") String originName, @Path("subscriptionId") String subscriptionId, @Body OriginUpdateParameters originUpdateProperties, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.cdn.Origins listByEndpointNext" })
         @GET
@@ -326,7 +327,7 @@ public class OriginsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OriginInner object if successful.
      */
-    public OriginInner update(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public OriginInner update(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         return updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties).toBlocking().last().body();
     }
 
@@ -342,7 +343,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OriginInner> updateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties, final ServiceCallback<OriginInner> serviceCallback) {
+    public ServiceFuture<OriginInner> updateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties, final ServiceCallback<OriginInner> serviceCallback) {
         return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties), serviceCallback);
     }
 
@@ -357,7 +358,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<OriginInner> updateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public Observable<OriginInner> updateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         return updateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties).map(new Func1<ServiceResponse<OriginInner>, OriginInner>() {
             @Override
             public OriginInner call(ServiceResponse<OriginInner> response) {
@@ -377,7 +378,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable for the request
      */
-    public Observable<ServiceResponse<OriginInner>> updateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public Observable<ServiceResponse<OriginInner>> updateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -417,7 +418,7 @@ public class OriginsInner {
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the OriginInner object if successful.
      */
-    public OriginInner beginUpdate(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public OriginInner beginUpdate(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties).toBlocking().single().body();
     }
 
@@ -433,7 +434,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<OriginInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties, final ServiceCallback<OriginInner> serviceCallback) {
+    public ServiceFuture<OriginInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties, final ServiceCallback<OriginInner> serviceCallback) {
         return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties), serviceCallback);
     }
 
@@ -448,7 +449,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OriginInner object
      */
-    public Observable<OriginInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public Observable<OriginInner> beginUpdateAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         return beginUpdateWithServiceResponseAsync(resourceGroupName, profileName, endpointName, originName, originUpdateProperties).map(new Func1<ServiceResponse<OriginInner>, OriginInner>() {
             @Override
             public OriginInner call(ServiceResponse<OriginInner> response) {
@@ -468,7 +469,7 @@ public class OriginsInner {
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the observable to the OriginInner object
      */
-    public Observable<ServiceResponse<OriginInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParametersInner originUpdateProperties) {
+    public Observable<ServiceResponse<OriginInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String profileName, String endpointName, String originName, OriginUpdateParameters originUpdateProperties) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }

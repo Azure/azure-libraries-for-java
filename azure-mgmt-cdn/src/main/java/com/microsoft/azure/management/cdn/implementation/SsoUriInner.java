@@ -21,7 +21,7 @@ public class SsoUriInner {
     private String ssoUriValue;
 
     /**
-     * Get the ssoUriValue value.
+     * Get the URI used to login to the supplemental portal.
      *
      * @return the ssoUriValue value
      */

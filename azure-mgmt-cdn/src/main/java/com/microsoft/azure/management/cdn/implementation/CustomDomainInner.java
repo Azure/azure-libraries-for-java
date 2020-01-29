@@ -11,15 +11,17 @@ package com.microsoft.azure.management.cdn.implementation;
 import com.microsoft.azure.management.cdn.CustomDomainResourceState;
 import com.microsoft.azure.management.cdn.CustomHttpsProvisioningState;
 import com.microsoft.azure.management.cdn.CustomHttpsProvisioningSubstate;
+import com.microsoft.azure.management.cdn.CustomDomainHttpsParameters;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
+import com.microsoft.azure.ProxyResource;
 
 /**
  * Friendly domain name mapping to the endpoint hostname that the customer
- * provides for branding purposes, e.g. www.consoto.com.
+ * provides for branding purposes, e.g. www.contoso.com.
  */
 @JsonFlatten
-public class CustomDomainInner extends ProxyResourceInner {
+public class CustomDomainInner extends ProxyResource {
     /**
      * The host name of the custom domain. Must be a domain name.
      */
@@ -56,6 +58,12 @@ public class CustomDomainInner extends ProxyResourceInner {
     private CustomHttpsProvisioningSubstate customHttpsProvisioningSubstate;
 
     /**
+     * Certificate parameters for securing custom HTTPS.
+     */
+    @JsonProperty(value = "properties.customHttpsParameters")
+    private CustomDomainHttpsParameters customHttpsParameters;
+
+    /**
      * Special validation or data may be required when delivering CDN to some
      * regions due to local compliance reasons. E.g. ICP license number of a
      * custom domain is required to deliver content in China.
@@ -70,7 +78,7 @@ public class CustomDomainInner extends ProxyResourceInner {
     private String provisioningState;
 
     /**
-     * Get the hostName value.
+     * Get the host name of the custom domain. Must be a domain name.
      *
      * @return the hostName value
      */
@@ -79,7 +87,7 @@ public class CustomDomainInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the hostName value.
+     * Set the host name of the custom domain. Must be a domain name.
      *
      * @param hostName the hostName value to set
      * @return the CustomDomainInner object itself.
@@ -90,7 +98,7 @@ public class CustomDomainInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the resourceState value.
+     * Get resource status of the custom domain. Possible values include: 'Creating', 'Active', 'Deleting'.
      *
      * @return the resourceState value
      */
@@ -99,7 +107,7 @@ public class CustomDomainInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the customHttpsProvisioningState value.
+     * Get provisioning status of Custom Https of the custom domain. Possible values include: 'Enabling', 'Enabled', 'Disabling', 'Disabled', 'Failed'.
      *
      * @return the customHttpsProvisioningState value
      */
@@ -108,7 +116,7 @@ public class CustomDomainInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the customHttpsProvisioningSubstate value.
+     * Get provisioning substate shows the progress of custom HTTPS enabling/disabling process step by step. Possible values include: 'SubmittingDomainControlValidationRequest', 'PendingDomainControlValidationREquestApproval', 'DomainControlValidationRequestApproved', 'DomainControlValidationRequestRejected', 'DomainControlValidationRequestTimedOut', 'IssuingCertificate', 'DeployingCertificate', 'CertificateDeployed', 'DeletingCertificate', 'CertificateDeleted'.
      *
      * @return the customHttpsProvisioningSubstate value
      */
@@ -117,7 +125,27 @@ public class CustomDomainInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the validationData value.
+     * Get certificate parameters for securing custom HTTPS.
+     *
+     * @return the customHttpsParameters value
+     */
+    public CustomDomainHttpsParameters customHttpsParameters() {
+        return this.customHttpsParameters;
+    }
+
+    /**
+     * Set certificate parameters for securing custom HTTPS.
+     *
+     * @param customHttpsParameters the customHttpsParameters value to set
+     * @return the CustomDomainInner object itself.
+     */
+    public CustomDomainInner withCustomHttpsParameters(CustomDomainHttpsParameters customHttpsParameters) {
+        this.customHttpsParameters = customHttpsParameters;
+        return this;
+    }
+
+    /**
+     * Get special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
      *
      * @return the validationData value
      */
@@ -126,7 +154,7 @@ public class CustomDomainInner extends ProxyResourceInner {
     }
 
     /**
-     * Set the validationData value.
+     * Set special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
      *
      * @param validationData the validationData value to set
      * @return the CustomDomainInner object itself.
@@ -137,7 +165,7 @@ public class CustomDomainInner extends ProxyResourceInner {
     }
 
     /**
-     * Get the provisioningState value.
+     * Get provisioning status of the custom domain.
      *
      * @return the provisioningState value
      */

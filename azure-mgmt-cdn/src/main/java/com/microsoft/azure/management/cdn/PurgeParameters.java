@@ -23,7 +23,7 @@ public class PurgeParameters {
     private List<String> contentPaths;
 
     /**
-     * Get the contentPaths value.
+     * Get the path to the content to be purged. Can describe a file path or a wild card directory.
      *
      * @return the contentPaths value
      */
@@ -32,7 +32,7 @@ public class PurgeParameters {
     }
 
     /**
-     * Set the contentPaths value.
+     * Set the path to the content to be purged. Can describe a file path or a wild card directory.
      *
      * @param contentPaths the contentPaths value to set
      * @return the PurgeParameters object itself.

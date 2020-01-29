@@ -33,7 +33,7 @@ public class ValidateProbeOutputInner {
     private String message;
 
     /**
-     * Get the isValid value.
+     * Get indicates whether the probe URL is accepted or not.
      *
      * @return the isValid value
      */
@@ -42,7 +42,7 @@ public class ValidateProbeOutputInner {
     }
 
     /**
-     * Get the errorCode value.
+     * Get specifies the error code when the probe url is not accepted.
      *
      * @return the errorCode value
      */
@@ -51,7 +51,7 @@ public class ValidateProbeOutputInner {
     }
 
     /**
-     * Get the message value.
+     * Get the detailed error message describing why the probe URL is not accepted.
      *
      * @return the message value
      */

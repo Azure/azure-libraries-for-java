@@ -29,13 +29,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * NatGateways.
  */
-public final class NatGatewaysInner {
+public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -267,13 +270,15 @@ public final class NatGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NatGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String natGatewayName, TagsObject parameters) {
+    public Mono<SimpleResponse<NatGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String natGatewayName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, natGatewayName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -282,14 +287,14 @@ public final class NatGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<NatGatewayInner> updateTagsAsync(String resourceGroupName, String natGatewayName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, natGatewayName, parameters)
+    public Mono<NatGatewayInner> updateTagsAsync(String resourceGroupName, String natGatewayName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, natGatewayName, tags)
             .flatMap((SimpleResponse<NatGatewayInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -304,14 +309,14 @@ public final class NatGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public NatGatewayInner updateTags(String resourceGroupName, String natGatewayName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, natGatewayName, parameters).block();
+    public NatGatewayInner updateTags(String resourceGroupName, String natGatewayName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, natGatewayName, tags).block();
     }
 
     /**

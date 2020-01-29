@@ -8,7 +8,6 @@ package com.azure.management.network;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
-
 import java.util.Collection;
 
 /**
@@ -27,7 +26,7 @@ public final class ApplicationGatewayRequestRoutingRuleType extends ExpandableSt
 
     /**
      * Creates or finds a ApplicationGatewayRequestRoutingRuleType from its string representation.
-     *
+     * 
      * @param name a name to look for.
      * @return the corresponding ApplicationGatewayRequestRoutingRuleType.
      */

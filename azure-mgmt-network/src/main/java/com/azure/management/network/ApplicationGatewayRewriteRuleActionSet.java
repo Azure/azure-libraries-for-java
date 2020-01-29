@@ -8,7 +8,6 @@ package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ public final class ApplicationGatewayRewriteRuleActionSet {
     /**
      * Get the requestHeaderConfigurations property: Request Header Actions in
      * the Action Set.
-     *
+     * 
      * @return the requestHeaderConfigurations value.
      */
     public List<ApplicationGatewayHeaderConfiguration> getRequestHeaderConfigurations() {
@@ -41,9 +40,9 @@ public final class ApplicationGatewayRewriteRuleActionSet {
     /**
      * Set the requestHeaderConfigurations property: Request Header Actions in
      * the Action Set.
-     *
+     * 
      * @param requestHeaderConfigurations the requestHeaderConfigurations value
-     *                                    to set.
+     * to set.
      * @return the ApplicationGatewayRewriteRuleActionSet object itself.
      */
     public ApplicationGatewayRewriteRuleActionSet setRequestHeaderConfigurations(List<ApplicationGatewayHeaderConfiguration> requestHeaderConfigurations) {
@@ -54,7 +53,7 @@ public final class ApplicationGatewayRewriteRuleActionSet {
     /**
      * Get the responseHeaderConfigurations property: Response Header Actions
      * in the Action Set.
-     *
+     * 
      * @return the responseHeaderConfigurations value.
      */
     public List<ApplicationGatewayHeaderConfiguration> getResponseHeaderConfigurations() {
@@ -64,9 +63,9 @@ public final class ApplicationGatewayRewriteRuleActionSet {
     /**
      * Set the responseHeaderConfigurations property: Response Header Actions
      * in the Action Set.
-     *
+     * 
      * @param responseHeaderConfigurations the responseHeaderConfigurations
-     *                                     value to set.
+     * value to set.
      * @return the ApplicationGatewayRewriteRuleActionSet object itself.
      */
     public ApplicationGatewayRewriteRuleActionSet setResponseHeaderConfigurations(List<ApplicationGatewayHeaderConfiguration> responseHeaderConfigurations) {

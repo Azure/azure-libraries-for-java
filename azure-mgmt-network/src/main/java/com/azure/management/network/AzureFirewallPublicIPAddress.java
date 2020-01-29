@@ -22,7 +22,7 @@ public final class AzureFirewallPublicIPAddress {
 
     /**
      * Get the address property: Public IP Address value.
-     *
+     * 
      * @return the address value.
      */
     public String getAddress() {
@@ -31,7 +31,7 @@ public final class AzureFirewallPublicIPAddress {
 
     /**
      * Set the address property: Public IP Address value.
-     *
+     * 
      * @param address the address value to set.
      * @return the AzureFirewallPublicIPAddress object itself.
      */

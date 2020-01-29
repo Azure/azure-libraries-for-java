@@ -29,7 +29,7 @@ public final class ApplicationGatewayCustomError {
     /**
      * Get the statusCode property: Status code of the application gateway
      * customer error.
-     *
+     * 
      * @return the statusCode value.
      */
     public ApplicationGatewayCustomErrorStatusCode getStatusCode() {
@@ -39,7 +39,7 @@ public final class ApplicationGatewayCustomError {
     /**
      * Set the statusCode property: Status code of the application gateway
      * customer error.
-     *
+     * 
      * @param statusCode the statusCode value to set.
      * @return the ApplicationGatewayCustomError object itself.
      */
@@ -51,7 +51,7 @@ public final class ApplicationGatewayCustomError {
     /**
      * Get the customErrorPageUrl property: Error page URL of the application
      * gateway customer error.
-     *
+     * 
      * @return the customErrorPageUrl value.
      */
     public String getCustomErrorPageUrl() {
@@ -61,7 +61,7 @@ public final class ApplicationGatewayCustomError {
     /**
      * Set the customErrorPageUrl property: Error page URL of the application
      * gateway customer error.
-     *
+     * 
      * @param customErrorPageUrl the customErrorPageUrl value to set.
      * @return the ApplicationGatewayCustomError object itself.
      */

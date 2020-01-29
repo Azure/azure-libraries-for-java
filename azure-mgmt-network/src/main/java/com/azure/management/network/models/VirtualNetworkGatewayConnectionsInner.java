@@ -30,13 +30,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * VirtualNetworkGatewayConnections.
  */
-public final class VirtualNetworkGatewayConnectionsInner {
+public final class VirtualNetworkGatewayConnectionsInner implements InnerSupportsGet<VirtualNetworkGatewayConnectionInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -285,13 +288,15 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkGatewayConnectionInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, TagsObject parameters) {
+    public Mono<SimpleResponse<VirtualNetworkGatewayConnectionInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, virtualNetworkGatewayConnectionName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -300,14 +305,14 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualNetworkGatewayConnectionInner> updateTagsAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters)
+    public Mono<VirtualNetworkGatewayConnectionInner> updateTagsAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, tags)
             .flatMap((SimpleResponse<VirtualNetworkGatewayConnectionInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -322,14 +327,14 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualNetworkGatewayConnectionInner updateTags(String resourceGroupName, String virtualNetworkGatewayConnectionName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters).block();
+    public VirtualNetworkGatewayConnectionInner updateTags(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, virtualNetworkGatewayConnectionName, tags).block();
     }
 
     /**
@@ -485,13 +490,15 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The virtual network connection reset shared key.
+     * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ConnectionResetSharedKeyInner>> resetSharedKeyWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionResetSharedKeyInner parameters) {
+    public Mono<SimpleResponse<ConnectionResetSharedKeyInner>> resetSharedKeyWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
+        ConnectionResetSharedKeyInner parameters = new ConnectionResetSharedKeyInner();
+        parameters.setKeyLength(keyLength);
         return service.resetSharedKey(this.client.getHost(), resourceGroupName, virtualNetworkGatewayConnectionName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -500,14 +507,14 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The virtual network connection reset shared key.
+     * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ConnectionResetSharedKeyInner> resetSharedKeyAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionResetSharedKeyInner parameters) {
-        return resetSharedKeyWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters)
+    public Mono<ConnectionResetSharedKeyInner> resetSharedKeyAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
+        return resetSharedKeyWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, keyLength)
             .flatMap((SimpleResponse<ConnectionResetSharedKeyInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -522,14 +529,14 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The virtual network connection reset shared key.
+     * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConnectionResetSharedKeyInner resetSharedKey(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionResetSharedKeyInner parameters) {
-        return resetSharedKeyAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters).block();
+    public ConnectionResetSharedKeyInner resetSharedKey(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
+        return resetSharedKeyAsync(resourceGroupName, virtualNetworkGatewayConnectionName, keyLength).block();
     }
 
     /**
@@ -632,13 +639,15 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkGatewayConnectionInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, TagsObject parameters) {
+    public Mono<SimpleResponse<VirtualNetworkGatewayConnectionInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, virtualNetworkGatewayConnectionName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -647,14 +656,14 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualNetworkGatewayConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters)
+    public Mono<VirtualNetworkGatewayConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, tags)
             .flatMap((SimpleResponse<VirtualNetworkGatewayConnectionInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -669,14 +678,14 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualNetworkGatewayConnectionInner beginUpdateTags(String resourceGroupName, String virtualNetworkGatewayConnectionName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters).block();
+    public VirtualNetworkGatewayConnectionInner beginUpdateTags(String resourceGroupName, String virtualNetworkGatewayConnectionName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, virtualNetworkGatewayConnectionName, tags).block();
     }
 
     /**
@@ -736,13 +745,15 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The virtual network connection reset shared key.
+     * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ConnectionResetSharedKeyInner>> beginResetSharedKeyWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionResetSharedKeyInner parameters) {
+    public Mono<SimpleResponse<ConnectionResetSharedKeyInner>> beginResetSharedKeyWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
+        ConnectionResetSharedKeyInner parameters = new ConnectionResetSharedKeyInner();
+        parameters.setKeyLength(keyLength);
         return service.beginResetSharedKey(this.client.getHost(), resourceGroupName, virtualNetworkGatewayConnectionName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -751,14 +762,14 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The virtual network connection reset shared key.
+     * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ConnectionResetSharedKeyInner> beginResetSharedKeyAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionResetSharedKeyInner parameters) {
-        return beginResetSharedKeyWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters)
+    public Mono<ConnectionResetSharedKeyInner> beginResetSharedKeyAsync(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
+        return beginResetSharedKeyWithResponseAsync(resourceGroupName, virtualNetworkGatewayConnectionName, keyLength)
             .flatMap((SimpleResponse<ConnectionResetSharedKeyInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -773,14 +784,14 @@ public final class VirtualNetworkGatewayConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters The virtual network connection reset shared key.
+     * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConnectionResetSharedKeyInner beginResetSharedKey(String resourceGroupName, String virtualNetworkGatewayConnectionName, ConnectionResetSharedKeyInner parameters) {
-        return beginResetSharedKeyAsync(resourceGroupName, virtualNetworkGatewayConnectionName, parameters).block();
+    public ConnectionResetSharedKeyInner beginResetSharedKey(String resourceGroupName, String virtualNetworkGatewayConnectionName, int keyLength) {
+        return beginResetSharedKeyAsync(resourceGroupName, virtualNetworkGatewayConnectionName, keyLength).block();
     }
 
     /**

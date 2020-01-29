@@ -332,13 +332,15 @@ public final class SubnetsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param unprepareNetworkPoliciesRequestParameters Details of UnprepareNetworkPolicies for Subnet.
+     * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> unprepareNetworkPoliciesWithResponseAsync(String resourceGroupName, String virtualNetworkName, String subnetName, UnprepareNetworkPoliciesRequest unprepareNetworkPoliciesRequestParameters) {
+    public Mono<Response<Void>> unprepareNetworkPoliciesWithResponseAsync(String resourceGroupName, String virtualNetworkName, String subnetName, String serviceName) {
+        UnprepareNetworkPoliciesRequest unprepareNetworkPoliciesRequestParameters = new UnprepareNetworkPoliciesRequest();
+        unprepareNetworkPoliciesRequestParameters.setServiceName(serviceName);
         return service.unprepareNetworkPolicies(this.client.getHost(), resourceGroupName, virtualNetworkName, subnetName, this.client.getSubscriptionId(), unprepareNetworkPoliciesRequestParameters, this.client.getApiVersion());
     }
 
@@ -348,14 +350,14 @@ public final class SubnetsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param unprepareNetworkPoliciesRequestParameters Details of UnprepareNetworkPolicies for Subnet.
+     * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> unprepareNetworkPoliciesAsync(String resourceGroupName, String virtualNetworkName, String subnetName, UnprepareNetworkPoliciesRequest unprepareNetworkPoliciesRequestParameters) {
-        return unprepareNetworkPoliciesWithResponseAsync(resourceGroupName, virtualNetworkName, subnetName, unprepareNetworkPoliciesRequestParameters)
+    public Mono<Void> unprepareNetworkPoliciesAsync(String resourceGroupName, String virtualNetworkName, String subnetName, String serviceName) {
+        return unprepareNetworkPoliciesWithResponseAsync(resourceGroupName, virtualNetworkName, subnetName, serviceName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
@@ -365,14 +367,14 @@ public final class SubnetsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param unprepareNetworkPoliciesRequestParameters Details of UnprepareNetworkPolicies for Subnet.
+     * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void unprepareNetworkPolicies(String resourceGroupName, String virtualNetworkName, String subnetName, UnprepareNetworkPoliciesRequest unprepareNetworkPoliciesRequestParameters) {
-        unprepareNetworkPoliciesAsync(resourceGroupName, virtualNetworkName, subnetName, unprepareNetworkPoliciesRequestParameters).block();
+    public void unprepareNetworkPolicies(String resourceGroupName, String virtualNetworkName, String subnetName, String serviceName) {
+        unprepareNetworkPoliciesAsync(resourceGroupName, virtualNetworkName, subnetName, serviceName).block();
     }
 
     /**
@@ -581,13 +583,15 @@ public final class SubnetsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param unprepareNetworkPoliciesRequestParameters Details of UnprepareNetworkPolicies for Subnet.
+     * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Response<Void>> beginUnprepareNetworkPoliciesWithResponseAsync(String resourceGroupName, String virtualNetworkName, String subnetName, UnprepareNetworkPoliciesRequest unprepareNetworkPoliciesRequestParameters) {
+    public Mono<Response<Void>> beginUnprepareNetworkPoliciesWithResponseAsync(String resourceGroupName, String virtualNetworkName, String subnetName, String serviceName) {
+        UnprepareNetworkPoliciesRequest unprepareNetworkPoliciesRequestParameters = new UnprepareNetworkPoliciesRequest();
+        unprepareNetworkPoliciesRequestParameters.setServiceName(serviceName);
         return service.beginUnprepareNetworkPolicies(this.client.getHost(), resourceGroupName, virtualNetworkName, subnetName, this.client.getSubscriptionId(), unprepareNetworkPoliciesRequestParameters, this.client.getApiVersion());
     }
 
@@ -597,14 +601,14 @@ public final class SubnetsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param unprepareNetworkPoliciesRequestParameters Details of UnprepareNetworkPolicies for Subnet.
+     * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<Void> beginUnprepareNetworkPoliciesAsync(String resourceGroupName, String virtualNetworkName, String subnetName, UnprepareNetworkPoliciesRequest unprepareNetworkPoliciesRequestParameters) {
-        return beginUnprepareNetworkPoliciesWithResponseAsync(resourceGroupName, virtualNetworkName, subnetName, unprepareNetworkPoliciesRequestParameters)
+    public Mono<Void> beginUnprepareNetworkPoliciesAsync(String resourceGroupName, String virtualNetworkName, String subnetName, String serviceName) {
+        return beginUnprepareNetworkPoliciesWithResponseAsync(resourceGroupName, virtualNetworkName, subnetName, serviceName)
             .flatMap((Response<Void> res) -> Mono.empty());
     }
 
@@ -614,14 +618,14 @@ public final class SubnetsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param unprepareNetworkPoliciesRequestParameters Details of UnprepareNetworkPolicies for Subnet.
+     * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public void beginUnprepareNetworkPolicies(String resourceGroupName, String virtualNetworkName, String subnetName, UnprepareNetworkPoliciesRequest unprepareNetworkPoliciesRequestParameters) {
-        beginUnprepareNetworkPoliciesAsync(resourceGroupName, virtualNetworkName, subnetName, unprepareNetworkPoliciesRequestParameters).block();
+    public void beginUnprepareNetworkPolicies(String resourceGroupName, String virtualNetworkName, String subnetName, String serviceName) {
+        beginUnprepareNetworkPoliciesAsync(resourceGroupName, virtualNetworkName, subnetName, serviceName).block();
     }
 
     /**

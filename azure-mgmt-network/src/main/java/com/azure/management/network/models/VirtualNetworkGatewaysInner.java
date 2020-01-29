@@ -32,13 +32,16 @@ import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.network.VpnClientParameters;
 import com.azure.management.network.VpnDeviceScriptParameters;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * VirtualNetworkGateways.
  */
-public final class VirtualNetworkGatewaysInner {
+public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<VirtualNetworkGatewayInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -392,13 +395,15 @@ public final class VirtualNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayName, TagsObject parameters) {
+    public Mono<SimpleResponse<VirtualNetworkGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, virtualNetworkGatewayName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -407,14 +412,14 @@ public final class VirtualNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualNetworkGatewayInner> updateTagsAsync(String resourceGroupName, String virtualNetworkGatewayName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayName, parameters)
+    public Mono<VirtualNetworkGatewayInner> updateTagsAsync(String resourceGroupName, String virtualNetworkGatewayName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayName, tags)
             .flatMap((SimpleResponse<VirtualNetworkGatewayInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -429,14 +434,14 @@ public final class VirtualNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualNetworkGatewayInner updateTags(String resourceGroupName, String virtualNetworkGatewayName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, virtualNetworkGatewayName, parameters).block();
+    public VirtualNetworkGatewayInner updateTags(String resourceGroupName, String virtualNetworkGatewayName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, virtualNetworkGatewayName, tags).block();
     }
 
     /**
@@ -1288,13 +1293,15 @@ public final class VirtualNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkGatewayInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayName, TagsObject parameters) {
+    public Mono<SimpleResponse<VirtualNetworkGatewayInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String virtualNetworkGatewayName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, virtualNetworkGatewayName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -1303,14 +1310,14 @@ public final class VirtualNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualNetworkGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String virtualNetworkGatewayName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayName, parameters)
+    public Mono<VirtualNetworkGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String virtualNetworkGatewayName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, virtualNetworkGatewayName, tags)
             .flatMap((SimpleResponse<VirtualNetworkGatewayInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -1325,14 +1332,14 @@ public final class VirtualNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualNetworkGatewayInner beginUpdateTags(String resourceGroupName, String virtualNetworkGatewayName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, virtualNetworkGatewayName, parameters).block();
+    public VirtualNetworkGatewayInner beginUpdateTags(String resourceGroupName, String virtualNetworkGatewayName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, virtualNetworkGatewayName, tags).block();
     }
 
     /**

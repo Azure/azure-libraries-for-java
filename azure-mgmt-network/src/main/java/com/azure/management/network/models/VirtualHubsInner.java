@@ -27,16 +27,18 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.network.ErrorException;
 import com.azure.management.network.TagsObject;
-import com.azure.management.network.models.ErrorException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * VirtualHubs.
  */
-public final class VirtualHubsInner {
+public final class VirtualHubsInner implements InnerSupportsGet<VirtualHubInner>, InnerSupportsListing<VirtualHubInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -227,13 +229,15 @@ public final class VirtualHubsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualHubInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualHubName, TagsObject virtualHubParameters) {
+    public Mono<SimpleResponse<VirtualHubInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
+        TagsObject virtualHubParameters = new TagsObject();
+        virtualHubParameters.setTags(tags);
         return service.updateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualHubName, virtualHubParameters, this.client.getApiVersion());
     }
 
@@ -242,14 +246,14 @@ public final class VirtualHubsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualHubInner> updateTagsAsync(String resourceGroupName, String virtualHubName, TagsObject virtualHubParameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, virtualHubName, virtualHubParameters)
+    public Mono<VirtualHubInner> updateTagsAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, virtualHubName, tags)
             .flatMap((SimpleResponse<VirtualHubInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -264,14 +268,14 @@ public final class VirtualHubsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualHubInner updateTags(String resourceGroupName, String virtualHubName, TagsObject virtualHubParameters) {
-        return updateTagsAsync(resourceGroupName, virtualHubName, virtualHubParameters).block();
+    public VirtualHubInner updateTags(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, virtualHubName, tags).block();
     }
 
     /**
@@ -462,13 +466,15 @@ public final class VirtualHubsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualHubInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String virtualHubName, TagsObject virtualHubParameters) {
+    public Mono<SimpleResponse<VirtualHubInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
+        TagsObject virtualHubParameters = new TagsObject();
+        virtualHubParameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualHubName, virtualHubParameters, this.client.getApiVersion());
     }
 
@@ -477,14 +483,14 @@ public final class VirtualHubsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualHubInner> beginUpdateTagsAsync(String resourceGroupName, String virtualHubName, TagsObject virtualHubParameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, virtualHubName, virtualHubParameters)
+    public Mono<VirtualHubInner> beginUpdateTagsAsync(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, virtualHubName, tags)
             .flatMap((SimpleResponse<VirtualHubInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -499,14 +505,14 @@ public final class VirtualHubsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualHubInner beginUpdateTags(String resourceGroupName, String virtualHubName, TagsObject virtualHubParameters) {
-        return beginUpdateTagsAsync(resourceGroupName, virtualHubName, virtualHubParameters).block();
+    public VirtualHubInner beginUpdateTags(String resourceGroupName, String virtualHubName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, virtualHubName, tags).block();
     }
 
     /**

@@ -29,13 +29,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PublicIPPrefixes.
  */
-public final class PublicIPPrefixesInner {
+public final class PublicIPPrefixesInner implements InnerSupportsGet<PublicIPPrefixInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -272,13 +275,15 @@ public final class PublicIPPrefixesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param publicIpPrefixName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PublicIPPrefixInner>> updateTagsWithResponseAsync(String resourceGroupName, String publicIpPrefixName, TagsObject parameters) {
+    public Mono<SimpleResponse<PublicIPPrefixInner>> updateTagsWithResponseAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, publicIpPrefixName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -287,14 +292,14 @@ public final class PublicIPPrefixesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param publicIpPrefixName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PublicIPPrefixInner> updateTagsAsync(String resourceGroupName, String publicIpPrefixName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, publicIpPrefixName, parameters)
+    public Mono<PublicIPPrefixInner> updateTagsAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, publicIpPrefixName, tags)
             .flatMap((SimpleResponse<PublicIPPrefixInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -309,14 +314,14 @@ public final class PublicIPPrefixesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param publicIpPrefixName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public PublicIPPrefixInner updateTags(String resourceGroupName, String publicIpPrefixName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, publicIpPrefixName, parameters).block();
+    public PublicIPPrefixInner updateTags(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, publicIpPrefixName, tags).block();
     }
 
     /**
@@ -507,13 +512,15 @@ public final class PublicIPPrefixesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param publicIpPrefixName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PublicIPPrefixInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String publicIpPrefixName, TagsObject parameters) {
+    public Mono<SimpleResponse<PublicIPPrefixInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, publicIpPrefixName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -522,14 +529,14 @@ public final class PublicIPPrefixesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param publicIpPrefixName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PublicIPPrefixInner> beginUpdateTagsAsync(String resourceGroupName, String publicIpPrefixName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, publicIpPrefixName, parameters)
+    public Mono<PublicIPPrefixInner> beginUpdateTagsAsync(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, publicIpPrefixName, tags)
             .flatMap((SimpleResponse<PublicIPPrefixInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -544,14 +551,14 @@ public final class PublicIPPrefixesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param publicIpPrefixName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public PublicIPPrefixInner beginUpdateTags(String resourceGroupName, String publicIpPrefixName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, publicIpPrefixName, parameters).block();
+    public PublicIPPrefixInner beginUpdateTags(String resourceGroupName, String publicIpPrefixName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, publicIpPrefixName, tags).block();
     }
 
     /**

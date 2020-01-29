@@ -28,13 +28,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * ExpressRouteCrossConnections.
  */
-public final class ExpressRouteCrossConnectionsInner {
+public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<ExpressRouteCrossConnectionInner>, InnerSupportsListing<ExpressRouteCrossConnectionInner> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -333,13 +336,15 @@ public final class ExpressRouteCrossConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteCrossConnectionInner>> updateTagsWithResponseAsync(String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters) {
+    public Mono<SimpleResponse<ExpressRouteCrossConnectionInner>> updateTagsWithResponseAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
+        TagsObject crossConnectionParameters = new TagsObject();
+        crossConnectionParameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, crossConnectionName, this.client.getSubscriptionId(), crossConnectionParameters, this.client.getApiVersion());
     }
 
@@ -348,14 +353,14 @@ public final class ExpressRouteCrossConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ExpressRouteCrossConnectionInner> updateTagsAsync(String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, crossConnectionName, crossConnectionParameters)
+    public Mono<ExpressRouteCrossConnectionInner> updateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, crossConnectionName, tags)
             .flatMap((SimpleResponse<ExpressRouteCrossConnectionInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -370,14 +375,14 @@ public final class ExpressRouteCrossConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRouteCrossConnectionInner updateTags(String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters) {
-        return updateTagsAsync(resourceGroupName, crossConnectionName, crossConnectionParameters).block();
+    public ExpressRouteCrossConnectionInner updateTags(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, crossConnectionName, tags).block();
     }
 
     /**
@@ -602,13 +607,15 @@ public final class ExpressRouteCrossConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRouteCrossConnectionInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters) {
+    public Mono<SimpleResponse<ExpressRouteCrossConnectionInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
+        TagsObject crossConnectionParameters = new TagsObject();
+        crossConnectionParameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, crossConnectionName, this.client.getSubscriptionId(), crossConnectionParameters, this.client.getApiVersion());
     }
 
@@ -617,14 +624,14 @@ public final class ExpressRouteCrossConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, crossConnectionName, crossConnectionParameters)
+    public Mono<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, crossConnectionName, tags)
             .flatMap((SimpleResponse<ExpressRouteCrossConnectionInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -639,14 +646,14 @@ public final class ExpressRouteCrossConnectionsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRouteCrossConnectionInner beginUpdateTags(String resourceGroupName, String crossConnectionName, TagsObject crossConnectionParameters) {
-        return beginUpdateTagsAsync(resourceGroupName, crossConnectionName, crossConnectionParameters).block();
+    public ExpressRouteCrossConnectionInner beginUpdateTags(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, crossConnectionName, tags).block();
     }
 
     /**

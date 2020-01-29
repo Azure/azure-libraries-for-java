@@ -22,7 +22,7 @@ public final class AzureFirewallRCAction {
 
     /**
      * Get the type property: The action type of a rule collection.
-     *
+     * 
      * @return the type value.
      */
     public AzureFirewallRCActionType getType() {
@@ -31,7 +31,7 @@ public final class AzureFirewallRCAction {
 
     /**
      * Set the type property: The action type of a rule collection.
-     *
+     * 
      * @param type the type value to set.
      * @return the AzureFirewallRCAction object itself.
      */

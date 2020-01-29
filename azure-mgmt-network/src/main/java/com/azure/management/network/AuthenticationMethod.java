@@ -8,7 +8,6 @@ package com.azure.management.network;
 
 import com.azure.core.util.ExpandableStringEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
-
 import java.util.Collection;
 
 /**
@@ -27,7 +26,7 @@ public final class AuthenticationMethod extends ExpandableStringEnum<Authenticat
 
     /**
      * Creates or finds a AuthenticationMethod from its string representation.
-     *
+     * 
      * @param name a name to look for.
      * @return the corresponding AuthenticationMethod.
      */

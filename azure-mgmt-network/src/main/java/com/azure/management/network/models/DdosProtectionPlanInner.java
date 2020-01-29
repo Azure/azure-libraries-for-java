@@ -8,7 +8,6 @@ package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
-import com.azure.core.management.Resource;
 import com.azure.core.management.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
@@ -19,7 +18,7 @@ import java.util.Map;
  */
 @JsonFlatten
 @Fluent
-public class DdosProtectionPlanInner extends Resource {
+public class DdosProtectionPlanInner {
     /*
      * Resource ID.
      */

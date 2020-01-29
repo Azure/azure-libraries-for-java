@@ -28,13 +28,15 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * AzureFirewalls.
  */
-public final class AzureFirewallsInner {
+public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewallInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */

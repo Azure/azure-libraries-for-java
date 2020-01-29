@@ -29,13 +29,17 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * VirtualNetworkTaps.
  */
-public final class VirtualNetworkTapsInner {
+public final class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkTapInner>, InnerSupportsListing<VirtualNetworkTapInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -269,13 +273,15 @@ public final class VirtualNetworkTapsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param tapName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param tapParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkTapInner>> updateTagsWithResponseAsync(String resourceGroupName, String tapName, TagsObject tapParameters) {
+    public Mono<SimpleResponse<VirtualNetworkTapInner>> updateTagsWithResponseAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
+        TagsObject tapParameters = new TagsObject();
+        tapParameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, tapName, this.client.getSubscriptionId(), tapParameters, this.client.getApiVersion());
     }
 
@@ -284,14 +290,14 @@ public final class VirtualNetworkTapsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param tapName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param tapParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualNetworkTapInner> updateTagsAsync(String resourceGroupName, String tapName, TagsObject tapParameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, tapName, tapParameters)
+    public Mono<VirtualNetworkTapInner> updateTagsAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, tapName, tags)
             .flatMap((SimpleResponse<VirtualNetworkTapInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -306,14 +312,14 @@ public final class VirtualNetworkTapsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param tapName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param tapParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualNetworkTapInner updateTags(String resourceGroupName, String tapName, TagsObject tapParameters) {
-        return updateTagsAsync(resourceGroupName, tapName, tapParameters).block();
+    public VirtualNetworkTapInner updateTags(String resourceGroupName, String tapName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, tapName, tags).block();
     }
 
     /**
@@ -504,13 +510,15 @@ public final class VirtualNetworkTapsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param tapName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param tapParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualNetworkTapInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String tapName, TagsObject tapParameters) {
+    public Mono<SimpleResponse<VirtualNetworkTapInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
+        TagsObject tapParameters = new TagsObject();
+        tapParameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, tapName, this.client.getSubscriptionId(), tapParameters, this.client.getApiVersion());
     }
 
@@ -519,14 +527,14 @@ public final class VirtualNetworkTapsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param tapName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param tapParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualNetworkTapInner> beginUpdateTagsAsync(String resourceGroupName, String tapName, TagsObject tapParameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, tapName, tapParameters)
+    public Mono<VirtualNetworkTapInner> beginUpdateTagsAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, tapName, tags)
             .flatMap((SimpleResponse<VirtualNetworkTapInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -541,14 +549,14 @@ public final class VirtualNetworkTapsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param tapName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param tapParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualNetworkTapInner beginUpdateTags(String resourceGroupName, String tapName, TagsObject tapParameters) {
-        return beginUpdateTagsAsync(resourceGroupName, tapName, tapParameters).block();
+    public VirtualNetworkTapInner beginUpdateTags(String resourceGroupName, String tapName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, tapName, tags).block();
     }
 
     /**

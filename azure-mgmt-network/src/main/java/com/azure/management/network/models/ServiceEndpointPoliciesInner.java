@@ -29,13 +29,17 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * ServiceEndpointPolicies.
  */
-public final class ServiceEndpointPoliciesInner {
+public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEndpointPolicyInner>, InnerSupportsListing<ServiceEndpointPolicyInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -272,13 +276,15 @@ public final class ServiceEndpointPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ServiceEndpointPolicyInner>> updateWithResponseAsync(String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters) {
+    public Mono<SimpleResponse<ServiceEndpointPolicyInner>> updateWithResponseAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.update(this.client.getHost(), resourceGroupName, serviceEndpointPolicyName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -287,14 +293,14 @@ public final class ServiceEndpointPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ServiceEndpointPolicyInner> updateAsync(String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters) {
-        return updateWithResponseAsync(resourceGroupName, serviceEndpointPolicyName, parameters)
+    public Mono<ServiceEndpointPolicyInner> updateAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+        return updateWithResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags)
             .flatMap((SimpleResponse<ServiceEndpointPolicyInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -309,14 +315,14 @@ public final class ServiceEndpointPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServiceEndpointPolicyInner update(String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters) {
-        return updateAsync(resourceGroupName, serviceEndpointPolicyName, parameters).block();
+    public ServiceEndpointPolicyInner update(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+        return updateAsync(resourceGroupName, serviceEndpointPolicyName, tags).block();
     }
 
     /**
@@ -507,13 +513,15 @@ public final class ServiceEndpointPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ServiceEndpointPolicyInner>> beginUpdateWithResponseAsync(String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters) {
+    public Mono<SimpleResponse<ServiceEndpointPolicyInner>> beginUpdateWithResponseAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdate(this.client.getHost(), resourceGroupName, serviceEndpointPolicyName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -522,14 +530,14 @@ public final class ServiceEndpointPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ServiceEndpointPolicyInner> beginUpdateAsync(String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters) {
-        return beginUpdateWithResponseAsync(resourceGroupName, serviceEndpointPolicyName, parameters)
+    public Mono<ServiceEndpointPolicyInner> beginUpdateAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+        return beginUpdateWithResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags)
             .flatMap((SimpleResponse<ServiceEndpointPolicyInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -544,14 +552,14 @@ public final class ServiceEndpointPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ServiceEndpointPolicyInner beginUpdate(String resourceGroupName, String serviceEndpointPolicyName, TagsObject parameters) {
-        return beginUpdateAsync(resourceGroupName, serviceEndpointPolicyName, parameters).block();
+    public ServiceEndpointPolicyInner beginUpdate(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+        return beginUpdateAsync(resourceGroupName, serviceEndpointPolicyName, tags).block();
     }
 
     /**

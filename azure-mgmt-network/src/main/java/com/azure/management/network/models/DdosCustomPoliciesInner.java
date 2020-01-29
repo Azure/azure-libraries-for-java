@@ -25,13 +25,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * DdosCustomPolicies.
  */
-public final class DdosCustomPoliciesInner {
+public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolicyInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -245,13 +248,15 @@ public final class DdosCustomPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DdosCustomPolicyInner>> updateTagsWithResponseAsync(String resourceGroupName, String ddosCustomPolicyName, TagsObject parameters) {
+    public Mono<SimpleResponse<DdosCustomPolicyInner>> updateTagsWithResponseAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, ddosCustomPolicyName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -260,14 +265,14 @@ public final class DdosCustomPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<DdosCustomPolicyInner> updateTagsAsync(String resourceGroupName, String ddosCustomPolicyName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, ddosCustomPolicyName, parameters)
+    public Mono<DdosCustomPolicyInner> updateTagsAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, ddosCustomPolicyName, tags)
             .flatMap((SimpleResponse<DdosCustomPolicyInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -282,14 +287,14 @@ public final class DdosCustomPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DdosCustomPolicyInner updateTags(String resourceGroupName, String ddosCustomPolicyName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, ddosCustomPolicyName, parameters).block();
+    public DdosCustomPolicyInner updateTags(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, ddosCustomPolicyName, tags).block();
     }
 
     /**
@@ -392,13 +397,15 @@ public final class DdosCustomPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DdosCustomPolicyInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String ddosCustomPolicyName, TagsObject parameters) {
+    public Mono<SimpleResponse<DdosCustomPolicyInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, ddosCustomPolicyName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -407,14 +414,14 @@ public final class DdosCustomPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<DdosCustomPolicyInner> beginUpdateTagsAsync(String resourceGroupName, String ddosCustomPolicyName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, ddosCustomPolicyName, parameters)
+    public Mono<DdosCustomPolicyInner> beginUpdateTagsAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, ddosCustomPolicyName, tags)
             .flatMap((SimpleResponse<DdosCustomPolicyInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -429,13 +436,13 @@ public final class DdosCustomPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DdosCustomPolicyInner beginUpdateTags(String resourceGroupName, String ddosCustomPolicyName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, ddosCustomPolicyName, parameters).block();
+    public DdosCustomPolicyInner beginUpdateTags(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, ddosCustomPolicyName, tags).block();
     }
 }

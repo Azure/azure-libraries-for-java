@@ -27,9 +27,7 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.network.ErrorResponseException;
 import com.azure.management.network.PacketCapture;
-import com.azure.management.network.models.ErrorResponseException;
 import reactor.core.publisher.Mono;
 
 /**

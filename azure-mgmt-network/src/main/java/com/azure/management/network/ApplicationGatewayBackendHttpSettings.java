@@ -10,7 +10,6 @@ import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
 import com.azure.core.management.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
@@ -132,7 +131,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Get the name property: Name of the backend http settings that is unique
      * within an Application Gateway.
-     *
+     * 
      * @return the name value.
      */
     public String getName() {
@@ -142,7 +141,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Set the name property: Name of the backend http settings that is unique
      * within an Application Gateway.
-     *
+     * 
      * @param name the name value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -154,7 +153,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Get the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     *
+     * 
      * @return the etag value.
      */
     public String getEtag() {
@@ -164,7 +163,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Set the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     *
+     * 
      * @param etag the etag value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -175,7 +174,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Get the type property: Type of the resource.
-     *
+     * 
      * @return the type value.
      */
     public String getType() {
@@ -184,7 +183,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Set the type property: Type of the resource.
-     *
+     * 
      * @param type the type value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -195,7 +194,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Get the port property: The destination port on the backend.
-     *
+     * 
      * @return the port value.
      */
     public Integer getPort() {
@@ -204,7 +203,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Set the port property: The destination port on the backend.
-     *
+     * 
      * @param port the port value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -215,7 +214,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Get the protocol property: Application Gateway protocol.
-     *
+     * 
      * @return the protocol value.
      */
     public ApplicationGatewayProtocol getProtocol() {
@@ -224,7 +223,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Set the protocol property: Application Gateway protocol.
-     *
+     * 
      * @param protocol the protocol value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -235,7 +234,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Get the cookieBasedAffinity property: Cookie based affinity.
-     *
+     * 
      * @return the cookieBasedAffinity value.
      */
     public ApplicationGatewayCookieBasedAffinity getCookieBasedAffinity() {
@@ -244,7 +243,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Set the cookieBasedAffinity property: Cookie based affinity.
-     *
+     * 
      * @param cookieBasedAffinity the cookieBasedAffinity value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -257,7 +256,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Get the requestTimeout property: Request timeout in seconds. Application
      * Gateway will fail the request if response is not received within
      * RequestTimeout. Acceptable values are from 1 second to 86400 seconds.
-     *
+     * 
      * @return the requestTimeout value.
      */
     public Integer getRequestTimeout() {
@@ -268,7 +267,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Set the requestTimeout property: Request timeout in seconds. Application
      * Gateway will fail the request if response is not received within
      * RequestTimeout. Acceptable values are from 1 second to 86400 seconds.
-     *
+     * 
      * @param requestTimeout the requestTimeout value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -279,7 +278,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Get the probe property: Reference to another subresource.
-     *
+     * 
      * @return the probe value.
      */
     public SubResource getProbe() {
@@ -288,7 +287,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
 
     /**
      * Set the probe property: Reference to another subresource.
-     *
+     * 
      * @param probe the probe value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -300,7 +299,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Get the authenticationCertificates property: Array of references to
      * application gateway authentication certificates.
-     *
+     * 
      * @return the authenticationCertificates value.
      */
     public List<SubResource> getAuthenticationCertificates() {
@@ -310,9 +309,9 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Set the authenticationCertificates property: Array of references to
      * application gateway authentication certificates.
-     *
+     * 
      * @param authenticationCertificates the authenticationCertificates value
-     *                                   to set.
+     * to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
     public ApplicationGatewayBackendHttpSettings setAuthenticationCertificates(List<SubResource> authenticationCertificates) {
@@ -323,7 +322,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Get the trustedRootCertificates property: Array of references to
      * application gateway trusted root certificates.
-     *
+     * 
      * @return the trustedRootCertificates value.
      */
     public List<SubResource> getTrustedRootCertificates() {
@@ -333,7 +332,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Set the trustedRootCertificates property: Array of references to
      * application gateway trusted root certificates.
-     *
+     * 
      * @param trustedRootCertificates the trustedRootCertificates value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -346,7 +345,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Get the connectionDraining property: Connection draining allows open
      * connections to a backend server to be active for a specified time after
      * the backend server got removed from the configuration.
-     *
+     * 
      * @return the connectionDraining value.
      */
     public ApplicationGatewayConnectionDraining getConnectionDraining() {
@@ -357,7 +356,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Set the connectionDraining property: Connection draining allows open
      * connections to a backend server to be active for a specified time after
      * the backend server got removed from the configuration.
-     *
+     * 
      * @param connectionDraining the connectionDraining value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -369,7 +368,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Get the hostName property: Host header to be sent to the backend
      * servers.
-     *
+     * 
      * @return the hostName value.
      */
     public String getHostName() {
@@ -379,7 +378,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Set the hostName property: Host header to be sent to the backend
      * servers.
-     *
+     * 
      * @param hostName the hostName value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -392,7 +391,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Get the pickHostNameFromBackendAddress property: Whether to pick host
      * header should be picked from the host name of the backend server.
      * Default value is false.
-     *
+     * 
      * @return the pickHostNameFromBackendAddress value.
      */
     public Boolean isPickHostNameFromBackendAddress() {
@@ -403,9 +402,9 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Set the pickHostNameFromBackendAddress property: Whether to pick host
      * header should be picked from the host name of the backend server.
      * Default value is false.
-     *
+     * 
      * @param pickHostNameFromBackendAddress the pickHostNameFromBackendAddress
-     *                                       value to set.
+     * value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
     public ApplicationGatewayBackendHttpSettings setPickHostNameFromBackendAddress(Boolean pickHostNameFromBackendAddress) {
@@ -416,7 +415,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Get the affinityCookieName property: Cookie name to use for the affinity
      * cookie.
-     *
+     * 
      * @return the affinityCookieName value.
      */
     public String getAffinityCookieName() {
@@ -426,7 +425,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Set the affinityCookieName property: Cookie name to use for the affinity
      * cookie.
-     *
+     * 
      * @param affinityCookieName the affinityCookieName value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -438,7 +437,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Get the probeEnabled property: Whether the probe is enabled. Default
      * value is false.
-     *
+     * 
      * @return the probeEnabled value.
      */
     public Boolean isProbeEnabled() {
@@ -448,7 +447,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
     /**
      * Set the probeEnabled property: Whether the probe is enabled. Default
      * value is false.
-     *
+     * 
      * @param probeEnabled the probeEnabled value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -461,7 +460,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Get the path property: Path which should be used as a prefix for all
      * HTTP requests. Null means no path will be prefixed. Default value is
      * null.
-     *
+     * 
      * @return the path value.
      */
     public String getPath() {
@@ -472,7 +471,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Set the path property: Path which should be used as a prefix for all
      * HTTP requests. Null means no path will be prefixed. Default value is
      * null.
-     *
+     * 
      * @param path the path value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */
@@ -485,7 +484,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Get the provisioningState property: Provisioning state of the backend
      * http settings resource. Possible values are: 'Updating', 'Deleting', and
      * 'Failed'.
-     *
+     * 
      * @return the provisioningState value.
      */
     public String getProvisioningState() {
@@ -496,7 +495,7 @@ public class ApplicationGatewayBackendHttpSettings extends SubResource {
      * Set the provisioningState property: Provisioning state of the backend
      * http settings resource. Possible values are: 'Updating', 'Deleting', and
      * 'Failed'.
-     *
+     * 
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayBackendHttpSettings object itself.
      */

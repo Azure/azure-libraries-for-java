@@ -8,7 +8,6 @@ package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.util.List;
 
 /**
@@ -36,7 +35,7 @@ public final class AvailableProvidersListCountry {
 
     /**
      * Get the countryName property: The country name.
-     *
+     * 
      * @return the countryName value.
      */
     public String getCountryName() {
@@ -45,7 +44,7 @@ public final class AvailableProvidersListCountry {
 
     /**
      * Set the countryName property: The country name.
-     *
+     * 
      * @param countryName the countryName value to set.
      * @return the AvailableProvidersListCountry object itself.
      */
@@ -56,7 +55,7 @@ public final class AvailableProvidersListCountry {
 
     /**
      * Get the providers property: A list of Internet service providers.
-     *
+     * 
      * @return the providers value.
      */
     public List<String> getProviders() {
@@ -65,7 +64,7 @@ public final class AvailableProvidersListCountry {
 
     /**
      * Set the providers property: A list of Internet service providers.
-     *
+     * 
      * @param providers the providers value to set.
      * @return the AvailableProvidersListCountry object itself.
      */
@@ -76,7 +75,7 @@ public final class AvailableProvidersListCountry {
 
     /**
      * Get the states property: List of available states in the country.
-     *
+     * 
      * @return the states value.
      */
     public List<AvailableProvidersListState> getStates() {
@@ -85,7 +84,7 @@ public final class AvailableProvidersListCountry {
 
     /**
      * Set the states property: List of available states in the country.
-     *
+     * 
      * @param states the states value to set.
      * @return the AvailableProvidersListCountry object itself.
      */

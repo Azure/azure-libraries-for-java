@@ -8,7 +8,6 @@ package com.azure.management.network;
 
 import com.azure.core.annotation.Fluent;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import java.time.OffsetDateTime;
 
 /**
@@ -31,7 +30,7 @@ public final class AzureReachabilityReportLatencyInfo {
 
     /**
      * Get the timeStamp property: The time stamp.
-     *
+     * 
      * @return the timeStamp value.
      */
     public OffsetDateTime getTimeStamp() {
@@ -40,7 +39,7 @@ public final class AzureReachabilityReportLatencyInfo {
 
     /**
      * Set the timeStamp property: The time stamp.
-     *
+     * 
      * @param timeStamp the timeStamp value to set.
      * @return the AzureReachabilityReportLatencyInfo object itself.
      */
@@ -52,7 +51,7 @@ public final class AzureReachabilityReportLatencyInfo {
     /**
      * Get the score property: The relative latency score between 1 and 100,
      * higher values indicating a faster connection.
-     *
+     * 
      * @return the score value.
      */
     public Integer getScore() {
@@ -62,7 +61,7 @@ public final class AzureReachabilityReportLatencyInfo {
     /**
      * Set the score property: The relative latency score between 1 and 100,
      * higher values indicating a faster connection.
-     *
+     * 
      * @param score the score value to set.
      * @return the AzureReachabilityReportLatencyInfo object itself.
      */

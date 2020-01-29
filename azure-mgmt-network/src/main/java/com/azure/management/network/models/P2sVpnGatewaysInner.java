@@ -29,17 +29,20 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.network.ErrorException;
+import com.azure.management.network.AuthenticationMethod;
 import com.azure.management.network.P2SVpnProfileParameters;
 import com.azure.management.network.TagsObject;
-import com.azure.management.network.models.ErrorException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * P2sVpnGateways.
  */
-public final class P2sVpnGatewaysInner {
+public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>, InnerSupportsListing<P2SVpnGatewayInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -250,13 +253,15 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param p2SVpnGatewayParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<P2SVpnGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String gatewayName, TagsObject p2SVpnGatewayParameters) {
+    public Mono<SimpleResponse<P2SVpnGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+        TagsObject p2SVpnGatewayParameters = new TagsObject();
+        p2SVpnGatewayParameters.setTags(tags);
         return service.updateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, gatewayName, p2SVpnGatewayParameters, this.client.getApiVersion());
     }
 
@@ -265,14 +270,14 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param p2SVpnGatewayParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<P2SVpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName, TagsObject p2SVpnGatewayParameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, gatewayName, p2SVpnGatewayParameters)
+    public Mono<P2SVpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, gatewayName, tags)
             .flatMap((SimpleResponse<P2SVpnGatewayInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -287,14 +292,14 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param p2SVpnGatewayParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public P2SVpnGatewayInner updateTags(String resourceGroupName, String gatewayName, TagsObject p2SVpnGatewayParameters) {
-        return updateTagsAsync(resourceGroupName, gatewayName, p2SVpnGatewayParameters).block();
+    public P2SVpnGatewayInner updateTags(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, gatewayName, tags).block();
     }
 
     /**
@@ -433,13 +438,15 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Vpn Client Parameters for package generation.
+     * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VpnProfileResponseInner>> generateVpnProfileWithResponseAsync(String resourceGroupName, String gatewayName, P2SVpnProfileParameters parameters) {
+    public Mono<SimpleResponse<VpnProfileResponseInner>> generateVpnProfileWithResponseAsync(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
+        P2SVpnProfileParameters parameters = new P2SVpnProfileParameters();
+        parameters.setAuthenticationMethod(authenticationMethod);
         return service.generateVpnProfile(this.client.getHost(), resourceGroupName, gatewayName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -448,14 +455,14 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Vpn Client Parameters for package generation.
+     * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VpnProfileResponseInner> generateVpnProfileAsync(String resourceGroupName, String gatewayName, P2SVpnProfileParameters parameters) {
-        return generateVpnProfileWithResponseAsync(resourceGroupName, gatewayName, parameters)
+    public Mono<VpnProfileResponseInner> generateVpnProfileAsync(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
+        return generateVpnProfileWithResponseAsync(resourceGroupName, gatewayName, authenticationMethod)
             .flatMap((SimpleResponse<VpnProfileResponseInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -470,14 +477,14 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Vpn Client Parameters for package generation.
+     * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VpnProfileResponseInner generateVpnProfile(String resourceGroupName, String gatewayName, P2SVpnProfileParameters parameters) {
-        return generateVpnProfileAsync(resourceGroupName, gatewayName, parameters).block();
+    public VpnProfileResponseInner generateVpnProfile(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
+        return generateVpnProfileAsync(resourceGroupName, gatewayName, authenticationMethod).block();
     }
 
     /**
@@ -586,13 +593,15 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param p2SVpnGatewayParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<P2SVpnGatewayInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String gatewayName, TagsObject p2SVpnGatewayParameters) {
+    public Mono<SimpleResponse<P2SVpnGatewayInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+        TagsObject p2SVpnGatewayParameters = new TagsObject();
+        p2SVpnGatewayParameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, gatewayName, p2SVpnGatewayParameters, this.client.getApiVersion());
     }
 
@@ -601,14 +610,14 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param p2SVpnGatewayParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<P2SVpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName, TagsObject p2SVpnGatewayParameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, gatewayName, p2SVpnGatewayParameters)
+    public Mono<P2SVpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, gatewayName, tags)
             .flatMap((SimpleResponse<P2SVpnGatewayInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -623,14 +632,14 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param p2SVpnGatewayParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public P2SVpnGatewayInner beginUpdateTags(String resourceGroupName, String gatewayName, TagsObject p2SVpnGatewayParameters) {
-        return beginUpdateTagsAsync(resourceGroupName, gatewayName, p2SVpnGatewayParameters).block();
+    public P2SVpnGatewayInner beginUpdateTags(String resourceGroupName, String gatewayName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, gatewayName, tags).block();
     }
 
     /**
@@ -681,13 +690,15 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Vpn Client Parameters for package generation.
+     * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VpnProfileResponseInner>> beginGenerateVpnProfileWithResponseAsync(String resourceGroupName, String gatewayName, P2SVpnProfileParameters parameters) {
+    public Mono<SimpleResponse<VpnProfileResponseInner>> beginGenerateVpnProfileWithResponseAsync(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
+        P2SVpnProfileParameters parameters = new P2SVpnProfileParameters();
+        parameters.setAuthenticationMethod(authenticationMethod);
         return service.beginGenerateVpnProfile(this.client.getHost(), resourceGroupName, gatewayName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -696,14 +707,14 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Vpn Client Parameters for package generation.
+     * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VpnProfileResponseInner> beginGenerateVpnProfileAsync(String resourceGroupName, String gatewayName, P2SVpnProfileParameters parameters) {
-        return beginGenerateVpnProfileWithResponseAsync(resourceGroupName, gatewayName, parameters)
+    public Mono<VpnProfileResponseInner> beginGenerateVpnProfileAsync(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
+        return beginGenerateVpnProfileWithResponseAsync(resourceGroupName, gatewayName, authenticationMethod)
             .flatMap((SimpleResponse<VpnProfileResponseInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -718,14 +729,14 @@ public final class P2sVpnGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Vpn Client Parameters for package generation.
+     * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VpnProfileResponseInner beginGenerateVpnProfile(String resourceGroupName, String gatewayName, P2SVpnProfileParameters parameters) {
-        return beginGenerateVpnProfileAsync(resourceGroupName, gatewayName, parameters).block();
+    public VpnProfileResponseInner beginGenerateVpnProfile(String resourceGroupName, String gatewayName, AuthenticationMethod authenticationMethod) {
+        return beginGenerateVpnProfileAsync(resourceGroupName, gatewayName, authenticationMethod).block();
     }
 
     /**

@@ -29,13 +29,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * LocalNetworkGateways.
  */
-public final class LocalNetworkGatewaysInner {
+public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNetworkGatewayInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -259,13 +262,15 @@ public final class LocalNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<LocalNetworkGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String localNetworkGatewayName, TagsObject parameters) {
+    public Mono<SimpleResponse<LocalNetworkGatewayInner>> updateTagsWithResponseAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, localNetworkGatewayName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -274,14 +279,14 @@ public final class LocalNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<LocalNetworkGatewayInner> updateTagsAsync(String resourceGroupName, String localNetworkGatewayName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, localNetworkGatewayName, parameters)
+    public Mono<LocalNetworkGatewayInner> updateTagsAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, localNetworkGatewayName, tags)
             .flatMap((SimpleResponse<LocalNetworkGatewayInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -296,14 +301,14 @@ public final class LocalNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public LocalNetworkGatewayInner updateTags(String resourceGroupName, String localNetworkGatewayName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, localNetworkGatewayName, parameters).block();
+    public LocalNetworkGatewayInner updateTags(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, localNetworkGatewayName, tags).block();
     }
 
     /**
@@ -453,13 +458,15 @@ public final class LocalNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<LocalNetworkGatewayInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String localNetworkGatewayName, TagsObject parameters) {
+    public Mono<SimpleResponse<LocalNetworkGatewayInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, localNetworkGatewayName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -468,14 +475,14 @@ public final class LocalNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<LocalNetworkGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String localNetworkGatewayName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, localNetworkGatewayName, parameters)
+    public Mono<LocalNetworkGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, localNetworkGatewayName, tags)
             .flatMap((SimpleResponse<LocalNetworkGatewayInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -490,14 +497,14 @@ public final class LocalNetworkGatewaysInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public LocalNetworkGatewayInner beginUpdateTags(String resourceGroupName, String localNetworkGatewayName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, localNetworkGatewayName, parameters).block();
+    public LocalNetworkGatewayInner beginUpdateTags(String resourceGroupName, String localNetworkGatewayName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, localNetworkGatewayName, tags).block();
     }
 
     /**

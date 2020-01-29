@@ -29,13 +29,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * NetworkSecurityGroups.
  */
-public final class NetworkSecurityGroupsInner {
+public final class NetworkSecurityGroupsInner implements InnerSupportsGet<NetworkSecurityGroupInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -272,13 +275,15 @@ public final class NetworkSecurityGroupsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkSecurityGroupInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkSecurityGroupName, TagsObject parameters) {
+    public Mono<SimpleResponse<NetworkSecurityGroupInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, networkSecurityGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -287,14 +292,14 @@ public final class NetworkSecurityGroupsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<NetworkSecurityGroupInner> updateTagsAsync(String resourceGroupName, String networkSecurityGroupName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, networkSecurityGroupName, parameters)
+    public Mono<NetworkSecurityGroupInner> updateTagsAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, networkSecurityGroupName, tags)
             .flatMap((SimpleResponse<NetworkSecurityGroupInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -309,14 +314,14 @@ public final class NetworkSecurityGroupsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public NetworkSecurityGroupInner updateTags(String resourceGroupName, String networkSecurityGroupName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, networkSecurityGroupName, parameters).block();
+    public NetworkSecurityGroupInner updateTags(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, networkSecurityGroupName, tags).block();
     }
 
     /**
@@ -507,13 +512,15 @@ public final class NetworkSecurityGroupsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkSecurityGroupInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String networkSecurityGroupName, TagsObject parameters) {
+    public Mono<SimpleResponse<NetworkSecurityGroupInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, networkSecurityGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -522,14 +529,14 @@ public final class NetworkSecurityGroupsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<NetworkSecurityGroupInner> beginUpdateTagsAsync(String resourceGroupName, String networkSecurityGroupName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, networkSecurityGroupName, parameters)
+    public Mono<NetworkSecurityGroupInner> beginUpdateTagsAsync(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, networkSecurityGroupName, tags)
             .flatMap((SimpleResponse<NetworkSecurityGroupInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -544,14 +551,14 @@ public final class NetworkSecurityGroupsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public NetworkSecurityGroupInner beginUpdateTags(String resourceGroupName, String networkSecurityGroupName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, networkSecurityGroupName, parameters).block();
+    public NetworkSecurityGroupInner beginUpdateTags(String resourceGroupName, String networkSecurityGroupName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, networkSecurityGroupName, tags).block();
     }
 
     /**

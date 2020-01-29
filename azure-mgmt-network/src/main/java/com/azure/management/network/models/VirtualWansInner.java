@@ -27,16 +27,18 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.network.ErrorException;
 import com.azure.management.network.TagsObject;
-import com.azure.management.network.models.ErrorException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * VirtualWans.
  */
-public final class VirtualWansInner {
+public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>, InnerSupportsListing<VirtualWANInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -227,13 +229,15 @@ public final class VirtualWansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param wANParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualWANInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualWANName, TagsObject wANParameters) {
+    public Mono<SimpleResponse<VirtualWANInner>> updateTagsWithResponseAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
+        TagsObject wANParameters = new TagsObject();
+        wANParameters.setTags(tags);
         return service.updateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualWANName, wANParameters, this.client.getApiVersion());
     }
 
@@ -242,14 +246,14 @@ public final class VirtualWansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param wANParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualWANInner> updateTagsAsync(String resourceGroupName, String virtualWANName, TagsObject wANParameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, virtualWANName, wANParameters)
+    public Mono<VirtualWANInner> updateTagsAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, virtualWANName, tags)
             .flatMap((SimpleResponse<VirtualWANInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -264,14 +268,14 @@ public final class VirtualWansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param wANParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualWANInner updateTags(String resourceGroupName, String virtualWANName, TagsObject wANParameters) {
-        return updateTagsAsync(resourceGroupName, virtualWANName, wANParameters).block();
+    public VirtualWANInner updateTags(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, virtualWANName, tags).block();
     }
 
     /**
@@ -462,13 +466,15 @@ public final class VirtualWansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param wANParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VirtualWANInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String virtualWANName, TagsObject wANParameters) {
+    public Mono<SimpleResponse<VirtualWANInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
+        TagsObject wANParameters = new TagsObject();
+        wANParameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, virtualWANName, wANParameters, this.client.getApiVersion());
     }
 
@@ -477,14 +483,14 @@ public final class VirtualWansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param wANParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VirtualWANInner> beginUpdateTagsAsync(String resourceGroupName, String virtualWANName, TagsObject wANParameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, virtualWANName, wANParameters)
+    public Mono<VirtualWANInner> beginUpdateTagsAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, virtualWANName, tags)
             .flatMap((SimpleResponse<VirtualWANInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -499,14 +505,14 @@ public final class VirtualWansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param wANParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VirtualWANInner beginUpdateTags(String resourceGroupName, String virtualWANName, TagsObject wANParameters) {
-        return beginUpdateTagsAsync(resourceGroupName, virtualWANName, wANParameters).block();
+    public VirtualWANInner beginUpdateTags(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, virtualWANName, tags).block();
     }
 
     /**

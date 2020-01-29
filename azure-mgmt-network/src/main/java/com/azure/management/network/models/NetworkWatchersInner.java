@@ -31,7 +31,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.management.network.AvailableProvidersListParameters;
 import com.azure.management.network.AzureReachabilityReportParameters;
 import com.azure.management.network.ConnectivityParameters;
-import com.azure.management.network.ErrorResponseException;
 import com.azure.management.network.FlowLogStatusParameters;
 import com.azure.management.network.NetworkConfigurationDiagnosticParameters;
 import com.azure.management.network.NextHopParameters;
@@ -41,14 +40,16 @@ import com.azure.management.network.TagsObject;
 import com.azure.management.network.TopologyParameters;
 import com.azure.management.network.TroubleshootingParameters;
 import com.azure.management.network.VerificationIPFlowParameters;
-import com.azure.management.network.models.ErrorResponseException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * NetworkWatchers.
  */
-public final class NetworkWatchersInner {
+public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatcherInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -377,13 +378,15 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkWatcherInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkWatcherName, TagsObject parameters) {
+    public Mono<SimpleResponse<NetworkWatcherInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkWatcherName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -392,14 +395,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<NetworkWatcherInner> updateTagsAsync(String resourceGroupName, String networkWatcherName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
+    public Mono<NetworkWatcherInner> updateTagsAsync(String resourceGroupName, String networkWatcherName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, networkWatcherName, tags)
             .flatMap((SimpleResponse<NetworkWatcherInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -414,14 +417,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public NetworkWatcherInner updateTags(String resourceGroupName, String networkWatcherName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, networkWatcherName, parameters).block();
+    public NetworkWatcherInner updateTags(String resourceGroupName, String networkWatcherName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, networkWatcherName, tags).block();
     }
 
     /**
@@ -671,13 +674,15 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the VM to check security groups for.
+     * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<SecurityGroupViewResultInner>> getVMSecurityRulesWithResponseAsync(String resourceGroupName, String networkWatcherName, SecurityGroupViewParameters parameters) {
+    public Mono<SimpleResponse<SecurityGroupViewResultInner>> getVMSecurityRulesWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        SecurityGroupViewParameters parameters = new SecurityGroupViewParameters();
+        parameters.setTargetResourceId(targetResourceId);
         return service.getVMSecurityRules(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -686,14 +691,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the VM to check security groups for.
+     * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SecurityGroupViewResultInner> getVMSecurityRulesAsync(String resourceGroupName, String networkWatcherName, SecurityGroupViewParameters parameters) {
-        return getVMSecurityRulesWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
+    public Mono<SecurityGroupViewResultInner> getVMSecurityRulesAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return getVMSecurityRulesWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
             .flatMap((SimpleResponse<SecurityGroupViewResultInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -708,14 +713,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the VM to check security groups for.
+     * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public SecurityGroupViewResultInner getVMSecurityRules(String resourceGroupName, String networkWatcherName, SecurityGroupViewParameters parameters) {
-        return getVMSecurityRulesAsync(resourceGroupName, networkWatcherName, parameters).block();
+    public SecurityGroupViewResultInner getVMSecurityRules(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return getVMSecurityRulesAsync(resourceGroupName, networkWatcherName, targetResourceId).block();
     }
 
     /**
@@ -775,13 +780,15 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the resource to query the troubleshooting result.
+     * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<TroubleshootingResultInner>> getTroubleshootingResultWithResponseAsync(String resourceGroupName, String networkWatcherName, QueryTroubleshootingParameters parameters) {
+    public Mono<SimpleResponse<TroubleshootingResultInner>> getTroubleshootingResultWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        QueryTroubleshootingParameters parameters = new QueryTroubleshootingParameters();
+        parameters.setTargetResourceId(targetResourceId);
         return service.getTroubleshootingResult(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -790,14 +797,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the resource to query the troubleshooting result.
+     * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<TroubleshootingResultInner> getTroubleshootingResultAsync(String resourceGroupName, String networkWatcherName, QueryTroubleshootingParameters parameters) {
-        return getTroubleshootingResultWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
+    public Mono<TroubleshootingResultInner> getTroubleshootingResultAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return getTroubleshootingResultWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
             .flatMap((SimpleResponse<TroubleshootingResultInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -812,14 +819,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the resource to query the troubleshooting result.
+     * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public TroubleshootingResultInner getTroubleshootingResult(String resourceGroupName, String networkWatcherName, QueryTroubleshootingParameters parameters) {
-        return getTroubleshootingResultAsync(resourceGroupName, networkWatcherName, parameters).block();
+    public TroubleshootingResultInner getTroubleshootingResult(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return getTroubleshootingResultAsync(resourceGroupName, networkWatcherName, targetResourceId).block();
     }
 
     /**
@@ -879,13 +886,15 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define a resource to query flow log and traffic analytics (optional) status.
+     * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<FlowLogInformationInner>> getFlowLogStatusWithResponseAsync(String resourceGroupName, String networkWatcherName, FlowLogStatusParameters parameters) {
+    public Mono<SimpleResponse<FlowLogInformationInner>> getFlowLogStatusWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        FlowLogStatusParameters parameters = new FlowLogStatusParameters();
+        parameters.setTargetResourceId(targetResourceId);
         return service.getFlowLogStatus(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -894,14 +903,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define a resource to query flow log and traffic analytics (optional) status.
+     * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<FlowLogInformationInner> getFlowLogStatusAsync(String resourceGroupName, String networkWatcherName, FlowLogStatusParameters parameters) {
-        return getFlowLogStatusWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
+    public Mono<FlowLogInformationInner> getFlowLogStatusAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return getFlowLogStatusWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
             .flatMap((SimpleResponse<FlowLogInformationInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -916,14 +925,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define a resource to query flow log and traffic analytics (optional) status.
+     * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public FlowLogInformationInner getFlowLogStatus(String resourceGroupName, String networkWatcherName, FlowLogStatusParameters parameters) {
-        return getFlowLogStatusAsync(resourceGroupName, networkWatcherName, parameters).block();
+    public FlowLogInformationInner getFlowLogStatus(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return getFlowLogStatusAsync(resourceGroupName, networkWatcherName, targetResourceId).block();
     }
 
     /**
@@ -1286,13 +1295,15 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the VM to check security groups for.
+     * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<SecurityGroupViewResultInner>> beginGetVMSecurityRulesWithResponseAsync(String resourceGroupName, String networkWatcherName, SecurityGroupViewParameters parameters) {
+    public Mono<SimpleResponse<SecurityGroupViewResultInner>> beginGetVMSecurityRulesWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        SecurityGroupViewParameters parameters = new SecurityGroupViewParameters();
+        parameters.setTargetResourceId(targetResourceId);
         return service.beginGetVMSecurityRules(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -1301,14 +1312,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the VM to check security groups for.
+     * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SecurityGroupViewResultInner> beginGetVMSecurityRulesAsync(String resourceGroupName, String networkWatcherName, SecurityGroupViewParameters parameters) {
-        return beginGetVMSecurityRulesWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
+    public Mono<SecurityGroupViewResultInner> beginGetVMSecurityRulesAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return beginGetVMSecurityRulesWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
             .flatMap((SimpleResponse<SecurityGroupViewResultInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -1323,14 +1334,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the VM to check security groups for.
+     * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public SecurityGroupViewResultInner beginGetVMSecurityRules(String resourceGroupName, String networkWatcherName, SecurityGroupViewParameters parameters) {
-        return beginGetVMSecurityRulesAsync(resourceGroupName, networkWatcherName, parameters).block();
+    public SecurityGroupViewResultInner beginGetVMSecurityRules(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return beginGetVMSecurityRulesAsync(resourceGroupName, networkWatcherName, targetResourceId).block();
     }
 
     /**
@@ -1390,13 +1401,15 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the resource to query the troubleshooting result.
+     * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<TroubleshootingResultInner>> beginGetTroubleshootingResultWithResponseAsync(String resourceGroupName, String networkWatcherName, QueryTroubleshootingParameters parameters) {
+    public Mono<SimpleResponse<TroubleshootingResultInner>> beginGetTroubleshootingResultWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        QueryTroubleshootingParameters parameters = new QueryTroubleshootingParameters();
+        parameters.setTargetResourceId(targetResourceId);
         return service.beginGetTroubleshootingResult(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -1405,14 +1418,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the resource to query the troubleshooting result.
+     * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<TroubleshootingResultInner> beginGetTroubleshootingResultAsync(String resourceGroupName, String networkWatcherName, QueryTroubleshootingParameters parameters) {
-        return beginGetTroubleshootingResultWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
+    public Mono<TroubleshootingResultInner> beginGetTroubleshootingResultAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return beginGetTroubleshootingResultWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
             .flatMap((SimpleResponse<TroubleshootingResultInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -1427,14 +1440,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define the resource to query the troubleshooting result.
+     * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public TroubleshootingResultInner beginGetTroubleshootingResult(String resourceGroupName, String networkWatcherName, QueryTroubleshootingParameters parameters) {
-        return beginGetTroubleshootingResultAsync(resourceGroupName, networkWatcherName, parameters).block();
+    public TroubleshootingResultInner beginGetTroubleshootingResult(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return beginGetTroubleshootingResultAsync(resourceGroupName, networkWatcherName, targetResourceId).block();
     }
 
     /**
@@ -1494,13 +1507,15 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define a resource to query flow log and traffic analytics (optional) status.
+     * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<FlowLogInformationInner>> beginGetFlowLogStatusWithResponseAsync(String resourceGroupName, String networkWatcherName, FlowLogStatusParameters parameters) {
+    public Mono<SimpleResponse<FlowLogInformationInner>> beginGetFlowLogStatusWithResponseAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        FlowLogStatusParameters parameters = new FlowLogStatusParameters();
+        parameters.setTargetResourceId(targetResourceId);
         return service.beginGetFlowLogStatus(this.client.getHost(), resourceGroupName, networkWatcherName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -1509,14 +1524,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define a resource to query flow log and traffic analytics (optional) status.
+     * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<FlowLogInformationInner> beginGetFlowLogStatusAsync(String resourceGroupName, String networkWatcherName, FlowLogStatusParameters parameters) {
-        return beginGetFlowLogStatusWithResponseAsync(resourceGroupName, networkWatcherName, parameters)
+    public Mono<FlowLogInformationInner> beginGetFlowLogStatusAsync(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return beginGetFlowLogStatusWithResponseAsync(resourceGroupName, networkWatcherName, targetResourceId)
             .flatMap((SimpleResponse<FlowLogInformationInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -1531,14 +1546,14 @@ public final class NetworkWatchersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Parameters that define a resource to query flow log and traffic analytics (optional) status.
+     * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public FlowLogInformationInner beginGetFlowLogStatus(String resourceGroupName, String networkWatcherName, FlowLogStatusParameters parameters) {
-        return beginGetFlowLogStatusAsync(resourceGroupName, networkWatcherName, parameters).block();
+    public FlowLogInformationInner beginGetFlowLogStatus(String resourceGroupName, String networkWatcherName, String targetResourceId) {
+        return beginGetFlowLogStatusAsync(resourceGroupName, networkWatcherName, targetResourceId).block();
     }
 
     /**

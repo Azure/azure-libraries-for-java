@@ -29,15 +29,15 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.CheckPrivateLinkServiceVisibilityRequest;
-import com.azure.management.network.ErrorException;
-import com.azure.management.network.models.ErrorException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PrivateLinkServices.
  */
-public final class PrivateLinkServicesInner {
+public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkServiceInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -497,13 +497,15 @@ public final class PrivateLinkServicesInner {
      * Checks the subscription is visible to private link service.
      * 
      * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Request body of the CheckPrivateLinkServiceVisibility API service call.
+     * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PrivateLinkServiceVisibilityInner>> checkPrivateLinkServiceVisibilityWithResponseAsync(String location, CheckPrivateLinkServiceVisibilityRequest parameters) {
+    public Mono<SimpleResponse<PrivateLinkServiceVisibilityInner>> checkPrivateLinkServiceVisibilityWithResponseAsync(String location, String privateLinkServiceAlias) {
+        CheckPrivateLinkServiceVisibilityRequest parameters = new CheckPrivateLinkServiceVisibilityRequest();
+        parameters.setPrivateLinkServiceAlias(privateLinkServiceAlias);
         return service.checkPrivateLinkServiceVisibility(this.client.getHost(), location, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -511,14 +513,14 @@ public final class PrivateLinkServicesInner {
      * Checks the subscription is visible to private link service.
      * 
      * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Request body of the CheckPrivateLinkServiceVisibility API service call.
+     * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PrivateLinkServiceVisibilityInner> checkPrivateLinkServiceVisibilityAsync(String location, CheckPrivateLinkServiceVisibilityRequest parameters) {
-        return checkPrivateLinkServiceVisibilityWithResponseAsync(location, parameters)
+    public Mono<PrivateLinkServiceVisibilityInner> checkPrivateLinkServiceVisibilityAsync(String location, String privateLinkServiceAlias) {
+        return checkPrivateLinkServiceVisibilityWithResponseAsync(location, privateLinkServiceAlias)
             .flatMap((SimpleResponse<PrivateLinkServiceVisibilityInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -532,14 +534,14 @@ public final class PrivateLinkServicesInner {
      * Checks the subscription is visible to private link service.
      * 
      * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Request body of the CheckPrivateLinkServiceVisibility API service call.
+     * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public PrivateLinkServiceVisibilityInner checkPrivateLinkServiceVisibility(String location, CheckPrivateLinkServiceVisibilityRequest parameters) {
-        return checkPrivateLinkServiceVisibilityAsync(location, parameters).block();
+    public PrivateLinkServiceVisibilityInner checkPrivateLinkServiceVisibility(String location, String privateLinkServiceAlias) {
+        return checkPrivateLinkServiceVisibilityAsync(location, privateLinkServiceAlias).block();
     }
 
     /**
@@ -547,13 +549,15 @@ public final class PrivateLinkServicesInner {
      * 
      * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Request body of the CheckPrivateLinkServiceVisibility API service call.
+     * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PrivateLinkServiceVisibilityInner>> checkPrivateLinkServiceVisibilityByResourceGroupWithResponseAsync(String location, String resourceGroupName, CheckPrivateLinkServiceVisibilityRequest parameters) {
+    public Mono<SimpleResponse<PrivateLinkServiceVisibilityInner>> checkPrivateLinkServiceVisibilityByResourceGroupWithResponseAsync(String location, String resourceGroupName, String privateLinkServiceAlias) {
+        CheckPrivateLinkServiceVisibilityRequest parameters = new CheckPrivateLinkServiceVisibilityRequest();
+        parameters.setPrivateLinkServiceAlias(privateLinkServiceAlias);
         return service.checkPrivateLinkServiceVisibilityByResourceGroup(this.client.getHost(), location, resourceGroupName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -562,14 +566,14 @@ public final class PrivateLinkServicesInner {
      * 
      * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Request body of the CheckPrivateLinkServiceVisibility API service call.
+     * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PrivateLinkServiceVisibilityInner> checkPrivateLinkServiceVisibilityByResourceGroupAsync(String location, String resourceGroupName, CheckPrivateLinkServiceVisibilityRequest parameters) {
-        return checkPrivateLinkServiceVisibilityByResourceGroupWithResponseAsync(location, resourceGroupName, parameters)
+    public Mono<PrivateLinkServiceVisibilityInner> checkPrivateLinkServiceVisibilityByResourceGroupAsync(String location, String resourceGroupName, String privateLinkServiceAlias) {
+        return checkPrivateLinkServiceVisibilityByResourceGroupWithResponseAsync(location, resourceGroupName, privateLinkServiceAlias)
             .flatMap((SimpleResponse<PrivateLinkServiceVisibilityInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -584,14 +588,14 @@ public final class PrivateLinkServicesInner {
      * 
      * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Request body of the CheckPrivateLinkServiceVisibility API service call.
+     * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public PrivateLinkServiceVisibilityInner checkPrivateLinkServiceVisibilityByResourceGroup(String location, String resourceGroupName, CheckPrivateLinkServiceVisibilityRequest parameters) {
-        return checkPrivateLinkServiceVisibilityByResourceGroupAsync(location, resourceGroupName, parameters).block();
+    public PrivateLinkServiceVisibilityInner checkPrivateLinkServiceVisibilityByResourceGroup(String location, String resourceGroupName, String privateLinkServiceAlias) {
+        return checkPrivateLinkServiceVisibilityByResourceGroupAsync(location, resourceGroupName, privateLinkServiceAlias).block();
     }
 
     /**

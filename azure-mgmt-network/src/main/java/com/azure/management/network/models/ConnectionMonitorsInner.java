@@ -29,9 +29,8 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.management.network.ConnectionMonitor;
-import com.azure.management.network.ErrorResponseException;
 import com.azure.management.network.TagsObject;
-import com.azure.management.network.models.ErrorResponseException;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
@@ -292,13 +291,15 @@ public final class ConnectionMonitorsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ConnectionMonitorResultInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, TagsObject parameters) {
+    public Mono<SimpleResponse<ConnectionMonitorResultInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, networkWatcherName, connectionMonitorName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -308,14 +309,14 @@ public final class ConnectionMonitorsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ConnectionMonitorResultInner> updateTagsAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters)
+    public Mono<ConnectionMonitorResultInner> updateTagsAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, tags)
             .flatMap((SimpleResponse<ConnectionMonitorResultInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -331,14 +332,14 @@ public final class ConnectionMonitorsInner {
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConnectionMonitorResultInner updateTags(String resourceGroupName, String networkWatcherName, String connectionMonitorName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).block();
+    public ConnectionMonitorResultInner updateTags(String resourceGroupName, String networkWatcherName, String connectionMonitorName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, networkWatcherName, connectionMonitorName, tags).block();
     }
 
     /**

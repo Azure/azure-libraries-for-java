@@ -29,13 +29,17 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * ExpressRoutePorts.
  */
-public final class ExpressRoutePortsInner {
+public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRoutePortInner>, InnerSupportsListing<ExpressRoutePortInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -269,13 +273,15 @@ public final class ExpressRoutePortsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRoutePortInner>> updateTagsWithResponseAsync(String resourceGroupName, String expressRoutePortName, TagsObject parameters) {
+    public Mono<SimpleResponse<ExpressRoutePortInner>> updateTagsWithResponseAsync(String resourceGroupName, String expressRoutePortName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, expressRoutePortName, parameters, this.client.getApiVersion());
     }
 
@@ -284,14 +290,14 @@ public final class ExpressRoutePortsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ExpressRoutePortInner> updateTagsAsync(String resourceGroupName, String expressRoutePortName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, expressRoutePortName, parameters)
+    public Mono<ExpressRoutePortInner> updateTagsAsync(String resourceGroupName, String expressRoutePortName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, expressRoutePortName, tags)
             .flatMap((SimpleResponse<ExpressRoutePortInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -306,14 +312,14 @@ public final class ExpressRoutePortsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRoutePortInner updateTags(String resourceGroupName, String expressRoutePortName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, expressRoutePortName, parameters).block();
+    public ExpressRoutePortInner updateTags(String resourceGroupName, String expressRoutePortName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, expressRoutePortName, tags).block();
     }
 
     /**
@@ -504,13 +510,15 @@ public final class ExpressRoutePortsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ExpressRoutePortInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String expressRoutePortName, TagsObject parameters) {
+    public Mono<SimpleResponse<ExpressRoutePortInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String expressRoutePortName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, expressRoutePortName, parameters, this.client.getApiVersion());
     }
 
@@ -519,14 +527,14 @@ public final class ExpressRoutePortsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ExpressRoutePortInner> beginUpdateTagsAsync(String resourceGroupName, String expressRoutePortName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, expressRoutePortName, parameters)
+    public Mono<ExpressRoutePortInner> beginUpdateTagsAsync(String resourceGroupName, String expressRoutePortName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, expressRoutePortName, tags)
             .flatMap((SimpleResponse<ExpressRoutePortInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -541,14 +549,14 @@ public final class ExpressRoutePortsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ExpressRoutePortInner beginUpdateTags(String resourceGroupName, String expressRoutePortName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, expressRoutePortName, parameters).block();
+    public ExpressRoutePortInner beginUpdateTags(String resourceGroupName, String expressRoutePortName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, expressRoutePortName, tags).block();
     }
 
     /**

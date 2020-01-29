@@ -28,16 +28,17 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.network.ErrorException;
 import com.azure.management.network.TagsObject;
-import com.azure.management.network.models.ErrorException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * FirewallPolicies.
  */
-public final class FirewallPoliciesInner {
+public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPolicyInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -217,13 +218,15 @@ public final class FirewallPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<FirewallPolicyInner>> updateTagsWithResponseAsync(String resourceGroupName, String firewallPolicyName, TagsObject firewallPolicyParameters) {
+    public Mono<SimpleResponse<FirewallPolicyInner>> updateTagsWithResponseAsync(String resourceGroupName, String firewallPolicyName, Map<String, String> tags) {
+        TagsObject firewallPolicyParameters = new TagsObject();
+        firewallPolicyParameters.setTags(tags);
         return service.updateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, firewallPolicyName, firewallPolicyParameters, this.client.getApiVersion());
     }
 
@@ -232,14 +235,14 @@ public final class FirewallPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<FirewallPolicyInner> updateTagsAsync(String resourceGroupName, String firewallPolicyName, TagsObject firewallPolicyParameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, firewallPolicyName, firewallPolicyParameters)
+    public Mono<FirewallPolicyInner> updateTagsAsync(String resourceGroupName, String firewallPolicyName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, firewallPolicyName, tags)
             .flatMap((SimpleResponse<FirewallPolicyInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -254,14 +257,14 @@ public final class FirewallPoliciesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public FirewallPolicyInner updateTags(String resourceGroupName, String firewallPolicyName, TagsObject firewallPolicyParameters) {
-        return updateTagsAsync(resourceGroupName, firewallPolicyName, firewallPolicyParameters).block();
+    public FirewallPolicyInner updateTags(String resourceGroupName, String firewallPolicyName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, firewallPolicyName, tags).block();
     }
 
     /**

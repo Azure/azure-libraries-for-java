@@ -29,13 +29,17 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * DdosProtectionPlans.
  */
-public final class DdosProtectionPlansInner {
+public final class DdosProtectionPlansInner implements InnerSupportsGet<DdosProtectionPlanInner>, InnerSupportsListing<DdosProtectionPlanInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -269,13 +273,15 @@ public final class DdosProtectionPlansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosProtectionPlanName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DdosProtectionPlanInner>> updateTagsWithResponseAsync(String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters) {
+    public Mono<SimpleResponse<DdosProtectionPlanInner>> updateTagsWithResponseAsync(String resourceGroupName, String ddosProtectionPlanName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, ddosProtectionPlanName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -284,14 +290,14 @@ public final class DdosProtectionPlansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosProtectionPlanName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<DdosProtectionPlanInner> updateTagsAsync(String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters)
+    public Mono<DdosProtectionPlanInner> updateTagsAsync(String resourceGroupName, String ddosProtectionPlanName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, ddosProtectionPlanName, tags)
             .flatMap((SimpleResponse<DdosProtectionPlanInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -306,14 +312,14 @@ public final class DdosProtectionPlansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosProtectionPlanName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DdosProtectionPlanInner updateTags(String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, ddosProtectionPlanName, parameters).block();
+    public DdosProtectionPlanInner updateTags(String resourceGroupName, String ddosProtectionPlanName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, ddosProtectionPlanName, tags).block();
     }
 
     /**
@@ -504,13 +510,15 @@ public final class DdosProtectionPlansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosProtectionPlanName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<DdosProtectionPlanInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters) {
+    public Mono<SimpleResponse<DdosProtectionPlanInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String ddosProtectionPlanName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, ddosProtectionPlanName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -519,14 +527,14 @@ public final class DdosProtectionPlansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosProtectionPlanName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<DdosProtectionPlanInner> beginUpdateTagsAsync(String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, ddosProtectionPlanName, parameters)
+    public Mono<DdosProtectionPlanInner> beginUpdateTagsAsync(String resourceGroupName, String ddosProtectionPlanName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, ddosProtectionPlanName, tags)
             .flatMap((SimpleResponse<DdosProtectionPlanInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -541,14 +549,14 @@ public final class DdosProtectionPlansInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param ddosProtectionPlanName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public DdosProtectionPlanInner beginUpdateTags(String resourceGroupName, String ddosProtectionPlanName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, ddosProtectionPlanName, parameters).block();
+    public DdosProtectionPlanInner beginUpdateTags(String resourceGroupName, String ddosProtectionPlanName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, ddosProtectionPlanName, tags).block();
     }
 
     /**

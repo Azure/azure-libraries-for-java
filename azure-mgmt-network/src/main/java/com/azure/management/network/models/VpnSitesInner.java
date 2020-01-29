@@ -27,16 +27,18 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.network.ErrorException;
 import com.azure.management.network.TagsObject;
-import com.azure.management.network.models.ErrorException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * VpnSites.
  */
-public final class VpnSitesInner {
+public final class VpnSitesInner implements InnerSupportsGet<VpnSiteInner>, InnerSupportsListing<VpnSiteInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -227,13 +229,15 @@ public final class VpnSitesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VpnSiteInner>> updateTagsWithResponseAsync(String resourceGroupName, String vpnSiteName, TagsObject vpnSiteParameters) {
+    public Mono<SimpleResponse<VpnSiteInner>> updateTagsWithResponseAsync(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
+        TagsObject vpnSiteParameters = new TagsObject();
+        vpnSiteParameters.setTags(tags);
         return service.updateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, vpnSiteName, vpnSiteParameters, this.client.getApiVersion());
     }
 
@@ -242,14 +246,14 @@ public final class VpnSitesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VpnSiteInner> updateTagsAsync(String resourceGroupName, String vpnSiteName, TagsObject vpnSiteParameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, vpnSiteName, vpnSiteParameters)
+    public Mono<VpnSiteInner> updateTagsAsync(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, vpnSiteName, tags)
             .flatMap((SimpleResponse<VpnSiteInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -264,14 +268,14 @@ public final class VpnSitesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VpnSiteInner updateTags(String resourceGroupName, String vpnSiteName, TagsObject vpnSiteParameters) {
-        return updateTagsAsync(resourceGroupName, vpnSiteName, vpnSiteParameters).block();
+    public VpnSiteInner updateTags(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, vpnSiteName, tags).block();
     }
 
     /**
@@ -462,13 +466,15 @@ public final class VpnSitesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<VpnSiteInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String vpnSiteName, TagsObject vpnSiteParameters) {
+    public Mono<SimpleResponse<VpnSiteInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
+        TagsObject vpnSiteParameters = new TagsObject();
+        vpnSiteParameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, vpnSiteName, vpnSiteParameters, this.client.getApiVersion());
     }
 
@@ -477,14 +483,14 @@ public final class VpnSitesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<VpnSiteInner> beginUpdateTagsAsync(String resourceGroupName, String vpnSiteName, TagsObject vpnSiteParameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, vpnSiteName, vpnSiteParameters)
+    public Mono<VpnSiteInner> beginUpdateTagsAsync(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, vpnSiteName, tags)
             .flatMap((SimpleResponse<VpnSiteInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -499,14 +505,14 @@ public final class VpnSitesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public VpnSiteInner beginUpdateTags(String resourceGroupName, String vpnSiteName, TagsObject vpnSiteParameters) {
-        return beginUpdateTagsAsync(resourceGroupName, vpnSiteName, vpnSiteParameters).block();
+    public VpnSiteInner beginUpdateTags(String resourceGroupName, String vpnSiteName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, vpnSiteName, tags).block();
     }
 
     /**

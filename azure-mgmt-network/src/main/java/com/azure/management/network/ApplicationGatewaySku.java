@@ -34,7 +34,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Get the name property: Name of an application gateway SKU.
-     *
+     * 
      * @return the name value.
      */
     public ApplicationGatewaySkuName getName() {
@@ -43,7 +43,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Set the name property: Name of an application gateway SKU.
-     *
+     * 
      * @param name the name value to set.
      * @return the ApplicationGatewaySku object itself.
      */
@@ -54,7 +54,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Get the tier property: Tier of an application gateway.
-     *
+     * 
      * @return the tier value.
      */
     public ApplicationGatewayTier getTier() {
@@ -63,7 +63,7 @@ public final class ApplicationGatewaySku {
 
     /**
      * Set the tier property: Tier of an application gateway.
-     *
+     * 
      * @param tier the tier value to set.
      * @return the ApplicationGatewaySku object itself.
      */
@@ -75,7 +75,7 @@ public final class ApplicationGatewaySku {
     /**
      * Get the capacity property: Capacity (instance count) of an application
      * gateway.
-     *
+     * 
      * @return the capacity value.
      */
     public Integer getCapacity() {
@@ -85,7 +85,7 @@ public final class ApplicationGatewaySku {
     /**
      * Set the capacity property: Capacity (instance count) of an application
      * gateway.
-     *
+     * 
      * @param capacity the capacity value to set.
      * @return the ApplicationGatewaySku object itself.
      */

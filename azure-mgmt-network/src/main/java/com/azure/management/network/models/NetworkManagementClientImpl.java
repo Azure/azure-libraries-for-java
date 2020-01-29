@@ -25,8 +25,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.CloudException;
 import com.azure.management.AzureServiceClient;
-import com.azure.management.network.ErrorException;
-import com.azure.management.network.models.ErrorException;
 import reactor.core.publisher.Mono;
 
 /**

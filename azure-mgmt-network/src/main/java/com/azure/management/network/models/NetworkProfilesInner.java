@@ -29,13 +29,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * NetworkProfiles.
  */
-public final class NetworkProfilesInner {
+public final class NetworkProfilesInner implements InnerSupportsGet<NetworkProfileInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -262,13 +265,15 @@ public final class NetworkProfilesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkProfileName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkProfileInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkProfileName, TagsObject parameters) {
+    public Mono<SimpleResponse<NetworkProfileInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkProfileName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, networkProfileName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -277,14 +282,14 @@ public final class NetworkProfilesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkProfileName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<NetworkProfileInner> updateTagsAsync(String resourceGroupName, String networkProfileName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, networkProfileName, parameters)
+    public Mono<NetworkProfileInner> updateTagsAsync(String resourceGroupName, String networkProfileName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, networkProfileName, tags)
             .flatMap((SimpleResponse<NetworkProfileInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -299,14 +304,14 @@ public final class NetworkProfilesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkProfileName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public NetworkProfileInner updateTags(String resourceGroupName, String networkProfileName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, networkProfileName, parameters).block();
+    public NetworkProfileInner updateTags(String resourceGroupName, String networkProfileName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, networkProfileName, tags).block();
     }
 
     /**

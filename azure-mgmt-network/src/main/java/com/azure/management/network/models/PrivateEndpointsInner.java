@@ -26,15 +26,15 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.network.ErrorException;
-import com.azure.management.network.models.ErrorException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PrivateEndpoints.
  */
-public final class PrivateEndpointsInner {
+public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */

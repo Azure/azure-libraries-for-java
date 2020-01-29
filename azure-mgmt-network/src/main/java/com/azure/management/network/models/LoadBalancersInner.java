@@ -29,13 +29,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * LoadBalancers.
  */
-public final class LoadBalancersInner {
+public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -272,13 +275,15 @@ public final class LoadBalancersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<LoadBalancerInner>> updateTagsWithResponseAsync(String resourceGroupName, String loadBalancerName, TagsObject parameters) {
+    public Mono<SimpleResponse<LoadBalancerInner>> updateTagsWithResponseAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, loadBalancerName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -287,14 +292,14 @@ public final class LoadBalancersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<LoadBalancerInner> updateTagsAsync(String resourceGroupName, String loadBalancerName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, loadBalancerName, parameters)
+    public Mono<LoadBalancerInner> updateTagsAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, loadBalancerName, tags)
             .flatMap((SimpleResponse<LoadBalancerInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -309,14 +314,14 @@ public final class LoadBalancersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public LoadBalancerInner updateTags(String resourceGroupName, String loadBalancerName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, loadBalancerName, parameters).block();
+    public LoadBalancerInner updateTags(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, loadBalancerName, tags).block();
     }
 
     /**
@@ -507,13 +512,15 @@ public final class LoadBalancersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<LoadBalancerInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String loadBalancerName, TagsObject parameters) {
+    public Mono<SimpleResponse<LoadBalancerInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, loadBalancerName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -522,14 +529,14 @@ public final class LoadBalancersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<LoadBalancerInner> beginUpdateTagsAsync(String resourceGroupName, String loadBalancerName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, loadBalancerName, parameters)
+    public Mono<LoadBalancerInner> beginUpdateTagsAsync(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, loadBalancerName, tags)
             .flatMap((SimpleResponse<LoadBalancerInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -544,14 +551,14 @@ public final class LoadBalancersInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public LoadBalancerInner beginUpdateTags(String resourceGroupName, String loadBalancerName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, loadBalancerName, parameters).block();
+    public LoadBalancerInner beginUpdateTags(String resourceGroupName, String loadBalancerName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, loadBalancerName, tags).block();
     }
 
     /**

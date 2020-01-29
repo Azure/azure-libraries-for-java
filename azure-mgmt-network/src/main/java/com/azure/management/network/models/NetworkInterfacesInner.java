@@ -30,13 +30,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * NetworkInterfaces.
  */
-public final class NetworkInterfacesInner {
+public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterfaceInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -333,13 +336,15 @@ public final class NetworkInterfacesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkInterfaceInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkInterfaceName, TagsObject parameters) {
+    public Mono<SimpleResponse<NetworkInterfaceInner>> updateTagsWithResponseAsync(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, networkInterfaceName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -348,14 +353,14 @@ public final class NetworkInterfacesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<NetworkInterfaceInner> updateTagsAsync(String resourceGroupName, String networkInterfaceName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, networkInterfaceName, parameters)
+    public Mono<NetworkInterfaceInner> updateTagsAsync(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, networkInterfaceName, tags)
             .flatMap((SimpleResponse<NetworkInterfaceInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -370,14 +375,14 @@ public final class NetworkInterfacesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public NetworkInterfaceInner updateTags(String resourceGroupName, String networkInterfaceName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, networkInterfaceName, parameters).block();
+    public NetworkInterfaceInner updateTags(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, networkInterfaceName, tags).block();
     }
 
     /**
@@ -947,13 +952,15 @@ public final class NetworkInterfacesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<NetworkInterfaceInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String networkInterfaceName, TagsObject parameters) {
+    public Mono<SimpleResponse<NetworkInterfaceInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, networkInterfaceName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -962,14 +969,14 @@ public final class NetworkInterfacesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<NetworkInterfaceInner> beginUpdateTagsAsync(String resourceGroupName, String networkInterfaceName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, networkInterfaceName, parameters)
+    public Mono<NetworkInterfaceInner> beginUpdateTagsAsync(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, networkInterfaceName, tags)
             .flatMap((SimpleResponse<NetworkInterfaceInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -984,14 +991,14 @@ public final class NetworkInterfacesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public NetworkInterfaceInner beginUpdateTags(String resourceGroupName, String networkInterfaceName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, networkInterfaceName, parameters).block();
+    public NetworkInterfaceInner beginUpdateTags(String resourceGroupName, String networkInterfaceName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, networkInterfaceName, tags).block();
     }
 
     /**

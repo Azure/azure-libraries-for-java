@@ -29,13 +29,16 @@ import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * RouteTables.
  */
-public final class RouteTablesInner {
+public final class RouteTablesInner implements InnerSupportsGet<RouteTableInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -272,13 +275,15 @@ public final class RouteTablesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param routeTableName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<RouteTableInner>> updateTagsWithResponseAsync(String resourceGroupName, String routeTableName, TagsObject parameters) {
+    public Mono<SimpleResponse<RouteTableInner>> updateTagsWithResponseAsync(String resourceGroupName, String routeTableName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.updateTags(this.client.getHost(), resourceGroupName, routeTableName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -287,14 +292,14 @@ public final class RouteTablesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param routeTableName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<RouteTableInner> updateTagsAsync(String resourceGroupName, String routeTableName, TagsObject parameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, routeTableName, parameters)
+    public Mono<RouteTableInner> updateTagsAsync(String resourceGroupName, String routeTableName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, routeTableName, tags)
             .flatMap((SimpleResponse<RouteTableInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -309,14 +314,14 @@ public final class RouteTablesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param routeTableName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public RouteTableInner updateTags(String resourceGroupName, String routeTableName, TagsObject parameters) {
-        return updateTagsAsync(resourceGroupName, routeTableName, parameters).block();
+    public RouteTableInner updateTags(String resourceGroupName, String routeTableName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, routeTableName, tags).block();
     }
 
     /**
@@ -507,13 +512,15 @@ public final class RouteTablesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param routeTableName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<RouteTableInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String routeTableName, TagsObject parameters) {
+    public Mono<SimpleResponse<RouteTableInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String routeTableName, Map<String, String> tags) {
+        TagsObject parameters = new TagsObject();
+        parameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), resourceGroupName, routeTableName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
@@ -522,14 +529,14 @@ public final class RouteTablesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param routeTableName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<RouteTableInner> beginUpdateTagsAsync(String resourceGroupName, String routeTableName, TagsObject parameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, routeTableName, parameters)
+    public Mono<RouteTableInner> beginUpdateTagsAsync(String resourceGroupName, String routeTableName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, routeTableName, tags)
             .flatMap((SimpleResponse<RouteTableInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -544,14 +551,14 @@ public final class RouteTablesInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param routeTableName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param parameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public RouteTableInner beginUpdateTags(String resourceGroupName, String routeTableName, TagsObject parameters) {
-        return beginUpdateTagsAsync(resourceGroupName, routeTableName, parameters).block();
+    public RouteTableInner beginUpdateTags(String resourceGroupName, String routeTableName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, routeTableName, tags).block();
     }
 
     /**

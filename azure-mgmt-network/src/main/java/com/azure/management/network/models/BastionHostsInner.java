@@ -28,16 +28,18 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
-import com.azure.management.network.ErrorException;
 import com.azure.management.network.TagsObject;
-import com.azure.management.network.models.ErrorException;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
+import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
+import java.util.Map;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * BastionHosts.
  */
-public final class BastionHostsInner {
+public final class BastionHostsInner implements InnerSupportsGet<BastionHostInner>, InnerSupportsListing<BastionHostInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -271,13 +273,15 @@ public final class BastionHostsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<BastionHostInner>> updateTagsWithResponseAsync(String resourceGroupName, String bastionHostName, TagsObject bastionHostParameters) {
+    public Mono<SimpleResponse<BastionHostInner>> updateTagsWithResponseAsync(String resourceGroupName, String bastionHostName, Map<String, String> tags) {
+        TagsObject bastionHostParameters = new TagsObject();
+        bastionHostParameters.setTags(tags);
         return service.updateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, bastionHostName, bastionHostParameters, this.client.getApiVersion());
     }
 
@@ -286,14 +290,14 @@ public final class BastionHostsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<BastionHostInner> updateTagsAsync(String resourceGroupName, String bastionHostName, TagsObject bastionHostParameters) {
-        return updateTagsWithResponseAsync(resourceGroupName, bastionHostName, bastionHostParameters)
+    public Mono<BastionHostInner> updateTagsAsync(String resourceGroupName, String bastionHostName, Map<String, String> tags) {
+        return updateTagsWithResponseAsync(resourceGroupName, bastionHostName, tags)
             .flatMap((SimpleResponse<BastionHostInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -308,14 +312,14 @@ public final class BastionHostsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public BastionHostInner updateTags(String resourceGroupName, String bastionHostName, TagsObject bastionHostParameters) {
-        return updateTagsAsync(resourceGroupName, bastionHostName, bastionHostParameters).block();
+    public BastionHostInner updateTags(String resourceGroupName, String bastionHostName, Map<String, String> tags) {
+        return updateTagsAsync(resourceGroupName, bastionHostName, tags).block();
     }
 
     /**
@@ -506,13 +510,15 @@ public final class BastionHostsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<BastionHostInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String bastionHostName, TagsObject bastionHostParameters) {
+    public Mono<SimpleResponse<BastionHostInner>> beginUpdateTagsWithResponseAsync(String resourceGroupName, String bastionHostName, Map<String, String> tags) {
+        TagsObject bastionHostParameters = new TagsObject();
+        bastionHostParameters.setTags(tags);
         return service.beginUpdateTags(this.client.getHost(), this.client.getSubscriptionId(), resourceGroupName, bastionHostName, bastionHostParameters, this.client.getApiVersion());
     }
 
@@ -521,14 +527,14 @@ public final class BastionHostsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<BastionHostInner> beginUpdateTagsAsync(String resourceGroupName, String bastionHostName, TagsObject bastionHostParameters) {
-        return beginUpdateTagsWithResponseAsync(resourceGroupName, bastionHostName, bastionHostParameters)
+    public Mono<BastionHostInner> beginUpdateTagsAsync(String resourceGroupName, String bastionHostName, Map<String, String> tags) {
+        return beginUpdateTagsWithResponseAsync(resourceGroupName, bastionHostName, tags)
             .flatMap((SimpleResponse<BastionHostInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
@@ -543,14 +549,14 @@ public final class BastionHostsInner {
      * 
      * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
      * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostParameters Tags object for patch operations.
+     * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public BastionHostInner beginUpdateTags(String resourceGroupName, String bastionHostName, TagsObject bastionHostParameters) {
-        return beginUpdateTagsAsync(resourceGroupName, bastionHostName, bastionHostParameters).block();
+    public BastionHostInner beginUpdateTags(String resourceGroupName, String bastionHostName, Map<String, String> tags) {
+        return beginUpdateTagsAsync(resourceGroupName, bastionHostName, tags).block();
     }
 
     /**

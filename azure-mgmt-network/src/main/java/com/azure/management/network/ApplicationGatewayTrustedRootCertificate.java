@@ -59,7 +59,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
     /**
      * Get the name property: Name of the trusted root certificate that is
      * unique within an Application Gateway.
-     *
+     * 
      * @return the name value.
      */
     public String getName() {
@@ -69,7 +69,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
     /**
      * Set the name property: Name of the trusted root certificate that is
      * unique within an Application Gateway.
-     *
+     * 
      * @param name the name value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
@@ -81,7 +81,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
     /**
      * Get the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     *
+     * 
      * @return the etag value.
      */
     public String getEtag() {
@@ -91,7 +91,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
     /**
      * Set the etag property: A unique read-only string that changes whenever
      * the resource is updated.
-     *
+     * 
      * @param etag the etag value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
@@ -102,7 +102,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
 
     /**
      * Get the type property: Type of the resource.
-     *
+     * 
      * @return the type value.
      */
     public String getType() {
@@ -111,7 +111,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
 
     /**
      * Set the type property: Type of the resource.
-     *
+     * 
      * @param type the type value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
@@ -122,7 +122,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
 
     /**
      * Get the data property: Certificate public data.
-     *
+     * 
      * @return the data value.
      */
     public String getData() {
@@ -131,7 +131,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
 
     /**
      * Set the data property: Certificate public data.
-     *
+     * 
      * @param data the data value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
@@ -143,7 +143,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
     /**
      * Get the keyVaultSecretId property: Secret Id of (base-64 encoded
      * unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
-     *
+     * 
      * @return the keyVaultSecretId value.
      */
     public String getKeyVaultSecretId() {
@@ -153,7 +153,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
     /**
      * Set the keyVaultSecretId property: Secret Id of (base-64 encoded
      * unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
-     *
+     * 
      * @param keyVaultSecretId the keyVaultSecretId value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */
@@ -166,7 +166,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * Get the provisioningState property: Provisioning state of the trusted
      * root certificate resource. Possible values are: 'Updating', 'Deleting',
      * and 'Failed'.
-     *
+     * 
      * @return the provisioningState value.
      */
     public String getProvisioningState() {
@@ -177,7 +177,7 @@ public class ApplicationGatewayTrustedRootCertificate extends SubResource {
      * Set the provisioningState property: Provisioning state of the trusted
      * root certificate resource. Possible values are: 'Updating', 'Deleting',
      * and 'Failed'.
-     *
+     * 
      * @param provisioningState the provisioningState value to set.
      * @return the ApplicationGatewayTrustedRootCertificate object itself.
      */

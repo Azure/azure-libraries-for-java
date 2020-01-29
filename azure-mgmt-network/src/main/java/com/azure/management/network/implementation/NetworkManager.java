@@ -9,7 +9,9 @@ import com.azure.core.implementation.annotation.Beta;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.SubResource;
 import com.azure.core.management.serializer.AzureJacksonAdapter;
+import com.azure.management.AzureTokenCredential;
 import com.azure.management.RestClient;
+import com.azure.management.RestClientBuilder;
 import com.azure.management.network.ApplicationGateway;
 import com.azure.management.network.ApplicationGatewayBackend;
 import com.azure.management.network.ApplicationGatewayBackendAddressPool;
@@ -31,6 +33,7 @@ import com.azure.management.network.RouteTables;
 import com.azure.management.network.Subnet;
 import com.azure.management.network.NetworkWatchers;
 import com.azure.management.network.VirtualNetworkGateways;
+import com.azure.management.network.models.NetworkManagementClientBuilder;
 import com.azure.management.network.models.NetworkManagementClientImpl;
 import com.azure.management.network.models.SubnetInner;
 import com.azure.management.resources.fluentcore.arm.AzureConfigurable;
@@ -81,31 +84,31 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * Creates an instance of NetworkManager that exposes network resource management API entry points.
      *
-     * @param credentials the credentials to use
+     * @param credential     the credentials to use
      * @param subscriptionId the subscription UUID
-     * @return the NetworkManager
+     * @return the StorageManager
      */
-    public static NetworkManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
-        return new NetworkManager(new RestClient.Builder()
-                .withBaseUrl(credentials.environment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
-                .withCredentials(credentials)
+    public static NetworkManager authenticate(AzureTokenCredential credential, String subscriptionId) {
+        return new NetworkManager(new RestClientBuilder()
+                .withBaseUrl(credential.getEnvironment(), AzureEnvironment.Endpoint.RESOURCE_MANAGER)
+                .withCredential(credential)
                 .withSerializerAdapter(new AzureJacksonAdapter())
-                .withResponseBuilderFactory(new AzureResponseBuilder.Factory())
-                .withInterceptor(new ProviderRegistrationInterceptor(credentials))
-                .withInterceptor(new ResourceManagerThrottlingInterceptor())
-                .build(), subscriptionId);
+//                .withPolicy(new ProviderRegistrationPolicy())
+//                .withPolicy(new ResourceManagerThrottlingPolicy())
+                .buildClient(), subscriptionId);
     }
 
     /**
      * Creates an instance of NetworkManager that exposes network resource management API entry points.
      *
-     * @param restClient the RestClient to be used for API calls.
+     * @param restClient     the RestClient to be used for API calls.
      * @param subscriptionId the subscription UUID
-     * @return the NetworkManager
+     * @return the StorageManager
      */
     public static NetworkManager authenticate(RestClient restClient, String subscriptionId) {
         return new NetworkManager(restClient, subscriptionId);
     }
+
 
     /**
      * The interface allowing configurations to be set.
@@ -118,7 +121,7 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
          * @param subscriptionId the subscription UUID
          * @return the interface exposing network management API entry points that work across subscriptions
          */
-        NetworkManager authenticate(AzureTokenCredentials credentials, String subscriptionId);
+        NetworkManager authenticate(AzureTokenCredential credentials, String subscriptionId);
     }
 
     /**
@@ -128,16 +131,19 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
         extends AzureConfigurableImpl<Configurable>
         implements Configurable {
 
-        public NetworkManager authenticate(AzureTokenCredentials credentials, String subscriptionId) {
+        public NetworkManager authenticate(AzureTokenCredential credentials, String subscriptionId) {
             return NetworkManager.authenticate(buildRestClient(credentials), subscriptionId);
         }
     }
 
     private NetworkManager(RestClient restClient, String subscriptionId) {
-        super(
-                restClient,
+        super(restClient,
                 subscriptionId,
-                new NetworkManagementClientImpl(restClient).withSubscriptionId(subscriptionId));
+                new NetworkManagementClientBuilder()
+                        .pipeline(restClient.getHttpPipeline())
+                        .host(AzureEnvironment.AZURE.getResourceManagerEndpoint())
+                        .subscriptionId(subscriptionId)
+                        .build());
     }
 
     /**
@@ -223,7 +229,6 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to network watchers management API entry point
      */
-    @Beta(SinceVersion.V1_2_0)
     public NetworkWatchers networkWatchers() {
         if (this.networkWatchers == null) {
             this.networkWatchers = new NetworkWatchersImpl(this);
@@ -234,7 +239,6 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to virtual network gateways management
      */
-    @Beta(SinceVersion.V1_3_0)
     public VirtualNetworkGateways virtualNetworkGateways() {
         if (this.virtualNetworkGateways == null) {
             this.virtualNetworkGateways = new VirtualNetworkGatewaysImpl(this);
@@ -245,7 +249,6 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to local network gateway management
      */
-    @Beta(SinceVersion.V1_3_0)
     public LocalNetworkGateways localNetworkGateways() {
         if (this.localNetworkGateways == null) {
             this.localNetworkGateways = new LocalNetworkGatewaysImpl(this);
@@ -256,7 +259,6 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to express route circuit management
      */
-    @Beta(SinceVersion.V1_4_0)
     public ExpressRouteCircuits expressRouteCircuits() {
         if (this.expressRouteCircuits == null) {
             this.expressRouteCircuits = new ExpressRouteCircuitsImpl(this);
@@ -267,7 +269,6 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to application security groups management
      */
-    @Beta(SinceVersion.V1_10_0)
     public ApplicationSecurityGroups applicationSecurityGroups() {
         if (this.applicationSecurityGroups == null) {
             this.applicationSecurityGroups = new ApplicationSecurityGroupsImpl(this);
@@ -278,7 +279,6 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to application security groups management
      */
-    @Beta(SinceVersion.V1_10_0)
     public RouteFilters routeFilters() {
         if (this.routeFilters == null) {
             this.routeFilters = new RouteFiltersImpl(this);
@@ -289,7 +289,6 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to DDoS protection plans management
      */
-    @Beta(SinceVersion.V1_10_0)
     public DdosProtectionPlans ddosProtectionPlans() {
         if (this.ddosProtectionPlans == null) {
             this.ddosProtectionPlans = new DdosProtectionPlansImpl(this);
@@ -300,7 +299,6 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
     /**
      * @return entry point to express route cross connections management
      */
-    @Beta(SinceVersion.V1_11_0)
     public ExpressRouteCrossConnections expressRouteCrossConnections() {
         if (this.expressRouteCrossConnections == null) {
             this.expressRouteCrossConnections = new ExpressRouteCrossConnectionsImpl(this);
@@ -314,8 +312,8 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
             return null;
         }
 
-        String vnetId = ResourceUtils.parentResourceIdFromResourceId(subnetRef.id());
-        String subnetName = ResourceUtils.nameFromResourceId(subnetRef.id());
+        String vnetId = ResourceUtils.parentResourceIdFromResourceId(subnetRef.getId());
+        String subnetName = ResourceUtils.nameFromResourceId(subnetRef.getId());
 
         if (vnetId == null || subnetName == null) {
             return null;
@@ -336,14 +334,14 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
 
         if (subnetRefs != null) {
             for (SubnetInner subnetRef : subnetRefs) {
-                String networkId = ResourceUtils.parentResourceIdFromResourceId(subnetRef.id());
+                String networkId = ResourceUtils.parentResourceIdFromResourceId(subnetRef.getId());
                 Network network = networks.get(networkId.toLowerCase());
                 if (network == null) {
                     network = this.networks().getById(networkId);
                     networks.put(networkId.toLowerCase(), network);
                 }
 
-                String subnetName = ResourceUtils.nameFromResourceId(subnetRef.id());
+                String subnetName = ResourceUtils.nameFromResourceId(subnetRef.getId());
                 subnets.add(network.subnets().get(subnetName));
             }
         }
@@ -358,14 +356,14 @@ public final class NetworkManager extends Manager<NetworkManager, NetworkManagem
 
         if (backendRefs != null) {
             for (ApplicationGatewayBackendAddressPool backendRef : backendRefs) {
-                String appGatewayId = ResourceUtils.parentResourceIdFromResourceId(backendRef.id());
+                String appGatewayId = ResourceUtils.parentResourceIdFromResourceId(backendRef.getId());
                 ApplicationGateway appGateway = appGateways.get(appGatewayId.toLowerCase());
                 if (appGateway == null) {
                     appGateway = this.applicationGateways().getById(appGatewayId);
                     appGateways.put(appGatewayId.toLowerCase(), appGateway);
                 }
 
-                String backendName = ResourceUtils.nameFromResourceId(backendRef.id());
+                String backendName = ResourceUtils.nameFromResourceId(backendRef.getId());
                 backends.add(appGateway.backends().get(backendName));
             }
         }

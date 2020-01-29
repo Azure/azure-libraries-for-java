@@ -5,13 +5,14 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.NetworkSecurityRule;
 import com.azure.management.network.Subnet;
 import com.azure.management.network.models.GroupableParentResourceWithTagsImpl;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.NetworkInterfaceInner;
+import com.azure.management.network.models.NetworkSecurityGroupInner;
+import com.azure.management.network.models.SecurityRuleInner;
+import reactor.core.publisher.Mono;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,16 +22,15 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- *  Implementation for NetworkSecurityGroup and its create and update interfaces.
+ * Implementation for NetworkSecurityGroup and its create and update interfaces.
  */
-@LangDefinition
 class NetworkSecurityGroupImpl
-    extends GroupableParentResourceWithTagsImpl<
+        extends GroupableParentResourceWithTagsImpl<
         NetworkSecurityGroup,
         NetworkSecurityGroupInner,
         NetworkSecurityGroupImpl,
         NetworkManager>
-    implements
+        implements
         NetworkSecurityGroup,
         NetworkSecurityGroup.Definition,
         NetworkSecurityGroup.Update {
@@ -48,18 +48,18 @@ class NetworkSecurityGroupImpl
     @Override
     protected void initializeChildrenFromInner() {
         this.rules = new TreeMap<>();
-        List<SecurityRuleInner> inners = this.inner().securityRules();
+        List<SecurityRuleInner> inners = this.inner().getSecurityRules();
         if (inners != null) {
             for (SecurityRuleInner inner : inners) {
-                this.rules.put(inner.name(), new NetworkSecurityRuleImpl(inner, this));
+                this.rules.put(inner.getName(), new NetworkSecurityRuleImpl(inner, this));
             }
         }
 
         this.defaultRules = new TreeMap<>();
-        inners = this.inner().defaultSecurityRules();
+        inners = this.inner().getDefaultSecurityRules();
         if (inners != null) {
             for (SecurityRuleInner inner : inners) {
-                this.defaultRules.put(inner.name(), new NetworkSecurityRuleImpl(inner, this));
+                this.defaultRules.put(inner.getName(), new NetworkSecurityRuleImpl(inner, this));
             }
         }
     }
@@ -74,37 +74,34 @@ class NetworkSecurityGroupImpl
     @Override
     public NetworkSecurityRuleImpl defineRule(String name) {
         SecurityRuleInner inner = new SecurityRuleInner();
-        inner.withName(name);
-        inner.withPriority(100); // Must be at least 100
+        inner.setName(name);
+        inner.setPriority(100); // Must be at least 100
         return new NetworkSecurityRuleImpl(inner, this);
     }
 
     @Override
-    public Observable<NetworkSecurityGroup> refreshAsync() {
-        return super.refreshAsync().map(new Func1<NetworkSecurityGroup, NetworkSecurityGroup>() {
-            @Override
-            public NetworkSecurityGroup call(NetworkSecurityGroup networkSecurityGroup) {
-                NetworkSecurityGroupImpl impl = (NetworkSecurityGroupImpl) networkSecurityGroup;
+    public Mono<NetworkSecurityGroup> refreshAsync() {
+        return super.refreshAsync().map(networkSecurityGroup -> {
+            NetworkSecurityGroupImpl impl = (NetworkSecurityGroupImpl) networkSecurityGroup;
 
-                impl.initializeChildrenFromInner();
-                return impl;
-            }
+            impl.initializeChildrenFromInner();
+            return impl;
         });
     }
 
     @Override
-    protected Observable<NetworkSecurityGroupInner> getInnerAsync() {
+    protected Mono<NetworkSecurityGroupInner> getInnerAsync() {
         return this.manager().inner().networkSecurityGroups().getByResourceGroupAsync(this.resourceGroupName(), this.name());
     }
 
     @Override
-    protected Observable<NetworkSecurityGroupInner> applyTagsToInnerAsync() {
+    protected Mono<NetworkSecurityGroupInner> applyTagsToInnerAsync() {
         return this.manager().inner().networkSecurityGroups().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     @Override
     public List<Subnet> listAssociatedSubnets() {
-        return this.myManager.listAssociatedSubnets(this.inner().subnets());
+        return this.myManager.listAssociatedSubnets(this.inner().getSubnets());
     }
 
     // Setters (fluent)
@@ -135,9 +132,9 @@ class NetworkSecurityGroupImpl
     @Override
     public Set<String> networkInterfaceIds() {
         Set<String> ids = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
-        if (this.inner().networkInterfaces() != null) {
-            for (NetworkInterfaceInner inner : this.inner().networkInterfaces()) {
-                ids.add(inner.id());
+        if (this.inner().getNetworkInterfaces() != null) {
+            for (NetworkInterfaceInner inner : this.inner().getNetworkInterfaces()) {
+                ids.add(inner.getId());
             }
         }
         return Collections.unmodifiableSet(ids);
@@ -146,7 +143,7 @@ class NetworkSecurityGroupImpl
     @Override
     protected void beforeCreating() {
         // Reset and update subnets
-        this.inner().withSecurityRules(innersFromWrappers(this.rules.values()));
+        this.inner().setSecurityRules(innersFromWrappers(this.rules.values()));
     }
 
     @Override
@@ -154,7 +151,7 @@ class NetworkSecurityGroupImpl
     }
 
     @Override
-    protected Observable<NetworkSecurityGroupInner> createInner() {
+    protected Mono<NetworkSecurityGroupInner> createInner() {
         return this.manager().inner().networkSecurityGroups().createOrUpdateAsync(this.resourceGroupName(), this.name(), this.inner());
     }
 }

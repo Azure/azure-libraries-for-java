@@ -8,8 +8,9 @@ package com.azure.management.network.implementation;
 import com.azure.management.network.NetworkUsage;
 import com.azure.management.network.NetworkUsageUnit;
 import com.azure.management.network.UsageName;
-import com.microsoft.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.UsageInner;
+import com.azure.management.resources.fluentcore.model.implementation.WrapperImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 /**
  * The implementation of {@link NetworkUsage}.
@@ -21,22 +22,22 @@ class NetworkUsageImpl extends WrapperImpl<UsageInner> implements NetworkUsage {
 
     @Override
     public NetworkUsageUnit unit() {
-        return NetworkUsageUnit.fromString(inner().unit());
+        return NetworkUsageUnit.fromString(inner().getUnit());
     }
 
     @Override
     public long currentValue() {
-        return Utils.toPrimitiveLong(inner().currentValue());
+        return Utils.toPrimitiveLong(inner().getCurrentValue());
     }
 
     @Override
     public long limit() {
-        return Utils.toPrimitiveLong(inner().limit());
+        return Utils.toPrimitiveLong(inner().getLimit());
     }
 
     @Override
     public UsageName name() {
-        return inner().name();
+        return inner().getName();
     }
 }
 

@@ -5,25 +5,23 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.network.ConnectionMonitor;
+import com.azure.management.network.ConnectionMonitors;
 import com.azure.management.network.models.ConnectionMonitorResultInner;
 import com.azure.management.network.models.ConnectionMonitorsInner;
 import com.azure.management.resources.fluentcore.arm.ResourceId;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.CreatableResourcesImpl;
-import com.azure.management.resources.fluentcore.arm.collection.implementation.ReadableWrappersImpl;
-import com.azure.management.network.ConnectionMonitor;
-import com.azure.management.network.ConnectionMonitors;
-
-
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 /**
  * Represents Connection Monitors collection associated with Network Watcher.
  */
 class ConnectionMonitorsImpl extends
         CreatableResourcesImpl<ConnectionMonitor,
-                        ConnectionMonitorImpl,
-                        ConnectionMonitorResultInner>
+                ConnectionMonitorImpl,
+                ConnectionMonitorResultInner>
         implements ConnectionMonitors {
     private final NetworkWatcherImpl parent;
     private final ConnectionMonitorsInner innerCollection;
@@ -40,26 +38,15 @@ class ConnectionMonitorsImpl extends
 
     @Override
     public final PagedIterable<ConnectionMonitor> list() {
-        return (new PagedListConverter<ConnectionMonitorResultInner, ConnectionMonitor>() {
-            @Override
-            public Observable<ConnectionMonitor> typeConvertAsync(ConnectionMonitorResultInner inner) {
-                return Observable.just((ConnectionMonitor) wrapModel(inner));
-            }
-        }).convert(ReadableWrappersImpl.convertToPagedList(inner().list(parent.resourceGroupName(), parent.name())));
+        return wrapList(inner().list(parent.resourceGroupName(), parent.name()));
     }
 
     /**
      * @return an observable emits connection monitors in this collection
      */
     @Override
-    public PagedIterable<ConnectionMonitor> listAsync() {
-        Observable<List<ConnectionMonitorResultInner>> list = inner().listAsync(parent.resourceGroupName(), parent.name());
-        return ReadableWrappersImpl.convertListToInnerAsync(list).map(new Func1<ConnectionMonitorResultInner, ConnectionMonitor>() {
-            @Override
-            public ConnectionMonitor call(ConnectionMonitorResultInner inner) {
-                return wrapModel(inner);
-            }
-        });
+    public PagedFlux<ConnectionMonitor> listAsync() {
+        return inner().listAsync(parent.resourceGroupName(), parent.name()).mapPage(resultInner -> wrapModel(resultInner));
     }
 
     @Override
@@ -68,7 +55,7 @@ class ConnectionMonitorsImpl extends
     }
 
     protected ConnectionMonitorImpl wrapModel(ConnectionMonitorResultInner inner) {
-        return (inner == null) ? null : new ConnectionMonitorImpl(inner.name(), parent, inner, inner());
+        return (inner == null) ? null : new ConnectionMonitorImpl(inner.getName(), parent, inner, inner());
     }
 
     @Override
@@ -77,31 +64,26 @@ class ConnectionMonitorsImpl extends
     }
 
     @Override
-    public Observable<ConnectionMonitor> getByNameAsync(String name) {
+    public Mono<ConnectionMonitor> getByNameAsync(String name) {
         return inner().getAsync(parent.resourceGroupName(), parent.name(), name)
-                .map(new Func1<ConnectionMonitorResultInner, ConnectionMonitor>() {
-                    @Override
-                    public ConnectionMonitor call(ConnectionMonitorResultInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> wrapModel(inner));
     }
 
     @Override
     public ConnectionMonitor getByName(String name) {
-        return getByNameAsync(name).toBlocking().last();
+        return getByNameAsync(name).block();
     }
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).block();
     }
 
     @Override
-    public Completable deleteByNameAsync(String name) {
+    public Mono<Void> deleteByNameAsync(String name) {
         return this.inner().deleteAsync(parent.resourceGroupName(),
                 parent.name(),
-                name).toCompletable();
+                name);
     }
 
     @Override
@@ -110,8 +92,8 @@ class ConnectionMonitorsImpl extends
     }
 
     @Override
-    public Completable deleteByIdAsync(String id) {
+    public Mono<Void> deleteByIdAsync(String id) {
         ResourceId resourceId = ResourceId.fromString(id);
-        return this.inner().deleteAsync(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name()).toCompletable();
+        return this.inner().deleteAsync(resourceId.resourceGroupName(), resourceId.parent().name(), resourceId.name());
     }
 }

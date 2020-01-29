@@ -5,14 +5,15 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.NetworkSecurityGroup;
 import com.azure.management.network.NetworkSecurityRule;
 import com.azure.management.network.SecurityRuleAccess;
 import com.azure.management.network.SecurityRuleDirection;
 import com.azure.management.network.SecurityRuleProtocol;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
-import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
+import com.azure.management.network.models.ApplicationSecurityGroupInner;
+import com.azure.management.network.models.SecurityRuleInner;
+import com.azure.management.resources.fluentcore.arm.models.implementation.ChildResourceImpl;
+import com.azure.management.resources.fluentcore.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,12 +24,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- *  Implementation for {@link NetworkSecurityRule} and its create and update interfaces.
+ * Implementation for {@link NetworkSecurityRule} and its create and update interfaces.
  */
-@LangDefinition
 class NetworkSecurityRuleImpl
-    extends ChildResourceImpl<SecurityRuleInner, NetworkSecurityGroupImpl, NetworkSecurityGroup>
-    implements
+        extends ChildResourceImpl<SecurityRuleInner, NetworkSecurityGroupImpl, NetworkSecurityGroup>
+        implements
         NetworkSecurityRule,
         NetworkSecurityRule.Definition<NetworkSecurityGroup.DefinitionStages.WithCreate>,
         NetworkSecurityRule.UpdateDefinition<NetworkSecurityGroup.Update>,
@@ -38,14 +38,14 @@ class NetworkSecurityRuleImpl
 
     NetworkSecurityRuleImpl(SecurityRuleInner inner, NetworkSecurityGroupImpl parent) {
         super(inner, parent);
-        if (inner.sourceApplicationSecurityGroups() != null) {
-            for (ApplicationSecurityGroupInner asg : inner.sourceApplicationSecurityGroups()) {
-                sourceAsgs.put(asg.id(), asg);
+        if (inner.getSourceApplicationSecurityGroups() != null) {
+            for (ApplicationSecurityGroupInner asg : inner.getSourceApplicationSecurityGroups()) {
+                sourceAsgs.put(asg.getId(), asg);
             }
         }
-        if (inner.destinationApplicationSecurityGroups() != null) {
-            for (ApplicationSecurityGroupInner asg : inner.destinationApplicationSecurityGroups()) {
-                destinationAsgs.put(asg.id(), asg);
+        if (inner.getDestinationApplicationSecurityGroups() != null) {
+            for (ApplicationSecurityGroupInner asg : inner.getDestinationApplicationSecurityGroups()) {
+                destinationAsgs.put(asg.getId(), asg);
             }
         }
     }
@@ -54,67 +54,67 @@ class NetworkSecurityRuleImpl
 
     @Override
     public String name() {
-        return this.inner().name();
+        return this.inner().getName();
     }
 
     @Override
     public SecurityRuleDirection direction() {
-        return this.inner().direction();
+        return this.inner().getDirection();
     }
 
     @Override
     public SecurityRuleProtocol protocol() {
-        return this.inner().protocol();
+        return this.inner().getProtocol();
     }
 
     @Override
     public SecurityRuleAccess access() {
-        return this.inner().access();
+        return this.inner().getAccess();
     }
 
     @Override
     public String sourceAddressPrefix() {
-        return this.inner().sourceAddressPrefix();
+        return this.inner().getSourceAddressPrefix();
     }
 
     @Override
     public List<String> sourceAddressPrefixes() {
-        return Collections.unmodifiableList(this.inner().sourceAddressPrefixes());
+        return Collections.unmodifiableList(this.inner().getSourceAddressPrefixes());
     }
 
     @Override
     public String sourcePortRange() {
-        return this.inner().sourcePortRange();
+        return this.inner().getSourcePortRange();
     }
 
     @Override
     public List<String> sourcePortRanges() {
-        return Collections.unmodifiableList(inner().sourcePortRanges());
+        return Collections.unmodifiableList(inner().getSourcePortRanges());
     }
 
     @Override
     public String destinationAddressPrefix() {
-        return this.inner().destinationAddressPrefix();
+        return this.inner().getDestinationAddressPrefix();
     }
 
     @Override
     public List<String> destinationAddressPrefixes() {
-        return Collections.unmodifiableList(this.inner().destinationAddressPrefixes());
+        return Collections.unmodifiableList(this.inner().getDestinationAddressPrefixes());
     }
 
     @Override
     public String destinationPortRange() {
-        return this.inner().destinationPortRange();
+        return this.inner().getDestinationPortRange();
     }
 
     @Override
     public List<String> destinationPortRanges() {
-        return Collections.unmodifiableList(inner().destinationPortRanges());
+        return Collections.unmodifiableList(inner().getDestinationPortRanges());
     }
 
     @Override
     public int priority() {
-        return Utils.toPrimitiveInt(this.inner().priority());
+        return Utils.toPrimitiveInt(this.inner().getPriority());
     }
 
     @Override
@@ -159,7 +159,7 @@ class NetworkSecurityRuleImpl
 
     @Override
     public NetworkSecurityRuleImpl withProtocol(SecurityRuleProtocol protocol) {
-        this.inner().withProtocol(protocol);
+        this.inner().setProtocol(protocol);
         return this;
     }
 
@@ -170,149 +170,149 @@ class NetworkSecurityRuleImpl
 
     @Override
     public NetworkSecurityRuleImpl fromAddress(String cidr) {
-        this.inner().withSourceAddressPrefix(cidr);
-        this.inner().withSourceAddressPrefixes(null);
-        this.inner().withSourceApplicationSecurityGroups(null);
+        this.inner().setSourceAddressPrefix(cidr);
+        this.inner().setSourceAddressPrefixes(null);
+        this.inner().setSourceApplicationSecurityGroups(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromAnyAddress() {
-        this.inner().withSourceAddressPrefix("*");
-        this.inner().withSourceAddressPrefixes(null);
-        this.inner().withSourceApplicationSecurityGroups(null);
+        this.inner().setSourceAddressPrefix("*");
+        this.inner().setSourceAddressPrefixes(null);
+        this.inner().setSourceApplicationSecurityGroups(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromAddresses(String... addresses) {
-        this.inner().withSourceAddressPrefixes(Arrays.asList(addresses));
-        this.inner().withSourceAddressPrefix(null);
-        this.inner().withSourceApplicationSecurityGroups(null);
+        this.inner().setSourceAddressPrefixes(Arrays.asList(addresses));
+        this.inner().setSourceAddressPrefix(null);
+        this.inner().setSourceApplicationSecurityGroups(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromPort(int port) {
-        this.inner().withSourcePortRange(String.valueOf(port));
-        this.inner().withSourcePortRanges(null);
+        this.inner().setSourcePortRange(String.valueOf(port));
+        this.inner().setSourcePortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromAnyPort() {
-        this.inner().withSourcePortRange("*");
-        this.inner().withSourcePortRanges(null);
+        this.inner().setSourcePortRange("*");
+        this.inner().setSourcePortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromPortRange(int from, int to) {
-        this.inner().withSourcePortRange(String.valueOf(from) + "-" + String.valueOf(to));
-        this.inner().withSourcePortRanges(null);
+        this.inner().setSourcePortRange(String.valueOf(from) + "-" + String.valueOf(to));
+        this.inner().setSourcePortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl fromPortRanges(String... ranges) {
-        this.inner().withSourcePortRanges(Arrays.asList(ranges));
-        this.inner().withSourcePortRange(null);
+        this.inner().setSourcePortRanges(Arrays.asList(ranges));
+        this.inner().setSourcePortRange(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toAddress(String cidr) {
-        this.inner().withDestinationAddressPrefix(cidr);
-        this.inner().withDestinationAddressPrefixes(null);
-        this.inner().withDestinationApplicationSecurityGroups(null);
+        this.inner().setDestinationAddressPrefix(cidr);
+        this.inner().setDestinationAddressPrefixes(null);
+        this.inner().setDestinationApplicationSecurityGroups(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toAddresses(String... addresses) {
-        this.inner().withDestinationAddressPrefixes(Arrays.asList(addresses));
-        this.inner().withDestinationAddressPrefix(null);
-        this.inner().withDestinationApplicationSecurityGroups(null);
+        this.inner().setDestinationAddressPrefixes(Arrays.asList(addresses));
+        this.inner().setDestinationAddressPrefix(null);
+        this.inner().setDestinationApplicationSecurityGroups(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toAnyAddress() {
-        this.inner().withDestinationAddressPrefix("*");
-        this.inner().withDestinationAddressPrefixes(null);
-        this.inner().withDestinationApplicationSecurityGroups(null);
+        this.inner().setDestinationAddressPrefix("*");
+        this.inner().setDestinationAddressPrefixes(null);
+        this.inner().setDestinationApplicationSecurityGroups(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toPort(int port) {
-        this.inner().withDestinationPortRange(String.valueOf(port));
-        this.inner().withDestinationPortRanges(null);
+        this.inner().setDestinationPortRange(String.valueOf(port));
+        this.inner().setDestinationPortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toAnyPort() {
-        this.inner().withDestinationPortRange("*");
-        this.inner().withDestinationPortRanges(null);
+        this.inner().setDestinationPortRange("*");
+        this.inner().setDestinationPortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toPortRange(int from, int to) {
-        this.inner().withDestinationPortRange(String.valueOf(from) + "-" + String.valueOf(to));
-        this.inner().withDestinationPortRanges(null);
+        this.inner().setDestinationPortRange(String.valueOf(from) + "-" + String.valueOf(to));
+        this.inner().setDestinationPortRanges(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl toPortRanges(String... ranges) {
-        this.inner().withDestinationPortRanges(Arrays.asList(ranges));
-        this.inner().withDestinationPortRange(null);
+        this.inner().setDestinationPortRanges(Arrays.asList(ranges));
+        this.inner().setDestinationPortRange(null);
         return this;
     }
 
     @Override
-    public NetworkSecurityRuleImpl  withPriority(int priority) {
+    public NetworkSecurityRuleImpl withPriority(int priority) {
         if (priority < 100 || priority > 4096) {
             throw new IllegalArgumentException("The priority number of a network security rule must be between 100 and 4096.");
         }
 
-        this.inner().withPriority(priority);
+        this.inner().setPriority(priority);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl withDescription(String description) {
-        this.inner().withDescription(description);
+        this.inner().setDescription(description);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl withSourceApplicationSecurityGroup(String id) {
         sourceAsgs.put(id, new ApplicationSecurityGroupInner().withId(id));
-        inner().withSourceAddressPrefix(null);
-        inner().withSourceAddressPrefixes(null);
+        inner().setSourceAddressPrefix(null);
+        inner().setSourceAddressPrefixes(null);
         return this;
     }
 
     @Override
     public NetworkSecurityRuleImpl withDestinationApplicationSecurityGroup(String id) {
         destinationAsgs.put(id, new ApplicationSecurityGroupInner().withId(id));
-        inner().withDestinationAddressPrefix(null);
-        inner().withDestinationAddressPrefixes(null);
+        inner().setDestinationAddressPrefix(null);
+        inner().setDestinationAddressPrefixes(null);
         return this;
     }
 
     // Helpers
 
     private NetworkSecurityRuleImpl withDirection(SecurityRuleDirection direction) {
-        this.inner().withDirection(direction);
+        this.inner().setDirection(direction);
         return this;
     }
 
     private NetworkSecurityRuleImpl withAccess(SecurityRuleAccess permission) {
-        this.inner().withAccess(permission);
+        this.inner().setAccess(permission);
         return this;
     }
 
@@ -321,13 +321,13 @@ class NetworkSecurityRuleImpl
 
     @Override
     public NetworkSecurityGroupImpl attach() {
-        inner().withSourceApplicationSecurityGroups(new ArrayList<>(sourceAsgs.values()));
-        inner().withDestinationApplicationSecurityGroups(new ArrayList<>(destinationAsgs.values()));
+        inner().setSourceApplicationSecurityGroups(new ArrayList<>(sourceAsgs.values()));
+        inner().setDestinationApplicationSecurityGroups(new ArrayList<>(destinationAsgs.values()));
         return this.parent().withRule(this);
     }
 
     @Override
     public String description() {
-        return this.inner().description();
+        return this.inner().getDescription();
     }
 }

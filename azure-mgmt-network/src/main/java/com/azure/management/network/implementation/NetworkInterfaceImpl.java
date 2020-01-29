@@ -100,9 +100,7 @@ class NetworkInterfaceImpl
 
     @Override
     protected Mono<NetworkInterfaceInner> applyTagsToInnerAsync() {
-        TagsObject parameters = new TagsObject().setTags(inner().getTags());
-
-        return this.manager().inner().networkInterfaces().updateTagsAsync(resourceGroupName(), name(), parameters);
+        return this.manager().inner().networkInterfaces().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     // Setters (fluent)

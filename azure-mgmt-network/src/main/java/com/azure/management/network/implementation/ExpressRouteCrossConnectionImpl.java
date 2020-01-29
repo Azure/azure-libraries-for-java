@@ -80,8 +80,7 @@ public class ExpressRouteCrossConnectionImpl extends GroupableParentResourceWith
 
     @Override
     protected Mono<ExpressRouteCrossConnectionInner> applyTagsToInnerAsync() {
-        TagsObject parameters = new TagsObject().setTags(inner().getTags());
-        return this.manager().inner().expressRouteCrossConnections().updateTagsAsync(resourceGroupName(), name(), parameters);
+        return this.manager().inner().expressRouteCrossConnections().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     @Override

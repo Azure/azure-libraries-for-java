@@ -138,8 +138,7 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
 
     @Override
     protected Mono<ExpressRouteCircuitInner> applyTagsToInnerAsync() {
-        TagsObject parameters = new TagsObject().setTags(inner().getTags());
-        return this.manager().inner().expressRouteCircuits().updateTagsAsync(resourceGroupName(), name(), parameters);
+        return this.manager().inner().expressRouteCircuits().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     // Getters

@@ -15,6 +15,7 @@ import com.azure.management.network.models.NetworkInterfaceInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.models.implementation.ResourceImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -68,43 +69,43 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
 
     @Override
     public String internalDnsNameLabel() {
-        if (this.inner().dnsSettings() == null) {
+        if (this.inner().getDnsSettings() == null) {
             return null;
         }
-        return this.inner().dnsSettings().internalDnsNameLabel();
+        return this.inner().getDnsSettings().getInternalDnsNameLabel();
     }
 
     @Override
     public String internalFqdn() {
-        if (this.inner().dnsSettings() == null) {
+        if (this.inner().getDnsSettings() == null) {
             return null;
         }
-        return this.inner().dnsSettings().internalFqdn();
+        return this.inner().getDnsSettings().getInternalFqdn();
     }
 
     @Override
     public String internalDomainNameSuffix() {
-        if (this.inner().dnsSettings() == null) {
+        if (this.inner().getDnsSettings() == null) {
             return null;
         }
-        return this.inner().dnsSettings().internalDomainNameSuffix();
+        return this.inner().getDnsSettings().getInternalDomainNameSuffix();
     }
 
     @Override
     public List<String> dnsServers() {
-        if (this.inner().dnsSettings() == null || this.inner().dnsSettings().dnsServers() == null) {
+        if (this.inner().getDnsSettings() == null || this.inner().getDnsSettings().getDnsServers() == null) {
             return Collections.unmodifiableList(new ArrayList<String>());
         }
-        return Collections.unmodifiableList(this.inner().dnsSettings().dnsServers());
+        return Collections.unmodifiableList(this.inner().getDnsSettings().getDnsServers());
     }
 
     @Override
     public List<String> appliedDnsServers() {
         List<String> dnsServers = new ArrayList<>();
-        if (this.inner().dnsSettings() == null || this.inner().dnsSettings().appliedDnsServers() == null) {
+        if (this.inner().getDnsSettings() == null || this.inner().getDnsSettings().getAppliedDnsServers() == null) {
             return Collections.unmodifiableList(dnsServers);
         }
-        return Collections.unmodifiableList(this.inner().dnsSettings().appliedDnsServers());
+        return Collections.unmodifiableList(this.inner().getDnsSettings().getAppliedDnsServers());
     }
 
     @Override
@@ -127,7 +128,7 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
 
     @Override
     public Map<String, VirtualMachineScaleSetNicIPConfiguration> ipConfigurations() {
-        List<NetworkInterfaceIPConfigurationInner> inners = this.inner().ipConfigurations();
+        List<NetworkInterfaceIPConfigurationInner> inners = this.inner().getIpConfigurations();
         if (inners == null || inners.size() == 0) {
             return Collections.unmodifiableMap(new TreeMap<String, VirtualMachineScaleSetNicIPConfiguration>());
         }
@@ -151,10 +152,10 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
 
     @Override
     public String networkSecurityGroupId() {
-        if (this.inner().networkSecurityGroup() == null) {
+        if (this.inner().getNetworkSecurityGroup() == null) {
             return null;
         }
-        return this.inner().networkSecurityGroup().id();
+        return this.inner().getNetworkSecurityGroup().getId();
     }
 
     @Override
@@ -171,20 +172,20 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
 
     @Override
     public String virtualMachineId() {
-        if (this.inner().virtualMachine() == null) {
+        if (this.inner().getVirtualMachine() == null) {
             return null;
         }
-        return this.inner().virtualMachine().id();
+        return this.inner().getVirtualMachine().getId();
     }
 
     @Override
-    public Observable<VirtualMachineScaleSetNetworkInterface> createResourceAsync() {
+    public Mono<VirtualMachineScaleSetNetworkInterface> createResourceAsync() {
         // VMSS NIC is a read-only resource hence this operation is not supported.
         throw new UnsupportedOperationException();
     }
 
     @Override
-    protected Observable<NetworkInterfaceInner> getInnerAsync() {
+    protected Mono<NetworkInterfaceInner> getInnerAsync() {
         return this.manager().inner().networkInterfaces().getVirtualMachineScaleSetNetworkInterfaceAsync(
                 this.resourceGroupName,
                 this.scaleSetName,
@@ -199,6 +200,6 @@ class VirtualMachineScaleSetNetworkInterfaceImpl
 
     @Override
     public boolean isAcceleratedNetworkingEnabled() {
-        return Utils.toPrimitiveBoolean(this.inner().enableAcceleratedNetworking());
+        return Utils.toPrimitiveBoolean(this.inner().isEnableAcceleratedNetworking());
     }
 }

@@ -37,7 +37,7 @@ public final class SecurityRuleProtocol extends ExpandableStringEnum<SecurityRul
     /**
      * Static value * for SecurityRuleProtocol.
      */
-    public static final SecurityRuleProtocol _ = fromString("*");
+    public static final SecurityRuleProtocol ASTERISK = fromString("*");
 
     /**
      * Creates or finds a SecurityRuleProtocol from its string representation.

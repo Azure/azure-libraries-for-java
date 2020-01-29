@@ -6,8 +6,6 @@
 
 package com.azure.management.network.models;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.apigeneration.Method;
 
 import java.util.Map;
 
@@ -16,7 +14,6 @@ import java.util.Map;
  *
  * @param <T> the fluent type of the resource
  */
-@LangDefinition
 public interface UpdatableWithTags<T> {
     /**
      * Begins a tags update for a resource.
@@ -27,7 +24,6 @@ public interface UpdatableWithTags<T> {
      *
      * @return the stage of new resource update
      */
-    @Method
     UpdateWithTags<T> updateTags();
 
     /**
@@ -35,10 +31,10 @@ public interface UpdatableWithTags<T> {
      *
      * @param <T> the type of the resource being update
      */
-    @LangDefinition(ContainerName = "UpdatableWithTags", ContainerFileName = "IUpdate")
     interface UpdateWithTags<T> {
         /**
          * Specifies tags for the resource as a {@link Map}.
+         *
          * @param tags a {@link Map} of tags
          * @return the next stage of the resource update
          */
@@ -46,7 +42,8 @@ public interface UpdatableWithTags<T> {
 
         /**
          * Adds a tag to the resource.
-         * @param key the key for the tag
+         *
+         * @param key   the key for the tag
          * @param value the value for the tag
          * @return the next stage of the resource update
          */
@@ -54,6 +51,7 @@ public interface UpdatableWithTags<T> {
 
         /**
          * Removes a tag from the resource.
+         *
          * @param key the key of the tag to remove
          * @return the next stage of the resource update
          */

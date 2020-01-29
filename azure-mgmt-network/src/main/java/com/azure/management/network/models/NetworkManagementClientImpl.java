@@ -91,30 +91,6 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
      */
     private String apiVersion;
 
-    /**
-     * Gets The API version to use for this operation.
-     * 
-     * @return the apiVersion value.
-     */
-    public String getApiVersion() {
-        return this.apiVersion;
-    }
-
-    /**
-     * Sets The API version to use for this operation.
-     * 
-     * @param apiVersion the apiVersion value.
-     * @return the service client itself.
-     */
-    NetworkManagementClientImpl setApiVersion(String apiVersion) {
-        this.apiVersion = apiVersion;
-        return this;
-    }
-
-    /**
-     * The API version to use for this operation.
-     */
-    private String apiVersion;
 
     /**
      * Gets The API version to use for this operation.

@@ -9,23 +9,17 @@ package com.azure.management.network.implementation;
 import com.azure.management.network.VirtualNetworkGateway;
 import com.azure.management.network.VirtualNetworkGatewayConnection;
 import com.azure.management.network.VirtualNetworkGatewayConnections;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.microsoft.azure.management.resources.ResourceGroup;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
-import com.microsoft.azure.management.resources.fluentcore.arm.models.implementation.GroupPagedList;
-import com.microsoft.rest.ServiceCallback;
-import com.microsoft.rest.ServiceFuture;
-import rx.Completable;
-import rx.Observable;
-import rx.functions.Func1;
+import com.azure.management.network.models.VirtualNetworkGatewayConnectionInner;
+import com.azure.management.network.models.VirtualNetworkGatewayConnectionsInner;
+import com.azure.management.resources.ResourceGroup;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 /**
  * The implementation of VirtualNetworkGatewayConnections.
  */
-@LangDefinition
 class VirtualNetworkGatewayConnectionsImpl
         extends GroupableResourcesImpl<
         VirtualNetworkGatewayConnection,
@@ -55,7 +49,7 @@ class VirtualNetworkGatewayConnectionsImpl
         if (inner == null) {
             return null;
         }
-        return new VirtualNetworkGatewayConnectionImpl(inner.name(), parent, inner);
+        return new VirtualNetworkGatewayConnectionImpl(inner.getName(), parent, inner);
     }
 
     @Override
@@ -65,17 +59,12 @@ class VirtualNetworkGatewayConnectionsImpl
 
     @Override
     public void deleteByName(String name) {
-        deleteByNameAsync(name).await();
+        deleteByNameAsync(name).block();
     }
 
     @Override
-    public ServiceFuture<Void> deleteByNameAsync(String name, ServiceCallback<Void> callback) {
-        return this.inner().deleteAsync(parent.resourceGroupName(), name, callback);
-    }
-
-    @Override
-    public Completable deleteByNameAsync(String name) {
-        return this.inner().deleteAsync(parent.resourceGroupName(), name).toCompletable();
+    public Mono<Void> deleteByNameAsync(String name) {
+        return this.inner().deleteAsync(parent.resourceGroupName(), name);
     }
 
     @Override
@@ -112,23 +101,18 @@ class VirtualNetworkGatewayConnectionsImpl
     }
 
     @Override
-    protected Observable<VirtualNetworkGatewayConnectionInner> getInnerAsync(String resourceGroupName, String name) {
+    protected Mono<VirtualNetworkGatewayConnectionInner> getInnerAsync(String resourceGroupName, String name) {
         return inner().getByResourceGroupAsync(resourceGroupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String resourceGroupName, String name) {
-        return inner().deleteAsync(resourceGroupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String resourceGroupName, String name) {
+        return inner().deleteAsync(resourceGroupName, name);
     }
 
     @Override
-    public Observable<VirtualNetworkGatewayConnection> getByNameAsync(String name) {
+    public Mono<VirtualNetworkGatewayConnection> getByNameAsync(String name) {
         return inner().getByResourceGroupAsync(parent.resourceGroupName(), name)
-                .map(new Func1<VirtualNetworkGatewayConnectionInner, VirtualNetworkGatewayConnection>() {
-                    @Override
-                    public VirtualNetworkGatewayConnection call(VirtualNetworkGatewayConnectionInner inner) {
-                        return wrapModel(inner);
-                    }
-                });
+                .map(inner -> wrapModel(inner));
     }
 }

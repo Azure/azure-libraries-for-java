@@ -12,6 +12,7 @@ import com.azure.management.network.PacketCaptureFilter;
 import com.azure.management.network.PacketCaptureStatus;
 import com.azure.management.network.PacketCaptureStorageLocation;
 import com.azure.management.network.ProvisioningState;
+import com.azure.management.network.models.PacketCaptureInner;
 import com.azure.management.network.models.PacketCaptureQueryStatusResultInner;
 import com.azure.management.network.models.PacketCaptureResultInner;
 import com.azure.management.network.models.PacketCapturesInner;

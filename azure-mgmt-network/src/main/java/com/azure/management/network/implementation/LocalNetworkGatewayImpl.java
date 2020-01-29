@@ -134,8 +134,7 @@ class LocalNetworkGatewayImpl
 
     @Override
     public Mono<LocalNetworkGateway> applyTagsAsync() {
-        TagsObject parameters = new TagsObject().setTags(inner().getTags());
-        return this.manager().inner().localNetworkGateways().updateTagsAsync(resourceGroupName(), name(), parameters)
+        return this.manager().inner().localNetworkGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags())
                 .flatMap(inner -> {
                     setInner(inner);
                     return Mono.just((LocalNetworkGateway) LocalNetworkGatewayImpl.this);

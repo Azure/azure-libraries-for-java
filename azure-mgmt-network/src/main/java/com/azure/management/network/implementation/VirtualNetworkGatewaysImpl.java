@@ -5,12 +5,15 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
+import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.VirtualNetworkGateway;
 import com.azure.management.network.VirtualNetworkGateways;
 import com.azure.management.network.models.VirtualNetworkGatewayInner;
 import com.azure.management.network.models.VirtualNetworkGatewaysInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -36,7 +39,7 @@ class VirtualNetworkGatewaysImpl
     }
 
     @Override
-    public PagedList<VirtualNetworkGateway> list() {
+    public PagedIterable<VirtualNetworkGateway> list() {
         final VirtualNetworkGatewaysImpl self = this;
         return new GroupPagedList<VirtualNetworkGateway>(this.manager().resourceManager().resourceGroups().list()) {
             @Override
@@ -47,7 +50,7 @@ class VirtualNetworkGatewaysImpl
     }
 
     @Override
-    public Observable<VirtualNetworkGateway> listAsync() {
+    public PagedFlux<VirtualNetworkGateway> listAsync() {
         return this.manager().resourceManager().resourceGroups().listAsync()
                 .flatMap(new Func1<ResourceGroup, Observable<VirtualNetworkGateway>>() {
                     @Override
@@ -58,23 +61,23 @@ class VirtualNetworkGatewaysImpl
     }
 
     @Override
-    public PagedList<VirtualNetworkGateway> listByResourceGroup(String groupName) {
+    public PagedIterable<VirtualNetworkGateway> listByResourceGroup(String groupName) {
         return wrapList(this.inner().listByResourceGroup(groupName));
     }
 
     @Override
-    public Observable<VirtualNetworkGateway> listByResourceGroupAsync(String groupName) {
+    public PagedFlux<VirtualNetworkGateway> listByResourceGroupAsync(String groupName) {
         return wrapPageAsync(this.inner().listByResourceGroupAsync(groupName));
     }
 
     @Override
-    protected Observable<VirtualNetworkGatewayInner> getInnerAsync(String groupName, String name) {
+    protected Mono<VirtualNetworkGatewayInner> getInnerAsync(String groupName, String name) {
         return this.inner().getByResourceGroupAsync(groupName, name);
     }
 
     @Override
-    protected Completable deleteInnerAsync(String groupName, String name) {
-        return this.inner().deleteAsync(groupName, name).toCompletable();
+    protected Mono<Void> deleteInnerAsync(String groupName, String name) {
+        return this.inner().deleteAsync(groupName, name);
     }
 
     // Fluent model create helpers

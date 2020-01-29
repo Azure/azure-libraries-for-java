@@ -32,41 +32,31 @@ class FlowLogSettingsImpl extends RefreshableWrapperImpl<FlowLogInformationInner
 
     @Override
     public FlowLogSettings apply() {
-        return applyAsync().toBlocking().last();
+        return applyAsync().block();
     }
 
     @Override
-    public Observable<FlowLogSettings> applyAsync() {
+    public Mono<FlowLogSettings> applyAsync() {
         return this.parent().manager().inner().networkWatchers()
                 .setFlowLogConfigurationAsync(parent().resourceGroupName(), parent().name(), this.inner())
-                .map(new Func1<FlowLogInformationInner, FlowLogSettings>() {
-            @Override
-            public FlowLogSettings call(FlowLogInformationInner flowLogInformationInner) {
-                return new FlowLogSettingsImpl(FlowLogSettingsImpl.this.parent, flowLogInformationInner, nsgId);
-            }
-        });
-    }
-
-    @Override
-    public ServiceFuture<FlowLogSettings> applyAsync(ServiceCallback<FlowLogSettings> callback) {
-        return ServiceFuture.fromBody(applyAsync(), callback);
+                .map(flowLogInformationInner -> new FlowLogSettingsImpl(FlowLogSettingsImpl.this.parent, flowLogInformationInner, nsgId));
     }
 
     @Override
     public Update withLogging() {
-        this.inner().withEnabled(true);
+        this.inner().setEnabled(true);
         return this;
     }
 
     @Override
     public Update withoutLogging() {
-        this.inner().withEnabled(false);
+        this.inner().setEnabled(false);
         return this;
     }
 
     @Override
     public Update withStorageAccount(String storageId) {
-        this.inner().withStorageId(storageId);
+        this.inner().setStorageId(storageId);
         return this;
     }
 

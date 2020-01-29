@@ -8,6 +8,7 @@ package com.azure.management.network.models;
 
 import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.HttpResponse;
+import com.azure.management.network.ErrorResponse;
 
 /**
  * Exception thrown for an invalid response with ErrorResponse information.

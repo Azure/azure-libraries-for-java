@@ -5,27 +5,28 @@
  */
 package com.azure.management.network.implementation;
 
-import com.microsoft.azure.management.apigeneration.LangDefinition;
 import com.azure.management.network.AddressSpace;
 import com.azure.management.network.DhcpOptions;
 import com.azure.management.network.Network;
 import com.azure.management.network.Networks;
-import com.microsoft.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
+import com.azure.management.network.models.SubnetInner;
+import com.azure.management.network.models.VirtualNetworkInner;
+import com.azure.management.network.models.VirtualNetworksInner;
+import com.azure.management.resources.fluentcore.arm.collection.implementation.TopLevelModifiableResourcesImpl;
 
 import java.util.ArrayList;
 
 /**
- *  Implementation for Networks.
+ * Implementation for Networks.
  */
-@LangDefinition
 class NetworksImpl
-    extends TopLevelModifiableResourcesImpl<
+        extends TopLevelModifiableResourcesImpl<
         Network,
         NetworkImpl,
         VirtualNetworkInner,
         VirtualNetworksInner,
         NetworkManager>
-    implements Networks {
+        implements Networks {
 
     NetworksImpl(final NetworkManager networkManager) {
         super(networkManager.inner().virtualNetworks(), networkManager);
@@ -43,30 +44,30 @@ class NetworksImpl
         VirtualNetworkInner inner = new VirtualNetworkInner();
 
         // Initialize address space
-        AddressSpace addressSpace = inner.addressSpace();
+        AddressSpace addressSpace = inner.getAddressSpace();
         if (addressSpace == null) {
             addressSpace = new AddressSpace();
-            inner.withAddressSpace(addressSpace);
+            inner.setAddressSpace(addressSpace);
         }
 
-        if (addressSpace.addressPrefixes() == null) {
-            addressSpace.withAddressPrefixes(new ArrayList<String>());
+        if (addressSpace.getAddressPrefixes() == null) {
+            addressSpace.setAddressPrefixes(new ArrayList<String>());
         }
 
         // Initialize subnets
-        if (inner.subnets() == null) {
-            inner.withSubnets(new ArrayList<SubnetInner>());
+        if (inner.getSubnets() == null) {
+            inner.setSubnets(new ArrayList<SubnetInner>());
         }
 
         // Initialize DHCP options (DNS servers)
-        DhcpOptions dhcp = inner.dhcpOptions();
+        DhcpOptions dhcp = inner.getDhcpOptions();
         if (dhcp == null) {
             dhcp = new DhcpOptions();
-            inner.withDhcpOptions(dhcp);
+            inner.setDhcpOptions(dhcp);
         }
 
-        if (dhcp.dnsServers() == null) {
-            dhcp.withDnsServers(new ArrayList<String>());
+        if (dhcp.getDnsServers() == null) {
+            dhcp.setDnsServers(new ArrayList<String>());
         }
 
         return new NetworkImpl(name, inner, super.manager());
@@ -77,6 +78,6 @@ class NetworksImpl
         if (inner == null) {
             return null;
         }
-        return new NetworkImpl(inner.name(), inner, this.manager());
+        return new NetworkImpl(inner.getName(), inner, this.manager());
     }
 }

@@ -119,4 +119,13 @@ public final class KeyVaultManager extends Manager<KeyVaultManager, KeyVaultMana
         }
         return vaults;
     }
+
+    /**
+     * Creates a new RestClientBuilder instance from the RestClient used by Manager.
+     *
+     * @return the new RestClientBuilder instance created from the RestClient used by Manager
+     */
+    RestClientBuilder newRestClientBuilder() {
+        return restClient.newBuilder();
+    }
 }

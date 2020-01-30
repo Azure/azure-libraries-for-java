@@ -11,6 +11,7 @@ import com.microsoft.azure.management.network.ExpressRouteCircuitPeering;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeerings;
 import com.microsoft.azure.management.network.ExpressRouteCircuitServiceProviderProperties;
 import com.microsoft.azure.management.network.ExpressRouteCircuitSkuType;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
 import com.microsoft.azure.management.network.model.GroupableParentResourceWithTagsImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
@@ -189,7 +190,7 @@ class ExpressRouteCircuitImpl extends GroupableParentResourceWithTagsImpl<
     }
 
     @Override
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return inner().provisioningState();
     }
 

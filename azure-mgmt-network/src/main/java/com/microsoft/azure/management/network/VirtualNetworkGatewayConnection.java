@@ -118,7 +118,7 @@ public interface VirtualNetworkGatewayConnection extends
     /**
      * @return the provisioning state of the VirtualNetworkGatewayConnection resource
      */
-    String provisioningState();
+    ProvisioningState provisioningState();
 
     /**
      * The entirety of the virtual network gateway connection definition.

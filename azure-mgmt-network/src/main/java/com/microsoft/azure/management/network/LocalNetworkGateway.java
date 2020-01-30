@@ -51,7 +51,7 @@ public interface LocalNetworkGateway extends
     /**
      * @return the provisioning state of the LocalNetworkGateway resource
      */
-    String provisioningState();
+    ProvisioningState provisioningState();
 
     /**
      * The entirety of the local network gateway definition.

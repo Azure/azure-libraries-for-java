@@ -85,7 +85,7 @@ public interface ExpressRouteCrossConnectionPeering extends
     /**
      * @return  the provisioning state of the public IP resource
      */
-    String provisioningState();
+    ProvisioningState provisioningState();
 
     /**
      * @return the GatewayManager Etag

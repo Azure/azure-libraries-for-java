@@ -12,6 +12,7 @@ import com.microsoft.azure.management.network.ExpressRouteCrossConnectionPeering
 import com.microsoft.azure.management.network.ExpressRoutePeeringState;
 import com.microsoft.azure.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.microsoft.azure.management.resources.fluentcore.utils.Utils;
 import rx.Observable;
@@ -210,7 +211,7 @@ class ExpressRouteCrossConnectionPeeringImpl extends
     }
 
     @Override
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return inner().provisioningState();
     }
 

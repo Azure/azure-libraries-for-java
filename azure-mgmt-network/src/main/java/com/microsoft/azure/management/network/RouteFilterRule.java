@@ -44,7 +44,7 @@ public interface RouteFilterRule extends
     /**
      * @return the provisioning state of the resource
      */
-    String provisioningState();
+    ProvisioningState provisioningState();
 
     /**
      * @return resource location

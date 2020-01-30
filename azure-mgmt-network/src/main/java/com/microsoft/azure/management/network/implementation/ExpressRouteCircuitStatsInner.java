@@ -15,31 +15,31 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ExpressRouteCircuitStatsInner {
     /**
-     * Gets BytesIn of the peering.
+     * The Primary BytesIn of the peering.
      */
     @JsonProperty(value = "primarybytesIn")
     private Long primarybytesIn;
 
     /**
-     * Gets BytesOut of the peering.
+     * The primary BytesOut of the peering.
      */
     @JsonProperty(value = "primarybytesOut")
     private Long primarybytesOut;
 
     /**
-     * Gets BytesIn of the peering.
+     * The secondary BytesIn of the peering.
      */
     @JsonProperty(value = "secondarybytesIn")
     private Long secondarybytesIn;
 
     /**
-     * Gets BytesOut of the peering.
+     * The secondary BytesOut of the peering.
      */
     @JsonProperty(value = "secondarybytesOut")
     private Long secondarybytesOut;
 
     /**
-     * Get gets BytesIn of the peering.
+     * Get the Primary BytesIn of the peering.
      *
      * @return the primarybytesIn value
      */
@@ -48,7 +48,7 @@ public class ExpressRouteCircuitStatsInner {
     }
 
     /**
-     * Set gets BytesIn of the peering.
+     * Set the Primary BytesIn of the peering.
      *
      * @param primarybytesIn the primarybytesIn value to set
      * @return the ExpressRouteCircuitStatsInner object itself.
@@ -59,7 +59,7 @@ public class ExpressRouteCircuitStatsInner {
     }
 
     /**
-     * Get gets BytesOut of the peering.
+     * Get the primary BytesOut of the peering.
      *
      * @return the primarybytesOut value
      */
@@ -68,7 +68,7 @@ public class ExpressRouteCircuitStatsInner {
     }
 
     /**
-     * Set gets BytesOut of the peering.
+     * Set the primary BytesOut of the peering.
      *
      * @param primarybytesOut the primarybytesOut value to set
      * @return the ExpressRouteCircuitStatsInner object itself.
@@ -79,7 +79,7 @@ public class ExpressRouteCircuitStatsInner {
     }
 
     /**
-     * Get gets BytesIn of the peering.
+     * Get the secondary BytesIn of the peering.
      *
      * @return the secondarybytesIn value
      */
@@ -88,7 +88,7 @@ public class ExpressRouteCircuitStatsInner {
     }
 
     /**
-     * Set gets BytesIn of the peering.
+     * Set the secondary BytesIn of the peering.
      *
      * @param secondarybytesIn the secondarybytesIn value to set
      * @return the ExpressRouteCircuitStatsInner object itself.
@@ -99,7 +99,7 @@ public class ExpressRouteCircuitStatsInner {
     }
 
     /**
-     * Get gets BytesOut of the peering.
+     * Get the secondary BytesOut of the peering.
      *
      * @return the secondarybytesOut value
      */
@@ -108,7 +108,7 @@ public class ExpressRouteCircuitStatsInner {
     }
 
     /**
-     * Set gets BytesOut of the peering.
+     * Set the secondary BytesOut of the peering.
      *
      * @param secondarybytesOut the secondarybytesOut value to set
      * @return the ExpressRouteCircuitStatsInner object itself.

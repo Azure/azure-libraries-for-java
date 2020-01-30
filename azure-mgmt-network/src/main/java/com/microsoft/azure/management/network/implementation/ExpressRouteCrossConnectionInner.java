@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.ExpressRouteCircuitReference;
 import com.microsoft.azure.management.network.ServiceProviderProvisioningState;
+import com.microsoft.azure.management.network.ProvisioningState;
 import java.util.List;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -73,11 +74,11 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     private String serviceProviderNotes;
 
     /**
-     * Gets the provisioning state of the public IP resource. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the express route cross connection resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The list of peerings.
@@ -86,8 +87,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     private List<ExpressRouteCrossConnectionPeeringInner> peerings;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
@@ -226,11 +226,11 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the express route cross connection resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -255,7 +255,7 @@ public class ExpressRouteCrossConnectionInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

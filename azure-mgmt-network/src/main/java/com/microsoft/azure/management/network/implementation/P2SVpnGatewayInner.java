@@ -9,8 +9,9 @@
 package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.SubResource;
+import java.util.List;
+import com.microsoft.azure.management.network.P2SConnectionConfiguration;
 import com.microsoft.azure.management.network.ProvisioningState;
-import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.VpnClientConnectionHealth;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -30,10 +31,16 @@ public class P2SVpnGatewayInner extends Resource {
     private SubResource virtualHub;
 
     /**
-     * The provisioning state of the resource. Possible values include:
-     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * List of all p2s connection configurations of the gateway.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.p2SConnectionConfigurations")
+    private List<P2SConnectionConfiguration> p2SConnectionConfigurations;
+
+    /**
+     * The provisioning state of the P2S VPN gateway resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     */
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
@@ -43,24 +50,10 @@ public class P2SVpnGatewayInner extends Resource {
     private Integer vpnGatewayScaleUnit;
 
     /**
-     * The P2SVpnServerConfiguration to which the p2sVpnGateway is attached to.
+     * The VpnServerConfiguration to which the p2sVpnGateway is attached to.
      */
-    @JsonProperty(value = "properties.p2SVpnServerConfiguration")
-    private SubResource p2SVpnServerConfiguration;
-
-    /**
-     * The reference of the address space resource which represents Address
-     * space for P2S VpnClient.
-     */
-    @JsonProperty(value = "properties.vpnClientAddressPool")
-    private AddressSpace vpnClientAddressPool;
-
-    /**
-     * The reference of the address space resource which represents the custom
-     * routes specified by the customer for P2SVpnGateway and P2S VpnClient.
-     */
-    @JsonProperty(value = "properties.customRoutes")
-    private AddressSpace customRoutes;
+    @JsonProperty(value = "properties.vpnServerConfiguration")
+    private SubResource vpnServerConfiguration;
 
     /**
      * All P2S VPN clients' connection health status.
@@ -69,8 +62,7 @@ public class P2SVpnGatewayInner extends Resource {
     private VpnClientConnectionHealth vpnClientConnectionHealth;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
@@ -102,23 +94,32 @@ public class P2SVpnGatewayInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get list of all p2s connection configurations of the gateway.
+     *
+     * @return the p2SConnectionConfigurations value
+     */
+    public List<P2SConnectionConfiguration> p2SConnectionConfigurations() {
+        return this.p2SConnectionConfigurations;
+    }
+
+    /**
+     * Set list of all p2s connection configurations of the gateway.
+     *
+     * @param p2SConnectionConfigurations the p2SConnectionConfigurations value to set
+     * @return the P2SVpnGatewayInner object itself.
+     */
+    public P2SVpnGatewayInner withP2SConnectionConfigurations(List<P2SConnectionConfiguration> p2SConnectionConfigurations) {
+        this.p2SConnectionConfigurations = p2SConnectionConfigurations;
+        return this;
+    }
+
+    /**
+     * Get the provisioning state of the P2S VPN gateway resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the P2SVpnGatewayInner object itself.
-     */
-    public P2SVpnGatewayInner withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -142,62 +143,22 @@ public class P2SVpnGatewayInner extends Resource {
     }
 
     /**
-     * Get the P2SVpnServerConfiguration to which the p2sVpnGateway is attached to.
+     * Get the VpnServerConfiguration to which the p2sVpnGateway is attached to.
      *
-     * @return the p2SVpnServerConfiguration value
+     * @return the vpnServerConfiguration value
      */
-    public SubResource p2SVpnServerConfiguration() {
-        return this.p2SVpnServerConfiguration;
+    public SubResource vpnServerConfiguration() {
+        return this.vpnServerConfiguration;
     }
 
     /**
-     * Set the P2SVpnServerConfiguration to which the p2sVpnGateway is attached to.
+     * Set the VpnServerConfiguration to which the p2sVpnGateway is attached to.
      *
-     * @param p2SVpnServerConfiguration the p2SVpnServerConfiguration value to set
+     * @param vpnServerConfiguration the vpnServerConfiguration value to set
      * @return the P2SVpnGatewayInner object itself.
      */
-    public P2SVpnGatewayInner withP2SVpnServerConfiguration(SubResource p2SVpnServerConfiguration) {
-        this.p2SVpnServerConfiguration = p2SVpnServerConfiguration;
-        return this;
-    }
-
-    /**
-     * Get the reference of the address space resource which represents Address space for P2S VpnClient.
-     *
-     * @return the vpnClientAddressPool value
-     */
-    public AddressSpace vpnClientAddressPool() {
-        return this.vpnClientAddressPool;
-    }
-
-    /**
-     * Set the reference of the address space resource which represents Address space for P2S VpnClient.
-     *
-     * @param vpnClientAddressPool the vpnClientAddressPool value to set
-     * @return the P2SVpnGatewayInner object itself.
-     */
-    public P2SVpnGatewayInner withVpnClientAddressPool(AddressSpace vpnClientAddressPool) {
-        this.vpnClientAddressPool = vpnClientAddressPool;
-        return this;
-    }
-
-    /**
-     * Get the reference of the address space resource which represents the custom routes specified by the customer for P2SVpnGateway and P2S VpnClient.
-     *
-     * @return the customRoutes value
-     */
-    public AddressSpace customRoutes() {
-        return this.customRoutes;
-    }
-
-    /**
-     * Set the reference of the address space resource which represents the custom routes specified by the customer for P2SVpnGateway and P2S VpnClient.
-     *
-     * @param customRoutes the customRoutes value to set
-     * @return the P2SVpnGatewayInner object itself.
-     */
-    public P2SVpnGatewayInner withCustomRoutes(AddressSpace customRoutes) {
-        this.customRoutes = customRoutes;
+    public P2SVpnGatewayInner withVpnServerConfiguration(SubResource vpnServerConfiguration) {
+        this.vpnServerConfiguration = vpnServerConfiguration;
         return this;
     }
 
@@ -211,7 +172,7 @@ public class P2SVpnGatewayInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

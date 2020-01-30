@@ -17,7 +17,8 @@ import com.microsoft.azure.AzureServiceFuture;
 import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
 import com.microsoft.azure.management.network.AuthenticationMethod;
-import com.microsoft.azure.management.network.ErrorException;
+import com.microsoft.azure.management.network.P2SVpnConnectionHealthRequest;
+import com.microsoft.azure.management.network.P2SVpnConnectionRequest;
 import com.microsoft.azure.management.network.P2SVpnProfileParameters;
 import com.microsoft.azure.management.network.TagsObject;
 import com.microsoft.azure.Page;
@@ -89,10 +90,6 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}")
         Observable<Response<ResponseBody>> updateTags(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject p2SVpnGatewayParameters, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.P2sVpnGateways beginUpdateTags" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject p2SVpnGatewayParameters, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.P2sVpnGateways delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}", method = "DELETE", hasBody = true)
         Observable<Response<ResponseBody>> delete(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -125,6 +122,22 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth")
         Observable<Response<ResponseBody>> beginGetP2sVpnConnectionHealth(@Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.P2sVpnGateways getP2sVpnConnectionHealthDetailed" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed")
+        Observable<Response<ResponseBody>> getP2sVpnConnectionHealthDetailed(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Body P2SVpnConnectionHealthRequest request, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.P2sVpnGateways beginGetP2sVpnConnectionHealthDetailed" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealthDetailed")
+        Observable<Response<ResponseBody>> beginGetP2sVpnConnectionHealthDetailed(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("gatewayName") String gatewayName, @Body P2SVpnConnectionHealthRequest request, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.P2sVpnGateways disconnectP2sVpnConnections" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections")
+        Observable<Response<ResponseBody>> disconnectP2sVpnConnections(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("p2sVpnGatewayName") String p2sVpnGatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body P2SVpnConnectionRequest request, @Header("User-Agent") String userAgent);
+
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.P2sVpnGateways beginDisconnectP2sVpnConnections" })
+        @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{p2sVpnGatewayName}/disconnectP2sVpnConnections")
+        Observable<Response<ResponseBody>> beginDisconnectP2sVpnConnections(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("p2sVpnGatewayName") String p2sVpnGatewayName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body P2SVpnConnectionRequest request, @Header("User-Agent") String userAgent);
+
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.P2sVpnGateways listByResourceGroupNext" })
         @GET
         Observable<Response<ResponseBody>> listByResourceGroupNext(@Url String nextUrl, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -141,7 +154,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param resourceGroupName The resource group name of the P2SVpnGateway.
      * @param gatewayName The name of the gateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the P2SVpnGatewayInner object if successful.
      */
@@ -197,7 +210,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (gatewayName == null) {
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<P2SVpnGatewayInner>>>() {
                 @Override
@@ -212,10 +225,10 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             });
     }
 
-    private ServiceResponse<P2SVpnGatewayInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<P2SVpnGatewayInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<P2SVpnGatewayInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<P2SVpnGatewayInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<P2SVpnGatewayInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -226,7 +239,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param gatewayName The name of the gateway.
      * @param p2SVpnGatewayParameters Parameters supplied to create or Update a virtual wan p2s vpn gateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the P2SVpnGatewayInner object if successful.
      */
@@ -289,7 +302,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             throw new IllegalArgumentException("Parameter p2SVpnGatewayParameters is required and cannot be null.");
         }
         Validator.validate(p2SVpnGatewayParameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, p2SVpnGatewayParameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<P2SVpnGatewayInner>() { }.getType());
     }
@@ -301,7 +314,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param gatewayName The name of the gateway.
      * @param p2SVpnGatewayParameters Parameters supplied to create or Update a virtual wan p2s vpn gateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the P2SVpnGatewayInner object if successful.
      */
@@ -364,7 +377,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             throw new IllegalArgumentException("Parameter p2SVpnGatewayParameters is required and cannot be null.");
         }
         Validator.validate(p2SVpnGatewayParameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, p2SVpnGatewayParameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<P2SVpnGatewayInner>>>() {
                 @Override
@@ -379,11 +392,11 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             });
     }
 
-    private ServiceResponse<P2SVpnGatewayInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<P2SVpnGatewayInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<P2SVpnGatewayInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<P2SVpnGatewayInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<P2SVpnGatewayInner>() { }.getType())
                 .register(201, new TypeToken<P2SVpnGatewayInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -393,12 +406,12 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param resourceGroupName The resource group name of the P2SVpnGateway.
      * @param gatewayName The name of the gateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the P2SVpnGatewayInner object if successful.
      */
     public P2SVpnGatewayInner updateTags(String resourceGroupName, String gatewayName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).toBlocking().single().body();
     }
 
     /**
@@ -420,7 +433,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param resourceGroupName The resource group name of the P2SVpnGateway.
      * @param gatewayName The name of the gateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the P2SVpnGatewayInner object
      */
     public Observable<P2SVpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).map(new Func1<ServiceResponse<P2SVpnGatewayInner>, P2SVpnGatewayInner>() {
@@ -437,7 +450,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param resourceGroupName The resource group name of the P2SVpnGateway.
      * @param gatewayName The name of the gateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the P2SVpnGatewayInner object
      */
     public Observable<ServiceResponse<P2SVpnGatewayInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String gatewayName) {
         if (this.client.subscriptionId() == null) {
@@ -449,13 +462,24 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (gatewayName == null) {
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject p2SVpnGatewayParameters = new TagsObject();
         p2SVpnGatewayParameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), p2SVpnGatewayParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<P2SVpnGatewayInner>() { }.getType());
+        return service.updateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), p2SVpnGatewayParameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<P2SVpnGatewayInner>>>() {
+                @Override
+                public Observable<ServiceResponse<P2SVpnGatewayInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<P2SVpnGatewayInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Updates virtual wan p2s vpn gateway tags.
      *
@@ -463,12 +487,12 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the P2SVpnGatewayInner object if successful.
      */
     public P2SVpnGatewayInner updateTags(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).toBlocking().single().body();
     }
 
     /**
@@ -492,7 +516,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the P2SVpnGatewayInner object
      */
     public Observable<P2SVpnGatewayInner> updateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).map(new Func1<ServiceResponse<P2SVpnGatewayInner>, P2SVpnGatewayInner>() {
@@ -510,7 +534,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param gatewayName The name of the gateway.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the P2SVpnGatewayInner object
      */
     public Observable<ServiceResponse<P2SVpnGatewayInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
         if (this.client.subscriptionId() == null) {
@@ -523,85 +547,15 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject p2SVpnGatewayParameters = new TagsObject();
         p2SVpnGatewayParameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), p2SVpnGatewayParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<P2SVpnGatewayInner>() { }.getType());
-    }
-
-    /**
-     * Updates virtual wan p2s vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the P2SVpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the P2SVpnGatewayInner object if successful.
-     */
-    public P2SVpnGatewayInner beginUpdateTags(String resourceGroupName, String gatewayName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).toBlocking().single().body();
-    }
-
-    /**
-     * Updates virtual wan p2s vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the P2SVpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<P2SVpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName, final ServiceCallback<P2SVpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName), serviceCallback);
-    }
-
-    /**
-     * Updates virtual wan p2s vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the P2SVpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the P2SVpnGatewayInner object
-     */
-    public Observable<P2SVpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName).map(new Func1<ServiceResponse<P2SVpnGatewayInner>, P2SVpnGatewayInner>() {
-            @Override
-            public P2SVpnGatewayInner call(ServiceResponse<P2SVpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates virtual wan p2s vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the P2SVpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the P2SVpnGatewayInner object
-     */
-    public Observable<ServiceResponse<P2SVpnGatewayInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String gatewayName) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (gatewayName == null) {
-            throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
-        }
-        final String apiVersion = "2019-06-01";
-        final Map<String, String> tags = null;
-        TagsObject p2SVpnGatewayParameters = new TagsObject();
-        p2SVpnGatewayParameters.withTags(null);
-        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), p2SVpnGatewayParameters, this.client.userAgent())
+        return service.updateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), p2SVpnGatewayParameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<P2SVpnGatewayInner>>>() {
                 @Override
                 public Observable<ServiceResponse<P2SVpnGatewayInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<P2SVpnGatewayInner> clientResponse = beginUpdateTagsDelegate(response);
+                        ServiceResponse<P2SVpnGatewayInner> clientResponse = updateTagsDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -610,95 +564,10 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             });
     }
 
-    /**
-     * Updates virtual wan p2s vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the P2SVpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the P2SVpnGatewayInner object if successful.
-     */
-    public P2SVpnGatewayInner beginUpdateTags(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).toBlocking().single().body();
-    }
-
-    /**
-     * Updates virtual wan p2s vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the P2SVpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param tags Resource tags.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<P2SVpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags, final ServiceCallback<P2SVpnGatewayInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags), serviceCallback);
-    }
-
-    /**
-     * Updates virtual wan p2s vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the P2SVpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the P2SVpnGatewayInner object
-     */
-    public Observable<P2SVpnGatewayInner> beginUpdateTagsAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, gatewayName, tags).map(new Func1<ServiceResponse<P2SVpnGatewayInner>, P2SVpnGatewayInner>() {
-            @Override
-            public P2SVpnGatewayInner call(ServiceResponse<P2SVpnGatewayInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates virtual wan p2s vpn gateway tags.
-     *
-     * @param resourceGroupName The resource group name of the P2SVpnGateway.
-     * @param gatewayName The name of the gateway.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the P2SVpnGatewayInner object
-     */
-    public Observable<ServiceResponse<P2SVpnGatewayInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String gatewayName, Map<String, String> tags) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (gatewayName == null) {
-            throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
-        }
-        Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
-        TagsObject p2SVpnGatewayParameters = new TagsObject();
-        p2SVpnGatewayParameters.withTags(tags);
-        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), p2SVpnGatewayParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<P2SVpnGatewayInner>>>() {
-                @Override
-                public Observable<ServiceResponse<P2SVpnGatewayInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<P2SVpnGatewayInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<P2SVpnGatewayInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<P2SVpnGatewayInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<P2SVpnGatewayInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<P2SVpnGatewayInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<P2SVpnGatewayInner>() { }.getType())
-                .register(201, new TypeToken<P2SVpnGatewayInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -708,7 +577,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param resourceGroupName The resource group name of the P2SVpnGateway.
      * @param gatewayName The name of the gateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String gatewayName) {
@@ -763,7 +632,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (gatewayName == null) {
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -774,7 +643,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * @param resourceGroupName The resource group name of the P2SVpnGateway.
      * @param gatewayName The name of the gateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginDelete(String resourceGroupName, String gatewayName) {
@@ -829,7 +698,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (gatewayName == null) {
             throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, gatewayName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -844,12 +713,12 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             });
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -858,7 +727,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      *
      * @param resourceGroupName The resource group name of the P2SVpnGateway.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;P2SVpnGatewayInner&gt; object if successful.
      */
@@ -944,7 +813,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<P2SVpnGatewayInner>>>>() {
                 @Override
@@ -959,10 +828,10 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             });
     }
 
-    private ServiceResponse<PageImpl<P2SVpnGatewayInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<P2SVpnGatewayInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<P2SVpnGatewayInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<P2SVpnGatewayInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<P2SVpnGatewayInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -970,7 +839,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      * Lists all the P2SVpnGateways in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;P2SVpnGatewayInner&gt; object if successful.
      */
@@ -1049,7 +918,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<P2SVpnGatewayInner>>>>() {
                 @Override
@@ -1064,10 +933,10 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             });
     }
 
-    private ServiceResponse<PageImpl<P2SVpnGatewayInner>> listDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<P2SVpnGatewayInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<P2SVpnGatewayInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<P2SVpnGatewayInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<P2SVpnGatewayInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1133,7 +1002,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final AuthenticationMethod authenticationMethod = null;
         P2SVpnProfileParameters parameters = new P2SVpnProfileParameters();
         parameters.withAuthenticationMethod(null);
@@ -1206,7 +1075,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         P2SVpnProfileParameters parameters = new P2SVpnProfileParameters();
         parameters.withAuthenticationMethod(authenticationMethod);
         Observable<Response<ResponseBody>> observable = service.generateVpnProfile(resourceGroupName, gatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
@@ -1275,7 +1144,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final AuthenticationMethod authenticationMethod = null;
         P2SVpnProfileParameters parameters = new P2SVpnProfileParameters();
         parameters.withAuthenticationMethod(null);
@@ -1359,7 +1228,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         P2SVpnProfileParameters parameters = new P2SVpnProfileParameters();
         parameters.withAuthenticationMethod(authenticationMethod);
         return service.beginGenerateVpnProfile(resourceGroupName, gatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
@@ -1446,7 +1315,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.getP2sVpnConnectionHealth(resourceGroupName, gatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<P2SVpnGatewayInner>() { }.getType());
     }
@@ -1513,7 +1382,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginGetP2sVpnConnectionHealth(resourceGroupName, gatewayName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<P2SVpnGatewayInner>>>() {
                 @Override
@@ -1537,11 +1406,490 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
     }
 
     /**
+     * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param gatewayName The name of the P2SVpnGateway.
+     * @param request Request parameters supplied to get p2s vpn connections detailed health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the P2SVpnConnectionHealthInner object if successful.
+     */
+    public P2SVpnConnectionHealthInner getP2sVpnConnectionHealthDetailed(String resourceGroupName, String gatewayName, P2SVpnConnectionHealthRequest request) {
+        return getP2sVpnConnectionHealthDetailedWithServiceResponseAsync(resourceGroupName, gatewayName, request).toBlocking().last().body();
+    }
+
+    /**
+     * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param gatewayName The name of the P2SVpnGateway.
+     * @param request Request parameters supplied to get p2s vpn connections detailed health.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<P2SVpnConnectionHealthInner> getP2sVpnConnectionHealthDetailedAsync(String resourceGroupName, String gatewayName, P2SVpnConnectionHealthRequest request, final ServiceCallback<P2SVpnConnectionHealthInner> serviceCallback) {
+        return ServiceFuture.fromResponse(getP2sVpnConnectionHealthDetailedWithServiceResponseAsync(resourceGroupName, gatewayName, request), serviceCallback);
+    }
+
+    /**
+     * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param gatewayName The name of the P2SVpnGateway.
+     * @param request Request parameters supplied to get p2s vpn connections detailed health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<P2SVpnConnectionHealthInner> getP2sVpnConnectionHealthDetailedAsync(String resourceGroupName, String gatewayName, P2SVpnConnectionHealthRequest request) {
+        return getP2sVpnConnectionHealthDetailedWithServiceResponseAsync(resourceGroupName, gatewayName, request).map(new Func1<ServiceResponse<P2SVpnConnectionHealthInner>, P2SVpnConnectionHealthInner>() {
+            @Override
+            public P2SVpnConnectionHealthInner call(ServiceResponse<P2SVpnConnectionHealthInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param gatewayName The name of the P2SVpnGateway.
+     * @param request Request parameters supplied to get p2s vpn connections detailed health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<P2SVpnConnectionHealthInner>> getP2sVpnConnectionHealthDetailedWithServiceResponseAsync(String resourceGroupName, String gatewayName, P2SVpnConnectionHealthRequest request) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (gatewayName == null) {
+            throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
+        }
+        if (request == null) {
+            throw new IllegalArgumentException("Parameter request is required and cannot be null.");
+        }
+        Validator.validate(request);
+        final String apiVersion = "2019-11-01";
+        Observable<Response<ResponseBody>> observable = service.getP2sVpnConnectionHealthDetailed(this.client.subscriptionId(), resourceGroupName, gatewayName, request, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<P2SVpnConnectionHealthInner>() { }.getType());
+    }
+
+    /**
+     * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param gatewayName The name of the P2SVpnGateway.
+     * @param request Request parameters supplied to get p2s vpn connections detailed health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     * @return the P2SVpnConnectionHealthInner object if successful.
+     */
+    public P2SVpnConnectionHealthInner beginGetP2sVpnConnectionHealthDetailed(String resourceGroupName, String gatewayName, P2SVpnConnectionHealthRequest request) {
+        return beginGetP2sVpnConnectionHealthDetailedWithServiceResponseAsync(resourceGroupName, gatewayName, request).toBlocking().single().body();
+    }
+
+    /**
+     * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param gatewayName The name of the P2SVpnGateway.
+     * @param request Request parameters supplied to get p2s vpn connections detailed health.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<P2SVpnConnectionHealthInner> beginGetP2sVpnConnectionHealthDetailedAsync(String resourceGroupName, String gatewayName, P2SVpnConnectionHealthRequest request, final ServiceCallback<P2SVpnConnectionHealthInner> serviceCallback) {
+        return ServiceFuture.fromResponse(beginGetP2sVpnConnectionHealthDetailedWithServiceResponseAsync(resourceGroupName, gatewayName, request), serviceCallback);
+    }
+
+    /**
+     * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param gatewayName The name of the P2SVpnGateway.
+     * @param request Request parameters supplied to get p2s vpn connections detailed health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the P2SVpnConnectionHealthInner object
+     */
+    public Observable<P2SVpnConnectionHealthInner> beginGetP2sVpnConnectionHealthDetailedAsync(String resourceGroupName, String gatewayName, P2SVpnConnectionHealthRequest request) {
+        return beginGetP2sVpnConnectionHealthDetailedWithServiceResponseAsync(resourceGroupName, gatewayName, request).map(new Func1<ServiceResponse<P2SVpnConnectionHealthInner>, P2SVpnConnectionHealthInner>() {
+            @Override
+            public P2SVpnConnectionHealthInner call(ServiceResponse<P2SVpnConnectionHealthInner> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Gets the sas url to get the connection health detail of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param gatewayName The name of the P2SVpnGateway.
+     * @param request Request parameters supplied to get p2s vpn connections detailed health.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable to the P2SVpnConnectionHealthInner object
+     */
+    public Observable<ServiceResponse<P2SVpnConnectionHealthInner>> beginGetP2sVpnConnectionHealthDetailedWithServiceResponseAsync(String resourceGroupName, String gatewayName, P2SVpnConnectionHealthRequest request) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (gatewayName == null) {
+            throw new IllegalArgumentException("Parameter gatewayName is required and cannot be null.");
+        }
+        if (request == null) {
+            throw new IllegalArgumentException("Parameter request is required and cannot be null.");
+        }
+        Validator.validate(request);
+        final String apiVersion = "2019-11-01";
+        return service.beginGetP2sVpnConnectionHealthDetailed(this.client.subscriptionId(), resourceGroupName, gatewayName, request, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<P2SVpnConnectionHealthInner>>>() {
+                @Override
+                public Observable<ServiceResponse<P2SVpnConnectionHealthInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<P2SVpnConnectionHealthInner> clientResponse = beginGetP2sVpnConnectionHealthDetailedDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<P2SVpnConnectionHealthInner> beginGetP2sVpnConnectionHealthDetailedDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<P2SVpnConnectionHealthInner, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<P2SVpnConnectionHealthInner>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void disconnectP2sVpnConnections(String resourceGroupName, String p2sVpnGatewayName) {
+        disconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName).toBlocking().last().body();
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> disconnectP2sVpnConnectionsAsync(String resourceGroupName, String p2sVpnGatewayName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(disconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName), serviceCallback);
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> disconnectP2sVpnConnectionsAsync(String resourceGroupName, String p2sVpnGatewayName) {
+        return disconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> disconnectP2sVpnConnectionsWithServiceResponseAsync(String resourceGroupName, String p2sVpnGatewayName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (p2sVpnGatewayName == null) {
+            throw new IllegalArgumentException("Parameter p2sVpnGatewayName is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        final String vpnConnectionIdsConverted = null;
+        P2SVpnConnectionRequest request = new P2SVpnConnectionRequest();
+        request.withVpnConnectionIds(null);
+        Observable<Response<ResponseBody>> observable = service.disconnectP2sVpnConnections(this.client.subscriptionId(), resourceGroupName, p2sVpnGatewayName, apiVersion, this.client.acceptLanguage(), request, this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
+    }
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param vpnConnectionIds List of p2s vpn connection Ids.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void disconnectP2sVpnConnections(String resourceGroupName, String p2sVpnGatewayName, List<String> vpnConnectionIds) {
+        disconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName, vpnConnectionIds).toBlocking().last().body();
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param vpnConnectionIds List of p2s vpn connection Ids.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> disconnectP2sVpnConnectionsAsync(String resourceGroupName, String p2sVpnGatewayName, List<String> vpnConnectionIds, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(disconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName, vpnConnectionIds), serviceCallback);
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param vpnConnectionIds List of p2s vpn connection Ids.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<Void> disconnectP2sVpnConnectionsAsync(String resourceGroupName, String p2sVpnGatewayName, List<String> vpnConnectionIds) {
+        return disconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName, vpnConnectionIds).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param vpnConnectionIds List of p2s vpn connection Ids.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the observable for the request
+     */
+    public Observable<ServiceResponse<Void>> disconnectP2sVpnConnectionsWithServiceResponseAsync(String resourceGroupName, String p2sVpnGatewayName, List<String> vpnConnectionIds) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (p2sVpnGatewayName == null) {
+            throw new IllegalArgumentException("Parameter p2sVpnGatewayName is required and cannot be null.");
+        }
+        Validator.validate(vpnConnectionIds);
+        final String apiVersion = "2019-11-01";
+        P2SVpnConnectionRequest request = new P2SVpnConnectionRequest();
+        request.withVpnConnectionIds(vpnConnectionIds);
+        Observable<Response<ResponseBody>> observable = service.disconnectP2sVpnConnections(this.client.subscriptionId(), resourceGroupName, p2sVpnGatewayName, apiVersion, this.client.acceptLanguage(), request, this.client.userAgent());
+        return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<Void>() { }.getType());
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginDisconnectP2sVpnConnections(String resourceGroupName, String p2sVpnGatewayName) {
+        beginDisconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName).toBlocking().single().body();
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginDisconnectP2sVpnConnectionsAsync(String resourceGroupName, String p2sVpnGatewayName, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDisconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName), serviceCallback);
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginDisconnectP2sVpnConnectionsAsync(String resourceGroupName, String p2sVpnGatewayName) {
+        return beginDisconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginDisconnectP2sVpnConnectionsWithServiceResponseAsync(String resourceGroupName, String p2sVpnGatewayName) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (p2sVpnGatewayName == null) {
+            throw new IllegalArgumentException("Parameter p2sVpnGatewayName is required and cannot be null.");
+        }
+        final String apiVersion = "2019-11-01";
+        final List<String> vpnConnectionIds = null;
+        P2SVpnConnectionRequest request = new P2SVpnConnectionRequest();
+        request.withVpnConnectionIds(null);
+        return service.beginDisconnectP2sVpnConnections(this.client.subscriptionId(), resourceGroupName, p2sVpnGatewayName, apiVersion, this.client.acceptLanguage(), request, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginDisconnectP2sVpnConnectionsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param vpnConnectionIds List of p2s vpn connection Ids.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @throws CloudException thrown if the request is rejected by server
+     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
+     */
+    public void beginDisconnectP2sVpnConnections(String resourceGroupName, String p2sVpnGatewayName, List<String> vpnConnectionIds) {
+        beginDisconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName, vpnConnectionIds).toBlocking().single().body();
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param vpnConnectionIds List of p2s vpn connection Ids.
+     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceFuture} object
+     */
+    public ServiceFuture<Void> beginDisconnectP2sVpnConnectionsAsync(String resourceGroupName, String p2sVpnGatewayName, List<String> vpnConnectionIds, final ServiceCallback<Void> serviceCallback) {
+        return ServiceFuture.fromResponse(beginDisconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName, vpnConnectionIds), serviceCallback);
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param vpnConnectionIds List of p2s vpn connection Ids.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<Void> beginDisconnectP2sVpnConnectionsAsync(String resourceGroupName, String p2sVpnGatewayName, List<String> vpnConnectionIds) {
+        return beginDisconnectP2sVpnConnectionsWithServiceResponseAsync(resourceGroupName, p2sVpnGatewayName, vpnConnectionIds).map(new Func1<ServiceResponse<Void>, Void>() {
+            @Override
+            public Void call(ServiceResponse<Void> response) {
+                return response.body();
+            }
+        });
+    }
+
+    /**
+     * Disconnect P2S vpn connections of the virtual wan P2SVpnGateway in the specified resource group.
+     *
+     * @param resourceGroupName The name of the resource group.
+     * @param p2sVpnGatewayName The name of the P2S Vpn Gateway.
+     * @param vpnConnectionIds List of p2s vpn connection Ids.
+     * @throws IllegalArgumentException thrown if parameters fail the validation
+     * @return the {@link ServiceResponse} object if successful.
+     */
+    public Observable<ServiceResponse<Void>> beginDisconnectP2sVpnConnectionsWithServiceResponseAsync(String resourceGroupName, String p2sVpnGatewayName, List<String> vpnConnectionIds) {
+        if (this.client.subscriptionId() == null) {
+            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
+        }
+        if (resourceGroupName == null) {
+            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
+        }
+        if (p2sVpnGatewayName == null) {
+            throw new IllegalArgumentException("Parameter p2sVpnGatewayName is required and cannot be null.");
+        }
+        Validator.validate(vpnConnectionIds);
+        final String apiVersion = "2019-11-01";
+        P2SVpnConnectionRequest request = new P2SVpnConnectionRequest();
+        request.withVpnConnectionIds(vpnConnectionIds);
+        return service.beginDisconnectP2sVpnConnections(this.client.subscriptionId(), resourceGroupName, p2sVpnGatewayName, apiVersion, this.client.acceptLanguage(), request, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
+                @Override
+                public Observable<ServiceResponse<Void>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<Void> clientResponse = beginDisconnectP2sVpnConnectionsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
+    }
+
+    private ServiceResponse<Void> beginDisconnectP2sVpnConnectionsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
+                .register(200, new TypeToken<Void>() { }.getType())
+                .register(202, new TypeToken<Void>() { }.getType())
+                .registerError(CloudException.class)
+                .build(response);
+    }
+
+    /**
      * Lists all the P2SVpnGateways in a resource group.
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;P2SVpnGatewayInner&gt; object if successful.
      */
@@ -1640,10 +1988,10 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             });
     }
 
-    private ServiceResponse<PageImpl<P2SVpnGatewayInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<P2SVpnGatewayInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<P2SVpnGatewayInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<P2SVpnGatewayInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<P2SVpnGatewayInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1652,7 +2000,7 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;P2SVpnGatewayInner&gt; object if successful.
      */
@@ -1751,10 +2099,10 @@ public class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGatewayInner>
             });
     }
 
-    private ServiceResponse<PageImpl<P2SVpnGatewayInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<P2SVpnGatewayInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<P2SVpnGatewayInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<P2SVpnGatewayInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<P2SVpnGatewayInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 

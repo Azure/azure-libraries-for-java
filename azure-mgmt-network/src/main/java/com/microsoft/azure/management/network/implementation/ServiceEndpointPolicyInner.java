@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -40,16 +41,16 @@ public class ServiceEndpointPolicyInner extends Resource {
     private String resourceGuid;
 
     /**
-     * The provisioning state of the service endpoint policy. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the service endpoint policy resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -97,11 +98,11 @@ public class ServiceEndpointPolicyInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the service endpoint policy. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the service endpoint policy resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -112,17 +113,6 @@ public class ServiceEndpointPolicyInner extends Resource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the ServiceEndpointPolicyInner object itself.
-     */
-    public ServiceEndpointPolicyInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -24,11 +25,11 @@ public class ApplicationGatewayAuthenticationCertificateInner extends SubResourc
     private String data;
 
     /**
-     * Provisioning state of the authentication certificate resource. Possible
-     * values are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the authentication certificate resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * Name of the authentication certificate that is unique within an
@@ -40,13 +41,13 @@ public class ApplicationGatewayAuthenticationCertificateInner extends SubResourc
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
      * Type of the resource.
      */
-    @JsonProperty(value = "type")
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
     private String type;
 
     /**
@@ -70,23 +71,12 @@ public class ApplicationGatewayAuthenticationCertificateInner extends SubResourc
     }
 
     /**
-     * Get provisioning state of the authentication certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the authentication certificate resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set provisioning state of the authentication certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the ApplicationGatewayAuthenticationCertificateInner object itself.
-     */
-    public ApplicationGatewayAuthenticationCertificateInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -119,34 +109,12 @@ public class ApplicationGatewayAuthenticationCertificateInner extends SubResourc
     }
 
     /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the ApplicationGatewayAuthenticationCertificateInner object itself.
-     */
-    public ApplicationGatewayAuthenticationCertificateInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
-    }
-
-    /**
      * Get type of the resource.
      *
      * @return the type value
      */
     public String type() {
         return this.type;
-    }
-
-    /**
-     * Set type of the resource.
-     *
-     * @param type the type value to set
-     * @return the ApplicationGatewayAuthenticationCertificateInner object itself.
-     */
-    public ApplicationGatewayAuthenticationCertificateInner withType(String type) {
-        this.type = type;
-        return this;
     }
 
 }

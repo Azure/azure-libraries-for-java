@@ -10,6 +10,8 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.ExpressRouteLinkConnectorType;
 import com.microsoft.azure.management.network.ExpressRouteLinkAdminState;
+import com.microsoft.azure.management.network.ProvisioningState;
+import com.microsoft.azure.management.network.ExpressRouteLinkMacSecConfig;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
@@ -58,11 +60,17 @@ public class ExpressRouteLinkInner extends SubResource {
     private ExpressRouteLinkAdminState adminState;
 
     /**
-     * The provisioning state of the ExpressRouteLink resource. Possible values
-     * are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the express route link resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
+
+    /**
+     * MacSec configuration.
+     */
+    @JsonProperty(value = "properties.macSecConfig")
+    private ExpressRouteLinkMacSecConfig macSecConfig;
 
     /**
      * Name of child port resource that is unique among child port resources of
@@ -143,12 +151,32 @@ public class ExpressRouteLinkInner extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the ExpressRouteLink resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the express route link resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
+    }
+
+    /**
+     * Get macSec configuration.
+     *
+     * @return the macSecConfig value
+     */
+    public ExpressRouteLinkMacSecConfig macSecConfig() {
+        return this.macSecConfig;
+    }
+
+    /**
+     * Set macSec configuration.
+     *
+     * @param macSecConfig the macSecConfig value to set
+     * @return the ExpressRouteLinkInner object itself.
+     */
+    public ExpressRouteLinkInner withMacSecConfig(ExpressRouteLinkMacSecConfig macSecConfig) {
+        this.macSecConfig = macSecConfig;
+        return this;
     }
 
     /**

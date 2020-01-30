@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.CircuitConnectionStatus;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -52,14 +53,14 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     private CircuitConnectionStatus circuitConnectionStatus;
 
     /**
-     * Provisioning state of the circuit connection resource. Possible values
-     * are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the express route circuit connection resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
-     * Gets name of the resource that is unique within a resource group. This
+     * The name of the resource that is unique within a resource group. This
      * name can be used to access the resource.
      */
     @JsonProperty(value = "name")
@@ -178,16 +179,16 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     }
 
     /**
-     * Get provisioning state of the circuit connection resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the express route circuit connection resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
     /**
-     * Get gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -196,7 +197,7 @@ public class ExpressRouteCircuitConnectionInner extends SubResource {
     }
 
     /**
-     * Set gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+     * Set the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the ExpressRouteCircuitConnectionInner object itself.

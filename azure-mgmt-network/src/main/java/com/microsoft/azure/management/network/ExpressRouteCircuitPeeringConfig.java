@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ExpressRouteCircuitPeeringConfig {
     /**
-     * The reference of AdvertisedPublicPrefixes.
+     * The reference to AdvertisedPublicPrefixes.
      */
     @JsonProperty(value = "advertisedPublicPrefixes")
     private List<String> advertisedPublicPrefixes;
@@ -32,7 +32,7 @@ public class ExpressRouteCircuitPeeringConfig {
      * values include: 'NotConfigured', 'Configuring', 'Configured',
      * 'ValidationNeeded'.
      */
-    @JsonProperty(value = "advertisedPublicPrefixesState")
+    @JsonProperty(value = "advertisedPublicPrefixesState", access = JsonProperty.Access.WRITE_ONLY)
     private ExpressRouteCircuitPeeringAdvertisedPublicPrefixState advertisedPublicPrefixesState;
 
     /**
@@ -54,7 +54,7 @@ public class ExpressRouteCircuitPeeringConfig {
     private String routingRegistryName;
 
     /**
-     * Get the reference of AdvertisedPublicPrefixes.
+     * Get the reference to AdvertisedPublicPrefixes.
      *
      * @return the advertisedPublicPrefixes value
      */
@@ -63,7 +63,7 @@ public class ExpressRouteCircuitPeeringConfig {
     }
 
     /**
-     * Set the reference of AdvertisedPublicPrefixes.
+     * Set the reference to AdvertisedPublicPrefixes.
      *
      * @param advertisedPublicPrefixes the advertisedPublicPrefixes value to set
      * @return the ExpressRouteCircuitPeeringConfig object itself.
@@ -100,17 +100,6 @@ public class ExpressRouteCircuitPeeringConfig {
      */
     public ExpressRouteCircuitPeeringAdvertisedPublicPrefixState advertisedPublicPrefixesState() {
         return this.advertisedPublicPrefixesState;
-    }
-
-    /**
-     * Set the advertised public prefix state of the Peering resource. Possible values include: 'NotConfigured', 'Configuring', 'Configured', 'ValidationNeeded'.
-     *
-     * @param advertisedPublicPrefixesState the advertisedPublicPrefixesState value to set
-     * @return the ExpressRouteCircuitPeeringConfig object itself.
-     */
-    public ExpressRouteCircuitPeeringConfig withAdvertisedPublicPrefixesState(ExpressRouteCircuitPeeringAdvertisedPublicPrefixState advertisedPublicPrefixesState) {
-        this.advertisedPublicPrefixesState = advertisedPublicPrefixesState;
-        return this;
     }
 
     /**

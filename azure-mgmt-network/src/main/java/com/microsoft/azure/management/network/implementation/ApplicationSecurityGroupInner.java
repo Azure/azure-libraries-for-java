@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -29,10 +30,10 @@ public class ApplicationSecurityGroupInner extends Resource {
 
     /**
      * The provisioning state of the application security group resource.
-     * Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * A unique read-only string that changes whenever the resource is updated.
@@ -56,11 +57,11 @@ public class ApplicationSecurityGroupInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the application security group resource. Possible values are: 'Succeeded', 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the application security group resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 

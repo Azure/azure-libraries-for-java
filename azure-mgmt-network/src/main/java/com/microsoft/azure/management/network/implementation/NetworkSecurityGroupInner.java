@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -29,7 +30,7 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * The default security rules of network security group.
      */
-    @JsonProperty(value = "properties.defaultSecurityRules")
+    @JsonProperty(value = "properties.defaultSecurityRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SecurityRuleInner> defaultSecurityRules;
 
     /**
@@ -47,20 +48,20 @@ public class NetworkSecurityGroupInner extends Resource {
     /**
      * The resource GUID property of the network security group resource.
      */
-    @JsonProperty(value = "properties.resourceGuid")
+    @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /**
-     * The provisioning state of the public IP resource. Possible values are:
-     * 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the network security group resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -99,17 +100,6 @@ public class NetworkSecurityGroupInner extends Resource {
     }
 
     /**
-     * Set the default security rules of network security group.
-     *
-     * @param defaultSecurityRules the defaultSecurityRules value to set
-     * @return the NetworkSecurityGroupInner object itself.
-     */
-    public NetworkSecurityGroupInner withDefaultSecurityRules(List<SecurityRuleInner> defaultSecurityRules) {
-        this.defaultSecurityRules = defaultSecurityRules;
-        return this;
-    }
-
-    /**
      * Get a collection of references to network interfaces.
      *
      * @return the networkInterfaces value
@@ -137,34 +127,12 @@ public class NetworkSecurityGroupInner extends Resource {
     }
 
     /**
-     * Set the resource GUID property of the network security group resource.
-     *
-     * @param resourceGuid the resourceGuid value to set
-     * @return the NetworkSecurityGroupInner object itself.
-     */
-    public NetworkSecurityGroupInner withResourceGuid(String resourceGuid) {
-        this.resourceGuid = resourceGuid;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the network security group resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the NetworkSecurityGroupInner object itself.
-     */
-    public NetworkSecurityGroupInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -174,17 +142,6 @@ public class NetworkSecurityGroupInner extends Resource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the NetworkSecurityGroupInner object itself.
-     */
-    public NetworkSecurityGroupInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

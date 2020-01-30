@@ -154,7 +154,7 @@ public class ExpressRoutePortsLocationsInner {
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRoutePortsLocationInner>>>>() {
                 @Override
@@ -231,7 +231,7 @@ public class ExpressRoutePortsLocationsInner {
         if (locationName == null) {
             throw new IllegalArgumentException("Parameter locationName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.get(this.client.subscriptionId(), locationName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRoutePortsLocationInner>>>() {
                 @Override

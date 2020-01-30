@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.BgpSettings;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -40,22 +41,22 @@ public class LocalNetworkGatewayInner extends Resource {
     private BgpSettings bgpSettings;
 
     /**
-     * The resource GUID property of the LocalNetworkGateway resource.
+     * The resource GUID property of the local network gateway resource.
      */
-    @JsonProperty(value = "properties.resourceGuid")
+    @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /**
-     * The provisioning state of the LocalNetworkGateway resource. Possible
-     * values are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the local network gateway resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -125,7 +126,7 @@ public class LocalNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Get the resource GUID property of the LocalNetworkGateway resource.
+     * Get the resource GUID property of the local network gateway resource.
      *
      * @return the resourceGuid value
      */
@@ -134,22 +135,11 @@ public class LocalNetworkGatewayInner extends Resource {
     }
 
     /**
-     * Set the resource GUID property of the LocalNetworkGateway resource.
-     *
-     * @param resourceGuid the resourceGuid value to set
-     * @return the LocalNetworkGatewayInner object itself.
-     */
-    public LocalNetworkGatewayInner withResourceGuid(String resourceGuid) {
-        this.resourceGuid = resourceGuid;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the LocalNetworkGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the local network gateway resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -160,17 +150,6 @@ public class LocalNetworkGatewayInner extends Resource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the LocalNetworkGatewayInner object itself.
-     */
-    public LocalNetworkGatewayInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

@@ -84,10 +84,6 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}")
         Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("ddosCustomPolicyName") String ddosCustomPolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.DdosCustomPolicies beginUpdateTags" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("ddosCustomPolicyName") String ddosCustomPolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
-
     }
 
     /**
@@ -151,7 +147,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -217,7 +213,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -303,7 +299,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DdosCustomPolicyInner>>>() {
                 @Override
@@ -395,7 +391,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DdosCustomPolicyInner>() { }.getType());
     }
@@ -470,7 +466,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DdosCustomPolicyInner>>>() {
                 @Override
@@ -504,7 +500,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
      * @return the DdosCustomPolicyInner object if successful.
      */
     public DdosCustomPolicyInner updateTags(String resourceGroupName, String ddosCustomPolicyName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName).toBlocking().single().body();
     }
 
     /**
@@ -526,7 +522,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
      * @param resourceGroupName The name of the resource group.
      * @param ddosCustomPolicyName The name of the DDoS custom policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the DdosCustomPolicyInner object
      */
     public Observable<DdosCustomPolicyInner> updateTagsAsync(String resourceGroupName, String ddosCustomPolicyName) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName).map(new Func1<ServiceResponse<DdosCustomPolicyInner>, DdosCustomPolicyInner>() {
@@ -543,7 +539,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
      * @param resourceGroupName The name of the resource group.
      * @param ddosCustomPolicyName The name of the DDoS custom policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the DdosCustomPolicyInner object
      */
     public Observable<ServiceResponse<DdosCustomPolicyInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String ddosCustomPolicyName) {
         if (resourceGroupName == null) {
@@ -555,13 +551,24 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DdosCustomPolicyInner>() { }.getType());
+        return service.updateTags(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DdosCustomPolicyInner>>>() {
+                @Override
+                public Observable<ServiceResponse<DdosCustomPolicyInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<DdosCustomPolicyInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Update a DDoS custom policy tags.
      *
@@ -574,7 +581,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
      * @return the DdosCustomPolicyInner object if successful.
      */
     public DdosCustomPolicyInner updateTags(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName, tags).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName, tags).toBlocking().single().body();
     }
 
     /**
@@ -598,7 +605,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
      * @param ddosCustomPolicyName The name of the DDoS custom policy.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the DdosCustomPolicyInner object
      */
     public Observable<DdosCustomPolicyInner> updateTagsAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName, tags).map(new Func1<ServiceResponse<DdosCustomPolicyInner>, DdosCustomPolicyInner>() {
@@ -616,7 +623,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
      * @param ddosCustomPolicyName The name of the DDoS custom policy.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the DdosCustomPolicyInner object
      */
     public Observable<ServiceResponse<DdosCustomPolicyInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
         if (resourceGroupName == null) {
@@ -629,85 +636,15 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<DdosCustomPolicyInner>() { }.getType());
-    }
-
-    /**
-     * Update a DDoS custom policy tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosCustomPolicyName The name of the DDoS custom policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DdosCustomPolicyInner object if successful.
-     */
-    public DdosCustomPolicyInner beginUpdateTags(String resourceGroupName, String ddosCustomPolicyName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName).toBlocking().single().body();
-    }
-
-    /**
-     * Update a DDoS custom policy tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosCustomPolicyName The name of the DDoS custom policy.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<DdosCustomPolicyInner> beginUpdateTagsAsync(String resourceGroupName, String ddosCustomPolicyName, final ServiceCallback<DdosCustomPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName), serviceCallback);
-    }
-
-    /**
-     * Update a DDoS custom policy tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosCustomPolicyName The name of the DDoS custom policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DdosCustomPolicyInner object
-     */
-    public Observable<DdosCustomPolicyInner> beginUpdateTagsAsync(String resourceGroupName, String ddosCustomPolicyName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName).map(new Func1<ServiceResponse<DdosCustomPolicyInner>, DdosCustomPolicyInner>() {
-            @Override
-            public DdosCustomPolicyInner call(ServiceResponse<DdosCustomPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update a DDoS custom policy tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosCustomPolicyName The name of the DDoS custom policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DdosCustomPolicyInner object
-     */
-    public Observable<ServiceResponse<DdosCustomPolicyInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String ddosCustomPolicyName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (ddosCustomPolicyName == null) {
-            throw new IllegalArgumentException("Parameter ddosCustomPolicyName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2019-06-01";
-        final Map<String, String> tags = null;
-        TagsObject parameters = new TagsObject();
-        parameters.withTags(null);
-        return service.beginUpdateTags(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.updateTags(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DdosCustomPolicyInner>>>() {
                 @Override
                 public Observable<ServiceResponse<DdosCustomPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<DdosCustomPolicyInner> clientResponse = beginUpdateTagsDelegate(response);
+                        ServiceResponse<DdosCustomPolicyInner> clientResponse = updateTagsDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -716,91 +653,7 @@ public class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCustomPolic
             });
     }
 
-    /**
-     * Update a DDoS custom policy tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosCustomPolicyName The name of the DDoS custom policy.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the DdosCustomPolicyInner object if successful.
-     */
-    public DdosCustomPolicyInner beginUpdateTags(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName, tags).toBlocking().single().body();
-    }
-
-    /**
-     * Update a DDoS custom policy tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosCustomPolicyName The name of the DDoS custom policy.
-     * @param tags Resource tags.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<DdosCustomPolicyInner> beginUpdateTagsAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags, final ServiceCallback<DdosCustomPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName, tags), serviceCallback);
-    }
-
-    /**
-     * Update a DDoS custom policy tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosCustomPolicyName The name of the DDoS custom policy.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DdosCustomPolicyInner object
-     */
-    public Observable<DdosCustomPolicyInner> beginUpdateTagsAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, ddosCustomPolicyName, tags).map(new Func1<ServiceResponse<DdosCustomPolicyInner>, DdosCustomPolicyInner>() {
-            @Override
-            public DdosCustomPolicyInner call(ServiceResponse<DdosCustomPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Update a DDoS custom policy tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param ddosCustomPolicyName The name of the DDoS custom policy.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the DdosCustomPolicyInner object
-     */
-    public Observable<ServiceResponse<DdosCustomPolicyInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String ddosCustomPolicyName, Map<String, String> tags) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (ddosCustomPolicyName == null) {
-            throw new IllegalArgumentException("Parameter ddosCustomPolicyName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
-        TagsObject parameters = new TagsObject();
-        parameters.withTags(tags);
-        return service.beginUpdateTags(resourceGroupName, ddosCustomPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<DdosCustomPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<DdosCustomPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<DdosCustomPolicyInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<DdosCustomPolicyInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<DdosCustomPolicyInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<DdosCustomPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<DdosCustomPolicyInner>() { }.getType())
                 .registerError(CloudException.class)

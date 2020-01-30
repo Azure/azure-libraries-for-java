@@ -17,7 +17,7 @@ public class TrafficAnalyticsProperties {
     /**
      * Parameters that define the configuration of traffic analytics.
      */
-    @JsonProperty(value = "networkWatcherFlowAnalyticsConfiguration", required = true)
+    @JsonProperty(value = "networkWatcherFlowAnalyticsConfiguration")
     private TrafficAnalyticsConfigurationProperties networkWatcherFlowAnalyticsConfiguration;
 
     /**

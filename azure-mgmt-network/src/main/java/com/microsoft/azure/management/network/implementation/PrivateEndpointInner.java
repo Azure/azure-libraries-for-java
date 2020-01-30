@@ -9,6 +9,7 @@
 package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.PrivateLinkServiceConnection;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -28,18 +29,18 @@ public class PrivateEndpointInner extends Resource {
     private SubnetInner subnet;
 
     /**
-     * Gets an array of references to the network interfaces created for this
+     * An array of references to the network interfaces created for this
      * private endpoint.
      */
     @JsonProperty(value = "properties.networkInterfaces", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceInner> networkInterfaces;
 
     /**
-     * The provisioning state of the private endpoint. Possible values are:
-     * 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the private endpoint resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * A grouping of information about the connection to the remote resource.
@@ -56,10 +57,9 @@ public class PrivateEndpointInner extends Resource {
     private List<PrivateLinkServiceConnection> manualPrivateLinkServiceConnections;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -89,7 +89,7 @@ public class PrivateEndpointInner extends Resource {
     }
 
     /**
-     * Get gets an array of references to the network interfaces created for this private endpoint.
+     * Get an array of references to the network interfaces created for this private endpoint.
      *
      * @return the networkInterfaces value
      */
@@ -98,11 +98,11 @@ public class PrivateEndpointInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the private endpoint. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the private endpoint resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -147,23 +147,12 @@ public class PrivateEndpointInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the PrivateEndpointInner object itself.
-     */
-    public PrivateEndpointInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

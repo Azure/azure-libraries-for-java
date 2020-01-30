@@ -11,6 +11,7 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.network.NatGatewaySku;
 import java.util.List;
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -54,17 +55,17 @@ public class NatGatewayInner extends Resource {
     private List<SubResource> subnets;
 
     /**
-     * The resource GUID property of the nat gateway resource.
+     * The resource GUID property of the NAT gateway resource.
      */
-    @JsonProperty(value = "properties.resourceGuid")
+    @JsonProperty(value = "properties.resourceGuid", access = JsonProperty.Access.WRITE_ONLY)
     private String resourceGuid;
 
     /**
-     * The provisioning state of the NatGateway resource. Possible values are:
-     * 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the NAT gateway resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * A list of availability zones denoting the zone in which Nat Gateway
@@ -76,7 +77,7 @@ public class NatGatewayInner extends Resource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -175,7 +176,7 @@ public class NatGatewayInner extends Resource {
     }
 
     /**
-     * Get the resource GUID property of the nat gateway resource.
+     * Get the resource GUID property of the NAT gateway resource.
      *
      * @return the resourceGuid value
      */
@@ -184,34 +185,12 @@ public class NatGatewayInner extends Resource {
     }
 
     /**
-     * Set the resource GUID property of the nat gateway resource.
-     *
-     * @param resourceGuid the resourceGuid value to set
-     * @return the NatGatewayInner object itself.
-     */
-    public NatGatewayInner withResourceGuid(String resourceGuid) {
-        this.resourceGuid = resourceGuid;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the NatGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the NAT gateway resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the NatGateway resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the NatGatewayInner object itself.
-     */
-    public NatGatewayInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -241,17 +220,6 @@ public class NatGatewayInner extends Resource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the NatGatewayInner object itself.
-     */
-    public NatGatewayInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

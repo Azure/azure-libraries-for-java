@@ -8,6 +8,7 @@
 
 package com.microsoft.azure.management.network.implementation;
 
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -20,10 +21,11 @@ import com.microsoft.azure.Resource;
 @SkipParentValidation
 public class AzureFirewallFqdnTagInner extends Resource {
     /**
-     * The provisioning state of the resource.
+     * The provisioning state of the Azure firewall FQDN tag resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of this FQDN Tag.
@@ -32,8 +34,7 @@ public class AzureFirewallFqdnTagInner extends Resource {
     private String fqdnTagName;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
@@ -45,11 +46,11 @@ public class AzureFirewallFqdnTagInner extends Resource {
     private String id;
 
     /**
-     * Get the provisioning state of the resource.
+     * Get the provisioning state of the Azure firewall FQDN tag resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -63,7 +64,7 @@ public class AzureFirewallFqdnTagInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

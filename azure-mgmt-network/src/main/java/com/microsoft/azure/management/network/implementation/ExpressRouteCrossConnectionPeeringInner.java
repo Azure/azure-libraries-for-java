@@ -11,6 +11,7 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.network.ExpressRoutePeeringType;
 import com.microsoft.azure.management.network.ExpressRoutePeeringState;
 import com.microsoft.azure.management.network.ExpressRouteCircuitPeeringConfig;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.Ipv6ExpressRouteCircuitPeeringConfig;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
@@ -89,11 +90,12 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     private ExpressRouteCircuitPeeringConfig microsoftPeeringConfig;
 
     /**
-     * Gets the provisioning state of the public IP resource. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the express route cross connection peering
+     * resource. Possible values include: 'Succeeded', 'Updating', 'Deleting',
+     * 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The GatewayManager Etag.
@@ -102,9 +104,9 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     private String gatewayManagerEtag;
 
     /**
-     * Gets whether the provider or the customer last modified the peering.
+     * Who was the last to modify the peering.
      */
-    @JsonProperty(value = "properties.lastModifiedBy")
+    @JsonProperty(value = "properties.lastModifiedBy", access = JsonProperty.Access.WRITE_ONLY)
     private String lastModifiedBy;
 
     /**
@@ -114,7 +116,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     private Ipv6ExpressRouteCircuitPeeringConfig ipv6PeeringConfig;
 
     /**
-     * Gets name of the resource that is unique within a resource group. This
+     * The name of the resource that is unique within a resource group. This
      * name can be used to access the resource.
      */
     @JsonProperty(value = "name")
@@ -314,11 +316,11 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     }
 
     /**
-     * Get gets the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the express route cross connection peering resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -343,23 +345,12 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     }
 
     /**
-     * Get gets whether the provider or the customer last modified the peering.
+     * Get who was the last to modify the peering.
      *
      * @return the lastModifiedBy value
      */
     public String lastModifiedBy() {
         return this.lastModifiedBy;
-    }
-
-    /**
-     * Set gets whether the provider or the customer last modified the peering.
-     *
-     * @param lastModifiedBy the lastModifiedBy value to set
-     * @return the ExpressRouteCrossConnectionPeeringInner object itself.
-     */
-    public ExpressRouteCrossConnectionPeeringInner withLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
-        return this;
     }
 
     /**
@@ -383,7 +374,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     }
 
     /**
-     * Get gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+     * Get the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -392,7 +383,7 @@ public class ExpressRouteCrossConnectionPeeringInner extends SubResource {
     }
 
     /**
-     * Set gets name of the resource that is unique within a resource group. This name can be used to access the resource.
+     * Set the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the ExpressRouteCrossConnectionPeeringInner object itself.

@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
 import com.microsoft.azure.management.network.ExpressRouteServiceProviderBandwidthsOffered;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -22,22 +23,23 @@ import com.microsoft.azure.Resource;
 @SkipParentValidation
 public class ExpressRouteServiceProviderInner extends Resource {
     /**
-     * Get a list of peering locations.
+     * A list of peering locations.
      */
     @JsonProperty(value = "properties.peeringLocations")
     private List<String> peeringLocations;
 
     /**
-     * Gets bandwidths offered.
+     * A list of bandwidths offered.
      */
     @JsonProperty(value = "properties.bandwidthsOffered")
     private List<ExpressRouteServiceProviderBandwidthsOffered> bandwidthsOffered;
 
     /**
-     * Gets the provisioning state of the resource.
+     * The provisioning state of the express route service provider resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * Resource ID.
@@ -46,7 +48,7 @@ public class ExpressRouteServiceProviderInner extends Resource {
     private String id;
 
     /**
-     * Get get a list of peering locations.
+     * Get a list of peering locations.
      *
      * @return the peeringLocations value
      */
@@ -55,7 +57,7 @@ public class ExpressRouteServiceProviderInner extends Resource {
     }
 
     /**
-     * Set get a list of peering locations.
+     * Set a list of peering locations.
      *
      * @param peeringLocations the peeringLocations value to set
      * @return the ExpressRouteServiceProviderInner object itself.
@@ -66,7 +68,7 @@ public class ExpressRouteServiceProviderInner extends Resource {
     }
 
     /**
-     * Get gets bandwidths offered.
+     * Get a list of bandwidths offered.
      *
      * @return the bandwidthsOffered value
      */
@@ -75,7 +77,7 @@ public class ExpressRouteServiceProviderInner extends Resource {
     }
 
     /**
-     * Set gets bandwidths offered.
+     * Set a list of bandwidths offered.
      *
      * @param bandwidthsOffered the bandwidthsOffered value to set
      * @return the ExpressRouteServiceProviderInner object itself.
@@ -86,23 +88,12 @@ public class ExpressRouteServiceProviderInner extends Resource {
     }
 
     /**
-     * Get gets the provisioning state of the resource.
+     * Get the provisioning state of the express route service provider resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set gets the provisioning state of the resource.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the ExpressRouteServiceProviderInner object itself.
-     */
-    public ExpressRouteServiceProviderInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**

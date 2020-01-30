@@ -15,6 +15,11 @@ import com.microsoft.azure.management.network.AzureFirewallNetworkRuleCollection
 import com.microsoft.azure.management.network.AzureFirewallIPConfiguration;
 import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.AzureFirewallThreatIntelMode;
+import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.HubIPAddresses;
+import com.microsoft.azure.management.network.AzureFirewallIpGroups;
+import com.microsoft.azure.management.network.AzureFirewallSku;
+import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -51,10 +56,16 @@ public class AzureFirewallInner extends Resource {
     private List<AzureFirewallIPConfiguration> ipConfigurations;
 
     /**
-     * The provisioning state of the resource. Possible values include:
-     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * IP configuration of the Azure Firewall used for management traffic.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.managementIpConfiguration")
+    private AzureFirewallIPConfiguration managementIpConfiguration;
+
+    /**
+     * The provisioning state of the Azure firewall resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     */
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
@@ -65,6 +76,42 @@ public class AzureFirewallInner extends Resource {
     private AzureFirewallThreatIntelMode threatIntelMode;
 
     /**
+     * The virtualHub to which the firewall belongs.
+     */
+    @JsonProperty(value = "properties.virtualHub")
+    private SubResource virtualHub;
+
+    /**
+     * The firewallPolicy associated with this azure firewall.
+     */
+    @JsonProperty(value = "properties.firewallPolicy")
+    private SubResource firewallPolicy;
+
+    /**
+     * IP addresses associated with AzureFirewall.
+     */
+    @JsonProperty(value = "properties.hubIpAddresses", access = JsonProperty.Access.WRITE_ONLY)
+    private HubIPAddresses hubIpAddresses;
+
+    /**
+     * IpGroups associated with AzureFirewall.
+     */
+    @JsonProperty(value = "properties.ipGroups", access = JsonProperty.Access.WRITE_ONLY)
+    private List<AzureFirewallIpGroups> ipGroups;
+
+    /**
+     * The Azure Firewall Resource SKU.
+     */
+    @JsonProperty(value = "properties.sku")
+    private AzureFirewallSku sku;
+
+    /**
+     * The additional properties used to further config this azure firewall.
+     */
+    @JsonProperty(value = "properties.additionalProperties")
+    private Map<String, String> additionalProperties;
+
+    /**
      * A list of availability zones denoting where the resource needs to come
      * from.
      */
@@ -72,8 +119,7 @@ public class AzureFirewallInner extends Resource {
     private List<String> zones;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
@@ -165,23 +211,32 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get iP configuration of the Azure Firewall used for management traffic.
+     *
+     * @return the managementIpConfiguration value
+     */
+    public AzureFirewallIPConfiguration managementIpConfiguration() {
+        return this.managementIpConfiguration;
+    }
+
+    /**
+     * Set iP configuration of the Azure Firewall used for management traffic.
+     *
+     * @param managementIpConfiguration the managementIpConfiguration value to set
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withManagementIpConfiguration(AzureFirewallIPConfiguration managementIpConfiguration) {
+        this.managementIpConfiguration = managementIpConfiguration;
+        return this;
+    }
+
+    /**
+     * Get the provisioning state of the Azure firewall resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the AzureFirewallInner object itself.
-     */
-    public AzureFirewallInner withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -201,6 +256,104 @@ public class AzureFirewallInner extends Resource {
      */
     public AzureFirewallInner withThreatIntelMode(AzureFirewallThreatIntelMode threatIntelMode) {
         this.threatIntelMode = threatIntelMode;
+        return this;
+    }
+
+    /**
+     * Get the virtualHub to which the firewall belongs.
+     *
+     * @return the virtualHub value
+     */
+    public SubResource virtualHub() {
+        return this.virtualHub;
+    }
+
+    /**
+     * Set the virtualHub to which the firewall belongs.
+     *
+     * @param virtualHub the virtualHub value to set
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withVirtualHub(SubResource virtualHub) {
+        this.virtualHub = virtualHub;
+        return this;
+    }
+
+    /**
+     * Get the firewallPolicy associated with this azure firewall.
+     *
+     * @return the firewallPolicy value
+     */
+    public SubResource firewallPolicy() {
+        return this.firewallPolicy;
+    }
+
+    /**
+     * Set the firewallPolicy associated with this azure firewall.
+     *
+     * @param firewallPolicy the firewallPolicy value to set
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withFirewallPolicy(SubResource firewallPolicy) {
+        this.firewallPolicy = firewallPolicy;
+        return this;
+    }
+
+    /**
+     * Get iP addresses associated with AzureFirewall.
+     *
+     * @return the hubIpAddresses value
+     */
+    public HubIPAddresses hubIpAddresses() {
+        return this.hubIpAddresses;
+    }
+
+    /**
+     * Get ipGroups associated with AzureFirewall.
+     *
+     * @return the ipGroups value
+     */
+    public List<AzureFirewallIpGroups> ipGroups() {
+        return this.ipGroups;
+    }
+
+    /**
+     * Get the Azure Firewall Resource SKU.
+     *
+     * @return the sku value
+     */
+    public AzureFirewallSku sku() {
+        return this.sku;
+    }
+
+    /**
+     * Set the Azure Firewall Resource SKU.
+     *
+     * @param sku the sku value to set
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withSku(AzureFirewallSku sku) {
+        this.sku = sku;
+        return this;
+    }
+
+    /**
+     * Get the additional properties used to further config this azure firewall.
+     *
+     * @return the additionalProperties value
+     */
+    public Map<String, String> additionalProperties() {
+        return this.additionalProperties;
+    }
+
+    /**
+     * Set the additional properties used to further config this azure firewall.
+     *
+     * @param additionalProperties the additionalProperties value to set
+     * @return the AzureFirewallInner object itself.
+     */
+    public AzureFirewallInner withAdditionalProperties(Map<String, String> additionalProperties) {
+        this.additionalProperties = additionalProperties;
         return this;
     }
 
@@ -225,7 +378,7 @@ public class AzureFirewallInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */

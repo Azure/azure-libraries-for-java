@@ -11,7 +11,7 @@ package com.microsoft.azure.management.network;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes the HTTP header.
+ * The HTTP header.
  */
 public class HTTPHeader {
     /**

@@ -14,8 +14,8 @@ import com.microsoft.azure.management.resources.fluentcore.collection.InnerSuppo
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
 import com.microsoft.azure.AzureServiceFuture;
+import com.microsoft.azure.CloudException;
 import com.microsoft.azure.ListOperationCallback;
-import com.microsoft.azure.management.network.ErrorException;
 import com.microsoft.azure.management.network.TagsObject;
 import com.microsoft.azure.Page;
 import com.microsoft.azure.PagedList;
@@ -45,20 +45,20 @@ import rx.Observable;
  * An instance of this class provides access to all the operations defined
  * in VirtualWans.
  */
-public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, InnerSupportsDelete<Void>, InnerSupportsListing<VirtualWANInner> {
+public class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>, InnerSupportsDelete<Void>, InnerSupportsListing<VirtualWANInner> {
     /** The Retrofit service to perform REST calls. */
-    private VirtualWANsService service;
+    private VirtualWansService service;
     /** The service client containing this operation class. */
     private NetworkManagementClientImpl client;
 
     /**
-     * Initializes an instance of VirtualWANsInner.
+     * Initializes an instance of VirtualWansInner.
      *
      * @param retrofit the Retrofit instance built from a Retrofit Builder.
      * @param client the instance of the service client containing this operation class.
      */
-    public VirtualWANsInner(Retrofit retrofit, NetworkManagementClientImpl client) {
-        this.service = retrofit.create(VirtualWANsService.class);
+    public VirtualWansInner(Retrofit retrofit, NetworkManagementClientImpl client) {
+        this.service = retrofit.create(VirtualWansService.class);
         this.client = client;
     }
 
@@ -66,7 +66,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * The interface defining all the services for VirtualWans to be
      * used by Retrofit to perform actually REST calls.
      */
-    interface VirtualWANsService {
+    interface VirtualWansService {
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualWans getByResourceGroup" })
         @GET("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}")
         Observable<Response<ResponseBody>> getByResourceGroup(@Path("resourceGroupName") String resourceGroupName, @Path("VirtualWANName") String virtualWANName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -82,10 +82,6 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualWans updateTags" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}")
         Observable<Response<ResponseBody>> updateTags(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("VirtualWANName") String virtualWANName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject wANParameters, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualWans beginUpdateTags" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("subscriptionId") String subscriptionId, @Path("resourceGroupName") String resourceGroupName, @Path("VirtualWANName") String virtualWANName, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject wANParameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualWans delete" })
         @HTTP(path = "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}", method = "DELETE", hasBody = true)
@@ -119,7 +115,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualWan.
      * @param virtualWANName The name of the VirtualWAN being retrieved.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualWANInner object if successful.
      */
@@ -175,7 +171,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, virtualWANName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualWANInner>>>() {
                 @Override
@@ -190,10 +186,10 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             });
     }
 
-    private ServiceResponse<VirtualWANInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualWANInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VirtualWANInner> getByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualWANInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualWANInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -204,7 +200,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param virtualWANName The name of the VirtualWAN being created or updated.
      * @param wANParameters Parameters supplied to create or update VirtualWAN.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualWANInner object if successful.
      */
@@ -267,7 +263,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             throw new IllegalArgumentException("Parameter wANParameters is required and cannot be null.");
         }
         Validator.validate(wANParameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, wANParameters, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualWANInner>() { }.getType());
     }
@@ -279,7 +275,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param virtualWANName The name of the VirtualWAN being created or updated.
      * @param wANParameters Parameters supplied to create or update VirtualWAN.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualWANInner object if successful.
      */
@@ -342,7 +338,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             throw new IllegalArgumentException("Parameter wANParameters is required and cannot be null.");
         }
         Validator.validate(wANParameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, wANParameters, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualWANInner>>>() {
                 @Override
@@ -357,11 +353,11 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             });
     }
 
-    private ServiceResponse<VirtualWANInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualWANInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VirtualWANInner> beginCreateOrUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualWANInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualWANInner>() { }.getType())
                 .register(201, new TypeToken<VirtualWANInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -371,12 +367,12 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualWan.
      * @param virtualWANName The name of the VirtualWAN being updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualWANInner object if successful.
      */
     public VirtualWANInner updateTags(String resourceGroupName, String virtualWANName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName).toBlocking().single().body();
     }
 
     /**
@@ -398,7 +394,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualWan.
      * @param virtualWANName The name of the VirtualWAN being updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualWANInner object
      */
     public Observable<VirtualWANInner> updateTagsAsync(String resourceGroupName, String virtualWANName) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName).map(new Func1<ServiceResponse<VirtualWANInner>, VirtualWANInner>() {
@@ -415,7 +411,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualWan.
      * @param virtualWANName The name of the VirtualWAN being updated.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualWANInner object
      */
     public Observable<ServiceResponse<VirtualWANInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String virtualWANName) {
         if (this.client.subscriptionId() == null) {
@@ -427,13 +423,24 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
         if (virtualWANName == null) {
             throw new IllegalArgumentException("Parameter virtualWANName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject wANParameters = new TagsObject();
         wANParameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, this.client.acceptLanguage(), wANParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualWANInner>() { }.getType());
+        return service.updateTags(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, this.client.acceptLanguage(), wANParameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualWANInner>>>() {
+                @Override
+                public Observable<ServiceResponse<VirtualWANInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<VirtualWANInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Updates a VirtualWAN tags.
      *
@@ -441,12 +448,12 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param virtualWANName The name of the VirtualWAN being updated.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VirtualWANInner object if successful.
      */
     public VirtualWANInner updateTags(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName, tags).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName, tags).toBlocking().single().body();
     }
 
     /**
@@ -470,7 +477,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param virtualWANName The name of the VirtualWAN being updated.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualWANInner object
      */
     public Observable<VirtualWANInner> updateTagsAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName, tags).map(new Func1<ServiceResponse<VirtualWANInner>, VirtualWANInner>() {
@@ -488,7 +495,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param virtualWANName The name of the VirtualWAN being updated.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualWANInner object
      */
     public Observable<ServiceResponse<VirtualWANInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
         if (this.client.subscriptionId() == null) {
@@ -501,85 +508,15 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             throw new IllegalArgumentException("Parameter virtualWANName is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject wANParameters = new TagsObject();
         wANParameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, this.client.acceptLanguage(), wANParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualWANInner>() { }.getType());
-    }
-
-    /**
-     * Updates a VirtualWAN tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualWan.
-     * @param virtualWANName The name of the VirtualWAN being updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the VirtualWANInner object if successful.
-     */
-    public VirtualWANInner beginUpdateTags(String resourceGroupName, String virtualWANName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName).toBlocking().single().body();
-    }
-
-    /**
-     * Updates a VirtualWAN tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualWan.
-     * @param virtualWANName The name of the VirtualWAN being updated.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<VirtualWANInner> beginUpdateTagsAsync(String resourceGroupName, String virtualWANName, final ServiceCallback<VirtualWANInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName), serviceCallback);
-    }
-
-    /**
-     * Updates a VirtualWAN tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualWan.
-     * @param virtualWANName The name of the VirtualWAN being updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualWANInner object
-     */
-    public Observable<VirtualWANInner> beginUpdateTagsAsync(String resourceGroupName, String virtualWANName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName).map(new Func1<ServiceResponse<VirtualWANInner>, VirtualWANInner>() {
-            @Override
-            public VirtualWANInner call(ServiceResponse<VirtualWANInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a VirtualWAN tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualWan.
-     * @param virtualWANName The name of the VirtualWAN being updated.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualWANInner object
-     */
-    public Observable<ServiceResponse<VirtualWANInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String virtualWANName) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (virtualWANName == null) {
-            throw new IllegalArgumentException("Parameter virtualWANName is required and cannot be null.");
-        }
-        final String apiVersion = "2019-06-01";
-        final Map<String, String> tags = null;
-        TagsObject wANParameters = new TagsObject();
-        wANParameters.withTags(null);
-        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, this.client.acceptLanguage(), wANParameters, this.client.userAgent())
+        return service.updateTags(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, this.client.acceptLanguage(), wANParameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualWANInner>>>() {
                 @Override
                 public Observable<ServiceResponse<VirtualWANInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<VirtualWANInner> clientResponse = beginUpdateTagsDelegate(response);
+                        ServiceResponse<VirtualWANInner> clientResponse = updateTagsDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -588,95 +525,10 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             });
     }
 
-    /**
-     * Updates a VirtualWAN tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualWan.
-     * @param virtualWANName The name of the VirtualWAN being updated.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the VirtualWANInner object if successful.
-     */
-    public VirtualWANInner beginUpdateTags(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName, tags).toBlocking().single().body();
-    }
-
-    /**
-     * Updates a VirtualWAN tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualWan.
-     * @param virtualWANName The name of the VirtualWAN being updated.
-     * @param tags Resource tags.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<VirtualWANInner> beginUpdateTagsAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags, final ServiceCallback<VirtualWANInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName, tags), serviceCallback);
-    }
-
-    /**
-     * Updates a VirtualWAN tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualWan.
-     * @param virtualWANName The name of the VirtualWAN being updated.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualWANInner object
-     */
-    public Observable<VirtualWANInner> beginUpdateTagsAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, virtualWANName, tags).map(new Func1<ServiceResponse<VirtualWANInner>, VirtualWANInner>() {
-            @Override
-            public VirtualWANInner call(ServiceResponse<VirtualWANInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates a VirtualWAN tags.
-     *
-     * @param resourceGroupName The resource group name of the VirtualWan.
-     * @param virtualWANName The name of the VirtualWAN being updated.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualWANInner object
-     */
-    public Observable<ServiceResponse<VirtualWANInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String virtualWANName, Map<String, String> tags) {
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (virtualWANName == null) {
-            throw new IllegalArgumentException("Parameter virtualWANName is required and cannot be null.");
-        }
-        Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
-        TagsObject wANParameters = new TagsObject();
-        wANParameters.withTags(tags);
-        return service.beginUpdateTags(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, this.client.acceptLanguage(), wANParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualWANInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualWANInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualWANInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<VirtualWANInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VirtualWANInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VirtualWANInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VirtualWANInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualWANInner>() { }.getType())
-                .register(201, new TypeToken<VirtualWANInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -686,7 +538,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualWan.
      * @param virtualWANName The name of the VirtualWAN being deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void delete(String resourceGroupName, String virtualWANName) {
@@ -741,7 +593,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
         if (virtualWANName == null) {
             throw new IllegalArgumentException("Parameter virtualWANName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -752,7 +604,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * @param resourceGroupName The resource group name of the VirtualWan.
      * @param virtualWANName The name of the VirtualWAN being deleted.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      */
     public void beginDelete(String resourceGroupName, String virtualWANName) {
@@ -807,7 +659,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
         if (virtualWANName == null) {
             throw new IllegalArgumentException("Parameter virtualWANName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(this.client.subscriptionId(), resourceGroupName, virtualWANName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -822,12 +674,12 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             });
     }
 
-    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<Void, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<Void> beginDeleteDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<Void, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<Void>() { }.getType())
                 .register(202, new TypeToken<Void>() { }.getType())
                 .register(204, new TypeToken<Void>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -836,7 +688,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      *
      * @param resourceGroupName The resource group name of the VirtualWan.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualWANInner&gt; object if successful.
      */
@@ -922,7 +774,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(this.client.subscriptionId(), resourceGroupName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualWANInner>>>>() {
                 @Override
@@ -937,10 +789,10 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualWANInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualWANInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VirtualWANInner>> listByResourceGroupDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualWANInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VirtualWANInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -948,7 +800,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      * Lists all the VirtualWANs in a subscription.
      *
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualWANInner&gt; object if successful.
      */
@@ -1027,7 +879,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualWANInner>>>>() {
                 @Override
@@ -1042,10 +894,10 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualWANInner>> listDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualWANInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VirtualWANInner>> listDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualWANInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VirtualWANInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1054,7 +906,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualWANInner&gt; object if successful.
      */
@@ -1153,10 +1005,10 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualWANInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualWANInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VirtualWANInner>> listByResourceGroupNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualWANInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VirtualWANInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 
@@ -1165,7 +1017,7 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
      *
      * @param nextPageLink The NextLink from the previous successful call to List operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the PagedList&lt;VirtualWANInner&gt; object if successful.
      */
@@ -1264,10 +1116,10 @@ public class VirtualWANsInner implements InnerSupportsGet<VirtualWANInner>, Inne
             });
     }
 
-    private ServiceResponse<PageImpl<VirtualWANInner>> listNextDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualWANInner>, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<PageImpl<VirtualWANInner>> listNextDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<PageImpl<VirtualWANInner>, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<PageImpl<VirtualWANInner>>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 

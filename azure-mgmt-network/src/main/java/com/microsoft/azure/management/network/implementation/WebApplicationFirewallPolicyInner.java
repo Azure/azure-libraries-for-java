@@ -11,7 +11,10 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.management.network.PolicySettings;
 import java.util.List;
 import com.microsoft.azure.management.network.WebApplicationFirewallCustomRule;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.WebApplicationFirewallPolicyResourceState;
+import com.microsoft.azure.management.network.ManagedRulesDefinition;
+import com.microsoft.azure.SubResource;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.rest.SkipParentValidation;
@@ -24,13 +27,13 @@ import com.microsoft.azure.Resource;
 @SkipParentValidation
 public class WebApplicationFirewallPolicyInner extends Resource {
     /**
-     * Describes policySettings for policy.
+     * The PolicySettings for policy.
      */
     @JsonProperty(value = "properties.policySettings")
     private PolicySettings policySettings;
 
     /**
-     * Describes custom rules inside the policy.
+     * The custom rules inside the policy.
      */
     @JsonProperty(value = "properties.customRules")
     private List<WebApplicationFirewallCustomRule> customRules;
@@ -42,10 +45,11 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     private List<ApplicationGatewayInner> applicationGateways;
 
     /**
-     * Provisioning state of the WebApplicationFirewallPolicy.
+     * The provisioning state of the web application firewall policy resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * Resource status of the policy.
@@ -56,10 +60,27 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     private WebApplicationFirewallPolicyResourceState resourceState;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * Describes the managedRules structure.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "properties.managedRules", required = true)
+    private ManagedRulesDefinition managedRules;
+
+    /**
+     * A collection of references to application gateway http listeners.
+     */
+    @JsonProperty(value = "properties.httpListeners", access = JsonProperty.Access.WRITE_ONLY)
+    private List<SubResource> httpListeners;
+
+    /**
+     * A collection of references to application gateway path rules.
+     */
+    @JsonProperty(value = "properties.pathBasedRules", access = JsonProperty.Access.WRITE_ONLY)
+    private List<SubResource> pathBasedRules;
+
+    /**
+     * A unique read-only string that changes whenever the resource is updated.
+     */
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -69,7 +90,7 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     private String id;
 
     /**
-     * Get describes policySettings for policy.
+     * Get the PolicySettings for policy.
      *
      * @return the policySettings value
      */
@@ -78,7 +99,7 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     }
 
     /**
-     * Set describes policySettings for policy.
+     * Set the PolicySettings for policy.
      *
      * @param policySettings the policySettings value to set
      * @return the WebApplicationFirewallPolicyInner object itself.
@@ -89,7 +110,7 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     }
 
     /**
-     * Get describes custom rules inside the policy.
+     * Get the custom rules inside the policy.
      *
      * @return the customRules value
      */
@@ -98,7 +119,7 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     }
 
     /**
-     * Set describes custom rules inside the policy.
+     * Set the custom rules inside the policy.
      *
      * @param customRules the customRules value to set
      * @return the WebApplicationFirewallPolicyInner object itself.
@@ -118,11 +139,11 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     }
 
     /**
-     * Get provisioning state of the WebApplicationFirewallPolicy.
+     * Get the provisioning state of the web application firewall policy resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -136,23 +157,50 @@ public class WebApplicationFirewallPolicyInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get describes the managedRules structure.
+     *
+     * @return the managedRules value
+     */
+    public ManagedRulesDefinition managedRules() {
+        return this.managedRules;
+    }
+
+    /**
+     * Set describes the managedRules structure.
+     *
+     * @param managedRules the managedRules value to set
+     * @return the WebApplicationFirewallPolicyInner object itself.
+     */
+    public WebApplicationFirewallPolicyInner withManagedRules(ManagedRulesDefinition managedRules) {
+        this.managedRules = managedRules;
+        return this;
+    }
+
+    /**
+     * Get a collection of references to application gateway http listeners.
+     *
+     * @return the httpListeners value
+     */
+    public List<SubResource> httpListeners() {
+        return this.httpListeners;
+    }
+
+    /**
+     * Get a collection of references to application gateway path rules.
+     *
+     * @return the pathBasedRules value
+     */
+    public List<SubResource> pathBasedRules() {
+        return this.pathBasedRules;
+    }
+
+    /**
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the WebApplicationFirewallPolicyInner object itself.
-     */
-    public WebApplicationFirewallPolicyInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

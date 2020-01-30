@@ -91,10 +91,6 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
         Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("tapName") String tapName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject tapParameters, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualNetworkTaps beginUpdateTags" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("tapName") String tapName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject tapParameters, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.VirtualNetworkTaps list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps")
         Observable<Response<ResponseBody>> list(@Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -174,7 +170,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -240,7 +236,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -326,7 +322,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkTapInner>>>() {
                 @Override
@@ -418,7 +414,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, tapName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualNetworkTapInner>() { }.getType());
     }
@@ -493,7 +489,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, tapName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkTapInner>>>() {
                 @Override
@@ -527,7 +523,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
      * @return the VirtualNetworkTapInner object if successful.
      */
     public VirtualNetworkTapInner updateTags(String resourceGroupName, String tapName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, tapName).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, tapName).toBlocking().single().body();
     }
 
     /**
@@ -549,7 +545,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
      * @param resourceGroupName The name of the resource group.
      * @param tapName The name of the tap.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualNetworkTapInner object
      */
     public Observable<VirtualNetworkTapInner> updateTagsAsync(String resourceGroupName, String tapName) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, tapName).map(new Func1<ServiceResponse<VirtualNetworkTapInner>, VirtualNetworkTapInner>() {
@@ -566,7 +562,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
      * @param resourceGroupName The name of the resource group.
      * @param tapName The name of the tap.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualNetworkTapInner object
      */
     public Observable<ServiceResponse<VirtualNetworkTapInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String tapName) {
         if (resourceGroupName == null) {
@@ -578,13 +574,24 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject tapParameters = new TagsObject();
         tapParameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), tapParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualNetworkTapInner>() { }.getType());
+        return service.updateTags(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), tapParameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkTapInner>>>() {
+                @Override
+                public Observable<ServiceResponse<VirtualNetworkTapInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<VirtualNetworkTapInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Updates an VirtualNetworkTap tags.
      *
@@ -597,7 +604,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
      * @return the VirtualNetworkTapInner object if successful.
      */
     public VirtualNetworkTapInner updateTags(String resourceGroupName, String tapName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, tapName, tags).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, tapName, tags).toBlocking().single().body();
     }
 
     /**
@@ -621,7 +628,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
      * @param tapName The name of the tap.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualNetworkTapInner object
      */
     public Observable<VirtualNetworkTapInner> updateTagsAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, tapName, tags).map(new Func1<ServiceResponse<VirtualNetworkTapInner>, VirtualNetworkTapInner>() {
@@ -639,7 +646,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
      * @param tapName The name of the tap.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the VirtualNetworkTapInner object
      */
     public Observable<ServiceResponse<VirtualNetworkTapInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
         if (resourceGroupName == null) {
@@ -652,85 +659,15 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject tapParameters = new TagsObject();
         tapParameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), tapParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<VirtualNetworkTapInner>() { }.getType());
-    }
-
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the VirtualNetworkTapInner object if successful.
-     */
-    public VirtualNetworkTapInner beginUpdateTags(String resourceGroupName, String tapName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, tapName).toBlocking().single().body();
-    }
-
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<VirtualNetworkTapInner> beginUpdateTagsAsync(String resourceGroupName, String tapName, final ServiceCallback<VirtualNetworkTapInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, tapName), serviceCallback);
-    }
-
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualNetworkTapInner object
-     */
-    public Observable<VirtualNetworkTapInner> beginUpdateTagsAsync(String resourceGroupName, String tapName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, tapName).map(new Func1<ServiceResponse<VirtualNetworkTapInner>, VirtualNetworkTapInner>() {
-            @Override
-            public VirtualNetworkTapInner call(ServiceResponse<VirtualNetworkTapInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualNetworkTapInner object
-     */
-    public Observable<ServiceResponse<VirtualNetworkTapInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String tapName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (tapName == null) {
-            throw new IllegalArgumentException("Parameter tapName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2019-06-01";
-        final Map<String, String> tags = null;
-        TagsObject tapParameters = new TagsObject();
-        tapParameters.withTags(null);
-        return service.beginUpdateTags(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), tapParameters, this.client.userAgent())
+        return service.updateTags(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), tapParameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkTapInner>>>() {
                 @Override
                 public Observable<ServiceResponse<VirtualNetworkTapInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<VirtualNetworkTapInner> clientResponse = beginUpdateTagsDelegate(response);
+                        ServiceResponse<VirtualNetworkTapInner> clientResponse = updateTagsDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -739,91 +676,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
             });
     }
 
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the VirtualNetworkTapInner object if successful.
-     */
-    public VirtualNetworkTapInner beginUpdateTags(String resourceGroupName, String tapName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, tapName, tags).toBlocking().single().body();
-    }
-
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @param tags Resource tags.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<VirtualNetworkTapInner> beginUpdateTagsAsync(String resourceGroupName, String tapName, Map<String, String> tags, final ServiceCallback<VirtualNetworkTapInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, tapName, tags), serviceCallback);
-    }
-
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualNetworkTapInner object
-     */
-    public Observable<VirtualNetworkTapInner> beginUpdateTagsAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, tapName, tags).map(new Func1<ServiceResponse<VirtualNetworkTapInner>, VirtualNetworkTapInner>() {
-            @Override
-            public VirtualNetworkTapInner call(ServiceResponse<VirtualNetworkTapInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an VirtualNetworkTap tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param tapName The name of the tap.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the VirtualNetworkTapInner object
-     */
-    public Observable<ServiceResponse<VirtualNetworkTapInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String tapName, Map<String, String> tags) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (tapName == null) {
-            throw new IllegalArgumentException("Parameter tapName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
-        TagsObject tapParameters = new TagsObject();
-        tapParameters.withTags(tags);
-        return service.beginUpdateTags(resourceGroupName, tapName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), tapParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VirtualNetworkTapInner>>>() {
-                @Override
-                public Observable<ServiceResponse<VirtualNetworkTapInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<VirtualNetworkTapInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<VirtualNetworkTapInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<VirtualNetworkTapInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<VirtualNetworkTapInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VirtualNetworkTapInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -913,7 +766,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualNetworkTapInner>>>>() {
                 @Override
@@ -1026,7 +879,7 @@ public class VirtualNetworkTapsInner implements InnerSupportsGet<VirtualNetworkT
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<VirtualNetworkTapInner>>>>() {
                 @Override

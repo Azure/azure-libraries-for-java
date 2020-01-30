@@ -11,6 +11,7 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.AddressSpace;
 import com.microsoft.azure.management.network.VirtualNetworkPeeringState;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -51,7 +52,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
     private Boolean useRemoteGateways;
 
     /**
-     * The reference of the remote virtual network. The remote virtual network
+     * The reference to the remote virtual network. The remote virtual network
      * can be in the same or different region (preview). See here to register
      * for the preview and learn more
      * (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
@@ -60,7 +61,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
     private SubResource remoteVirtualNetwork;
 
     /**
-     * The reference of the remote virtual network address space.
+     * The reference to the remote virtual network address space.
      */
     @JsonProperty(value = "properties.remoteAddressSpace")
     private AddressSpace remoteAddressSpace;
@@ -73,10 +74,11 @@ public class VirtualNetworkPeeringInner extends SubResource {
     private VirtualNetworkPeeringState peeringState;
 
     /**
-     * The provisioning state of the resource.
+     * The provisioning state of the virtual network peering resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -88,7 +90,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -172,7 +174,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
     }
 
     /**
-     * Get the reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+     * Get the reference to the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
      *
      * @return the remoteVirtualNetwork value
      */
@@ -181,7 +183,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
     }
 
     /**
-     * Set the reference of the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
+     * Set the reference to the remote virtual network. The remote virtual network can be in the same or different region (preview). See here to register for the preview and learn more (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
      *
      * @param remoteVirtualNetwork the remoteVirtualNetwork value to set
      * @return the VirtualNetworkPeeringInner object itself.
@@ -192,7 +194,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
     }
 
     /**
-     * Get the reference of the remote virtual network address space.
+     * Get the reference to the remote virtual network address space.
      *
      * @return the remoteAddressSpace value
      */
@@ -201,7 +203,7 @@ public class VirtualNetworkPeeringInner extends SubResource {
     }
 
     /**
-     * Set the reference of the remote virtual network address space.
+     * Set the reference to the remote virtual network address space.
      *
      * @param remoteAddressSpace the remoteAddressSpace value to set
      * @return the VirtualNetworkPeeringInner object itself.
@@ -232,23 +234,12 @@ public class VirtualNetworkPeeringInner extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the resource.
+     * Get the provisioning state of the virtual network peering resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the resource.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the VirtualNetworkPeeringInner object itself.
-     */
-    public VirtualNetworkPeeringInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -278,17 +269,6 @@ public class VirtualNetworkPeeringInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the VirtualNetworkPeeringInner object itself.
-     */
-    public VirtualNetworkPeeringInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

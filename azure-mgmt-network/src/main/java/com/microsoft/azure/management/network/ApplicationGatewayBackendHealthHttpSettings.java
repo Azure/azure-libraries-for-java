@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ApplicationGatewayBackendHealthHttpSettings {
     /**
-     * Reference of an ApplicationGatewayBackendHttpSettings resource.
+     * Reference to an ApplicationGatewayBackendHttpSettings resource.
      */
     @JsonProperty(value = "backendHttpSettings")
     private ApplicationGatewayBackendHttpSettings backendHttpSettings;
@@ -28,7 +28,7 @@ public class ApplicationGatewayBackendHealthHttpSettings {
     private List<ApplicationGatewayBackendHealthServer> servers;
 
     /**
-     * Get reference of an ApplicationGatewayBackendHttpSettings resource.
+     * Get reference to an ApplicationGatewayBackendHttpSettings resource.
      *
      * @return the backendHttpSettings value
      */
@@ -37,7 +37,7 @@ public class ApplicationGatewayBackendHealthHttpSettings {
     }
 
     /**
-     * Set reference of an ApplicationGatewayBackendHttpSettings resource.
+     * Set reference to an ApplicationGatewayBackendHttpSettings resource.
      *
      * @param backendHttpSettings the backendHttpSettings value to set
      * @return the ApplicationGatewayBackendHealthHttpSettings object itself.

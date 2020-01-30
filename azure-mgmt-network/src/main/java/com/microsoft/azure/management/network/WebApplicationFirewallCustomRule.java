@@ -16,28 +16,27 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class WebApplicationFirewallCustomRule {
     /**
-     * Gets name of the resource that is unique within a policy. This name can
+     * The name of the resource that is unique within a policy. This name can
      * be used to access the resource.
      */
     @JsonProperty(value = "name")
     private String name;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
     @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
-     * Describes priority of the rule. Rules with a lower value will be
-     * evaluated before rules with a higher value.
+     * Priority of the rule. Rules with a lower value will be evaluated before
+     * rules with a higher value.
      */
     @JsonProperty(value = "priority", required = true)
     private int priority;
 
     /**
-     * Describes type of rule. Possible values include: 'MatchRule', 'Invalid'.
+     * The rule type. Possible values include: 'MatchRule', 'Invalid'.
      */
     @JsonProperty(value = "ruleType", required = true)
     private WebApplicationFirewallRuleType ruleType;
@@ -55,7 +54,7 @@ public class WebApplicationFirewallCustomRule {
     private WebApplicationFirewallAction action;
 
     /**
-     * Get gets name of the resource that is unique within a policy. This name can be used to access the resource.
+     * Get the name of the resource that is unique within a policy. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -64,7 +63,7 @@ public class WebApplicationFirewallCustomRule {
     }
 
     /**
-     * Set gets name of the resource that is unique within a policy. This name can be used to access the resource.
+     * Set the name of the resource that is unique within a policy. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the WebApplicationFirewallCustomRule object itself.
@@ -75,7 +74,7 @@ public class WebApplicationFirewallCustomRule {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
@@ -84,7 +83,7 @@ public class WebApplicationFirewallCustomRule {
     }
 
     /**
-     * Get describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.
+     * Get priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.
      *
      * @return the priority value
      */
@@ -93,7 +92,7 @@ public class WebApplicationFirewallCustomRule {
     }
 
     /**
-     * Set describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.
+     * Set priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.
      *
      * @param priority the priority value to set
      * @return the WebApplicationFirewallCustomRule object itself.
@@ -104,7 +103,7 @@ public class WebApplicationFirewallCustomRule {
     }
 
     /**
-     * Get describes type of rule. Possible values include: 'MatchRule', 'Invalid'.
+     * Get the rule type. Possible values include: 'MatchRule', 'Invalid'.
      *
      * @return the ruleType value
      */
@@ -113,7 +112,7 @@ public class WebApplicationFirewallCustomRule {
     }
 
     /**
-     * Set describes type of rule. Possible values include: 'MatchRule', 'Invalid'.
+     * Set the rule type. Possible values include: 'MatchRule', 'Invalid'.
      *
      * @param ruleType the ruleType value to set
      * @return the WebApplicationFirewallCustomRule object itself.

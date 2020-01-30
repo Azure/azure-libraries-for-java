@@ -11,6 +11,7 @@ package com.microsoft.azure.management.network.implementation;
 import com.microsoft.azure.SubResource;
 import com.microsoft.azure.management.network.TransportProtocol;
 import com.microsoft.azure.management.network.LoadDistribution;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -33,7 +34,7 @@ public class LoadBalancingRuleInner extends SubResource {
     private SubResource backendAddressPool;
 
     /**
-     * The reference of the load balancer probe used by the load balancing
+     * The reference to the load balancer probe used by the load balancing
      * rule.
      */
     @JsonProperty(value = "properties.probe")
@@ -101,11 +102,11 @@ public class LoadBalancingRuleInner extends SubResource {
     private Boolean disableOutboundSnat;
 
     /**
-     * Gets the provisioning state of the PublicIP resource. Possible values
-     * are: 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the load balancing rule resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within the set of load balancing
@@ -118,7 +119,7 @@ public class LoadBalancingRuleInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -168,7 +169,7 @@ public class LoadBalancingRuleInner extends SubResource {
     }
 
     /**
-     * Get the reference of the load balancer probe used by the load balancing rule.
+     * Get the reference to the load balancer probe used by the load balancing rule.
      *
      * @return the probe value
      */
@@ -177,7 +178,7 @@ public class LoadBalancingRuleInner extends SubResource {
     }
 
     /**
-     * Set the reference of the load balancer probe used by the load balancing rule.
+     * Set the reference to the load balancer probe used by the load balancing rule.
      *
      * @param probe the probe value to set
      * @return the LoadBalancingRuleInner object itself.
@@ -348,23 +349,12 @@ public class LoadBalancingRuleInner extends SubResource {
     }
 
     /**
-     * Get gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the load balancing rule resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set gets the provisioning state of the PublicIP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the LoadBalancingRuleInner object itself.
-     */
-    public LoadBalancingRuleInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -394,17 +384,6 @@ public class LoadBalancingRuleInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the LoadBalancingRuleInner object itself.
-     */
-    public LoadBalancingRuleInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

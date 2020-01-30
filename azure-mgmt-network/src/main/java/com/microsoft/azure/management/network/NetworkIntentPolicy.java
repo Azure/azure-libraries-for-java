@@ -18,10 +18,9 @@ import com.microsoft.azure.Resource;
 @SkipParentValidation
 public class NetworkIntentPolicy extends Resource {
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -31,23 +30,12 @@ public class NetworkIntentPolicy extends Resource {
     private String id;
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the NetworkIntentPolicy object itself.
-     */
-    public NetworkIntentPolicy withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

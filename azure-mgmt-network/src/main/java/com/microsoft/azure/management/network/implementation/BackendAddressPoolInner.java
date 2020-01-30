@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -19,39 +20,40 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class BackendAddressPoolInner extends SubResource {
     /**
-     * Gets collection of references to IP addresses defined in network
-     * interfaces.
+     * An array of references to IP addresses defined in network interfaces.
      */
     @JsonProperty(value = "properties.backendIPConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceIPConfigurationInner> backendIPConfigurations;
 
     /**
-     * Gets load balancing rules that use this backend address pool.
+     * An array of references to load balancing rules that use this backend
+     * address pool.
      */
     @JsonProperty(value = "properties.loadBalancingRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> loadBalancingRules;
 
     /**
-     * Gets outbound rules that use this backend address pool.
+     * A reference to an outbound rule that uses this backend address pool.
      */
     @JsonProperty(value = "properties.outboundRule", access = JsonProperty.Access.WRITE_ONLY)
     private SubResource outboundRule;
 
     /**
-     * Gets outbound rules that use this backend address pool.
+     * An array of references to outbound rules that use this backend address
+     * pool.
      */
     @JsonProperty(value = "properties.outboundRules", access = JsonProperty.Access.WRITE_ONLY)
     private List<SubResource> outboundRules;
 
     /**
-     * Get provisioning state of the public IP resource. Possible values are:
-     * 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the backend address pool resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
-    private String provisioningState;
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
+    private ProvisioningState provisioningState;
 
     /**
-     * Gets name of the resource that is unique within the set of backend
+     * The name of the resource that is unique within the set of backend
      * address pools used by the load balancer. This name can be used to access
      * the resource.
      */
@@ -61,7 +63,7 @@ public class BackendAddressPoolInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -71,7 +73,7 @@ public class BackendAddressPoolInner extends SubResource {
     private String type;
 
     /**
-     * Get gets collection of references to IP addresses defined in network interfaces.
+     * Get an array of references to IP addresses defined in network interfaces.
      *
      * @return the backendIPConfigurations value
      */
@@ -80,7 +82,7 @@ public class BackendAddressPoolInner extends SubResource {
     }
 
     /**
-     * Get gets load balancing rules that use this backend address pool.
+     * Get an array of references to load balancing rules that use this backend address pool.
      *
      * @return the loadBalancingRules value
      */
@@ -89,7 +91,7 @@ public class BackendAddressPoolInner extends SubResource {
     }
 
     /**
-     * Get gets outbound rules that use this backend address pool.
+     * Get a reference to an outbound rule that uses this backend address pool.
      *
      * @return the outboundRule value
      */
@@ -98,7 +100,7 @@ public class BackendAddressPoolInner extends SubResource {
     }
 
     /**
-     * Get gets outbound rules that use this backend address pool.
+     * Get an array of references to outbound rules that use this backend address pool.
      *
      * @return the outboundRules value
      */
@@ -107,27 +109,16 @@ public class BackendAddressPoolInner extends SubResource {
     }
 
     /**
-     * Get get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the backend address pool resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
     /**
-     * Set get provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the BackendAddressPoolInner object itself.
-     */
-    public BackendAddressPoolInner withProvisioningState(String provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
-    }
-
-    /**
-     * Get gets name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource.
+     * Get the name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource.
      *
      * @return the name value
      */
@@ -136,7 +127,7 @@ public class BackendAddressPoolInner extends SubResource {
     }
 
     /**
-     * Set gets name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource.
+     * Set the name of the resource that is unique within the set of backend address pools used by the load balancer. This name can be used to access the resource.
      *
      * @param name the name value to set
      * @return the BackendAddressPoolInner object itself.
@@ -153,17 +144,6 @@ public class BackendAddressPoolInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the BackendAddressPoolInner object itself.
-     */
-    public BackendAddressPoolInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

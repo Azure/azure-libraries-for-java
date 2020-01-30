@@ -22,7 +22,7 @@ public class ContainerNetworkInterface extends SubResource {
      * Container network interface configuration from which this container
      * network interface is created.
      */
-    @JsonProperty(value = "properties.containerNetworkInterfaceConfiguration")
+    @JsonProperty(value = "properties.containerNetworkInterfaceConfiguration", access = JsonProperty.Access.WRITE_ONLY)
     private ContainerNetworkInterfaceConfiguration containerNetworkInterfaceConfiguration;
 
     /**
@@ -35,14 +35,15 @@ public class ContainerNetworkInterface extends SubResource {
     /**
      * Reference to the ip configuration on this container nic.
      */
-    @JsonProperty(value = "properties.ipConfigurations")
+    @JsonProperty(value = "properties.ipConfigurations", access = JsonProperty.Access.WRITE_ONLY)
     private List<ContainerNetworkInterfaceIpConfiguration> ipConfigurations;
 
     /**
-     * The provisioning state of the resource.
+     * The provisioning state of the container network interface resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource. This name can be used to access the resource.
@@ -59,7 +60,7 @@ public class ContainerNetworkInterface extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -69,17 +70,6 @@ public class ContainerNetworkInterface extends SubResource {
      */
     public ContainerNetworkInterfaceConfiguration containerNetworkInterfaceConfiguration() {
         return this.containerNetworkInterfaceConfiguration;
-    }
-
-    /**
-     * Set container network interface configuration from which this container network interface is created.
-     *
-     * @param containerNetworkInterfaceConfiguration the containerNetworkInterfaceConfiguration value to set
-     * @return the ContainerNetworkInterface object itself.
-     */
-    public ContainerNetworkInterface withContainerNetworkInterfaceConfiguration(ContainerNetworkInterfaceConfiguration containerNetworkInterfaceConfiguration) {
-        this.containerNetworkInterfaceConfiguration = containerNetworkInterfaceConfiguration;
-        return this;
     }
 
     /**
@@ -112,22 +102,11 @@ public class ContainerNetworkInterface extends SubResource {
     }
 
     /**
-     * Set reference to the ip configuration on this container nic.
-     *
-     * @param ipConfigurations the ipConfigurations value to set
-     * @return the ContainerNetworkInterface object itself.
-     */
-    public ContainerNetworkInterface withIpConfigurations(List<ContainerNetworkInterfaceIpConfiguration> ipConfigurations) {
-        this.ipConfigurations = ipConfigurations;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the resource.
+     * Get the provisioning state of the container network interface resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -167,17 +146,6 @@ public class ContainerNetworkInterface extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the ContainerNetworkInterface object itself.
-     */
-    public ContainerNetworkInterface withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

@@ -92,10 +92,6 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
         Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject crossConnectionParameters, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections beginUpdateTags" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}")
-        Observable<Response<ResponseBody>> beginUpdateTags(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject crossConnectionParameters, @Header("User-Agent") String userAgent);
-
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ExpressRouteCrossConnections listArpTable" })
         @POST("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCrossConnections/{crossConnectionName}/peerings/{peeringName}/arpTables/{devicePath}")
         Observable<Response<ResponseBody>> listArpTable(@Path("resourceGroupName") String resourceGroupName, @Path("crossConnectionName") String crossConnectionName, @Path("peeringName") String peeringName, @Path("devicePath") String devicePath, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
@@ -213,7 +209,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
                 @Override
@@ -326,7 +322,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ExpressRouteCrossConnectionInner>>>>() {
                 @Override
@@ -410,7 +406,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
                 @Override
@@ -502,7 +498,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, crossConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType());
     }
@@ -577,7 +573,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, crossConnectionName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
                 @Override
@@ -610,7 +606,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
     public ExpressRouteCrossConnectionInner updateTags(String resourceGroupName, String crossConnectionName) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).toBlocking().single().body();
     }
 
     /**
@@ -632,7 +628,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the ExpressRouteCrossConnectionInner object
      */
     public Observable<ExpressRouteCrossConnectionInner> updateTagsAsync(String resourceGroupName, String crossConnectionName) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
@@ -649,7 +645,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param resourceGroupName The name of the resource group.
      * @param crossConnectionName The name of the cross connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the ExpressRouteCrossConnectionInner object
      */
     public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String crossConnectionName) {
         if (resourceGroupName == null) {
@@ -661,13 +657,24 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject crossConnectionParameters = new TagsObject();
         crossConnectionParameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType());
+        return service.updateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ExpressRouteCrossConnectionInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
      * Updates an express route cross connection tags.
      *
@@ -680,7 +687,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @return the ExpressRouteCrossConnectionInner object if successful.
      */
     public ExpressRouteCrossConnectionInner updateTags(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
-        return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).toBlocking().last().body();
+        return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).toBlocking().single().body();
     }
 
     /**
@@ -704,7 +711,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the cross connection.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the ExpressRouteCrossConnectionInner object
      */
     public Observable<ExpressRouteCrossConnectionInner> updateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
         return updateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
@@ -722,7 +729,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
      * @param crossConnectionName The name of the cross connection.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the ExpressRouteCrossConnectionInner object
      */
     public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
         if (resourceGroupName == null) {
@@ -735,85 +742,15 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject crossConnectionParameters = new TagsObject();
         crossConnectionParameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.updateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType());
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ExpressRouteCrossConnectionInner object if successful.
-     */
-    public ExpressRouteCrossConnectionInner beginUpdateTags(String resourceGroupName, String crossConnectionName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).toBlocking().single().body();
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName), serviceCallback);
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
-     */
-    public Observable<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String crossConnectionName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (crossConnectionName == null) {
-            throw new IllegalArgumentException("Parameter crossConnectionName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2019-06-01";
-        final Map<String, String> tags = null;
-        TagsObject crossConnectionParameters = new TagsObject();
-        crossConnectionParameters.withTags(null);
-        return service.beginUpdateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent())
+        return service.updateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ExpressRouteCrossConnectionInner> clientResponse = beginUpdateTagsDelegate(response);
+                        ServiceResponse<ExpressRouteCrossConnectionInner> clientResponse = updateTagsDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -822,91 +759,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
             });
     }
 
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ExpressRouteCrossConnectionInner object if successful.
-     */
-    public ExpressRouteCrossConnectionInner beginUpdateTags(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).toBlocking().single().body();
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @param tags Resource tags.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags, final ServiceCallback<ExpressRouteCrossConnectionInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags), serviceCallback);
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
-     */
-    public Observable<ExpressRouteCrossConnectionInner> beginUpdateTagsAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
-        return beginUpdateTagsWithServiceResponseAsync(resourceGroupName, crossConnectionName, tags).map(new Func1<ServiceResponse<ExpressRouteCrossConnectionInner>, ExpressRouteCrossConnectionInner>() {
-            @Override
-            public ExpressRouteCrossConnectionInner call(ServiceResponse<ExpressRouteCrossConnectionInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates an express route cross connection tags.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param crossConnectionName The name of the cross connection.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ExpressRouteCrossConnectionInner object
-     */
-    public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> beginUpdateTagsWithServiceResponseAsync(String resourceGroupName, String crossConnectionName, Map<String, String> tags) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (crossConnectionName == null) {
-            throw new IllegalArgumentException("Parameter crossConnectionName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
-        TagsObject crossConnectionParameters = new TagsObject();
-        crossConnectionParameters.withTags(tags);
-        return service.beginUpdateTags(resourceGroupName, crossConnectionName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), crossConnectionParameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ExpressRouteCrossConnectionInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ExpressRouteCrossConnectionInner> clientResponse = beginUpdateTagsDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<ExpressRouteCrossConnectionInner> beginUpdateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<ExpressRouteCrossConnectionInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ExpressRouteCrossConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ExpressRouteCrossConnectionInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -989,7 +842,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.listArpTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<ExpressRouteCircuitsArpTableListResultInner>() { }.getType());
     }
@@ -1070,7 +923,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginListArpTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsArpTableListResultInner>>>() {
                 @Override
@@ -1169,7 +1022,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.listRoutesTableSummary(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>() { }.getType());
     }
@@ -1250,7 +1103,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginListRoutesTableSummary(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCrossConnectionsRoutesTableSummaryListResultInner>>>() {
                 @Override
@@ -1349,7 +1202,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.listRoutesTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new LongRunningOperationOptions().withFinalStateVia(LongRunningFinalState.LOCATION), new TypeToken<ExpressRouteCircuitsRoutesTableListResultInner>() { }.getType());
     }
@@ -1430,7 +1283,7 @@ public class ExpressRouteCrossConnectionsInner implements InnerSupportsGet<Expre
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginListRoutesTable(resourceGroupName, crossConnectionName, peeringName, devicePath, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ExpressRouteCircuitsRoutesTableListResultInner>>>() {
                 @Override

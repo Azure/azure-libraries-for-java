@@ -16,16 +16,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class VirtualNetworkGatewaySku {
     /**
      * Gateway SKU name. Possible values include: 'Basic', 'HighPerformance',
-     * 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3',
-     * 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
+     * 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw4',
+     * 'VpnGw5', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'VpnGw4AZ', 'VpnGw5AZ',
+     * 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
      */
     @JsonProperty(value = "name")
     private VirtualNetworkGatewaySkuName name;
 
     /**
      * Gateway SKU tier. Possible values include: 'Basic', 'HighPerformance',
-     * 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3',
-     * 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
+     * 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw4',
+     * 'VpnGw5', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'VpnGw4AZ', 'VpnGw5AZ',
+     * 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
      */
     @JsonProperty(value = "tier")
     private VirtualNetworkGatewaySkuTier tier;
@@ -33,11 +35,11 @@ public class VirtualNetworkGatewaySku {
     /**
      * The capacity.
      */
-    @JsonProperty(value = "capacity")
+    @JsonProperty(value = "capacity", access = JsonProperty.Access.WRITE_ONLY)
     private Integer capacity;
 
     /**
-     * Get gateway SKU name. Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
+     * Get gateway SKU name. Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw4', 'VpnGw5', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'VpnGw4AZ', 'VpnGw5AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
      *
      * @return the name value
      */
@@ -46,7 +48,7 @@ public class VirtualNetworkGatewaySku {
     }
 
     /**
-     * Set gateway SKU name. Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
+     * Set gateway SKU name. Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw4', 'VpnGw5', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'VpnGw4AZ', 'VpnGw5AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
      *
      * @param name the name value to set
      * @return the VirtualNetworkGatewaySku object itself.
@@ -57,7 +59,7 @@ public class VirtualNetworkGatewaySku {
     }
 
     /**
-     * Get gateway SKU tier. Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
+     * Get gateway SKU tier. Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw4', 'VpnGw5', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'VpnGw4AZ', 'VpnGw5AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
      *
      * @return the tier value
      */
@@ -66,7 +68,7 @@ public class VirtualNetworkGatewaySku {
     }
 
     /**
-     * Set gateway SKU tier. Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
+     * Set gateway SKU tier. Possible values include: 'Basic', 'HighPerformance', 'Standard', 'UltraPerformance', 'VpnGw1', 'VpnGw2', 'VpnGw3', 'VpnGw4', 'VpnGw5', 'VpnGw1AZ', 'VpnGw2AZ', 'VpnGw3AZ', 'VpnGw4AZ', 'VpnGw5AZ', 'ErGw1AZ', 'ErGw2AZ', 'ErGw3AZ'.
      *
      * @param tier the tier value to set
      * @return the VirtualNetworkGatewaySku object itself.
@@ -83,17 +85,6 @@ public class VirtualNetworkGatewaySku {
      */
     public Integer capacity() {
         return this.capacity;
-    }
-
-    /**
-     * Set the capacity.
-     *
-     * @param capacity the capacity value to set
-     * @return the VirtualNetworkGatewaySku object itself.
-     */
-    public VirtualNetworkGatewaySku withCapacity(Integer capacity) {
-        this.capacity = capacity;
-        return this;
     }
 
 }

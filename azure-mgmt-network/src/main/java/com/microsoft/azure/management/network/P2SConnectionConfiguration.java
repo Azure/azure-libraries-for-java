@@ -13,23 +13,23 @@ import com.microsoft.rest.serializer.JsonFlatten;
 import com.microsoft.azure.SubResource;
 
 /**
- * VPN client root certificate of P2SVpnServerConfiguration.
+ * P2SConnectionConfiguration Resource.
  */
 @JsonFlatten
-public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
+public class P2SConnectionConfiguration extends SubResource {
     /**
-     * The certificate public data.
+     * The reference to the address space resource which represents Address
+     * space for P2S VpnClient.
      */
-    @JsonProperty(value = "properties.publicCertData", required = true)
-    private String publicCertData;
+    @JsonProperty(value = "properties.vpnClientAddressPool")
+    private AddressSpace vpnClientAddressPool;
 
     /**
-     * The provisioning state of the P2SVpnServerConfiguration VPN client root
-     * certificate resource. Possible values are: 'Updating', 'Deleting', and
-     * 'Failed'.
+     * The provisioning state of the P2SConnectionConfiguration resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -41,35 +41,35 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
-     * Get the certificate public data.
+     * Get the reference to the address space resource which represents Address space for P2S VpnClient.
      *
-     * @return the publicCertData value
+     * @return the vpnClientAddressPool value
      */
-    public String publicCertData() {
-        return this.publicCertData;
+    public AddressSpace vpnClientAddressPool() {
+        return this.vpnClientAddressPool;
     }
 
     /**
-     * Set the certificate public data.
+     * Set the reference to the address space resource which represents Address space for P2S VpnClient.
      *
-     * @param publicCertData the publicCertData value to set
-     * @return the P2SVpnServerConfigVpnClientRootCertificate object itself.
+     * @param vpnClientAddressPool the vpnClientAddressPool value to set
+     * @return the P2SConnectionConfiguration object itself.
      */
-    public P2SVpnServerConfigVpnClientRootCertificate withPublicCertData(String publicCertData) {
-        this.publicCertData = publicCertData;
+    public P2SConnectionConfiguration withVpnClientAddressPool(AddressSpace vpnClientAddressPool) {
+        this.vpnClientAddressPool = vpnClientAddressPool;
         return this;
     }
 
     /**
-     * Get the provisioning state of the P2SVpnServerConfiguration VPN client root certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the P2SConnectionConfiguration resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -86,9 +86,9 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      * Set the name of the resource that is unique within a resource group. This name can be used to access the resource.
      *
      * @param name the name value to set
-     * @return the P2SVpnServerConfigVpnClientRootCertificate object itself.
+     * @return the P2SConnectionConfiguration object itself.
      */
-    public P2SVpnServerConfigVpnClientRootCertificate withName(String name) {
+    public P2SConnectionConfiguration withName(String name) {
         this.name = name;
         return this;
     }
@@ -100,17 +100,6 @@ public class P2SVpnServerConfigVpnClientRootCertificate extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the P2SVpnServerConfigVpnClientRootCertificate object itself.
-     */
-    public P2SVpnServerConfigVpnClientRootCertificate withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

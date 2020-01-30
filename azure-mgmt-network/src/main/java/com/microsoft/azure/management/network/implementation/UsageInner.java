@@ -12,7 +12,7 @@ import com.microsoft.azure.management.network.UsageName;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes network resource usage.
+ * The network resource usage.
  */
 public class UsageInner {
     /**
@@ -47,6 +47,9 @@ public class UsageInner {
 
     /**
      * Creates an instance of UsageInner class.
+     * @param currentValue the current value of the usage.
+     * @param limit the limit of usage.
+     * @param name the name of the type of usage.
      */
     public UsageInner() {
         unit = "Count";

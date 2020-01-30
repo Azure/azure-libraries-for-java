@@ -17,10 +17,12 @@ import com.microsoft.rest.serializer.JsonFlatten;
 @JsonFlatten
 public class ContainerNetworkInterfaceIpConfiguration {
     /**
-     * The provisioning state of the resource.
+     * The provisioning state of the container network interface IP
+     * configuration resource. Possible values include: 'Succeeded',
+     * 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource. This name can be used to access the resource.
@@ -37,15 +39,15 @@ public class ContainerNetworkInterfaceIpConfiguration {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
-     * Get the provisioning state of the resource.
+     * Get the provisioning state of the container network interface IP configuration resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -85,17 +87,6 @@ public class ContainerNetworkInterfaceIpConfiguration {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the ContainerNetworkInterfaceIpConfiguration object itself.
-     */
-    public ContainerNetworkInterfaceIpConfiguration withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

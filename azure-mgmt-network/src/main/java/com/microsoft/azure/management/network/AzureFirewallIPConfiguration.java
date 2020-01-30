@@ -25,24 +25,24 @@ public class AzureFirewallIPConfiguration extends SubResource {
     private String privateIPAddress;
 
     /**
-     * Reference of the subnet resource. This resource must be named
-     * 'AzureFirewallSubnet'.
+     * Reference to the subnet resource. This resource must be named
+     * 'AzureFirewallSubnet' or 'AzureFirewallManagementSubnet'.
      */
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
     /**
-     * Reference of the PublicIP resource. This field is a mandatory input if
+     * Reference to the PublicIP resource. This field is a mandatory input if
      * subnet is not null.
      */
     @JsonProperty(value = "properties.publicIPAddress")
     private SubResource publicIPAddress;
 
     /**
-     * The provisioning state of the resource. Possible values include:
-     * 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * The provisioning state of the Azure firewall IP configuration resource.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
-    @JsonProperty(value = "properties.provisioningState")
+    @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
     private ProvisioningState provisioningState;
 
     /**
@@ -59,6 +59,12 @@ public class AzureFirewallIPConfiguration extends SubResource {
     private String etag;
 
     /**
+     * Type of the resource.
+     */
+    @JsonProperty(value = "type", access = JsonProperty.Access.WRITE_ONLY)
+    private String type;
+
+    /**
      * Get the Firewall Internal Load Balancer IP to be used as the next hop in User Defined Routes.
      *
      * @return the privateIPAddress value
@@ -68,7 +74,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
     }
 
     /**
-     * Get reference of the subnet resource. This resource must be named 'AzureFirewallSubnet'.
+     * Get reference to the subnet resource. This resource must be named 'AzureFirewallSubnet' or 'AzureFirewallManagementSubnet'.
      *
      * @return the subnet value
      */
@@ -77,7 +83,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
     }
 
     /**
-     * Set reference of the subnet resource. This resource must be named 'AzureFirewallSubnet'.
+     * Set reference to the subnet resource. This resource must be named 'AzureFirewallSubnet' or 'AzureFirewallManagementSubnet'.
      *
      * @param subnet the subnet value to set
      * @return the AzureFirewallIPConfiguration object itself.
@@ -88,7 +94,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
     }
 
     /**
-     * Get reference of the PublicIP resource. This field is a mandatory input if subnet is not null.
+     * Get reference to the PublicIP resource. This field is a mandatory input if subnet is not null.
      *
      * @return the publicIPAddress value
      */
@@ -97,7 +103,7 @@ public class AzureFirewallIPConfiguration extends SubResource {
     }
 
     /**
-     * Set reference of the PublicIP resource. This field is a mandatory input if subnet is not null.
+     * Set reference to the PublicIP resource. This field is a mandatory input if subnet is not null.
      *
      * @param publicIPAddress the publicIPAddress value to set
      * @return the AzureFirewallIPConfiguration object itself.
@@ -108,23 +114,12 @@ public class AzureFirewallIPConfiguration extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
+     * Get the provisioning state of the Azure firewall IP configuration resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
     public ProvisioningState provisioningState() {
         return this.provisioningState;
-    }
-
-    /**
-     * Set the provisioning state of the resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
-     *
-     * @param provisioningState the provisioningState value to set
-     * @return the AzureFirewallIPConfiguration object itself.
-     */
-    public AzureFirewallIPConfiguration withProvisioningState(ProvisioningState provisioningState) {
-        this.provisioningState = provisioningState;
-        return this;
     }
 
     /**
@@ -154,6 +149,15 @@ public class AzureFirewallIPConfiguration extends SubResource {
      */
     public String etag() {
         return this.etag;
+    }
+
+    /**
+     * Get type of the resource.
+     *
+     * @return the type value
+     */
+    public String type() {
+        return this.type;
     }
 
 }

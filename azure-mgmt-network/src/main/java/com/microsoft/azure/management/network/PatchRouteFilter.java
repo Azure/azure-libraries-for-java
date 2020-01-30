@@ -30,21 +30,21 @@ public class PatchRouteFilter extends SubResource {
     /**
      * A collection of references to express route circuit peerings.
      */
-    @JsonProperty(value = "properties.peerings")
+    @JsonProperty(value = "properties.peerings", access = JsonProperty.Access.WRITE_ONLY)
     private List<ExpressRouteCircuitPeeringInner> peerings;
 
     /**
      * A collection of references to express route circuit ipv6 peerings.
      */
-    @JsonProperty(value = "properties.ipv6Peerings")
+    @JsonProperty(value = "properties.ipv6Peerings", access = JsonProperty.Access.WRITE_ONLY)
     private List<ExpressRouteCircuitPeeringInner> ipv6Peerings;
 
     /**
-     * The provisioning state of the resource. Possible values are: 'Updating',
-     * 'Deleting', 'Succeeded' and 'Failed'.
+     * The provisioning state of the route filter resource. Possible values
+     * include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -101,17 +101,6 @@ public class PatchRouteFilter extends SubResource {
     }
 
     /**
-     * Set a collection of references to express route circuit peerings.
-     *
-     * @param peerings the peerings value to set
-     * @return the PatchRouteFilter object itself.
-     */
-    public PatchRouteFilter withPeerings(List<ExpressRouteCircuitPeeringInner> peerings) {
-        this.peerings = peerings;
-        return this;
-    }
-
-    /**
      * Get a collection of references to express route circuit ipv6 peerings.
      *
      * @return the ipv6Peerings value
@@ -121,22 +110,11 @@ public class PatchRouteFilter extends SubResource {
     }
 
     /**
-     * Set a collection of references to express route circuit ipv6 peerings.
-     *
-     * @param ipv6Peerings the ipv6Peerings value to set
-     * @return the PatchRouteFilter object itself.
-     */
-    public PatchRouteFilter withIpv6Peerings(List<ExpressRouteCircuitPeeringInner> ipv6Peerings) {
-        this.ipv6Peerings = ipv6Peerings;
-        return this;
-    }
-
-    /**
-     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'.
+     * Get the provisioning state of the route filter resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 

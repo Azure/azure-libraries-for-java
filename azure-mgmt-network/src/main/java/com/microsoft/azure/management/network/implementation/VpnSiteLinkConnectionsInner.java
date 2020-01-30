@@ -10,7 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import retrofit2.Retrofit;
 import com.google.common.reflect.TypeToken;
-import com.microsoft.azure.management.network.ErrorException;
+import com.microsoft.azure.CloudException;
 import com.microsoft.rest.ServiceCallback;
 import com.microsoft.rest.ServiceFuture;
 import com.microsoft.rest.ServiceResponse;
@@ -65,7 +65,7 @@ public class VpnSiteLinkConnectionsInner {
      * @param connectionName The name of the vpn connection.
      * @param linkConnectionName The name of the vpn connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws ErrorException thrown if the request is rejected by server
+     * @throws CloudException thrown if the request is rejected by server
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the VpnSiteLinkConnectionInner object if successful.
      */
@@ -133,7 +133,7 @@ public class VpnSiteLinkConnectionsInner {
         if (linkConnectionName == null) {
             throw new IllegalArgumentException("Parameter linkConnectionName is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.get(this.client.subscriptionId(), resourceGroupName, gatewayName, connectionName, linkConnectionName, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<VpnSiteLinkConnectionInner>>>() {
                 @Override
@@ -148,10 +148,10 @@ public class VpnSiteLinkConnectionsInner {
             });
     }
 
-    private ServiceResponse<VpnSiteLinkConnectionInner> getDelegate(Response<ResponseBody> response) throws ErrorException, IOException, IllegalArgumentException {
-        return this.client.restClient().responseBuilderFactory().<VpnSiteLinkConnectionInner, ErrorException>newInstance(this.client.serializerAdapter())
+    private ServiceResponse<VpnSiteLinkConnectionInner> getDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+        return this.client.restClient().responseBuilderFactory().<VpnSiteLinkConnectionInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<VpnSiteLinkConnectionInner>() { }.getType())
-                .registerError(ErrorException.class)
+                .registerError(CloudException.class)
                 .build(response);
     }
 

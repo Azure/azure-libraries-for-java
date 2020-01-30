@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class VpnClientConfiguration {
     /**
-     * The reference of the address space resource which represents Address
+     * The reference to the address space resource which represents Address
      * space for P2S VpnClient.
      */
     @JsonProperty(value = "vpnClientAddressPool")
@@ -82,7 +82,7 @@ public class VpnClientConfiguration {
     private String aadIssuer;
 
     /**
-     * Get the reference of the address space resource which represents Address space for P2S VpnClient.
+     * Get the reference to the address space resource which represents Address space for P2S VpnClient.
      *
      * @return the vpnClientAddressPool value
      */
@@ -91,7 +91,7 @@ public class VpnClientConfiguration {
     }
 
     /**
-     * Set the reference of the address space resource which represents Address space for P2S VpnClient.
+     * Set the reference to the address space resource which represents Address space for P2S VpnClient.
      *
      * @param vpnClientAddressPool the vpnClientAddressPool value to set
      * @return the VpnClientConfiguration object itself.

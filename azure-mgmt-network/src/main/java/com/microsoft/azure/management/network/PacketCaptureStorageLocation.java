@@ -11,7 +11,7 @@ package com.microsoft.azure.management.network;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Describes the storage location for a packet capture session.
+ * The storage location for a packet capture session.
  */
 public class PacketCaptureStorageLocation {
     /**

@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import java.util.List;
 import com.microsoft.azure.management.network.PrivateLinkServiceIpConfiguration;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.microsoft.azure.management.network.PrivateLinkServicePropertiesVisibility;
 import com.microsoft.azure.management.network.PrivateLinkServicePropertiesAutoApproval;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,29 +31,29 @@ public class PrivateLinkServiceInner extends Resource {
     private List<FrontendIPConfigurationInner> loadBalancerFrontendIpConfigurations;
 
     /**
-     * An array of references to the private link service IP configuration.
+     * An array of private link service IP configurations.
      */
     @JsonProperty(value = "properties.ipConfigurations")
     private List<PrivateLinkServiceIpConfiguration> ipConfigurations;
 
     /**
-     * Gets an array of references to the network interfaces created for this
+     * An array of references to the network interfaces created for this
      * private link service.
      */
     @JsonProperty(value = "properties.networkInterfaces", access = JsonProperty.Access.WRITE_ONLY)
     private List<NetworkInterfaceInner> networkInterfaces;
 
     /**
-     * The provisioning state of the private link service. Possible values are:
-     * 'Updating', 'Succeeded', and 'Failed'.
+     * The provisioning state of the private link service resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * An array of list about connections to the private endpoint.
      */
-    @JsonProperty(value = "properties.privateEndpointConnections")
+    @JsonProperty(value = "properties.privateEndpointConnections", access = JsonProperty.Access.WRITE_ONLY)
     private List<PrivateEndpointConnectionInner> privateEndpointConnections;
 
     /**
@@ -80,10 +81,15 @@ public class PrivateLinkServiceInner extends Resource {
     private String alias;
 
     /**
-     * Gets a unique read-only string that changes whenever the resource is
-     * updated.
+     * Whether the private link service is enabled for proxy protocol or not.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "properties.enableProxyProtocol")
+    private Boolean enableProxyProtocol;
+
+    /**
+     * A unique read-only string that changes whenever the resource is updated.
+     */
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -113,7 +119,7 @@ public class PrivateLinkServiceInner extends Resource {
     }
 
     /**
-     * Get an array of references to the private link service IP configuration.
+     * Get an array of private link service IP configurations.
      *
      * @return the ipConfigurations value
      */
@@ -122,7 +128,7 @@ public class PrivateLinkServiceInner extends Resource {
     }
 
     /**
-     * Set an array of references to the private link service IP configuration.
+     * Set an array of private link service IP configurations.
      *
      * @param ipConfigurations the ipConfigurations value to set
      * @return the PrivateLinkServiceInner object itself.
@@ -133,7 +139,7 @@ public class PrivateLinkServiceInner extends Resource {
     }
 
     /**
-     * Get gets an array of references to the network interfaces created for this private link service.
+     * Get an array of references to the network interfaces created for this private link service.
      *
      * @return the networkInterfaces value
      */
@@ -142,11 +148,11 @@ public class PrivateLinkServiceInner extends Resource {
     }
 
     /**
-     * Get the provisioning state of the private link service. Possible values are: 'Updating', 'Succeeded', and 'Failed'.
+     * Get the provisioning state of the private link service resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -157,17 +163,6 @@ public class PrivateLinkServiceInner extends Resource {
      */
     public List<PrivateEndpointConnectionInner> privateEndpointConnections() {
         return this.privateEndpointConnections;
-    }
-
-    /**
-     * Set an array of list about connections to the private endpoint.
-     *
-     * @param privateEndpointConnections the privateEndpointConnections value to set
-     * @return the PrivateLinkServiceInner object itself.
-     */
-    public PrivateLinkServiceInner withPrivateEndpointConnections(List<PrivateEndpointConnectionInner> privateEndpointConnections) {
-        this.privateEndpointConnections = privateEndpointConnections;
-        return this;
     }
 
     /**
@@ -240,23 +235,32 @@ public class PrivateLinkServiceInner extends Resource {
     }
 
     /**
-     * Get gets a unique read-only string that changes whenever the resource is updated.
+     * Get whether the private link service is enabled for proxy protocol or not.
+     *
+     * @return the enableProxyProtocol value
+     */
+    public Boolean enableProxyProtocol() {
+        return this.enableProxyProtocol;
+    }
+
+    /**
+     * Set whether the private link service is enabled for proxy protocol or not.
+     *
+     * @param enableProxyProtocol the enableProxyProtocol value to set
+     * @return the PrivateLinkServiceInner object itself.
+     */
+    public PrivateLinkServiceInner withEnableProxyProtocol(Boolean enableProxyProtocol) {
+        this.enableProxyProtocol = enableProxyProtocol;
+        return this;
+    }
+
+    /**
+     * Get a unique read-only string that changes whenever the resource is updated.
      *
      * @return the etag value
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set gets a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the PrivateLinkServiceInner object itself.
-     */
-    public PrivateLinkServiceInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
     /**

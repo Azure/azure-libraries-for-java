@@ -87,13 +87,9 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
         @PUT("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}")
         Observable<Response<ResponseBody>> beginCreateOrUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serviceEndpointPolicyName") String serviceEndpointPolicyName, @Path("subscriptionId") String subscriptionId, @Body ServiceEndpointPolicyInner parameters, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Header("User-Agent") String userAgent);
 
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ServiceEndpointPolicies update" })
+        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ServiceEndpointPolicies updateTags" })
         @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}")
-        Observable<Response<ResponseBody>> update(@Path("resourceGroupName") String resourceGroupName, @Path("serviceEndpointPolicyName") String serviceEndpointPolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
-
-        @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ServiceEndpointPolicies beginUpdate" })
-        @PATCH("subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}")
-        Observable<Response<ResponseBody>> beginUpdate(@Path("resourceGroupName") String resourceGroupName, @Path("serviceEndpointPolicyName") String serviceEndpointPolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
+        Observable<Response<ResponseBody>> updateTags(@Path("resourceGroupName") String resourceGroupName, @Path("serviceEndpointPolicyName") String serviceEndpointPolicyName, @Path("subscriptionId") String subscriptionId, @Query("api-version") String apiVersion, @Header("accept-language") String acceptLanguage, @Body TagsObject parameters, @Header("User-Agent") String userAgent);
 
         @Headers({ "Content-Type: application/json; charset=utf-8", "x-ms-logging-context: com.microsoft.azure.management.network.ServiceEndpointPolicies list" })
         @GET("subscriptions/{subscriptionId}/providers/Microsoft.Network/ServiceEndpointPolicies")
@@ -174,7 +170,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.delete(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPostOrDeleteResultAsync(observable, new TypeToken<Void>() { }.getType());
     }
@@ -240,7 +236,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginDelete(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Void>>>() {
                 @Override
@@ -326,7 +322,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final String expand = null;
         return service.getByResourceGroup(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceEndpointPolicyInner>>>() {
@@ -408,7 +404,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.getByResourceGroup(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, expand, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceEndpointPolicyInner>>>() {
                 @Override
@@ -500,7 +496,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         Observable<Response<ResponseBody>> observable = service.createOrUpdate(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent());
         return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServiceEndpointPolicyInner>() { }.getType());
     }
@@ -575,7 +571,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
             throw new IllegalArgumentException("Parameter parameters is required and cannot be null.");
         }
         Validator.validate(parameters);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.beginCreateOrUpdate(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), parameters, apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceEndpointPolicyInner>>>() {
                 @Override
@@ -599,7 +595,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
     }
 
     /**
-     * Updates service Endpoint Policies.
+     * Updates tags of a service endpoint policy.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
@@ -608,12 +604,12 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ServiceEndpointPolicyInner object if successful.
      */
-    public ServiceEndpointPolicyInner update(String resourceGroupName, String serviceEndpointPolicyName) {
-        return updateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName).toBlocking().last().body();
+    public ServiceEndpointPolicyInner updateTags(String resourceGroupName, String serviceEndpointPolicyName) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName).toBlocking().single().body();
     }
 
     /**
-     * Updates service Endpoint Policies.
+     * Updates tags of a service endpoint policy.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
@@ -621,20 +617,20 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ServiceEndpointPolicyInner> updateAsync(String resourceGroupName, String serviceEndpointPolicyName, final ServiceCallback<ServiceEndpointPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName), serviceCallback);
+    public ServiceFuture<ServiceEndpointPolicyInner> updateTagsAsync(String resourceGroupName, String serviceEndpointPolicyName, final ServiceCallback<ServiceEndpointPolicyInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName), serviceCallback);
     }
 
     /**
-     * Updates service Endpoint Policies.
+     * Updates tags of a service endpoint policy.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the ServiceEndpointPolicyInner object
      */
-    public Observable<ServiceEndpointPolicyInner> updateAsync(String resourceGroupName, String serviceEndpointPolicyName) {
-        return updateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName).map(new Func1<ServiceResponse<ServiceEndpointPolicyInner>, ServiceEndpointPolicyInner>() {
+    public Observable<ServiceEndpointPolicyInner> updateTagsAsync(String resourceGroupName, String serviceEndpointPolicyName) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName).map(new Func1<ServiceResponse<ServiceEndpointPolicyInner>, ServiceEndpointPolicyInner>() {
             @Override
             public ServiceEndpointPolicyInner call(ServiceResponse<ServiceEndpointPolicyInner> response) {
                 return response.body();
@@ -643,14 +639,14 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
     }
 
     /**
-     * Updates service Endpoint Policies.
+     * Updates tags of a service endpoint policy.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the ServiceEndpointPolicyInner object
      */
-    public Observable<ServiceResponse<ServiceEndpointPolicyInner>> updateWithServiceResponseAsync(String resourceGroupName, String serviceEndpointPolicyName) {
+    public Observable<ServiceResponse<ServiceEndpointPolicyInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String serviceEndpointPolicyName) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -660,15 +656,26 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         final Map<String, String> tags = null;
         TagsObject parameters = new TagsObject();
         parameters.withTags(null);
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServiceEndpointPolicyInner>() { }.getType());
+        return service.updateTags(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceEndpointPolicyInner>>>() {
+                @Override
+                public Observable<ServiceResponse<ServiceEndpointPolicyInner>> call(Response<ResponseBody> response) {
+                    try {
+                        ServiceResponse<ServiceEndpointPolicyInner> clientResponse = updateTagsDelegate(response);
+                        return Observable.just(clientResponse);
+                    } catch (Throwable t) {
+                        return Observable.error(t);
+                    }
+                }
+            });
     }
+
     /**
-     * Updates service Endpoint Policies.
+     * Updates tags of a service endpoint policy.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
@@ -678,12 +685,12 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
      * @return the ServiceEndpointPolicyInner object if successful.
      */
-    public ServiceEndpointPolicyInner update(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
-        return updateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags).toBlocking().last().body();
+    public ServiceEndpointPolicyInner updateTags(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags).toBlocking().single().body();
     }
 
     /**
-     * Updates service Endpoint Policies.
+     * Updates tags of a service endpoint policy.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
@@ -692,21 +699,21 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
      * @throws IllegalArgumentException thrown if parameters fail the validation
      * @return the {@link ServiceFuture} object
      */
-    public ServiceFuture<ServiceEndpointPolicyInner> updateAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags, final ServiceCallback<ServiceEndpointPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(updateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags), serviceCallback);
+    public ServiceFuture<ServiceEndpointPolicyInner> updateTagsAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags, final ServiceCallback<ServiceEndpointPolicyInner> serviceCallback) {
+        return ServiceFuture.fromResponse(updateTagsWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags), serviceCallback);
     }
 
     /**
-     * Updates service Endpoint Policies.
+     * Updates tags of a service endpoint policy.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the ServiceEndpointPolicyInner object
      */
-    public Observable<ServiceEndpointPolicyInner> updateAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
-        return updateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags).map(new Func1<ServiceResponse<ServiceEndpointPolicyInner>, ServiceEndpointPolicyInner>() {
+    public Observable<ServiceEndpointPolicyInner> updateTagsAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+        return updateTagsWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags).map(new Func1<ServiceResponse<ServiceEndpointPolicyInner>, ServiceEndpointPolicyInner>() {
             @Override
             public ServiceEndpointPolicyInner call(ServiceResponse<ServiceEndpointPolicyInner> response) {
                 return response.body();
@@ -715,15 +722,15 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
     }
 
     /**
-     * Updates service Endpoint Policies.
+     * Updates tags of a service endpoint policy.
      *
      * @param resourceGroupName The name of the resource group.
      * @param serviceEndpointPolicyName The name of the service endpoint policy.
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable for the request
+     * @return the observable to the ServiceEndpointPolicyInner object
      */
-    public Observable<ServiceResponse<ServiceEndpointPolicyInner>> updateWithServiceResponseAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
+    public Observable<ServiceResponse<ServiceEndpointPolicyInner>> updateTagsWithServiceResponseAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
         if (resourceGroupName == null) {
             throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
         }
@@ -734,85 +741,15 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
         Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         TagsObject parameters = new TagsObject();
         parameters.withTags(tags);
-        Observable<Response<ResponseBody>> observable = service.update(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent());
-        return client.getAzureClient().getPutOrPatchResultAsync(observable, new TypeToken<ServiceEndpointPolicyInner>() { }.getType());
-    }
-
-    /**
-     * Updates service Endpoint Policies.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ServiceEndpointPolicyInner object if successful.
-     */
-    public ServiceEndpointPolicyInner beginUpdate(String resourceGroupName, String serviceEndpointPolicyName) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName).toBlocking().single().body();
-    }
-
-    /**
-     * Updates service Endpoint Policies.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<ServiceEndpointPolicyInner> beginUpdateAsync(String resourceGroupName, String serviceEndpointPolicyName, final ServiceCallback<ServiceEndpointPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName), serviceCallback);
-    }
-
-    /**
-     * Updates service Endpoint Policies.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServiceEndpointPolicyInner object
-     */
-    public Observable<ServiceEndpointPolicyInner> beginUpdateAsync(String resourceGroupName, String serviceEndpointPolicyName) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName).map(new Func1<ServiceResponse<ServiceEndpointPolicyInner>, ServiceEndpointPolicyInner>() {
-            @Override
-            public ServiceEndpointPolicyInner call(ServiceResponse<ServiceEndpointPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates service Endpoint Policies.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServiceEndpointPolicyInner object
-     */
-    public Observable<ServiceResponse<ServiceEndpointPolicyInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serviceEndpointPolicyName) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serviceEndpointPolicyName == null) {
-            throw new IllegalArgumentException("Parameter serviceEndpointPolicyName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        final String apiVersion = "2019-06-01";
-        final Map<String, String> tags = null;
-        TagsObject parameters = new TagsObject();
-        parameters.withTags(null);
-        return service.beginUpdate(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
+        return service.updateTags(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceEndpointPolicyInner>>>() {
                 @Override
                 public Observable<ServiceResponse<ServiceEndpointPolicyInner>> call(Response<ResponseBody> response) {
                     try {
-                        ServiceResponse<ServiceEndpointPolicyInner> clientResponse = beginUpdateDelegate(response);
+                        ServiceResponse<ServiceEndpointPolicyInner> clientResponse = updateTagsDelegate(response);
                         return Observable.just(clientResponse);
                     } catch (Throwable t) {
                         return Observable.error(t);
@@ -821,91 +758,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
             });
     }
 
-    /**
-     * Updates service Endpoint Policies.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @throws CloudException thrown if the request is rejected by server
-     * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent
-     * @return the ServiceEndpointPolicyInner object if successful.
-     */
-    public ServiceEndpointPolicyInner beginUpdate(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags).toBlocking().single().body();
-    }
-
-    /**
-     * Updates service Endpoint Policies.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @param tags Resource tags.
-     * @param serviceCallback the async ServiceCallback to handle successful and failed responses.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the {@link ServiceFuture} object
-     */
-    public ServiceFuture<ServiceEndpointPolicyInner> beginUpdateAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags, final ServiceCallback<ServiceEndpointPolicyInner> serviceCallback) {
-        return ServiceFuture.fromResponse(beginUpdateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags), serviceCallback);
-    }
-
-    /**
-     * Updates service Endpoint Policies.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServiceEndpointPolicyInner object
-     */
-    public Observable<ServiceEndpointPolicyInner> beginUpdateAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
-        return beginUpdateWithServiceResponseAsync(resourceGroupName, serviceEndpointPolicyName, tags).map(new Func1<ServiceResponse<ServiceEndpointPolicyInner>, ServiceEndpointPolicyInner>() {
-            @Override
-            public ServiceEndpointPolicyInner call(ServiceResponse<ServiceEndpointPolicyInner> response) {
-                return response.body();
-            }
-        });
-    }
-
-    /**
-     * Updates service Endpoint Policies.
-     *
-     * @param resourceGroupName The name of the resource group.
-     * @param serviceEndpointPolicyName The name of the service endpoint policy.
-     * @param tags Resource tags.
-     * @throws IllegalArgumentException thrown if parameters fail the validation
-     * @return the observable to the ServiceEndpointPolicyInner object
-     */
-    public Observable<ServiceResponse<ServiceEndpointPolicyInner>> beginUpdateWithServiceResponseAsync(String resourceGroupName, String serviceEndpointPolicyName, Map<String, String> tags) {
-        if (resourceGroupName == null) {
-            throw new IllegalArgumentException("Parameter resourceGroupName is required and cannot be null.");
-        }
-        if (serviceEndpointPolicyName == null) {
-            throw new IllegalArgumentException("Parameter serviceEndpointPolicyName is required and cannot be null.");
-        }
-        if (this.client.subscriptionId() == null) {
-            throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
-        }
-        Validator.validate(tags);
-        final String apiVersion = "2019-06-01";
-        TagsObject parameters = new TagsObject();
-        parameters.withTags(tags);
-        return service.beginUpdate(resourceGroupName, serviceEndpointPolicyName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), parameters, this.client.userAgent())
-            .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<ServiceEndpointPolicyInner>>>() {
-                @Override
-                public Observable<ServiceResponse<ServiceEndpointPolicyInner>> call(Response<ResponseBody> response) {
-                    try {
-                        ServiceResponse<ServiceEndpointPolicyInner> clientResponse = beginUpdateDelegate(response);
-                        return Observable.just(clientResponse);
-                    } catch (Throwable t) {
-                        return Observable.error(t);
-                    }
-                }
-            });
-    }
-
-    private ServiceResponse<ServiceEndpointPolicyInner> beginUpdateDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
+    private ServiceResponse<ServiceEndpointPolicyInner> updateTagsDelegate(Response<ResponseBody> response) throws CloudException, IOException, IllegalArgumentException {
         return this.client.restClient().responseBuilderFactory().<ServiceEndpointPolicyInner, CloudException>newInstance(this.client.serializerAdapter())
                 .register(200, new TypeToken<ServiceEndpointPolicyInner>() { }.getType())
                 .registerError(CloudException.class)
@@ -995,7 +848,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.list(this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServiceEndpointPolicyInner>>>>() {
                 @Override
@@ -1108,7 +961,7 @@ public class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEnd
         if (this.client.subscriptionId() == null) {
             throw new IllegalArgumentException("Parameter this.client.subscriptionId() is required and cannot be null.");
         }
-        final String apiVersion = "2019-06-01";
+        final String apiVersion = "2019-11-01";
         return service.listByResourceGroup(resourceGroupName, this.client.subscriptionId(), apiVersion, this.client.acceptLanguage(), this.client.userAgent())
             .flatMap(new Func1<Response<ResponseBody>, Observable<ServiceResponse<Page<ServiceEndpointPolicyInner>>>>() {
                 @Override

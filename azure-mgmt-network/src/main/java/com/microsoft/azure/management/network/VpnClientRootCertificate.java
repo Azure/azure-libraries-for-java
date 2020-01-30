@@ -25,10 +25,10 @@ public class VpnClientRootCertificate extends SubResource {
 
     /**
      * The provisioning state of the VPN client root certificate resource.
-     * Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -40,7 +40,7 @@ public class VpnClientRootCertificate extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -64,11 +64,11 @@ public class VpnClientRootCertificate extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the VPN client root certificate resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the VPN client root certificate resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -99,17 +99,6 @@ public class VpnClientRootCertificate extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the VpnClientRootCertificate object itself.
-     */
-    public VpnClientRootCertificate withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

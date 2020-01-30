@@ -38,11 +38,11 @@ public class PatchRouteFilterRule extends SubResource {
     private List<String> communities;
 
     /**
-     * The provisioning state of the resource. Possible values are: 'Updating',
-     * 'Deleting', 'Succeeded' and 'Failed'.
+     * The provisioning state of the route filter rule resource. Possible
+     * values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -59,6 +59,8 @@ public class PatchRouteFilterRule extends SubResource {
 
     /**
      * Creates an instance of PatchRouteFilterRule class.
+     * @param access the access type of the rule. Possible values include: 'Allow', 'Deny'.
+     * @param communities the collection for bgp community values to filter on. e.g. ['12076:5010','12076:5020'].
      */
     public PatchRouteFilterRule() {
         routeFilterRuleType = "Community";
@@ -125,11 +127,11 @@ public class PatchRouteFilterRule extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the resource. Possible values are: 'Updating', 'Deleting', 'Succeeded' and 'Failed'.
+     * Get the provisioning state of the route filter rule resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 

@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class ApplicationGatewayBackendHealthPool {
     /**
-     * Reference of an ApplicationGatewayBackendAddressPool resource.
+     * Reference to an ApplicationGatewayBackendAddressPool resource.
      */
     @JsonProperty(value = "backendAddressPool")
     private ApplicationGatewayBackendAddressPool backendAddressPool;
@@ -28,7 +28,7 @@ public class ApplicationGatewayBackendHealthPool {
     private List<ApplicationGatewayBackendHealthHttpSettings> backendHttpSettingsCollection;
 
     /**
-     * Get reference of an ApplicationGatewayBackendAddressPool resource.
+     * Get reference to an ApplicationGatewayBackendAddressPool resource.
      *
      * @return the backendAddressPool value
      */
@@ -37,7 +37,7 @@ public class ApplicationGatewayBackendHealthPool {
     }
 
     /**
-     * Set reference of an ApplicationGatewayBackendAddressPool resource.
+     * Set reference to an ApplicationGatewayBackendAddressPool resource.
      *
      * @param backendAddressPool the backendAddressPool value to set
      * @return the ApplicationGatewayBackendHealthPool object itself.

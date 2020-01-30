@@ -10,6 +10,7 @@ package com.microsoft.azure.management.network.implementation;
 
 import com.microsoft.azure.management.network.IPAllocationMethod;
 import com.microsoft.azure.SubResource;
+import com.microsoft.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.microsoft.rest.serializer.JsonFlatten;
 
@@ -26,23 +27,24 @@ public class VirtualNetworkGatewayIPConfigurationInner extends SubResource {
     private IPAllocationMethod privateIPAllocationMethod;
 
     /**
-     * The reference of the subnet resource.
+     * The reference to the subnet resource.
      */
     @JsonProperty(value = "properties.subnet")
     private SubResource subnet;
 
     /**
-     * The reference of the public IP resource.
+     * The reference to the public IP resource.
      */
     @JsonProperty(value = "properties.publicIPAddress")
     private SubResource publicIPAddress;
 
     /**
-     * The provisioning state of the public IP resource. Possible values are:
-     * 'Updating', 'Deleting', and 'Failed'.
+     * The provisioning state of the virtual network gateway IP configuration
+     * resource. Possible values include: 'Succeeded', 'Updating', 'Deleting',
+     * 'Failed'.
      */
     @JsonProperty(value = "properties.provisioningState", access = JsonProperty.Access.WRITE_ONLY)
-    private String provisioningState;
+    private ProvisioningState provisioningState;
 
     /**
      * The name of the resource that is unique within a resource group. This
@@ -54,7 +56,7 @@ public class VirtualNetworkGatewayIPConfigurationInner extends SubResource {
     /**
      * A unique read-only string that changes whenever the resource is updated.
      */
-    @JsonProperty(value = "etag")
+    @JsonProperty(value = "etag", access = JsonProperty.Access.WRITE_ONLY)
     private String etag;
 
     /**
@@ -78,7 +80,7 @@ public class VirtualNetworkGatewayIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the reference of the subnet resource.
+     * Get the reference to the subnet resource.
      *
      * @return the subnet value
      */
@@ -87,7 +89,7 @@ public class VirtualNetworkGatewayIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the reference of the subnet resource.
+     * Set the reference to the subnet resource.
      *
      * @param subnet the subnet value to set
      * @return the VirtualNetworkGatewayIPConfigurationInner object itself.
@@ -98,7 +100,7 @@ public class VirtualNetworkGatewayIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the reference of the public IP resource.
+     * Get the reference to the public IP resource.
      *
      * @return the publicIPAddress value
      */
@@ -107,7 +109,7 @@ public class VirtualNetworkGatewayIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Set the reference of the public IP resource.
+     * Set the reference to the public IP resource.
      *
      * @param publicIPAddress the publicIPAddress value to set
      * @return the VirtualNetworkGatewayIPConfigurationInner object itself.
@@ -118,11 +120,11 @@ public class VirtualNetworkGatewayIPConfigurationInner extends SubResource {
     }
 
     /**
-     * Get the provisioning state of the public IP resource. Possible values are: 'Updating', 'Deleting', and 'Failed'.
+     * Get the provisioning state of the virtual network gateway IP configuration resource. Possible values include: 'Succeeded', 'Updating', 'Deleting', 'Failed'.
      *
      * @return the provisioningState value
      */
-    public String provisioningState() {
+    public ProvisioningState provisioningState() {
         return this.provisioningState;
     }
 
@@ -153,17 +155,6 @@ public class VirtualNetworkGatewayIPConfigurationInner extends SubResource {
      */
     public String etag() {
         return this.etag;
-    }
-
-    /**
-     * Set a unique read-only string that changes whenever the resource is updated.
-     *
-     * @param etag the etag value to set
-     * @return the VirtualNetworkGatewayIPConfigurationInner object itself.
-     */
-    public VirtualNetworkGatewayIPConfigurationInner withEtag(String etag) {
-        this.etag = etag;
-        return this;
     }
 
 }

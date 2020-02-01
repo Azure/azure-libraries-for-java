@@ -7,7 +7,6 @@
 package com.azure.management.resources.fluentcore.arm.implementation;
 
 import com.azure.management.RestClient;
-import com.azure.management.RestClientBuilder;
 import com.azure.management.resources.implementation.ResourceManager;
 
 /**
@@ -17,7 +16,7 @@ public abstract class ManagerBase {
 
     private ResourceManager resourceManager;
     private final String subscriptionId;
-    private final RestClient restClient;
+    protected final RestClient restClient;
 
     protected ManagerBase(RestClient restClient, String subscriptionId) {
         this.restClient = restClient;
@@ -43,9 +42,5 @@ public abstract class ManagerBase {
      */
     public ResourceManager getResourceManager() {
         return this.resourceManager;
-    }
-
-    public RestClientBuilder newRestClientBuilder() {
-        return restClient.newBuilder();
     }
 }

@@ -30,7 +30,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsListing;
 import java.util.Map;
 import reactor.core.publisher.Mono;
@@ -39,7 +38,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * ServiceEndpointPolicies.
  */
-public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<ServiceEndpointPolicyInner>, InnerSupportsListing<ServiceEndpointPolicyInner>, InnerSupportsDelete<Void> {
+public final class ServiceEndpointPoliciesInner implements InnerSupportsListing<ServiceEndpointPolicyInner>, InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -127,8 +126,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Deletes the specified service endpoint policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -141,8 +140,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Deletes the specified service endpoint policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -156,8 +155,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Deletes the specified service endpoint policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -170,9 +169,9 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Gets the specified service Endpoint Policies in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -185,9 +184,9 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Gets the specified service Endpoint Policies in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -207,9 +206,9 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Gets the specified service Endpoint Policies in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -222,8 +221,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Creates or updates a service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param parameters Service End point policy resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -237,8 +236,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Creates or updates a service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param parameters Service End point policy resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -259,8 +258,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Creates or updates a service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param parameters Service End point policy resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -274,8 +273,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Updates service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -291,8 +290,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Updates service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -313,8 +312,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Updates service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -369,7 +368,7 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Gets all service endpoint Policies in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -388,7 +387,7 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Gets all service endpoint Policies in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -403,7 +402,7 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Gets all service endpoint Policies in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -416,8 +415,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Deletes the specified service endpoint policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -430,8 +429,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Deletes the specified service endpoint policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -445,8 +444,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Deletes the specified service endpoint policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -459,8 +458,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Creates or updates a service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param parameters Service End point policy resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -474,8 +473,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Creates or updates a service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param parameters Service End point policy resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -496,8 +495,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Creates or updates a service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param parameters Service End point policy resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -511,8 +510,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Updates service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -528,8 +527,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Updates service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -550,8 +549,8 @@ public final class ServiceEndpointPoliciesInner implements InnerSupportsGet<Serv
     /**
      * Updates service Endpoint Policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceEndpointPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceEndpointPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

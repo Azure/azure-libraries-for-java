@@ -150,8 +150,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Retrieves the details of a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -164,8 +164,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Retrieves the details of a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -185,8 +185,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Retrieves the details of a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -199,8 +199,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param p2SVpnGatewayParameters P2SVpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -214,8 +214,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param p2SVpnGatewayParameters P2SVpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -236,8 +236,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param p2SVpnGatewayParameters P2SVpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -251,8 +251,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Updates virtual wan p2s vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -268,8 +268,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Updates virtual wan p2s vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -290,8 +290,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Updates virtual wan p2s vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -305,8 +305,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Deletes a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -319,8 +319,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Deletes a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -334,8 +334,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Deletes a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -348,7 +348,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Lists all the P2SVpnGateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -367,7 +367,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Lists all the P2SVpnGateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -382,7 +382,7 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Lists all the P2SVpnGateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -436,8 +436,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -453,8 +453,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -475,8 +475,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -490,8 +490,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -504,8 +504,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -525,8 +525,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -539,8 +539,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param p2SVpnGatewayParameters P2SVpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -554,8 +554,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param p2SVpnGatewayParameters P2SVpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -576,8 +576,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Creates a virtual wan p2s vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param p2SVpnGatewayParameters P2SVpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -591,8 +591,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Updates virtual wan p2s vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -608,8 +608,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Updates virtual wan p2s vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -630,8 +630,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Updates virtual wan p2s vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -645,8 +645,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Deletes a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -659,8 +659,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Deletes a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -674,8 +674,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Deletes a virtual wan p2s vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -688,8 +688,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -705,8 +705,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -727,8 +727,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Generates VPN profile for P2S client of the P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param authenticationMethod VPN client authentication method.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -742,8 +742,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -756,8 +756,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -777,8 +777,8 @@ public final class P2sVpnGatewaysInner implements InnerSupportsGet<P2SVpnGateway
     /**
      * Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

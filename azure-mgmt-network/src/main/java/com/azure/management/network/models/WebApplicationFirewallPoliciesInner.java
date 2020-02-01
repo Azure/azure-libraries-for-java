@@ -108,7 +108,7 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Lists all of the protection policies within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -127,7 +127,7 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Lists all of the protection policies within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -142,7 +142,7 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Lists all of the protection policies within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -196,8 +196,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Retrieve protection policy with specified name within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -210,8 +210,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Retrieve protection policy with specified name within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -231,8 +231,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Retrieve protection policy with specified name within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -245,8 +245,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Creates or update policy with specified rule set name within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @param parameters Defines web application firewall policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -260,8 +260,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Creates or update policy with specified rule set name within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @param parameters Defines web application firewall policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -282,8 +282,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Creates or update policy with specified rule set name within a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @param parameters Defines web application firewall policy.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -297,8 +297,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Deletes Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -311,8 +311,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Deletes Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -326,8 +326,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Deletes Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -340,8 +340,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Deletes Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -354,8 +354,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Deletes Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -369,8 +369,8 @@ public final class WebApplicationFirewallPoliciesInner implements InnerSupportsG
     /**
      * Deletes Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param policyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param policyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

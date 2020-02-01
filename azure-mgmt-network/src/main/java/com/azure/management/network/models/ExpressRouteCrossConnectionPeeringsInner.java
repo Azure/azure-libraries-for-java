@@ -101,8 +101,8 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Gets all peerings in a specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -121,8 +121,8 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Gets all peerings in a specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -137,8 +137,8 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Gets all peerings in a specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -151,9 +151,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Deletes the specified peering from the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -166,9 +166,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Deletes the specified peering from the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -182,9 +182,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Deletes the specified peering from the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -197,9 +197,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Gets the specified peering for the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -212,9 +212,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Gets the specified peering for the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -234,9 +234,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Gets the specified peering for the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -249,9 +249,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @param peeringParameters Peering in an ExpressRoute Cross Connection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -265,9 +265,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @param peeringParameters Peering in an ExpressRoute Cross Connection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -288,9 +288,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @param peeringParameters Peering in an ExpressRoute Cross Connection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -304,9 +304,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Deletes the specified peering from the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -319,9 +319,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Deletes the specified peering from the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -335,9 +335,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Deletes the specified peering from the ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -350,9 +350,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @param peeringParameters Peering in an ExpressRoute Cross Connection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -366,9 +366,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @param peeringParameters Peering in an ExpressRoute Cross Connection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -389,9 +389,9 @@ public final class ExpressRouteCrossConnectionPeeringsInner {
     /**
      * Creates or updates a peering in the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
      * @param peeringParameters Peering in an ExpressRoute Cross Connection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

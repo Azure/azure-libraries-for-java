@@ -127,8 +127,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Deletes the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -141,8 +141,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Deletes the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -156,8 +156,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Deletes the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -170,8 +170,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Gets the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -184,8 +184,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Gets the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -205,8 +205,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Gets the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -219,8 +219,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Creates or updates the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param parameters Bastion Host resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -234,8 +234,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Creates or updates the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param parameters Bastion Host resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -256,8 +256,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Creates or updates the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param parameters Bastion Host resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -271,8 +271,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Updates bastion host tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -288,8 +288,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Updates bastion host tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -310,8 +310,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Updates bastion host tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -366,7 +366,7 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Lists all Bastion Hosts in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -385,7 +385,7 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Lists all Bastion Hosts in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -400,7 +400,7 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Lists all Bastion Hosts in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -413,8 +413,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Deletes the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -427,8 +427,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Deletes the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -442,8 +442,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Deletes the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -456,8 +456,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Creates or updates the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param parameters Bastion Host resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -471,8 +471,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Creates or updates the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param parameters Bastion Host resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -493,8 +493,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Creates or updates the specified Bastion Host.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param parameters Bastion Host resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -508,8 +508,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Updates bastion host tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -525,8 +525,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Updates bastion host tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -547,8 +547,8 @@ public final class BastionHostsInner implements InnerSupportsGet<BastionHostInne
     /**
      * Updates bastion host tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param bastionHostName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param bastionHostName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.

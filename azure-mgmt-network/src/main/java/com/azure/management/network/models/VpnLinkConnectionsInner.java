@@ -71,9 +71,9 @@ public final class VpnLinkConnectionsInner {
     /**
      * Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -92,9 +92,9 @@ public final class VpnLinkConnectionsInner {
     /**
      * Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -109,9 +109,9 @@ public final class VpnLinkConnectionsInner {
     /**
      * Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

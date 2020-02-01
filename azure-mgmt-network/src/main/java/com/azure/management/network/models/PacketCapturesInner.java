@@ -27,7 +27,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.network.PacketCapture;
 import reactor.core.publisher.Mono;
 
 /**
@@ -66,7 +65,7 @@ public final class PacketCapturesInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
         @ExpectedResponses({201})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<PacketCaptureResultInner>> create(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("packetCaptureName") String packetCaptureName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PacketCapture parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PacketCaptureResultInner>> create(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("packetCaptureName") String packetCaptureName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PacketCaptureInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
         @ExpectedResponses({200})
@@ -96,7 +95,7 @@ public final class PacketCapturesInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
         @ExpectedResponses({201})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<PacketCaptureResultInner>> beginCreate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("packetCaptureName") String packetCaptureName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PacketCapture parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<PacketCaptureResultInner>> beginCreate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("packetCaptureName") String packetCaptureName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") PacketCaptureInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}")
         @ExpectedResponses({202, 204})
@@ -117,32 +116,32 @@ public final class PacketCapturesInner {
     /**
      * Create and start a packet capture on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @param parameters Parameters that define the create packet capture operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PacketCaptureResultInner>> createWithResponseAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCapture parameters) {
+    public Mono<SimpleResponse<PacketCaptureResultInner>> createWithResponseAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCaptureInner parameters) {
         return service.create(this.client.getHost(), resourceGroupName, networkWatcherName, packetCaptureName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
     /**
      * Create and start a packet capture on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @param parameters Parameters that define the create packet capture operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PacketCaptureResultInner> createAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCapture parameters) {
+    public Mono<PacketCaptureResultInner> createAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCaptureInner parameters) {
         return createWithResponseAsync(resourceGroupName, networkWatcherName, packetCaptureName, parameters)
             .flatMap((SimpleResponse<PacketCaptureResultInner> res) -> {
                 if (res.getValue() != null) {
@@ -156,25 +155,25 @@ public final class PacketCapturesInner {
     /**
      * Create and start a packet capture on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @param parameters Parameters that define the create packet capture operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public PacketCaptureResultInner create(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCapture parameters) {
+    public PacketCaptureResultInner create(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCaptureInner parameters) {
         return createAsync(resourceGroupName, networkWatcherName, packetCaptureName, parameters).block();
     }
 
     /**
      * Gets a packet capture session by name.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -187,9 +186,9 @@ public final class PacketCapturesInner {
     /**
      * Gets a packet capture session by name.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -209,9 +208,9 @@ public final class PacketCapturesInner {
     /**
      * Gets a packet capture session by name.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -224,9 +223,9 @@ public final class PacketCapturesInner {
     /**
      * Deletes the specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -239,9 +238,9 @@ public final class PacketCapturesInner {
     /**
      * Deletes the specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -255,9 +254,9 @@ public final class PacketCapturesInner {
     /**
      * Deletes the specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -270,9 +269,9 @@ public final class PacketCapturesInner {
     /**
      * Stops a specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -285,9 +284,9 @@ public final class PacketCapturesInner {
     /**
      * Stops a specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -301,9 +300,9 @@ public final class PacketCapturesInner {
     /**
      * Stops a specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -316,9 +315,9 @@ public final class PacketCapturesInner {
     /**
      * Query the status of a running packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -331,9 +330,9 @@ public final class PacketCapturesInner {
     /**
      * Query the status of a running packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -353,9 +352,9 @@ public final class PacketCapturesInner {
     /**
      * Query the status of a running packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -368,8 +367,8 @@ public final class PacketCapturesInner {
     /**
      * Lists all packet capture sessions within the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -388,8 +387,8 @@ public final class PacketCapturesInner {
     /**
      * Lists all packet capture sessions within the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -403,8 +402,8 @@ public final class PacketCapturesInner {
     /**
      * Lists all packet capture sessions within the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -417,32 +416,32 @@ public final class PacketCapturesInner {
     /**
      * Create and start a packet capture on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @param parameters Parameters that define the create packet capture operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<PacketCaptureResultInner>> beginCreateWithResponseAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCapture parameters) {
+    public Mono<SimpleResponse<PacketCaptureResultInner>> beginCreateWithResponseAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCaptureInner parameters) {
         return service.beginCreate(this.client.getHost(), resourceGroupName, networkWatcherName, packetCaptureName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
     /**
      * Create and start a packet capture on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @param parameters Parameters that define the create packet capture operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<PacketCaptureResultInner> beginCreateAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCapture parameters) {
+    public Mono<PacketCaptureResultInner> beginCreateAsync(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCaptureInner parameters) {
         return beginCreateWithResponseAsync(resourceGroupName, networkWatcherName, packetCaptureName, parameters)
             .flatMap((SimpleResponse<PacketCaptureResultInner> res) -> {
                 if (res.getValue() != null) {
@@ -456,25 +455,25 @@ public final class PacketCapturesInner {
     /**
      * Create and start a packet capture on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @param parameters Parameters that define the create packet capture operation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public PacketCaptureResultInner beginCreate(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCapture parameters) {
+    public PacketCaptureResultInner beginCreate(String resourceGroupName, String networkWatcherName, String packetCaptureName, PacketCaptureInner parameters) {
         return beginCreateAsync(resourceGroupName, networkWatcherName, packetCaptureName, parameters).block();
     }
 
     /**
      * Deletes the specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -487,9 +486,9 @@ public final class PacketCapturesInner {
     /**
      * Deletes the specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -503,9 +502,9 @@ public final class PacketCapturesInner {
     /**
      * Deletes the specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -518,9 +517,9 @@ public final class PacketCapturesInner {
     /**
      * Stops a specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -533,9 +532,9 @@ public final class PacketCapturesInner {
     /**
      * Stops a specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -549,9 +548,9 @@ public final class PacketCapturesInner {
     /**
      * Stops a specified packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -564,9 +563,9 @@ public final class PacketCapturesInner {
     /**
      * Query the status of a running packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -579,9 +578,9 @@ public final class PacketCapturesInner {
     /**
      * Query the status of a running packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -601,9 +600,9 @@ public final class PacketCapturesInner {
     /**
      * Query the status of a running packet capture session.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param packetCaptureName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param packetCaptureName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

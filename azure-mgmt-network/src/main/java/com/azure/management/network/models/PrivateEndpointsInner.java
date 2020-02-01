@@ -27,14 +27,13 @@ import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PrivateEndpoints.
  */
-public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndpointInner>, InnerSupportsDelete<Void> {
+public final class PrivateEndpointsInner implements InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -112,8 +111,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Deletes the specified private endpoint.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -126,8 +125,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Deletes the specified private endpoint.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -141,8 +140,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Deletes the specified private endpoint.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -155,9 +154,9 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Gets the specified private endpoint by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -170,9 +169,9 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Gets the specified private endpoint by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -192,9 +191,9 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Gets the specified private endpoint by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -207,8 +206,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Creates or updates an private endpoint in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @param parameters Private endpoint resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -222,8 +221,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Creates or updates an private endpoint in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @param parameters Private endpoint resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -244,8 +243,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Creates or updates an private endpoint in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @param parameters Private endpoint resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -259,7 +258,7 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Gets all private endpoints in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -278,7 +277,7 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Gets all private endpoints in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -293,7 +292,7 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Gets all private endpoints in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -347,8 +346,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Deletes the specified private endpoint.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -361,8 +360,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Deletes the specified private endpoint.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -376,8 +375,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Deletes the specified private endpoint.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -390,8 +389,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Creates or updates an private endpoint in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @param parameters Private endpoint resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -405,8 +404,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Creates or updates an private endpoint in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @param parameters Private endpoint resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -427,8 +426,8 @@ public final class PrivateEndpointsInner implements InnerSupportsGet<PrivateEndp
     /**
      * Creates or updates an private endpoint in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param privateEndpointName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param privateEndpointName 
      * @param parameters Private endpoint resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.

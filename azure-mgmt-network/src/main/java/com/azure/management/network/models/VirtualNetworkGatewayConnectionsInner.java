@@ -142,8 +142,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Creates or updates a virtual network gateway connection in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -157,8 +157,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Creates or updates a virtual network gateway connection in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -179,8 +179,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Creates or updates a virtual network gateway connection in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -194,8 +194,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Gets the specified virtual network gateway connection by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -208,8 +208,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Gets the specified virtual network gateway connection by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -229,8 +229,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Gets the specified virtual network gateway connection by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -243,8 +243,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Deletes the specified virtual network Gateway connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -257,8 +257,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Deletes the specified virtual network Gateway connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -272,8 +272,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Deletes the specified virtual network Gateway connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -286,8 +286,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Updates a virtual network gateway connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -303,8 +303,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Updates a virtual network gateway connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -325,8 +325,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Updates a virtual network gateway connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -340,8 +340,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Response for GetConnectionSharedKey API service call.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -355,8 +355,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Response for GetConnectionSharedKey API service call.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -377,8 +377,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Response for GetConnectionSharedKey API service call.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -392,8 +392,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -406,8 +406,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -427,8 +427,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Get VirtualNetworkGatewayConnectionSharedKey operation retrieves information about the specified virtual network gateway connection shared key through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -441,7 +441,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -460,7 +460,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -475,7 +475,7 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The List VirtualNetworkGatewayConnections operation retrieves all the virtual network gateways connections created.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -488,8 +488,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -505,8 +505,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -527,8 +527,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -542,8 +542,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Creates or updates a virtual network gateway connection in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -557,8 +557,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Creates or updates a virtual network gateway connection in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -579,8 +579,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Creates or updates a virtual network gateway connection in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -594,8 +594,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Deletes the specified virtual network Gateway connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -608,8 +608,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Deletes the specified virtual network Gateway connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -623,8 +623,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Deletes the specified virtual network Gateway connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -637,8 +637,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Updates a virtual network gateway connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -654,8 +654,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Updates a virtual network gateway connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -676,8 +676,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * Updates a virtual network gateway connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -691,8 +691,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Response for GetConnectionSharedKey API service call.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -706,8 +706,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Response for GetConnectionSharedKey API service call.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -728,8 +728,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The Put VirtualNetworkGatewayConnectionSharedKey operation sets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Response for GetConnectionSharedKey API service call.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -743,8 +743,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -760,8 +760,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -782,8 +782,8 @@ public final class VirtualNetworkGatewayConnectionsInner implements InnerSupport
     /**
      * The VirtualNetworkGatewayConnectionResetSharedKey operation resets the virtual network gateway connection shared key for passed virtual network gateway connection in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param keyLength The virtual network connection reset shared key length, should between 1 and 128.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

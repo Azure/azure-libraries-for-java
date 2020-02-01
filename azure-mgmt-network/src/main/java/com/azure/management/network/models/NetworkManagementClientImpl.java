@@ -91,6 +91,30 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
      */
     private String apiVersion;
 
+    /**
+     * Gets The API version to use for this operation.
+     * 
+     * @return the apiVersion value.
+     */
+    public String getApiVersion() {
+        return this.apiVersion;
+    }
+
+    /**
+     * Sets The API version to use for this operation.
+     * 
+     * @param apiVersion the apiVersion value.
+     * @return the service client itself.
+     */
+    NetworkManagementClientImpl setApiVersion(String apiVersion) {
+        this.apiVersion = apiVersion;
+        return this;
+    }
+
+    /**
+     * The API version to use for this operation.
+     */
+    private String apiVersion;
 
     /**
      * Gets The API version to use for this operation.
@@ -1405,8 +1429,8 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     /**
      * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param domainNameLabel MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param domainNameLabel 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1419,8 +1443,8 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     /**
      * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param domainNameLabel MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param domainNameLabel 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1440,8 +1464,8 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     /**
      * Checks whether a domain name in the cloudapp.azure.com zone is available for use.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param domainNameLabel MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param domainNameLabel 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1454,8 +1478,8 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     /**
      * Gives the supported security providers for the virtual wan.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1468,8 +1492,8 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     /**
      * Gives the supported security providers for the virtual wan.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1489,8 +1513,8 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
     /**
      * Gives the supported security providers for the virtual wan.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

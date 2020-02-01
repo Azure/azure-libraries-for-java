@@ -102,8 +102,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Deletes the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -116,8 +116,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Deletes the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -131,8 +131,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Deletes the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -145,8 +145,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Gets information about the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -159,8 +159,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Gets information about the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -180,8 +180,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Gets information about the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -194,8 +194,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Creates or updates a DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param parameters A DDoS custom policy in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -209,8 +209,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Creates or updates a DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param parameters A DDoS custom policy in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -231,8 +231,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Creates or updates a DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param parameters A DDoS custom policy in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -246,8 +246,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Update a DDoS custom policy tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -263,8 +263,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Update a DDoS custom policy tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -285,8 +285,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Update a DDoS custom policy tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -300,8 +300,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Deletes the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -314,8 +314,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Deletes the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -329,8 +329,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Deletes the specified DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -343,8 +343,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Creates or updates a DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param parameters A DDoS custom policy in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -358,8 +358,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Creates or updates a DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param parameters A DDoS custom policy in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -380,8 +380,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Creates or updates a DDoS custom policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param parameters A DDoS custom policy in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -395,8 +395,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Update a DDoS custom policy tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -412,8 +412,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Update a DDoS custom policy tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -434,8 +434,8 @@ public final class DdosCustomPoliciesInner implements InnerSupportsGet<DdosCusto
     /**
      * Update a DDoS custom policy tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ddosCustomPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param ddosCustomPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

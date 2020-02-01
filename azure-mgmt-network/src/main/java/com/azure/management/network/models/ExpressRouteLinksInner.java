@@ -77,9 +77,9 @@ public final class ExpressRouteLinksInner {
     /**
      * Retrieves the specified ExpressRouteLink resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param linkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
+     * @param linkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -92,9 +92,9 @@ public final class ExpressRouteLinksInner {
     /**
      * Retrieves the specified ExpressRouteLink resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param linkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
+     * @param linkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -114,9 +114,9 @@ public final class ExpressRouteLinksInner {
     /**
      * Retrieves the specified ExpressRouteLink resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param linkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
+     * @param linkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -129,8 +129,8 @@ public final class ExpressRouteLinksInner {
     /**
      * Retrieve the ExpressRouteLink sub-resources of the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -149,8 +149,8 @@ public final class ExpressRouteLinksInner {
     /**
      * Retrieve the ExpressRouteLink sub-resources of the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -165,8 +165,8 @@ public final class ExpressRouteLinksInner {
     /**
      * Retrieve the ExpressRouteLink sub-resources of the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

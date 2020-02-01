@@ -127,8 +127,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Deletes the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -141,8 +141,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Deletes the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -156,8 +156,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Deletes the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -170,8 +170,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Retrieves the requested ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -184,8 +184,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Retrieves the requested ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -205,8 +205,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Retrieves the requested ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -219,8 +219,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Creates or updates the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param parameters ExpressRoutePort resource definition.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -234,8 +234,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Creates or updates the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param parameters ExpressRoutePort resource definition.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -256,8 +256,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Creates or updates the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param parameters ExpressRoutePort resource definition.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -271,8 +271,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Update ExpressRoutePort tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -288,8 +288,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Update ExpressRoutePort tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -310,8 +310,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Update ExpressRoutePort tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -325,7 +325,7 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * List all the ExpressRoutePort resources in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -344,7 +344,7 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * List all the ExpressRoutePort resources in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -359,7 +359,7 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * List all the ExpressRoutePort resources in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -413,8 +413,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Deletes the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -427,8 +427,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Deletes the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -442,8 +442,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Deletes the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -456,8 +456,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Creates or updates the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param parameters ExpressRoutePort resource definition.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -471,8 +471,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Creates or updates the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param parameters ExpressRoutePort resource definition.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -493,8 +493,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Creates or updates the specified ExpressRoutePort resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param parameters ExpressRoutePort resource definition.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -508,8 +508,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Update ExpressRoutePort tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -525,8 +525,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Update ExpressRoutePort tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -547,8 +547,8 @@ public final class ExpressRoutePortsInner implements InnerSupportsGet<ExpressRou
     /**
      * Update ExpressRoutePort tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRoutePortName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRoutePortName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

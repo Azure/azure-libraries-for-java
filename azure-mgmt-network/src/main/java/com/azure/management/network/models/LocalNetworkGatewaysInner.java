@@ -116,8 +116,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Creates or updates a local network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -131,8 +131,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Creates or updates a local network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -153,8 +153,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Creates or updates a local network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -168,8 +168,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Gets the specified local network gateway in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -182,8 +182,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Gets the specified local network gateway in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -203,8 +203,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Gets the specified local network gateway in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -217,8 +217,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Deletes the specified local network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -231,8 +231,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Deletes the specified local network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -246,8 +246,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Deletes the specified local network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -260,8 +260,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Updates a local network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -277,8 +277,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Updates a local network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -299,8 +299,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Updates a local network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -314,7 +314,7 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Gets all the local network gateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -333,7 +333,7 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Gets all the local network gateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -348,7 +348,7 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Gets all the local network gateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -361,8 +361,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Creates or updates a local network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -376,8 +376,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Creates or updates a local network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -398,8 +398,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Creates or updates a local network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -413,8 +413,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Deletes the specified local network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -427,8 +427,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Deletes the specified local network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -442,8 +442,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Deletes the specified local network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -456,8 +456,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Updates a local network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -473,8 +473,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Updates a local network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -495,8 +495,8 @@ public final class LocalNetworkGatewaysInner implements InnerSupportsGet<LocalNe
     /**
      * Updates a local network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param localNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param localNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

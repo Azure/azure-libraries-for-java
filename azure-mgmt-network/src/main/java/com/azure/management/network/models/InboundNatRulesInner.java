@@ -101,8 +101,8 @@ public final class InboundNatRulesInner {
     /**
      * Gets all the inbound nat rules in a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -121,8 +121,8 @@ public final class InboundNatRulesInner {
     /**
      * Gets all the inbound nat rules in a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -137,8 +137,8 @@ public final class InboundNatRulesInner {
     /**
      * Gets all the inbound nat rules in a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -151,9 +151,9 @@ public final class InboundNatRulesInner {
     /**
      * Deletes the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -166,9 +166,9 @@ public final class InboundNatRulesInner {
     /**
      * Deletes the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -182,9 +182,9 @@ public final class InboundNatRulesInner {
     /**
      * Deletes the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -197,10 +197,10 @@ public final class InboundNatRulesInner {
     /**
      * Gets the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -213,10 +213,10 @@ public final class InboundNatRulesInner {
     /**
      * Gets the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -236,10 +236,10 @@ public final class InboundNatRulesInner {
     /**
      * Gets the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -252,9 +252,9 @@ public final class InboundNatRulesInner {
     /**
      * Creates or updates a load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @param inboundNatRuleParameters Inbound NAT rule of the load balancer.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -268,9 +268,9 @@ public final class InboundNatRulesInner {
     /**
      * Creates or updates a load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @param inboundNatRuleParameters Inbound NAT rule of the load balancer.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -291,9 +291,9 @@ public final class InboundNatRulesInner {
     /**
      * Creates or updates a load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @param inboundNatRuleParameters Inbound NAT rule of the load balancer.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -307,9 +307,9 @@ public final class InboundNatRulesInner {
     /**
      * Deletes the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -322,9 +322,9 @@ public final class InboundNatRulesInner {
     /**
      * Deletes the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -338,9 +338,9 @@ public final class InboundNatRulesInner {
     /**
      * Deletes the specified load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -353,9 +353,9 @@ public final class InboundNatRulesInner {
     /**
      * Creates or updates a load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @param inboundNatRuleParameters Inbound NAT rule of the load balancer.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -369,9 +369,9 @@ public final class InboundNatRulesInner {
     /**
      * Creates or updates a load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @param inboundNatRuleParameters Inbound NAT rule of the load balancer.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -392,9 +392,9 @@ public final class InboundNatRulesInner {
     /**
      * Creates or updates a load balancer inbound nat rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param inboundNatRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param inboundNatRuleName 
      * @param inboundNatRuleParameters Inbound NAT rule of the load balancer.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

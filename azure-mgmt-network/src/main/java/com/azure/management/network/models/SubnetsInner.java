@@ -124,9 +124,9 @@ public final class SubnetsInner {
     /**
      * Deletes the specified subnet.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -139,9 +139,9 @@ public final class SubnetsInner {
     /**
      * Deletes the specified subnet.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -155,9 +155,9 @@ public final class SubnetsInner {
     /**
      * Deletes the specified subnet.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -170,10 +170,10 @@ public final class SubnetsInner {
     /**
      * Gets the specified subnet by virtual network and resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -186,10 +186,10 @@ public final class SubnetsInner {
     /**
      * Gets the specified subnet by virtual network and resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -209,10 +209,10 @@ public final class SubnetsInner {
     /**
      * Gets the specified subnet by virtual network and resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -225,9 +225,9 @@ public final class SubnetsInner {
     /**
      * Creates or updates a subnet in the specified virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param subnetParameters Subnet in a virtual network resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -241,9 +241,9 @@ public final class SubnetsInner {
     /**
      * Creates or updates a subnet in the specified virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param subnetParameters Subnet in a virtual network resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -264,9 +264,9 @@ public final class SubnetsInner {
     /**
      * Creates or updates a subnet in the specified virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param subnetParameters Subnet in a virtual network resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -280,9 +280,9 @@ public final class SubnetsInner {
     /**
      * Prepares a subnet by applying network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param prepareNetworkPoliciesRequestParameters Details of PrepareNetworkPolicies for Subnet.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -296,9 +296,9 @@ public final class SubnetsInner {
     /**
      * Prepares a subnet by applying network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param prepareNetworkPoliciesRequestParameters Details of PrepareNetworkPolicies for Subnet.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -313,9 +313,9 @@ public final class SubnetsInner {
     /**
      * Prepares a subnet by applying network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param prepareNetworkPoliciesRequestParameters Details of PrepareNetworkPolicies for Subnet.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -329,9 +329,9 @@ public final class SubnetsInner {
     /**
      * Unprepares a subnet by removing network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -347,9 +347,9 @@ public final class SubnetsInner {
     /**
      * Unprepares a subnet by removing network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -364,9 +364,9 @@ public final class SubnetsInner {
     /**
      * Unprepares a subnet by removing network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -380,8 +380,8 @@ public final class SubnetsInner {
     /**
      * Gets all subnets in a virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -400,8 +400,8 @@ public final class SubnetsInner {
     /**
      * Gets all subnets in a virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -416,8 +416,8 @@ public final class SubnetsInner {
     /**
      * Gets all subnets in a virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -430,9 +430,9 @@ public final class SubnetsInner {
     /**
      * Deletes the specified subnet.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -445,9 +445,9 @@ public final class SubnetsInner {
     /**
      * Deletes the specified subnet.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -461,9 +461,9 @@ public final class SubnetsInner {
     /**
      * Deletes the specified subnet.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -476,9 +476,9 @@ public final class SubnetsInner {
     /**
      * Creates or updates a subnet in the specified virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param subnetParameters Subnet in a virtual network resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -492,9 +492,9 @@ public final class SubnetsInner {
     /**
      * Creates or updates a subnet in the specified virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param subnetParameters Subnet in a virtual network resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -515,9 +515,9 @@ public final class SubnetsInner {
     /**
      * Creates or updates a subnet in the specified virtual network.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param subnetParameters Subnet in a virtual network resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -531,9 +531,9 @@ public final class SubnetsInner {
     /**
      * Prepares a subnet by applying network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param prepareNetworkPoliciesRequestParameters Details of PrepareNetworkPolicies for Subnet.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -547,9 +547,9 @@ public final class SubnetsInner {
     /**
      * Prepares a subnet by applying network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param prepareNetworkPoliciesRequestParameters Details of PrepareNetworkPolicies for Subnet.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -564,9 +564,9 @@ public final class SubnetsInner {
     /**
      * Prepares a subnet by applying network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param prepareNetworkPoliciesRequestParameters Details of PrepareNetworkPolicies for Subnet.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -580,9 +580,9 @@ public final class SubnetsInner {
     /**
      * Unprepares a subnet by removing network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -598,9 +598,9 @@ public final class SubnetsInner {
     /**
      * Unprepares a subnet by removing network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -615,9 +615,9 @@ public final class SubnetsInner {
     /**
      * Unprepares a subnet by removing network intent policies.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param subnetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkName 
+     * @param subnetName 
      * @param serviceName The name of the service for which subnet is being unprepared for.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

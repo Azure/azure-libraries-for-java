@@ -31,7 +31,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import java.util.Map;
 import reactor.core.publisher.Mono;
 
@@ -39,7 +38,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * NetworkInterfaces.
  */
-public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInterfaceInner>, InnerSupportsDelete<Void> {
+public final class NetworkInterfacesInner implements InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -187,8 +186,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Deletes the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -201,8 +200,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Deletes the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -216,8 +215,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Deletes the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -230,9 +229,9 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets information about the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -245,9 +244,9 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets information about the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -267,9 +266,9 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets information about the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -282,8 +281,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Creates or updates a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param parameters A network interface in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -297,8 +296,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Creates or updates a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param parameters A network interface in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -319,8 +318,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Creates or updates a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param parameters A network interface in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -334,8 +333,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Updates a network interface tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -351,8 +350,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Updates a network interface tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -373,8 +372,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Updates a network interface tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -429,7 +428,7 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network interfaces in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -448,7 +447,7 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network interfaces in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -463,7 +462,7 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network interfaces in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -476,8 +475,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all route tables applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -490,8 +489,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all route tables applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -511,8 +510,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all route tables applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -525,8 +524,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network security groups applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -539,8 +538,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network security groups applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -560,8 +559,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network security groups applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -574,9 +573,9 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets information about all network interfaces in a virtual machine in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -595,9 +594,9 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets information about all network interfaces in a virtual machine in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -612,9 +611,9 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets information about all network interfaces in a virtual machine in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -627,8 +626,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network interfaces in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -647,8 +646,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network interfaces in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -663,8 +662,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network interfaces in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -677,11 +676,11 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -694,11 +693,11 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -718,11 +717,11 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -735,11 +734,11 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface ip configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -758,11 +757,11 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface ip configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -777,11 +776,11 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface ip configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -794,12 +793,12 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface ip configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -812,12 +811,12 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface ip configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -837,12 +836,12 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Get the specified network interface ip configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -855,8 +854,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Deletes the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -869,8 +868,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Deletes the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -884,8 +883,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Deletes the specified network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -898,8 +897,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Creates or updates a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param parameters A network interface in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -913,8 +912,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Creates or updates a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param parameters A network interface in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -935,8 +934,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Creates or updates a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param parameters A network interface in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -950,8 +949,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Updates a network interface tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -967,8 +966,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Updates a network interface tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -989,8 +988,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Updates a network interface tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1004,8 +1003,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all route tables applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1018,8 +1017,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all route tables applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1039,8 +1038,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all route tables applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1053,8 +1052,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network security groups applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1067,8 +1066,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network security groups applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1088,8 +1087,8 @@ public final class NetworkInterfacesInner implements InnerSupportsGet<NetworkInt
     /**
      * Gets all network security groups applied to a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

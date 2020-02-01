@@ -30,7 +30,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import java.util.Map;
 import reactor.core.publisher.Mono;
 
@@ -38,7 +37,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * FirewallPolicies.
  */
-public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPolicyInner>, InnerSupportsDelete<Void> {
+public final class FirewallPoliciesInner implements InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -121,8 +120,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Deletes the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -135,8 +134,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Deletes the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -150,8 +149,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Deletes the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -164,9 +163,9 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Gets the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -179,9 +178,9 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Gets the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -201,9 +200,9 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Gets the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -216,8 +215,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Updates a Firewall Policy Tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -233,8 +232,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Updates a Firewall Policy Tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -255,8 +254,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Updates a Firewall Policy Tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -270,8 +269,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Creates or updates the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param parameters FirewallPolicy Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -285,8 +284,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Creates or updates the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param parameters FirewallPolicy Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -307,8 +306,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Creates or updates the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param parameters FirewallPolicy Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -322,7 +321,7 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Lists all Firewall Policies in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -341,7 +340,7 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Lists all Firewall Policies in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -356,7 +355,7 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Lists all Firewall Policies in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -410,8 +409,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Deletes the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -424,8 +423,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Deletes the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -439,8 +438,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Deletes the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -453,8 +452,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Creates or updates the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param parameters FirewallPolicy Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -468,8 +467,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Creates or updates the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param parameters FirewallPolicy Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -490,8 +489,8 @@ public final class FirewallPoliciesInner implements InnerSupportsGet<FirewallPol
     /**
      * Creates or updates the specified Firewall Policy.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param firewallPolicyName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param firewallPolicyName 
      * @param parameters FirewallPolicy Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

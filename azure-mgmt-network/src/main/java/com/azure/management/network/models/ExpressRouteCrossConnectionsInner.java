@@ -186,7 +186,7 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -205,7 +205,7 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -220,7 +220,7 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Retrieves all the ExpressRouteCrossConnections in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -233,8 +233,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets details about the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -247,8 +247,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets details about the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -268,8 +268,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets details about the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -282,8 +282,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Update the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param parameters ExpressRouteCrossConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -297,8 +297,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Update the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param parameters ExpressRouteCrossConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -319,8 +319,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Update the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param parameters ExpressRouteCrossConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -334,8 +334,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Updates an express route cross connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -351,8 +351,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Updates an express route cross connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -373,8 +373,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Updates an express route cross connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -388,10 +388,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -404,10 +404,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -427,10 +427,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -443,10 +443,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the route table summary associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -459,10 +459,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the route table summary associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -482,10 +482,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the route table summary associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -498,10 +498,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -514,10 +514,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -537,10 +537,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -553,8 +553,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Update the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param parameters ExpressRouteCrossConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -568,8 +568,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Update the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param parameters ExpressRouteCrossConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -590,8 +590,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Update the specified ExpressRouteCrossConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param parameters ExpressRouteCrossConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -605,8 +605,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Updates an express route cross connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -622,8 +622,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Updates an express route cross connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -644,8 +644,8 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Updates an express route cross connection tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -659,10 +659,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -675,10 +675,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -698,10 +698,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised ARP table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -714,10 +714,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the route table summary associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -730,10 +730,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the route table summary associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -753,10 +753,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the route table summary associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -769,10 +769,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -785,10 +785,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -808,10 +808,10 @@ public final class ExpressRouteCrossConnectionsInner implements InnerSupportsGet
     /**
      * Gets the currently advertised routes table associated with the express route cross connection in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param crossConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param crossConnectionName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

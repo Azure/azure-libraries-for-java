@@ -119,8 +119,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Deletes the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -133,8 +133,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Deletes the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -148,8 +148,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Deletes the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -162,8 +162,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Gets the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -176,8 +176,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Gets the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -197,8 +197,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Gets the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -211,8 +211,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Creates or updates the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -226,8 +226,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Creates or updates the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -248,8 +248,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Creates or updates the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -263,8 +263,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Updates tags for an Azure Firewall resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -278,8 +278,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Updates tags for an Azure Firewall resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -300,8 +300,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Updates tags for an Azure Firewall resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -315,7 +315,7 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Lists all Azure Firewalls in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -334,7 +334,7 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Lists all Azure Firewalls in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -349,7 +349,7 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Lists all Azure Firewalls in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -403,8 +403,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Deletes the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -417,8 +417,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Deletes the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -432,8 +432,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Deletes the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -446,8 +446,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Creates or updates the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -461,8 +461,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Creates or updates the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -483,8 +483,8 @@ public final class AzureFirewallsInner implements InnerSupportsGet<AzureFirewall
     /**
      * Creates or updates the specified Azure Firewall.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param azureFirewallName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param azureFirewallName 
      * @param parameters Azure Firewall resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

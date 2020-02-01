@@ -100,9 +100,9 @@ public final class VpnConnectionsInner {
     /**
      * Retrieves the details of a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -115,9 +115,9 @@ public final class VpnConnectionsInner {
     /**
      * Retrieves the details of a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -137,9 +137,9 @@ public final class VpnConnectionsInner {
     /**
      * Retrieves the details of a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -152,9 +152,9 @@ public final class VpnConnectionsInner {
     /**
      * Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @param vpnConnectionParameters VpnConnection Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -168,9 +168,9 @@ public final class VpnConnectionsInner {
     /**
      * Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @param vpnConnectionParameters VpnConnection Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -191,9 +191,9 @@ public final class VpnConnectionsInner {
     /**
      * Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @param vpnConnectionParameters VpnConnection Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -207,9 +207,9 @@ public final class VpnConnectionsInner {
     /**
      * Deletes a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -222,9 +222,9 @@ public final class VpnConnectionsInner {
     /**
      * Deletes a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -238,9 +238,9 @@ public final class VpnConnectionsInner {
     /**
      * Deletes a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -253,8 +253,8 @@ public final class VpnConnectionsInner {
     /**
      * Retrieves all vpn connections for a particular virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -273,8 +273,8 @@ public final class VpnConnectionsInner {
     /**
      * Retrieves all vpn connections for a particular virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -289,8 +289,8 @@ public final class VpnConnectionsInner {
     /**
      * Retrieves all vpn connections for a particular virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -303,9 +303,9 @@ public final class VpnConnectionsInner {
     /**
      * Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @param vpnConnectionParameters VpnConnection Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -319,9 +319,9 @@ public final class VpnConnectionsInner {
     /**
      * Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @param vpnConnectionParameters VpnConnection Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -342,9 +342,9 @@ public final class VpnConnectionsInner {
     /**
      * Creates a vpn connection to a scalable vpn gateway if it doesn't exist else updates the existing connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @param vpnConnectionParameters VpnConnection Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -358,9 +358,9 @@ public final class VpnConnectionsInner {
     /**
      * Deletes a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -373,9 +373,9 @@ public final class VpnConnectionsInner {
     /**
      * Deletes a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -389,9 +389,9 @@ public final class VpnConnectionsInner {
     /**
      * Deletes a vpn connection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

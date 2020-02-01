@@ -167,8 +167,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -181,8 +181,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -196,8 +196,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -210,8 +210,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets information about the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -224,8 +224,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets information about the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -245,8 +245,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets information about the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -259,8 +259,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Creates or updates an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param parameters ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -274,8 +274,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Creates or updates an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param parameters ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -296,8 +296,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Creates or updates an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param parameters ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -311,8 +311,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Updates an express route circuit tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -328,8 +328,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Updates an express route circuit tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -350,8 +350,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Updates an express route circuit tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -365,10 +365,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -381,10 +381,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -404,10 +404,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -420,10 +420,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -436,10 +436,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -459,10 +459,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -475,10 +475,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -491,10 +491,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -514,10 +514,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -530,8 +530,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all the stats from an express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -544,8 +544,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all the stats from an express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -565,8 +565,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all the stats from an express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -579,9 +579,9 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all stats from an express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -594,9 +594,9 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all stats from an express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -616,9 +616,9 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all stats from an express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -631,7 +631,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all the express route circuits in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -650,7 +650,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all the express route circuits in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -665,7 +665,7 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets all the express route circuits in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -719,8 +719,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -733,8 +733,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -748,8 +748,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -762,8 +762,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Creates or updates an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param parameters ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -777,8 +777,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Creates or updates an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param parameters ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -799,8 +799,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Creates or updates an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param parameters ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -814,8 +814,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Updates an express route circuit tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -831,8 +831,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Updates an express route circuit tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -853,8 +853,8 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Updates an express route circuit tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -868,10 +868,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -884,10 +884,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -907,10 +907,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised ARP table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -923,10 +923,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -939,10 +939,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -962,10 +962,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -978,10 +978,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -994,10 +994,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1017,10 +1017,10 @@ public final class ExpressRouteCircuitsInner implements InnerSupportsGet<Express
     /**
      * Gets the currently advertised routes table summary associated with the express route circuit in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param devicePath MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param devicePath 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

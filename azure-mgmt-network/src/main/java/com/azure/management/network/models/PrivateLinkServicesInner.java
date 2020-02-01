@@ -30,14 +30,13 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.CheckPrivateLinkServiceVisibilityRequest;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import reactor.core.publisher.Mono;
 
 /**
  * An instance of this class provides access to all the operations defined in
  * PrivateLinkServices.
  */
-public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateLinkServiceInner>, InnerSupportsDelete<Void> {
+public final class PrivateLinkServicesInner implements InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -160,8 +159,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Deletes the specified private link service.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -174,8 +173,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Deletes the specified private link service.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -189,8 +188,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Deletes the specified private link service.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -203,9 +202,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Gets the specified private link service by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -218,9 +217,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Gets the specified private link service by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -240,9 +239,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Gets the specified private link service by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -255,8 +254,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Creates or updates an private link service in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @param parameters Private link service resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -270,8 +269,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Creates or updates an private link service in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @param parameters Private link service resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -292,8 +291,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Creates or updates an private link service in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @param parameters Private link service resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -307,7 +306,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Gets all private link services in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -326,7 +325,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Gets all private link services in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -341,7 +340,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Gets all private link services in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -395,9 +394,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Approve or reject private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @param parameters PrivateEndpointConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -411,9 +410,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Approve or reject private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @param parameters PrivateEndpointConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -434,9 +433,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Approve or reject private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @param parameters PrivateEndpointConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -450,9 +449,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Delete private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -465,9 +464,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Delete private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -481,9 +480,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Delete private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -496,7 +495,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Checks the subscription is visible to private link service.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -512,7 +511,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Checks the subscription is visible to private link service.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -533,7 +532,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Checks the subscription is visible to private link service.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -547,8 +546,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Checks the subscription is visible to private link service.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -564,8 +563,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Checks the subscription is visible to private link service.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -586,8 +585,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Checks the subscription is visible to private link service.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @param privateLinkServiceAlias The alias of the private link service.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -601,7 +600,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -620,7 +619,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -635,7 +634,7 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -648,8 +647,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -668,8 +667,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -684,8 +683,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Returns all of the private link service ids that can be linked to a Private Endpoint with auto approved in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -698,8 +697,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Deletes the specified private link service.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -712,8 +711,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Deletes the specified private link service.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -727,8 +726,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Deletes the specified private link service.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -741,8 +740,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Creates or updates an private link service in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @param parameters Private link service resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -756,8 +755,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Creates or updates an private link service in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @param parameters Private link service resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -778,8 +777,8 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Creates or updates an private link service in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
      * @param parameters Private link service resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -793,9 +792,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Delete private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -808,9 +807,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Delete private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -824,9 +823,9 @@ public final class PrivateLinkServicesInner implements InnerSupportsGet<PrivateL
     /**
      * Delete private end point connection for a private link service in a subscription.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param serviceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param serviceName 
+     * @param peConnectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

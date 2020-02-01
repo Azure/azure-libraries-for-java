@@ -118,7 +118,7 @@ public final class ExpressRoutePortsLocationsInner {
     /**
      * Retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
      * 
-     * @param locationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param locationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -131,7 +131,7 @@ public final class ExpressRoutePortsLocationsInner {
     /**
      * Retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
      * 
-     * @param locationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param locationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -151,7 +151,7 @@ public final class ExpressRoutePortsLocationsInner {
     /**
      * Retrieves a single ExpressRoutePort peering location, including the list of available bandwidths available at said peering location.
      * 
-     * @param locationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param locationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

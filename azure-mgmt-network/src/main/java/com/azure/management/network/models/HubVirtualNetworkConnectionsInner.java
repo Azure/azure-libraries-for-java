@@ -76,9 +76,9 @@ public final class HubVirtualNetworkConnectionsInner {
     /**
      * Retrieves the details of a HubVirtualNetworkConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualHubName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -91,9 +91,9 @@ public final class HubVirtualNetworkConnectionsInner {
     /**
      * Retrieves the details of a HubVirtualNetworkConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualHubName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -113,9 +113,9 @@ public final class HubVirtualNetworkConnectionsInner {
     /**
      * Retrieves the details of a HubVirtualNetworkConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualHubName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -128,8 +128,8 @@ public final class HubVirtualNetworkConnectionsInner {
     /**
      * Retrieves the details of all HubVirtualNetworkConnections.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualHubName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -148,8 +148,8 @@ public final class HubVirtualNetworkConnectionsInner {
     /**
      * Retrieves the details of all HubVirtualNetworkConnections.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualHubName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -164,8 +164,8 @@ public final class HubVirtualNetworkConnectionsInner {
     /**
      * Retrieves the details of all HubVirtualNetworkConnections.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualHubName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualHubName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

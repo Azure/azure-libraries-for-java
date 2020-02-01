@@ -232,8 +232,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Creates or updates a network watcher in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Network watcher in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -247,8 +247,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Creates or updates a network watcher in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Network watcher in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -269,8 +269,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Creates or updates a network watcher in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Network watcher in a resource group.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -284,8 +284,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the specified network watcher by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -298,8 +298,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the specified network watcher by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -319,8 +319,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the specified network watcher by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -333,8 +333,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Deletes the specified network watcher resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -347,8 +347,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Deletes the specified network watcher resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -362,8 +362,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Deletes the specified network watcher resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -376,8 +376,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Updates a network watcher tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -393,8 +393,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Updates a network watcher tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -415,8 +415,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Updates a network watcher tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -430,7 +430,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets all network watchers by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -449,7 +449,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets all network watchers by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -463,7 +463,7 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets all network watchers by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -516,8 +516,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the current network topology by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the representation of topology.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -531,8 +531,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the current network topology by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the representation of topology.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -553,8 +553,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the current network topology by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the representation of topology.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -568,8 +568,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verify IP flow from the specified VM to a location given the currently configured NSG rules.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the IP flow to be verified.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -583,8 +583,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verify IP flow from the specified VM to a location given the currently configured NSG rules.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the IP flow to be verified.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -605,8 +605,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verify IP flow from the specified VM to a location given the currently configured NSG rules.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the IP flow to be verified.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -620,8 +620,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the next hop from the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the source and destination endpoint.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -635,8 +635,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the next hop from the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the source and destination endpoint.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -657,8 +657,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the next hop from the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the source and destination endpoint.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -672,8 +672,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the configured and effective security group rules on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -689,8 +689,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the configured and effective security group rules on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -711,8 +711,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the configured and effective security group rules on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -726,8 +726,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Initiate troubleshooting on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the resource to troubleshoot.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -741,8 +741,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Initiate troubleshooting on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the resource to troubleshoot.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -763,8 +763,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Initiate troubleshooting on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the resource to troubleshoot.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -778,8 +778,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get the last completed troubleshooting result on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -795,8 +795,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get the last completed troubleshooting result on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -817,8 +817,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get the last completed troubleshooting result on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -832,8 +832,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Configures flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Information on the configuration of flow log and traffic analytics (optional) .
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -847,8 +847,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Configures flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Information on the configuration of flow log and traffic analytics (optional) .
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -869,8 +869,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Configures flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Information on the configuration of flow log and traffic analytics (optional) .
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -884,8 +884,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Queries status of flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -901,8 +901,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Queries status of flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -923,8 +923,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Queries status of flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -938,8 +938,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that determine how the connectivity check will be performed.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -953,8 +953,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that determine how the connectivity check will be performed.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -975,8 +975,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that determine how the connectivity check will be performed.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -990,8 +990,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the relative latency score for internet service providers from a specified location to Azure regions.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Geographic and time constraints for Azure reachability report.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1005,8 +1005,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the relative latency score for internet service providers from a specified location to Azure regions.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Geographic and time constraints for Azure reachability report.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1027,8 +1027,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the relative latency score for internet service providers from a specified location to Azure regions.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Geographic and time constraints for Azure reachability report.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1042,8 +1042,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Lists all available internet service providers for a specified Azure region.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Constraints that determine the list of available Internet service providers.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1057,8 +1057,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Lists all available internet service providers for a specified Azure region.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Constraints that determine the list of available Internet service providers.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1079,8 +1079,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Lists all available internet service providers for a specified Azure region.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Constraints that determine the list of available Internet service providers.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1094,8 +1094,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get network configuration diagnostic.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters to get network configuration diagnostic.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1109,8 +1109,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get network configuration diagnostic.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters to get network configuration diagnostic.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1131,8 +1131,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get network configuration diagnostic.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters to get network configuration diagnostic.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1146,8 +1146,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Deletes the specified network watcher resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1160,8 +1160,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Deletes the specified network watcher resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1175,8 +1175,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Deletes the specified network watcher resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1189,8 +1189,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verify IP flow from the specified VM to a location given the currently configured NSG rules.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the IP flow to be verified.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1204,8 +1204,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verify IP flow from the specified VM to a location given the currently configured NSG rules.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the IP flow to be verified.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1226,8 +1226,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verify IP flow from the specified VM to a location given the currently configured NSG rules.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the IP flow to be verified.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1241,8 +1241,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the next hop from the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the source and destination endpoint.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1256,8 +1256,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the next hop from the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the source and destination endpoint.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1278,8 +1278,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the next hop from the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the source and destination endpoint.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1293,8 +1293,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the configured and effective security group rules on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1310,8 +1310,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the configured and effective security group rules on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1332,8 +1332,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the configured and effective security group rules on the specified VM.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId ID of the target VM.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1347,8 +1347,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Initiate troubleshooting on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the resource to troubleshoot.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1362,8 +1362,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Initiate troubleshooting on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the resource to troubleshoot.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1384,8 +1384,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Initiate troubleshooting on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that define the resource to troubleshoot.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1399,8 +1399,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get the last completed troubleshooting result on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1416,8 +1416,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get the last completed troubleshooting result on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1438,8 +1438,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get the last completed troubleshooting result on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource ID to query the troubleshooting result.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1453,8 +1453,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Configures flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Information on the configuration of flow log and traffic analytics (optional) .
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1468,8 +1468,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Configures flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Information on the configuration of flow log and traffic analytics (optional) .
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1490,8 +1490,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Configures flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Information on the configuration of flow log and traffic analytics (optional) .
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1505,8 +1505,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Queries status of flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1522,8 +1522,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Queries status of flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1544,8 +1544,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Queries status of flow log and traffic analytics (optional) on a specified resource.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param targetResourceId The target resource where getting the flow log and traffic analytics (optional) status.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1559,8 +1559,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that determine how the connectivity check will be performed.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1574,8 +1574,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that determine how the connectivity check will be performed.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1596,8 +1596,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Verifies the possibility of establishing a direct TCP connection from a virtual machine to a given endpoint including another VM or an arbitrary remote server.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters that determine how the connectivity check will be performed.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1611,8 +1611,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the relative latency score for internet service providers from a specified location to Azure regions.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Geographic and time constraints for Azure reachability report.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1626,8 +1626,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the relative latency score for internet service providers from a specified location to Azure regions.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Geographic and time constraints for Azure reachability report.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1648,8 +1648,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Gets the relative latency score for internet service providers from a specified location to Azure regions.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Geographic and time constraints for Azure reachability report.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1663,8 +1663,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Lists all available internet service providers for a specified Azure region.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Constraints that determine the list of available Internet service providers.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1678,8 +1678,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Lists all available internet service providers for a specified Azure region.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Constraints that determine the list of available Internet service providers.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1700,8 +1700,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Lists all available internet service providers for a specified Azure region.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Constraints that determine the list of available Internet service providers.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1715,8 +1715,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get network configuration diagnostic.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters to get network configuration diagnostic.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1730,8 +1730,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get network configuration diagnostic.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters to get network configuration diagnostic.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -1752,8 +1752,8 @@ public final class NetworkWatchersInner implements InnerSupportsGet<NetworkWatch
     /**
      * Get network configuration diagnostic.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @param parameters Parameters to get network configuration diagnostic.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.

@@ -30,7 +30,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import java.util.Map;
 import reactor.core.publisher.Mono;
 
@@ -38,7 +37,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * NatGateways.
  */
-public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>, InnerSupportsDelete<Void> {
+public final class NatGatewaysInner implements InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -121,8 +120,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Deletes the specified nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -135,8 +134,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Deletes the specified nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -150,8 +149,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Deletes the specified nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -164,9 +163,9 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Gets the specified nat gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -179,9 +178,9 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Gets the specified nat gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -201,9 +200,9 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Gets the specified nat gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -216,8 +215,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Creates or updates a nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param parameters Nat Gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -231,8 +230,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Creates or updates a nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param parameters Nat Gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -253,8 +252,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Creates or updates a nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param parameters Nat Gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -268,8 +267,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Updates nat gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -285,8 +284,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Updates nat gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -307,8 +306,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Updates nat gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -363,7 +362,7 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Gets all nat gateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -382,7 +381,7 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Gets all nat gateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -397,7 +396,7 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Gets all nat gateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -410,8 +409,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Deletes the specified nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -424,8 +423,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Deletes the specified nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -439,8 +438,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Deletes the specified nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -453,8 +452,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Creates or updates a nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param parameters Nat Gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -468,8 +467,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Creates or updates a nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param parameters Nat Gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -490,8 +489,8 @@ public final class NatGatewaysInner implements InnerSupportsGet<NatGatewayInner>
     /**
      * Creates or updates a nat gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param natGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param natGatewayName 
      * @param parameters Nat Gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

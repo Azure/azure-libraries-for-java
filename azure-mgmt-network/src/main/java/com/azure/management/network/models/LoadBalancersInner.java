@@ -30,7 +30,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import java.util.Map;
 import reactor.core.publisher.Mono;
 
@@ -38,7 +37,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * LoadBalancers.
  */
-public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerInner>, InnerSupportsDelete<Void> {
+public final class LoadBalancersInner implements InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -126,8 +125,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Deletes the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -140,8 +139,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Deletes the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -155,8 +154,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Deletes the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -169,9 +168,9 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Gets the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -184,9 +183,9 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Gets the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -206,9 +205,9 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Gets the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -221,8 +220,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Creates or updates a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param parameters LoadBalancer resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -236,8 +235,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Creates or updates a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param parameters LoadBalancer resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -258,8 +257,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Creates or updates a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param parameters LoadBalancer resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -273,8 +272,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Updates a load balancer tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -290,8 +289,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Updates a load balancer tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -312,8 +311,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Updates a load balancer tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -368,7 +367,7 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Gets all the load balancers in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -387,7 +386,7 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Gets all the load balancers in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -402,7 +401,7 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Gets all the load balancers in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -415,8 +414,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Deletes the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -429,8 +428,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Deletes the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -444,8 +443,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Deletes the specified load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -458,8 +457,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Creates or updates a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param parameters LoadBalancer resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -473,8 +472,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Creates or updates a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param parameters LoadBalancer resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -495,8 +494,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Creates or updates a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param parameters LoadBalancer resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -510,8 +509,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Updates a load balancer tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -527,8 +526,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Updates a load balancer tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -549,8 +548,8 @@ public final class LoadBalancersInner implements InnerSupportsGet<LoadBalancerIn
     /**
      * Updates a load balancer tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

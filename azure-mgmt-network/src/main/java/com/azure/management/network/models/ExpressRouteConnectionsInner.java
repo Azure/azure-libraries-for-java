@@ -92,9 +92,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @param putExpressRouteConnectionParameters ExpressRouteConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -108,9 +108,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @param putExpressRouteConnectionParameters ExpressRouteConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -131,9 +131,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @param putExpressRouteConnectionParameters ExpressRouteConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -147,9 +147,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Gets the specified ExpressRouteConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -162,9 +162,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Gets the specified ExpressRouteConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -184,9 +184,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Gets the specified ExpressRouteConnection.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -199,9 +199,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Deletes a connection to a ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -214,9 +214,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Deletes a connection to a ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -230,9 +230,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Deletes a connection to a ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -245,8 +245,8 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Lists ExpressRouteConnections.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -259,8 +259,8 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Lists ExpressRouteConnections.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -280,8 +280,8 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Lists ExpressRouteConnections.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -294,9 +294,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @param putExpressRouteConnectionParameters ExpressRouteConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -310,9 +310,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @param putExpressRouteConnectionParameters ExpressRouteConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -333,9 +333,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @param putExpressRouteConnectionParameters ExpressRouteConnection resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -349,9 +349,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Deletes a connection to a ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -364,9 +364,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Deletes a connection to a ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -380,9 +380,9 @@ public final class ExpressRouteConnectionsInner {
     /**
      * Deletes a connection to a ExpressRoute circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

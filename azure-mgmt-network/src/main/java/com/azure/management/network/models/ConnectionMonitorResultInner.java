@@ -8,6 +8,8 @@ package com.azure.management.network.models;
 
 import com.azure.core.annotation.Fluent;
 import com.azure.core.annotation.JsonFlatten;
+import com.azure.management.network.ConnectionMonitorDestination;
+import com.azure.management.network.ConnectionMonitorSource;
 import com.azure.management.network.ProvisioningState;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
@@ -54,6 +56,31 @@ public class ConnectionMonitorResultInner {
      */
     @JsonProperty(value = "tags")
     private Map<String, String> tags;
+
+    /*
+     * Describes the source of connection monitor.
+     */
+    @JsonProperty(value = "properties.source")
+    private ConnectionMonitorSource source;
+
+    /*
+     * Describes the destination of connection monitor.
+     */
+    @JsonProperty(value = "properties.destination")
+    private ConnectionMonitorDestination destination;
+
+    /*
+     * Determines if the connection monitor will start automatically once
+     * created.
+     */
+    @JsonProperty(value = "properties.autoStart")
+    private Boolean autoStart;
+
+    /*
+     * Monitoring interval in seconds.
+     */
+    @JsonProperty(value = "properties.monitoringIntervalInSeconds")
+    private Integer monitoringIntervalInSeconds;
 
     /*
      * The current provisioning state.
@@ -159,6 +186,93 @@ public class ConnectionMonitorResultInner {
      */
     public ConnectionMonitorResultInner setTags(Map<String, String> tags) {
         this.tags = tags;
+        return this;
+    }
+
+    /**
+     * Get the source property: Describes the source of connection monitor.
+     * 
+     * @return the source value.
+     */
+    public ConnectionMonitorSource getSource() {
+        return this.source;
+    }
+
+    /**
+     * Set the source property: Describes the source of connection monitor.
+     * 
+     * @param source the source value to set.
+     * @return the ConnectionMonitorResultInner object itself.
+     */
+    public ConnectionMonitorResultInner setSource(ConnectionMonitorSource source) {
+        this.source = source;
+        return this;
+    }
+
+    /**
+     * Get the destination property: Describes the destination of connection
+     * monitor.
+     * 
+     * @return the destination value.
+     */
+    public ConnectionMonitorDestination getDestination() {
+        return this.destination;
+    }
+
+    /**
+     * Set the destination property: Describes the destination of connection
+     * monitor.
+     * 
+     * @param destination the destination value to set.
+     * @return the ConnectionMonitorResultInner object itself.
+     */
+    public ConnectionMonitorResultInner setDestination(ConnectionMonitorDestination destination) {
+        this.destination = destination;
+        return this;
+    }
+
+    /**
+     * Get the autoStart property: Determines if the connection monitor will
+     * start automatically once created.
+     * 
+     * @return the autoStart value.
+     */
+    public Boolean isAutoStart() {
+        return this.autoStart;
+    }
+
+    /**
+     * Set the autoStart property: Determines if the connection monitor will
+     * start automatically once created.
+     * 
+     * @param autoStart the autoStart value to set.
+     * @return the ConnectionMonitorResultInner object itself.
+     */
+    public ConnectionMonitorResultInner setAutoStart(Boolean autoStart) {
+        this.autoStart = autoStart;
+        return this;
+    }
+
+    /**
+     * Get the monitoringIntervalInSeconds property: Monitoring interval in
+     * seconds.
+     * 
+     * @return the monitoringIntervalInSeconds value.
+     */
+    public Integer getMonitoringIntervalInSeconds() {
+        return this.monitoringIntervalInSeconds;
+    }
+
+    /**
+     * Set the monitoringIntervalInSeconds property: Monitoring interval in
+     * seconds.
+     * 
+     * @param monitoringIntervalInSeconds the monitoringIntervalInSeconds value
+     * to set.
+     * @return the ConnectionMonitorResultInner object itself.
+     */
+    public ConnectionMonitorResultInner setMonitoringIntervalInSeconds(Integer monitoringIntervalInSeconds) {
+        this.monitoringIntervalInSeconds = monitoringIntervalInSeconds;
         return this;
     }
 

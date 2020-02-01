@@ -101,10 +101,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -117,10 +117,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -134,10 +134,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -150,10 +150,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Gets the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -166,10 +166,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Gets the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -189,10 +189,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Gets the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -205,10 +205,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Creates or updates a Express Route Circuit Connection in the specified express route circuits.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @param expressRouteCircuitConnectionParameters Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -222,10 +222,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Creates or updates a Express Route Circuit Connection in the specified express route circuits.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @param expressRouteCircuitConnectionParameters Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -246,10 +246,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Creates or updates a Express Route Circuit Connection in the specified express route circuits.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @param expressRouteCircuitConnectionParameters Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -263,9 +263,9 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Gets all global reach connections associated with a private peering in an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -284,9 +284,9 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Gets all global reach connections associated with a private peering in an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -301,9 +301,9 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Gets all global reach connections associated with a private peering in an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -316,10 +316,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -332,10 +332,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -349,10 +349,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Deletes the specified Express Route Circuit Connection from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -365,10 +365,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Creates or updates a Express Route Circuit Connection in the specified express route circuits.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @param expressRouteCircuitConnectionParameters Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -382,10 +382,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Creates or updates a Express Route Circuit Connection in the specified express route circuits.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @param expressRouteCircuitConnectionParameters Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -406,10 +406,10 @@ public final class ExpressRouteCircuitConnectionsInner {
     /**
      * Creates or updates a Express Route Circuit Connection in the specified express route circuits.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peeringName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param peeringName 
+     * @param connectionName 
      * @param expressRouteCircuitConnectionParameters Express Route Circuit Connection in an ExpressRouteCircuitPeering resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

@@ -28,7 +28,6 @@ import com.azure.core.http.rest.PagedResponseBase;
 import com.azure.core.http.rest.Response;
 import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
-import com.azure.management.network.ConnectionMonitor;
 import com.azure.management.network.TagsObject;
 import java.util.Map;
 import reactor.core.publisher.Mono;
@@ -69,7 +68,7 @@ public final class ConnectionMonitorsInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<ConnectionMonitorResultInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectionMonitor parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ConnectionMonitorResultInner>> createOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectionMonitorInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Get("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
         @ExpectedResponses({200})
@@ -109,7 +108,7 @@ public final class ConnectionMonitorsInner {
         @Put("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
         @ExpectedResponses({200, 201})
         @UnexpectedResponseExceptionType(ErrorResponseException.class)
-        Mono<SimpleResponse<ConnectionMonitorResultInner>> beginCreateOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectionMonitor parameters, @QueryParam("api-version") String apiVersion);
+        Mono<SimpleResponse<ConnectionMonitorResultInner>> beginCreateOrUpdate(@HostParam("$host") String host, @PathParam("resourceGroupName") String resourceGroupName, @PathParam("networkWatcherName") String networkWatcherName, @PathParam("connectionMonitorName") String connectionMonitorName, @PathParam("subscriptionId") String subscriptionId, @BodyParam("application/json") ConnectionMonitorInner parameters, @QueryParam("api-version") String apiVersion);
 
         @Delete("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}")
         @ExpectedResponses({202, 204})
@@ -135,32 +134,32 @@ public final class ConnectionMonitorsInner {
     /**
      * Create or update a connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param parameters Parameters that define the operation to create a connection monitor.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ConnectionMonitorResultInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitor parameters) {
+    public Mono<SimpleResponse<ConnectionMonitorResultInner>> createOrUpdateWithResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
         return service.createOrUpdate(this.client.getHost(), resourceGroupName, networkWatcherName, connectionMonitorName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
     /**
      * Create or update a connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param parameters Parameters that define the operation to create a connection monitor.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ConnectionMonitorResultInner> createOrUpdateAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitor parameters) {
+    public Mono<ConnectionMonitorResultInner> createOrUpdateAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
         return createOrUpdateWithResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters)
             .flatMap((SimpleResponse<ConnectionMonitorResultInner> res) -> {
                 if (res.getValue() != null) {
@@ -174,25 +173,25 @@ public final class ConnectionMonitorsInner {
     /**
      * Create or update a connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param parameters Parameters that define the operation to create a connection monitor.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConnectionMonitorResultInner createOrUpdate(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitor parameters) {
+    public ConnectionMonitorResultInner createOrUpdate(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
         return createOrUpdateAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).block();
     }
 
     /**
      * Gets a connection monitor by name.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -205,9 +204,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Gets a connection monitor by name.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -227,9 +226,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Gets a connection monitor by name.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -242,9 +241,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Deletes the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -257,9 +256,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Deletes the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -273,9 +272,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Deletes the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -288,9 +287,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Update tags of the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -306,9 +305,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Update tags of the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -329,9 +328,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Update tags of the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
@@ -345,9 +344,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Stops the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -360,9 +359,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Stops the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -376,9 +375,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Stops the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -391,9 +390,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Starts the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -406,9 +405,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Starts the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -422,9 +421,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Starts the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -437,9 +436,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Query a snapshot of the most recent connection states.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -452,9 +451,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Query a snapshot of the most recent connection states.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -474,9 +473,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Query a snapshot of the most recent connection states.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -489,8 +488,8 @@ public final class ConnectionMonitorsInner {
     /**
      * Lists all connection monitors for the specified Network Watcher.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -509,8 +508,8 @@ public final class ConnectionMonitorsInner {
     /**
      * Lists all connection monitors for the specified Network Watcher.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -524,8 +523,8 @@ public final class ConnectionMonitorsInner {
     /**
      * Lists all connection monitors for the specified Network Watcher.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -538,32 +537,32 @@ public final class ConnectionMonitorsInner {
     /**
      * Create or update a connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param parameters Parameters that define the operation to create a connection monitor.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<SimpleResponse<ConnectionMonitorResultInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitor parameters) {
+    public Mono<SimpleResponse<ConnectionMonitorResultInner>> beginCreateOrUpdateWithResponseAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
         return service.beginCreateOrUpdate(this.client.getHost(), resourceGroupName, networkWatcherName, connectionMonitorName, this.client.getSubscriptionId(), parameters, this.client.getApiVersion());
     }
 
     /**
      * Create or update a connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param parameters Parameters that define the operation to create a connection monitor.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public Mono<ConnectionMonitorResultInner> beginCreateOrUpdateAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitor parameters) {
+    public Mono<ConnectionMonitorResultInner> beginCreateOrUpdateAsync(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
         return beginCreateOrUpdateWithResponseAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters)
             .flatMap((SimpleResponse<ConnectionMonitorResultInner> res) -> {
                 if (res.getValue() != null) {
@@ -577,25 +576,25 @@ public final class ConnectionMonitorsInner {
     /**
      * Create or update a connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @param parameters Parameters that define the operation to create a connection monitor.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
-    public ConnectionMonitorResultInner beginCreateOrUpdate(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitor parameters) {
+    public ConnectionMonitorResultInner beginCreateOrUpdate(String resourceGroupName, String networkWatcherName, String connectionMonitorName, ConnectionMonitorInner parameters) {
         return beginCreateOrUpdateAsync(resourceGroupName, networkWatcherName, connectionMonitorName, parameters).block();
     }
 
     /**
      * Deletes the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -608,9 +607,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Deletes the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -624,9 +623,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Deletes the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -639,9 +638,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Stops the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -654,9 +653,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Stops the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -670,9 +669,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Stops the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -685,9 +684,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Starts the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -700,9 +699,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Starts the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -716,9 +715,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Starts the specified connection monitor.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -731,9 +730,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Query a snapshot of the most recent connection states.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -746,9 +745,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Query a snapshot of the most recent connection states.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -768,9 +767,9 @@ public final class ConnectionMonitorsInner {
     /**
      * Query a snapshot of the most recent connection states.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkWatcherName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param connectionMonitorName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkWatcherName 
+     * @param connectionMonitorName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorResponseException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

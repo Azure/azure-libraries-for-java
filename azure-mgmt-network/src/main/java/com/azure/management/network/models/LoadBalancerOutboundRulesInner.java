@@ -77,8 +77,8 @@ public final class LoadBalancerOutboundRulesInner {
     /**
      * Gets all the outbound rules in a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -97,8 +97,8 @@ public final class LoadBalancerOutboundRulesInner {
     /**
      * Gets all the outbound rules in a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -113,8 +113,8 @@ public final class LoadBalancerOutboundRulesInner {
     /**
      * Gets all the outbound rules in a load balancer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -127,9 +127,9 @@ public final class LoadBalancerOutboundRulesInner {
     /**
      * Gets the specified load balancer outbound rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param outboundRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param outboundRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -142,9 +142,9 @@ public final class LoadBalancerOutboundRulesInner {
     /**
      * Gets the specified load balancer outbound rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param outboundRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param outboundRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -164,9 +164,9 @@ public final class LoadBalancerOutboundRulesInner {
     /**
      * Gets the specified load balancer outbound rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param loadBalancerName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param outboundRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param loadBalancerName 
+     * @param outboundRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

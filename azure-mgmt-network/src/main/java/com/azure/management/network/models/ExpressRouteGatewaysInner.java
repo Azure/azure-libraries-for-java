@@ -139,7 +139,7 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Lists ExpressRoute gateways in a given resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -152,7 +152,7 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Lists ExpressRoute gateways in a given resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -172,7 +172,7 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Lists ExpressRoute gateways in a given resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -185,8 +185,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Creates or updates a ExpressRoute gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @param putExpressRouteGatewayParameters ExpressRoute gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -200,8 +200,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Creates or updates a ExpressRoute gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @param putExpressRouteGatewayParameters ExpressRoute gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -222,8 +222,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Creates or updates a ExpressRoute gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @param putExpressRouteGatewayParameters ExpressRoute gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -237,8 +237,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Fetches the details of a ExpressRoute gateway in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -251,8 +251,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Fetches the details of a ExpressRoute gateway in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -272,8 +272,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Fetches the details of a ExpressRoute gateway in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -286,8 +286,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -300,8 +300,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -315,8 +315,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -329,8 +329,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Creates or updates a ExpressRoute gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @param putExpressRouteGatewayParameters ExpressRoute gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -344,8 +344,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Creates or updates a ExpressRoute gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @param putExpressRouteGatewayParameters ExpressRoute gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -366,8 +366,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Creates or updates a ExpressRoute gateway in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @param putExpressRouteGatewayParameters ExpressRoute gateway resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -381,8 +381,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -395,8 +395,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -410,8 +410,8 @@ public final class ExpressRouteGatewaysInner implements InnerSupportsGet<Express
     /**
      * Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can only be deleted when there are no connection subresources.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expressRouteGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param expressRouteGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

@@ -138,8 +138,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Retrieves the details of a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -152,8 +152,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Retrieves the details of a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -173,8 +173,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Retrieves the details of a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -187,8 +187,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param vpnGatewayParameters VpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -202,8 +202,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param vpnGatewayParameters VpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -224,8 +224,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param vpnGatewayParameters VpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -239,8 +239,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Updates virtual wan vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -256,8 +256,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Updates virtual wan vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -278,8 +278,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Updates virtual wan vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -293,8 +293,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Deletes a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -307,8 +307,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Deletes a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -322,8 +322,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Deletes a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -336,8 +336,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Resets the primary of the vpn gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -350,8 +350,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Resets the primary of the vpn gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -371,8 +371,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Resets the primary of the vpn gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -385,7 +385,7 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Lists all the VpnGateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -404,7 +404,7 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Lists all the VpnGateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -419,7 +419,7 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Lists all the VpnGateways in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -473,8 +473,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param vpnGatewayParameters VpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -488,8 +488,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param vpnGatewayParameters VpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -510,8 +510,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Creates a virtual wan vpn gateway if it doesn't exist else updates the existing gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param vpnGatewayParameters VpnGateway Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -525,8 +525,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Updates virtual wan vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -542,8 +542,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Updates virtual wan vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -564,8 +564,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Updates virtual wan vpn gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -579,8 +579,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Deletes a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -593,8 +593,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Deletes a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -608,8 +608,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Deletes a virtual wan vpn gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -622,8 +622,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Resets the primary of the vpn gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -636,8 +636,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Resets the primary of the vpn gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -657,8 +657,8 @@ public final class VpnGatewaysInner implements InnerSupportsGet<VpnGatewayInner>
     /**
      * Resets the primary of the vpn gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param gatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

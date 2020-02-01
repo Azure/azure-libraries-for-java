@@ -69,8 +69,8 @@ public final class VpnSitesConfigurationsInner {
     /**
      * Gives the sas-url to download the configurations for vpn-sites in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param request List of Vpn-Sites.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -84,8 +84,8 @@ public final class VpnSitesConfigurationsInner {
     /**
      * Gives the sas-url to download the configurations for vpn-sites in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param request List of Vpn-Sites.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -100,8 +100,8 @@ public final class VpnSitesConfigurationsInner {
     /**
      * Gives the sas-url to download the configurations for vpn-sites in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param request List of Vpn-Sites.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -115,8 +115,8 @@ public final class VpnSitesConfigurationsInner {
     /**
      * Gives the sas-url to download the configurations for vpn-sites in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param request List of Vpn-Sites.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -130,8 +130,8 @@ public final class VpnSitesConfigurationsInner {
     /**
      * Gives the sas-url to download the configurations for vpn-sites in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param request List of Vpn-Sites.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -146,8 +146,8 @@ public final class VpnSitesConfigurationsInner {
     /**
      * Gives the sas-url to download the configurations for vpn-sites in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param request List of Vpn-Sites.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.

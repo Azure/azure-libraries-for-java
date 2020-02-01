@@ -77,8 +77,8 @@ public final class NetworkInterfaceIPConfigurationsInner {
     /**
      * Get all ip configurations in a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -97,8 +97,8 @@ public final class NetworkInterfaceIPConfigurationsInner {
     /**
      * Get all ip configurations in a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -113,8 +113,8 @@ public final class NetworkInterfaceIPConfigurationsInner {
     /**
      * Get all ip configurations in a network interface.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -127,9 +127,9 @@ public final class NetworkInterfaceIPConfigurationsInner {
     /**
      * Gets the specified network interface ip configuration.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -142,9 +142,9 @@ public final class NetworkInterfaceIPConfigurationsInner {
     /**
      * Gets the specified network interface ip configuration.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -164,9 +164,9 @@ public final class NetworkInterfaceIPConfigurationsInner {
     /**
      * Gets the specified network interface ip configuration.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

@@ -249,8 +249,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Creates or updates a virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -264,8 +264,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Creates or updates a virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -286,8 +286,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Creates or updates a virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -301,8 +301,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets the specified virtual network gateway by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -315,8 +315,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets the specified virtual network gateway by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -336,8 +336,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets the specified virtual network gateway by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -350,8 +350,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Deletes the specified virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -364,8 +364,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Deletes the specified virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -379,8 +379,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Deletes the specified virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -393,8 +393,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Updates a virtual network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -410,8 +410,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Updates a virtual network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -432,8 +432,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Updates a virtual network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -447,7 +447,7 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets all virtual network gateways by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -466,7 +466,7 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets all virtual network gateways by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -481,7 +481,7 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets all virtual network gateways by resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -494,8 +494,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets all the connections in a virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -514,8 +514,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets all the connections in a virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -530,8 +530,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets all the connections in a virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -544,9 +544,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the primary of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayVip MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param gatewayVip 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -559,9 +559,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the primary of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayVip MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param gatewayVip 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -581,9 +581,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the primary of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayVip MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param gatewayVip 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -596,8 +596,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -610,8 +610,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -625,8 +625,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -639,8 +639,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -654,8 +654,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -676,8 +676,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -691,8 +691,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -706,8 +706,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -728,8 +728,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -743,8 +743,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -757,8 +757,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -778,8 +778,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -792,9 +792,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -807,9 +807,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -829,9 +829,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -844,8 +844,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets a xml format representation for supported vpn devices.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -858,8 +858,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets a xml format representation for supported vpn devices.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -879,8 +879,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets a xml format representation for supported vpn devices.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -893,8 +893,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -907,8 +907,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -928,8 +928,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -942,9 +942,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -957,9 +957,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -979,9 +979,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -994,8 +994,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param vpnclientIpsecParams An IPSec parameters for a virtual network gateway P2S connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1009,8 +1009,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param vpnclientIpsecParams An IPSec parameters for a virtual network gateway P2S connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1031,8 +1031,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param vpnclientIpsecParams An IPSec parameters for a virtual network gateway P2S connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1046,8 +1046,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1060,8 +1060,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1081,8 +1081,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1095,8 +1095,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets a xml format representation for vpn device configuration script.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Vpn device configuration script generation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1110,8 +1110,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets a xml format representation for vpn device configuration script.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Vpn device configuration script generation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1132,8 +1132,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets a xml format representation for vpn device configuration script.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayConnectionName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayConnectionName 
      * @param parameters Vpn device configuration script generation parameters.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1147,8 +1147,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1161,8 +1161,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1182,8 +1182,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1196,8 +1196,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Creates or updates a virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1211,8 +1211,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Creates or updates a virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1233,8 +1233,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Creates or updates a virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters A common class for general resource information.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1248,8 +1248,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Deletes the specified virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1262,8 +1262,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Deletes the specified virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1277,8 +1277,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Deletes the specified virtual network gateway.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1291,8 +1291,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Updates a virtual network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1308,8 +1308,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Updates a virtual network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1330,8 +1330,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Updates a virtual network gateway tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1345,9 +1345,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the primary of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayVip MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param gatewayVip 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1360,9 +1360,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the primary of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayVip MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param gatewayVip 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1382,9 +1382,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the primary of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param gatewayVip MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param gatewayVip 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1397,8 +1397,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1411,8 +1411,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1426,8 +1426,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Resets the VPN client shared key of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1440,8 +1440,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1455,8 +1455,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1477,8 +1477,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN client package for P2S client of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1492,8 +1492,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1507,8 +1507,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1529,8 +1529,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param parameters Vpn Client Parameters for package generation.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1544,8 +1544,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1558,8 +1558,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1579,8 +1579,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Gets pre-generated VPN profile for P2S client of the virtual network gateway in the specified resource group. The profile needs to be generated first using generateVpnProfile.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1593,9 +1593,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1608,9 +1608,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1630,9 +1630,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The GetBgpPeerStatus operation retrieves the status of all BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1645,8 +1645,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1659,8 +1659,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1680,8 +1680,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway has learned, including routes learned from BGP peers.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1694,9 +1694,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1709,9 +1709,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1731,9 +1731,9 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * This operation retrieves a list of routes the virtual network gateway is advertising to the specified peer.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param peer MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
+     * @param peer 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1746,8 +1746,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param vpnclientIpsecParams An IPSec parameters for a virtual network gateway P2S connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1761,8 +1761,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param vpnclientIpsecParams An IPSec parameters for a virtual network gateway P2S connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1783,8 +1783,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Set VpnclientIpsecParameters operation sets the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @param vpnclientIpsecParams An IPSec parameters for a virtual network gateway P2S connection.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -1798,8 +1798,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1812,8 +1812,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1833,8 +1833,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * The Get VpnclientIpsecParameters operation retrieves information about the vpnclient ipsec policy for P2S client of virtual network gateway in the specified resource group through Network resource provider.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1847,8 +1847,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1861,8 +1861,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -1882,8 +1882,8 @@ public final class VirtualNetworkGatewaysInner implements InnerSupportsGet<Virtu
     /**
      * Get VPN client connection health detail per P2S client connection of the virtual network gateway in the specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualNetworkGatewayName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualNetworkGatewayName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

@@ -76,9 +76,9 @@ public final class VpnSiteLinksInner {
     /**
      * Retrieves the details of a VPN site link.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteLinkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param vpnSiteName 
+     * @param vpnSiteLinkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -91,9 +91,9 @@ public final class VpnSiteLinksInner {
     /**
      * Retrieves the details of a VPN site link.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteLinkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param vpnSiteName 
+     * @param vpnSiteLinkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -113,9 +113,9 @@ public final class VpnSiteLinksInner {
     /**
      * Retrieves the details of a VPN site link.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteLinkName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param vpnSiteName 
+     * @param vpnSiteLinkName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -128,8 +128,8 @@ public final class VpnSiteLinksInner {
     /**
      * Lists all the vpnSiteLinks in a resource group for a vpn site.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param vpnSiteName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -148,8 +148,8 @@ public final class VpnSiteLinksInner {
     /**
      * Lists all the vpnSiteLinks in a resource group for a vpn site.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param vpnSiteName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -164,8 +164,8 @@ public final class VpnSiteLinksInner {
     /**
      * Lists all the vpnSiteLinks in a resource group for a vpn site.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param vpnSiteName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param vpnSiteName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

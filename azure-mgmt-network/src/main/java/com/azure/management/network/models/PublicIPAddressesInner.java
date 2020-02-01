@@ -30,7 +30,6 @@ import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.CloudException;
 import com.azure.management.network.TagsObject;
 import com.azure.management.resources.fluentcore.collection.InnerSupportsDelete;
-import com.azure.management.resources.fluentcore.collection.InnerSupportsGet;
 import java.util.Map;
 import reactor.core.publisher.Mono;
 
@@ -38,7 +37,7 @@ import reactor.core.publisher.Mono;
  * An instance of this class provides access to all the operations defined in
  * PublicIPAddresses.
  */
-public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAddressInner>, InnerSupportsDelete<Void> {
+public final class PublicIPAddressesInner implements InnerSupportsDelete<Void> {
     /**
      * The proxy service used to perform REST calls.
      */
@@ -151,8 +150,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Deletes the specified public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -165,8 +164,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Deletes the specified public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -180,8 +179,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Deletes the specified public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -194,9 +193,9 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets the specified public IP address in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -209,9 +208,9 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets the specified public IP address in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -231,9 +230,9 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets the specified public IP address in a specified resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -246,8 +245,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Creates or updates a static or dynamic public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param parameters Public IP address resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -261,8 +260,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Creates or updates a static or dynamic public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param parameters Public IP address resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -283,8 +282,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Creates or updates a static or dynamic public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param parameters Public IP address resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -298,8 +297,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Updates public IP address tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -315,8 +314,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Updates public IP address tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -337,8 +336,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Updates public IP address tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -393,7 +392,7 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets all public IP addresses in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -412,7 +411,7 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets all public IP addresses in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -427,7 +426,7 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets all public IP addresses in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -440,8 +439,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets information about all public IP addresses on a virtual machine scale set level.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -460,8 +459,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets information about all public IP addresses on a virtual machine scale set level.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -476,8 +475,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets information about all public IP addresses on a virtual machine scale set level.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -490,11 +489,11 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -513,11 +512,11 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -532,11 +531,11 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -549,13 +548,13 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Get the specified public IP address in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @param publicIpAddressName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -568,13 +567,13 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Get the specified public IP address in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @param publicIpAddressName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -594,13 +593,13 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Get the specified public IP address in a virtual machine scale set.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualMachineScaleSetName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualmachineIndex MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkInterfaceName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param ipConfigurationName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param expand MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualMachineScaleSetName 
+     * @param virtualmachineIndex 
+     * @param networkInterfaceName 
+     * @param ipConfigurationName 
+     * @param publicIpAddressName 
+     * @param expand 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -613,8 +612,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Deletes the specified public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -627,8 +626,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Deletes the specified public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -642,8 +641,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Deletes the specified public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -656,8 +655,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Creates or updates a static or dynamic public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param parameters Public IP address resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -671,8 +670,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Creates or updates a static or dynamic public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param parameters Public IP address resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -693,8 +692,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Creates or updates a static or dynamic public IP address.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param parameters Public IP address resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -708,8 +707,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Updates public IP address tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -725,8 +724,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Updates public IP address tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -747,8 +746,8 @@ public final class PublicIPAddressesInner implements InnerSupportsGet<PublicIPAd
     /**
      * Updates public IP address tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param publicIpAddressName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param publicIpAddressName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

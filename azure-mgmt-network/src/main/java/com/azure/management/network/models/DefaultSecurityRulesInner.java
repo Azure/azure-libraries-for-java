@@ -77,8 +77,8 @@ public final class DefaultSecurityRulesInner {
     /**
      * Gets all default security rules in a network security group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkSecurityGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -97,8 +97,8 @@ public final class DefaultSecurityRulesInner {
     /**
      * Gets all default security rules in a network security group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkSecurityGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -113,8 +113,8 @@ public final class DefaultSecurityRulesInner {
     /**
      * Gets all default security rules in a network security group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkSecurityGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -127,9 +127,9 @@ public final class DefaultSecurityRulesInner {
     /**
      * Get the specified default network security rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param defaultSecurityRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkSecurityGroupName 
+     * @param defaultSecurityRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -142,9 +142,9 @@ public final class DefaultSecurityRulesInner {
     /**
      * Get the specified default network security rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param defaultSecurityRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkSecurityGroupName 
+     * @param defaultSecurityRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -164,9 +164,9 @@ public final class DefaultSecurityRulesInner {
     /**
      * Get the specified default network security rule.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param networkSecurityGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param defaultSecurityRuleName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param networkSecurityGroupName 
+     * @param defaultSecurityRuleName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

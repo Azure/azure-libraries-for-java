@@ -126,8 +126,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Retrieves the details of a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -140,8 +140,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Retrieves the details of a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -161,8 +161,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Retrieves the details of a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -175,8 +175,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param wANParameters VirtualWAN Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -190,8 +190,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param wANParameters VirtualWAN Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -212,8 +212,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param wANParameters VirtualWAN Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -227,8 +227,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Updates a VirtualWAN tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -244,8 +244,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Updates a VirtualWAN tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -266,8 +266,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Updates a VirtualWAN tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -281,8 +281,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Deletes a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -295,8 +295,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Deletes a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -310,8 +310,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Deletes a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -324,7 +324,7 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Lists all the VirtualWANs in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -343,7 +343,7 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Lists all the VirtualWANs in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -358,7 +358,7 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Lists all the VirtualWANs in a resource group.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -412,8 +412,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param wANParameters VirtualWAN Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -427,8 +427,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param wANParameters VirtualWAN Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -449,8 +449,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param wANParameters VirtualWAN Resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -464,8 +464,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Updates a VirtualWAN tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -481,8 +481,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Updates a VirtualWAN tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -503,8 +503,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Updates a VirtualWAN tags.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @param tags Resource tags.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
@@ -518,8 +518,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Deletes a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -532,8 +532,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Deletes a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -547,8 +547,8 @@ public final class VirtualWansInner implements InnerSupportsGet<VirtualWANInner>
     /**
      * Deletes a VirtualWAN.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param virtualWANName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param virtualWANName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws ErrorException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

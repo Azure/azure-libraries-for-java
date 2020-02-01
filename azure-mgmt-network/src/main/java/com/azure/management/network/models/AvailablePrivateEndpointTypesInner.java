@@ -82,7 +82,7 @@ public final class AvailablePrivateEndpointTypesInner {
     /**
      * Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -101,7 +101,7 @@ public final class AvailablePrivateEndpointTypesInner {
     /**
      * Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -116,7 +116,7 @@ public final class AvailablePrivateEndpointTypesInner {
     /**
      * Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -129,8 +129,8 @@ public final class AvailablePrivateEndpointTypesInner {
     /**
      * Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -149,8 +149,8 @@ public final class AvailablePrivateEndpointTypesInner {
     /**
      * Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -165,8 +165,8 @@ public final class AvailablePrivateEndpointTypesInner {
     /**
      * Returns all of the resource types that can be linked to a Private Endpoint in this subscription in this region.
      * 
-     * @param location MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param location 
+     * @param resourceGroupName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.

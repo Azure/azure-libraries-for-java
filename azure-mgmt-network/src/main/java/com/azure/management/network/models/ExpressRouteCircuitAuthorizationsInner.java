@@ -101,9 +101,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Deletes the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -116,9 +116,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Deletes the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -132,9 +132,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Deletes the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -147,9 +147,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Gets the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -162,9 +162,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Gets the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -184,9 +184,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Gets the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -199,9 +199,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Creates or updates an authorization in the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @param authorizationParameters Authorization in an ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -215,9 +215,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Creates or updates an authorization in the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @param authorizationParameters Authorization in an ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -238,9 +238,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Creates or updates an authorization in the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @param authorizationParameters Authorization in an ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -254,8 +254,8 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Gets all authorizations in an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -274,8 +274,8 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Gets all authorizations in an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -290,8 +290,8 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Gets all authorizations in an express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -304,9 +304,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Deletes the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -319,9 +319,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Deletes the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -335,9 +335,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Deletes the specified authorization from the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
      * @throws RuntimeException all other wrapped checked exceptions if the request fails to be sent.
@@ -350,9 +350,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Creates or updates an authorization in the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @param authorizationParameters Authorization in an ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -366,9 +366,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Creates or updates an authorization in the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @param authorizationParameters Authorization in an ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.
@@ -389,9 +389,9 @@ public final class ExpressRouteCircuitAuthorizationsInner {
     /**
      * Creates or updates an authorization in the specified express route circuit.
      * 
-     * @param resourceGroupName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param circuitName MISSING·SCHEMA-DESCRIPTION-STRING.
-     * @param authorizationName MISSING·SCHEMA-DESCRIPTION-STRING.
+     * @param resourceGroupName 
+     * @param circuitName 
+     * @param authorizationName 
      * @param authorizationParameters Authorization in an ExpressRouteCircuit resource.
      * @throws IllegalArgumentException thrown if parameters fail the validation.
      * @throws CloudException thrown if the request is rejected by server.

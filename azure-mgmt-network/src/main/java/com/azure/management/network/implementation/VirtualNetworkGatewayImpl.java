@@ -5,6 +5,7 @@
  */
 package com.azure.management.network.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.BgpSettings;
 import com.azure.management.network.Network;
@@ -191,34 +192,21 @@ class VirtualNetworkGatewayImpl
 
     @Override
     public Mono<Void> resetAsync() {
-        return this.manager().inner().virtualNetworkGateways().resetAsync(resourceGroupName(), name()).map(new Func1<VirtualNetworkGatewayInner, Void>() {
-            @Override
-            public Void call(VirtualNetworkGatewayInner inner) {
-                VirtualNetworkGatewayImpl.this.setInner(inner);
-                return null;
-            }
-        }).toCompletable();
+        // FIXME: The additional parameters
+        return this.manager().inner().virtualNetworkGateways().resetAsync(resourceGroupName(), name(), null).map(inner -> {
+            VirtualNetworkGatewayImpl.this.setInner(inner);
+            return null;
+        });
     }
 
     @Override
     public PagedIterable<VirtualNetworkGatewayConnection> listConnections() {
-        return wrapConnectionsList(this.manager().inner().virtualNetworkGateways().listConnections(this.resourceGroupName(), this.name()));
-    }
-
-    private PagedIterable<VirtualNetworkGatewayConnection> wrapConnectionsList(PagedList<VirtualNetworkGatewayConnectionListEntityInner> connectionListEntityInners) {
-        return connectionsConverter.convert(connectionListEntityInners);
+        return this.manager().inner().virtualNetworkGateways().listConnections(this.resourceGroupName(), this.name()).mapPage(inner -> this.connections().getById(inner.getId()));
     }
 
     @Override
-    public Mono<VirtualNetworkGatewayConnection> listConnectionsAsync() {
-        return ReadableWrappersImpl.convertPageToInnerAsync(this.manager().inner().virtualNetworkGateways().listConnectionsAsync(this.resourceGroupName(), this.name()))
-                .map(new Func1<VirtualNetworkGatewayConnectionListEntityInner, VirtualNetworkGatewayConnection>() {
-                    @Override
-                    public VirtualNetworkGatewayConnection call(VirtualNetworkGatewayConnectionListEntityInner connectionInner) {
-                        // will re-query to get full information for the connection
-                        return connections().getById(connectionInner.id());
-                    }
-                });
+    public PagedFlux<VirtualNetworkGatewayConnection> listConnectionsAsync() {
+        return this.manager().inner().virtualNetworkGateways().listConnectionsAsync(this.resourceGroupName(), this.name()).mapPage(inner -> this.connections().getById(inner.getId()));
     }
 
     @Override

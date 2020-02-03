@@ -21,6 +21,7 @@ import com.azure.core.http.HttpPipelineBuilder;
 import com.azure.core.http.policy.CookiePolicy;
 import com.azure.core.http.policy.RetryPolicy;
 import com.azure.core.http.policy.UserAgentPolicy;
+import com.azure.core.http.rest.RestProxy;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
 import com.azure.core.management.CloudException;
@@ -83,31 +84,6 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
      */
     NetworkManagementClientImpl setHost(String host) {
         this.host = host;
-        return this;
-    }
-
-    /**
-     * The API version to use for this operation.
-     */
-    private String apiVersion;
-
-    /**
-     * Gets The API version to use for this operation.
-     * 
-     * @return the apiVersion value.
-     */
-    public String getApiVersion() {
-        return this.apiVersion;
-    }
-
-    /**
-     * Sets The API version to use for this operation.
-     * 
-     * @param apiVersion the apiVersion value.
-     * @return the service client itself.
-     */
-    NetworkManagementClientImpl setApiVersion(String apiVersion) {
-        this.apiVersion = apiVersion;
         return this;
     }
 
@@ -1405,7 +1381,7 @@ public final class NetworkManagementClientImpl extends AzureServiceClient {
         this.p2sVpnServerConfigurations = new P2sVpnServerConfigurationsInner(this);
         this.p2sVpnGateways = new P2sVpnGatewaysInner(this);
         this.webApplicationFirewallPolicies = new WebApplicationFirewallPoliciesInner(this);
-        this.service = AzureProxy.create(NetworkManagementClientService.class, httpPipeline);
+        this.service = RestProxy.create(NetworkManagementClientService.class, httpPipeline);
     }
 
     /**

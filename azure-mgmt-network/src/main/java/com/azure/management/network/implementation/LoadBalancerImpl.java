@@ -97,8 +97,7 @@ class LoadBalancerImpl
 
     @Override
     protected Mono<LoadBalancerInner> applyTagsToInnerAsync() {
-        TagsObject parameters = new TagsObject().setTags(inner().getTags());
-        return this.manager().inner().loadBalancers().updateTagsAsync(resourceGroupName(), name(), parameters);
+        return this.manager().inner().loadBalancers().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     // Helpers

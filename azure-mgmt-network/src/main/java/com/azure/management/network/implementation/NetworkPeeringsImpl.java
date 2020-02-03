@@ -7,15 +7,14 @@ package com.azure.management.network.implementation;
 
 import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
+import com.azure.management.network.Network;
+import com.azure.management.network.NetworkPeering;
+import com.azure.management.network.NetworkPeerings;
 import com.azure.management.network.models.VirtualNetworkPeeringInner;
 import com.azure.management.network.models.VirtualNetworkPeeringsInner;
 import com.azure.management.resources.fluentcore.arm.ResourceUtils;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.IndependentChildrenImpl;
-import com.microsoft.azure.PagedList;
-import com.microsoft.azure.management.apigeneration.LangDefinition;
-import com.azure.management.network.Network;
-import com.azure.management.network.NetworkPeering;
-import com.azure.management.network.NetworkPeerings;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 /**
@@ -63,47 +62,36 @@ class NetworkPeeringsImpl
         return this.manager().networks()
                 // Get the parent network of the peering to delete
                 .getByResourceGroupAsync(groupName, parentName)
-
+                .flux()
                 // Then find the local peering to delete
                 .flatMap(localNetwork -> {
                     if (localNetwork == null) {
-                        return Mono.empty(); // Missing local network, so nothing else to do
+                        return Flux.<NetworkPeering>empty(); // Missing local network, so nothing else to do
                     } else {
                         String peeringId = localNetwork.id() + "/peerings/" + name;
-                        return localNetwork.peerings().getByIdAsync(peeringId);
+                        return Flux.from(localNetwork.peerings().getByIdAsync(peeringId));
                     }
                 })
 
                 // Then get the remote peering if available and possible to delete
                 .flatMap(localPeering -> {
-                    if (localPeering == null) {
-                        return Observable.just(null);
-                    } else if (!localPeering.isSameSubscription()) {
-                        return Observable.just(localPeering);
+                    if (!localPeering.isSameSubscription()) {
+                        return Flux.just(localPeering);
                     } else {
-                        return Observable.just(localPeering).concatWith(localPeering.getRemotePeeringAsync());
+                        return Flux.just(localPeering).concatWith(localPeering.getRemotePeeringAsync());
                     }
                 })
 
                 // Then delete each peering (this will be called for each of the peerings, so at least once for the local peering, and second time for the remote one if any
-                .flatMap(new Func1<NetworkPeering, Observable<Void>>() {
-                    @Override
-                    public Observable<Void> call(NetworkPeering peering) {
-                        if (peering == null) {
-                            return Observable.just(null);
-                        } else {
-                            String networkName = ResourceUtils.nameFromResourceId(peering.networkId());
-                            return peering.manager().inner().virtualNetworkPeerings().deleteAsync(
-                                    peering.resourceGroupName(),
-                                    networkName,
-                                    peering.name());
-                        }
-                    }
+                .flatMap(peering -> {
+                    String networkName = ResourceUtils.nameFromResourceId(peering.networkId());
+                    return peering.manager().inner().virtualNetworkPeerings().deleteAsync(
+                            peering.resourceGroupName(),
+                            networkName,
+                            peering.name());
                 })
-
                 // Then continue till the last peering is deleted
-                .last()
-                .toCompletable();
+                .last();
     }
 
     @Override

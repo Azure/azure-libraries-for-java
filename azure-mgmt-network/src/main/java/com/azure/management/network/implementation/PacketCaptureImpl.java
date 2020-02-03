@@ -13,11 +13,11 @@ import com.azure.management.network.PacketCaptureStatus;
 import com.azure.management.network.PacketCaptureStorageLocation;
 import com.azure.management.network.ProvisioningState;
 import com.azure.management.network.models.PacketCaptureInner;
-import com.azure.management.network.models.PacketCaptureQueryStatusResultInner;
 import com.azure.management.network.models.PacketCaptureResultInner;
 import com.azure.management.network.models.PacketCapturesInner;
 import com.azure.management.resources.fluentcore.model.implementation.CreatableUpdatableImpl;
 import com.azure.management.resources.fluentcore.utils.Utils;
+import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,83 +43,78 @@ public class PacketCaptureImpl extends
     }
 
     @Override
-    protected Observable<PacketCaptureResultInner> getInnerAsync() {
+    protected Mono<PacketCaptureResultInner> getInnerAsync() {
         return this.client.getAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public void stop() {
-        stopAsync().await();
+        stopAsync().block();
     }
 
     @Override
-    public Completable stopAsync() {
-        return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name()).toCompletable();
+    public Mono<Void> stopAsync() {
+        return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name());
     }
 
     @Override
     public PacketCaptureStatus getStatus() {
-        return getStatusAsync().toBlocking().last();
+        return getStatusAsync().block();
     }
 
     @Override
-    public Observable<PacketCaptureStatus> getStatusAsync() {
+    public Mono<PacketCaptureStatus> getStatusAsync() {
         return this.client.getStatusAsync(parent.resourceGroupName(), parent.name(), name())
-                .map(new Func1<PacketCaptureQueryStatusResultInner, PacketCaptureStatus>() {
-                    @Override
-                    public PacketCaptureStatus call(PacketCaptureQueryStatusResultInner inner) {
-                        return new PacketCaptureStatusImpl(inner);
-                    }
-                });
+                .map(inner -> new PacketCaptureStatusImpl(inner));
     }
 
     @Override
     public PacketCaptureImpl withTarget(String target) {
-        createParameters.withTarget(target);
+        createParameters.setTarget(target);
         return this;
     }
 
     @Override
     public PacketCaptureImpl withStorageAccountId(String storageId) {
-        PacketCaptureStorageLocation storageLocation = createParameters.storageLocation();
+        PacketCaptureStorageLocation storageLocation = createParameters.getStorageLocation();
         if (storageLocation == null) {
             storageLocation = new PacketCaptureStorageLocation();
         }
-        createParameters.withStorageLocation(storageLocation.withStorageId(storageId));
+        createParameters.setStorageLocation(storageLocation.setStorageId(storageId));
         return this;
     }
 
     @Override
     public DefinitionStages.WithCreate withStoragePath(String storagePath) {
-        createParameters.storageLocation().withStoragePath(storagePath);
+        createParameters.getStorageLocation().setStoragePath(storagePath);
         return this;
     }
 
     @Override
     public PacketCaptureImpl withFilePath(String filePath) {
-        PacketCaptureStorageLocation storageLocation = createParameters.storageLocation();
+        PacketCaptureStorageLocation storageLocation = createParameters.getStorageLocation();
         if (storageLocation == null) {
             storageLocation = new PacketCaptureStorageLocation();
         }
-        createParameters.withStorageLocation(storageLocation.withFilePath(filePath));
+        createParameters.setStorageLocation(storageLocation.setFilePath(filePath));
         return this;
     }
 
     @Override
     public PacketCaptureImpl withBytesToCapturePerPacket(int bytesToCapturePerPacket) {
-        createParameters.withBytesToCapturePerPacket(bytesToCapturePerPacket);
+        createParameters.setBytesToCapturePerPacket(bytesToCapturePerPacket);
         return this;
     }
 
     @Override
     public PacketCaptureImpl withTotalBytesPerSession(int totalBytesPerSession) {
-        createParameters.withTotalBytesPerSession(totalBytesPerSession);
+        createParameters.setTotalBytesPerSession(totalBytesPerSession);
         return this;
     }
 
     @Override
     public PacketCaptureImpl withTimeLimitInSeconds(int timeLimitInSeconds) {
-        createParameters.withTimeLimitInSeconds(timeLimitInSeconds);
+        createParameters.setTimeLimitInSeconds(timeLimitInSeconds);
         return this;
     }
 
@@ -129,60 +124,60 @@ public class PacketCaptureImpl extends
     }
 
     void attachPCFilter(PCFilterImpl pcFilter) {
-        if (createParameters.filters() == null) {
-            createParameters.withFilters(new ArrayList<PacketCaptureFilter>());
+        if (createParameters.getFilters() == null) {
+            createParameters.setFilters(new ArrayList<PacketCaptureFilter>());
         }
-        createParameters.filters().add(pcFilter.inner());
+        createParameters.getFilters().add(pcFilter.inner());
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override
-    public Observable<PacketCapture> createResourceAsync() {
+    public Mono<PacketCapture> createResourceAsync() {
         return this.client.createAsync(parent.resourceGroupName(), parent.name(), this.name(), createParameters)
                 .map(innerToFluentMap(this));
     }
 
     @Override
     public String id() {
-        return inner().id();
+        return inner().getId();
     }
 
     @Override
     public String targetId() {
-        return inner().target();
+        return inner().getTarget();
     }
 
     @Override
     public int bytesToCapturePerPacket() {
-        return Utils.toPrimitiveInt(inner().bytesToCapturePerPacket());
+        return Utils.toPrimitiveInt(inner().getBytesToCapturePerPacket());
     }
 
     @Override
     public int totalBytesPerSession() {
-        return Utils.toPrimitiveInt(inner().totalBytesPerSession());
+        return Utils.toPrimitiveInt(inner().getTotalBytesPerSession());
     }
 
     @Override
     public int timeLimitInSeconds() {
-        return Utils.toPrimitiveInt(inner().timeLimitInSeconds());
+        return Utils.toPrimitiveInt(inner().getTimeLimitInSeconds());
     }
 
     @Override
     public PacketCaptureStorageLocation storageLocation() {
-        return inner().storageLocation();
+        return inner().getStorageLocation();
     }
 
     @Override
     public List<PacketCaptureFilter> filters() {
-        return inner().filters();
+        return inner().getFilters();
     }
 
     @Override
     public ProvisioningState provisioningState() {
-        return inner().provisioningState();
+        return inner().getProvisioningState();
     }
 }

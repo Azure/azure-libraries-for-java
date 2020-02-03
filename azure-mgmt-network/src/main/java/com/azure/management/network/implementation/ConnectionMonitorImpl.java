@@ -21,6 +21,7 @@ import com.azure.management.network.models.HasNetworkInterfaces;
 import reactor.core.publisher.Mono;
 
 
+import java.time.OffsetDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -67,90 +68,77 @@ public class ConnectionMonitorImpl extends
 
     @Override
     public ConnectionMonitorSource source() {
-        return inner().source();
+        return inner().getSource();
     }
 
     @Override
     public ConnectionMonitorDestination destination() {
-        return inner().destination();
+        return inner().getDestination();
     }
 
     @Override
     public boolean autoStart() {
-        return Utils.toPrimitiveBoolean(inner().autoStart());
+        return Utils.toPrimitiveBoolean(inner().isAutoStart());
     }
 
     @Override
     public ProvisioningState provisioningState() {
-        return inner().provisioningState();
+        return inner().getProvisioningState();
     }
 
     @Override
-    public DateTime startTime() {
-        return inner().startTime();
+    public OffsetDateTime startTime() {
+        return inner().getStartTime();
     }
 
     @Override
     public String monitoringStatus() {
-        return inner().monitoringStatus();
+        return inner().getMonitoringStatus();
     }
 
     @Override
     public int monitoringIntervalInSeconds() {
-        return Utils.toPrimitiveInt(inner().monitoringIntervalInSeconds());
+        return Utils.toPrimitiveInt(inner().getMonitoringIntervalInSeconds());
     }
 
     @Override
     public void stop() {
-        stopAsync().await();
+        stopAsync().block();
     }
 
     @Override
-    public Completable stopAsync() {
+    public Mono<Void> stopAsync() {
         return this.client.stopAsync(parent.resourceGroupName(), parent.name(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .flatMap(aVoid -> refreshAsync())
+                .then();
     }
 
     @Override
     public void start() {
-        startAsync().await();
+        startAsync().block();
     }
 
     @Override
-    public Completable startAsync() {
+    public Mono<Void> startAsync() {
         return this.client.startAsync(parent.resourceGroupName(), parent.name(), name())
-                .flatMap(new Func1<Void, Observable<?>>() {
-                    @Override
-                    public Observable<?> call(Void aVoid) {
-                        return refreshAsync();
-                    }
-                }).toCompletable();
+                .flatMap(aVoid -> refreshAsync())
+                .then();
     }
 
     @Override
     public ConnectionMonitorQueryResult query() {
-        return queryAsync().toBlocking().last();
+        return queryAsync().block();
     }
 
     @Override
-    public Observable<ConnectionMonitorQueryResult> queryAsync() {
+    public Mono<ConnectionMonitorQueryResult> queryAsync() {
         return this.client.queryAsync(parent.resourceGroupName(), parent.name(), name())
-                .map(new Func1<ConnectionMonitorQueryResultInner, ConnectionMonitorQueryResult>() {
-                    @Override
-                    public ConnectionMonitorQueryResult call(ConnectionMonitorQueryResultInner inner) {
-                        return new ConnectionMonitorQueryResultImpl(inner);
-                    }
-                });
+                .map(inner -> new ConnectionMonitorQueryResultImpl(inner));
     }
 
     @Override
     public boolean isInCreateMode() {
-        return this.inner().id() == null;
+        return this.inner().getId() == null;
     }
 
     @Override

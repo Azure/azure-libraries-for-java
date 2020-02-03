@@ -7,6 +7,7 @@ package com.azure.management.network;
 
 
 import com.azure.core.annotation.Fluent;
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.core.http.rest.PagedIterable;
 import com.azure.management.network.implementation.NetworkManager;
 import com.azure.management.network.models.HasPublicIPAddress;
@@ -56,7 +57,7 @@ public interface VirtualNetworkGateway extends
      *
      * @return all the connections associated with this virtual network gateway
      */
-    Mono<VirtualNetworkGatewayConnection> listConnectionsAsync();
+    PagedFlux<VirtualNetworkGatewayConnection> listConnectionsAsync();
 
     /**
      * Generates VPN profile for P2S client of the virtual network gateway in the specified resource group. Used for IKEV2 and radius based authentication.

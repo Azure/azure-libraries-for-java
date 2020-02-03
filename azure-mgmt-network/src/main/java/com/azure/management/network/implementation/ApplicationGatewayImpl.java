@@ -130,7 +130,7 @@ class ApplicationGatewayImpl
 
     @Override
     protected Mono<ApplicationGatewayInner> applyTagsToInnerAsync() {
-        return this.manager().inner().applicationGateways().updateTagsAsync(resourceGroupName(), name(), new TagsObject().setTags(inner().getTags()));
+        return this.manager().inner().applicationGateways().updateTagsAsync(resourceGroupName(), name(), inner().getTags());
     }
 
     // Helpers

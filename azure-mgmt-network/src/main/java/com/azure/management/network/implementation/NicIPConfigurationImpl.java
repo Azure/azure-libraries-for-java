@@ -149,15 +149,15 @@ class NicIPConfigurationImpl
 
     @Override
     public NicIPConfigurationImpl withPrivateIPAddressDynamic() {
-        this.inner().withPrivateIPAllocationMethod(IPAllocationMethod.DYNAMIC);
-        this.inner().withPrivateIPAddress(null);
+        this.inner().setPrivateIPAllocationMethod(IPAllocationMethod.DYNAMIC);
+        this.inner().setPrivateIPAddress(null);
         return this;
     }
 
     @Override
     public NicIPConfigurationImpl withPrivateIPAddressStatic(String staticPrivateIPAddress) {
-        this.inner().withPrivateIPAllocationMethod(IPAllocationMethod.STATIC);
-        this.inner().withPrivateIPAddress(staticPrivateIPAddress);
+        this.inner().setPrivateIPAllocationMethod(IPAllocationMethod.STATIC);
+        this.inner().setPrivateIPAddress(staticPrivateIPAddress);
         return this;
     }
 
@@ -207,8 +207,8 @@ class NicIPConfigurationImpl
     @Override
     public NicIPConfigurationImpl withExistingLoadBalancerBackend(LoadBalancer loadBalancer, String backendName) {
         if (loadBalancer != null) {
-            for (BackendAddressPoolInner pool : loadBalancer.inner().backendAddressPools()) {
-                if (pool.name().equalsIgnoreCase(backendName)) {
+            for (BackendAddressPoolInner pool : loadBalancer.inner().getBackendAddressPools()) {
+                if (pool.getName().equalsIgnoreCase(backendName)) {
                     ensureLoadBalancerBackendAddressPools().add(pool);
                     return this;
                 }
@@ -221,8 +221,8 @@ class NicIPConfigurationImpl
     @Override
     public NicIPConfigurationImpl withExistingApplicationGatewayBackend(ApplicationGateway appGateway, String backendName) {
         if (appGateway != null) {
-            for (ApplicationGatewayBackendAddressPool pool : appGateway.inner().backendAddressPools()) {
-                if (pool.name().equalsIgnoreCase(backendName)) {
+            for (ApplicationGatewayBackendAddressPool pool : appGateway.inner().getBackendAddressPools()) {
+                if (pool.getName().equalsIgnoreCase(backendName)) {
                     ensureAppGatewayBackendAddressPools().add(pool);
                     return this;
                 }
@@ -235,8 +235,8 @@ class NicIPConfigurationImpl
     @Override
     public NicIPConfigurationImpl withExistingLoadBalancerInboundNatRule(LoadBalancer loadBalancer, String inboundNatRuleName) {
         if (loadBalancer != null) {
-            for (InboundNatRuleInner rule : loadBalancer.inner().inboundNatRules()) {
-                if (rule.name().equalsIgnoreCase(inboundNatRuleName)) {
+            for (InboundNatRuleInner rule : loadBalancer.inner().getInboundNatRules()) {
+                if (rule.getName().equalsIgnoreCase(inboundNatRuleName)) {
                     ensureInboundNatRules().add(rule);
                     return this;
                 }
@@ -247,28 +247,28 @@ class NicIPConfigurationImpl
     }
 
     private List<ApplicationGatewayBackendAddressPool> ensureAppGatewayBackendAddressPools() {
-        List<ApplicationGatewayBackendAddressPool> poolRefs = this.inner().applicationGatewayBackendAddressPools();
+        List<ApplicationGatewayBackendAddressPool> poolRefs = this.inner().getApplicationGatewayBackendAddressPools();
         if (poolRefs == null) {
             poolRefs = new ArrayList<>();
-            this.inner().withApplicationGatewayBackendAddressPools(poolRefs);
+            this.inner().setApplicationGatewayBackendAddressPools(poolRefs);
         }
         return poolRefs;
     }
 
     private List<BackendAddressPoolInner> ensureLoadBalancerBackendAddressPools() {
-        List<BackendAddressPoolInner> poolRefs = this.inner().loadBalancerBackendAddressPools();
+        List<BackendAddressPoolInner> poolRefs = this.inner().getLoadBalancerBackendAddressPools();
         if (poolRefs == null) {
             poolRefs = new ArrayList<>();
-            this.inner().withLoadBalancerBackendAddressPools(poolRefs);
+            this.inner().setLoadBalancerBackendAddressPools(poolRefs);
         }
         return poolRefs;
     }
 
     private List<InboundNatRuleInner> ensureInboundNatRules() {
-        List<InboundNatRuleInner> natRefs = this.inner().loadBalancerInboundNatRules();
+        List<InboundNatRuleInner> natRefs = this.inner().getLoadBalancerInboundNatRules();
         if (natRefs == null) {
             natRefs = new ArrayList<>();
-            this.inner().withLoadBalancerInboundNatRules(natRefs);
+            this.inner().setLoadBalancerInboundNatRules(natRefs);
         }
         return natRefs;
     }
@@ -276,8 +276,8 @@ class NicIPConfigurationImpl
     protected static void ensureConfigurations(Collection<NicIPConfiguration> nicIPConfigurations) {
         for (NicIPConfiguration nicIPConfiguration : nicIPConfigurations) {
             NicIPConfigurationImpl config = (NicIPConfigurationImpl) nicIPConfiguration;
-            config.inner().withSubnet(config.subnetToAssociate());
-            config.inner().withPublicIPAddress(config.publicIPToAssociate());
+            config.inner().setSubnet(config.subnetToAssociate());
+            config.inner().setPublicIPAddress(config.publicIPToAssociate());
         }
     }
 
@@ -311,13 +311,13 @@ class NicIPConfigurationImpl
         if (this.isInCreateMode) {
             if (this.creatableVirtualNetworkKey != null) {
                 Network network = (Network) parent().createdDependencyResource(this.creatableVirtualNetworkKey);
-                subnetInner.withId(network.inner().subnets().get(0).id());
+                subnetInner.setId(network.inner().getSubnets().get(0).getId());
                 return subnetInner;
             }
 
-            for (SubnetInner subnet : this.existingVirtualNetworkToAssociate.inner().subnets()) {
-                if (subnet.name().equalsIgnoreCase(this.subnetToAssociate)) {
-                    subnetInner.withId(subnet.id());
+            for (SubnetInner subnet : this.existingVirtualNetworkToAssociate.inner().getSubnets()) {
+                if (subnet.getName().equalsIgnoreCase(this.subnetToAssociate)) {
+                    subnetInner.setId(subnet.getId());
                     return subnetInner;
                 }
             }
@@ -326,10 +326,10 @@ class NicIPConfigurationImpl
 
         } else {
             if (subnetToAssociate != null) {
-                int idx = this.inner().subnet().id().lastIndexOf('/');
-                subnetInner.withId(this.inner().subnet().id().substring(0, idx + 1) + subnetToAssociate);
+                int idx = this.inner().getSubnet().getId().lastIndexOf('/');
+                subnetInner.setId(this.inner().getSubnet().getId().substring(0, idx + 1) + subnetToAssociate);
             } else {
-                subnetInner.withId(this.inner().subnet().id());
+                subnetInner.setId(this.inner().getSubnet().getId());
             }
             return subnetInner;
         }
@@ -358,7 +358,7 @@ class NicIPConfigurationImpl
         if (pipId != null) {
             return new PublicIPAddressInner().withId(pipId);
         } else if (!this.isInCreateMode) {
-            return this.inner().publicIPAddress();
+            return this.inner().getPublicIPAddress();
         } else {
             return null;
         }
@@ -366,25 +366,25 @@ class NicIPConfigurationImpl
 
     @Override
     public NicIPConfigurationImpl withPrivateIPVersion(IPVersion ipVersion) {
-        this.inner().withPrivateIPAddressVersion(ipVersion);
+        this.inner().setPrivateIPAddressVersion(ipVersion);
         return this;
     }
 
     @Override
     public NicIPConfigurationImpl withoutApplicationGatewayBackends() {
-        this.inner().withApplicationGatewayBackendAddressPools(null);
+        this.inner().setApplicationGatewayBackendAddressPools(null);
         return this;
     }
 
     @Override
     public NicIPConfigurationImpl withoutLoadBalancerBackends() {
-        this.inner().withLoadBalancerBackendAddressPools(null);
+        this.inner().setLoadBalancerBackendAddressPools(null);
         return this;
     }
 
     @Override
     public NicIPConfigurationImpl withoutLoadBalancerInboundNatRules() {
-        this.inner().withLoadBalancerInboundNatRules(null);
+        this.inner().setLoadBalancerInboundNatRules(null);
         return this;
     }
 }

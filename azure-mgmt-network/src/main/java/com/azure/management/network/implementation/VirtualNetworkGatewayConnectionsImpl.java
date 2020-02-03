@@ -6,6 +6,7 @@
 
 package com.azure.management.network.implementation;
 
+import com.azure.core.http.rest.PagedFlux;
 import com.azure.management.network.VirtualNetworkGateway;
 import com.azure.management.network.VirtualNetworkGatewayConnection;
 import com.azure.management.network.VirtualNetworkGatewayConnections;
@@ -13,6 +14,7 @@ import com.azure.management.network.models.VirtualNetworkGatewayConnectionInner;
 import com.azure.management.network.models.VirtualNetworkGatewayConnectionsInner;
 import com.azure.management.resources.ResourceGroup;
 import com.azure.management.resources.fluentcore.arm.collection.implementation.GroupableResourcesImpl;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
@@ -90,8 +92,8 @@ class VirtualNetworkGatewayConnectionsImpl
     }
 
     @Override
-    public Observable<VirtualNetworkGatewayConnection> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
+    public PagedFlux<VirtualNetworkGatewayConnection> listAsync() {
+        return this.manager().getResourceManager().resourceGroups().listAsync()
                 .flatMap(new Func1<ResourceGroup, Observable<VirtualNetworkGatewayConnection>>() {
                     @Override
                     public Observable<VirtualNetworkGatewayConnection> call(ResourceGroup resourceGroup) {

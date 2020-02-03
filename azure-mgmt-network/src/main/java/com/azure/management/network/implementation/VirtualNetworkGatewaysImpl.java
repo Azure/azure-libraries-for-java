@@ -51,7 +51,7 @@ class VirtualNetworkGatewaysImpl
 
     @Override
     public PagedFlux<VirtualNetworkGateway> listAsync() {
-        return this.manager().resourceManager().resourceGroups().listAsync()
+        return this.manager().getResourceManager().resourceGroups().listAsync()
                 .flatMap(new Func1<ResourceGroup, Observable<VirtualNetworkGateway>>() {
                     @Override
                     public Observable<VirtualNetworkGateway> call(ResourceGroup resourceGroup) {

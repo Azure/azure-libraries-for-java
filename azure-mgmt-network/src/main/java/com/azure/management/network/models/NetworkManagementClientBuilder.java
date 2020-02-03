@@ -71,21 +71,6 @@ public final class NetworkManagementClientBuilder {
         return this;
     }
 
-    /*
-     * The API version to use for this operation.
-     */
-    private String apiVersion;
-
-    /**
-     * Sets The API version to use for this operation.
-     * 
-     * @param apiVersion the apiVersion value.
-     * @return the NetworkManagementClientBuilder.
-     */
-    public NetworkManagementClientBuilder apiVersion(String apiVersion) {
-        this.apiVersion = apiVersion;
-        return this;
-    }
 
     /*
      * The environment to connect to

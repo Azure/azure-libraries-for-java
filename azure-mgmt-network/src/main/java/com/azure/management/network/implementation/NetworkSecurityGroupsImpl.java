@@ -32,7 +32,7 @@ class NetworkSecurityGroupsImpl
     }
 
     @Override
-    public Mono<Void> deleteByResourceGroupAsync(String groupName, String name) {
+    public Mono<?> deleteByResourceGroupAsync(String groupName, String name) {
         // Clear NIC references if any
         NetworkSecurityGroupImpl nsg = (NetworkSecurityGroupImpl) getByResourceGroup(groupName, name);
         if (nsg != null) {

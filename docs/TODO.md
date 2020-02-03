@@ -42,7 +42,8 @@
  ## Network 
  - ErrorResponseException & ErrorException are generated under the models folder even I changed the folder name to `model` instead.
  - ComponentsSchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties???
- - ConnectionMonitor is not generated with Inner and override the default connection monitor interface
+ - ConnectionMonitor/PacketCaptuer is not generated with Inner and override the default connection monitor interface, which is different from fluent V1
+  
   - NatGatewaySku: The NatGateWaySkuName is not generated 
   
     ```JSON
@@ -63,4 +64,7 @@
           "description": "SKU of nat gateway."
         }
     ```
-  - TagsObject for AapplyTagsToInnerAsync???
+
+  - VirtualNetworksInner/NetworkInterfacesInner/RouteTablesInner don't generated with InnerSupportsListing
+  - apiVersion is generated multiple copies on the NetworkManagementClientBuilder
+  

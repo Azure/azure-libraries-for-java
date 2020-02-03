@@ -70,8 +70,7 @@ class SecurityGroupViewImpl extends RefreshableWrapperImpl<SecurityGroupViewResu
 
     @Override
     protected Mono<SecurityGroupViewResultInner> getInnerAsync() {
-        SecurityGroupViewParameters parameters = new SecurityGroupViewParameters().setTargetResourceId(vmId);
         return this.parent().manager().inner().networkWatchers()
-                .getVMSecurityRulesAsync(parent.resourceGroupName(), parent.name(), parameters);
+                .getVMSecurityRulesAsync(parent.resourceGroupName(), parent.name(), vmId);
     }
 }

@@ -28,14 +28,14 @@
  
   - ProvidersImpl: What's the value for expand and top
   
-  - ResourceGroupsImpl: checkExistence should return boolean value instead of void
+  - [FIXED] ResourceGroupsImpl: checkExistence should return boolean value instead of void
   
-  - QUESTION: beginDeleteByNameAsync - Does the method begin with beginXXX is deprecated? 
+  - [FIXED] QUESTION: beginDeleteByNameAsync - Does the method begin with beginXXX is deprecated? 
   
   - ResourceManagerClientImpl & SubscriptionClientImpl both have OperationsInner
   
  
  ## Storage 
-  - StorageAccountsInner: Should support listing
+  - [FIXED] StorageAccountsInner: Should support listing
   
   

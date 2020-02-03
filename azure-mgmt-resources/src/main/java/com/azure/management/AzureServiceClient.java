@@ -3,6 +3,7 @@
 
 package com.azure.management;
 
+import com.azure.core.exception.HttpResponseException;
 import com.azure.core.http.HttpPipeline;
 import com.azure.core.http.rest.SimpleResponse;
 import com.azure.core.management.AzureEnvironment;
@@ -25,7 +26,6 @@ import java.lang.reflect.Type;
 import java.nio.ByteBuffer;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.Optional;
 import java.util.function.Function;
 
 import static com.azure.core.util.FluxUtil.withContext;
@@ -97,6 +97,14 @@ public abstract class AzureServiceClient {
         MAC_ADDRESS_HASH = macAddress;
         String version = System.getProperty("java.version");
         JAVA_VERSION = version != null ? version : "Unknown";
+    }
+
+    public <T> Mono<T> delegateForGetAsync(Mono<T> responseMono) {
+        return responseMono
+                .onErrorResume(
+                        t -> t instanceof HttpResponseException && ((HttpResponseException) t).getResponse().getStatusCode() == 404,
+                        t -> Mono.empty()
+                );
     }
 
     private SerializerAdapter serializerAdapter = new AzureJacksonAdapter();

@@ -11,7 +11,6 @@ import com.azure.core.annotation.Delete;
 import com.azure.core.annotation.ExpectedResponses;
 import com.azure.core.annotation.Get;
 import com.azure.core.annotation.Head;
-import com.azure.core.annotation.HeaderParam;
 import com.azure.core.annotation.Host;
 import com.azure.core.annotation.HostParam;
 import com.azure.core.annotation.Patch;
@@ -277,14 +276,15 @@ public final class ResourceGroupsInner {
      */
     @ServiceMethod(returns = ReturnType.SINGLE)
     public Mono<ResourceGroupInner> getAsync(String resourceGroupName) {
-        return getWithResponseAsync(resourceGroupName)
+        return client.delegateForGetAsync(getWithResponseAsync(resourceGroupName)
             .flatMap((SimpleResponse<ResourceGroupInner> res) -> {
                 if (res.getValue() != null) {
                     return Mono.just(res.getValue());
                 } else {
                     return Mono.empty();
                 }
-            });
+            })
+        );
     }
 
     /**

@@ -15,7 +15,6 @@ import com.azure.management.resources.fluentcore.utils.SdkContext;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.nimbusds.jose.util.IOUtils;
-import org.apache.http.HttpStatus;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
@@ -37,7 +36,8 @@ import java.util.zip.GZIPInputStream;
 public class InterceptorManager {
 
     private final static String RECORD_FOLDER = "session-records/";
-    private static final String BODY_LOGGING = "x-ms-body-logging";
+    private final static String BODY_LOGGING = "x-ms-body-logging";
+    private final static Integer HTTP_TEMPORARY_REDIRECT = 307; // HTTP Status Code
 
     private Map<String, String> textReplacementRules = new HashMap<>();
     // Stores a map of all the HTTP properties in a session
@@ -149,7 +149,7 @@ public class InterceptorManager {
 
             // remove pre-added header if this is a waiting or redirection
             if (networkCallRecord.Response.containsKey("Body") && networkCallRecord.Response.get("Body").contains("<Status>InProgress</Status>")
-                    || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == HttpStatus.SC_TEMPORARY_REDIRECT) {
+                    || Integer.parseInt(networkCallRecord.Response.get("StatusCode")) == HTTP_TEMPORARY_REDIRECT) {
                 // Do nothing
             } else {
                 synchronized (recordedData.getNetworkCallRecords()) {
@@ -191,7 +191,7 @@ public class InterceptorManager {
         return next.process().flatMap(originalResponse -> {
             originalResponse.close();
 
-            RecordedHttpResponse response = new RecordedHttpResponse(recordStatusCode, originalResponse.getRequest());
+            RecordedHttpResponse response = new RecordedHttpResponse(recordStatusCode, context.getHttpRequest());
 
             for (Map.Entry<String, String> pair : finalNetworkCallRecord.Response.entrySet()) {
                 if (!pair.getKey().equals("StatusCode") && !pair.getKey().equals("Body") && !pair.getKey().equals("Content-Length")) {
@@ -252,7 +252,7 @@ public class InterceptorManager {
 
         String bodyLoggingHeader = response.getRequest().getHeaders().getValue(BODY_LOGGING);
         boolean bodyLogging = bodyLoggingHeader == null || Boolean.parseBoolean(bodyLoggingHeader);
-        if (bodyLogging && getContentLength(response.getHeaders()) > 0) {
+        if (bodyLogging) {
             HttpResponse bufferedResponse = response.buffer();
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             return bufferedResponse.getBody()
